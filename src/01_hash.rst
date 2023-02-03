@@ -1,0 +1,80 @@
+Hash Functions
+==============
+
+The BSI documents [TR-02102-1]_ [TR-02102-2]_ recommend usage of SHA-2 and SHA-3
+algorithms in cryptographic software.
+In addition, SHA-1 is required in Botan for TLS,
+as the ``x509`` Botan module still requires SHA-1.
+Note that SHA-1 is not recommended to be used any longer.
+
+SHA-1 and SHA-2 hash functions rely on the Merkle-Damgard construction.
+The general functionality of this construction is implemented in class
+``MDx_HashFunction`` (located in ``src/lib/hash/mdx_hash/mdx_hash.cpp``).
+This class handles splitting data into appropriate blocks and invocation
+of hash compression methods.
+
+SHA-1
+-----
+
+Botan provides four SHA-1 implementations: software, SSE2 (Streaming
+SIMD Extensions 2), x86 (Intel SHA Extensions) and ARMv8 (ARMv8
+Cryptography Extensions). The description of SHA-1 is provided in
+[NIST-SHS]_.
+
+The software implementation is located
+in ``src/lib/hash/sha1/sha160.cpp``. It uses the Botan structure
+``secure_vector`` to implement data handling and compressions.
+
+The SSE2 implementation is in ``src/lib/hash/sha1/sha1_sse2/sha1_sse2.cpp``.
+It is based on the code by Dean Gaudet [#sha1_dean]_.
+
+The ARMv8 implementation is in
+``src/lib/hash/sha1/sha1_armv8/sha1_armv8.cpp``. The x86 implementation is
+in ``src/lib/hash/sha1/sha1_x86/sha1_x86.cpp``. Both are based on the
+code by Jeffrey Walton [#sha_intrinsics]_.
+
+SHA-2
+-----
+
+Botan provides four SHA-2 implementations: software, BMI2 (Bit
+Manipulation Instruction Set 2), x86 (Intel SHA Extensions) and ARMv8
+(ARMv8 Cryptography Extensions). The description of SHA-2 is provided in
+[NIST-SHS]_.
+
+The software implementations are located in
+``src/lib/hash/sha2_64/sha2_64.cpp`` and in
+``src/lib/hash/sha2_32/sha2_32.cpp``. ``sha2_32.cpp`` implements the SHA-224
+and SHA-256 hash functions. ``sha2_64.cpp`` implements SHA-384 and
+SHA-512.
+
+The BMI2 implementations are located in
+``src/lib/hash/sha2_64/sha2_64_bmi2/sha2_64_bmi2.cpp`` and in
+``src/lib/hash/sha2_32/sha2_32_bmi2/sha2_32_bmi2.cpp``.
+``sha2_32_bmi2.cpp`` implements the SHA-224 and SHA-256 hash functions.
+``sha2_64_bmi2.cpp`` implements SHA-384 and SHA-512.
+
+The ARMv8 implementation is in
+``src/lib/hash/sha2_32/sha2_32_armv8/sha2_32_armv8.cpp``. The x86
+implementation is in ``src/lib/hash/sha2_32/sha2_32_x86/sha2_32_x86.cpp``.
+Both are based on the code by Jeffrey Walton [#sha_intrinsics]_.
+
+SHA-3
+-----
+
+Botan provides two SHA-3 implemenatations: software and BMI2 (Bit
+Manipulation Instruction Set 2).
+
+The software implementation is located in ``src/lib/hash/sha3/sha3.cpp``.
+The BMI2 implementation is located in
+``src/lib/hash/sha3/sha3_bmi2/sha3_bmi2.cpp``.
+
+Both implementations follow the standard [FIPS-202]_ and thus support
+output lengths of 224, 256, 384 and 512 bits. SHA-3 does not rely on a
+Merkle-Damgard construction, as it uses a sponge construction to perform
+data compression.
+
+.. [#sha1_dean]
+   http://arctic.org/~dean/crypto/sha1.html
+
+.. [#sha_intrinsics]
+   https://github.com/noloader/SHA-Intrinsics
