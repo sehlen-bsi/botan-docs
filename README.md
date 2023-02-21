@@ -6,10 +6,10 @@ BSI Cryptographic Documentation for the [Botan](https://botan.randombit.net/) cr
 
 The document is written using [reStructuredText](https://docutils.sourceforge.io/rst.html) and [Sphinx](https://www.sphinx-doc.org).
 
-Install Sphinx using pip:
+Install Sphinx and other Python requirements using pip:
 
 ```bash
-pip install Sphinx
+pip install -r requirements.txt
 ```
 
 ### Create PDF

@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push
+
+permissions:
+  contents: read
+  # implicitly all other scopes not listed become none
+
+jobs:
+  pdf:
+    name: Build pdf
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Build Dependencies
+        run: |
+          pip install -r requirements.txt
+          sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre latexmk
+      - name: Build pdf
+        run: make latexpdf
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: botan_cryptodoc-${{ github.ref_name }}.${{ github.sha }}
+          path: _build/latex/crypto.pdf
