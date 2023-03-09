@@ -2,7 +2,7 @@
 
 BSI Cryptographic Documentation for the [Botan](https://botan.randombit.net/) cryptography library.
 
-## How to build
+## How to build the Documentation
 
 The document is written using [reStructuredText](https://docutils.sourceforge.io/rst.html) and [Sphinx](https://www.sphinx-doc.org).
 
@@ -32,3 +32,14 @@ make latexpdf
 ```
 
 The PDF will be in the `_build/latex/` subfolder.
+
+## How to edit the Documentation
+
+The recommended editor for editing the documentation is [*Visual Studio Code*](https://code.visualstudio.com/).
+A minimal configuration for *Visual Studio Code* with recommended extensions is included in the repository.
+
+Some extensions need additional Python requirements. Install them using pip:
+
+```bash
+pip install -r requirements-dev.txt
+```
