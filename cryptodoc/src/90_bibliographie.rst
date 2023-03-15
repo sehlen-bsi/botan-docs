@@ -164,6 +164,11 @@
    https://csrc.nist.gov/publications/detail/sp/800-108/rev-1/final,
    August 2022
 
+.. [SP800-208] NIST Special Publication 800-208:
+   "Recommendation for Stateful Hash-Based Signature Schemes",
+   https://csrc.nist.gov/publications/detail/sp/800-208/final,
+   October 2020
+
 .. [TR-02102-1] BSI Technische Richtlinie BSI TR-02102-1:
    "Kryptographische Verfahren: Empfehlungen und Schlüssellängen",
    Version 2022-01, 28.01.2022
