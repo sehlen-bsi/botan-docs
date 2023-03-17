@@ -477,3 +477,73 @@ in constant time on identical hardware if the hash function computations
 run in constant time. Therefore, an attacker can infer the position in
 the tree that the algorithm is currently working on even if only a
 single thread is used.
+
+
+KYBER
+-------------------------
+Botan implements the CRYSTALS-Kyber KEM in
+``src/lib/pubkey/kyber/``. The implementation is based on the NIST round 3 specification [Kyber-R3]_.
+The list of supported algorithms and their parameters is depicted in
+Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table>`.
+The ``_90s`` suffix denotes different symmetric functions for Kyber's ''90's mode''.
+These are represented by an adapter class ``Kyber_Symmetric_Primitives`` in ``src/lib/pubkey/kyber/kyber_common``, realized in ``src/lib/pubkey/kyber/kyber`` and ``src/lib/pubkey/kyber/kyber_90s``, respectively.
+
+
+.. _pubkey_key_generation/kyber/table:
+
+.. table::  Supported Kyber parameter sets (see Section 1.4 in [Kyber-R3]_)
+
+   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
+   |                   | Parameters                            | Symmetric Functions                                        |
+   |                   +----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
+   |  Mode             | N  | k  | Q   |η\ :sub:`1`|η\ :sub:`2`| XOF         | H        | G         | PRF        | KDF      |
+   +===================+====+====+=====+===========+===========+=============+==========+===========+============+==========+
+   | Kyber512          | 256| 2  | 3329| 3         |   2       |SHAKE128     | SHA3-256 | SHA3-512  | SHAKE256   | SHAKE256 |
+   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
+   | Kyber512_90s      | 256| 2  | 3329| 3         |   2       |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
+   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
+   | Kyber768          | 256| 3  | 3329| 2         |   2       |SHAKE128     | SHA3-256 | SHA3-512  | SHAKE256   | SHAKE256 |
+   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
+   | Kyber768_90s      | 256| 3  | 3329| 2         |   2       |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
+   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
+   | Kyber1024         | 256| 4  | 3329| 2         |   2       |SHAKE128     | SHA3-256 | SHA3-512  | SHAKE256   | SHAKE256 |
+   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
+   | Kyber1024_90s     | 256| 4  | 3329| 2         |   2       |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
+   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
+
+All possible modes are represented as a ``KyberMode`` and corresponding ``KyberConstants`` are set in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp``, including parameters for polynomial multiplication via the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_).
+Basic representations and operations on polynomials are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes.
+These support member functions ``.ntt()`` for NTT and fast multiplication.
+Additionally, this includes ``PolynomialMatrix::generate(seed,transposed,mode)``, which generates a (possibly transposed) :math:`k\times k` matrix ``a`` from the ``seed`` given a ``mode`` via rejection sampling with ``XOF`` \(using the function ``PolynomialMatrix::sample_rej_uniform(XOF)``\).
+The matrix is already given as NTT.
+Furthermore, the member function ``PolynomialVector::getnoise_eta1(seed, nonce, mode)`` is given (and respective version for η\ :sub:`2`).
+This corresponds to Algorithm 2 of [Kyber-R3]_ and deterministically samples noise from a centered binomial distribution given seed, nonce, and mode (using ``PRF`` ``k`` times on the seed with incremental nonce values).
+
+Based on these functions the key generation process follows
+Algorithm 7 in [Kyber-R3]_ and it works as follows:
+
+.. admonition:: Kyber_PrivateKey::Kyber_PrivateKey():
+
+   **Input:**
+
+   -  ``rng``: random number generator
+   -  ``m``: Kyber mode providing (``N``, ``k``, ``Q``,
+      :math:`\eta_1`, :math:`\eta_2`, ``XOF``, ``H``, ``G``, ``PRF``, ``KDF``), see Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table>`
+
+   **Output:**
+
+   -  ``Kyber_PrivateKey``: ``SK``, ``PK``
+
+   **Steps:**
+
+   1. ``(seed1||seed2) = G(d)`` where d is generated using ``rng`` and each seed has the same length
+   2. ``a = PolynomialMatrix::generate(seed1, False, m)``
+   3. ``s = PolynomialVector::getnoise_eta1(seed2, 0, m)`` (performs ``k`` invocations of ``PRF`` for each vector element)
+   4. ``e = PolynomialVector::getnoise_eta2(seed2, k, m)``
+   5. ``s.ntt()`` and ``e.ntt()``
+   6. ``PK = (a*s + e, seed1)`` and ``SK = (s, PK, H(PK), z)`` where ``z`` is freshly generated with ``rng``
+
+   **Notes:**
+
+   - Modular operations with NTT are used with Barrett and Montgomery reductions
+   - Compression (serialization to bytes) of the keys is performed via the constructor of ``Kyber_PublicKeyInternal`` (resp. ``Kyber_PrivateKeyInternal``)
