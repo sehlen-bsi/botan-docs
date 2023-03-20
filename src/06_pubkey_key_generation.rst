@@ -493,30 +493,30 @@ These are represented by an adapter class ``Kyber_Symmetric_Primitives`` in ``sr
 
 .. table::  Supported Kyber parameter sets (see Section 1.4 in [Kyber-R3]_)
 
-   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
-   |                   | Parameters                            | Symmetric Functions                                        |
-   |                   +----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
-   |  Mode             | N  | k  | Q   |η\ :sub:`1`|η\ :sub:`2`| XOF         | H        | G         | PRF        | KDF      |
-   +===================+====+====+=====+===========+===========+=============+==========+===========+============+==========+
-   | Kyber512          | 256| 2  | 3329| 3         |   2       |SHAKE128     | SHA3-256 | SHA3-512  | SHAKE256   | SHAKE256 |
-   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
-   | Kyber512_90s      | 256| 2  | 3329| 3         |   2       |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
-   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
-   | Kyber768          | 256| 3  | 3329| 2         |   2       |SHAKE128     | SHA3-256 | SHA3-512  | SHAKE256   | SHAKE256 |
-   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
-   | Kyber768_90s      | 256| 3  | 3329| 2         |   2       |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
-   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
-   | Kyber1024         | 256| 4  | 3329| 2         |   2       |SHAKE128     | SHA3-256 | SHA3-512  | SHAKE256   | SHAKE256 |
-   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
-   | Kyber1024_90s     | 256| 4  | 3329| 2         |   2       |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
-   +-------------------+----+----+-----+-----------+-----------+-------------+----------+-----------+------------+----------+
+   +-------------------+----+----+-----+--------------+----------------+-------------+----------+-----------+------------+----------+
+   |                   | Parameters                                    | Symmetric Functions                                        |
+   |                   +----+----+-----+--------------+----------------+-------------+----------+-----------+------------+----------+
+   |  Mode             | N  | k  | Q   |:math:`\eta_1`|:math:`\eta_2`  | XOF         | H        | G         | PRF        | KDF      |
+   +===================+====+====+=====+==============+================+=============+==========+===========+============+==========+
+   | Kyber512          | 256| 2  | 3329| 3            |   2            |SHAKE128     | SHA3-256 | SHA3-512  | SHAKE256   | SHAKE256 |
+   +-------------------+----+----+-----+--------------+----------------+-------------+----------+-----------+------------+----------+
+   | Kyber512_90s      | 256| 2  | 3329| 3            |   2            |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
+   +-------------------+----+----+-----+--------------+----------------+-------------+----------+-----------+------------+----------+
+   | Kyber768          | 256| 3  | 3329| 2            |   2            |SHAKE128     | SHA3-256 | SHA3-512  | SHAKE256   | SHAKE256 |
+   +-------------------+----+----+-----+--------------+----------------+-------------+----------+-----------+------------+----------+
+   | Kyber768_90s      | 256| 3  | 3329| 2            |   2            |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
+   +-------------------+----+----+-----+--------------+----------------+-------------+----------+-----------+------------+----------+
+   | Kyber1024         | 256| 4  | 3329| 2            |   2            |SHAKE128     | SHA3-256 | SHA3-512  | SHAKE256   | SHAKE256 |
+   +-------------------+----+----+-----+--------------+----------------+-------------+----------+-----------+------------+----------+
+   | Kyber1024_90s     | 256| 4  | 3329| 2            |   2            |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
+   +-------------------+----+----+-----+--------------+----------------+-------------+----------+-----------+------------+----------+
 
 All possible modes are represented as a ``KyberMode`` and corresponding ``KyberConstants`` are set in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp``, including parameters for polynomial multiplication via the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_).
 Basic representations and operations on polynomials are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes.
 These support member functions ``.ntt()`` for NTT and fast multiplication.
 Additionally, this includes ``PolynomialMatrix::generate(seed,transposed,mode)``, which generates a (possibly transposed) :math:`k\times k` matrix ``a`` from the ``seed`` given a ``mode`` via rejection sampling with ``XOF`` \(using the function ``PolynomialMatrix::sample_rej_uniform(XOF)``\).
 The matrix is already given as NTT.
-Furthermore, the member function ``PolynomialVector::getnoise_eta1(seed, nonce, mode)`` is given (and respective version for η\ :sub:`2`).
+Furthermore, the member function ``PolynomialVector::getnoise_eta1(seed, nonce, mode)`` is given (and respective version for :math:`\eta_2`).
 This corresponds to Algorithm 2 of [Kyber-R3]_ and deterministically samples noise from a centered binomial distribution given seed, nonce, and mode (using ``PRF`` ``k`` times on the seed with incremental nonce values).
 
 Based on these functions the key generation process follows
