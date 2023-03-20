@@ -485,8 +485,10 @@ Botan implements the CRYSTALS-Kyber KEM in
 ``src/lib/pubkey/kyber/``. The implementation is based on the NIST round 3 specification [Kyber-R3]_.
 The list of supported algorithms and their parameters is depicted in
 Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table>`.
+All possible modes are represented by the class ``KyberMode`` found in ``src/lib/pubkey/kyber/kyber_common``.
 The ``_90s`` suffix denotes different symmetric functions for Kyber's ''90's mode''.
-These are represented by an adapter class ``Kyber_Symmetric_Primitives`` in ``src/lib/pubkey/kyber/kyber_common``, realized in ``src/lib/pubkey/kyber/kyber`` and ``src/lib/pubkey/kyber/kyber_90s``, respectively.
+These are represented by an adapter class ``Kyber_Symmetric_Primitives``, realized in ``src/lib/pubkey/kyber/kyber`` and ``src/lib/pubkey/kyber/kyber_90s``, respectively.
+For each mode, the ``KyberConstants`` class contains the corresponding set of parameters and symmetric functions (``Kyber_Symmetric_Primitives``).
 
 
 .. _pubkey_key_generation/kyber/table:
@@ -511,18 +513,22 @@ These are represented by an adapter class ``Kyber_Symmetric_Primitives`` in ``sr
    | Kyber1024_90s     | 256| 4  | 3329| 2            |   2            |AES256-CTR   | SHA256   | SHA512    | AES256-CTR | SHA256   |
    +-------------------+----+----+-----+--------------+----------------+-------------+----------+-----------+------------+----------+
 
-All possible modes are represented as a ``KyberMode`` and corresponding ``KyberConstants`` are set in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp``, including parameters for polynomial multiplication via the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_).
-Basic representations and operations on polynomials are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes.
-These support member functions ``.ntt()`` for NTT and fast multiplication.
-Additionally, this includes ``PolynomialMatrix::generate(seed,transposed,mode)``, which generates a (possibly transposed) :math:`k\times k` matrix ``a`` from the ``seed`` given a ``mode`` via rejection sampling with ``XOF`` \(using the function ``PolynomialMatrix::sample_rej_uniform(XOF)``\).
-The matrix is already given as NTT.
-Furthermore, the member function ``PolynomialVector::getnoise_eta1(seed, nonce, mode)`` is given (and respective version for :math:`\eta_2`).
-This corresponds to Algorithm 2 of [Kyber-R3]_ and deterministically samples noise from a centered binomial distribution given seed, nonce, and mode (using ``PRF`` ``k`` times on the seed with incremental nonce values).
+
+Kyber itself is implemented in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp``.
+Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes, respectively.
+``Polynomial`` and ``PolynomialVector`` support member functions ``.ntt()`` for the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_) and fast multiplication in the NTT domain.
+
+Additionally, ``PolynomialMatrix`` has a member function ``generate(seed, transposed, mode)``, which generates a (possibly transposed) :math:`k\times k` matrix ``a`` from the ``seed`` given a ``mode``.
+The matrix is already generated in the NTT domain via rejection sampling with ``XOF`` \(using the function ``Polynomial::sample_rej_uniform(XOF)`` that corresponds to **Algorithm 1** of [Kyber-R3]_\).
+
+**Algorithm 2** of [Kyber-R3]_ is implemented via the member function ``Polynomial::getnoise_cbd2``  for the case :math:`\eta_1 = 2` (and a respective version for :math:`\eta_1 = 3`). It deterministically samples noise from a centered binomial distribution.
+
+Encoding/decoding of polynomials (**Algorithm 3** of [Kyber-R3]_) is realized via the ``Polynomial::to_bytes()``/ ``Polynomial::from_bytes()`` functions.
 
 Based on these functions the key generation process follows
-Algorithm 7 in [Kyber-R3]_ and it works as follows:
+**Algorithms 4 and 7** of [Kyber-R3]_ and it works as follows:
 
-.. admonition:: Kyber_PrivateKey::Kyber_PrivateKey():
+.. admonition:: Kyber_PrivateKey::Kyber_PrivateKey()
 
    **Input:**
 
@@ -532,18 +538,19 @@ Algorithm 7 in [Kyber-R3]_ and it works as follows:
 
    **Output:**
 
-   -  ``Kyber_PrivateKey``: ``SK``, ``PK``
+   -  ``Kyber_PrivateKey``: ``sk`` (instance of ``Kyber_PrivateKeyInternal``), ``pk`` (instance of ``Kyber_PublicKeyInternal``)
 
    **Steps:**
 
-   1. ``(seed1||seed2) = G(d)`` where d is generated using ``rng`` and each seed has the same length
-   2. ``a = PolynomialMatrix::generate(seed1, False, m)``
-   3. ``s = PolynomialVector::getnoise_eta1(seed2, 0, m)`` (performs ``k`` invocations of ``PRF`` for each vector element)
-   4. ``e = PolynomialVector::getnoise_eta2(seed2, k, m)``
-   5. ``s.ntt()`` and ``e.ntt()``
-   6. ``PK = (a*s + e, seed1)`` and ``SK = (s, PK, H(PK), z)`` where ``z`` is freshly generated with ``rng``
+   1. ``(seed1||seed2) = G(d)`` where d is generated using ``rng`` and each seed has the same length (L. 1-2, Alg. 4 [Kyber-R3]_)
+   2. ``a = PolynomialMatrix::generate(seed1, False, m)`` (L. 4-8, Alg. 4 [Kyber-R3]_)
+   3. ``s = PolynomialVector::getnoise_eta1(seed2, 0, m)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1`` for each vector element; L. 9-12, Alg. 4 [Kyber-R3]_)
+   4. ``e = PolynomialVector::getnoise_eta1(seed2, k, m)`` (L. 13-16, Alg. 4 [Kyber-R3]_)
+   5. ``s.ntt()`` and ``e.ntt()`` (L. 17-18, Alg. 4 [Kyber-R3]_)
+   6. ``pk = (a*s + e, seed1)`` and ``sk = (s, PK, H(PK), z)`` where ``z`` is freshly generated with ``rng`` (L. 19-22, Alg. 4 [Kyber-R3]_ and L.1, 3, Alg. 7 [Kyber-R3]_)
 
    **Notes:**
 
-   - Modular operations with NTT are used with Barrett and Montgomery reductions
-   - Compression (serialization to bytes) of the keys is performed via the constructor of ``Kyber_PublicKeyInternal`` (resp. ``Kyber_PrivateKeyInternal``)
+   - The member function ``Polynomial::getnoise_eta1(seed, nonce, mode)`` uses ``PRF`` on the seed with incremented nonce values to call ``Polynomial::getnoise_cbd2`` or ``Polynomial::getnoise_cbd3`` depending on :math:`\eta_1`.
+   - Modular operations are performed with Barrett and Montgomery reductions.
+   - Serialization to bytes of the keys (``Encode`` in Alg. 4 [Kyber-R3]) is performed via the constructor of ``Kyber_PublicKeyInternal`` (resp. ``Kyber_PrivateKeyInternal``) by calling ``Polynomial::to_bytes()``.
