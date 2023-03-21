@@ -273,9 +273,9 @@ Table :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/tabl
 .. table::  Supported XMSS Signature algorithms and their parameters (see Section 5.3 in [XMSS]_)
 
    +-------------------------+----+----+-----+----+--------------+
-   |                         | Parameters         | defined in   |
-   |                         +----+----+-----+----+--------------+
-   | XMSS algorithm          | n  | w  | len | h  |              |
+   |                         | Parameters         |              |
+   | XMSS algorithm          +----+----+-----+----+ defined in   |
+   |                         | n  | w  | len | h  |              |
    +=========================+====+====+=====+====+==============+
    | XMSS-SHA2_10_256        | 32 | 16 | 67  | 10 | [XMSS]_      |
    +-------------------------+----+----+-----+----+--------------+
@@ -288,8 +288,6 @@ Table :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/tabl
    | XMSS-SHA2_16_192        | 24 | 16 | 51  | 16 | [SP800-208]_ |
    +-------------------------+----+----+-----+----+--------------+
    | XMSS-SHA2_20_192        | 24 | 16 | 51  | 20 | [SP800-208]_ |
-   +-------------------------+----+----+-----+----+--------------+
-   | XMSS-SHA2_10_512 [#x]_  | 64 | 16 | 131 | 10 | [XMSS]_      |
    +-------------------------+----+----+-----+----+--------------+
    | XMSS-SHA2_10_512 [#x]_  | 64 | 16 | 131 | 10 | [XMSS]_      |
    +-------------------------+----+----+-----+----+--------------+
@@ -322,7 +320,7 @@ Table :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/tabl
    | XMSS-SHAKE256_20_192    | 24 | 16 | 51  | 20 | [SP800-208]_ |
    +-------------------------+----+----+-----+----+--------------+
 
-.. [#x] hese parameter sets are explicitly not approved by NIST's [SP800-208]_.
+.. [#x] These parameter sets are explicitly not approved by NIST's [SP800-208]_.
 
 XMSS and WOTS+ rely on the hash function address scheme (``ADRS``). This
 scheme consists of 256 bits and stores OTS hash addresses and hash tree
@@ -356,7 +354,7 @@ number of steps ``s``, combined with ``ADRS`` and a ``seed`` value. See
 Algorithm 2 in [XMSS]_ for more details.
 
 WOTS+ and in particular the ``chain`` function are implemented in
-``src/lib/pubkey/xmss/xmss_wots.cpp`` and ``src/lib/pubkey/xmss/xmss_wots.cpp``.
+``src/lib/pubkey/xmss/xmss_wots.cpp``.
 
 Botan's ``XMSS_WOTS_PrivateKey`` encapsulate a single WOTS+ leaf node and
 the associated key derivation from the ``private_seed`` and ``public_seed``.
@@ -381,29 +379,22 @@ contain this countermeasure.
    **Steps:**
 
    1. Derive the WOTS+ private key:
-       - | For each ``sk[i]`` with  ``i`` from ``0`` to ``len`` in the WOTS+ private key
-         | set chain address to ``i`` in ``ADRS`` and generate
-         | ``sk[i]`` as: ``PRF_keygen(private_seed, public_seed | ADRS)``
+
+       - For each ``sk[i]`` with  ``i`` from ``0`` to ``len`` in the WOTS+
+         private key set chain address to ``i`` in ``ADRS`` and generate
+         ``sk[i]`` as: ``PRF_keygen(private_seed, public_seed | ADRS)``
+
    2. Derive the WOTS+ public key from the private key:
-       - | For each ``pk[i]`` with ``i`` from ``0`` to ``len``
-         | set chain address to ``i`` in ``ADRS`` and generate
-         | ``pk[i]`` as: ``chain(sk[i], 0, w-1, ADRS, public_seed)``
+
+       - For each ``pk[i]`` with ``i`` from ``0`` to ``len`` set chain
+         address to ``i`` in ``ADRS`` and generate ``pk[i]`` as:
+         ``chain(sk[i], 0, w-1, ADRS, public_seed)``
 
    **Notes:**
 
-   - | All referenced methods above are implemented in the constructors of
-     | ``WOTS_Public_Key`` and ``WOTS_Private_Key`` in
-     | ``src/lib/pubkey/xmss/xmss_wots.cpp``.
-
-.. _pubkey_key_generation/xmss/remark_nist_sp800208:
-
-**Remark:** Botan derives WOTS+ private keys from the ``private_seed`` as
-described in RFC8391 [XMSS]_ which is prone to a multi-target attack. NIST SP.800-208
-Section 6.2 [NIST-HashSigs]_ recommends an adapted key generation procedure as a
-counter-measure. This is currently not implemented in Botan.
-
-.. [#wots_optional_seed]
-   The ``public_seed`` can optionally be generated using the RNG.
+   - All referenced methods above are implemented in the constructors of
+     ``WOTS_Public_Key`` and ``WOTS_Private_Key`` in
+     ``src/lib/pubkey/xmss/xmss_wots.cpp``.
 
 XMSS
 ~~~~
@@ -436,8 +427,8 @@ Algorithm 10 in [XMSS]_ and it works as follows:
 
    **Steps:**
 
-   1. Generate new ``private_seed`` and ``SK_PRF`` seed using ``rng``. Each seed
-      has length ``n``.
+   1. Generate new ``public_seed``, ``private_seed`` and ``SK_PRF`` seed using ``rng``.
+      Each seed has length ``n``.
    2. Initiate the index registry with ``idx=0``. This value references the
       first unused leaf index.
    3. Compute the ``root`` node value by walking through the entire XMSS tree
@@ -446,7 +437,7 @@ Algorithm 10 in [XMSS]_ and it works as follows:
 
       ``root = treeHash(0, h, ADRS);``
 
-   4. | ``SK = {idx, SK_PRF, root, public_seed}``
+   4. | ``SK = {idx, private_seed, SK_PRF, root, public_seed}``
       | ``PK = {root, public_seed}``
 
    **Notes:**
