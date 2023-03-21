@@ -553,4 +553,4 @@ Based on these functions the key generation process follows
 
    - The member function ``Polynomial::getnoise_eta1(seed, nonce, mode)`` uses ``PRF`` on the seed with incremented nonce values to call ``Polynomial::getnoise_cbd2`` or ``Polynomial::getnoise_cbd3`` depending on :math:`\eta_1`.
    - Modular operations are performed with Barrett and Montgomery reductions.
-   - Serialization to bytes of the keys (``Encode`` in Alg. 4 [Kyber-R3]) is performed via the constructor of ``Kyber_PublicKeyInternal`` (resp. ``Kyber_PrivateKeyInternal``) by calling ``Polynomial::to_bytes()``.
+   - Serialization to bytes of the keys (``Encode`` in Algorithm 4 of [Kyber-R3]_) is performed via the constructor of ``Kyber_PublicKeyInternal`` (resp. ``Kyber_PrivateKeyInternal``) by calling ``Polynomial::to_bytes()``.
