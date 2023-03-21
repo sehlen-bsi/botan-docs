@@ -478,7 +478,7 @@ run in constant time. Therefore, an attacker can infer the position in
 the tree that the algorithm is currently working on even if only a
 single thread is used.
 
-
+.. _pubkey_key_generation/kyber:
 KYBER
 -------------------------
 Botan implements the CRYSTALS-Kyber KEM in
@@ -516,7 +516,8 @@ For each mode, the ``KyberConstants`` class contains the corresponding set of pa
 
 Kyber itself is implemented in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp``.
 Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes, respectively.
-``Polynomial`` and ``PolynomialVector`` support member functions ``.ntt()`` for the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_) and fast multiplication in the NTT domain.
+``Polynomial`` and ``PolynomialVector`` support member functions ``.ntt()`` and ``.invntt()`` for the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_) and fast multiplication in the NTT domain.
+Note that ``.invntt()`` here is called ``.invntt_tomont()`` in the implementation as it directly multiplies by the Montgomery factor.
 
 Additionally, ``PolynomialMatrix`` has a member function ``generate(seed, transposed, mode)``, which generates a (possibly transposed) :math:`k\times k` matrix ``a`` from the ``seed`` given a ``mode``.
 The matrix is already generated in the NTT domain via rejection sampling with ``XOF`` \(using the function ``Polynomial::sample_rej_uniform(XOF)`` that corresponds to **Algorithm 1** of [Kyber-R3]_\).
