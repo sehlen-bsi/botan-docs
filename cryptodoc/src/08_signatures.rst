@@ -651,7 +651,7 @@ No further infrastructure is provided to maintain persistent private XMSS state.
 XMSS private key is not possible if the private key should outlive the operating
 system process that generated it. It is therefore **strongly discouraged to use
 Botan's XMSS signing implementation in production applications**. Similarly,
-[NIST-HashSigs]_ demands the usage of dedicated hardware for XMSS private key
+[SP800-208]_ demands the usage of dedicated hardware for XMSS private key
 operations.
 
 Note that validating XMSS signatures does not depend on this state management
