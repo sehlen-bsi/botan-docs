@@ -538,3 +538,83 @@ parameters. The class offers the following functions:
 **Conclusion:** The algorithms for encryption and decryption comply with [TR-02102-1]_.
 Botan however does not restrict the used ``KDF``, ``MAC`` and ``cipher`` to the ones allowed in [TR-02102-1]_.
 No special ECIES flags are required for compliance with the technical guideline.
+
+KYBER
+------
+
+**Decryption**
+
+The decryption of the encapsulated key is realized within the ``Kyber_KEM_Decryptor`` class. Like [Kyber-R3]_, botan implements the IND-CPA-secure decryption (``Kyber_KEM_Decryptor::indcpa_dec``), which is embedded into the IND-CCA2-secure algorithm (``Kyber_KEM_Decryptor::raw_kem_decrypt``). The private key is passed to the ``Kyber_KEM_Decryptor`` via constructor.
+
+.. |step_3_formular| replace:: :math:`\mathbf{\hat{s}}^T \circ \textrm{NTT}(\mathbf{u})`
+.. |step_4_formular| replace:: :math:`\textrm{NTT}^{-1}(\mathbf{\hat{s}}^T \circ \textrm{NTT}(\mathbf{u}))`
+.. |step_5_formular| replace:: :math:`v - \textrm{NTT}^{-1}(\mathbf{\hat{s}}^T \circ \textrm{NTT}(\mathbf{u}))`
+.. |circ| replace:: :math:`\circ`
+.. admonition:: Kyber_KEM_Decryptor::indcpa_dec (Algorithm 6 of [Kyber-R3]_)
+
+   **Input:**
+
+   -  ``m_key``: ``Kyber_PrivateKey`` (member of ``Kyber_KEM_Decryptor``) containing:
+       - ``sk``: the polynom representing the secret key
+   -  ``c``: ciphertext bytes
+   -  ``c_len``: ciphertext length
+
+   **Output:**
+
+   -  ``m``: message bytes (decapsulated key)
+
+   **Steps:**
+
+   1. Create a ``Ciphertext`` object ``ct`` by decoding and decompressing the ciphertext bytes. (L. 1-2, Alg. 6 [Kyber-R3]_)
+   2. Transform ``ct.b`` into the NTT domain.
+   3.  ``mp = sk`` |circ| ``ct.b`` the NTT's basecase multiplication using the function ``PolynomialVector::pointwise_acc_montgomery`` (|step_3_formular| of L. 4, Alg. 6 [Kyber-R3]_)
+   4. ``mp.invntt_tomont()`` to invert the NTT. (|step_4_formular| of L. 4, Alg. 6 [Kyber-R3]_)
+   5. ``mp -= ct.v`` followed by a modular (Barrett-) reduction. (|step_5_formular| of L. 4, Alg. 6 [Kyber-R3]_)
+   6. ``m = mp.to_message()`` to compress and encode the message. (L. 4, Alg. 6 [Kyber-R3]_)
+   7. ``return m``
+
+   **Notes:**
+
+   - The sign of ``mp`` is swapped in comparison with the specification. However, for the following compression only absolute values are relevant.
+   - Regarding side-channel attacks, botan's operations after step 2 are crucial. Therefore, ``pointwise_acc_montgomery``, ``invntt_tomont``, ``to_message``, and the subtraction and reduction are time-constant implementations.
+
+
+
+.. admonition:: Kyber_KEM_Decryptor::raw_kem_decrypt (Algorithm 9 of [Kyber-R3]_)
+
+   **Input:**
+
+   -  ``m_key``: ``Kyber_PrivateKey`` (member of ``Kyber_KEM_Decryptor``) containing\:
+
+       - ``pk``: public key
+       - ``h_pk``: hashed public key (i.e. ``H(pk)``)
+       - ``z``: secret seed used for implicit rejection
+
+   -  ``encap_key``: encapsulated key bytes
+   -  ``len_encap_key``: length of encapsulated key bytes
+
+   **Output:**
+
+   -  ``K``: shared key
+
+   **Steps:**
+
+   1. ``shared_secret = indcpa_dec(encap_key, len_encap_key)`` to extract the shared secret using the CPA-secure decryption algorithm. (L. 4, Alg. 9 [Kyber-R3]_)
+   2. ``(lower_g_out||upper_g_out) = G(shared_secret||h_pk)`` (L. 5, Alg. 9 [Kyber-R3]_)
+   3. ``cmp = indcpa_enc(shared_secret, upper_g_out)`` (L. 6, Alg. 9 [Kyber-R3]_)
+   4. The value ``cmp`` is compared with the value ``encap_key``. This comparison is performed using the constant time comparison function ``constant_time_compare``. Using the constant time function ``conditional_copy_mem``, ``lower_g_out_final`` is set to either ``lower_g_out`` if the ciphertext was valid or ``z`` if not. (L. 7, Alg. 9 [Kyber-R3]_)
+   5. ``K = KDF(lower_g_out_final||H(c))`` (L. 8, 10, Alg. 9 [Kyber-R3]_)
+   6. ``return K``
+
+   **Notes:**
+
+   - Algorithm 9 [Kyber-R3]_ only takes the secret key bytes as input. These can be transformed to a ``Kyber_PrivateKey`` object using the respective constructor which performs the parsing of the secret key like in l. 1-3 of Alg. 9 [Kyber-R3]_.
+
+
+**Other Notes (independent of Dec + used for merge)**
+
+.. |mathD| replace:: :math:`d`
+
+
+* [Kyber-R3]_ notes that implementations of the 90s variant may be vulnerable to timing attacks if the used AES is not constant time. However, like all of botan's AES implementations, the one used for Kyber's 90s versions is.
+* The implementation of the algorithms :math:`\textrm{Compress}_q(x,d)` and :math:`\textrm{Decompress}_q(x,d)` of [Kyber-R3]_ are optimized for all occuring values of |mathD|. The compression with :math:`d=d_u` and :math:`d=d_v` is implemented in two respective ``Ciphertext::compress`` methods, i.e. one for polynom vectors and one for single polynoms (used in l. 21-22, Alg. 5 [Kyber-R3]_). The same holds for the ``Ciphertext::decompress`` method for decompression (used in l. 1-2, Alg. 6 [Kyber-R3]_). The compression and decompression with :math:`d=1` is performed simultaneously with :math:`\textrm{Encode}_1` and :math:`\textrm{Decode}_1` within the methods ``Polynomial::to_message`` and ``Polynomial::from_message`` respectively (used in l. 4, Alg. 6 and l. 20, Alg. 5 [Kyber-R3]_). All compressions and decompressions are time constant.
