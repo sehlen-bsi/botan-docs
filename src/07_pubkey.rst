@@ -680,7 +680,7 @@ IND-CCA2 encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]
 
    **Output:**
 
-   -  None
+   -  Overwritten ``out_encapsulated_key``, ``out_shared_key``
 
    **Steps:**
 
