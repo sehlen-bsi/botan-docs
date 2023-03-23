@@ -479,7 +479,7 @@ the tree that the algorithm is currently working on even if only a
 single thread is used.
 
 .. _pubkey_key_generation/kyber:
-KYBER
+Kyber
 -------------------------
 Botan implements the CRYSTALS-Kyber KEM in
 ``src/lib/pubkey/kyber/``. The implementation is based on the NIST round 3 specification [Kyber-R3]_.
@@ -517,7 +517,7 @@ For each mode, the ``KyberConstants`` class contains the corresponding set of pa
 Kyber itself is implemented in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp``.
 Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes, respectively.
 ``Polynomial`` and ``PolynomialVector`` support member functions ``.ntt()`` and ``.invntt()`` for the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_) and fast multiplication in the NTT domain.
-Multiplication of two polynomial vectors in NTT domain ``a*b`` is given via the the function ``PolynomialVector::pointwise_acc_montgomery`` using Montgomery reduction.
+Multiplication of two polynomial vectors in NTT domain ``a*b`` is given via the function ``PolynomialVector::pointwise_acc_montgomery`` using Montgomery reduction.
 Note that ``.invntt()`` here is called ``.invntt_tomont()`` in the implementation as it directly multiplies by the Montgomery factor.
 
 Additionally, ``PolynomialMatrix`` has a member function ``generate(seed, transposed, mode)``, which generates a (possibly transposed) ``k``:math:`\times` ``k`` matrix ``a`` from the ``seed`` given a ``mode``.
@@ -534,24 +534,23 @@ Based on these functions the key generation process follows **Algorithms 4 and 7
    **Input:**
 
    -  ``rng``: random number generator
-   -  ``m``: Kyber mode providing (``N``, ``k``, ``Q``,
-      ``eta1``, ``eta2``, ``XOF``, ``H``, ``G``, ``PRF``, ``KDF``), see Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table>`
+   -  ``m``: Kyber mode providing (``N``, ``k``, ``Q``, ``XOF``, ``H``, ``G``, ``PRF``, ``KDF``), see Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table>`
 
    **Output:**
 
-   -  ``Kyber_PrivateKey``: ``sk`` (instance of ``Kyber_PrivateKeyInternal``), ``pk`` (instance of ``Kyber_PublicKeyInternal``)
+   -  ``sk``: ``Kyber_PrivateKeyInternal``
+   -  ``pk``: ``Kyber_PublicKeyInternal``
 
    **Steps:**
 
    1. ``(seed1 || seed2) = G(d)`` where d is generated using ``rng`` and each seed has the same length (L. 1-2, Alg. 4 [Kyber-R3]_)
-   2. ``a = PolynomialMatrix::generate(seed1, False, m)`` (L. 4-8, Alg. 4 [Kyber-R3]_)
+   2. ``a = PolynomialMatrix::generate(seed1, false, m)`` (L. 4-8, Alg. 4 [Kyber-R3]_)
    3. ``s = PolynomialVector::getnoise_eta1(seed2, 0, m)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1`` for each vector element; L. 9-12, Alg. 4 [Kyber-R3]_)
    4. ``e = PolynomialVector::getnoise_eta1(seed2, k, m)`` (L. 13-16, Alg. 4 [Kyber-R3]_)
    5. ``s.ntt()`` and ``e.ntt()`` (L. 17-18, Alg. 4 [Kyber-R3]_)
-   6. ``pk = (a*s + e, seed1)`` and ``sk = (s, PK, H(PK), z)`` where ``z`` is freshly generated with ``rng`` (L. 19-22, Alg. 4 [Kyber-R3]_ and L.1, 3, Alg. 7 [Kyber-R3]_)
+   6. ``pk = (a*s + e, seed1)`` and ``sk = (s, pk, H(pk), z)`` where ``z`` is freshly generated with ``rng`` (L. 19-22, Alg. 4 [Kyber-R3]_ and L.1, 3, Alg. 7 [Kyber-R3]_)
 
    **Notes:**
 
    - The member function ``Polynomial::getnoise_eta1(seed, nonce, mode)`` uses ``PRF`` on the seed with incremented nonce values to call ``Polynomial::getnoise_cbd2`` or ``Polynomial::getnoise_cbd3`` depending on ``eta1``.
-   - Modular operations are performed with Barrett and Montgomery reductions.
-   - Serialization to bytes of the keys (:math:`\textrm{Encode}` in Algorithm 4 of [Kyber-R3]_) is performed via the constructor of ``Kyber_PublicKeyInternal`` (resp. ``Kyber_PrivateKeyInternal``) by calling ``Polynomial::to_bytes()``.
+   - Serialization to bytes of the keys (:math:`\textrm{Encode}` in L.20, 21, Alg. 4 [Kyber-R3]_) is performed via the constructor of ``Kyber_PublicKeyInternal`` (resp. ``Kyber_PrivateKeyInternal``) by calling ``Polynomial::to_bytes()``.
