@@ -297,7 +297,7 @@ ECKCDSA
 
 The Korean Certificate-based Digital Signature Algorithm over elliptic
 curves is implemented in ``src/lib/pubkey/eckcdsa/eckcdsa.cpp``. The
-implementation follows [TR-03111]_.
+implementation follows [ISO-14888-3]_.
 
 ECKCDSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -315,7 +315,7 @@ The signature generation algorithm works as follows:
 
    **Input:**
 
-   -  ``m``: raw bytes to sign (EMSA1 encoded data)
+   -  ``m``: raw bytes to sign (the hash-code ``H``, must be already truncated if needed)
    -  EC_Privatekey with inverse: ``d``, ``Q``, domain(curve parameters(first
       coefficient a, second coefficient b, prime p), base point G, ord(G)
       n, cofactor of the curve h)
@@ -335,15 +335,17 @@ The signature generation algorithm works as follows:
    3. Compute point :math:`W=(x_1,y_1)=k'*G`. This computation utilizes randomized Jacobian point
       coordinates with a blinding masks that is equal in size to the
       underlying field.
-   4. Compute
-      :math:`{r = H}{(x_{1})}`
-      , where :math:`H`
+   4. Compute the witness
+      :math:`{r = h}{(x_{1})}`
+      , where :math:`h`
       is the hash function used in the current instance of the EMSA1
       signature scheme.
-   5. Compute
+   5. If the output length of the hash function :math:`h` exceeds the size of the group order,
+      truncate the *most significant bytes* in :math:`r` on a byte level to the size of the group order.
+   6. Compute
       :math:`{s = {d \ast {({{k - r}\oplus m})}}}\bmod n`
       . If :math:`s=0` applies, the algorithm terminates with an error.
-   6. Return ECKCDSA signature (r,s).
+   7. Return ECKCDSA signature (r,s).
 
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -354,7 +356,7 @@ The signature verification algorithm works as follows:
 
    **Input:**
 
-   -  ``m``: message bytes
+   -  ``m``: raw bytes to verify (the hash-code ``H``, must be already truncated if needed)
    -  EC_Publickey: ``Q``, domain(curve parameters(first coefficient a,
       second coefficient b, prime p), base point G, ord(G) n, cofactor of
       the curve h)
@@ -370,9 +372,13 @@ The signature verification algorithm works as follows:
       Terminates otherwise.
    2. Compute :math:`e=r \oplus m \bmod n`.
    3. Compute point :math:`W=s*q+e*G` with Shamir's trick.
-   4. Return ``true`` if :math:`r=H(x_i)` applies, where :math:`H` is the hash function used in the
-      current instance of the EMSA1 signature scheme. Otherwise returns
-      ``false``.
+   4. Recompute the witness :math:`r'=h(x_i)`,
+      where :math:`h` is the hash function used in the current instance of the EMSA1 signature scheme.
+   5. If the output length of the hash function :math:`h` exceeds the size of the group order,
+      truncate the *most significant bytes* in :math:`r'` on a byte level to the size of the group order.
+   6. Return ``true`` if the recomputed witness :math:`r'` is equal to
+      the witness :math:`r` inside the signature.
+      Otherwise return ``false``.
 
 ECGDSA
 ------
