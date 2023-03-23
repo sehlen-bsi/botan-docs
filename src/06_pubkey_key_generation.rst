@@ -486,7 +486,7 @@ Botan implements the CRYSTALS-Kyber KEM in
 The list of supported algorithms and their parameters is depicted in
 Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table>`.
 All possible modes are represented by the class ``KyberMode`` found in ``src/lib/pubkey/kyber/kyber_common``.
-The ``_90s`` suffix denotes different symmetric functions for Kyber's ''90's mode''.
+The ``_90s`` suffix denotes different symmetric functions for Kyber's \"90's mode\".
 These are represented by an adapter class ``Kyber_Symmetric_Primitives``, realized in ``src/lib/pubkey/kyber/kyber`` and ``src/lib/pubkey/kyber/kyber_90s``, respectively.
 For each mode, the ``KyberConstants`` class contains the corresponding set of parameters and symmetric functions (``Kyber_Symmetric_Primitives``).
 
@@ -543,7 +543,7 @@ Based on these functions the key generation process follows **Algorithms 4 and 7
 
    **Steps:**
 
-   1. ``(seed1||seed2) = G(d)`` where d is generated using ``rng`` and each seed has the same length (L. 1-2, Alg. 4 [Kyber-R3]_)
+   1. ``(seed1 || seed2) = G(d)`` where d is generated using ``rng`` and each seed has the same length (L. 1-2, Alg. 4 [Kyber-R3]_)
    2. ``a = PolynomialMatrix::generate(seed1, False, m)`` (L. 4-8, Alg. 4 [Kyber-R3]_)
    3. ``s = PolynomialVector::getnoise_eta1(seed2, 0, m)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1`` for each vector element; L. 9-12, Alg. 4 [Kyber-R3]_)
    4. ``e = PolynomialVector::getnoise_eta1(seed2, k, m)`` (L. 13-16, Alg. 4 [Kyber-R3]_)
