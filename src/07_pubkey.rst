@@ -650,7 +650,7 @@ IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_:
 
    1. Create a ``Ciphertext`` object ``ct`` by decoding and decompressing the ciphertext bytes. (L. 1-2, Alg. 6 [Kyber-R3]_)
    2. ``ct.b.ntt()``
-   3.  ``mp = sk_s * ct.b``  (|step_3_formular| of L. 4, Alg. 6 [Kyber-R3]_)
+   3. ``mp = sk_s * ct.b``  (|step_3_formular| of L. 4, Alg. 6 [Kyber-R3]_)
    4. ``mp.invntt()`` (|step_4_formular| of L. 4, Alg. 6 [Kyber-R3]_)
    5. ``mp -= ct.v`` (|step_5_formular| of L. 4, Alg. 6 [Kyber-R3]_)
    6. ``m = mp.to_message()`` (L. 4, Alg. 6 [Kyber-R3]_)
@@ -672,9 +672,9 @@ IND-CCA2 encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]
    **Input:**
 
    - ``pk = (pk_t, seed)``: public key
-   -  ``out_encapsulated_key``: ciphertext of shared key (to be overwritten)
-   -  ``out_shared_key``: plaintext shared key (to be overwritten)
-   -  ``rng``: random number generator
+   - ``out_encapsulated_key``: ciphertext of shared key (to be overwritten)
+   - ``out_shared_key``: plaintext shared key (to be overwritten)
+   - ``rng``: random number generator
 
    **Output:**
 
@@ -694,6 +694,7 @@ IND-CCA2 encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]
    - The input/output structure corresponds to Botan's ``KEM_Encryption`` interface.
 
 **Decapsulation**
+
 IND-CCA2 decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]_:
 
 .. admonition:: Kyber_KEM_Decryptor::raw_kem_decrypt()
@@ -725,6 +726,5 @@ IND-CCA2 decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]
 
 .. |mathD| replace:: :math:`d`
 
-
-* [Kyber-R3]_ notes that implementations of the 90s variant may be vulnerable to timing attacks if the used AES is not constant time. However, like all of Botan's AES implementations, the one used for Kyber's 90s versions is.
-* Modular operations are performed with Barrett and Montgomery reductions.
+- [Kyber-R3]_ notes that implementations of the 90s variant may be vulnerable to timing attacks if the used AES is not constant time. However, like all of Botan's AES implementations, the one used for Kyber's 90s versions is.
+- Modular operations are performed with Barrett and Montgomery reductions.

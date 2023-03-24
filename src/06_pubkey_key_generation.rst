@@ -479,8 +479,10 @@ the tree that the algorithm is currently working on even if only a
 single thread is used.
 
 .. _pubkey_key_generation/kyber:
+
 Kyber
--------------------------
+-----
+
 Botan implements the CRYSTALS-Kyber KEM in
 ``src/lib/pubkey/kyber/``. The implementation is based on the NIST round 3 specification [Kyber-R3]_.
 The list of supported algorithms and their parameters is depicted in
@@ -489,7 +491,6 @@ All possible modes are represented by the class ``KyberMode`` found in ``src/lib
 The ``_90s`` suffix denotes different symmetric functions for Kyber's \"90's mode\".
 These are represented by an adapter class ``Kyber_Symmetric_Primitives``, realized in ``src/lib/pubkey/kyber/kyber`` and ``src/lib/pubkey/kyber/kyber_90s``, respectively.
 For each mode, the ``KyberConstants`` class contains the corresponding set of parameters and symmetric functions (``Kyber_Symmetric_Primitives``).
-
 
 .. _pubkey_key_generation/kyber/table:
 
@@ -513,15 +514,14 @@ For each mode, the ``KyberConstants`` class contains the corresponding set of pa
    | Kyber1024 90s     | 256| 4  | 3329| 2            |   2            |AES-256-CTR   | SHA-256  | SHA-512   | AES-256-CTR  | SHA-256    |
    +-------------------+----+----+-----+--------------+----------------+--------------+----------+-----------+--------------+------------+
 
-
 Kyber itself is implemented in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp``.
 Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes, respectively.
 ``Polynomial`` and ``PolynomialVector`` support member functions ``.ntt()`` and ``.invntt()`` for the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_) and fast multiplication in the NTT domain.
 Multiplication of two polynomial vectors in NTT domain ``a*b`` is given via the function ``PolynomialVector::pointwise_acc_montgomery`` using Montgomery reduction.
 Note that ``.invntt()`` here is called ``.invntt_tomont()`` in the implementation as it directly multiplies by the Montgomery factor.
 
-Additionally, ``PolynomialMatrix`` has a member function ``generate(seed, transposed, mode)``, which generates a (possibly transposed) ``k``:math:`\times` ``k`` matrix ``a`` from the ``seed`` given a ``mode``.
-The matrix is already generated in the NTT domain via rejection sampling with ``XOF`` \(using the function ``Polynomial::sample_rej_uniform(XOF)`` that corresponds to **Algorithm 1** of [Kyber-R3]_\).
+Additionally, ``PolynomialMatrix`` has a member function ``generate(seed, transposed, mode)``, which generates a (possibly transposed) ``k``:math:`\times`\ ``k`` matrix ``a`` from the ``seed`` given a ``mode``.
+The matrix is already generated in the NTT domain via rejection sampling with ``XOF`` (using the function ``Polynomial::sample_rej_uniform(XOF)`` that corresponds to **Algorithm 1** of [Kyber-R3]_).
 
 **Algorithm 2** of [Kyber-R3]_ is implemented via the member function ``Polynomial::getnoise_cbd2``  for the case ``eta1=2`` (and a respective version for ``eta1=3``). It deterministically samples noise from a centered binomial distribution.
 
