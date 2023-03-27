@@ -576,7 +576,7 @@ We, therefore, denote the secret key as ``sk=(sk_s, pk, sk_h, z)``, where ``z`` 
 The ``Ciphertext`` class is given a ``PolynomialVector b``, a ``Polynomial v``, and a ``KyberMode mode``. A ciphertext instance is represented via the members ``b`` and ``v`` (corresponding to :math:`\textbf{u}` and :math:`v` of [Kyber-R3]_, respectively).
 
 Furthermore, the ``Ciphertext`` class provides ciphertext compression and encoding.
-The implementation of the algorithms :math:`\textrm{Compress}_q(x,d)` and :math:`\textrm{Decompress}_q(x,d)` of [Kyber-R3]_ are optimized for all occurring values of |mathD|.
+The implementation of the algorithms :math:`\textrm{Compress}_q(x,d)` and :math:`\textrm{Decompress}_q(x,d)` of [Kyber-R3]_ are optimized for all occurring values of :math:`d`.
 The compression with :math:`d=d_u` and :math:`d=d_v` [#kyber_du_dv]_ is implemented in two respective ``Ciphertext::compress`` methods, i.e., one for polynomial vectors and one for polynomials. The same holds for decompression via ``Ciphertext::decompress_polynomial_vector`` and ``Ciphertext::decompress_polynomial``.
 The public member functions ``Ciphertext::from_bytes`` and ``Ciphertext::to_bytes`` use this to realize **L. 1/L. 2 of Alg. 6** [Kyber-R3]_ and **L. 21/L. 22 of Alg. 5** [Kyber-R3]_, respectively.
 The compression and decompression with :math:`d=1` are performed simultaneously with :math:`\textrm{Encode}_1` and :math:`\textrm{Decode}_1` within the methods ``Polynomial::to_message`` and ``Polynomial::from_message``, respectively (used in **L. 4, Alg. 6** and **L. 20, Alg. 5** [Kyber-R3]_). All compressions and decompressions are constant time.
