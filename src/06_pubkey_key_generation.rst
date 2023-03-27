@@ -477,3 +477,75 @@ in constant time on identical hardware if the hash function computations
 run in constant time. Therefore, an attacker can infer the position in
 the tree that the algorithm is currently working on even if only a
 single thread is used.
+
+Dilithium
+---------
+
+Botan implements the CRYSTALS-Dilithium signature algorithm in ``src/lib/pubkey/dilithium``.
+The implementation is based on the NIST round 3 specification [Dilithium-R3]_.
+
+**Modes, Parameters, and Primitives**
+
+Botan supports the parameter sets corresponding to NIST security levels 2, 3, and 5 (all of Table 2 of [Dilithium-R3]_).
+Similar to CRYSTALS-Kyber, these are realized as different modes (class ``DilithiumMode`` in ``src/lib/pubkey/dilithium_common/dilithium.h``), each providing different parameters (``DilithiumModeConstants`` in ``src/lib/pubkey/dilithium_common/dilithium_symmetric_primitives.cpp``).
+These are uniquely represented via the dimension :math:`(k,\ell)` of the public key matrix :math:`\mathbf{A}` (see Table 2 in [Dilithium-R3]_), i.e., ``Dilithium4x4`` corresponds to level 2, ``Dilithium6x5`` to level 3, and  ``Dilithium8x7`` to level 5.
+Like Kyber, Dilithium additionally supports different instantiations of symmetric primitives via the class ``Dilithium_Symmetric_Primitives`` (see usage of SHAKE-128 vs. AES in Section 5.3 of [Dilithium-R3]_).
+The "modern" version is given in ``src/lib/pubkey/dilithium`` and the "AES" version in ``src/lib/pubkey/dilithium_aes``.
+A Dilithium mode using the AES variant is identified via the ``_aes`` suffix.
+
+**Polynomial Operations**
+
+Operations between polynomials, polynomial vectors, and polynomial matrices are provided in ``src/lib/pubkey/dilithium_common/dilithium_polynomials.h``, including NTT transform, multiplication, and Montgomery reduction.
+
+
+**Supporting Algorithms**
+
+Dilithium relies on a number of supporting algorithms, see Sections 2.3 and 2.4 of [Dilithium-R3]_.
+These are implemented in ``src/lib/pubkey/dilithium_common/dilithium_polynomials.h`` as well and include the alterations of Section 5 of [Dilithium-R3]_.
+Concretely, :math:`\mathsf{SampleInBall}` of [Dilithium-R3]_ is provided via ``Polynomial::poly_challenge``, :math:`\mathsf{ExpandA}` via ``PolynomialMatrix::generate_matrix``, :math:`\mathsf{ExpandS}` via ``PolynomialVector::fill_polyvec_uniform_eta`` (called to fill vectors of different lengths), and :math:`\mathsf{ExpandMask}` via ``PolynomialVector::polyvecl_uniform_gamma1``.
+The function :math:`\mathsf{H}` is instantiated directly.
+
+Furthermore, the algorithm :math:`\mathsf{Power2Round_q}` of [Dilithium-R3]_ corresponds to the functions ``Polynomial::power2round`` and ``Polynomial::fill_polys_power2round``.
+:math:`\mathsf{MakeHint_q}` and :math:`\mathsf{UseHint_q}` of [Dilithium-R3]_ are realized by the functions ``Polynomial::make_hint``\/ ``Polynomial::generate_hint_polynomial`` and ``Polynomial::use_hint``, respectively.
+:math:`\mathsf{Decompose_q}` is given via ``Polynomial::decompose`` and ``Polynomial::poly_decompose``.
+During the signature operations, the decomposition functions are used directly instead of using the :math:`\mathsf{HighBits_q}`\/ :math:`\mathsf{LowBits_q}` paradigm.
+Versions with element-wise applications on polynomial vectors are given as well.
+
+Finally, packing operations (Section 5.2, [Dilithium-R3]) are also provided in ``src/lib/pubkey/dilithium_common/dilithium_polynomials.h``.
+
+**Additional Functions**
+
+The implementation supplies the Boolean function ``PolynomialVector::polyvec_chknorm`` in order to realize a check if the :math:`\lVert \cdot \rVert_\infty` norm of a given polynomial vector surpasses a provided bound.
+
+In ``src/lib/pubkey/dilithium_common/dilithium.cpp``, the function ``calculate_t0_and_t1`` is supplied to compute :math:`(\mathbf{t_1},\mathbf{t_0})` based on the public key seed ``rho`` and private vectors ``s1, s2``, i.e., realizing L. 3, L.5, and L. 6, Fig. 4, [Dilithium-R3]_.
+Furthermore, encoding and decoding of keys and signatures is implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp``.
+
+The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of [Dilithium-R3]_ and works as follows:
+
+.. admonition:: Dilithium_PrivateKey::Dilithium_PrivateKey()
+
+   **Input:**
+
+   -  ``rng``: random number generator
+   -  ``m``: Dilithium mode providing parameters and symmetric functions
+
+   **Output:**
+
+   -  ``sk``: ``Dilithium_PrivateKeyInternal``
+   -  ``pk``: ``Dilithium_PublicKeyInternal``
+
+   **Steps:**
+
+   1. Generate random seed ``seedbuf`` using ``rng`` (L. 1, Fig. 4, [Dilithium-R3]_)
+   2. ``(rho || rhoprime || key) = H(seedbuf)`` (L. 2, Fig. 4, [Dilithium-R3]_)
+   3. ``matrix = PolynomialMatrix::generate_matrix(rho, mode)`` (L. 3, Fig. 4, [Dilithium-R3]_)
+   4. Use ``PolynomialVector::fill_polyvec_uniform_eta`` to fill ``s1`` and ``s2`` (L. 4, Fig. 4, [Dilithium-R3]_)
+   5. ``(t0, t1) = calculate_t0_and_t1(m, rho, s1, s2)`` (L. 5-6, Fig. 4, [Dilithium-R3]_)
+   6. ``pk = (rho, t1)`` (:math:`pk` in L. 8, Fig. 4, [Dilithium-R3]_)
+   7. ``tr = H(rho || t1)`` (L. 7, Fig. 4, [Dilithium-R3]_)
+   8. ``sk = (rho, tr, key, s1, s2, t0)`` (:math:`sk` in L. 8 Fig. 4, [Dilithium-R3]_)
+
+   **Notes:**
+
+   - ``matrix`` is already generated in NTT representation.
+   - The calculation of ``calculate_t0_and_t1`` includes the computation of ``matrix*s1`` in the NTT domain.
