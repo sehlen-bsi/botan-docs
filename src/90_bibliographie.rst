@@ -78,9 +78,9 @@
    Cryptographic Hardware and Embedded Systems - CHES 2009
    https://doi.org/10.1007/978-3-642-04138-9_1
 
-.. [Kyber-R3] R. Avanzi, J. Bos, L. Ducas, E. Kiltz, T. Lepoint, V. Lyubashevsky, J. Schanck, P. Schwabe, G. Seiler, D. Stehlé
-   CRYSTALS-Kyber algorithm specifications and supporting documentation
-   NIST PQC Challenge Round 3 Submission, 2021
+.. [Kyber-R3] R. Avanzi, J. Bos, L. Ducas, E. Kiltz, T. Lepoint, V. Lyubashevsky, J. Schanck, P. Schwabe, G. Seiler, D. Stehlé:
+   "CRYSTALS-Kyber Algorithm Specifications and Supporting Documentation",
+   NIST PQC Challenge Round 3 Submission, 2021,
    https://pq-crystals.org/kyber/data/kyber-specification-round3-20210804.pdf
 
 .. [Lucky13] N.J. AlFardan and K.G. Paterson:
