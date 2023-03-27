@@ -523,7 +523,7 @@ Note that ``.invntt()`` here is called ``.invntt_tomont()`` in the implementatio
 Additionally, ``PolynomialMatrix`` has a member function ``generate(seed, transposed, mode)``, which generates a (possibly transposed) ``k``:math:`\times`\ ``k`` matrix ``a`` from the ``seed`` given a ``mode``.
 The matrix is already generated in the NTT domain via rejection sampling with ``XOF`` (using the function ``Polynomial::sample_rej_uniform(XOF)`` that corresponds to **Algorithm 1** of [Kyber-R3]_).
 
-**Algorithm 2** of [Kyber-R3]_ is implemented via the member function ``Polynomial::getnoise_cbd2``  for the case ``eta1=2`` (and a respective version for ``eta1=3``). It deterministically samples noise from a centered binomial distribution.
+**Algorithm 2** of [Kyber-R3]_ is implemented via the member function ``Polynomial::getnoise_cbd2`` for the case ``eta1=2`` (and a respective version for ``eta1=3``). It deterministically samples noise from a centered binomial distribution.
 
 Encoding/decoding of polynomials (**Algorithm 3** of [Kyber-R3]_) is realized via the ``Polynomial::to_bytes()``/ ``Polynomial::from_bytes()`` functions.
 
