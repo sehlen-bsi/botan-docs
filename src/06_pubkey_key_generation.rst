@@ -489,7 +489,7 @@ The list of supported algorithms and their parameters is depicted in
 Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table>`.
 All possible modes are represented by the class ``KyberMode`` found in ``src/lib/pubkey/kyber/kyber_common``.
 The ``_90s`` suffix denotes different symmetric functions for Kyber's \"90's mode\".
-These are represented by an adapter class ``Kyber_Symmetric_Primitives``, realized in ``src/lib/pubkey/kyber/kyber`` and ``src/lib/pubkey/kyber/kyber_90s``, respectively.
+These symmetric functions are represented by an adapter class ``Kyber_Symmetric_Primitives``, realized in ``src/lib/pubkey/kyber/kyber`` for modern Kyber modes and ``src/lib/pubkey/kyber/kyber_90s`` for the 90's variants.
 For each mode, the ``KyberConstants`` class contains the corresponding set of parameters and symmetric functions (``Kyber_Symmetric_Primitives``).
 
 .. _pubkey_key_generation/kyber/table:
