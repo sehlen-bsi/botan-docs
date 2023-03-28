@@ -478,6 +478,8 @@ run in constant time. Therefore, an attacker can infer the position in
 the tree that the algorithm is currently working on even if only a
 single thread is used.
 
+.. _pubkey_key_generation/dilithium:
+
 Dilithium
 ---------
 
@@ -495,7 +497,9 @@ A Dilithium mode using the AES variant is identified via the ``_aes`` suffix.
 
 **Polynomial Operations**
 
-Operations between polynomials, polynomial vectors, and polynomial matrices are provided in ``src/lib/pubkey/dilithium_common/dilithium_polynomials.h``, including NTT transform, multiplication, and Montgomery reduction.
+Operations between polynomials, polynomial vectors, and polynomial matrices are provided in ``src/lib/pubkey/dilithium_common/dilithium_polynomials.h``, including NTT, multiplication, and Montgomery reduction.
+``A*b`` of a polynomial matrix ``A`` and a polynomial vector ``b`` in NTT domain is given via ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery`` and ``a*b`` two polynomial vectors ``a`` and ``b`` is given via ``PolynomialVector::polyvec_pointwise_poly_montgomery``.
+Matrices and vectors are transformed prior to the operation.
 
 
 **Supporting Algorithms**
@@ -538,7 +542,7 @@ The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of
 
    1. Generate random seed ``seedbuf`` using ``rng`` (L. 1, Fig. 4, [Dilithium-R3]_)
    2. ``(rho || rhoprime || key) = H(seedbuf)`` (L. 2, Fig. 4, [Dilithium-R3]_)
-   3. ``matrix = PolynomialMatrix::generate_matrix(rho, mode)`` (L. 3, Fig. 4, [Dilithium-R3]_)
+   3. ``matrix = PolynomialMatrix::generate_matrix(rho, m)`` (L. 3, Fig. 4, [Dilithium-R3]_)
    4. Use ``PolynomialVector::fill_polyvec_uniform_eta`` to fill ``s1`` and ``s2`` (L. 4, Fig. 4, [Dilithium-R3]_)
    5. ``(t0, t1) = calculate_t0_and_t1(m, rho, s1, s2)`` (L. 5-6, Fig. 4, [Dilithium-R3]_)
    6. ``pk = (rho, t1)`` (:math:`pk` in L. 8, Fig. 4, [Dilithium-R3]_)

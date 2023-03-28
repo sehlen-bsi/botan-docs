@@ -657,3 +657,97 @@ operations.
 
 Note that validating XMSS signatures does not depend on this state management
 and its usability is therefore *not affected* by this disclaimer.
+
+Fun with Dilithium (temporary)
+-------------------------------
+
+Signature Creation
+^^^^^^^^^^^^^^^^^^
+
+CRYSTALS-Dilithium signing follows the :math:`Sign` algorithm of Figure 4 of [Dilithium-R3]_. It is implemented in
+``src/lib/pubkey/dilithium_common/dilithium.cpp`` and uses some functions already documented in :ref:`Dilithium Key Generation <pubkey_key_generation/dilithium>`.
+
+The signature generation process works as follows:
+
+.. admonition:: ``Dilithium_Signature_Operation::sign()``
+
+   **Input:**
+
+   -  ``sk = (rho, tr, key, s1, s2, t0)``: secret key
+   -  ``matrix``: public key matrix :math:`\mathbf{A}` (corresponds to L. 9, Fig. 4, [Dilithium-R3]_)
+   -  ``mu``: hash of ``tr`` and the message ``msg`` (corresponds to L. 10, Fig. 4, [Dilithium-R3]_)
+   -  ``rng``: random number generator
+   -  ``m``: Dilithium mode providing parameters (``gamma1``, ``gamma2``, ``beta``) and symmetric functions
+   -  ``randomized``: whether randomized signing should be used
+
+   **Output:**
+
+   -  ``sig``: signature
+
+   **Steps:**
+
+   1. If ``randomized``, generate ``rhoprime`` using ``rng``, otherwise set ``rhoprime = H(key || mu)`` (L. 12, Fig. 4, [Dilithium-R3]_)
+   2. ``s1.ntt()``, ``s2.ntt()``, ``t0.ntt()`` (comment of L. 13, Fig. 4, [Dilithium-R3]_)
+   3. For incremental ``nonce``: (L. 13, Fig. 4, [Dilithium-R3]_)
+
+      1. ``y = polyvecl_uniform_gamma1(rhoprime, nonce, m)`` (L. 14, Fig. 4, [Dilithium-R3]_)
+      2. ``w1 = A*y`` (L. 15, Fig. 4, [Dilithium-R3]_)
+      3. ``(w1, w0) = w1.polyvec_decompose()`` (L. 16, Fig. 4, [Dilithium-R3]_)
+      4. ``sm = H(mu || w1)`` (L. 17, Fig. 4, [Dilithium-R3]_)
+      5. ``cp = Dilithium::Polynomial::poly_challenge(sm, mode)`` (L. 18, Fig. 4, [Dilithium-R3]_)
+      6. ``z = y + c*s1`` (L. 19, Fig. 4, [Dilithium-R3]_)
+      7. If ``z.polyvec_chknorm(gamma1 - beta)``, continue with next iteration (Check on :math:`\mathbf{z}`, L. 21, Fig. 4, [Dilithium-R3]_)
+      8. ``w0 = w0 - c*s2`` (L. 20, Fig. 4, [Dilithium-R3]_)
+      9. If ``w0.polyvec_chknorm(gamma2 - beta)``, continue with next iteration (Check on :math:`\mathbf{r_0}`, L. 21, Fig. 4, [Dilithium-R3]_)
+      10. ``h = c*t0``
+      11. If ``h.polyvec_chknorm(gamma2)``, continue with next iteration (First check on :math:`c\mathbf{t0}`, L. 24, Fig. 4, [Dilithium-R3]_)
+      12. ``w0 = w0 + h``
+      13. (TODO: Hint computation)
+      14. If ``#1 > omega``, continue with next iteration (Last check, L. 24, Fig. 4, [Dilithium-R3]_)
+      15. ``sig = (z, h, c)`` (L. 26, Fig. 4, [Dilithium-R3]_)
+      16. Break loop
+
+
+   **Notes:**
+
+   - ``matrix`` is already generated in NTT representation in the constructor via ``matrix = PolynomialMatrix::generate_matrix(rho, mode)``.
+   - ``mu = H(tr || msg)`` is already computed beforehand (in the constructor and using the ``update(msg)`` function).
+   - ``nonce`` here is incremented by 1 but multiplied by ``l`` when called.
+   - ``w0`` corresponds to :math:`\mathbf{r_0}` in Fig. 4, [Dilithium-R3]_ and is computed directly via the decomposition of ``A*y`` and subtraction with ``c*s2``.
+
+
+Signature Validation
+^^^^^^^^^^^^^^^^^^^^
+
+The signature validation follows the Verify algorithm of Figure 4 of [Dilithium-R3]_. It is
+implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp`` in the ``Dilithium_Verification_Operation`` class.
+The constructor of ``Dilithium_Verification_Operation`` takes the public key containing the matrix seed ``rho`` and the
+public value ``t1``; we write ``pk = (rho, t1)``. When calling the constructor, the value ``CRH(rho || t1)``, which is
+already precomputed within the public key object, is stored as well. Message bytes are given to the ``Dilithium_Verification_Operation``
+object via consecutive calls of ``Dilithium_Verification_Operation::update``.
+
+**(move to sign function)** The signature to verify consists of the signature vector ``z``, the hint ``h``, and the seed ``c``.
+We denote the signature as ``sig = (z, h, c)``.
+
+.. admonition:: Dilithium_Verification_Operation::is_valid_signature()
+
+   **Input:**
+
+   -  ``pk = (rho, t_1)``: the public key (passed via constructor)
+   -  ``M``: the message bytes (passed via ``Dilithium_Verification_Operation::update``)
+   -  ``sig = (z, h, c)``: the signature
+
+   **Output:**
+
+   -  ``true``, if the signature for message ``m`` is valid. ``false`` otherwise
+
+   **Steps:**
+
+   1. ``mu = CRH(CRH(rho || t1) || M)`` using the precomputed value (L. 28, Fig. 4, [Dilithium-R3]_)
+   2. Check that the signature has the appropriate length and extract its parameters. Return ``false`` if
+      the length is invalid or if ``z`` is no valid signature vector, i.e., ``||z|| >= gamma1 - beta``
+   3. ``cp = Polynomial::poly_challenge(c)`` (L. 29, Fig. 4, [Dilithium-R3]_)
+   4. Compute ``t*c*2^d`` and ``A*z`` in NTT domain using ``polyvec_shiftl``, ``PolynomialVector::polyvec_pointwise_poly_montgomery`` and ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery``
+   5. Compute ``w1`` via ``PolynomialVector::polyvec_use_hint`` using ``h``, ``A*z - t*c*2^d``, and ``2*gamma2`` (L. 30, Fig. 4, [Dilithium-R3]_)
+   6. Signature is valid if ``c == H(mu || w1)`` (L. 31, Fig. 4, [Dilithium-R3]_)
+
