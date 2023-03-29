@@ -1,0 +1,6 @@
+{% macro short_author(author) %}`@{{ author.nick }} <{{ author.url }}>`_{% endmacro %}
+{% macro short_authors_list(authors) %}{% if authors %}{% for author in authors %}{{ short_author(author) }}{{ ", " if not loop.last else "" }}{% endfor %}{% else %}none{% endif %}{% endmacro %}
+
+{% macro full_author(author) %}{% if author.full_name %}{{ author.full_name }} ({% endif %}`@{{ author.nick }} <{{ author.url }}>`_{% if author.full_name %}){% endif %}{% endmacro %}
+
+{% macro patch_reference(patch) %}{% if patch.type == "pull_request" %}`#{{ patch.ref }} <{{ patch.url }}>`_{% elif patch.type == "commit" %}`{{ patch.ref|truncate(7, true, "") }} <{{ patch.url }}>`_{% endif %}{% endmacro %}
