@@ -658,8 +658,72 @@ operations.
 Note that validating XMSS signatures does not depend on this state management
 and its usability is therefore *not affected* by this disclaimer.
 
-Fun with Dilithium (temporary)
--------------------------------
+Fun with Dilithium (temporary title)
+------------------------------------
+
+
+Hints for MakeHint (temporary title)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To see that Botan's computation on inputs ``(w0 - c*s2 + c*t0, w1)`` is equivalent to the specification of [Dilithium-R3]_, note that in L. 23 of [Dilithium-R3]_, a hint bit is evaluated to :math:`0` if and only if:
+
+:math:`\mathsf{HighBits}_q(w - c s_2 + ct_0, 2\gamma_2) = \mathsf{HighBits}_q(w - c s_2, 2\gamma_2)`
+
+According to Section 3.3, Equation (3) of [Dilithium-R3]_ the right half of the equation is equal to :math:`w_1`. Also, we can
+write :math:`w = w_1 2\gamma_2 + w_0`. We get:
+
+:math:`\mathsf{HighBits}_q(w_1 2\gamma_2 + w_0 - c s_2 + ct_0, 2\gamma_2) = w_1`
+
+Since :math:`-(\gamma_2 - \beta) < w_0 - c s_2 < \gamma_2 - \beta` (second check of L. 21, Fig. 4, [Dilithium-R3]_) and :math:`ct_0 \leq \gamma_2` (first check of L. 24, Fig. 4, [Dilithium-R3]_), we know that  :math:`-(2 \gamma_2 - \beta) < w_0 - c*s_2 + ct_0 < 2 \gamma_2 - \beta`.
+We need to distinguish two cases.
+
+**Case 1** :math:`w_1 \neq 0`, i.e., :math:`w_1 2 \gamma_2 \in [2 \gamma_2, 4 \gamma_2, ..., (q-1) - 2 \gamma_2]` and therefore:
+:math:`\beta < w_1 2 \gamma_2 + w_0 - c s_2 + ct_0 < (q-1) - \beta`.
+
+According to the construction of Decompose (L.23, Figure 3 of [Dilithium-R3]_), we get:
+
+:math:`\mathsf{HighBits}_q(w_1 2 \gamma_2 + w0 - c s_2 + ct_0)`
+
+:math:`=((w_1 2 \gamma_2 + w_0 - c s_2 + ct_0) - (w_1 2 \gamma_2 + w_0 - c s_2 + ct_0\ mod^{+-}\ 2 \gamma_2))/2 \gamma_2`
+
+:math:`= (w_1 2 \gamma_2 + (w_0 - c s2 + ct_0) - (w0 - c s_2 + ct_0\ mod^{+-}\ 2 \gamma_2))/2 \gamma_2`, which equals to :math:`w_1` if and only if
+
+:math:`(w_0 - cs_2 + ct_0 mod+- 2 \gamma_2) = (w_0 - c s_2 + ct_0)`.
+
+Therefore, :math:`\mathsf{HighBits}_q(w_1 2 \gamma_2 + w_0 - c s_2 + ct_0, 2\gamma_2) = w_1` if and only if:
+
+:math:`-\gamma_2 < w_0 - c s_2 + ct_0 \leq \gamma_2`
+
+
+**Case 2** :math:`w1 = 0`, so the equation gets:
+:math:`\mathsf{HighBits}_q(w_0 - c s_2 + ct_0, 2 \gamma_2) = 0`. It is true for all values of:
+:math:`-\gamma_2 \leq w_0 - c s_2 + ct_0 \leq \gamma_2` (The lower boundary is inclusive due to the special behavior of Decompose close below :math:`0`, i.e.,
+:math:`\mathsf{HighBits}_q(-\gamma_2) = 0`).
+
+
+Therefore, to check if the hint must be set, Botan only checks the :math:`\gamma_2` bounds of :math:`w_0 - c s_2 + ct_0`. However, to distinguish both
+cases with slightly different boundaries, :math:`w_1` must be passed as well.
+
+
+---
+Botan implements its core :math:`\mathsf{MakeHint}_q` algorithm, i.e., the logic for single polynomial coefficients, in ``Polynomial::make_hint``.
+It is the same optimization as Dilithium's reference implementation, however, its interface differs from the algorithm described in [Dilithium-R3]_.
+In particular, :math:`\mathsf{MakeHint}_q` in [Dilithium-R3]_ computes :math:`h=\mathsf{MakeHint}_q(-c\mathbf{t_0}, \mathbf{w} - c\mathbf{s_2} + c\mathbf{t_0})`, whereas Botan calls ``PolynomialVector::generate_hint_polyvec(w0 - c*s2 + c*t0, w1)``.
+Both functions compute :math:`h` s.t. :math:`\mathsf{UseHint}_q(h, \mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0}) = \mathsf{HighBits}_q(\mathbf{w}) = \mathbf{w_1}` (note that :math:`\mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0} = A z - c \mathbf{t_1} 2^d`).
+The general idea of the hint computation in Botan is as follows:
+Given ``w0 - c*s2 + c*t0`` and ``w1``, one tries to see if a decomposition ``(v1,v0)`` of ``w - c*s2 + c*t0`` can be found.
+If ``v1 = w1``, then the hint is ``0``.
+Otherwise, the hint needs to indicate a carry.
+
+Thus, if ``-gamma2 < w0 - c*s2 + c*t0 <= gamma2``, then ``v = w1 * 2gamma2 + w0 - c*s2 + c*t0`` is a valid decomposition of ``w - c*s2 + c*t0`` with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0`` according to the :math:`\mathsf{Decompose}_q` algorithm.
+As ``v1=w1``, the hint is 0.
+
+The Decompose algorithm also allows for a valid decomposition with lower bits ``v0=-gamma2`` but only if ``v1=0``.
+Then we have a valid decomposition with ``v1 = w1 = 0`` and ``v0 = w0 - c*s2 + c*t0``, again leading to a hint with value ``0``.
+
+Otherwise, by construction of :math:`\mathsf{Decompose}_q`, there is no valid decomposition with ``v0 = w0 - c*s2 + c*t0`` and, thus, a carry is needed (i.e., ``h`` is not ``0``).
+
+Using the above inequalities, Botan computes the hint values accordingly using the value of ``w0 - c*s2 + c*t0`` and as a result the hint computation is equivalent to [Dilithium-R3]_.
 
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
@@ -747,7 +811,11 @@ We denote the signature as ``sig = (z, h, c)``.
    2. Check that the signature has the appropriate length and extract its parameters. Return ``false`` if
       the length is invalid or if ``z`` is no valid signature vector, i.e., ``||z|| >= gamma1 - beta``
    3. ``cp = Polynomial::poly_challenge(c)`` (L. 29, Fig. 4, [Dilithium-R3]_)
-   4. Compute ``t*c*2^d`` and ``A*z`` in NTT domain using ``polyvec_shiftl``, ``PolynomialVector::polyvec_pointwise_poly_montgomery`` and ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery``
-   5. Compute ``w1`` via ``PolynomialVector::polyvec_use_hint`` using ``h``, ``A*z - t*c*2^d``, and ``2*gamma2`` (L. 30, Fig. 4, [Dilithium-R3]_)
+   4. ``w1 = A*z - c*t*2^d`` (Second input of L. 30, Fig. 4, [Dilithium-R3]_)
+   5. ``w1 = PolynomialVector::polyvec_use_hint(h, w1, mode)`` (L. 30, Fig. 4, [Dilithium-R3]_)
    6. Signature is valid if ``c == H(mu || w1)`` (L. 31, Fig. 4, [Dilithium-R3]_)
 
+   **Notes:**
+   - ``w1 = A*z - c*t*2^d``
+   - In step 4: The multiplication with ``2^d``, the multiplication with ``c``, and the computation of ``A*z`` is performed using the methods ``PolynomialVector::polyvec_shiftl``, ``PolynomialVector::polyvec_pointwise_poly_montgomery``, and ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery``, respectively.
+   - ``PolynomialVector::polyvec_use_hint`` implements
