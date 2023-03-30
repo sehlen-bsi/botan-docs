@@ -667,39 +667,71 @@ Hints for MakeHint (temporary title)
 
 To see that Botan's computation on inputs ``(w0 - c*s2 + c*t0, w1)`` is equivalent to the specification of [Dilithium-R3]_, note that in L. 23 of [Dilithium-R3]_, a hint bit is evaluated to :math:`0` if and only if:
 
-:math:`\mathsf{HighBits}_q(w - c s_2 + ct_0, 2\gamma_2) = \mathsf{HighBits}_q(w - c s_2, 2\gamma_2)`
+
+.. math:: \mathsf{HighBits}_q(w - c s_2 + ct_0, 2\gamma_2) = \mathsf{HighBits}_q(w - c s_2, 2\gamma_2)
 
 According to Section 3.3, Equation (3) of [Dilithium-R3]_ the right half of the equation is equal to :math:`w_1`. Also, we can
 write :math:`w = w_1 2\gamma_2 + w_0`. We get:
 
-:math:`\mathsf{HighBits}_q(w_1 2\gamma_2 + w_0 - c s_2 + ct_0, 2\gamma_2) = w_1`
+.. math:: \mathsf{HighBits}_q(w_1 2\gamma_2 + w_0 - c s_2 + ct_0, 2\gamma_2) = w_1
 
-Since :math:`-(\gamma_2 - \beta) < w_0 - c s_2 < \gamma_2 - \beta` (second check of L. 21, Fig. 4, [Dilithium-R3]_) and :math:`ct_0 \leq \gamma_2` (first check of L. 24, Fig. 4, [Dilithium-R3]_), we know that  :math:`-(2 \gamma_2 - \beta) < w_0 - c*s_2 + ct_0 < 2 \gamma_2 - \beta`.
+Since :math:`-(\gamma_2 - \beta) < w_0 - c s_2 < \gamma_2 - \beta` (second check of L. 21, Fig. 4, [Dilithium-R3]_) and :math:`\|ct_0\|_{\infty} \leq \gamma_2` (first check of L. 24, Fig. 4, [Dilithium-R3]_), we know that:
+
+.. math:: -(2 \gamma_2 - \beta) < w_0 - c s_2 + ct_0 < 2 \gamma_2 - \beta
+
 We need to distinguish two cases.
 
-**Case 1** :math:`w_1 \neq 0`, i.e., :math:`w_1 2 \gamma_2 \in [2 \gamma_2, 4 \gamma_2, ..., (q-1) - 2 \gamma_2]` and therefore:
-:math:`\beta < w_1 2 \gamma_2 + w_0 - c s_2 + ct_0 < (q-1) - \beta`.
+**Case 1.** :math:`w_1 \neq 0`:
+
+:math:`w_1 2 \gamma_2 \in [2 \gamma_2, 4 \gamma_2, ..., (q-1) - 2 \gamma_2]` and therefore:
+
+.. math:: \beta < w_1 2 \gamma_2 + w_0 - c s_2 + ct_0 < (q-1) - \beta
 
 According to the construction of Decompose (L.23, Figure 3 of [Dilithium-R3]_), we get:
 
-:math:`\mathsf{HighBits}_q(w_1 2 \gamma_2 + w0 - c s_2 + ct_0)`
+.. math::
+    & \mathsf{HighBits}_q(w_1 2 \gamma_2 + w_0 - c s_2 + ct_0, 2 \gamma_2)
 
-:math:`=((w_1 2 \gamma_2 + w_0 - c s_2 + ct_0) - (w_1 2 \gamma_2 + w_0 - c s_2 + ct_0\ mod^{+-}\ 2 \gamma_2))/2 \gamma_2`
+   =& \frac{(w_1 2 \gamma_2 + w_0 - c s_2 + ct_0) - (w_1 2 \gamma_2 + w_0 - c s_2 + ct_0\ \textrm{mod}^{\pm}\ 2 \gamma_2)}{2 \gamma_2}
 
-:math:`= (w_1 2 \gamma_2 + (w_0 - c s2 + ct_0) - (w0 - c s_2 + ct_0\ mod^{+-}\ 2 \gamma_2))/2 \gamma_2`, which equals to :math:`w_1` if and only if
+   =& \frac{w_1 2 \gamma_2 + (w_0 - c s2 + ct_0) - (w_0 - c s_2 + ct_0\ \textrm{mod}^{\pm}\ 2 \gamma_2)}{2 \gamma_2}`
 
-:math:`(w_0 - cs_2 + ct_0 mod+- 2 \gamma_2) = (w_0 - c s_2 + ct_0)`.
+which equals to :math:`w_1` if and only if
+
+.. math:: (w_0 - cs_2 + ct_0\ \textrm{mod}^{\pm}\ 2 \gamma_2) = (w_0 - c s_2 + ct_0)
 
 Therefore, :math:`\mathsf{HighBits}_q(w_1 2 \gamma_2 + w_0 - c s_2 + ct_0, 2\gamma_2) = w_1` if and only if:
 
-:math:`-\gamma_2 < w_0 - c s_2 + ct_0 \leq \gamma_2`
+.. math:: -\gamma_2 < w_0 - c s_2 + ct_0 \leq \gamma_2
 
 
-**Case 2** :math:`w1 = 0`, so the equation gets:
-:math:`\mathsf{HighBits}_q(w_0 - c s_2 + ct_0, 2 \gamma_2) = 0`. It is true for all values of:
-:math:`-\gamma_2 \leq w_0 - c s_2 + ct_0 \leq \gamma_2` (The lower boundary is inclusive due to the special behavior of Decompose close below :math:`0`, i.e.,
-:math:`\mathsf{HighBits}_q(-\gamma_2) = 0`).
+**Case 2.** :math:`w_1 = 0`:
 
+The equation gets:
+
+.. math:: \mathsf{HighBits}_q(w_0 - c s_2 + ct_0, 2 \gamma_2) = 0.
+
+according to the construction this equation is true for all values of:
+
+.. math:: -\gamma_2 < w_0 - c s_2 + ct_0 \leq \gamma_2
+
+but also for :math:`w_0 - c s_2 + ct_0 = -\gamma_2`. Then, the hint becomes :math:`0` if and only if
+
+.. math:: -\gamma_2 \leq w_0 - c s_2 + ct_0 \leq \gamma_2
+
+To proof this, we need to show that
+:math:`\mathsf{HighBits}_q(-\gamma_2, 2 \gamma_2) = 0`. In particular, we show that :math:`\mathsf{Decompose}_q(-\gamma_2, 2 \gamma_2)` returns :math:`(0, -\gamma_2)`:
+
+:math:`\mathsf{Decompose}_q(-\gamma_2, 2 \gamma_2)` computes the values:
+
+.. math::
+   r =& - \gamma_2\ \textrm{mod}^{+}\ 2 \gamma_2 = q - \gamma_2
+
+   r_0 =& q - \gamma_2\ \textrm{mod}^{\pm}\ 2 \gamma_2 = (q-1)+1 - \gamma_2\ \textrm{mod}^{\pm}\ 2 \gamma_2 = -\gamma_2 + 1
+
+   r - r_0 =& (q - \gamma_2) - (-\gamma_2 + 1) = q - 1
+
+Hence, the special case occurs (L.21-22, Figure 3 of [Dilithium-R3]_) and we get :math:`r_1 = 0` and :math:`r_0 = -\gamma_2` .
 
 Therefore, to check if the hint must be set, Botan only checks the :math:`\gamma_2` bounds of :math:`w_0 - c s_2 + ct_0`. However, to distinguish both
 cases with slightly different boundaries, :math:`w_1` must be passed as well.
