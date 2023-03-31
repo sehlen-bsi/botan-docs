@@ -498,9 +498,8 @@ A Dilithium mode using the AES variant is identified via the ``_aes`` suffix.
 **Polynomial Operations**
 
 Operations between polynomials, polynomial vectors, and polynomial matrices are provided in ``src/lib/pubkey/dilithium_common/dilithium_polynomials.h``, including NTT, multiplication, and Montgomery reduction.
-``A*b`` of a polynomial matrix ``A`` and a polynomial vector ``b`` in NTT domain is given via ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery`` and ``a*b`` two polynomial vectors ``a`` and ``b`` is given via ``PolynomialVector::polyvec_pointwise_poly_montgomery``.
-Matrices and vectors are transformed prior to the operation.
-
+``A*b`` of a polynomial matrix ``A`` and a polynomial vector ``b`` in NTT domain is given via ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery`` and ``a*b`` two polynomial vectors ``a`` and ``b`` is given via ``PolynomialVector::polyvec_pointwise_poly_montgomery``. Matrices and vectors are transformed prior to the operation.
+To perform the multiplication ``2^d*a`` with the scalar ``2^d`` and the vector ``a``, the method ``PolynomialVector::polyvec_shiftl`` is used.
 
 **Supporting Algorithms**
 
@@ -524,6 +523,12 @@ The implementation supplies the Boolean function ``PolynomialVector::polyvec_chk
 In ``src/lib/pubkey/dilithium_common/dilithium.cpp``, the function ``calculate_t0_and_t1`` is supplied to compute :math:`(\mathbf{t_1},\mathbf{t_0})` based on the public key seed ``rho`` and private vectors ``s1, s2``, i.e., realizing L. 3, L.5, and L. 6, Fig. 4, [Dilithium-R3]_.
 Furthermore, encoding and decoding of keys and signatures is implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp``.
 
+**Keys**
+
+In Botan, Dilithium's keys are represented as ``Dilithium_PublicKey`` for public keys ``pk`` and as ``Dilithium_PrivateKey`` for secret keys ``sk``. Public keys contain the matrix seed ``rho`` and the public value ``t1``. Also, when creating a ``pk`` object the value  ``tr = CRH(rho || t1)`` is precomputed, which is used by the verification algorithm. We write ``pk = (rho, t_1, tr)`` (*TODO: with or without tr?*).
+Since the ``sk`` object contains the ``pk``, it inherits the values ``rho`` and ``tr``. It also contains the seed ``key``, the
+secret and error vectors ``s1`` and ``s2``, and the value ``t0``. We write ``sk = (rho, tr, key, s1, s2, t0)``.
+
 The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of [Dilithium-R3]_ and works as follows:
 
 .. admonition:: Dilithium_PrivateKey::Dilithium_PrivateKey()
@@ -535,8 +540,8 @@ The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of
 
    **Output:**
 
-   -  ``sk``: ``Dilithium_PrivateKeyInternal``
-   -  ``pk``: ``Dilithium_PublicKeyInternal``
+   -  ``sk``: secret key
+   -  ``pk``: public key
 
    **Steps:**
 
