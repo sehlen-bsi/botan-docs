@@ -666,22 +666,24 @@ Hints for MakeHint (temporary title)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To see that Botan's computation on inputs ``(w0 - c*s2 + c*t0, w1)`` is equivalent to the specification of [Dilithium-R3]_, we look at the hint creation in Figure 3, L. 23 of [Dilithium-R3]_.
+The goal is that using this hint and :math:`\mathbf{A}\mathbf{z} - c\mathbf{t_1}\cdot 2^d = \mathbf{w}-c\mathbf{s_2}+c\mathbf{t_0}`, one can recover :math:`\mathbf{w_1}`.
 
 To show the equivalence, we expand the definition of the :math:`[[\ ]]`-operator to vectors, i.e., :math:`[[ \mathbf{u} = \mathbf{v} ]]` returns a vector :math:`\mathbf{b} \in \mathbb{F}_2^{n \cdot k}` comparing all polynomial coefficients of both vectors element-wise. Then, [Dilithium-R3]_ computes the hint vector as follows:
 
 
-.. math:: \mathbf{h} = [[ \mathsf{HighBits}_q(\mathbf{w} - c \mathbf{s_2} + c\mathbf{t_0}, 2\gamma_2) = \mathsf{HighBits}_q(\mathbf{w} - c \mathbf{s_2}, 2\gamma_2)  ]]
+.. math:: \mathbf{h} = \mathbf{1} - [[ \mathsf{HighBits}_q(\mathbf{w} - c \mathbf{s_2} + c\mathbf{t_0}, 2\gamma_2) = \mathsf{HighBits}_q(\mathbf{w} - c \mathbf{s_2}, 2\gamma_2)  ]]
 
-According to Section 3.3, Equation (3) of [Dilithium-R3]_ the right half of the equation is equal to :math:`\mathbf{w_1}`. Also, we can
+According to Section 3.3, Equation (3) of [Dilithium-R3]_, :math:`\mathsf{HighBits}_q(\mathbf{w} - c \mathbf{s_2}, 2\gamma_2)=\mathbf{w_1}`. Also, we can
 write :math:`\mathbf{w} = \mathbf{w_1} 2\gamma_2 + \mathbf{w_0}`. We get:
 
-.. math:: \mathbf{h} = [[ \mathsf{HighBits}_q(\mathbf{w_1} 2\gamma_2 + \mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0}, 2\gamma_2) = \mathbf{w_1} ]]
+.. math:: \mathbf{h} = \mathbf{1} - [[ \mathsf{HighBits}_q(\mathbf{w_1} 2\gamma_2 + \mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0}, 2\gamma_2) = \mathbf{w_1} ]]
 
 Since :math:`\|\mathbf{w_0} - c \mathbf{s_2}\|_{\infty} < \gamma_2 - \beta` (second check of L. 21, Fig. 4, [Dilithium-R3]_) and :math:`\|c\mathbf{t_0}\|_{\infty} \leq \gamma_2` (first check of L. 24, Fig. 4, [Dilithium-R3]_), we know that:
 
 .. math:: \|\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0}\|_{\infty} < 2 \gamma_2 - \beta
 
-In the following, we will look at the 1-bit hint creation of single polynomial coefficients :math:`x \in \mathbb{Z}_q` of vector elements of :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})` and coefficients :math:`w_1 \in \mathbb{Z}_q` of vector elements of :math:`\mathbf{w_1}`. Two cases are distinguished.
+In the following, we will look at the 1-bit hint :math:`h` creation of single polynomial coefficients :math:`x \in \mathbb{Z}_q` of vector elements of :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})` and coefficients :math:`w_1 \in \mathbb{Z}_q` of vector elements of :math:`\mathbf{w_1}`.
+Two cases are distinguished.
 
 **Case 1.** :math:`w_1 \neq 0`:
 
@@ -689,7 +691,7 @@ In the following, we will look at the 1-bit hint creation of single polynomial c
 
 .. math:: \beta < w_1 2 \gamma_2 + x < (q-1) - \beta
 
-According to the construction of Decompose (L.23, Figure 3 of [Dilithium-R3]_), we get:
+According to the constructions of :math:`\mathsf{HighBits}_q` and :math:`\mathsf{Decompose}_q`, we get via L. 23, Figure 3 of [Dilithium-R3]_:
 
 .. math::
     & \mathsf{HighBits}_q(w_1 2 \gamma_2 + x, 2 \gamma_2)
@@ -702,7 +704,7 @@ which equals to :math:`w_1` if and only if
 
 .. math:: (x\ \textrm{mod}^{\pm}\ 2 \gamma_2) = x
 
-Therefore, :math:`\mathsf{HighBits}_q(w_1 2 \gamma_2 + x, 2\gamma_2) = w_1` if and only if:
+Therefore, :math:`\mathsf{HighBits}_q(w_1 2 \gamma_2 + x, 2\gamma_2) = w_1` (and equivalently :math:`h=0`) if and only if:
 
 .. math:: -\gamma_2 < x \leq \gamma_2
 
@@ -711,20 +713,21 @@ Therefore, :math:`\mathsf{HighBits}_q(w_1 2 \gamma_2 + x, 2\gamma_2) = w_1` if a
 
 The equation gets:
 
-.. math:: \mathsf{HighBits}_q(x, 2 \gamma_2) = 0.
+.. math:: \mathsf{HighBits}_q(x, 2 \gamma_2) = 0
 
-according to the construction, this equation is true for all values of:
+According to the construction, this equation is true for all values of:
 
 .. math:: -\gamma_2 < x \leq \gamma_2
+
+..
+   Comment AT: Not clear exactly why also for x = -gamma2
 
 but also for :math:`x = -\gamma_2`. Hence, the hint becomes :math:`0` if and only if
 
 .. math:: -\gamma_2 \leq x \leq \gamma_2
 
 To demonstrate this, we need to show that
-:math:`\mathsf{HighBits}_q(-\gamma_2, 2 \gamma_2) = 0`. In particular, we show that :math:`\mathsf{Decompose}_q(-\gamma_2, 2 \gamma_2)` returns :math:`(0, -\gamma_2)`:
-
-:math:`\mathsf{Decompose}_q(-\gamma_2, 2 \gamma_2)` computes the values:
+:math:`\mathsf{HighBits}_q(-\gamma_2, 2 \gamma_2) = 0`. In particular, we show that :math:`\mathsf{Decompose}_q(-\gamma_2, 2 \gamma_2)` returns :math:`(0, -\gamma_2)`, as it computes:
 
 .. math::
    r =& - \gamma_2\ \textrm{mod}^{+}\ 2 \gamma_2 = q - \gamma_2
@@ -735,7 +738,7 @@ To demonstrate this, we need to show that
 
 Hence, the special case occurs (L.21-22, Figure 3 of [Dilithium-R3]_) and we get :math:`r_1 = 0` and :math:`r_0 = -\gamma_2` .
 
-Therefore, to check if the hint must be set, Botan only checks the :math:`\gamma_2` bounds of coefficients :math:`x` of the input vector :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})`. To distinguish both
+Taking into account these cases where the hint becomes 0, Botan only checks the :math:`\gamma_2` bounds of coefficients :math:`x` of the input vector :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})`. To distinguish both
 cases with slightly different boundaries, :math:`\mathbf{w_1}` must be given as well.
 
 
