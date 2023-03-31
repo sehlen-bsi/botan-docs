@@ -738,8 +738,8 @@ Hence, the special case occurs (L.21-22, Figure 3 of [Dilithium-R3]_) and we get
 Therefore, to check if the hint must be set, Botan only checks the :math:`\gamma_2` bounds of coefficients :math:`x` of the input vector :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})`. To distinguish both
 cases with slightly different boundaries, :math:`\mathbf{w_1}` must be given as well.
 
-
----
+Short
+^^^^^
 Botan implements its core :math:`\mathsf{MakeHint}_q` algorithm, i.e., the logic for single polynomial coefficients, in ``Polynomial::make_hint``.
 It is the same optimization as Dilithium's reference implementation, however, its interface differs from the algorithm described in [Dilithium-R3]_.
 In particular, :math:`\mathsf{MakeHint}_q` in [Dilithium-R3]_ computes :math:`h=\mathsf{MakeHint}_q(-c\mathbf{t_0}, \mathbf{w} - c\mathbf{s_2} + c\mathbf{t_0})`, whereas Botan calls ``PolynomialVector::generate_hint_polyvec(w0 - c*s2 + c*t0, w1)``.
@@ -818,20 +818,14 @@ Signature Validation
 ^^^^^^^^^^^^^^^^^^^^
 
 The signature validation follows the Verify algorithm of Figure 4 of [Dilithium-R3]_. It is
-implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp`` in the ``Dilithium_Verification_Operation`` class.
-The constructor of ``Dilithium_Verification_Operation`` takes the public key containing the matrix seed ``rho`` and the
-public value ``t1``; we write ``pk = (rho, t1)``. When calling the constructor, the value ``CRH(rho || t1)``, which is
-already precomputed within the public key object, is stored as well. Message bytes are given to the ``Dilithium_Verification_Operation``
-object via consecutive calls of ``Dilithium_Verification_Operation::update``.
-
-**(move to sign function)** The signature to verify consists of the signature vector ``z``, the hint ``h``, and the seed ``c``.
-We denote the signature as ``sig = (z, h, c)``.
+implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp`` in the ``Dilithium_Verification_Operation`` class, which receives the public key via constructor.
+Message bytes are given to the object via consecutive calls of ``Dilithium_Verification_Operation::update``.
 
 .. admonition:: Dilithium_Verification_Operation::is_valid_signature()
 
    **Input:**
 
-   -  ``pk = (rho, t_1)``: the public key (passed via constructor)
+   -  ``pk = (rho, t_1, tr)``: the public key (passed via constructor)
    -  ``M``: the message bytes (passed via ``Dilithium_Verification_Operation::update``)
    -  ``sig = (z, h, c)``: the signature
 
@@ -841,15 +835,11 @@ We denote the signature as ``sig = (z, h, c)``.
 
    **Steps:**
 
-   1. ``mu = CRH(CRH(rho || t1) || M)`` using the precomputed value (L. 28, Fig. 4, [Dilithium-R3]_)
+   1. ``mu = H(tr || M)`` (L. 28, Fig. 4, [Dilithium-R3]_)
    2. Check that the signature has the appropriate length and extract its parameters. Return ``false`` if
-      the length is invalid or if ``z`` is no valid signature vector, i.e., ``||z|| >= gamma1 - beta``
+      the signature length is invalid, ``z`` is no valid signature vector (i.e., ``||z|| >= gamma1 - beta``), or
+      ``h`` is no valid hint vector (i.e., ``# of 1's in h > omega``) (first and third ckeck of L. 31, Fig. 4, [Dilithium-R3]_)
    3. ``cp = Polynomial::poly_challenge(c)`` (L. 29, Fig. 4, [Dilithium-R3]_)
    4. ``w1 = A*z - c*t*2^d`` (Second input of L. 30, Fig. 4, [Dilithium-R3]_)
    5. ``w1 = PolynomialVector::polyvec_use_hint(h, w1, mode)`` (L. 30, Fig. 4, [Dilithium-R3]_)
    6. Signature is valid if ``c == H(mu || w1)`` (L. 31, Fig. 4, [Dilithium-R3]_)
-
-   **Notes:**
-   - ``w1 = A*z - c*t*2^d``
-   - In step 4: The multiplication with ``2^d``, the multiplication with ``c``, and the computation of ``A*z`` is performed using the methods ``PolynomialVector::polyvec_shiftl``, ``PolynomialVector::polyvec_pointwise_poly_montgomery``, and ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery``, respectively.
-   - ``PolynomialVector::polyvec_use_hint`` implements
