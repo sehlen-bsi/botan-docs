@@ -1,3 +1,3 @@
 {
-    "esbonio.sphinx.confDir": "${workspaceFolder}/src"
+    "esbonio.sphinx.confDir": "${workspaceFolder}/cryptodoc/src"
 }
