@@ -25,5 +25,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: botan_cryptodoc-${{ github.ref_name }}.${{ github.sha }}
+          name: botan_cryptodoc-${{ github.sha }}
           path: cryptodoc/_build/latex/crypto.pdf
