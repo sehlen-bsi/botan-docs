@@ -743,24 +743,24 @@ cases with slightly different boundaries, :math:`\mathbf{w_1}` must be given as 
 
 Short
 ^^^^^
-Botan implements its core :math:`\mathsf{MakeHint}_q` algorithm, i.e., the logic for single polynomial coefficients, in ``Polynomial::make_hint``.
-It is the same optimization as Dilithium's reference implementation, however, its interface differs from the algorithm described in [Dilithium-R3]_.
-In particular, :math:`\mathsf{MakeHint}_q` in [Dilithium-R3]_ computes :math:`h=\mathsf{MakeHint}_q(-c\mathbf{t_0}, \mathbf{w} - c\mathbf{s_2} + c\mathbf{t_0})`, whereas Botan calls ``PolynomialVector::generate_hint_polyvec(w0 - c*s2 + c*t0, w1)``.
-Both functions compute :math:`h` s.t. :math:`\mathsf{UseHint}_q(h, \mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0}) = \mathsf{HighBits}_q(\mathbf{w}) = \mathbf{w_1}` (note that :math:`\mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0} = A z - c \mathbf{t_1} 2^d`).
+Botan implements the core :math:`\mathsf{MakeHint}_q` algorithm, i.e., the logic for single polynomial coefficients, in ``Polynomial::make_hint``.
+It is the same optimization as Dilithium's reference implementation and its interface differs from the algorithm described in [Dilithium-R3]_.
+In particular, :math:`\mathsf{MakeHint}_q` in [Dilithium-R3]_ for polynomial vectors computes :math:`\mathbf{h}=\mathsf{MakeHint}_q(-c\mathbf{t_0}, \mathbf{w} - c\mathbf{s_2} + c\mathbf{t_0})`, whereas Botan calls ``PolynomialVector::generate_hint_polyvec(w0 - c*s2 + c*t0, w1)``.
+Both functions compute :math:`\mathbf{h}` s.t. :math:`\mathsf{UseHint}_q(\mathbf{h}, \mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0}) = \mathsf{HighBits}_q(\mathbf{w}) = \mathbf{w_1}` (note that :math:`\mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0} = \mathbf{A} \mathbf{z} - \mathbf{c} \mathbf{t_1}\cdot 2^d`).
 The general idea of the hint computation in Botan is as follows:
-Given ``w0 - c*s2 + c*t0`` and ``w1``, one tries to see if a decomposition ``(v1,v0)`` of ``w - c*s2 + c*t0`` can be found.
-If ``v1 = w1``, then the hint is ``0``.
+Given ``w0 - c*s2 + c*t0`` and ``w1``, one tries to see if a decomposition ``(v1, v0)`` of ``w - c*s2 + c*t0`` can be found.
+If ``v1 = w1``, then the hint is ``0``, as the high bits of :math:`\mathbf{A} \mathbf{z} - \mathbf{c} \mathbf{t_1}\cdot 2^d` will be equal to :math:`\mathbf{w_1}`.
 Otherwise, the hint needs to indicate a carry.
 
-Thus, if ``-gamma2 < w0 - c*s2 + c*t0 <= gamma2``, then ``v = w1 * 2gamma2 + w0 - c*s2 + c*t0`` is a valid decomposition of ``w - c*s2 + c*t0`` with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0`` according to the :math:`\mathsf{Decompose}_q` algorithm.
-As ``v1=w1``, the hint is 0.
+Thus, if ``-gamma2 < w0 - c*s2 + c*t0 <= gamma2``, then ``v = w1 * 2gamma2 + w0 - c*s2 + c*t0`` is a valid decomposition of ``w - c*s2 + c*t0`` with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0`` according to the :math:`\mathsf{Decompose}_q` algorithm of Figure 3 of [Dilithium-R3]_.
+As ``v1 = w1``, the hint is ``0``.
 
-The Decompose algorithm also allows for a valid decomposition with lower bits ``v0=-gamma2`` but only if ``v1=0``.
+The :math:`\mathsf{Decompose}_q` algorithm also allows for a valid decomposition with lower bits ``v0 = -gamma2`` but only if ``v1 = 0``.
 Then we have a valid decomposition with ``v1 = w1 = 0`` and ``v0 = w0 - c*s2 + c*t0``, again leading to a hint with value ``0``.
 
-Otherwise, by construction of :math:`\mathsf{Decompose}_q`, there is no valid decomposition with ``v0 = w0 - c*s2 + c*t0`` and, thus, a carry is needed (i.e., ``h`` is not ``0``).
+Otherwise, by construction of :math:`\mathsf{Decompose}_q`, there is no valid decomposition with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0`` and, thus, a carry is needed to obtain ``w1`` (i.e., ``h`` is not ``0``).
 
-Using the above inequalities, Botan computes the hint values accordingly using the value of ``w0 - c*s2 + c*t0`` and as a result the hint computation is equivalent to [Dilithium-R3]_.
+Using the above inequalities, Botan computes the hint values accordingly using the value of ``w0 - c*s2 + c*t0`` and, as a result, the hint computation is equivalent to [Dilithium-R3]_.
 
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
