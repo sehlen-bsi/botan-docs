@@ -658,14 +658,132 @@ operations.
 Note that validating XMSS signatures does not depend on this state management
 and its usability is therefore *not affected* by this disclaimer.
 
-Fun with Dilithium (temporary title)
-------------------------------------
+Dilithium
+---------
+
+Before showing Botan's Dilithium signing and verification procedures, we first need to document Botan's hint creation procedure, as this differs from [Dilithium-R3]_ in interface (but, as will be shown, not in function).
+The general idea is documented in `Hint Generation`_ and an elaborated documentation can be found at the end of the Dilithium documentation in `Elaborated Hint Generation`_.
+
+Hint Generation
+^^^^^^^^^^^^^^^
+Botan implements the core :math:`\mathsf{MakeHint}_q` algorithm, i.e., the logic for single polynomial coefficients, in ``Polynomial::make_hint``.
+It is the same optimization as Dilithium's reference implementation and its interface differs from the algorithm described in [Dilithium-R3]_.
+In particular, :math:`\mathsf{MakeHint}_q` in [Dilithium-R3]_ for polynomial vectors computes :math:`\mathbf{h}=\mathsf{MakeHint}_q(-c\mathbf{t_0}, \mathbf{w} - c\mathbf{s_2} + c\mathbf{t_0})`, whereas Botan calls ``PolynomialVector::generate_hint_polyvec(w0 - c*s2 + c*t0, w1)``.
+Both functions compute :math:`\mathbf{h}` s.t. :math:`\mathsf{UseHint}_q(\mathbf{h}, \mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0}) = \mathsf{HighBits}_q(\mathbf{w}) = \mathbf{w_1}` (note that :math:`\mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0} = \mathbf{A} \mathbf{z} - \mathbf{c} \mathbf{t_1}\cdot 2^d`).
+The general idea of the hint computation in Botan is as follows:
+Given ``w0 - c*s2 + c*t0`` and ``w1``, one tries to see if a decomposition ``(v1, v0)`` of ``w - c*s2 + c*t0`` can be found.
+If ``v1 = w1``, then the hint is ``0``, as the high bits of :math:`\mathbf{A} \mathbf{z} - \mathbf{c} \mathbf{t_1}\cdot 2^d` will be equal to :math:`\mathbf{w_1}`.
+Otherwise, the hint needs to indicate a carry.
+
+Thus, if ``-gamma2 < w0 - c*s2 + c*t0 <= gamma2``, then ``v = w1 * 2gamma2 + w0 - c*s2 + c*t0`` is a valid decomposition of ``w - c*s2 + c*t0`` with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0`` according to the :math:`\mathsf{Decompose}_q` algorithm of Figure 3 of [Dilithium-R3]_.
+As ``v1 = w1``, the hint is ``0``.
+
+The :math:`\mathsf{Decompose}_q` algorithm also allows for a valid decomposition with lower bits ``v0 = -gamma2`` but only if ``v1 = 0``.
+Then we have a valid decomposition with ``v1 = w1 = 0`` and ``v0 = w0 - c*s2 + c*t0``, again leading to a hint with value ``0``.
+
+Otherwise, by construction of :math:`\mathsf{Decompose}_q`, there is no valid decomposition with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0`` and, thus, a carry is needed to obtain ``w1`` (i.e., ``h`` is not ``0``).
+
+Using the above inequalities, Botan computes the hint values accordingly using the value of ``w0 - c*s2 + c*t0`` and, as a result, the hint computation is equivalent to [Dilithium-R3]_.
+More details are shown in `Elaborated Hint Generation`_.
+
+Signature Creation
+^^^^^^^^^^^^^^^^^^
+
+CRYSTALS-Dilithium signing follows the :math:`Sign` algorithm of Figure 4 of [Dilithium-R3]_. It is implemented in
+``src/lib/pubkey/dilithium_common/dilithium.cpp`` and uses some functions already documented in :ref:`Dilithium Key Generation <pubkey_key_generation/dilithium>`.
+It receives the secret key via constructor.
+Message bytes are given to the object via consecutive calls of ``Dilithium_Signature_Operation::update``.
+
+The signature generation process works as follows:
+
+.. admonition:: ``Dilithium_Signature_Operation::sign()``
+
+   **Input:**
+
+   -  ``sk = (rho, tr, key, s1, s2, t0)``: secret key
+   -  ``matrix``: public key matrix :math:`\mathbf{A}` (corresponds to L. 9, Fig. 4, [Dilithium-R3]_)
+   -  ``mu``: hash of ``tr`` and the message ``msg`` (corresponds to L. 10, Fig. 4, [Dilithium-R3]_)
+   -  ``rng``: random number generator
+   -  ``m``: Dilithium mode providing parameters (``gamma1``, ``gamma2``, ``beta``, ``omega``) and symmetric functions
+   -  ``randomized``: whether randomized signing should be used
+
+   **Output:**
+
+   -  ``sig``: signature
+
+   **Steps:**
+
+   1. If ``randomized``, generate ``rhoprime`` using ``rng``, otherwise set ``rhoprime = H(key || mu)`` (L. 12, Fig. 4, [Dilithium-R3]_)
+   2. For incremental ``nonce``: (L. 13, Fig. 4, [Dilithium-R3]_)
+
+      1. ``y = polyvecl_uniform_gamma1(rhoprime, nonce, m)`` (L. 14, Fig. 4, [Dilithium-R3]_)
+      2. ``w1 = A*y`` (L. 15, Fig. 4, [Dilithium-R3]_)
+      3. ``(w1, w0) = w1.polyvec_decompose()`` (L. 16, Fig. 4, [Dilithium-R3]_)
+      4. ``sm = H(mu || w1)`` (L. 17, Fig. 4, [Dilithium-R3]_)
+      5. ``cp = Polynomial::poly_challenge(sm, m)`` (L. 18, Fig. 4, [Dilithium-R3]_)
+      6. ``z = y + c*s1`` (L. 19, Fig. 4, [Dilithium-R3]_)
+      7. If ``z.polyvec_chknorm(gamma1 - beta)``, continue with next iteration (Check on :math:`\mathbf{z}`, L. 21, Fig. 4, [Dilithium-R3]_)
+      8. ``w0 = w0 - c*s2`` (L. 20, Fig. 4, [Dilithium-R3]_)
+      9. If ``w0.polyvec_chknorm(gamma2 - beta)``, continue with next iteration (Check on :math:`\mathbf{r_0}`, L. 21, Fig. 4, [Dilithium-R3]_)
+      10. ``h = c*t0``
+      11. If ``h.polyvec_chknorm(gamma2)``, continue with next iteration (First check on :math:`c\mathbf{t0}`, L. 24, Fig. 4, [Dilithium-R3]_)
+      12. ``w0 = w0 + h``
+      13. ``(h, n) = PolynomialVector::generate_hint_polyvec(w0, w1, m)`` (``h`` is the hint vector, ``n`` the amount of 1's in ``h``; L. 23 , Fig. 4, [Dilithium-R3]_, see `Hint Generation`_)
+      14. If ``n > omega``, continue with next iteration (Last check, L. 24, Fig. 4, [Dilithium-R3]_)
+      15. ``sig = (z, h, c)`` (L. 26, Fig. 4, [Dilithium-R3]_)
+      16. Break loop
 
 
-Hints for MakeHint (temporary title)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   **Notes:**
 
-To see that Botan's computation on inputs ``(w0 - c*s2 + c*t0, w1)`` is equivalent to the specification of [Dilithium-R3]_, we look at the hint creation in Figure 3, L. 23 of [Dilithium-R3]_.
+   - ``matrix`` is already generated in NTT representation in the constructor via ``matrix = PolynomialMatrix::generate_matrix(rho, m)``.
+   - ``mu = H(tr || msg)`` is already computed beforehand (in the constructor and using the ``update(msg)`` function).
+   - NTTs are performed as indicated by the comments in Fig. 4, [Dilithium-R3]_.
+   - ``nonce`` here is incremented by 1 but multiplied by ``l`` within the called function ``polyvecl_uniform_gamma1``.
+   - ``w0`` corresponds to :math:`\mathbf{r_0}` in Fig. 4, [Dilithium-R3]_ and is computed directly via the decomposition of ``A*y`` and subtraction with ``c*s2``.
+
+
+Signature Validation
+^^^^^^^^^^^^^^^^^^^^
+
+The signature validation follows the :math:`\mathsf{Verify}` algorithm of Figure 4 of [Dilithium-R3]_. It is
+implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp`` in the ``Dilithium_Verification_Operation`` class, which receives the public key via constructor.
+Message bytes are given to the object via consecutive calls of ``Dilithium_Verification_Operation::update``.
+
+.. admonition:: Dilithium_Verification_Operation::is_valid_signature()
+
+   **Input:**
+
+   -  ``pk = (rho, t_1, tr)``: public key
+   -  ``matrix``: public key matrix :math:`\mathbf{A}` (corresponds to L. 27, Fig. 4, [Dilithium-R3]_)
+   -  ``mu``:  hash of ``tr`` and the message ``msg`` (corresponds to L. 28, Fig. 4, [Dilithium-R3]_)
+   -  ``sig = (z, h, c)``: the signature
+   -  ``m``: Dilithium mode providing parameters (``gamma1``, ``gamma2``, ``beta``, ``omega``) and symmetric functions
+
+   **Output:**
+
+   -  ``true``, if the signature for message ``msg`` is valid. ``false`` otherwise
+
+   **Steps:**
+
+   1. Check that the signature has the appropriate length and extract its parameters. Return ``false`` if
+      the signature length is invalid, ``z`` is no valid signature vector (i.e., ``z.polyvec_chknorm(gamma1 - beta)``), or
+      ``h`` is no valid hint vector (i.e., ``amount of 1's in h > omega``) (first and third ckeck of L. 31, Fig. 4, [Dilithium-R3]_)
+   2. ``cp = Polynomial::poly_challenge(c)`` (L. 29, Fig. 4, [Dilithium-R3]_)
+   3. ``w1 = A*z - c*t*2^d`` (Second input of L. 30, Fig. 4, [Dilithium-R3]_)
+   4. ``w1 = PolynomialVector::polyvec_use_hint(h, w1, m)`` (L. 30, Fig. 4, [Dilithium-R3]_)
+   5. Signature is valid if ``c == H(mu || w1)`` (L. 31, Fig. 4, [Dilithium-R3]_)
+
+   **Notes:**
+
+   - ``matrix`` is already generated in NTT representation in the constructor via ``matrix = PolynomialMatrix::generate_matrix(rho, m)``.
+   - NTTs are performed as indicated by the comments in Fig. 4, [Dilithium-R3]_.
+   - mu = ``H(tr || msg)`` is already computed beforehand (in the constructor and using the ``update(msg)`` function).
+
+Elaborated Hint Generation
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To see that Botan's hint computation on inputs ``(w0 - c*s2 + c*t0, w1)`` is equivalent to the specification of [Dilithium-R3]_, we look at the hint creation in Figure 3, L. 23 of [Dilithium-R3]_.
 The goal is that using this hint and :math:`\mathbf{A}\mathbf{z} - c\mathbf{t_1}\cdot 2^d = \mathbf{w}-c\mathbf{s_2}+c\mathbf{t_0}`, one can recover :math:`\mathbf{w_1}`.
 
 To show the equivalence, we expand the definition of the :math:`[[\ ]]`-operator to vectors, i.e., :math:`[[ \mathbf{u} = \mathbf{v} ]]` returns a vector :math:`\mathbf{b} \in \mathbb{F}_2^{n \cdot k}` comparing all polynomial coefficients of both vectors element-wise. Then, [Dilithium-R3]_ computes the hint vector as follows:
@@ -727,10 +845,16 @@ but also for :math:`x = -\gamma_2`. Hence, the hint becomes :math:`0` if and onl
 .. math:: -\gamma_2 \leq x \leq \gamma_2
 
 To demonstrate this, we need to show that
-:math:`\mathsf{HighBits}_q(-\gamma_2, 2 \gamma_2) = 0`. In particular, we show that :math:`\mathsf{Decompose}_q(-\gamma_2, 2 \gamma_2)` returns :math:`(0, -\gamma_2)`, as it computes:
+:math:`\mathsf{HighBits}_q(-\gamma_2, 2 \gamma_2) = 0`. In particular, we show that :math:`\mathsf{Decompose}_q(-\gamma_2, 2 \gamma_2)` returns :math:`(0, -\gamma_2)`
+
+It first computes:
 
 .. math::
-   r =& - \gamma_2\ \textrm{mod}^{+}\ 2 \gamma_2 = q - \gamma_2
+   r = - \gamma_2\ \textrm{mod}^{+}\ q = q - \gamma_2
+
+Then, given that :math:`\gamma_2` divides :math:`q - 1`:
+
+.. math::
 
    r_0 =& q - \gamma_2\ \textrm{mod}^{\pm}\ 2 \gamma_2 = (q-1)+1 - \gamma_2\ \textrm{mod}^{\pm}\ 2 \gamma_2 = -\gamma_2 + 1
 
@@ -738,111 +862,5 @@ To demonstrate this, we need to show that
 
 Hence, the special case occurs (L.21-22, Figure 3 of [Dilithium-R3]_) and we get :math:`r_1 = 0` and :math:`r_0 = -\gamma_2` .
 
-Taking into account these cases where the hint becomes 0, Botan only checks the :math:`\gamma_2` bounds of coefficients :math:`x` of the input vector :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})`. To distinguish both
+Taking into account these cases where the hint becomes :math:`0`, Botan only checks the :math:`\gamma_2` bounds of coefficients :math:`x` of the input vector :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})`. To distinguish both
 cases with slightly different boundaries, :math:`\mathbf{w_1}` must be given as well.
-
-Short
-^^^^^
-Botan implements the core :math:`\mathsf{MakeHint}_q` algorithm, i.e., the logic for single polynomial coefficients, in ``Polynomial::make_hint``.
-It is the same optimization as Dilithium's reference implementation and its interface differs from the algorithm described in [Dilithium-R3]_.
-In particular, :math:`\mathsf{MakeHint}_q` in [Dilithium-R3]_ for polynomial vectors computes :math:`\mathbf{h}=\mathsf{MakeHint}_q(-c\mathbf{t_0}, \mathbf{w} - c\mathbf{s_2} + c\mathbf{t_0})`, whereas Botan calls ``PolynomialVector::generate_hint_polyvec(w0 - c*s2 + c*t0, w1)``.
-Both functions compute :math:`\mathbf{h}` s.t. :math:`\mathsf{UseHint}_q(\mathbf{h}, \mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0}) = \mathsf{HighBits}_q(\mathbf{w}) = \mathbf{w_1}` (note that :math:`\mathbf{w} - c \mathbf{s_2} + c \mathbf{t_0} = \mathbf{A} \mathbf{z} - \mathbf{c} \mathbf{t_1}\cdot 2^d`).
-The general idea of the hint computation in Botan is as follows:
-Given ``w0 - c*s2 + c*t0`` and ``w1``, one tries to see if a decomposition ``(v1, v0)`` of ``w - c*s2 + c*t0`` can be found.
-If ``v1 = w1``, then the hint is ``0``, as the high bits of :math:`\mathbf{A} \mathbf{z} - \mathbf{c} \mathbf{t_1}\cdot 2^d` will be equal to :math:`\mathbf{w_1}`.
-Otherwise, the hint needs to indicate a carry.
-
-Thus, if ``-gamma2 < w0 - c*s2 + c*t0 <= gamma2``, then ``v = w1 * 2gamma2 + w0 - c*s2 + c*t0`` is a valid decomposition of ``w - c*s2 + c*t0`` with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0`` according to the :math:`\mathsf{Decompose}_q` algorithm of Figure 3 of [Dilithium-R3]_.
-As ``v1 = w1``, the hint is ``0``.
-
-The :math:`\mathsf{Decompose}_q` algorithm also allows for a valid decomposition with lower bits ``v0 = -gamma2`` but only if ``v1 = 0``.
-Then we have a valid decomposition with ``v1 = w1 = 0`` and ``v0 = w0 - c*s2 + c*t0``, again leading to a hint with value ``0``.
-
-Otherwise, by construction of :math:`\mathsf{Decompose}_q`, there is no valid decomposition with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0`` and, thus, a carry is needed to obtain ``w1`` (i.e., ``h`` is not ``0``).
-
-Using the above inequalities, Botan computes the hint values accordingly using the value of ``w0 - c*s2 + c*t0`` and, as a result, the hint computation is equivalent to [Dilithium-R3]_.
-
-Signature Creation
-^^^^^^^^^^^^^^^^^^
-
-CRYSTALS-Dilithium signing follows the :math:`Sign` algorithm of Figure 4 of [Dilithium-R3]_. It is implemented in
-``src/lib/pubkey/dilithium_common/dilithium.cpp`` and uses some functions already documented in :ref:`Dilithium Key Generation <pubkey_key_generation/dilithium>`.
-
-The signature generation process works as follows:
-
-.. admonition:: ``Dilithium_Signature_Operation::sign()``
-
-   **Input:**
-
-   -  ``sk = (rho, tr, key, s1, s2, t0)``: secret key
-   -  ``matrix``: public key matrix :math:`\mathbf{A}` (corresponds to L. 9, Fig. 4, [Dilithium-R3]_)
-   -  ``mu``: hash of ``tr`` and the message ``msg`` (corresponds to L. 10, Fig. 4, [Dilithium-R3]_)
-   -  ``rng``: random number generator
-   -  ``m``: Dilithium mode providing parameters (``gamma1``, ``gamma2``, ``beta``) and symmetric functions
-   -  ``randomized``: whether randomized signing should be used
-
-   **Output:**
-
-   -  ``sig``: signature
-
-   **Steps:**
-
-   1. If ``randomized``, generate ``rhoprime`` using ``rng``, otherwise set ``rhoprime = H(key || mu)`` (L. 12, Fig. 4, [Dilithium-R3]_)
-   2. ``s1.ntt()``, ``s2.ntt()``, ``t0.ntt()`` (comment of L. 13, Fig. 4, [Dilithium-R3]_)
-   3. For incremental ``nonce``: (L. 13, Fig. 4, [Dilithium-R3]_)
-
-      1. ``y = polyvecl_uniform_gamma1(rhoprime, nonce, m)`` (L. 14, Fig. 4, [Dilithium-R3]_)
-      2. ``w1 = A*y`` (L. 15, Fig. 4, [Dilithium-R3]_)
-      3. ``(w1, w0) = w1.polyvec_decompose()`` (L. 16, Fig. 4, [Dilithium-R3]_)
-      4. ``sm = H(mu || w1)`` (L. 17, Fig. 4, [Dilithium-R3]_)
-      5. ``cp = Dilithium::Polynomial::poly_challenge(sm, mode)`` (L. 18, Fig. 4, [Dilithium-R3]_)
-      6. ``z = y + c*s1`` (L. 19, Fig. 4, [Dilithium-R3]_)
-      7. If ``z.polyvec_chknorm(gamma1 - beta)``, continue with next iteration (Check on :math:`\mathbf{z}`, L. 21, Fig. 4, [Dilithium-R3]_)
-      8. ``w0 = w0 - c*s2`` (L. 20, Fig. 4, [Dilithium-R3]_)
-      9. If ``w0.polyvec_chknorm(gamma2 - beta)``, continue with next iteration (Check on :math:`\mathbf{r_0}`, L. 21, Fig. 4, [Dilithium-R3]_)
-      10. ``h = c*t0``
-      11. If ``h.polyvec_chknorm(gamma2)``, continue with next iteration (First check on :math:`c\mathbf{t0}`, L. 24, Fig. 4, [Dilithium-R3]_)
-      12. ``w0 = w0 + h``
-      13. (TODO: Hint computation)
-      14. If ``#1 > omega``, continue with next iteration (Last check, L. 24, Fig. 4, [Dilithium-R3]_)
-      15. ``sig = (z, h, c)`` (L. 26, Fig. 4, [Dilithium-R3]_)
-      16. Break loop
-
-
-   **Notes:**
-
-   - ``matrix`` is already generated in NTT representation in the constructor via ``matrix = PolynomialMatrix::generate_matrix(rho, mode)``.
-   - ``mu = H(tr || msg)`` is already computed beforehand (in the constructor and using the ``update(msg)`` function).
-   - ``nonce`` here is incremented by 1 but multiplied by ``l`` when called.
-   - ``w0`` corresponds to :math:`\mathbf{r_0}` in Fig. 4, [Dilithium-R3]_ and is computed directly via the decomposition of ``A*y`` and subtraction with ``c*s2``.
-
-
-Signature Validation
-^^^^^^^^^^^^^^^^^^^^
-
-The signature validation follows the Verify algorithm of Figure 4 of [Dilithium-R3]_. It is
-implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp`` in the ``Dilithium_Verification_Operation`` class, which receives the public key via constructor.
-Message bytes are given to the object via consecutive calls of ``Dilithium_Verification_Operation::update``.
-
-.. admonition:: Dilithium_Verification_Operation::is_valid_signature()
-
-   **Input:**
-
-   -  ``pk = (rho, t_1, tr)``: the public key (passed via constructor)
-   -  ``M``: the message bytes (passed via ``Dilithium_Verification_Operation::update``)
-   -  ``sig = (z, h, c)``: the signature
-
-   **Output:**
-
-   -  ``true``, if the signature for message ``m`` is valid. ``false`` otherwise
-
-   **Steps:**
-
-   1. ``mu = H(tr || M)`` (L. 28, Fig. 4, [Dilithium-R3]_)
-   2. Check that the signature has the appropriate length and extract its parameters. Return ``false`` if
-      the signature length is invalid, ``z`` is no valid signature vector (i.e., ``||z|| >= gamma1 - beta``), or
-      ``h`` is no valid hint vector (i.e., ``# of 1's in h > omega``) (first and third ckeck of L. 31, Fig. 4, [Dilithium-R3]_)
-   3. ``cp = Polynomial::poly_challenge(c)`` (L. 29, Fig. 4, [Dilithium-R3]_)
-   4. ``w1 = A*z - c*t*2^d`` (Second input of L. 30, Fig. 4, [Dilithium-R3]_)
-   5. ``w1 = PolynomialVector::polyvec_use_hint(h, w1, mode)`` (L. 30, Fig. 4, [Dilithium-R3]_)
-   6. Signature is valid if ``c == H(mu || w1)`` (L. 31, Fig. 4, [Dilithium-R3]_)

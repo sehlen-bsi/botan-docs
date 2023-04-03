@@ -525,9 +525,8 @@ Furthermore, encoding and decoding of keys and signatures is implemented in ``sr
 
 **Keys**
 
-In Botan, Dilithium's keys are represented as ``Dilithium_PublicKey`` for public keys ``pk`` and as ``Dilithium_PrivateKey`` for secret keys ``sk``. Public keys contain the matrix seed ``rho`` and the public value ``t1``. Also, when creating a ``pk`` object the value  ``tr = CRH(rho || t1)`` is precomputed, which is used by the verification algorithm. We write ``pk = (rho, t_1, tr)`` (*TODO: with or without tr?*).
-Since the ``sk`` object contains the ``pk``, it inherits the values ``rho`` and ``tr``. It also contains the seed ``key``, the
-secret and error vectors ``s1`` and ``s2``, and the value ``t0``. We write ``sk = (rho, tr, key, s1, s2, t0)``.
+In Botan, Dilithium's keys are represented as ``Dilithium_PublicKey`` for public keys ``pk`` and as ``Dilithium_PrivateKey`` for secret keys ``sk``. Public keys contain the matrix seed ``rho`` and the public value ``t1``. Also, when creating a ``pk`` object the value  ``tr = CRH(rho || t1)`` is precomputed from the public key values ``rho`` and ``t1``, which is used by the verification algorithm. We therefore write ``pk = (rho, t1)`` during key generation and ``pk = (rho, t1, tr)`` during verification.
+The ``sk`` object contains the values ``rho`` and ``tr`` of the ``pk``. It also contains the seed ``key``, the vectors ``s1`` and ``s2``, and the value ``t0``. We write ``sk = (rho, tr, key, s1, s2, t0)``.
 
 The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of [Dilithium-R3]_ and works as follows:
 
@@ -557,4 +556,4 @@ The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of
    **Notes:**
 
    - ``matrix`` is already generated in NTT representation.
-   - The calculation of ``calculate_t0_and_t1`` includes the computation of ``matrix*s1`` in the NTT domain.
+   - The calculation of ``calculate_t0_and_t1`` includes the computation of ``matrix * s1`` in the NTT domain.
