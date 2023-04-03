@@ -733,7 +733,6 @@ The signature generation process works as follows:
       15. ``sig = (z, h, c)`` (L. 26, Fig. 4, [Dilithium-R3]_)
       16. Break loop
 
-
    **Notes:**
 
    - ``matrix`` is already generated in NTT representation in the constructor via ``matrix = PolynomialMatrix::generate_matrix(rho, m)``.
@@ -741,7 +740,6 @@ The signature generation process works as follows:
    - NTTs are performed as indicated by the comments in Fig. 4, [Dilithium-R3]_.
    - ``nonce`` here is incremented by 1 but multiplied by ``l`` within the called function ``polyvecl_uniform_gamma1``.
    - ``w0`` corresponds to :math:`\mathbf{r_0}` in Fig. 4, [Dilithium-R3]_ and is computed directly via the decomposition of ``A*y`` and subtraction with ``c*s2``.
-
 
 Signature Validation
 ^^^^^^^^^^^^^^^^^^^^
@@ -768,7 +766,7 @@ Message bytes are given to the object via consecutive calls of ``Dilithium_Verif
 
    1. Check that the signature has the appropriate length and extract its parameters. Return ``false`` if
       the signature length is invalid, ``z`` is no valid signature vector (i.e., ``z.polyvec_chknorm(gamma1 - beta)``), or
-      ``h`` is no valid hint vector (i.e., ``amount of 1's in h > omega``) (first and third ckeck of L. 31, Fig. 4, [Dilithium-R3]_)
+      ``h`` is no valid hint vector (i.e., ``amount of 1's in h > omega``) (first and third check of L. 31, Fig. 4, [Dilithium-R3]_)
    2. ``cp = Polynomial::poly_challenge(c)`` (L. 29, Fig. 4, [Dilithium-R3]_)
    3. ``w1 = A*z - c*t*2^d`` (Second input of L. 30, Fig. 4, [Dilithium-R3]_)
    4. ``w1 = PolynomialVector::polyvec_use_hint(h, w1, m)`` (L. 30, Fig. 4, [Dilithium-R3]_)
@@ -787,7 +785,6 @@ To see that Botan's hint computation on inputs ``(w0 - c*s2 + c*t0, w1)`` is equ
 The goal is that using this hint and :math:`\mathbf{A}\mathbf{z} - c\mathbf{t_1}\cdot 2^d = \mathbf{w}-c\mathbf{s_2}+c\mathbf{t_0}`, one can recover :math:`\mathbf{w_1}`.
 
 To show the equivalence, we expand the definition of the :math:`[[\ ]]`-operator to vectors, i.e., :math:`[[ \mathbf{u} = \mathbf{v} ]]` returns a vector :math:`\mathbf{b} \in \mathbb{F}_2^{n \cdot k}` comparing all polynomial coefficients of both vectors element-wise. Then, [Dilithium-R3]_ computes the hint vector as follows:
-
 
 .. math:: \mathbf{h} = \mathbf{1} - [[ \mathsf{HighBits}_q(\mathbf{w} - c \mathbf{s_2} + c\mathbf{t_0}, 2\gamma_2) = \mathsf{HighBits}_q(\mathbf{w} - c \mathbf{s_2}, 2\gamma_2)  ]]
 
@@ -826,7 +823,6 @@ Therefore, :math:`\mathsf{HighBits}_q(w_1 2 \gamma_2 + x, 2\gamma_2) = w_1` (and
 
 .. math:: -\gamma_2 < x \leq \gamma_2
 
-
 **Case 2.** :math:`w_1 = 0`:
 
 The equation gets:
@@ -836,9 +832,6 @@ The equation gets:
 According to the construction, this equation is true for all values of:
 
 .. math:: -\gamma_2 < x \leq \gamma_2
-
-..
-   Comment AT: Not clear exactly why also for x = -gamma2
 
 but also for :math:`x = -\gamma_2`. Hence, the hint becomes :math:`0` if and only if
 
