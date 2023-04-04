@@ -661,8 +661,8 @@ and its usability is therefore *not affected* by this disclaimer.
 Dilithium
 ---------
 
-Before showing Botan's Dilithium signing and verification procedures, we first need to document Botan's hint creation procedure, as this differs from [Dilithium-R3]_ in interface (but, as will be shown, not in function).
-The general idea is documented in `Hint Generation`_ and an elaborated documentation can be found at the end of the Dilithium documentation in `Elaborated Hint Generation`_.
+Before showing Botan's Dilithium signing and verification procedures, we first need to document Botan's hint creation procedure, as this differs from [Dilithium-R3]_ in the interface (but, as will be shown, not in the function).
+The general idea is documented in `Hint Generation`_; elaborated documentation can be found at the end of the Dilithium documentation in `Elaborated Hint Generation`_.
 
 Hint Generation
 ^^^^^^^^^^^^^^^
@@ -681,7 +681,7 @@ As ``v1 = w1``, the hint is ``0``.
 The :math:`\mathsf{Decompose}_q` algorithm also allows for a valid decomposition with lower bits ``v0 = -gamma2`` but only if ``v1 = 0``.
 Then we have a valid decomposition with ``v1 = w1 = 0`` and ``v0 = w0 - c*s2 + c*t0``, again leading to a hint with value ``0``.
 
-Otherwise, by construction of :math:`\mathsf{Decompose}_q`, there is no valid decomposition with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0`` and, thus, a carry is needed to obtain ``w1`` (i.e., ``h`` is not ``0``).
+Otherwise, by the construction of :math:`\mathsf{Decompose}_q`, there is no valid decomposition with ``v1 = w1`` and ``v0 = w0 - c*s2 + c*t0``, and, thus, a carry is needed to obtain ``w1`` (i.e., ``h`` is not ``0``).
 
 Using the above inequalities, Botan computes the hint values accordingly using the value of ``w0 - c*s2 + c*t0`` and, as a result, the hint computation is equivalent to [Dilithium-R3]_.
 More details are shown in `Elaborated Hint Generation`_.
@@ -691,7 +691,7 @@ Signature Creation
 
 CRYSTALS-Dilithium signing follows the :math:`\mathsf{Sign}` algorithm of Figure 4 of [Dilithium-R3]_. It is implemented in
 ``src/lib/pubkey/dilithium_common/dilithium.cpp`` and uses some functions already documented in :ref:`Dilithium Key Generation <pubkey_key_generation/dilithium>`.
-It receives the secret key via constructor.
+It receives the secret key via the constructor.
 Message bytes are given to the object via consecutive calls of ``Dilithium_Signature_Operation::update``.
 
 The signature generation process works as follows:
@@ -728,8 +728,8 @@ The signature generation process works as follows:
       10. ``h = c*t0``
       11. If ``h.polyvec_chknorm(gamma2)``, continue with next iteration (First check on :math:`c\mathbf{t0}`, L. 24, Fig. 4, [Dilithium-R3]_)
       12. ``w0 = w0 + h``
-      13. ``(h, n) = PolynomialVector::generate_hint_polyvec(w0, w1, m)`` (``h`` is the hint vector, ``n`` the amount of 1's in ``h``; L. 23 , Fig. 4, [Dilithium-R3]_, see `Hint Generation`_)
-      14. If ``n > omega``, continue with next iteration (Last check, L. 24, Fig. 4, [Dilithium-R3]_)
+      13. ``(h, n) = PolynomialVector::generate_hint_polyvec(w0, w1, m)`` (``h`` is the hint vector, ``n`` the amount of 1's in ``h``; L. 23, Fig. 4, [Dilithium-R3]_, see `Hint Generation`_)
+      14. If ``n > omega``, continue with the next iteration (Last check, L. 24, Fig. 4, [Dilithium-R3]_)
       15. ``sig = (z, h, c)`` (L. 26, Fig. 4, [Dilithium-R3]_)
       16. Break loop
 
@@ -745,7 +745,7 @@ Signature Validation
 ^^^^^^^^^^^^^^^^^^^^
 
 The signature validation follows the :math:`\mathsf{Verify}` algorithm of Figure 4 of [Dilithium-R3]_. It is
-implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp`` in the ``Dilithium_Verification_Operation`` class, which receives the public key via constructor.
+implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp`` in the ``Dilithium_Verification_Operation`` class, which receives the public key via the constructor.
 Message bytes are given to the object via consecutive calls of ``Dilithium_Verification_Operation::update``.
 
 .. admonition:: Dilithium_Verification_Operation::is_valid_signature()
@@ -782,7 +782,7 @@ Elaborated Hint Generation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To see that Botan's hint computation on inputs ``(w0 - c*s2 + c*t0, w1)`` is equivalent to the specification of [Dilithium-R3]_, we look at the hint creation in Figure 3, L. 23 of [Dilithium-R3]_.
-The goal is that using this hint and :math:`\mathbf{A}\mathbf{z} - c\mathbf{t_1}\cdot 2^d = \mathbf{w}-c\mathbf{s_2}+c\mathbf{t_0}`, one can recover :math:`\mathbf{w_1}`.
+The goal is that by using this hint and :math:`\mathbf{A}\mathbf{z} - c\mathbf{t_1}\cdot 2^d = \mathbf{w}-c\mathbf{s_2}+c\mathbf{t_0}`, one can recover :math:`\mathbf{w_1}`.
 
 To show the equivalence, we expand the definition of the :math:`[[\ ]]`-operator to vectors, i.e., :math:`[[ \mathbf{u} = \mathbf{v} ]]` returns a vector :math:`\mathbf{b} \in \mathbb{F}_2^{n \cdot k}` comparing all polynomial coefficients of both vectors element-wise. Then, [Dilithium-R3]_ computes the hint vector as follows:
 
@@ -815,7 +815,7 @@ According to the constructions of :math:`\mathsf{HighBits}_q` and :math:`\mathsf
 
    =& \frac{w_1 2 \gamma_2 + x - (x\ \textrm{mod}^{\pm}\ 2 \gamma_2)}{2 \gamma_2}
 
-which equals to :math:`w_1` if and only if
+which equals :math:`w_1` if and only if
 
 .. math:: (x\ \textrm{mod}^{\pm}\ 2 \gamma_2) = x
 
@@ -853,7 +853,7 @@ Then, given that :math:`\gamma_2` divides :math:`q - 1`:
 
    r - r_0 =& (q - \gamma_2) - (-\gamma_2 + 1) = q - 1
 
-Hence, the special case occurs (L.21-22, Figure 3 of [Dilithium-R3]_) and we get :math:`r_1 = 0` and :math:`r_0 = -\gamma_2` .
+Hence, the special case occurs (L.21-22, Figure 3 of [Dilithium-R3]_) and we get :math:`r_1 = 0` and :math:`r_0 = -\gamma_2`.
 
 Taking into account these cases where the hint becomes :math:`0`, Botan only checks the :math:`\gamma_2` bounds of coefficients :math:`x` of the input vector :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})`. To distinguish both
 cases with slightly different boundaries, :math:`\mathbf{w_1}` must be given as well.
