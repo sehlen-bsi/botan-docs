@@ -689,7 +689,7 @@ More details are shown in `Elaborated Hint Generation`_.
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
-CRYSTALS-Dilithium signing follows the :math:`Sign` algorithm of Figure 4 of [Dilithium-R3]_. It is implemented in
+CRYSTALS-Dilithium signing follows the :math:`\mathsf{Sign}` algorithm of Figure 4 of [Dilithium-R3]_. It is implemented in
 ``src/lib/pubkey/dilithium_common/dilithium.cpp`` and uses some functions already documented in :ref:`Dilithium Key Generation <pubkey_key_generation/dilithium>`.
 It receives the secret key via constructor.
 Message bytes are given to the object via consecutive calls of ``Dilithium_Signature_Operation::update``.
