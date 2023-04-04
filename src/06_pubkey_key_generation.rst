@@ -510,9 +510,9 @@ Concretely, :math:`\mathsf{SampleInBall}` of [Dilithium-R3]_ is provided via ``P
 The function :math:`\mathsf{H}` is instantiated directly.
 
 Furthermore, the algorithm :math:`\mathsf{Power2Round}_q` of [Dilithium-R3]_ corresponds to the functions ``Polynomial::power2round`` and ``Polynomial::fill_polys_power2round``.
-:math:`\mathsf{MakeHint}_q` and :math:`\mathsf{UseHint}_q` of [Dilithium-R3]_ are realized by the functions ``Polynomial::make_hint``\/ ``Polynomial::generate_hint_polynomial`` and ``Polynomial::use_hint``, respectively.
+:math:`\mathsf{MakeHint}_q` and :math:`\mathsf{UseHint}_q` of [Dilithium-R3]_ are realized by ``Polynomial::make_hint``\/\ ``Polynomial::generate_hint_polynomial`` and ``Polynomial::use_hint``, respectively.
 :math:`\mathsf{Decompose}_q` is given via ``Polynomial::decompose`` and ``Polynomial::poly_decompose``.
-During the signature operations, the decomposition functions are used directly instead of using the :math:`\mathsf{HighBits}_q`\/ :math:`\mathsf{LowBits}_q` paradigm.
+During the signature operations, the decomposition functions are used directly instead of using the :math:`\mathsf{HighBits}_q` \/ :math:`\mathsf{LowBits}_q` paradigm.
 Versions with element-wise applications on polynomial vectors are given as well.
 
 Finally, packing operations (Section 5.2, [Dilithium-R3]) are also provided in ``src/lib/pubkey/dilithium_common/dilithium_polynomials.h``.
