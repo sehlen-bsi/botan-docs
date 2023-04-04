@@ -8,9 +8,12 @@ permissions:
   # implicitly all other scopes not listed become none
 
 jobs:
-  pdf:
-    name: Build pdf
+  crypto_pdf:
+    name: Build Crypto Doc
     runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: cryptodoc
     steps:
       - uses: actions/checkout@v3
       - name: Install Build Dependencies
@@ -22,5 +25,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: botan_cryptodoc-${{ github.ref_name }}.${{ github.sha }}
-          path: _build/latex/crypto.pdf
+          name: botan_cryptodoc-${{ github.sha }}
+          path: cryptodoc/_build/latex/crypto.pdf
