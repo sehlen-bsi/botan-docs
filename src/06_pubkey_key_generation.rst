@@ -498,7 +498,8 @@ A Dilithium mode using the AES variant is identified via the ``_aes`` suffix.
 **Polynomial Operations**
 
 Operations between polynomials, polynomial vectors, and polynomial matrices are provided in ``src/lib/pubkey/dilithium_common/dilithium_polynomials.h``, including NTT, multiplication, and Montgomery reduction.
-``A*b`` of a polynomial matrix ``A`` and a polynomial vector ``b`` in the NTT domain is given via ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery`` and ``a*b`` of two polynomial vectors ``a`` and ``b`` is given via ``PolynomialVector::polyvec_pointwise_poly_montgomery``. Matrices and vectors are transformed to the NTT representation prior to the operation.
+``A*b`` of a polynomial matrix ``A`` and a polynomial vector ``b`` in the NTT domain is given via ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery`` and ``a*b`` of two polynomial vectors ``a`` and ``b`` is given via ``PolynomialVector::polyvec_pointwise_poly_montgomery``.
+Matrices and vectors are transformed to the NTT representation prior to the operation.
 To perform the multiplication ``2^d*a`` with the scalar ``2^d`` and the vector ``a``, the method ``PolynomialVector::polyvec_shiftl`` is used.
 
 **Supporting Algorithms**
@@ -525,8 +526,12 @@ Furthermore, encoding and decoding of keys and signatures are implemented in ``s
 
 **Keys**
 
-In Botan, Dilithium's keys are represented as ``Dilithium_PublicKey`` for public keys ``pk`` and as ``Dilithium_PrivateKey`` for secret keys ``sk``. Public keys contain the matrix seed ``rho`` and the public value ``t1``. Also, when creating a ``pk`` object the value  ``tr = CRH(rho || t1)`` is precomputed from the public key values ``rho`` and ``t1``, which is used by the verification algorithm. We, therefore, write ``pk = (rho, t1)`` during key generation and ``pk = (rho, t1, tr)`` during verification.
-The ``sk`` object contains the values ``rho`` and ``tr`` of the ``pk``. It also contains the seed ``key``, the vectors ``s1`` and ``s2``, and the value ``t0``. We write ``sk = (rho, tr, key, s1, s2, t0)``.
+In Botan, Dilithium's keys are represented as ``Dilithium_PublicKey`` for public keys ``pk`` and as ``Dilithium_PrivateKey`` for secret keys ``sk``.
+Public keys contain the matrix seed ``rho`` and the public value ``t1``.
+Also, when creating a ``pk`` object the value  ``tr = CRH(rho || t1)`` is precomputed from the public key values ``rho`` and ``t1``, which is used by the verification algorithm.
+We, therefore, write ``pk = (rho, t1)`` during key generation and ``pk = (rho, t1, tr)`` during verification.
+The ``sk`` object contains the values ``rho`` and ``tr`` of the ``pk``.
+It also contains the seed ``key``, the vectors ``s1`` and ``s2``, and the value ``t0``. We write ``sk = (rho, tr, key, s1, s2, t0)``.
 
 The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of [Dilithium-R3]_ and works as follows:
 
@@ -556,4 +561,4 @@ The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of
    **Notes:**
 
    - ``matrix`` is already generated in NTT representation.
-   - The calculation of ``calculate_t0_and_t1`` includes the computation of ``matrix * s1`` in the NTT domain.
+   - The calculation of ``calculate_t0_and_t1`` includes the computation of ``matrix*s1`` in the NTT domain.

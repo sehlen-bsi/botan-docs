@@ -784,7 +784,8 @@ Elaborated Hint Generation
 To see that Botan's hint computation on inputs ``(w0 - c*s2 + c*t0, w1)`` is equivalent to the specification of [Dilithium-R3]_, we look at the hint creation in Figure 3, L. 23 of [Dilithium-R3]_.
 The goal is that by using this hint and :math:`\mathbf{A}\mathbf{z} - c\mathbf{t_1}\cdot 2^d = \mathbf{w}-c\mathbf{s_2}+c\mathbf{t_0}`, one can recover :math:`\mathbf{w_1}`.
 
-To show the equivalence, we expand the definition of the :math:`[[\ ]]`-operator to vectors, i.e., :math:`[[ \mathbf{u} = \mathbf{v} ]]` returns a vector :math:`\mathbf{b} \in \mathbb{F}_2^{n \cdot k}` comparing all polynomial coefficients of both vectors element-wise. Then, [Dilithium-R3]_ computes the hint vector as follows:
+To show the equivalence, we expand the definition of the :math:`[[\ ]]`-operator to vectors, i.e., :math:`[[ \mathbf{u} = \mathbf{v} ]]` returns a vector :math:`\mathbf{b} \in \mathbb{F}_2^{n \cdot k}` comparing all polynomial coefficients of both vectors element-wise.
+Then, [Dilithium-R3]_ computes the hint vector as follows:
 
 .. math:: \mathbf{h} = \mathbf{1} - [[ \mathsf{HighBits}_q(\mathbf{w} - c \mathbf{s_2} + c\mathbf{t_0}, 2\gamma_2) = \mathsf{HighBits}_q(\mathbf{w} - c \mathbf{s_2}, 2\gamma_2)  ]]
 
@@ -855,5 +856,5 @@ Then, given that :math:`\gamma_2` divides :math:`q - 1`:
 
 Hence, the special case occurs (L.21-22, Figure 3 of [Dilithium-R3]_) and we get :math:`r_1 = 0` and :math:`r_0 = -\gamma_2`.
 
-Taking into account these cases where the hint becomes :math:`0`, Botan only checks the :math:`\gamma_2` bounds of coefficients :math:`x` of the input vector :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})`. To distinguish both
-cases with slightly different boundaries, :math:`\mathbf{w_1}` must be given as well.
+Taking into account these cases where the hint becomes :math:`0`, Botan only checks the :math:`\gamma_2` bounds of coefficients :math:`x` of the input vector :math:`(\mathbf{w_0} - c \mathbf{s_2} + c\mathbf{t_0})`.
+To distinguish both cases with slightly different boundaries, :math:`\mathbf{w_1}` must be given as well.
