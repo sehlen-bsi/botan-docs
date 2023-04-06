@@ -12,27 +12,25 @@ The documents are written using
 tooling and generation steps. See the document-specific readmes for further
 guidance.
 
-Install Sphinx and other Python requirements using pip:
-
-```bash
-pip install -r requirements.txt
-```
-
 ### Create PDF
 
 Required packages:
 
 ```bash
 # Ubuntu
-sudo apt install texlive-latex-extra texlive-fonts-recommended tex-gyre latexmk
+sudo apt install texlive-latex-extra texlive-fonts-recommended tex-gyre texlive-lang-german latexmk
 
 # Fedora
-dnf install texlive-collection-latexextra latexmk
+dnf install texlive-collection-latexextra texlive-collection-langgerman latexmk
 ```
 
 To build a PDF do the following:
 
 ```bash
+# Go into the directory of the document you want to build, e.g.
+cd cryptodoc
+# Install Sphinx and the respective Python dependencies (only once)
+pip install -r requirements.txt
 # Create the PDF
 make latexpdf
 ```
@@ -45,7 +43,7 @@ The recommended editor for editing the documentation is [*Visual Studio
 Code*](https://code.visualstudio.com/). A minimal configuration for *Visual
 Studio Code* with recommended extensions is included in the repository.
 
-Some extensions need additional Python requirements. Install them using pip:
+Some extensions need additional Python requirements. Install them using pip within `cryptodoc/`:
 
 ```bash
 pip install -r requirements-dev.txt
