@@ -690,7 +690,7 @@ Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
 CRYSTALS-Dilithium signing follows the :math:`\mathsf{Sign}` algorithm of Figure 4 of [Dilithium-R3]_. It is implemented in
-``src/lib/pubkey/dilithium_common/dilithium.cpp`` and uses some functions already documented in :ref:`Dilithium Key Generation <pubkey_key_generation/dilithium>`.
+``src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp`` and uses some functions already documented in :ref:`Dilithium Key Generation <pubkey_key_generation/dilithium>`.
 It receives the secret key via the constructor.
 Message bytes are given to the object via consecutive calls of ``Dilithium_Signature_Operation::update``.
 
@@ -745,7 +745,7 @@ Signature Validation
 ^^^^^^^^^^^^^^^^^^^^
 
 The signature validation follows the :math:`\mathsf{Verify}` algorithm of Figure 4 of [Dilithium-R3]_. It is
-implemented in ``src/lib/pubkey/dilithium_common/dilithium.cpp`` in the ``Dilithium_Verification_Operation`` class, which receives the public key via the constructor.
+implemented in ``src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp`` in the ``Dilithium_Verification_Operation`` class, which receives the public key via the constructor.
 Message bytes are given to the object via consecutive calls of ``Dilithium_Verification_Operation::update``.
 
 .. admonition:: Dilithium_Verification_Operation::is_valid_signature()
