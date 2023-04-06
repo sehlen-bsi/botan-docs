@@ -666,6 +666,7 @@ The general idea is documented in `Hint Generation`_; elaborated documentation c
 
 Hint Generation
 ^^^^^^^^^^^^^^^
+
 Botan implements the core :math:`\mathsf{MakeHint}_q` algorithm, i.e., the logic for single polynomial coefficients, in ``Polynomial::make_hint``.
 It is the same optimization as Dilithium's reference implementation and its interface differs from the algorithm described in [Dilithium-R3]_.
 In particular, :math:`\mathsf{MakeHint}_q` in [Dilithium-R3]_ for polynomial vectors computes :math:`\mathbf{h}=\mathsf{MakeHint}_q(-c\mathbf{t_0}, \mathbf{w} - c\mathbf{s_2} + c\mathbf{t_0})`, whereas Botan calls ``PolynomialVector::generate_hint_polyvec(w0 - c*s2 + c*t0, w1)``.
