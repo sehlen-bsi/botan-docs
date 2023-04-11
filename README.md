@@ -26,10 +26,10 @@ Required packages:
 
 ```bash
 # Ubuntu
-sudo apt install texlive-latex-extra texlive-fonts-recommended tex-gyre texlive-lang-german latexmk
+sudo apt install texlive-latex-extra texlive-fonts-recommended tex-gyre latexmk
 
 # Fedora
-dnf install texlive-collection-latexextra texlive-collection-langgerman latexmk
+dnf install texlive-collection-latexextra latexmk
 ```
 
 To build a PDF do the following:

@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install Build Dependencies
-        run: sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre texlive-lang-german latexmk
+        run: sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre latexmk
       - name: Install Python Dependencies
         run: pip install -r requirements.txt
       - name: Build pdf
