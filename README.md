@@ -49,7 +49,8 @@ The recommended editor for editing the documentation is [*Visual Studio
 Code*](https://code.visualstudio.com/). A minimal configuration for *Visual
 Studio Code* with recommended extensions is included in the repository.
 
-Some extensions need additional Python requirements. Install them using pip within `cryptodoc/`:
+Some extensions need additional Python requirements. Install them using pip within
+the respective directory:
 
 ```bash
 pip install -r requirements-dev.txt
