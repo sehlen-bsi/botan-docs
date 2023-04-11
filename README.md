@@ -12,6 +12,14 @@ The documents are written using
 tooling and generation steps. See the document-specific readmes for further
 guidance.
 
+Install Sphinx and other Python requirements using pip:
+```bash
+# Go into the directory of the document you want to build, e.g.
+cd cryptodoc
+# Install Sphinx and the respective Python dependencies
+pip install -r requirements.txt
+```
+
 ### Create PDF
 
 Required packages:
@@ -29,8 +37,6 @@ To build a PDF do the following:
 ```bash
 # Go into the directory of the document you want to build, e.g.
 cd cryptodoc
-# Install Sphinx and the respective Python dependencies (only once)
-pip install -r requirements.txt
 # Create the PDF
 make latexpdf
 ```
