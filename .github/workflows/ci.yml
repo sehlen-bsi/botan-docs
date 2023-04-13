@@ -8,22 +8,27 @@ permissions:
   # implicitly all other scopes not listed become none
 
 jobs:
-  crypto_pdf:
-    name: Build Crypto Doc
+  pdf_creation:
+    strategy:
+      matrix:
+        element: [ {name: Crypto Documentation, dir: cryptodoc, out_name: crypto},
+                   {name: Audit Method Description, dir: audit_method, out_name: audit_method} ]
+
+    name: Build PDF - ${{ matrix.element.name }}
     runs-on: ubuntu-22.04
     defaults:
       run:
-        working-directory: cryptodoc
+        working-directory: ${{matrix.element.dir }}
     steps:
       - uses: actions/checkout@v3
       - name: Install Build Dependencies
-        run: |
-          pip install -r requirements.txt
-          sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre latexmk
+        run: sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre texlive-lang-german latexmk
+      - name: Install Python Dependencies
+        run: pip install -r requirements.txt
       - name: Build pdf
         run: make latexpdf
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: botan_cryptodoc-${{ github.sha }}
-          path: cryptodoc/_build/latex/crypto.pdf
+          name: botan_${{ matrix.element.out_name }}-${{ github.sha }}
+          path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}.pdf
