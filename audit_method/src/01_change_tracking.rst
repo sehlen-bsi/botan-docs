@@ -1,19 +1,68 @@
 Verfolgen der Änderungen
 ========================
 
-Ziel der Änderungsverfolgung ist es, alle Änderungen an der Bibliothek zu
-identifizieren, nach ihrer Relevanz zu klassifizieren und relevante Änderungen
-genauer zu untersuchen. Dazu wird die Bibliothek zunächst in Komponenten
-aufgeteilt. Zu den Komponenten gehören die Module der Bibliothek selbst
-(Verzeichnis src/lib), die Testsuite (Verzeichnis src/tests), das Command Line
-Interface (Verzeichnis src/cli), der Python-Wrapper (Verzeichnis src/python),
-das Buildsystem (Skript configure.py und Verzeichnis src/build-data) sowie die
-Dokumentation (Verzeichnis doc). Für jede dieser Komponenten wird ein
-textbasiertes Diff erstellt. Zur Erzeugung des Diffs kommt das Linux
-Kommandozeilentool *diff* zum Einsatz. Jedes Diff wird analysiert und die darin
-enthaltenen Änderungen werden für jede der Komponenten dokumentiert. Jede
-Änderung wird dabei klassifiziert, d.h., einer Kategorie zugeordnet, die die
-Relevanz der Änderung für die Sicherheit der gesamten Bibliothek anzeigt.
+Einsatz von Git und GitHub bei der Entwicklung der Bibliothek
+-------------------------------------------------------------
+
+Die Bibliothek wird öffentlich auf GitHub [#botangithub]_ entwickelt. Größere
+Änderungen am Code werden in der Regel über themenspezifische "Pull Requests"
+[#botanpulls]_ nach einem technischen Review-Prozess durch einen der
+Kern-Entwickler der Bibliothek (GitHub "Collaborator") vorgenommen. In
+Ausnahmefällen pflegt der Hauptentwickler (Jack Lloyd) kleinere Änderungen
+direkt in den Entwicklungszweig der Bibliothek ein. Insbesondere diese direkten
+Änderungen sind stets vom Hauptentwickler mittels GPG signiert [#jackgpg]_.
+
+In beiden Fällen erlauben die "Pull Requests" und die direkten Änderungen eine
+transparente und verhältnismäßig leicht nach Themen klassifizierbare
+Nachverfolgung aller Änderungen in der Bibliothek. Im Folgenden bezieht sich der
+Begriff "Patch" sowohl auf Änderungen die mittels eines Pull Requests
+eingeflossen sind als auch auf direkte Änderungen durch den Hauptentwickler.
+
+Das Datenmodell von "Git" stellt dabei sicher, dass die Anwendung aller Patches
+zwischen zwei Quelltext-Versionen eindeutig von der älteren zur neueren Version
+führt. Damit sind alle tatsächlichen Änderungen zwischen zwei Versionen mit der
+Gesamtheit aller Patches abgebildet, die von der älteren zur neueren Version
+geführt haben.
+
+Dieser Auditierungs-Ansatz setzt die Vertrauenswürdigkeit von "Git" und dessen
+Datenmodell voraus. Am Ende dieses Kapitels findet sich daher eine kurze
+Erläuterung zur Vertrauenswürdigkeit von Git (siehe :ref:`about_git`).
+
+.. [#botangithub] `github.com/randombit/botan <https://github.com/randombit/botan>`_
+.. [#botanpulls] `github.com/randombit/botan/pulls <https://github.com/randombit/botan/pulls>`_
+.. [#jackgpg] GPG Schlüssel ID von Jack Lloyd: ``9F:FD:59:6F:AB:50:F9:0D``
+
+Nachträgliche Änderungsverfolgung
+---------------------------------
+
+Die Bibliothek wurde für einzelne Versionen bereits in der Vergangenheit einem
+Audit unterzogen. Ziel der Änderungsverfolgung ist es, alle Änderungen an der
+Bibliothek zu identifizieren die seit dem letzten Audit hinzugekommen sind,
+diese nach ihrer Relevanz zu klassifizieren und relevante Änderungen genauer zu
+untersuchen.
+
+Dazu werden wie oben beschrieben mithilfe von "Git" alle Patches der Bibliothek
+identifiziert, die von einer bereits auditierten Version zur neuen Zielversion
+geführt haben. Einzelne Patches haben dabei meist einen thematischen Bezug und
+eine technische Beschreibung ("Commit" Nachricht oder "Pull Request"
+Beschreibung). Beispielsweise: "Add XMSS Parameter sets defined in NIST
+SP.800-208" [#xmssparams]_ enthält die Quelltext-Änderungen um die XMSS
+Implementierung um die vom NIST spezifizierten Parameter zu erweitern.
+
+Jeder Patch kann dabei prinzipiell beliebige Komponenten der Bibliothek
+betreffen. Die hier betrachteten Komponenten sind die Bibliothek selbst
+(Verzeichnis *src/lib*), die Testsuite (Verzeichnis *src/tests*), das Command Line
+Interface (Verzeichnis *src/cli*), der Python-Wrapper (Verzeichnis *src/python*),
+das Buildsystem (Skript *configure.py* und Verzeichnis *src/build-data*) sowie die
+Dokumentation (Verzeichnis *doc*).
+
+Alle Patches werden nun manuell thematisch vorsortiert und danach einzeln
+analysiert, nach Sicherheitsrelevanz klassifiziert und die enthaltenen
+Änderungen dokumentiert. Das Ergebnis ist ein detailierter themenbezogener
+Änderungsbericht mit Referenzen zu allen relevanten Patches. Eine spätere
+Nachvollziehbarkeit (etwa durch Dritte) ist damit leicht zu gewährleisten.
+
+.. [#xmssparams] GitHub Pull Request: `#3292 <https://github.com/randombit/botan/pull/3292>`_
 
 Klassifizierung
 ---------------
@@ -38,12 +87,25 @@ kryptographischen Funktionen erhöhen. Änderungen der Kategorie III bezeichnen
 weitere, nicht-sicherheitskritische Änderungen, d.h., Änderungen aus anderen
 Gründen als bezogen auf die Sicherheit.
 
-Zur Herstellung des Kontextes oder der Absicht einer Änderung, oder zur
-Identifizierung einer Änderung als gleichzeitige Änderung an mehreren,
-miteinander verbundenen Modulen, kann es notwendig sein den Git Commit, dem die
-Änderung zugrunde liegt, zu identifizieren und das Diff des jeweiligen Commits
-anzusehen. Nachfolgend findet sich daher eine kurze Erläuterung zur
-Vertrauenswürdigkeit von Git.
+Thematische Einordnung
+----------------------
+
+Zur besseren Übersicht und zur Vereinfachung des Audit-Prozesses werden Patches
+soweit möglich thematisch sortiert. Dabei besteht ausdrücklich keine
+eins-zu-eins Beziehung von Patches und Themen. Ein Patch kann durchaus Relevanz
+für mehr als ein betrachtetes Thema haben und damit mehrmals zugeordnet werden.
+
+Denkbare Themen sind etwa "Hinzufügen einer Implementierung von CRYSTALS-Kyber",
+"Schließen einer Sicherheitslücke in der Validierung von X.509 Zertifikaten"
+oder "Beschleunigung der Continuous Integration Pipeline". Für jedes Thema
+werden die relevanten Patches aufgezählt und die enthaltenen Änderungen
+übergreifend dokumentiert.
+
+Themen können ebenfalls eine Klassifizierung der Sicherheitsrelevanz erhalten.
+Danach richtet sich gegebenenfalls die Betrachtungstiefe der Patches im Kontext
+des Themas.
+
+.. _about_git:
 
 Sicherheit und Vertrauenswürdigkeit von Git
 -------------------------------------------
