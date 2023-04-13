@@ -110,6 +110,12 @@ des Themas.
 Sicherheit und Vertrauenswürdigkeit von Git
 -------------------------------------------
 
+Git verwendet für die Datenverwaltung und Integritätsprüfung von Repositorys
+eine kryptographische Hashfunktion. Aus historischen Gründen wird dafür nach wie
+vor SHA-1 verwendet. Da SHA-1 nicht mehr als grundsätzlich sicher angesehen wird
+begründen die folgenden Ausführungen warum Git zum aktuellen Zeitpunkt trotzdem
+vertrauenswürdig einsetzbar ist.
+
 Der SHA-1 Hash eines Git Commits berechnet sich aus dem Source-Tree des Commits
 (dem Delta) und diversen Header Informationen, wie dem Commit SHA-1 Hash des
 Vorgängercommits, der Autoren Informationen, den Committer Informationen und der
@@ -125,9 +131,40 @@ nicht verändert wurde muss daher der SHA-1 Hash des letzten bzw. aktuellsten
 Commits des lokalen Repositories mit dem entfernten Repository (bspw. auf
 GitHub) verglichen werden.
 
-Da derzeit noch SHA-1 als Hash Funktionen zum Einsatz kommt beruht die
-Sicherheit darauf, dass es einem Angreifer nicht gelingt eine Kollision also
-einen Commit mit identischem SHA-1 Hash zu berechnen.
+Git ist also inherent von der Kollisionsresistenz in SHA-1 abhängig. Andernfalls
+könnten Commit-Paare mit gleichem SHA-1 Hash verwendet werden um Schadcode
+unbemerkt vom oben beschriebenen Audit Prozess in ein Repository einzuschleusen.
+Ein Angreifer müsste dafür ein Paar von validen Git Commit Objekten mit
+einerseits harmlosen (aber funktionsfähigen) Änderungen und andererseits einem
+Schadcode erzeugen. Eine 2017 von Stevens et al. veröffentlichte Schwachstelle
+in SHA-1 [SHATRD]_ ermöglicht dies zwar theoretisch; es ist uns zum aktuellen
+Zeitpunkt aber kein Beispiel bekannt, wo dies erfolgreich für Git Commit Objekte
+demonstriert wurde.
+
+Dabei ist es wichtig zu wissen, dass für eine erfolgreiche Kollision beide
+Commits (der Harmlose wie auch der Manipulierte) vom Angreifer erzeugt werden
+müssten. Es ist also ausdrücklich *nicht* möglich einen existierenden legitimen
+Commit des Repositorys nachträglich auszutauschen. Der Angreifer müsste den
+harmlosen Commit also schon frühzeitig in Botan einschleusen.
+
+Mittels Counter-Cryptoanalyse lassen sich Objekte die Teil eines solchen
+Angriffs sind aber sicher erkennen (siehe SHA-1-DC [SHA1DC]_). Seit
+Bekanntwerden der Schwachstelle verwenden sowohl GitHub [#githubsha1]_ als auch
+Git [#gitsha1]_ SHA-1-DC und lehnen Objekte ab die Teil einer so erzeugten
+Kollision sind. Das Einschleusen würde also nicht unentdeckt bleiben und damit
+einen erfolgreichen Angriff verhindern.
+
+Langfristig sollte selbstverständlich eine Migration auf eine sichere
+Hashfunktion angestrebt werden. Dies liegt aber mangels Unterstützung der Git
+Hosting-Provider (wie etwa GitHub) [#lwngitsha1]_ nicht in der Hand der
+Botan-Entwickler oder den Auditoren in diesem Projekt. Durch die wirksamen
+Gegenmaßnahmen mittels SHA-1-DC ist es zum gegebenen Zeitpunkt aber vertretbar
+Git für den beschriebenen Audit Prozess zu vertrauen.
 
 Weiterhin bietet Git die Möglichkeit einzelne Commits mittels GPG zu signieren.
-Auf diese Weise wird die Authentizität der Commits sichergestellt.
+Auf diese Weise wird die Authentizität der Commits sichergestellt. Die Botan
+Entwickler machen von dieser Möglichkeit weitestgehend Gebrauch.
+
+.. [#githubsha1] `github.blog/2017-03-20-sha-1-collision-detection-on-github-com <https://github.blog/2017-03-20-sha-1-collision-detection-on-github-com>`_
+.. [#gitsha1] `github.blog/2017-05-10-git-2-13-has-been-released <https://github.blog/2017-05-10-git-2-13-has-been-released/#sha-1-collision-detection>`_
+.. [#lwngitsha1] `lwn.net/Articles/898522 <https://lwn.net/Articles/898522>`_
