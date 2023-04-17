@@ -12,7 +12,8 @@ jobs:
     strategy:
       matrix:
         element: [ {name: Crypto Documentation, dir: cryptodoc, out_name: crypto},
-                   {name: Audit Method Description, dir: audit_method, out_name: audit_method} ]
+                   {name: Audit Method Description, dir: audit_method, out_name: audit_method},
+                   {name: Test Specification, dir: testspec, out_name: testspec} ]
 
     name: Build PDF - ${{ matrix.element.name }}
     runs-on: ubuntu-22.04
@@ -22,7 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install Build Dependencies
-        run: sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre texlive-lang-german latexmk
+        run: |
+          sudo apt-get update
+          sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre texlive-lang-german latexmk
       - name: Install Python Dependencies
         run: pip install -r requirements.txt
       - name: Build pdf
