@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         element: [ {name: Crypto Documentation, dir: cryptodoc, out_name: crypto},
+                   {name: Audit Method Description, dir: audit_method, out_name: audit_method},
                    {name: Test Specification, dir: testspec, out_name: testspec} ]
 
     name: Build PDF - ${{ matrix.element.name }}
@@ -32,4 +33,3 @@ jobs:
         with:
           name: botan_${{ matrix.element.out_name }}-${{ github.sha }}
           path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}.pdf
-
