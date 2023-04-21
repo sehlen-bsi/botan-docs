@@ -552,23 +552,21 @@ Botan implements CRYSTALS-Kyber in ``src/lib/pubkey/kyber/`` according to the sp
 Refer to :ref:`Kyber Key Generation <pubkey_key_generation/kyber>` for more information on the key generation, parameters, and implementations of polynomial functions.
 
 **Structure**
-
-Kyber is given as a KEM but is built via a modified Fujisaki–Okamoto transform of an IND-CPA encryption scheme.
-The class ``Kyber_KEM_Cryptor`` found in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp`` realizes the IND-CPA encryption.
-The child classes ``Kyber_KEM_Encryptor`` and ``Kyber_KEM_Decryptor`` respectively realize the IND-CCA2 KEM encapsulation/decapsulation [#kyber_cryptor_class]_.
+The IND-CCA2-secure KEM Kyber (Kyber.CCAKEM, Section 1.3, [Kyber-R3]_) is obtained from an IND-CPA-secure public-key encryption scheme (Kyber.CPAPKE, Section 1.2, [Kyber-R3]_) via a modified Fujisaki–Okamoto transform.
+The internal class ``Kyber_KEM_Cryptor`` found in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp`` implements the public-key encryption Kyber.CPAPKE.Enc.
+Its child classes ``Kyber_KEM_Encryptor`` and ``Kyber_KEM_Decryptor`` respectively implement the IND-CCA2-secure KEM Kyber.CCAKEM encapsulation/decapsulation [#kyber_cryptor_class]_.
 
 .. [#kyber_cryptor_class]
-   The IND-CPA encryption is a member of ``Kyber_KEM_Cryptor`` because both en- and decapsulation require it, whereas the IND-CPA decryption is only needed by the decapsulation and is, therefore, a member of ``Kyber_KEM_Decryptor``.
+   Botan's encryption function of Kyber.CPAPKE is a member of ``Kyber_KEM_Cryptor`` because both en- and decapsulation require it, whereas the decryption is only needed by the decapsulation and is, therefore, a member of ``Kyber_KEM_Decryptor``.
 
 **Keys**
 
-The class ``Kyber_KEM_Cryptor`` has a ``Kyber_PublicKeyInternal`` member ``public_key`` that supplies the value ``seed`` and the member function ``polynomials()``, which gives a decoded transpose of :math:`\mathbf{\hat{t}}` (L.2, Alg. 5 [Kyber-R3]_).
-In the following, we denote the output of ``polynomials()`` as ``pk_t`` and the public key as ``pk = (pk_t, seed)``.
+The class ``Kyber_KEM_Cryptor`` has a member ``public_key`` used for encryption, supplying the values ``seed`` and ``pk_t``(:math:`\mathbf{\hat{t}}` of L.2, Alg. 5 [Kyber-R3]_).
+In the following, we denote the public key as ``pk = (pk_t, seed)``.
 
 The class ``Kyber_KEM_Decryptor`` has a ``Kyber_PrivateKey`` member ``key``.
-It supplies the hash value of the public key via ``H_public_key_bits_raw()`` (:math:`h`, L.2, Alg. 9, [Kyber-R3]_).
-In the following, we call this ``sk_h``.
-It also supplies the already decoded secret polynomial vector via ``polynomials()`` (:math:`\mathbf{\hat{s}}`, L.3, Alg. 6, [Kyber-R3]_), which we call ``sk_s`` in the following.
+It supplies the hash value of the public key we call ``sk_h`` (:math:`h`, L.2, Alg. 9, [Kyber-R3]_).
+It also supplies the already decoded secret polynomial vector we call ``sk_s`` (:math:`\mathbf{\hat{s}}`, L.3, Alg. 6, [Kyber-R3]_).
 We, therefore, denote the secret key as ``sk=(sk_s, pk, sk_h, z)``, where ``z`` is the random value from the key generation.
 
 **Ciphertexts**
@@ -576,20 +574,20 @@ We, therefore, denote the secret key as ``sk=(sk_s, pk, sk_h, z)``, where ``z`` 
 The ``Ciphertext`` class is given a ``PolynomialVector b``, a ``Polynomial v``, and a ``KyberMode mode``. A ciphertext instance is represented via the members ``b`` and ``v`` (corresponding to :math:`\textbf{u}` and :math:`v` of [Kyber-R3]_, respectively).
 
 Furthermore, the ``Ciphertext`` class provides ciphertext compression and encoding.
-The implementation of the algorithms :math:`\textrm{Compress}_q(x,d)` and :math:`\textrm{Decompress}_q(x,d)` of [Kyber-R3]_ are optimized for all occurring values of :math:`d`.
+The implementation of the algorithms :math:`\mathsf{Compress}_q(x,d)` and :math:`\mathsf{Decompress}_q(x,d)` of [Kyber-R3]_ are optimized for all occurring values of :math:`d`.
 The compression with :math:`d=d_u` and :math:`d=d_v` [#kyber_du_dv]_ is implemented in two respective ``Ciphertext::compress`` methods, i.e., one for polynomial vectors and one for polynomials. The same holds for decompression via ``Ciphertext::decompress_polynomial_vector`` and ``Ciphertext::decompress_polynomial``.
 The public member functions ``Ciphertext::from_bytes`` and ``Ciphertext::to_bytes`` use this to realize **L. 1/L. 2 of Alg. 6** [Kyber-R3]_ and **L. 21/L. 22 of Alg. 5** [Kyber-R3]_, respectively.
-The compression and decompression with :math:`d=1` are performed simultaneously with :math:`\textrm{Encode}_1` and :math:`\textrm{Decode}_1` within the methods ``Polynomial::to_message`` and ``Polynomial::from_message``, respectively (used in **L. 4, Alg. 6** and **L. 20, Alg. 5** [Kyber-R3]_). All compressions and decompressions are constant time.
+The compression and decompression with :math:`d=1` are performed simultaneously with :math:`\mathsf{Encode}_1` and :math:`\mathsf{Decode}_1` within the methods ``Polynomial::to_message`` and ``Polynomial::from_message``, respectively (used in **L. 4, Alg. 6** and **L. 20, Alg. 5** [Kyber-R3]_). All compressions and decompressions are constant time.
 
 .. [#kyber_du_dv]
    The values of :math:`d_u` and :math:`d_v` are not given as ``KyberConstants`` but are rather computed in place based on the value of `k`.
 
-Kyber IND-CPA
-"""""""""""""
+Kyber.CPAPKE
+""""""""""""
 
 **Encryption**
 
-IND-CPA encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_:
+Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_:
 
 .. admonition:: Kyber_KEM_Cryptor::indcpa_enc()
 
@@ -606,8 +604,8 @@ IND-CPA encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_:
    **Steps:**
 
    1. ``at = PolynomialMatrix::generate(seed, True, mode)`` (L. 3-8, Alg. 5 [Kyber-R3]_)
-   2. ``sp = PolynomialVector::getnoise_eta1(coins, 0, mode)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1`` for each vector element; L. 9-12, Alg. 5 [Kyber-R3]_)
-   3. ``ep = PolynomialVector::getnoise_eta2(coins, k, mode)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta2`` for each vector element; L. 13-16, Alg. 5 [Kyber-R3]_)
+   2. ``sp = PolynomialVector::getnoise_eta1(coins, 0, mode)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1``, one for each component of ``sp``; L. 9-12, Alg. 5 [Kyber-R3]_)
+   3. ``ep = PolynomialVector::getnoise_eta2(coins, k, mode)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta2``, one for each component of ``ep``; L. 13-16, Alg. 5 [Kyber-R3]_)
    4. ``epp = Polynomial::getnoise_eta2(coins, 2*k, mode)`` (L. 17, Alg. 5 [Kyber-R3]_)
    5. ``sp.ntt()`` (L. 18, Alg. 5 [Kyber-R3]_)
    6. ``bp = (at * sp).invntt() + ep`` (L. 19, Alg. 5 [Kyber-R3]_)
@@ -623,9 +621,9 @@ IND-CPA encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_:
 
 IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_:
 
-.. |step_3_formular| replace:: :math:`\mathbf{\hat{s}}^T \circ \textrm{NTT}(\mathbf{u})`
-.. |step_4_formular| replace:: :math:`\textrm{NTT}^{-1}(\mathbf{\hat{s}}^T \circ \textrm{NTT}(\mathbf{u}))`
-.. |step_5_formular| replace:: :math:`v - \textrm{NTT}^{-1}(\mathbf{\hat{s}}^T \circ \textrm{NTT}(\mathbf{u}))`
+.. |step_3_formular| replace:: :math:`\mathbf{\hat{s}}^T \circ \mathsf{NTT}(\mathbf{u})`
+.. |step_4_formular| replace:: :math:`\mathsf{NTT}^{-1}(\mathbf{\hat{s}}^T \circ \mathsf{NTT}(\mathbf{u}))`
+.. |step_5_formular| replace:: :math:`v - \mathsf{NTT}^{-1}(\mathbf{\hat{s}}^T \circ \mathsf{NTT}(\mathbf{u}))`
 .. admonition:: Kyber_KEM_Decryptor::indcpa_dec()
 
    **Input:**
@@ -648,14 +646,14 @@ IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_:
 
    **Notes:**
 
-   - The sign of ``mp`` is swapped in comparison with the specification. However, for the following compression only absolute values are relevant.
+   - The coefficients of ``mp`` are additive inverse as they would be according to the specification. For the following compression, however, only the distances from zero of the coefficients are relevant, which are the same in both cases.
 
-Kyber IND-CCA2
-""""""""""""""
+Kyber.CCAKEM
+""""""""""""
 
 **Encapsulation**
 
-IND-CCA2 encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]_:
+Encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]_:
 
 .. admonition:: Kyber_KEM_Encryptor::raw_kem_encrypt()
 
@@ -684,7 +682,7 @@ IND-CCA2 encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]
 
 **Decapsulation**
 
-IND-CCA2 decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]_:
+Decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]_:
 
 .. admonition:: Kyber_KEM_Decryptor::raw_kem_decrypt()
 
@@ -710,6 +708,6 @@ IND-CCA2 decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]
    - Algorithm 9 [Kyber-R3]_ only takes the secret key bytes as input. These can be transformed to a ``Kyber_PrivateKey`` object using the respective constructor which performs the parsing of the secret key like in L. 1-3 of Alg. 9 [Kyber-R3]_.
    - Regarding side-channel attacks, Botan's operations after step 2 are crucial. Therefore, ``pointwise_acc_montgomery``, ``invntt``, ``to_message``, and the subtraction and reduction are constant-time implementations.
 
-**Remark:** [Kyber-R3]_ notes that implementations of the 90s variant may be vulnerable to timing attacks if the used AES is not constant time. However, like all of Botan's AES implementations, the one used for Kyber's 90s versions is.
+**Remark:** [Kyber-R3]_ notes that implementations of the 90s variant may be vulnerable to timing attacks if the AES implementation is not constant time. However, like all of Botan's AES implementations, the one used for Kyber's 90s versions is.
 
 **Remark:** Modular operations are performed with Barrett and Montgomery reductions.
