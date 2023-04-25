@@ -562,13 +562,13 @@ Its child classes ``Kyber_KEM_Encryptor`` and ``Kyber_KEM_Decryptor`` respective
 
 **Keys**
 
-The class ``Kyber_KEM_Cryptor`` has a member ``public_key`` used for encryption, supplying the values ``seed`` and ``pk_t``(:math:`\mathbf{\hat{t}}` of L.2, Alg. 5 [Kyber-R3]_).
+The class ``Kyber_KEM_Cryptor`` has a member ``public_key`` used for encryption, supplying the values ``seed`` and ``pk_t`` (:math:`\mathbf{\hat{t}}` of L.2, Alg. 5 [Kyber-R3]_).
 In the following, we denote the public key as ``pk = (pk_t, seed)``.
 
 The class ``Kyber_KEM_Decryptor`` has a ``Kyber_PrivateKey`` member ``key``.
 It supplies the hash value of the public key we call ``sk_h`` (:math:`h`, L.2, Alg. 9, [Kyber-R3]_).
 It also supplies the already decoded secret polynomial vector we call ``sk_s`` (:math:`\mathbf{\hat{s}}`, L.3, Alg. 6, [Kyber-R3]_).
-We, therefore, denote the secret key as ``sk=(sk_s, pk, sk_h, z)``, where ``z`` is the random value from the key generation.
+We, therefore, denote the secret key as ``sk = (sk_s, pk, sk_h, z)``, where ``z`` is the random value from the key generation.
 
 **Ciphertexts**
 
@@ -629,7 +629,7 @@ IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_:
 
    **Input:**
 
-   -  ``sk=(sk_s, pk, sk_h, z)``: secret key
+   -  ``sk = (sk_s, pk, sk_h, z)``: secret key
    -  ``c``: ciphertext bytes
 
    **Output:**
@@ -689,7 +689,7 @@ Decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]_:
 
    **Input:**
 
-   -  ``sk=(sk_s, pk, sk_h, z)``: secret key
+   -  ``sk = (sk_s, pk, sk_h, z)``: secret key
    -  ``encap_key``: encapsulated key bytes
 
    **Output:**
