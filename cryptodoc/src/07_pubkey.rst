@@ -552,6 +552,7 @@ Botan implements CRYSTALS-Kyber in ``src/lib/pubkey/kyber/`` according to the sp
 Refer to :ref:`Kyber Key Generation <pubkey_key_generation/kyber>` for more information on the key generation, parameters, and implementations of polynomial functions.
 
 **Structure**
+
 The IND-CCA2-secure KEM Kyber (Kyber.CCAKEM, Section 1.3, [Kyber-R3]_) is obtained from an IND-CPA-secure public-key encryption scheme (Kyber.CPAPKE, Section 1.2, [Kyber-R3]_) via a modified Fujisaki–Okamoto transform.
 The internal class ``Kyber_KEM_Cryptor`` found in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp`` implements the public-key encryption Kyber.CPAPKE.Enc.
 Its child classes ``Kyber_KEM_Encryptor`` and ``Kyber_KEM_Decryptor`` respectively implement the IND-CCA2-secure KEM Kyber.CCAKEM encapsulation/decapsulation [#kyber_cryptor_class]_.
@@ -603,7 +604,7 @@ Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_:
 
    **Steps:**
 
-   1. ``at = PolynomialMatrix::generate(seed, True, mode)`` (L. 3-8, Alg. 5 [Kyber-R3]_)
+   1. ``at = PolynomialMatrix::generate(seed, true, mode)`` (L. 3-8, Alg. 5 [Kyber-R3]_)
    2. ``sp = PolynomialVector::getnoise_eta1(coins, 0, mode)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1``, one for each component of ``sp``; L. 9-12, Alg. 5 [Kyber-R3]_)
    3. ``ep = PolynomialVector::getnoise_eta2(coins, k, mode)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta2``, one for each component of ``ep``; L. 13-16, Alg. 5 [Kyber-R3]_)
    4. ``epp = Polynomial::getnoise_eta2(coins, 2*k, mode)`` (L. 17, Alg. 5 [Kyber-R3]_)
@@ -646,7 +647,7 @@ IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_:
 
    **Notes:**
 
-   - The coefficients of ``mp`` are additive inverse as they would be according to the specification. For the following compression, however, only the distances from zero of the coefficients are relevant, which are the same in both cases.
+   - The coefficients of ``mp`` are additively inverse to the specification. For the subsequent compression, however, only the distances of the coefficients to zero are relevant, which are the same in both cases.
 
 Kyber.CCAKEM
 """"""""""""
