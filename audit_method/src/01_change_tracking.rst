@@ -125,9 +125,9 @@ Die Integrität des Repositories wird über den Commit SHA-1 Hash des
 Vorgängercommits sichergestellt. Da im Header des Vorgängercommits dessen
 Vorgängercommit SHA-1 Hash vorhanden ist kann die Kette bis zum initialen Commit
 gebildet und sichergestellt werden. Das heißt, dass die Veränderung eines
-Commits dazu führt das sich alle nachfolgenden Commit Hashes ändern und diese
-Veränderung erkannt wird. Um sicherzustellen das eine lokale Repository Kopie
-nicht verändert wurde muss daher der SHA-1 Hash des letzten bzw. aktuellsten
+Commits dazu führt, dass sich alle nachfolgenden Commit Hashes ändern und diese
+Veränderung erkannt wird. Um sicherzustellen, dass eine lokale Repository-Kopie
+nicht verändert wurde, muss daher der SHA-1 Hash des letzten bzw. aktuellsten
 Commits des lokalen Repositories mit dem entfernten Repository (bspw. auf
 GitHub) verglichen werden.
 
