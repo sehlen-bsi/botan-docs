@@ -56,8 +56,8 @@ Interface (Verzeichnis *src/cli*), der Python-Wrapper (Verzeichnis *src/python*)
 das Buildsystem (Skript *configure.py* und Verzeichnis *src/build-data*) sowie die
 Dokumentation (Verzeichnis *doc*).
 
-Alle Patches werden nun manuell thematisch vorsortiert und danach einzeln
-analysiert, nach Sicherheitsrelevanz klassifiziert und die enthaltenen
+Alle identifizierten Patches werden manuell thematisch vorsortiert und danach
+einzeln analysiert, nach Sicherheitsrelevanz klassifiziert und die enthaltenen
 Änderungen dokumentiert. Das Ergebnis ist ein detailierter themenbezogener
 Änderungsbericht mit Referenzen zu allen relevanten Patches. Eine spätere
 Nachvollziehbarkeit (etwa durch Dritte) ist damit leicht zu gewährleisten.
@@ -131,15 +131,15 @@ nicht verändert wurde, muss daher der SHA-1 Hash des letzten bzw. aktuellsten
 Commits des lokalen Repositories mit dem entfernten Repository (bspw. auf
 GitHub) verglichen werden.
 
-Git ist also inherent von der Kollisionsresistenz in SHA-1 abhängig. Andernfalls
-könnten Commit-Paare mit gleichem SHA-1 Hash verwendet werden um Schadcode
-unbemerkt vom oben beschriebenen Audit Prozess in ein Repository einzuschleusen.
-Ein Angreifer müsste dafür ein Paar von validen Git Commit Objekten mit
-einerseits harmlosen (aber funktionsfähigen) Änderungen und andererseits einem
-Schadcode erzeugen. Eine 2017 von Stevens et al. veröffentlichte Schwachstelle
-in SHA-1 [SHATRD]_ ermöglicht dies zwar theoretisch; es ist uns zum aktuellen
-Zeitpunkt aber kein Beispiel bekannt, wo dies erfolgreich für Git Commit Objekte
-demonstriert wurde.
+Git ist also inhärent von der Kollisionsresistenz in SHA-1 abhängig. Durch eine
+Hash-Kollision könnten Commit-Paare mit gleichem SHA-1 Hash verwendet werden, um
+Schadcode unbemerkt vom oben beschriebenen Audit-Prozess in ein Repository
+einzuschleusen. Ein Angreifer müsste dafür ein Paar von validen Git Commit
+Objekten mit einerseits harmlosen (aber funktionsfähigen) Änderungen und
+andererseits einem Schadcode erzeugen, die denselben Commit Hash besitzen. Eine
+2017 von Stevens et al. veröffentlichte Schwachstelle in SHA-1 [SHATRD]_
+ermöglicht dies zwar theoretisch; es ist uns zum aktuellen Zeitpunkt aber kein
+Beispiel bekannt, wo dies erfolgreich für Git Commit Objekte demonstriert wurde.
 
 Dabei ist es wichtig zu wissen, dass für eine erfolgreiche Kollision beide
 Commits (der Harmlose wie auch der Manipulierte) vom Angreifer erzeugt werden
@@ -147,7 +147,7 @@ müssten. Es ist also ausdrücklich *nicht* möglich einen existierenden legitim
 Commit des Repositorys nachträglich auszutauschen. Der Angreifer müsste den
 harmlosen Commit also schon frühzeitig in Botan einschleusen.
 
-Mittels Counter-Cryptoanalyse lassen sich Objekte die Teil eines solchen
+Mittels Counter-Kryptoanalyse lassen sich Objekte die Teil eines solchen
 Angriffs sind aber sicher erkennen (siehe SHA-1-DC [SHA1DC]_). Seit
 Bekanntwerden der Schwachstelle verwenden sowohl GitHub [#githubsha1]_ als auch
 Git [#gitsha1]_ SHA-1-DC und lehnen Objekte ab die Teil einer so erzeugten
@@ -159,7 +159,7 @@ Hashfunktion angestrebt werden. Dies liegt aber mangels Unterstützung der Git
 Hosting-Provider (wie etwa GitHub) [#lwngitsha1]_ nicht in der Hand der
 Botan-Entwickler oder den Auditoren in diesem Projekt. Durch die wirksamen
 Gegenmaßnahmen mittels SHA-1-DC ist es zum gegebenen Zeitpunkt aber vertretbar
-Git für den beschriebenen Audit Prozess zu vertrauen.
+Git für den beschriebenen Audit-Prozess zu vertrauen.
 
 Weiterhin bietet Git die Möglichkeit einzelne Commits mittels GPG zu signieren.
 Auf diese Weise wird die Authentizität der Commits sichergestellt. Die Botan
