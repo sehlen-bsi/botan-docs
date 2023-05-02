@@ -13,7 +13,8 @@ jobs:
       matrix:
         element: [ {name: Crypto Documentation, dir: cryptodoc, out_name: crypto},
                    {name: Audit Method Description, dir: audit_method, out_name: audit_method},
-                   {name: Test Specification, dir: testspec, out_name: testspec} ]
+                   {name: Test Specification, dir: testspec, out_name: testspec},
+                   {name: SC Analysis (MS 4.1), dir: ms41_side_channel_report, out_name: ms41_sc_report} ]
 
     name: Build PDF - ${{ matrix.element.name }}
     runs-on: ubuntu-22.04
