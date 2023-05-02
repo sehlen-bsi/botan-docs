@@ -62,9 +62,9 @@
    Information technology -- Security techniques -- Digital signature schemes giving message recovery -- Part 2:
    Integer factorization based mechanisms
 
-.. [ISO-14888-3] ISO/IEC 14888-3:2006:
+.. [ISO-14888-3] ISO/IEC 14888-3:2018:
    Information technology -- Security techniques -- Digital signatures with appendix -- Part 3:
-   Discrete logarithm based mechanisms (with technical corrigendum 2, published 2009-02-15)
+   Discrete logarithm based mechanisms
 
 .. [ISO-15946-1] ISO/IEC 15946-1:2016:
    Information technology -- Security techniques -- Cryptographic techniques based on elliptic curves -- Part 1: General
