@@ -471,3 +471,85 @@ in constant time on identical hardware if the hash function computations
 run in constant time. Therefore, an attacker can infer the position in
 the tree that the algorithm is currently working on even if only a
 single thread is used.
+
+.. _pubkey_key_generation/kyber:
+
+Kyber
+-----
+
+Botan implements the CRYSTALS-Kyber KEM in
+``src/lib/pubkey/kyber/``. The implementation is based on the NIST round 3 specification [Kyber-R3]_.
+The list of supported algorithms and their parameters is depicted in
+Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table_params>`.
+All possible modes are represented by the class ``KyberMode`` found in ``src/lib/pubkey/kyber/kyber_common``.
+The ``_90s`` suffix denotes different symmetric functions for Kyber's \"90s mode\", which uses SHA2 and AES instead of SHA3 and SHAKE as symmetric primitives.
+The abstract adapter class ``Kyber_Symmetric_Primitives`` is the interface for Kyber's five symmetric primitives, which are instantiated either as a ``Kyber_Modern_Symmetric_Primitives`` object (in ``src/lib/pubkey/kyber/kyber``) for modern Kyber
+or as a ``Kyber_90s_Symmetric_Primitives`` one (in ``src/lib/pubkey/kyber/kyber_90s``) for the 90s variant (see Table :ref:`Kyber's symmetric primitives <pubkey_key_generation/kyber/table_sym_primitives>`).
+For each mode, the ``KyberConstants`` class contains the corresponding set of parameters and symmetric functions (``Kyber_Symmetric_Primitives``).
+
+.. _pubkey_key_generation/kyber/table_params:
+
+.. table::  Supported Kyber parameter sets (see Section 1.4 in [Kyber-R3]_)
+
+   +-------------------+-----+---+------+------+------+-----+-----+
+   |  Mode             | N   | k | Q    | eta1 | eta2 | d_u | d_v |
+   +===================+=====+===+======+======+======+=====+=====+
+   | Kyber512          | 256 | 2 | 3329 | 3    | 2    | 10  | 4   |
+   +-------------------+-----+---+------+------+------+-----+-----+
+   | Kyber768          | 256 | 3 | 3329 | 2    | 2    | 10  | 4   |
+   +-------------------+-----+---+------+------+------+-----+-----+
+   | Kyber1024         | 256 | 4 | 3329 | 2    | 2    | 11  | 5   |
+   +-------------------+-----+---+------+------+------+-----+-----+
+
+.. _pubkey_key_generation/kyber/table_sym_primitives:
+
+.. table:: Kyber's symmetric primitives (see Section 1.4 in [Kyber-R3]_)
+
+   +-------------------+--------------+----------+-----------+--------------+------------+
+   |  Variant          | XOF          | H        | G         | PRF          | KDF        |
+   +===================+==============+==========+===========+==============+============+
+   | Kyber             | SHAKE-128    | SHA3-256 | SHA3-512  | SHAKE-256    | SHAKE-256  |
+   +-------------------+--------------+----------+-----------+--------------+------------+
+   | Kyber 90s         | AES-256-CTR  | SHA-256  | SHA512    | AES-256-CTR  | SHA-256    |
+   +-------------------+--------------+----------+-----------+--------------+------------+
+
+Kyber itself is implemented in ``src/lib/pubkey/kyber/kyber_common/kyber.cpp``.
+Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes, respectively.
+``Polynomial`` and ``PolynomialVector`` support member functions ``.ntt()`` and ``.invntt()`` for the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_) and fast multiplication in the NTT domain.
+Multiplication of two polynomial vectors in NTT domain ``a*b`` is given via the function ``PolynomialVector::pointwise_acc_montgomery`` using Montgomery reduction.
+Note that the inverse NTT is called ``.invntt_tomont()`` in Botan's implementation as it directly multiplies by the Montgomery factor; however, for simplicity, we write ``.invntt()`` in this documentation.
+
+Additionally, ``PolynomialMatrix`` has a member function ``generate(seed, transposed, mode)``, which generates a (possibly transposed) ``k``:math:`\times`\ ``k`` matrix ``a`` from the ``seed`` given a ``mode``.
+The matrix is already generated in the NTT domain via rejection sampling with ``XOF`` (using the function ``Polynomial::sample_rej_uniform(XOF)`` that corresponds to **Algorithm 1** of [Kyber-R3]_).
+
+**Algorithm 2** of [Kyber-R3]_ is implemented via the member function ``Polynomial::getnoise_cbd2`` for the case ``eta1=2`` (and a respective version for ``eta1=3``). It deterministically samples noise from a centered binomial distribution.
+
+Encoding/decoding of polynomials (**Algorithm 3** of [Kyber-R3]_) is realized via the ``Polynomial::to_bytes()``/ ``Polynomial::from_bytes()`` functions.
+
+Based on these functions the key generation process follows **Algorithms 4 and 7** of [Kyber-R3]_ and works as follows:
+
+.. admonition:: Kyber_PrivateKey::Kyber_PrivateKey()
+
+   **Input:**
+
+   -  ``rng``: random number generator
+   -  ``m``: Kyber mode providing (``N``, ``k``, ``Q``, ``XOF``, ``H``, ``G``, ``PRF``, ``KDF``), see Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table_params>` and Table :ref:`Kyber's symmetric primitives <pubkey_key_generation/kyber/table_sym_primitives>`
+
+   **Output:**
+
+   -  ``sk``: secret key
+   -  ``pk``: public key
+
+   **Steps:**
+
+   1. ``(seed1 || seed2) = G(d)`` where d is generated using ``rng`` and each seed has the same length (L. 1-2, Alg. 4 [Kyber-R3]_)
+   2. ``a = PolynomialMatrix::generate(seed1, false, m)`` (L. 4-8, Alg. 4 [Kyber-R3]_)
+   3. ``s = PolynomialVector::getnoise_eta1(seed2, 0, m)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1``, one for each component of ``s``; L. 9-12, Alg. 4 [Kyber-R3]_)
+   4. ``e = PolynomialVector::getnoise_eta1(seed2, k, m)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1``, one for each component of ``e``; L. 13-16, Alg. 4 [Kyber-R3]_)
+   5. ``s.ntt()`` and ``e.ntt()`` (L. 17-18, Alg. 4 [Kyber-R3]_)
+   6. ``pk = (a*s + e, seed1)`` and ``sk = (s, pk, H(pk), z)`` where ``z`` is freshly generated with ``rng`` (L. 19-22, Alg. 4 [Kyber-R3]_ and L.1, 3, Alg. 7 [Kyber-R3]_)
+
+   **Notes:**
+
+   - The member function ``Polynomial::getnoise_eta1(seed, nonce, mode)`` uses ``PRF`` on the seed with incremented nonce values to call ``Polynomial::getnoise_cbd2`` or ``Polynomial::getnoise_cbd3`` depending on ``eta1``.
+   - Serialization to bytes of the keys (:math:`\mathsf{Encode}` in L.20, 21, Alg. 4 [Kyber-R3]_) is performed via the constructor of the internal classes for public and secret keys (``Kyber_PublicKeyInternal`` and ``Kyber_PrivateKeyInternal``) by calling ``Polynomial::to_bytes()``.

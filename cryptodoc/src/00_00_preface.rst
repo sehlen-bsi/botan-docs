@@ -24,6 +24,7 @@ This document describes the cryptographic implementations of Botan.
 | Philippe Lieser (PL)
 | René Meusel (RM)
 | Fabian Albert (FA)
+| Amos Treiber (AT)
 
 **Copyright**
 
