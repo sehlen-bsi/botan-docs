@@ -96,11 +96,6 @@
    2015.
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
 
-.. [NIST-HashSigs] National Institute of Standards and Technology
-   SP.800-208: "Recommendation for Stateful Hash-Based Signature Schemes"
-   October 2020.
-   https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-208.pdf
-
 .. [ReqEC] BSI.
    Minimum Requirements for Evaluating Side-Channel Attack Resistance of Elliptic Curve Implementations.
    Version 2.0, 21.11.2016
@@ -163,6 +158,11 @@
    "Recommendation for Key Derivation Using Pseudorandom Functions",
    https://csrc.nist.gov/publications/detail/sp/800-108/rev-1/final,
    August 2022
+
+.. [SP800-208] NIST Special Publication 800-208:
+   "Recommendation for Stateful Hash-Based Signature Schemes",
+   https://csrc.nist.gov/publications/detail/sp/800-208/final,
+   October 2020
 
 .. [TR-02102-1] BSI Technische Richtlinie BSI TR-02102-1:
    "Kryptographische Verfahren: Empfehlungen und Schlüssellängen",
