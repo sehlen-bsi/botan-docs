@@ -19,7 +19,8 @@ Bibliothek dar.
 
 **Autoren**
 
-| Fraunhofer AISEC
+| Alexander Wagner (AW)
+| Andreas Seelos-Zankl (ASZ)
 
 **Copyright**
 
