@@ -26,11 +26,13 @@ Die sieben Funktionen lassen sich in vier Kategorien zusammenfassen:
   3) die Unendlichkeitsnorm von *r_0*
   4) die Erzeugung der Polynommatrix *A*
 
-Als Referenz ist nachfolgend der Pseudocode von Dilithium angeführt.
+Als Referenz ist nachfolgend der :ref:`Pseudocode von Dilithium <dilithium_sc/pseudocode>` angeführt.
 Der deterministische Modus unterscheidet sich vom randomisierten Modus nur durch die Wahl von *ρ'* in Zeile 12.
 Das berechnete oder zufällig gewählte *ρ'* wird anschließend in der Funktion `ExpandMask()`, in Zeile 14, verwendet.
 Für diesen Schritt des Algorithmus wurde in der Analyse kein Leak identifiziert.
 Die Wahl von *ρ'* hat daher keinen weiteren Einfluss auf die Analyse, für die ausschließlich der deterministische Modus verwendet wurde.
+
+.. _dilithium_sc/pseudocode:
 
 .. figure:: img/dilithium-pseudo-code.png
    :scale: 50 %
