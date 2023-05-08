@@ -122,7 +122,9 @@ Changelog
    |         |          | - ``CMAC::poly_double()`` removed           |            |
    |         |          | - Adapt to file moves                       |            |
    +---------+----------+---------------------------------------------+------------+
-   | 1.6.0   | FA, RM   | Update to 3.0.0:                            | TBD        |
+   | 1.6.0   | FA, AT,  | Update to 3.0.0:                            | TBD        |
+   |         | RM       | - Currently work-in-progress                |            |
    |         |          |                                             |            |
    |         |          | - XMSS with NIST's keygen and parameters    |            |
+   |         |          | - Add description of Kyber and Dilithium    |            |
    +---------+----------+---------------------------------------------+------------+
