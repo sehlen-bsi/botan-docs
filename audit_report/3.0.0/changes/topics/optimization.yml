@@ -1,0 +1,58 @@
+title: Optimization
+
+description: |
+  Optimizations of runtime or memory consumption characteristics of algorithms
+  and protocol implementations.
+
+patches:
+# Speed up sanitizer builds  (@randombit)
+- 3198:  # https://github.com/randombit/botan/pull/3198
+  classification: unspecified
+
+# Scale the ChaCha buffer size depending on hardware support  (@randombit)
+- 3193:  # https://github.com/randombit/botan/pull/3193
+  classification: unspecified
+
+# If dword is available, use it to implement word_add  (@randombit)
+- 3162:  # https://github.com/randombit/botan/pull/3162
+  classification: unspecified
+
+# performance: don't reserve before buffer inserting  (@hrantzsch)
+- 2943:  # https://github.com/randombit/botan/pull/2943
+  classification: unspecified
+
+# Fix CBC decrypt perfomance regression introduced by #3168  (@Jack Lloyd)
+- cf8f7b5bd0d9618ec9cb7412ed46eab186d6b1ce:  # https://github.com/randombit/botan/commit/cf8f7b5bd0d9618ec9cb7412ed46eab186d6b1ce
+  classification: unspecified
+
+# Revert #3162 adding a dword base implementation of word_add  (@Jack Lloyd)
+- 025d7133abf33bcb18d8351409b2bf313fae0795:  # https://github.com/randombit/botan/commit/025d7133abf33bcb18d8351409b2bf313fae0795
+  classification: unspecified
+
+# Add helpers for SHA-2 rotation operations  (@Jack Lloyd)
+- 4802354f42ca63873f5403dd1705bd0ea46349ba:  # https://github.com/randombit/botan/commit/4802354f42ca63873f5403dd1705bd0ea46349ba
+  classification: unspecified
+
+# Fix array bounds (GH #3065)  (@Jack Lloyd)
+- b202720802ebcb2ea23301c535da9ffe5367291b:  # https://github.com/randombit/botan/commit/b202720802ebcb2ea23301c535da9ffe5367291b
+  classification: unspecified
+
+# In SM2 encryption cache the hash and KDF objects instead of creating each time  (@randombit)
+- 3345:  # https://github.com/randombit/botan/pull/3345
+  classification: unspecified
+
+# Further improvements to Montgomery reduction  (@randombit)
+- 3161:  # https://github.com/randombit/botan/pull/3161
+  classification: unspecified
+
+# Remove pointless addition in the script-generated Montgomery redc  (@randombit)
+- 3159:  # https://github.com/randombit/botan/pull/3159
+  classification: unspecified
+
+# Cleanup the SHA-1 SSE2 code  (@randombit)
+- 3290:  # https://github.com/randombit/botan/pull/3290
+  classification: unspecified
+
+# Small cleanups in CRC24  (@randombit)
+- 3343:  # https://github.com/randombit/botan/pull/3343
+  classification: unspecified

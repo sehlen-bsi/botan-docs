@@ -1,0 +1,222 @@
+title: Transport Layer Security 1.3
+
+patches:
+# Add virtual TLS header  (@lieser)
+- 3483:  # https://github.com/randombit/botan/pull/3483
+  classification: unspecified
+
+# FIX: build with TLS 1.3 disabled  (@reneme)
+- 3466:  # https://github.com/randombit/botan/pull/3466
+  classification: unspecified
+
+# FIX: Session_Manager::find_all() is inefficient  (@reneme)
+- 3451:  # https://github.com/randombit/botan/pull/3451
+  classification: unspecified
+
+# TEST: disable session pruning in SQL manager  (@reneme)
+- 3448:  # https://github.com/randombit/botan/pull/3448
+  classification: unspecified
+
+# Improve locking in TLS::Session_Manager  (@reneme)
+- 3450:  # https://github.com/randombit/botan/pull/3450
+  classification: unspecified
+
+# When m_max_sessions is zero, don't prune the session cache.  (@oviano)
+- 3439:  # https://github.com/randombit/botan/pull/3439
+  classification: unspecified
+
+# [TLS 1.3] Dependency Lifetimes  (@reneme)
+- 3409:  # https://github.com/randombit/botan/pull/3409
+  classification: unspecified
+
+# m_cipher_state may be null in the early stages of handshake  (@oviano)
+- 3443:  # https://github.com/randombit/botan/pull/3443
+  classification: unspecified
+
+# [TLS 1.3] Generalize ephemeral key handling callbacks  (@reneme)
+- 3322:  # https://github.com/randombit/botan/pull/3322
+  classification: unspecified
+
+# [TLS 1.3] Use TLS::Callbacks::tls_session_established()  (@reneme)
+- 3337:  # https://github.com/randombit/botan/pull/3337
+  classification: unspecified
+
+# Regression Test: trying to reproduce GH #3342  (@reneme)
+- 3376:  # https://github.com/randombit/botan/pull/3376
+  classification: unspecified
+
+# Chore: Enable some more BoGo tests  (@reneme)
+- 3365:  # https://github.com/randombit/botan/pull/3365
+  classification: unspecified
+
+# Chore: Update BoringSSL's test suite to latest master  (@reneme)
+- 3364:  # https://github.com/randombit/botan/pull/3364
+  classification: unspecified
+
+# [TLS 1.3] Cleanup Session Object  (@reneme)
+- 3316:  # https://github.com/randombit/botan/pull/3316
+  classification: unspecified
+
+# [TLS 1.3] Support Session Resumption for TLS Server   (@reneme)
+- 3140:  # https://github.com/randombit/botan/pull/3140
+  classification: unspecified
+
+# [TLS 1.3] Consolidate the Session Manager  (@reneme)
+- 3150:  # https://github.com/randombit/botan/pull/3150
+  classification: unspecified
+
+# [TLS 1.3] Update Migration Guide  (@reneme)
+- 3308:  # https://github.com/randombit/botan/pull/3308
+  classification: unspecified
+
+# Convert the TLS version enum to an enum class  (@randombit)
+- 3312:  # https://github.com/randombit/botan/pull/3312
+  classification: unspecified
+
+# Change Credentials_Manager::private_key_for to return a shared_ptr  (@randombit)
+- 3258:  # https://github.com/randombit/botan/pull/3258
+  classification: unspecified
+
+# Doc/FIX: misleading usage of Credentials_Manager::cert_chain()  (@reneme)
+- 3260:  # https://github.com/randombit/botan/pull/3260
+  classification: unspecified
+
+# Modify TLS Alert enum names  (@randombit)
+- 3246:  # https://github.com/randombit/botan/pull/3246
+  classification: unspecified
+
+# [TLS 1.3] Prepare for Session Consolidation  (@reneme)
+- 3244:  # https://github.com/randombit/botan/pull/3244
+  classification: unspecified
+
+# FIX: rendering of TLS::Text_Policy::record_size_limit()  (@reneme)
+- 3243:  # https://github.com/randombit/botan/pull/3243
+  classification: unspecified
+
+# Convert TLS::Handshake_Type to an enum class  (@randombit)
+- 3240:  # https://github.com/randombit/botan/pull/3240
+  classification: unspecified
+
+# Make TLS::Record_Type an enum class  (@randombit)
+- 3237:  # https://github.com/randombit/botan/pull/3237
+  classification: unspecified
+
+# Make TLS::Connection_Side an enum class  (@randombit)
+- 3235:  # https://github.com/randombit/botan/pull/3235
+  classification: unspecified
+
+# [TLS 1.3] Support signature_algorithm_cert Extension  (@reneme)
+- 3125:  # https://github.com/randombit/botan/pull/3125
+  classification: unspecified
+
+# [TLS 1.3] tls_reader benefiting std span usage  (@devnexen)
+- 3194:  # https://github.com/randombit/botan/pull/3194
+  classification: unspecified
+
+# [TLS 1.3] further usage of std::span.  (@devnexen)
+- 3187:  # https://github.com/randombit/botan/pull/3187
+  classification: unspecified
+
+# Use an inner TLS_Data_Reader when decoding TLS extensions  (@randombit)
+- 3144:  # https://github.com/randombit/botan/pull/3144
+  classification: unspecified
+
+# Convert Handshake_Extensions_Type to an enum class  (@randombit)
+- 3145:  # https://github.com/randombit/botan/pull/3145
+  classification: unspecified
+
+# Remove DSA codes from TLS::Signature_Scheme  (@randombit)
+- 3143:  # https://github.com/randombit/botan/pull/3143
+  classification: unspecified
+
+# [TLS 1.3] OCSP Stapling  (@reneme)
+- 3112:  # https://github.com/randombit/botan/pull/3112
+  classification: unspecified
+
+# [TLS 1.3] Handle KeyUpdate post-handshake message in the Server  (@reneme)
+- 3118:  # https://github.com/randombit/botan/pull/3118
+  classification: unspecified
+
+# [TLS 1.3] Server honors the Record Size Limit Extension  (@reneme)
+- 3116:  # https://github.com/randombit/botan/pull/3116
+  classification: unspecified
+
+# [TLS 1.3] ALPN for the server  (@reneme)
+- 3117:  # https://github.com/randombit/botan/pull/3117
+  classification: unspecified
+
+# [TLS 1.3] Server-Side Client Authentication  (@reneme)
+- 3081:  # https://github.com/randombit/botan/pull/3081
+  classification: unspecified
+
+# [TLS 1.3] Basic Server Implementation  (@reneme)
+- 3053:  # https://github.com/randombit/botan/pull/3053
+  classification: unspecified
+
+# [TLS 1.3] Refactor: Prepare for TLS 1.3 Server  (@reneme)
+- 3062:  # https://github.com/randombit/botan/pull/3062
+  classification: unspecified
+
+# [TLS 1.3] Overhaul TLS::Callbacks  (@reneme)
+- 2988:  # https://github.com/randombit/botan/pull/2988
+  classification: unspecified
+
+# [TLS 1.3] Overhaul TLS::Policy  (@reneme)
+- 2989:  # https://github.com/randombit/botan/pull/2989
+  classification: unspecified
+
+# [TLS 1.3] FIX: Record Layer must handle multiple records in compatibility mode  (@reneme)
+- 3064:  # https://github.com/randombit/botan/pull/3064
+  classification: unspecified
+
+# [TLS 1.3] Fuzz Target for Handshake Message Parsing  (@lz101010)
+- 3013:  # https://github.com/randombit/botan/pull/3013
+  classification: unspecified
+
+# [TLS 1.3] Session Resumption  (@reneme)
+- 2974:  # https://github.com/randombit/botan/pull/2974
+  classification: unspecified
+
+# [TLS 1.3] Client Authentication in the main Handshake  (@hrantzsch)
+- 2957:  # https://github.com/randombit/botan/pull/2957
+  classification: unspecified
+
+# [TLS 1.3] Limited TLS 1.3 Client Implementation  (@hrantzsch)
+- 2922:  # https://github.com/randombit/botan/pull/2922
+  classification: unspecified
+
+# [TLS 1.3] Add a "consolidation c'tor" for Test::Result  (@reneme)
+- 2967:  # https://github.com/randombit/botan/pull/2967
+  classification: unspecified
+
+# Introduce TLS::Callbacks::tls_current_timestamp()  (@reneme)
+- 2976:  # https://github.com/randombit/botan/pull/2976
+  classification: unspecified
+
+# [TLS 1.3] Preparations for addition of TLS 1.3  (@reneme)
+- 2946:  # https://github.com/randombit/botan/pull/2946
+  classification: unspecified
+
+# [TLS 1.3] Fallback for Fixed_Output_RNG  (@reneme)
+- 2949:  # https://github.com/randombit/botan/pull/2949
+  classification: unspecified
+
+# [TLS 1.3] Extract Handshake_Transitions from Handshake_State  (@reneme)
+- 2947:  # https://github.com/randombit/botan/pull/2947
+  classification: unspecified
+
+# [TLS 1.3] Additional convenience methods for TLS_Data_Reader  (@reneme)
+- 2948:  # https://github.com/randombit/botan/pull/2948
+  classification: unspecified
+
+# [TLS 1.3] Test Framework Utilities  (@reneme)
+- 2941:  # https://github.com/randombit/botan/pull/2941
+  classification: unspecified
+
+# [TLS 1.3] Build Module Configuration  (@reneme)
+- 3468:  # https://github.com/randombit/botan/pull/3468
+  classification: unspecified
+
+# Public TLS API uses std::span  (@reneme)
+- 3363:  # https://github.com/randombit/botan/pull/3363
+  classification: unspecified

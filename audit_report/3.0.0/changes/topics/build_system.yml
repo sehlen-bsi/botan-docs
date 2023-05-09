@@ -1,0 +1,106 @@
+title: Build and Configuration System
+
+patches:
+# Remove the configure.py option --with-everything  (@randombit)
+- 3433:  # https://github.com/randombit/botan/pull/3433
+  classification: unspecified
+
+# The Windows library should also include the major version  (@randombit)
+- 3231:  # https://github.com/randombit/botan/pull/3231
+  classification: unspecified
+
+# Drop VC 2019 support  (@randombit)
+- 3224:  # https://github.com/randombit/botan/pull/3224
+  classification: unspecified
+
+# Remove --test-mode  (@randombit)
+- 3133:  # https://github.com/randombit/botan/pull/3133
+  classification: unspecified
+
+# CI: Allow building out-of-source  (@reneme)
+- 3077:  # https://github.com/randombit/botan/pull/3077
+  classification: unspecified
+
+# Use C++20 for Botan 3.0  (@randombit)
+- 3086:  # https://github.com/randombit/botan/pull/3086
+  classification: unspecified
+
+# Bump to Android NDK 25b  (@randombit)
+- 3088:  # https://github.com/randombit/botan/pull/3088
+  classification: unspecified
+
+# Fix out-of-source builds on windows  (@dg0yt)
+- 3072:  # https://github.com/randombit/botan/pull/3072
+  classification: unspecified
+
+# Test: Allow reporting results as JUnit  (@reneme)
+- 3028:  # https://github.com/randombit/botan/pull/3028
+  classification: unspecified
+
+# Handle multiple `src` dirs in source path  (@dg0yt)
+- 3069:  # https://github.com/randombit/botan/pull/3069
+  classification: unspecified
+
+# fix source path of "compiler_include_dirs" with cmake on windows  (@boricm)
+- 3060:  # https://github.com/randombit/botan/pull/3060
+  classification: unspecified
+
+# FIX: emscripten object file suffix is .o  (@reneme)
+- 3045:  # https://github.com/randombit/botan/pull/3045
+  classification: unspecified
+
+# Feature: <module_info> in info.txt files  (@reneme)
+- 3032:  # https://github.com/randombit/botan/pull/3032
+  classification: unspecified
+
+# ./configure.py --terminate-on-asserts  (@reneme)
+- 2980:  # https://github.com/randombit/botan/pull/2980
+  classification: unspecified
+
+# Stop linking against libboost_system / start using -isystem compiler option  (@reneme)
+- 3010:  # https://github.com/randombit/botan/pull/3010
+  classification: unspecified
+
+# Fix distribution of release candidates  (@Jack Lloyd)
+- 2db85727e8c9f19745298c2a4c5320986a47fbfe:  # https://github.com/randombit/botan/commit/2db85727e8c9f19745298c2a4c5320986a47fbfe
+  classification: unspecified
+
+# Tidy up OS feature flags  (@Jack Lloyd)
+- fd3303f6baa4245fd1e6b66934806c32bafbde74:  # https://github.com/randombit/botan/commit/fd3303f6baa4245fd1e6b66934806c32bafbde74
+  classification: unspecified
+
+# Add support for explicit_bzero on Linux  (@Jack Lloyd)
+- e6819a380fb67c1be546dc618248b62d93266423:  # https://github.com/randombit/botan/commit/e6819a380fb67c1be546dc618248b62d93266423
+  classification: unspecified
+
+# Remove further obsolete/unused build.h toggles  (@Jack Lloyd)
+- 37896ecb6c52a469ab10f0c2068427b80caa0c72:  # https://github.com/randombit/botan/commit/37896ecb6c52a469ab10f0c2068427b80caa0c72
+  classification: unspecified
+
+# Remove unused build.h toggles  (@Jack Lloyd)
+- ab99bb231220c6ca772cfdad333c841ee64d7e26:  # https://github.com/randombit/botan/commit/ab99bb231220c6ca772cfdad333c841ee64d7e26
+  classification: unspecified
+
+# Fix configure.py when invoked as an absolute path  (@Jack Lloyd)
+- 3b15cd6a1d9eb7048807cfa21ab3129b712cc221:  # https://github.com/randombit/botan/commit/3b15cd6a1d9eb7048807cfa21ab3129b712cc221
+  classification: unspecified
+
+# Allow the user to disable internal modules  (@randombit)
+- 3489:  # https://github.com/randombit/botan/pull/3489
+  classification: unspecified
+
+# Remove support for IncludeOS  (@randombit)
+- 3406:  # https://github.com/randombit/botan/pull/3406
+  classification: unspecified
+
+# src/build-data/arch/superh.txt: add sh4{eb,aeb}  (@ffontaine)
+- 3038:  # https://github.com/randombit/botan/pull/3038
+  classification: unspecified
+
+# Update BSI policy  (@lieser)
+- 2998:  # https://github.com/randombit/botan/pull/2998
+  classification: unspecified
+
+# Add kyber, argon2 to BSI module policy  (@securitykernel)
+- 2930:  # https://github.com/randombit/botan/pull/2930
+  classification: unspecified

@@ -1,0 +1,34 @@
+title: PBKDF
+
+patches:
+# Fix invocation of create_or_throw  (@Jack Lloyd)
+- 9eba029ade68ce39f9ef320801b1a1ce656a086d:  # https://github.com/randombit/botan/commit/9eba029ade68ce39f9ef320801b1a1ce656a086d
+  classification: unspecified
+
+# Avoid calling deprecated function  (@Jack Lloyd)
+- 6081828bcc168ec0898607c3ba6295b0f77ed250:  # https://github.com/randombit/botan/commit/6081828bcc168ec0898607c3ba6295b0f77ed250
+  classification: unspecified
+
+# Deprecate these PBKDF getters  (@Jack Lloyd)
+- 6cab72f55f30210310c43b6b245215f0c36f0124:  # https://github.com/randombit/botan/commit/6cab72f55f30210310c43b6b245215f0c36f0124
+  classification: unspecified
+
+# Allow runtime configuration of PBKDF tuning runtime  (@randombit)
+- 3401:  # https://github.com/randombit/botan/pull/3401
+  classification: unspecified
+
+# Add AVX2 implementation of Argon2's BLAMKA function  (@randombit)
+- 3205:  # https://github.com/randombit/botan/pull/3205
+  classification: unspecified
+
+# Enable 'argon2fmt' in the BSI build policy  (@reneme)
+- 3014:  # https://github.com/randombit/botan/pull/3014
+  classification: unspecified
+
+# Add Argon2 SSSE3 implementation  (@randombit)
+- 2927:  # https://github.com/randombit/botan/pull/2927
+  classification: unspecified
+
+# Add threading to Argon2  (@randombit)
+- 2926:  # https://github.com/randombit/botan/pull/2926
+  classification: unspecified

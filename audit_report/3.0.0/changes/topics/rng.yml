@@ -1,0 +1,34 @@
+title: Random Number Generator
+
+patches:
+# std::span (and more) for Botan::RandomNumberGenerator  (@reneme)
+- 3195:  # https://github.com/randombit/botan/pull/3195
+  classification: unspecified
+
+# Change how AutoSeeded_RNG HMAC is chosen  (@randombit)
+- 3403:  # https://github.com/randombit/botan/pull/3403
+  classification: unspecified
+
+# Feature: Generalization of RandomNumberGenerator::random_vec()  (@reneme)
+- 3201:  # https://github.com/randombit/botan/pull/3201
+  classification: unspecified
+
+# Remove Serialized_RNG  (@randombit)
+- 3157:  # https://github.com/randombit/botan/pull/3157
+  classification: unspecified
+
+# Fix UWP System_RNG build issue (GH #2887)  (@randombit)
+- 2909:  # https://github.com/randombit/botan/pull/2909
+  classification: unspecified
+
+# Add a test that RNGs accept input and output lengths of many sizes  (@Jack Lloyd)
+- a379e17340ce26a6f71fd59e3b5ec352d2cce152:  # https://github.com/randombit/botan/commit/a379e17340ce26a6f71fd59e3b5ec352d2cce152
+  classification: unspecified
+
+# Retry DARN instruction 10 times as suggested in PowerISA  (@reneme)
+- 3043:  # https://github.com/randombit/botan/pull/3043
+  classification: unspecified
+
+# Enable getrandom/getentropy again  (@randombit)
+- 3176:  # https://github.com/randombit/botan/pull/3176
+  classification: unspecified
