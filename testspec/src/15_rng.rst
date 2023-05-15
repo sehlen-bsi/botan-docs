@@ -9,9 +9,9 @@ validates the correctness of the HMAC-DRBG random number generator
 (*hmac_drbg_unit*).
 
 All unit tests for various RNGs are implemented in
-*src/tests/test_rng.cpp.*
+:srcref:`src/tests/test_rng.cpp`.
 
-All Known-Answer tests are implemented in *src/tests/test_rng\_kat.cpp*.
+All Known-Answer tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`.
 
 HMAC-DRBG
 ---------
@@ -31,8 +31,8 @@ The tests are executed for HMAC-DRBG with SHA-1, SHA-224, SHA-256,
 SHA-384, SHA-512, and SHA-512-256.
 
 The following table shows an example test case with one test vector.
-Tests are implemented in *src/tests/test_rng_kat.cpp*. All test vectors
-are listed in *src/tests/data/rng/hmac_drbg.vec*.
+Tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`. All test vectors
+are listed in :srcref:`src/tests/data/rng/hmac_drbg.vec`.
 
 .. table::
    :class: longtable
@@ -77,7 +77,7 @@ Unit Test for HMAC-DRBG
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 The unit tests for HMAC-DRBG (**hmac_drbg_unit**) are implemented in
-*src/tests/test_rng.cpp.* They extend the **hmac_drbg** test suite with
+:srcref:`src/tests/test_rng.cpp`. They extend the **hmac_drbg** test suite with
 negative tests. The following additional properties of HMAC-DRBG are
 tested:
 

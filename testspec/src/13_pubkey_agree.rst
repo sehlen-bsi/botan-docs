@@ -9,7 +9,7 @@ that these test cases are described separately for each algorithm.
 
 Additionally, for each scheme unit tests make sure that encoding and
 decoding private and public keys works correctly. These tests are
-implemented in *src/tests/test\_pubkey.cpp*. These test cases are
+implemented in :srcref:`src/tests/test_pubkey.cpp`. These test cases are
 described here in the following.
 
 .. table::
@@ -253,7 +253,7 @@ Diffie-Hellman
 --------------
 
 The Diffie-Hellman key agreement scheme is tested with a known answer
-test as follows. The test is implemented in *src/tests/test\_dh.cpp*.
+test as follows. The test is implemented in :srcref:`src/tests/test_dh.cpp`.
 
 .. table::
    :class: longtable
@@ -307,7 +307,7 @@ Diffie-Hellman key agreement is tested with the following constraints:
    bits, 1536 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pubkey/dh.vec*.
+test vectors are listed in :srcref:`src/tests/data/pubkey/dh.vec`.
 
 .. table::
    :class: longtable
@@ -478,7 +478,7 @@ checks. These tests are executed with the following constraints:
 -  InvalidKey: 2,043 bits - 2,047 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pubkey/dh_invalid.vec*.
+test vectors are listed in :srcref:`src/tests/data/pubkey/dh_invalid.vec`.
 
 .. table::
    :class: longtable
@@ -543,7 +543,7 @@ Elliptic Curve Diffie Hellman
 
 The Elliptic Curve Diffie-Hellman key agreement scheme is tested with a
 known answer test as follows. The test is implemented in
-*src/tests/test\_ecdh.cpp*.
+:srcref:`src/tests/test_ecdh.cpp`.
 
 .. table::
    :class: longtable
@@ -588,7 +588,7 @@ constraints:
 -  K: 192 bits, 224 bits, 256 bits, 384 bits, 521 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pubkey/ecdh.vec*.
+test vectors are listed in :srcref:`src/tests/data/pubkey/ecdh.vec`.
 
 .. table::
    :class: longtable

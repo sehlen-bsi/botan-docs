@@ -10,7 +10,7 @@ TLS policy are first created. Afterwards, the client and the server
 attempt to execute a TLS handshake with a specific TLS/DTLS protocol
 version, key exchange method, and cipher algorithm.
 
-The tests are implemented in *src/tests/unit_tls.cpp*.
+The tests are implemented in :srcref:`src/tests/unit_tls.cpp`.
 
 The following TLS handshake tests are executed:
 
@@ -86,7 +86,7 @@ already tested in the TLS handshake execution test described in the
 previous section. We extended the test suite with positive and negative
 tests validating correct certificate handling.
 
-The tests are implemented in *src/tests/unit_tls\_policy.cpp*.
+The tests are implemented in :srcref:`src/tests/unit_tls_policy.cpp`.
 
 In the test different certificates with different key lengths are
 created and tested against the default TLS policy. Only certificates
@@ -153,7 +153,7 @@ are checked:
 -  Extensions
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/tls/client_hello.vec*.
+test vectors are listed in :srcref:`src/tests/data/tls/client_hello.vec`.
 
 .. table::
    :class: longtable
@@ -231,7 +231,7 @@ are checked:
 -  Extensions
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/tls/server_hello.vec*.
+test vectors are listed in :srcref:`src/tests/data/tls/server_hello.vec`.
 
 .. table::
    :class: longtable
@@ -312,7 +312,7 @@ The CertificateVerify message contains the following fields:
 -  Certificate
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/tls/cert_verify.vec*.
+test vectors are listed in :srcref:`src/tests/data/tls/cert_verify.vec`.
 
 .. table::
    :class: longtable
@@ -380,7 +380,7 @@ Hello Request
 The HelloRequest message does not contain any data.
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/tls/hello_request.vec*.
+test vectors are listed in :srcref:`src/tests/data/tls/hello_request.vec`.
 
 .. table::
    :class: longtable
@@ -443,7 +443,7 @@ The HelloVerify message contains the following fields:
 -  Cookie
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/tls/hello\_verify.vec*.
+test vectors are listed in :srcref:`src/tests/data/tls/hello_verify.vec`.
 
 .. table::
    :class: longtable
@@ -506,7 +506,7 @@ The NewSessionTicket message contains the following fields:
 -  Session ticket
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/tls/new_session_ticket.vec*.
+test vectors are listed in :srcref:`src/tests/data/tls/new_session_ticket.vec`.
 
 .. table::
    :class: longtable
@@ -570,7 +570,7 @@ executed in both asynchronous and synchronous ways, so as a result eight
 test cases exist.
 
 The tests are implemented in
-*src/tests/test_tls_stream_integration.cpp*.
+:srcref:`src/tests/test_tls_stream_integration.cpp`.
 
 .. table::
    :class: longtable
@@ -708,17 +708,17 @@ Additional TLS Tests
 TLS is further tested using various system tests, as listed in the
 following.
 
-The tests are implemented in *src/tests/test\_tls.cpp*.
+The tests are implemented in :srcref:`src/tests/test_tls.cpp`.
 
 -  Session handling: A test that encrypts and decrypts static session
    test data
 
 -  CBC padding: Tests that check TLS padding of a TLS CBC encrypted
    record. Test vectors are listed in
-   *src/tests/data/tls_cbc_padding.vec.*
+   :srcref:`src/tests/data/tls_cbc_padding.vec`.
 
 -  CBC: Tests that check parsing of valid and invalid TLS CBC encrypted
-   ciphertexts. Test vectors are listed in *src/tests/data/tls_cbc.vec.*
+   ciphertexts. Test vectors are listed in :srcref:`src/tests/data/tls_cbc.vec`.
 
 -  TLS alert: A test that checks the correct string representation of a
    TLS alert type
@@ -738,8 +738,8 @@ The tests are implemented in *src/tests/test\_tls.cpp*.
   implementation that can be configured to behave inconsistently with
   the TLS RFCs in a plethora of ways. To interface with this test suite,
   Botan provides an adapter that is implemented in:
-  *src/bogo_shim/bogo_shim.cpp*\ and a configuration in
-  *src/bogo_shim/config.json*.
+  :srcref:`src/bogo_shim/bogo_shim.cpp` and a configuration in
+  :srcref:`src/bogo_shim/config.json`.
 | Further details of this test integration are beyond the scope of this
   document, please refer to the public documentation in the BoringSSL
   repository.

@@ -3,7 +3,7 @@ Password-based Key Derivation Functions
 
 Password-based Key derivation functions (PBKDFs) are tested using a
 known answer test that derives a key from a set of input values. The
-test is implemented in *src/tests/test\_pbkdf.cpp*. The test case is
+test is implemented in :srcref:`src/tests/test_pbkdf.cpp`. The test case is
 described in the following.
 
 .. table::
@@ -56,7 +56,7 @@ PBKDF1 from PKCS#5 v1.5 is tested with the following constraints:
 -  Out: 112 bits, 152 bits, 160 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pbkdf/pbkdf1.vec*.
+test vectors are listed in :srcref:`src/tests/data/pbkdf/pbkdf1.vec`.
 
 .. table::
    :class: longtable
@@ -110,7 +110,7 @@ PBKDF1 from PKCS#5 is tested with the following constraints:
 -  Out: 80 bits - 512 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pbkdf/pbkdf2.vec*.
+test vectors are listed in :srcref:`src/tests/data/pbkdf/pbkdf2.vec`.
 
 .. table::
    :class: longtable

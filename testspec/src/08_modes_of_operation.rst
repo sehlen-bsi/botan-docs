@@ -3,7 +3,7 @@ Modes of Operation
 
 Block cipher modes of operation are tested using known answer tests that
 (1) encrypt a message and (2) decrypt a message. All the tests are
-implemented in *src/tests/test\_modes.cpp*. The test cases are described
+implemented in :srcref:`src/tests/test_modes.cpp`. The test cases are described
 in the following.
 
 .. table::
@@ -138,7 +138,7 @@ CBC is tested with the following constraints:
 -  Out: 512 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/modes/cbc.vec*.
+test vectors are listed in :srcref:`src/tests/data/modes/cbc.vec`.
 
 .. table::
    :class: longtable
@@ -206,7 +206,7 @@ CBC-CTS is tested with the following constraints:
 -  Out: 136 bits, 248 bits, 256 bits, 376 bits, 384 bits, 512 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/modes/cbc.vec*.
+test vectors are listed in :srcref:`src/tests/data/modes/cbc.vec`.
 
 .. table::
    :class: longtable
@@ -261,7 +261,7 @@ CTR
 CTR mode is a stream cipher mode of operation in the library and thus is
 tested differently than other block cipher modes of operation. All the
 stream cipher modes of operation tests are implemented in
-*src/tests/test\_stream.cpp*. CTR mode is tested with the following
+:srcref:`src/tests/test_stream.cpp`. CTR mode is tested with the following
 constraints:
 
 -  Number of test cases: 6
@@ -273,7 +273,7 @@ constraints:
 -  Out: 384 bits, 512 bits, 5720 bits, 65536 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/stream/ctr.vec*.
+test vectors are listed in :srcref:`src/tests/data/stream/ctr.vec`.
 
 .. table::
    :class: longtable

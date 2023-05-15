@@ -12,7 +12,7 @@ interoperability of the algorithm when using Botan's generic API for public key
 algorithms. These test cases are equal for all public key schemes and are
 therefore not discussed in detail in this chapter.
 
-All kyber-specific test code can be found in *src/tests/test\_kyber.cpp*.
+All kyber-specific test code can be found in :srcref:`src/tests/test_kyber.cpp`.
 Relevant test data vectors for the KAT tests are in
 *src/tests/data/pubkey/kyber\_\*.vec* where *\** is a placeholder for the
 algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
@@ -34,12 +34,12 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Test Vectors with RNG seed inputs in:                                   |
    |                        |                                                                         |
-   |                        | * *src/tests/data/pubkey/kyber\_512\_90s.vec*                           |
-   |                        | * *src/tests/data/pubkey/kyber\_768\_90s.vec*                           |
-   |                        | * *src/tests/data/pubkey/kyber\_1024\_90s.vec*                          |
-   |                        | * *src/tests/data/pubkey/kyber\_512.vec*                                |
-   |                        | * *src/tests/data/pubkey/kyber\_768.vec*                                |
-   |                        | * *src/tests/data/pubkey/kyber\_1024.vec*                               |
+   |                        | * :srcref:`src/tests/data/pubkey/kyber_512_90s.vec`                     |
+   |                        | * :srcref:`src/tests/data/pubkey/kyber_768_90s.vec`                     |
+   |                        | * :srcref:`src/tests/data/pubkey/kyber_1024_90s.vec`                    |
+   |                        | * :srcref:`src/tests/data/pubkey/kyber_512.vec`                         |
+   |                        | * :srcref:`src/tests/data/pubkey/kyber_768.vec`                         |
+   |                        | * :srcref:`src/tests/data/pubkey/kyber_1024.vec`                        |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Above described test vector files contain expected values for:          |
    |                        |                                                                         |
@@ -147,7 +147,7 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Pre-defined key encodings and (optional) failure modes in:              |
-   |                        | * *src/data/pubkey/kyber\_encodings.vec*                                |
+   |                        | * :srcref:`src/data/pubkey/kyber_encodings.vec`                         |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
@@ -176,9 +176,9 @@ following constraints:
 -  C0: 512 bits, 2048 bits
 -  K: 2432 bits - 2944 bits
 
-All the tests are implemented in *src/tests/test\_rsa.cpp*. The
+All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. The
 following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pubkey/rsa_kem.vec*.
+test vectors are listed in :srcref:`src/tests/data/pubkey/rsa_kem.vec`.
 
 .. table::
    :class: longtable

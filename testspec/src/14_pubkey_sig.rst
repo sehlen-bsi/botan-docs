@@ -9,7 +9,7 @@ invalid signature does not verify and/or a fourth test (4), a known
 answer test that verifies a given signature. Additional tests may be
 implemented for specific algorithms, e.g., for public key validation.
 All public key-based signature algorithms use test classes implemented
-in *src/tests/test\_pubkey.cpp*.
+in :srcref:`src/tests/test_pubkey.cpp`.
 
 .. table::
    :class: longtable
@@ -407,7 +407,7 @@ algorithms. These test cases are equal for all public key schemes and are
 therefore not discussed in detail in this chapter.
 
 All Dilithium-specific test code can be found in
-*src/tests/test\_dilithium.cpp*. Relevant test data vectors for the KAT tests
+:srcref:`src/tests/test_dilithium.cpp`. Relevant test data vectors for the KAT tests
 are in *src/tests/data/pubkey/dilithium\_\*.vec* where *\** is a placeholder for
 the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
 *8x7\_Deterministic*, *4x4\_Randomized*, *6x5\_Randomized*, *8x7\_Randomized*,
@@ -431,18 +431,18 @@ the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Test Vectors with RNG seed and test messages inputs in:                 |
    |                        |                                                                         |
-   |                        | * *src/tests/data/pubkey/dilithium_4x4\_Deterministic.vec*              |
-   |                        | * *src/tests/data/pubkey/dilithium_6x5\_Deterministic.vec*              |
-   |                        | * *src/tests/data/pubkey/dilithium_8x7\_Deterministic.vec*              |
-   |                        | * *src/tests/data/pubkey/dilithium_4x4\_Randomized.vec*                 |
-   |                        | * *src/tests/data/pubkey/dilithium_6x5\_Randomized.vec*                 |
-   |                        | * *src/tests/data/pubkey/dilithium_8x7\_Randomized.vec*                 |
-   |                        | * *src/tests/data/pubkey/dilithium_4x4\_AES\_Deterministic.vec*         |
-   |                        | * *src/tests/data/pubkey/dilithium_6x5\_AES\_Deterministic.vec*         |
-   |                        | * *src/tests/data/pubkey/dilithium_8x7\_AES\_Deterministic.vec*         |
-   |                        | * *src/tests/data/pubkey/dilithium_4x4\_AES\_Randomized.vec*            |
-   |                        | * *src/tests/data/pubkey/dilithium_6x5\_AES\_Randomized.vec*            |
-   |                        | * *src/tests/data/pubkey/dilithium_8x7\_AES\_Randomized.vec*            |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_Deterministic.vec`       |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_Deterministic.vec`       |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_Deterministic.vec`       |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_Randomized.vec`          |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_Randomized.vec`          |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_Randomized.vec`          |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_AES_Deterministic.vec`   |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_AES_Deterministic.vec`   |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_AES_Deterministic.vec`   |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_AES_Randomized.vec`      |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_AES_Randomized.vec`      |
+   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_AES_Randomized.vec`      |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Above described test vector files contain expected values for:          |
    |                        |                                                                         |
@@ -533,10 +533,10 @@ constraints:
 -  Msg: 1024 bits
 -  Signature: 1024 bits, 2048 bits, 3072 bits
 
-All the tests are implemented in *src/tests/test\_dsa.cpp*. The
+All the tests are implemented in :srcref:`src/tests/test_dsa.cpp`. The
 following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pubkey/dsa_prob.vec*
-and\ *src/tests/data/pubkey/dsa\_verify.vec.*
+test vectors are listed in :srcref:`src/tests/data/pubkey/dsa_prob.vec`
+and :srcref:`src/tests/data/pubkey/dsa_verify.vec`.
 
 .. table::
    :class: longtable
@@ -746,10 +746,10 @@ the following constraints:
 -  Msg: 1024 bits
 -  Signature: 448 bits, 512 bits, 568 bits
 
-All the tests are implemented in *src/tests/test\_ecdsa.cpp*. The
+All the tests are implemented in :srcref:`src/tests/test_ecdsa.cpp`. The
 following table shows an example test case with one test vector. All
 test vectors are listed in
-*src/tests/data/pubkey/ecdsa\_prob.vec*,\ *src/tests/data/pubkey/ecdsa\_verify.vec*\ and\ *src/tests/data/pubkey/ecdsa\_wycheproof.vec*.
+:srcref:`src/tests/data/pubkey/ecdsa_prob.vec`, :srcref:`src/tests/data/pubkey/ecdsa_verify.vec` and :srcref:`src/tests/data/pubkey/ecdsa_wycheproof.vec`.
 
 .. table::
    :class: longtable
@@ -975,9 +975,9 @@ with the following constraints:
 -  Msg: 368 bits, 384 bits, 408 bits
 -  Signature: 384 bits, 512 bits, 640 bits, 768 bits, 1024 bits
 
-All the tests are implemented in *src/tests/test\_ecgdsa.cpp*. The
+All the tests are implemented in :srcref:`src/tests/test_ecgdsa.cpp`. The
 following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pubkey/ecgdsa.vec*.
+test vectors are listed in :srcref:`src/tests/data/pubkey/ecgdsa.vec`.
 
 .. table::
    :class: longtable
@@ -1126,9 +1126,9 @@ The Elliptic Curve Korean Certificate Digital Signature Algorithm
 -  Msg: 24 bits, 120 bits, 512 bits,
 -  Signature: 352 bits, 448 bits, 512 bits, 768 bits, 1024 bits, 1040 bits
 
-All the tests are implemented in *src/tests/test\_eckcdsa.cpp*. The
+All the tests are implemented in :srcref:`src/tests/test_eckcdsa.cpp`. The
 following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pubkey/eckcdsa.vec*.
+test vectors are listed in :srcref:`src/tests/data/pubkey/eckcdsa.vec`.
 
 .. table::
    :class: longtable
@@ -1275,11 +1275,11 @@ The RSA algorithm is tested with the following constraints:
    DS3(SHA-1)
 -  Signature: 384 bits – 2048 bits
 
-All the tests are implemented in *src/tests/test\_rsa.cpp*. The
+All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. The
 following table shows an example test case with one test vector. Test
 vectors for test cases PKSIG-RSA-1 and PKSIG-RSA-2 are listed in
-*src/tests/data/pubkey/rsa_sig.vec*. Test vectors for test case
-PKSIG-RSA-3 are listed in *src/tests/data/pubkey/rsa\_invalid.vec*.
+:srcref:`src/tests/data/pubkey/rsa_sig.vec`. Test vectors for test case
+PKSIG-RSA-3 are listed in :srcref:`src/tests/data/pubkey/rsa_invalid.vec`.
 
 .. table::
    :class: longtable
@@ -1455,8 +1455,8 @@ following constraints:
 -  Msg: 0 bits – 400 bits
 -  Signature: 20032 bits - 72768 bits
 
-All the tests are implemented in *src/tests/test\_xmss.cpp*. All test
-vectors are listed in *src/tests/data/pubkey/xmss\_sig.vec*. Currently 4
+All the tests are implemented in :srcref:`src/tests/test_xmss.cpp`. All test
+vectors are listed in :srcref:`src/tests/data/pubkey/xmss_sig.vec`. Currently 4
 test vectors are tested. Optional additional test vectors are present
 within *xmss_sig.vec* but commented out by default to reduce the test
 bench run time. The hash function and algorithm parameters “w”, “h” are
@@ -1532,8 +1532,8 @@ constraints:
 The hash function and algorithm parameters “w”, “h” are provided through
 the algorithm oid, which is part of the private key. Test vectors for
 the test case PKSIG-XMSS-2 and PKCS-XMSS-3 are listed in
-*src/tests/data/pubkey/xmss\_verify.vec* and in
-*src/tests/data/pubkey/xmss\_invalid.vec*, correspondingly.The following
+:srcref:`src/tests/data/pubkey/xmss_verify.vec` and in
+:srcref:`src/tests/data/pubkey/xmss_invalid.vec`, correspondingly.The following
 table shows an example test case with one test vector.
 
 .. table::

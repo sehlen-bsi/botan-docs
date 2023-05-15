@@ -8,7 +8,7 @@ generation and key derivation, random generator generate and reseeding
 and X.509 certificate import. Last but not least, the token management
 functions to initialize a token and setting/changing the user PIN and
 Security Officer (SO) PIN are tested. All the tests are implemented in
-*src/tests/test\_pkcs11_high_level.cpp*.
+:srcref:`src/tests/test_pkcs11_high_level.cpp`.
 
 PKCS#11 functions are not executed during a regular run of the test
 suite, but instead must be executed manually:
