@@ -15,7 +15,7 @@ The following helper functions are used during prime number generation:
 2. ``is_prime(const BigInt& n, RandomNumberGenerator& rng, size_t prob = 64, bool is_random = false)``
 
 The function ``miller_rabin_test_iterations()`` is implemented in
-``src/lib/math/numbertheory/primality.cpp`` and operates as follows:
+:srcref:`src/lib/math/numbertheory/primality.cpp` and operates as follows:
 
 .. admonition:: ``miller_rabin_test_iterations()``
 
@@ -46,7 +46,7 @@ The function ``miller_rabin_test_iterations()`` is implemented in
    4. Otherwise return ``base``.
 
 The function ``is_prime()`` is implemented in
-``src/lib/math/numbertheory/numthry.cpp`` and operates as follows:
+:srcref:`src/lib/math/numbertheory/numthry.cpp` and operates as follows:
 
 .. admonition:: ``is_prime()``
 
@@ -74,21 +74,21 @@ The function ``is_prime()`` is implemented in
       return false.
    4. If ``rng`` is not seeded, perform the Bailie-PSW primality test (function
       ``is_bailie_psw_probable_prime()`` in
-      ``src\lib\math\numbertheory\primality.cpp``), which is a combination of
+      :srcref:`src/lib/math/numbertheory/primality.cpp`), which is a combination of
       Miller-Rabin with base 2 and a Lucas test.
       Otherwise:
 
       -  Conducts Miller-Rabin primality test (function
          ``is_miller_rabin_probable_prime()`` in
-         ``src/lib/math/numbertheory/primality.cpp``). The number of
+         :srcref:`src/lib/math/numbertheory/primality.cpp`). The number of
          iterations is computed with ``miller_rabin_test_iterations()``. If
          the test fails returns false.
       -  If the prime was not generated randomly
          conducts a Lucas test (function ``is_lucas_probable_prime()`` in
-         ``src/lib/math/numbertheory/primality.cpp``) and returns the result.
+         :srcref:`src/lib/math/numbertheory/primality.cpp`) and returns the result.
 
 The function ``passes_miller_rabin_test()`` implements the actual Miller-Rabin test
-in ``src/lib/math/numbertheory/primality.cpp`` for a single ``a``.
+in :srcref:`src/lib/math/numbertheory/primality.cpp` for a single ``a``.
 ``is_miller_rabin_probable_prime()`` runs this function for a specified number of
 iterations with randomly generated ``a``.
 
@@ -121,7 +121,7 @@ iterations with randomly generated ``a``.
       :math:`y_i` is ever 1, ``true`` if and only if it ever becomes :math:`n_{-1}` and ``false`` otherwise.
 
 Thes function ``is_lucas_probable_prime()`` implements the Lucas primality test
-for a given number ``C`` in ``src/lib/math/numbertheory/primality.cpp``. The
+for a given number ``C`` in :srcref:`src/lib/math/numbertheory/primality.cpp`. The
 implementation follows the specification in [FIPS-186-4]_ C.3.3.
 
 .. admonition:: ``is_lucas_probable_prime()``
@@ -174,7 +174,7 @@ implementation follows the specification in [FIPS-186-4]_ C.3.3.
         division, the result is reduced by (:math:`\bmod C`).
 
 The functions for generating the prime numbers are part of
-``src/lib/math/numbertheory/make_prm.cpp``.
+:srcref:`src/lib/math/numbertheory/make_prm.cpp`.
 
 1. ``random_prime(RandomNumberGenerator& rng, size_t bits, const BigInt& coprime, size_t equiv, size_t modulo, size_t prob)``
 2. ``random_safe_prime(RandomNumberGenerator& rng, size_t bits)``
@@ -274,13 +274,13 @@ The function ``random_prime()`` operates as follows:
          if ``coprime`` is not passed.
       -  Conducts Miller-Rabin primality test (function
          ``is_miller_rabin_probable_prime()`` in
-         ``src/lib/math/numbertheory/primality.cpp``). The number of
+         :srcref:`src/lib/math/numbertheory/primality.cpp`). The number of
          iterations is computed based on the ``prob`` parameter and ``bits`` by
          calling the ``miller_rabin_test_iterations()`` function for random
          numbers.
       -  If ``prob>32``, it conducts an additional Lucas test
          (function ``is_lucas_probable_prime()`` in
-         ``src/lib/math/numbertheory/primality.cpp``) as recommended by
+         :srcref:`src/lib/math/numbertheory/primality.cpp`) as recommended by
          Albrecht et al. [AMPS18]_.
 
 .. [#prime_coprime_limit]
@@ -381,7 +381,7 @@ The function ``generate_rsa_prime()`` operates as follows:
          exponent ``e`` as ``coprime``.
       -  Conducts Miller-Rabin primality test (function
          ``is_miller_rabin_probable_prime()`` in
-         ``src/lib/math/numbertheory/primality.cpp``). The number of
+         :srcref:`src/lib/math/numbertheory/primality.cpp`). The number of
          iterations is computed based on the ``prob`` and ``bits`` parameter by
          calling the ``miller_rabin_test_iterations()`` function for random
          numbers.

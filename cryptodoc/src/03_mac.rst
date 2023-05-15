@@ -12,7 +12,7 @@ The Cipher-based Message Authentication Code or One-Key MAC (OMAC1)
 algorithm uses a block cipher to compute an authentication code. The
 CMAC output length equals the block size of the used block cipher. Botan
 implements the algorithm according to [NIST-OMAC]_. The class CMAC is in
-``src/lib/mac/cmac/cmac.cpp`` and offers the following relevant functions:
+:srcref:`src/lib/mac/cmac/cmac.cpp` and offers the following relevant functions:
 
 -  ``CMAC(block cipher)``: Constructs a CMAC object with the passed block
    cipher. Only block ciphers with a block size of 64, 128, 256 or 512
@@ -34,7 +34,7 @@ The Keyed-Hashing for Message Authentication algorithm uses an
 underlying cryptographic hash function to compute an authentication
 code. The HMAC output length equals the output length of the underlying
 hash function. Botan implements the HMAC algorithm [RFC2104]_ in
-``src/lib/mac/hmac/hmac.cpp``. The maximum supported key length is 4096
+:srcref:`src/lib/mac/hmac/hmac.cpp`. The maximum supported key length is 4096
 Bytes. The following functions of the class HMAC are provided:
 
 -  ``HMAC(hash function)``: Constructs an HMAC object with the passed
@@ -56,7 +56,7 @@ GMAC combines counter mode of operation with a Galois field computation.
 Botan implements GMAC according to the NIST specification [GCM]_.
 
 The GMAC functionality is implemented in the class *GMAC* (located in
-``src/lib/mac/gmac/gmac.cpp``). This class offers the following public
+:srcref:`src/lib/mac/gmac/gmac.cpp`). This class offers the following public
 methods and constructors, which are used by a developer when working
 with GMAC:
 

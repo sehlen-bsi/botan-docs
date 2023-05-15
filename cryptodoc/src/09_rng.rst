@@ -61,8 +61,8 @@ HMAC_DRBG is a deterministic random bit generator specified in
 [SP800-90A]_. The ``HMAC_DRBG`` class derives from the ``Stateful_RNG`` base
 class, which provides such functionality as automatic reseeding after a
 defined interval and after a process fork. The HMAC_DRBG is provided in
-``src/lib/rng/hmac_drbg/hmac_drbg.cpp``, the Stateful_RNG in
-``src/lib/rng/stateful_rng/stateful_rng.cpp``.
+:srcref:`src/lib/rng/hmac_drbg/hmac_drbg.cpp`, the Stateful_RNG in
+:srcref:`src/lib/rng/stateful_rng/stateful_rng.cpp`.
 
 HMAC_DRBG Instantiation
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -525,7 +525,7 @@ disabled manually or because it is not available [#System_RNG_available]_ for th
 it uses a default [#System_RNG_default]_ set of entropy sources. As the name implies,
 AutoSeeded_RNG is automatically seeded (and reseeded) from these
 sources. The AutoSeeded_RNG is provided in
-``src/lib/rng/auto_rng/auto_rng.cpp``.
+:srcref:`src/lib/rng/auto_rng/auto_rng.cpp`.
 
 .. [#System_RNG_available]
    Note that the System_RNG is available on most platforms, including
@@ -566,7 +566,7 @@ in the same order of preference as they appear in the table above.
 In the following,
 the Instantiate, Add_Entropy and Generate functions of all six
 implementations are specified. The System_RNG is provided in
-``src/lib/rng/system_rng/system_rng.cpp``.
+:srcref:`src/lib/rng/system_rng/system_rng.cpp`.
 
 RtlGenRandom
 ^^^^^^^^^^^^
@@ -867,7 +867,7 @@ PKCS11_RNG
 PKCS11_RNG is a random generator that uses the PKCS#11 interface to
 retrieve random bytes from a hardware security module (HSM) supporting
 the PKCS#11 standard, e.g., a smartcard. The PKCS11_RNG is provided in
-``src/lib/prov/pkcs11/p11_randomgenerator.cpp``.
+:srcref:`src/lib/prov/pkcs11/p11_randomgenerator.cpp`.
 
 .. admonition:: Construction
 
@@ -917,7 +917,7 @@ On x86, the RDRAND instruction is used.
 On POWER, the DARN instruction is used.
 As there is no way to add entropy to the rdrand or darn entropy pool,
 ``add_entropy()`` is a no-operation.
-The ``Processor_RNG`` is provided in ``src/lib/rng/processor_rng/processor_rng.cpp``.
+The ``Processor_RNG`` is provided in :srcref:`src/lib/rng/processor_rng/processor_rng.cpp`.
 
 .. admonition:: Construction
 
