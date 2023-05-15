@@ -115,8 +115,7 @@ DSA Signature Schemes
 For DSA signatures no padding is required. The only suitable signature
 scheme DL/ECSSA (EMSA1) uses a cryptographic hash function to compute a
 representative message with the length of ``q`` from the DSA public key.
-Botan implements EMSA1 in :srcref:`src/lib/pk_pad/emsa1/emsa1.cpp`. If the
-computed hash is longer than the specified ``output_bits`` (length of
+If the computed hash is longer than the specified ``output_bits`` (length of
 ``q``), the algorithm returns only the ``output_bits`` highest bits of the
 computed hash.
 
@@ -460,7 +459,7 @@ Signature Creation
 ~~~~~~~~~~~~~~~~~~
 
 WOTS+ signing follows Algorithm 5 in [XMSS]_. It is implemented in
-:srcref:`src/lib/pubkey/xmss/xmss_wots_privatekey.cpp`.
+:srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
 
 The signature generation process works as follows:
 
@@ -506,7 +505,7 @@ Signature Validation
 ~~~~~~~~~~~~~~~~~~~~
 
 WOTS+ signature validation strictly follows Algorithm 6 in [XMSS]_. It is
-implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots_publickey.cpp`.
+implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
 
 The signature validation process works as follows:
 

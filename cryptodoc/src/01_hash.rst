@@ -22,7 +22,7 @@ Cryptography Extensions). The description of SHA-1 is provided in
 [NIST-SHS]_.
 
 The software implementation is located
-in :srcref:`src/lib/hash/sha1/sha160.cpp`. It uses the Botan structure
+in :srcref:`src/lib/hash/sha1/sha1.cpp`. It uses the Botan structure
 ``secure_vector`` to implement data handling and compressions.
 
 The SSE2 implementation is in :srcref:`src/lib/hash/sha1/sha1_sse2/sha1_sse2.cpp`.

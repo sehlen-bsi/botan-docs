@@ -37,7 +37,7 @@ instruction set created by Intel, ARM's Advanced SIMD (Neon) instruction
 set and PowerPC's AltiVec instruction set. The implementation is based
 on the code of Mike Hamburg, which provides protection against cache and
 timing side channel attacks [AES-SSSE3]_. The code is located in
-:srcref:`src/lib/block/aes_vperm/aes_vperm.cpp`.
+:srcref:`src/lib/block/aes/aes_vperm/aes_vperm.cpp`.
 
 Additionally, Botan provides interfaces to cryptographic hardware extensions
 in some widespread commodity processor instruction sets. They are hardened
@@ -45,11 +45,11 @@ against side channel attacks and are usually faster than the above-mentioned
 software implementations. Specifically, Botan supports:
 
 - | Intel's AES-NI
-  | (code in :srcref:`src/lib/block/aes_ni/aes_ni.cpp`)
+  | (code in :srcref:`src/lib/block/aes/aes_ni/aes_ni.cpp`)
 - | ARMv8 AES extensions
-  | (code in :srcref:`src/lib/block/aes_armv8/aes_armv8.cpp`)
+  | (code in :srcref:`src/lib/block/aes/aes_armv8/aes_armv8.cpp`)
 - | Power8 AES extensions
-  | (code in :srcref:`src/lib/block/aes_power8/aes_power8.cpp`)
+  | (code in :srcref:`src/lib/block/aes/aes_power8/aes_power8.cpp`)
 
 An application developer can enable and disable a specific
 implementation at compile time by using macros:
@@ -274,6 +274,6 @@ decrypted.
 
 **Remark:** The TLS implementation introduces a constant time CBC
 unpadding functionality to prevent the Lucky 13 attack [Lucky13]_. This
-can be found in :srcref:`src/lib/tls/tls_cbc/tls_cbc.cpp`. It is important to
+can be found in :srcref:`src/lib/tls/tls12/tls_cbc/tls_cbc.cpp`. It is important to
 note that for DTLS there still exists a timing channel that may be
 exploitable in a Lucky13 variant.

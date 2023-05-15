@@ -330,7 +330,7 @@ number of steps ``s``, combined with ``ADRS`` and a ``seed`` value. See
 Algorithm 2 in [XMSS]_ for more details.
 
 WOTS+ and in particular the ``chain`` function are implemented in
-:srcref:`src/lib/pubkey/xmss/xmss_wots_privatekey.cpp` and :srcref:`src/lib/pubkey/xmss/xmss_wots_publickey.cpp`.
+:srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
 
 Botan's ``XMSS_WOTS_PrivateKey`` class is not named intuitively. It encapsulates
 the ``private_seed`` and on-demand WOTS+ key generation primitives (for XMSS's leaf nodes). Objects of this class *do not* embody a single WOTS+ leaf node.
@@ -386,7 +386,7 @@ Hence, the key generation of WOTS+ keys is split into two phases:
 
    **Notes:**
 
-   - All referenced methods above are implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots_privatekey.cpp` and are orchestrated in :srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp`.
+   - All referenced methods above are implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp` and are orchestrated in :srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp`.
 
 .. _pubkey_key_generation/xmss/remark_nist_sp800208:
 
