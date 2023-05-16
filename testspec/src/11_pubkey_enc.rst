@@ -4,7 +4,7 @@ Public Key-based Encryption Algorithms
 Public Key-based Encryption Algorithms are divided into hybrid
 encryption schemes and public key encryption schemes. Some public
 key-based encryption algorithms use test classes implemented in
-*src/tests/test\_pubkey.cpp*.
+:srcref:`src/tests/test_pubkey.cpp`.
 
 Hybrid Encryption Schemes
 -------------------------
@@ -28,9 +28,9 @@ with the following constraints:
 -  Msg: 256 bits
 -  Ciphertext: 2432 bits - 2944 bits
 
-All the tests are implemented in *src/tests/test\_dlies.cpp*. The
+All the tests are implemented in :srcref:`src/tests/test_dlies.cpp`. The
 following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pubkey/dlies.vec*.
+test vectors are listed in :srcref:`src/tests/data/pubkey/dlies.vec`.
 
 .. table::
    :class: longtable
@@ -152,8 +152,8 @@ the following constraints:
 -  Mac: HMAC(SHA-1) (MAC used to authenticate data)
 -  MacKeyLen: 160 bits
 
-All the tests are implemented in *src/tests/test\_ecies.cpp*. All test
-vectors are listed in *src/tests/data/pubkey/ecies-18033.vec*. It
+All the tests are implemented in :srcref:`src/tests/test_ecies.cpp`. All test
+vectors are listed in :srcref:`src/tests/data/pubkey/ecies-18033.vec`. It
 contains only two test vectors, but all combinations of cofactor mode,
 single hash mode, old cofactor mode, check mode and compression mode are
 tested with these two test vectors, so all in all, 96 test cases are
@@ -365,10 +365,10 @@ RSA encryption and decryption are tested with the following constraints:
 -  Padding: Raw, EME1(SHA-1, SHA-256, SHA-512), EME-PKCS1-v1_5(SHA-1)
 -  Ciphertext: 512 bits – 2048 bits
 
-All the tests are implemented in *src/tests/test\_rsa.cpp*. The
+All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. The
 following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/pubkey/rsaes.vec* and
-*src/tests/data/pubkey/rsa\_decrypt.vec*.
+test vectors are listed in :srcref:`src/tests/data/pubkey/rsaes.vec` and
+:srcref:`src/tests/data/pubkey/rsa_decrypt.vec`.
 
 .. table::
    :class: longtable

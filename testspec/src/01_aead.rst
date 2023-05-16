@@ -5,7 +5,7 @@ AEAD modes are tested using known answer tests that (1) encrypt a
 message, (2) decrypt a message and (3) an additional test to check
 whether AEAD decryption correctly rejects manipulated ciphertexts and
 manipulated nonces. All the tests are implemented in
-*src/tests/test\_aead.cpp*. The test cases are described in the
+:srcref:`src/tests/test_aead.cpp`. The test cases are described in the
 following.
 
 .. table::
@@ -269,7 +269,7 @@ GCM is tested with the following constraints:
 -  AD: 64 bits, 128 bits, 160 bits, 192 bits, no AD
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/aead/gcm.vec*.
+test vectors are listed in :srcref:`src/tests/data/aead/gcm.vec`.
 
 .. table::
    :class: longtable

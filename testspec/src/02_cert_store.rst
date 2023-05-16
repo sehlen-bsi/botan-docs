@@ -4,7 +4,7 @@ Certificate Stores
 SQLite Certificate Store
 ------------------------
 
-The Certificate Store SQLite interface is tested using unit tests that (1) insert, search and remove certificates and keys, (2) revokes certificates and (3) looks up subjects in the store. All the tests are implemented in ``src/tests/test_certstor.cpp``.
+The Certificate Store SQLite interface is tested using unit tests that (1) insert, search and remove certificates and keys, (2) revokes certificates and (3) looks up subjects in the store. All the tests are implemented in :srcref:`src/tests/test_certstor.cpp`.
 
 Insert, Search and Remove
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -15,7 +15,7 @@ These unit tests search and remove certificates and private keys stored in the s
     - Cert: X.509v3
     - Key: RSA, 2048 bits
 
-The following table shows an example test case with one test vector. All test vectors are listed in ``src/tests/data/x509/certstor/``.
+The following table shows an example test case with one test vector. All test vectors are listed in :srcref:`src/tests/data/x509/certstor/`.
 
 .. table::
    :class: longtable
@@ -64,7 +64,7 @@ These unit tests revoke certificates and generate a CRL on certificates stored i
     - Cert: X.509v3
     - Key: RSA, 2048 bits
 
-The following table shows an example test case with one test vector. All test vectors are listed in ``src/tests/data/x509/certstor/``.
+The following table shows an example test case with one test vector. All test vectors are listed in :srcref:`src/tests/data/x509/certstor/`.
 
 .. table::
    :class: longtable
@@ -109,7 +109,7 @@ These unit tests test retrieval of subject DNs of all certificates stored in the
     - Number of test cases: 1
     - Cert: X.509v3
 
-The following table shows an example test case with one test vector. All test vectors are listed in ``src/tests/data/x509/certstor/``.
+The following table shows an example test case with one test vector. All test vectors are listed in :srcref:`src/tests/data/x509/certstor/`.
 
 .. table::
    :class: longtable
@@ -140,7 +140,7 @@ These unit tests test search certificates matching given subject DN and Subject 
     - Number of test cases: 1
     - Cert: X.509v3
 
-The following table shows an example test case with one test vector. All test vectors are listed in ``src/tests/data/x509/certstor/``.
+The following table shows an example test case with one test vector. All test vectors are listed in :srcref:`src/tests/data/x509/certstor/`.
 
 .. table::
    :class: longtable
@@ -171,7 +171,7 @@ These unit tests test search certificates by the hashed subject DN. The tests ar
     - Number of test cases: 1
     - Cert: X.509v3
 
-The following table shows an example test case with one test vector. All test vectors are listed in ``src/tests/data/x509/certstor/``.
+The following table shows an example test case with one test vector. All test vectors are listed in :srcref:`src/tests/data/x509/certstor/`.
 
 .. table::
    :class: longtable
@@ -218,7 +218,7 @@ Note that the tests are relying on certain (common) certificates to be installed
 .. _RFC-3280-link: https://datatracker.ietf.org/doc/html/rfc3280#section-4.2.1.2
 .. |RFC-3280-link| replace:: *the respective suggestion in RFC 3280*
 
-All tests are implemented in ``src/tests/test_certstor_system.cpp``.
+All tests are implemented in :srcref:`src/tests/test_certstor_system.cpp`.
 
 Find Certificate by SHA-1 Hash of its Public Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

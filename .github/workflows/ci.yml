@@ -35,3 +35,22 @@ jobs:
         with:
           name: botan_${{ matrix.element.out_name }}-${{ github.sha }}
           path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}.pdf
+
+  url_check:
+    strategy:
+      matrix:
+        element:
+          - {name: Crypto Documentation, dir: cryptodoc}
+          - {name: Test Specification, dir: testspec}
+
+    name: Check source URLs - ${{ matrix.element.name }}
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ${{matrix.element.dir }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python Dependencies
+        run: pip install -r requirements.txt
+      - name: Build with URL check enabled
+        run: make SPHINXOPTS="-D src_ref_check_url=True -W" html

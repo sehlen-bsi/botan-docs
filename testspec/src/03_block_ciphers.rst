@@ -1,7 +1,7 @@
 Block Ciphers
 =============
 
-Block ciphers are tested using (1) unit tests and known answer tests that (2) encrypt a message and (3) decrypt a message. All the tests are implemented in ``src/tests/test_block.cpp``. The test cases are described in the following.
+Block ciphers are tested using (1) unit tests and known answer tests that (2) encrypt a message and (3) decrypt a message. All the tests are implemented in :srcref:`src/tests/test_block.cpp`. The test cases are described in the following.
 
 .. table::
    :class: longtable
@@ -179,7 +179,7 @@ cipher's block size (via encrypt_n()/decrypt_n()). In this case,
 processing happens blockwise and the result is concatenated.
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/block/aes.vec*.
+test vectors are listed in :srcref:`src/tests/data/block/aes.vec`.
 
 .. table::
    :class: longtable

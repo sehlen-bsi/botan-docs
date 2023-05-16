@@ -7,7 +7,7 @@ DH
 --
 
 The implementation of the Diffie-Hellmann key exchange in
-``src/lib/pubkey/dh/dh.cpp`` provides the DH public key class
+:srcref:`src/lib/pubkey/dh/dh.cpp` provides the DH public key class
 ``DH_PublicKey`` and the DH private key class ``DH_PrivateKey``. The public
 key consists of the DH parameters and a public value ``y``. In addition to
 the public values, the DH private key includes the private parameter
@@ -110,7 +110,7 @@ Elliptic Curve Algorithms
 
 Botan provides the elliptic curve private key class ``EC_PrivateKey``, the
 respective public key class ``EC_PublicKey``, and the key generation
-algorithm in ``src/lib/pubkey/ecc_key/ecc_key.cpp``. To generate a private
+algorithm in :srcref:`src/lib/pubkey/ecc_key/ecc_key.cpp`. To generate a private
 key the constructor ``EC_PrivateKey(RandomNumberGenerator& rng, const
 EC_Group& ec_group, const BigInt& x, bool with_modular_inverse)`` is
 called. The constructor operates as follows:
@@ -203,7 +203,7 @@ The key generation process works as follows:
       larger than 2.
    3. If this step is reached the 10th time the generation fails.
       The algorithm samples 2 primes by successively calling
-      ``generate_rsa_prime()`` from ``src/lib/math/numbertheory/make_prm.cpp``,
+      ``generate_rsa_prime()`` from :srcref:`src/lib/math/numbertheory/make_prm.cpp`,
       passing the public exponent as ``coprime``. The first prime ``p`` has a
       bit length of :math:`\lceil \frac{bits}{2} \rceil` and the second prime ``q`` is
       :math:`\lfloor \frac{bits}{2} \rfloor` long.
@@ -213,7 +213,7 @@ The key generation process works as follows:
       length, go to step 3.
    6. The private exponent ``d`` is computed as :math:`e^{-1} \bmod \text{lcm}(p-1,q-1)`. For this purpose, the
       extended Euclidean algorithm, implemented in
-      ``src/lib/math/numbertheory/numthry.cpp``, is used.
+      :srcref:`src/lib/math/numbertheory/numthry.cpp`, is used.
 
    7. Additional values needed for CRT-RSA are computed as follows.
 
@@ -262,7 +262,7 @@ XMSS with WOTS+
 
 Botan implements the single tree version of the eXtended Merkle
 Signature Scheme (XMSS) using Winternitz One Time Signatures+ (WOTS+) in
-``src/lib/pubkey/xmss/``. The implementation is based on RFC8391 [XMSS]_.
+:srcref:`src/lib/pubkey/xmss/`. The implementation is based on RFC8391 [XMSS]_.
 The list of supported algorithms and their parameters is depicted in
 Table :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/table>`.
 
@@ -303,7 +303,7 @@ Table :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/tabl
 XMSS and WOTS+ rely on the hash function address scheme (``ADRS``). This
 scheme consists of 256 bits and stores OTS hash addresses and hash tree
 addresses, see Section 2.5 in [XMSS]_. ``ADRS`` is implemented in
-``src/lib/pubkey/xmss/xmss_address.h`` and offers the following setter methods.
+:srcref:`src/lib/pubkey/xmss/xmss_address.h` and offers the following setter methods.
 The respective getter methods were left out for readability:
 
 -  ``set_key_mask_mode(Key_Mode=0 / Mask_Mode=1, Mask_LSB_Mode=1,
@@ -330,7 +330,7 @@ number of steps ``s``, combined with ``ADRS`` and a ``seed`` value. See
 Algorithm 2 in [XMSS]_ for more details.
 
 WOTS+ and in particular the ``chain`` function are implemented in
-``src/lib/pubkey/xmss/xmss_wots_privatekey.cpp`` and ``src/lib/pubkey/xmss/xmss_wots_publickey.cpp``.
+:srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
 
 Botan's ``XMSS_WOTS_PrivateKey`` class is not named intuitively. It encapsulates
 the ``private_seed`` and on-demand WOTS+ key generation primitives (for XMSS's leaf nodes). Objects of this class *do not* embody a single WOTS+ leaf node.
@@ -357,7 +357,7 @@ Hence, the key generation of WOTS+ keys is split into two phases:
    **Notes:**
 
    - This is implemented in the ``XMSS_WOTS_PrivateKey`` constructor in
-     ``src/lib/pubkey/xmss/xmss_wots.h``
+     :srcref:`src/lib/pubkey/xmss/xmss_wots.h`
    - The constructor of ``XMSS_WOTS_PrivateKey`` derives an ``sk`` and ``pk``
      from the newly generated seeds. Though, they are unused in the XMSS use-case.
 
@@ -386,7 +386,7 @@ Hence, the key generation of WOTS+ keys is split into two phases:
 
    **Notes:**
 
-   - All referenced methods above are implemented in ``src/lib/pubkey/xmss/xmss_wots_privatekey.cpp`` and are orchestrated in ``src/lib/pubkey/xmss/xmss_privatekey.cpp``.
+   - All referenced methods above are implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp` and are orchestrated in :srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp`.
 
 .. _pubkey_key_generation/xmss/remark_nist_sp800208:
 
@@ -402,8 +402,8 @@ XMSS
 ~~~~
 
 XMSS functionality is implemented in
-``src/lib/pubkey/xmss/xmss_privatekey.cpp`` and
-``src/lib/pubkey/xmss/xmss_publickey.cpp``.
+:srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp` and
+:srcref:`src/lib/pubkey/xmss/xmss_publickey.cpp`.
 
 The algorithm for key generation relies on the method ``treeHash`` from
 Algorithm 9 in [XMSS]_. The ``treeHash`` method takes as input secret key
@@ -448,7 +448,7 @@ Algorithm 10 in [XMSS]_ and it works as follows:
 
    **Notes:**
 
-   - The generation procedure is implemented in ``src/lib/pubkey/xmss/xmss_privatekey.cpp``
+   - The generation procedure is implemented in :srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp`
      in the ``XMSS_PrivateKey()`` constructor and ``XMSS_PrivateKey::tree_hash()``
      as well as ``XMSS_PrivateKey::tree_hash_subtree()``
 

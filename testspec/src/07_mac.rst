@@ -5,7 +5,7 @@ Message authentication codes (MACs) are tested using a (1) combined unit
 and known answer test that calculates the MAC tag on a message as a
 whole and (2) a known answer test that calculates the MAC tag on a
 message in separate chunks. All the tests are implemented in
-*src/tests/test\_mac.cpp*. The test cases are described in the
+:srcref:`src/tests/test_mac.cpp`. The test cases are described in the
 following.
 
 .. table::
@@ -154,7 +154,7 @@ CMAC is tested with the following constraints:
 -  Out: varying length
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/mac/cmac.vec*.
+test vectors are listed in :srcref:`src/tests/data/mac/cmac.vec`.
 
 .. table::
    :class: longtable
@@ -217,7 +217,7 @@ HMAC is tested with the following constraints:
 -  Out: varying length
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/mac/hmac.vec*.
+test vectors are listed in :srcref:`src/tests/data/mac/hmac.vec`.
 
 .. table::
    :class: longtable
@@ -282,7 +282,7 @@ GMAC is tested with the following constraints:
 -  Out: varying length
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/mac/gmac.vec*.
+test vectors are listed in :srcref:`src/tests/data/mac/gmac.vec`.
 
 The test vectors were generated with Bouncy Castle Crypto 1.54.
 

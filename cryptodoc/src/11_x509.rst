@@ -7,7 +7,7 @@ defined in [RFC5280]_. It also verifies that Botan is compliant to
 the guidelines layed out in [TR-02103]_.
 
 X.509 path validation is implemented in
-``src/lib/cert/x509/x509path.cpp``. Figure :ref:`x509/path_validation_img` shows how X.509 path validation
+:srcref:`src/lib/x509/x509path.cpp`. Figure :ref:`x509/path_validation_img` shows how X.509 path validation
 is organized.
 
 .. _x509/path_validation_img:
@@ -133,7 +133,7 @@ unreachable OCSP server produce warnings. To quickly check whether an
 X.509 path validation was successful or whether it produced any
 warnings, the member functions ``successful_validation()`` and
 ``no_warnings()`` will return a boolean. All certificate validation status
-codes are defined in ``src/lib/cert/cert_status.h``.
+codes are defined in :srcref:`src/lib/x509/pkix_enums.h`.
 
 The path validation logic assumes that the end certificate to be checked
 is not trusted directly as, in this case, no validation is necessary at

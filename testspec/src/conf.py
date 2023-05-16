@@ -12,9 +12,9 @@ from pylatexenc.latexencode import unicode_to_latex
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../../_ext'))
 
 
 # -- Project information -----------------------------------------------------
@@ -33,6 +33,7 @@ release = '1.5.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'botan_src_path',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -52,6 +53,12 @@ language = 'en'
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
+
+# -- Options for botan_src_path extension ------------------------------------
+
+src_ref_reference = '3.0.0'
+# src_ref_check_url = True
 
 
 # -- Options for HTML output -------------------------------------------------

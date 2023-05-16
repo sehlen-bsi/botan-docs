@@ -5,16 +5,16 @@ Botan X.509 certificate tests validate X.509 format processing and
 correct certificate path validation. The tests are divided into four
 independent test suites:
 
--  X.509 unit tests (in *src/tests/unit_x509.cpp*) performs tests with
+-  X.509 unit tests (in :srcref:`src/tests/unit_x509.cpp`) performs tests with
    dynamically generated valid and invalid X.509 certificates, validates
    processing of certificate extensions or expired certificates.
--  X.509 tests (in *src/tests/test\_x509_path.cpp*) performs extended
+-  X.509 tests (in :srcref:`src/tests/test_x509_path.cpp`) performs extended
    certificate path validation tests with valid and invalid
    certificates.
 -  Extended X.509 name constraints tests (in
-   *src/tests/x509/test\_name_constraint.cpp*) performs an extended test
+   :srcref:`src/tests/test_name_constraint.cpp`) performs an extended test
    with different named constraints used in CA certificates.
--  OCSP tests (in *src/tests/test_ocsp.cpp*) perform tests for parsing
+-  OCSP tests (in :srcref:`src/tests/test_ocsp.cpp`) perform tests for parsing
    OCSP requests and responses, validating responses and testing online
    OCSP checks.
 
@@ -28,7 +28,7 @@ invalid X.509 certificates and validates their processing in Botan. The
 test validates key usage extension, expiration dates, or processing of
 self-signed certificates and certificate issuer properties.
 
-The test is implemented in *src/tests/unit_x509.cpp*.
+The test is implemented in :srcref:`src/tests/unit_x509.cpp`.
 
 The following X.509 certificate tests are executed:
 
@@ -52,15 +52,15 @@ placed in same folder:
 -
 
    -  Test vectors generated with the tool x509test [x509test] reside in
-      *src/tests/data/x509/x509test*
-   -  NIST test vectors are in *src/tests/data/x509/nist*
+      :srcref:`src/tests/data/x509/x509test`
+   -  NIST test vectors are in :srcref:`src/tests/data/x509/nist`
    -  X.509 extended path validation test vectors are in
-      *src/tests/data/x509/extended*
+      :srcref:`src/tests/data/x509/extended`
    -  Test vectors generated on behalf of BSI are in
-      *src/tests/data/x509/bsi*
+      :srcref:`src/tests/data/x509/bsi`
 
 Test vectors from each origin are handled by a separate class. All these
-test classes are implemented in\ *src/tests/test\_x509_path.cpp.* The
+test classes are implemented in :srcref:`src/tests/test_x509_path.cpp`. The
 following certificate properties and certificates are tested with the
 generated certificates:
 
@@ -104,7 +104,7 @@ generated certificates:
       -  CA certificate requirements defined by a standard are not met
          by an intermediate CA
 
-The tests are implemented in *src/tests/test\_x509_path.cpp.* The
+The tests are implemented in :srcref:`src/tests/test_x509_path.cpp`. The
 following tables shows an example test case with one test vector.
 
 .. table::
@@ -198,7 +198,7 @@ constraints:
 
 The following tables show example test cases with one valid and one
 invalid test vector. All test vectors are included as certificates in
-*src/tests/data/x509/name_constraint*.
+:srcref:`src/tests/data/x509/name_constraint`.
 
 .. table::
    :class: longtable
@@ -436,5 +436,5 @@ Botan's OCSP code is tested using different tests that parse OCSP
 requests and OCSP responses, validate OCSP responses (in terms of
 signature validation) and also using online tests for randombit.net.
 Online tests are only executed if BOTAN_HAS_ONLINE_REVOCATION_CHECKS is
-set. The tests are implemented in *src/tests/*\ *test_ocsp.cpp*. All
-test data can be found in *src/tests/data/x509/ocsp*.
+set. The tests are implemented in :srcref:`src/tests/test_ocsp.cpp`. All
+test data can be found in :srcref:`src/tests/data/x509/ocsp`.

@@ -7,7 +7,7 @@ Hash Function Tests
 Hash functions are tested using a (1) combined unit and known answer
 test that hashes a message as a whole and (2) a known answer test that
 hashes a message in separate chunks. All the tests are implemented in
-*src/tests/test\_hash.cpp*. The test cases are described in the
+:srcref:`src/tests/test_hash.cpp`. The test cases are described in the
 following.
 
 .. table::
@@ -187,7 +187,7 @@ MD-5 is tested with the following constraints:
 -  Out: 128 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/md5.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/md5.vec`.
 
 .. table::
    :class: longtable
@@ -252,7 +252,7 @@ SHA-1 is tested with the following constraints:
 -  Out: 160 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha1.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha1.vec`.
 
 .. table::
    :class: longtable
@@ -317,7 +317,7 @@ SHA-224 is tested with the following constraints:
 -  Out: 224 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha2_32.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
 
 .. table::
    :class: longtable
@@ -383,7 +383,7 @@ SHA-256 is tested with the following constraints:
 -  Out: 256 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha2_32.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
 
 .. table::
    :class: longtable
@@ -451,7 +451,7 @@ SHA-384 is tested with the following constraints:
 -  Out: 384 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha2\_64.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
 
 .. table::
    :class: longtable
@@ -519,7 +519,7 @@ SHA-512 is tested with the following constraints:
 -  Out: 512 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha2\_64.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
 
 .. table::
    :class: longtable
@@ -584,7 +584,7 @@ SHA-512/256 is tested with the following constraints:
 -  Out: 256 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha2\_64.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
 
 .. table::
    :class: longtable
@@ -650,7 +650,7 @@ SHA-3/224 is tested with the following constraints:
 -  Out: 224 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha3.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
 
 .. table::
    :class: longtable
@@ -701,7 +701,7 @@ SHA-3/256 is tested with the following constraints:
 -  Out: 256 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha3.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
 
 .. table::
    :class: longtable
@@ -767,7 +767,7 @@ SHA-3/384 is tested with the following constraints:
 -  Out: 384 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha3.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
 
 .. table::
    :class: longtable
@@ -835,7 +835,7 @@ SHA-3/512 is tested with the following constraints:
 -  Out: 512 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/hash/sha3.vec*.
+test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
 
 .. table::
    :class: longtable

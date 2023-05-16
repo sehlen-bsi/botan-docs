@@ -5,7 +5,7 @@ RSA
 ---
 
 The RSA signature algorithm is provided in the class
-``RSA_Signature_Operation`` in ``src/lib/pubkey/rsa/rsa.cpp``. The
+``RSA_Signature_Operation`` in :srcref:`src/lib/pubkey/rsa/rsa.cpp`. The
 respective verification algorithm is implemented in the class
 ``RSA_Verify_Operation``.
 The implementation follows [RFC3447]_.
@@ -17,10 +17,10 @@ Before a message can be signed it must be processed to achieve the bit
 length of the RSA modulus ``N``. Therefore, a padding scheme is applied to
 the message ``m``. Botan implements multiple padding schemes. For RSA
 signatures the probabilistic RSA-PSS scheme (EMSA4) implemented in
-``src/lib/pk_pad/emsa_pssr/pssr.cpp`` is recommended [TR-02102-1]_. The
+:srcref:`src/lib/pk_pad/emsa_pssr/pssr.cpp` is recommended [TR-02102-1]_. The
 RSA-PSS implementation follows the definition in [RFC3447]_. The ISO
 9796-2 DS2 and ISO 9796-2 DS3 padding schemes are implemented in
-``src/lib/pk_pad/iso9796/iso9796.cpp``
+:srcref:`src/lib/pk_pad/iso9796/iso9796.cpp`
 Both implementations follow the specification [ISO-9796-2]_.
 Alternatively, Botan provides the deterministic PKCS#1 v1.5 RSA
 signature scheme (EMSA3), which is obsolete and thus not recommended [#sig_emsa3_disclaimer]_.
@@ -106,7 +106,7 @@ DSA
 ---
 
 The Digital Signature Algorithm (DSA) is implemented in
-``src/lib/pubkey/dsa/dsa.cpp``.
+:srcref:`src/lib/pubkey/dsa/dsa.cpp`.
 The implementation follows [FIPS-186-4]_ or [RFC6979]_ if the corresponding module is enabled.
 
 DSA Signature Schemes
@@ -115,8 +115,7 @@ DSA Signature Schemes
 For DSA signatures no padding is required. The only suitable signature
 scheme DL/ECSSA (EMSA1) uses a cryptographic hash function to compute a
 representative message with the length of ``q`` from the DSA public key.
-Botan implements EMSA1 in ``src/lib/pk_pad/emsa1/emsa1.cpp``. If the
-computed hash is longer than the specified ``output_bits`` (length of
+If the computed hash is longer than the specified ``output_bits`` (length of
 ``q``), the algorithm returns only the ``output_bits`` highest bits of the
 computed hash.
 
@@ -211,7 +210,7 @@ ECDSA
 -----
 
 The Digital Signature Algorithm over elliptic curves is implemented in
-``src/lib/pubkey/ecdsa/ecdsa.cpp``.
+:srcref:`src/lib/pubkey/ecdsa/ecdsa.cpp`.
 The implementation follows [X9.62]_ or [RFC6979]_ if the corresponding module is enabled.
 
 ECDSA Signature Schemes
@@ -296,7 +295,7 @@ ECKCDSA
 -------
 
 The Korean Certificate-based Digital Signature Algorithm over elliptic
-curves is implemented in ``src/lib/pubkey/eckcdsa/eckcdsa.cpp``. The
+curves is implemented in :srcref:`src/lib/pubkey/eckcdsa/eckcdsa.cpp`. The
 implementation follows [TR-03111]_.
 
 ECKCDSA Signature Schemes
@@ -381,7 +380,7 @@ ECGDSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 The German Digital Signature Algorithm over elliptic curves is
-implemented in ``src/lib/pubkey/ecgdsa/ecgdsa.cpp``. The implementation
+implemented in :srcref:`src/lib/pubkey/ecgdsa/ecgdsa.cpp`. The implementation
 follows [ISO-14888-3]_.
 
 Signature Creation
@@ -460,7 +459,7 @@ Signature Creation
 ~~~~~~~~~~~~~~~~~~
 
 WOTS+ signing follows Algorithm 5 in [XMSS]_. It is implemented in
-``src/lib/pubkey/xmss/xmss_wots_privatekey.cpp``.
+:srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
 
 The signature generation process works as follows:
 
@@ -506,7 +505,7 @@ Signature Validation
 ~~~~~~~~~~~~~~~~~~~~
 
 WOTS+ signature validation strictly follows Algorithm 6 in [XMSS]_. It is
-implemented in ``src/lib/pubkey/xmss/xmss_wots_publickey.cpp``.
+implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
 
 The signature validation process works as follows:
 
@@ -549,8 +548,8 @@ Signature Creation
 ~~~~~~~~~~~~~~~~~~
 
 XMSS signature generation functionality is implemented in
-``src/lib/pubkey/xmss/xmss_privatekey.cpp`` and
-``src/lib/pubkey/xmss/xmss_signature_operation.cpp``
+:srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp` and
+:srcref:`src/lib/pubkey/xmss/xmss_signature_operation.cpp`
 
 The algorithm for signature generation follows methods ``treeSig`` and
 ``XMSS_sig`` from Algorithms 11 and 12 in [XMSS]_. The algorithm works as
@@ -588,8 +587,8 @@ Signature Validation
 ~~~~~~~~~~~~~~~~~~~~
 
 XMSS signature validation functionality is implemented in
-``src/lib/pubkey/xmss/xmss_publickey.cpp`` and
-``src/lib/pubkey/xmss/xmss_verification_operation.cpp``.
+:srcref:`src/lib/pubkey/xmss/xmss_publickey.cpp` and
+:srcref:`src/lib/pubkey/xmss/xmss_verification_operation.cpp`.
 
 The algorithm for signature verification follows methods
 ``XMSS_rootFromSig`` and ``XMSS_verify`` from Algorithms 13 and 14 in

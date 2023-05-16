@@ -3,7 +3,7 @@ Key Derivation Functions
 
 Key derivation functions (KDFs) are tested using a known answer test
 that derives a key from a set of input values. The test is implemented
-in *src/tests/test\_kdf.cpp*. The test case is described in the
+in :srcref:`src/tests/test_kdf.cpp`. The test case is described in the
 following.
 
 .. table::
@@ -55,7 +55,7 @@ KDF1 from ISO 18033-2 is tested with the following constraints:
 -  Out: 160 bits, 856 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/kdf/kdf1_iso18033.vec*.
+test vectors are listed in :srcref:`src/tests/data/kdf/kdf1_iso18033.vec`.
 
 .. table::
    :class: longtable
@@ -100,7 +100,7 @@ constraints:
 -  Out: 16 bits - 160 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/kdf/sp800_108_ctr.vec*.
+test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_ctr.vec`.
 
 .. table::
    :class: longtable
@@ -146,7 +146,7 @@ constraints:
 -  Out: 16 bits - 160 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/kdf/sp800_108_fb.vec*.
+test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_fb.vec`.
 
 .. table::
    :class: longtable
@@ -193,7 +193,7 @@ constraints:
 -  Out: 16 bits - 160 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/kdf/sp800_108\_pipe.vec*.
+test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_pipe.vec`.
 
 .. table::
    :class: longtable
@@ -238,7 +238,7 @@ The NIST SP 800-56C KDF is tested with the following constraints:
 -  Out: 16 bits – 400 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/kdf/sp800\_56c.vec*.
+test vectors are listed in :srcref:`src/tests/data/kdf/sp800_56c.vec`.
 
 .. table::
    :class: longtable
@@ -284,7 +284,7 @@ The PRF used in TLS 1.0/1.1 is tested with the following constraints:
 -  Out: 8 bits - 256 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/kdf/tls_prf.vec*.
+test vectors are listed in :srcref:`src/tests/data/kdf/tls_prf.vec`.
 
 .. table::
    :class: longtable
@@ -331,7 +331,7 @@ The PRF used in TLS 1.2 is tested with the following constraints:
 -  Out: 704 bits - 1568 bits
 
 The following table shows an example test case with one test vector. All
-test vectors are listed in *src/tests/data/kdf/tls_prf.vec*.
+test vectors are listed in :srcref:`src/tests/data/kdf/tls_prf.vec`.
 
 .. table::
    :class: longtable
