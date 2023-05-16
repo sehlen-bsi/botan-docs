@@ -9,7 +9,7 @@ validates the correctness of the HMAC-DRBG random number generator
 (*hmac_drbg_unit*).
 
 All unit tests for various RNGs are implemented in
-:srcref:`src/tests/test_rng.cpp`.
+:srcref:`src/tests/test_rngs.cpp`.
 
 All Known-Answer tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`.
 
@@ -77,7 +77,7 @@ Unit Test for HMAC-DRBG
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 The unit tests for HMAC-DRBG (**hmac_drbg_unit**) are implemented in
-:srcref:`src/tests/test_rng.cpp`. They extend the **hmac_drbg** test suite with
+:srcref:`src/tests/test_rngs.cpp`. They extend the **hmac_drbg** test suite with
 negative tests. The following additional properties of HMAC-DRBG are
 tested:
 

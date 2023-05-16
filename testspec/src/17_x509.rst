@@ -12,7 +12,7 @@ independent test suites:
    certificate path validation tests with valid and invalid
    certificates.
 -  Extended X.509 name constraints tests (in
-   :srcref:`src/tests/x509/test_name_constraint.cpp`) performs an extended test
+   :srcref:`src/tests/test_name_constraint.cpp`) performs an extended test
    with different named constraints used in CA certificates.
 -  OCSP tests (in :srcref:`src/tests/test_ocsp.cpp`) perform tests for parsing
    OCSP requests and responses, validating responses and testing online

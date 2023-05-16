@@ -147,7 +147,7 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Pre-defined key encodings and (optional) failure modes in:              |
-   |                        | * :srcref:`src/data/pubkey/kyber_encodings.vec`                         |
+   |                        | * :srcref:`src/tests/data/pubkey/kyber_encodings.vec`                   |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+

@@ -41,6 +41,7 @@ jobs:
       matrix:
         element:
           - {name: Crypto Documentation, dir: cryptodoc}
+          - {name: Test Specification, dir: testspec}
 
     name: Check source URLs - ${{ matrix.element.name }}
     runs-on: ubuntu-22.04
