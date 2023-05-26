@@ -7,24 +7,25 @@ Introduction
 Typically, the TLS protocol uses an asymmetric key exchange algorithm to
 establish a shared session key and a certificate-backed asymmetric signature for
 session authentication. Existing algorithms are well studied and their security
-guarantees are widely trusted and relied upon. In the future quantum computers
-have the potential to break these classical algorithms, leading to the need for
-quantum-resistant approaches.
+guarantees are widely trusted and relied upon. In the future, quantum computers
+have the potential to break these classical asymmetric algorithms, leading to the need for
+quantum-safe cryptography.
 
-However, quantum-safe algorithms, are relatively new and, thus, less mature and
+However, quantum-safe algorithms are relatively new and, thus, less mature and
 trustworthy compared to their classical counterparts. As a result, the adoption
 of hybrid key exchange approaches has gained traction, as they aim to combine
 the reliability of classical algorithms with the quantum resistance of emerging
 quantum-safe alternatives.
 
-Interactive protocols like TLS are subject to "store now decrypt later"-attacks
+Interactive protocols like TLS are subject to "store now, decrypt later"-attacks
 where an adversary could store encrypted transcripts today and break their
 confidentiality in retrospect once capable quantum computers are available in
-the future. Such attacks do not threaten the authenticity of sessions provided
-by cryptographic signatures today.
+the future.
 
-This document focuses on the key exchange and leaves signatures out of scope. It
-aims to be an overview of the proposed approches for incorporating hybrid key
+Note that such attacks do not threaten the authenticity of sessions provided
+by cryptographic signatures today. Therefore, this document focuses on the
+key exchange and leaves signatures out of scope. It
+aims to provide an overview of the proposed approaches for incorporating hybrid key
 exchange capability into the TLS protocols. It provides the basis for the
 to-be-developed hybrid key exchange approach in Botan's TLS implementation.
 
@@ -34,28 +35,28 @@ Relevant Hybrid Key Exchange Approaches in TLS 1.3
 Hybrid key exchange in TLS 1.3
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This IETF draft [IETF_Stebila]_ aims at integrating hybrid key exchange to TLS 1.3 as
+The IETF draft [IETF_Stebila]_ aims at integrating hybrid key exchange to TLS 1.3 as
 a simple "concatenation"-based approach. The draft specifically aims for
 **backward-compatibility** with existing (non-hybrid-aware) TLS 1.3
 implementations by using the existing protocol flexibility to implement a hybrid
-key exchange.
+key exchange. The draft has been adopted by the IETF TLS working group.
 
 Note that major network infrastructure providers such as [Amazon]_ and
 [Cloudflare]_ already implemented this draft and provide the hybrid key exchange
 capability to their customers as public betas.
 
 During the TLS handshake, pre-defined combinations of supported algorithms are
-identified as "NamedGroups" (TLS terminology) just like the existing
+identified as "NamedGroups" (TLS terminology), just like the existing
 Diffie-Hellman-based approaches. In other words: Every combination of algorithms
 must be assigned a unique code-point in TLS's "NamedGroup" enumeration. Examples
 of such combinations may be x25519+Kyber512 or secp384r1+Kyber768. Combinations
 of more than two algorithms are possible, but are out of scope for this
 document.
 
-For the transmission of hybrid public keys and ciphertexts a simple
-concatenation encoding is used. Both the order of the values and their lengths
-are known from the "NamedGroup" selection; therefore no additional type or
-length encoding is used. The concatenated data is then transmitted as the
+For the transmission of hybrid public keys and encapsulated shared secrets a
+simple concatenation encoding is used. Both the order of the values and their
+lengths are known from the "NamedGroup" selection; therefore no additional type
+or length encoding is used. The concatenated data is then transmitted as the
 payload of a "KeyShareEntry" in the Client Hello or Server Hello, as usual.
 
 After the first full roundtrip (Client Hello and Server Hello), both parties are
@@ -71,16 +72,17 @@ transmit them in its Client Hello. The server would then generate an ephemeral
 x25519 key pair and calculate the shared secret as usual. It would then
 encapsulate an additional shared secret with the received Kyber public key. In
 its Server Hello it would reply with the concatenation of its own x25519 public
-value and the resulting Kyber ciphertext. Now, both client and server should
-obtain both shared secrets, combine them as described and start encrypting their
-consecutive messages.
+value and the resulting Kyber encapsulated shared secret. Now, both client and
+server should obtain both shared secrets, combine them as described and start
+encrypting their consecutive messages.
 
 While this approach is fully backward compatible to non-hybrid-aware peers (TLS
 demands unknown "NamedGroups" to be ignored), it has a few limitations:
 
  * Large keys: Due to protocol limitations the concatenation of public value
-               and/or ciphertext must fit into 2^16-1 bytes. That excludes
-               algorithms with longer key sizes such as Classic McEliece.
+               and/or encapsulated shared secret must fit into 2^16-1 bytes.
+               That excludes algorithms with larger public key sizes such as
+               Classic McEliece.
 
  * Failures: Some post-quantum algorithms have a non-zero failure probability,
              meaning that the peers might derive different shared secrets in
@@ -99,7 +101,7 @@ demands unknown "NamedGroups" to be ignored), it has a few limitations:
 Note that the bandwidth and flexibility drawbacks were addressed by other (more
 involved) approaches ([IETF_Schanck]_, [IETF_Whyte]_). However, those require
 additional TLS message extensions and/or changes to the protocol's internals and
-are their IETF draft documents are expired for years.
+their IETF draft documents are expired for years.
 
 Botan 3.0 recently introduced customization points for the key exchange
 mechanisms during the handshake. These should provide enough flexibility for
@@ -134,8 +136,8 @@ The semantics of the "additional_key_share" extension are equivalent to the
 ordinary "key_share" extension. Clients wishing to use Kyber as an additional
 key exchange method would simply add a KeyShareEntry with an ephemeral Kyber
 public key to the "additional_key_share" extension in their Client Hello.
-Compatible servers would then reply with a Kyber ciphertext in the
-"additional_key_share" extension in their Server Hello. In turn, both peers
+Compatible servers would then reply with a Kyber encapsulated shared secret in
+the "additional_key_share" extension in their Server Hello. In turn, both peers
 would obtain two shared secrets and utilize the extended TLS 1.3 key schedule to
 derive session key material from them.
 
@@ -200,8 +202,11 @@ General Implementation Challenges
 
 With neither the quantum-secure algorithms nor any of the presented TLS
 adaptions being committed standards, a production-ready implementation is
-challenging. Particularly when aiming at interoperability with other
-implementations. Here are a few points to consider:
+challenging. That said, [IETF_Stebila]_ was adopted by the IETF's TLS working
+group and other implementations exist in field tests allowing for meaningful
+interoperability tests.
+
+Despite that, there are a few points to consider:
 
  * Algorithm specifications may evolve during the standardization process: That
    may involve both the algorithm's mechanics as well as value encodings
