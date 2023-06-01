@@ -6,16 +6,23 @@ This document is part of the BSI project "Pflege und Weiterentwicklung der Krypt
 
 This document has a custom build step to generate the audit report document from
 YAML files and information from the GitHub API. This is done with a generator
-that resides in `../../audit_generator` written in Python. Make sure that this
-path is in your `$PYTHONPATH` before invoking `make` as usual:
+that resides in `../../audit_generator` written in Python with a few dependencies.
+Make sure to install them additionally to the dependencies of this document:
+
+```bash
+pip install -r ../../audit_generator/requirements.txt
+```
+
+Also, the path to the generator scripts must be in your `$PYTHONPATH` before
+invoking `make`:
 
 ```bash
 PYTHONPATH=../../audit_generator make latexpdf
 ```
 
-Also, the GitHub API has a rather tight rate limit on clients without a GitHub
-access token. To obtain one, go to your personal settings on GitHub and generate
-a "Personal Access Token" with minimal permissions. All to-be-retrieved
+Note that the GitHub API has a rather tight rate limit on clients without a
+GitHub access token. To obtain one, go to your personal settings on GitHub and
+generate a "Personal Access Token" with minimal permissions. All to-be-retrieved
 information is public anyway.
 
 ## Obtaining a Personal Access Token from GitHub

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-from github.PullRequest import PullRequest
-from github.Commit import Commit
-
 import argparse
 import os
 import sys
 import logging
+
+from github.PullRequest import PullRequest
+from github.Commit import Commit
 
 import genaudit
 
@@ -88,16 +88,16 @@ def render_audit_report(args: argparse.Namespace):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='This is a tool to generate audit reports based on GitHub information and YAML annotations')
+        description='This is a tool to generate audit reports based on GitHub information and YAML annotations.')
     parser.add_argument('-t', '--token', help='GitHub access token (pulled from $BASIC_GH_TOKEN by default)',
                         default=os.environ.get('BASIC_GH_TOKEN'))
     parser.add_argument('-v', '--verbose', help='Enable detailed logging',
                         default=False, action='store_true')
     parser.add_argument('-c', '--cache-location',
-                        help='Path to a directory that should be used as disk cache (overrides config.yml and defaults to AUDIT_CACHE_LOCATION)',
+                        help='Path to a directory that should be used as disk cache (overrides config.yml and defaults to AUDIT_CACHE_LOCATION).',
                         default=os.environ.get('AUDIT_CACHE_LOCATION'))
     parser.add_argument('-r', '--repo-location',
-                        help='Path to a local checkout of the Botan repository (overrides config.yml and defaults to AUDIT_REPO_LOCATION)',
+                        help='Path to a local checkout of the Botan repository (overrides config.yml and defaults to AUDIT_REPO_LOCATION).',
                         default=os.environ.get('AUDIT_REPO_LOCATION'))
 
     subparsers = parser.add_subparsers(title='Subcommands', required=True)
@@ -111,13 +111,13 @@ def main():
     unrefed.set_defaults(func=find_unrefed)
 
     renderer = subparsers.add_parser(
-        'render', help='Render the audit document')
+        'render', help='Render the audit document.')
     renderer.add_argument('audit_config_dir',
-                          help='the audit directory to be used')
+                          help='The audit directory to be used.')
     renderer.add_argument( '-o', '--out-dir',
-                          help='will be populated with rST document files')
+                          help='Will be populated with rST document files.')
     renderer.add_argument('-u', '--update', default=False, action='store_true',
-                          help='generate rST file only if the associated YAML file is newer')
+                          help='Generate rST file only if the associated YAML file is newer.')
     renderer.set_defaults(func=render_audit_report)
 
     args = parser.parse_args(sys.argv[1:])

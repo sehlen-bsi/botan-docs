@@ -5,14 +5,14 @@ Provides a wrapper for a github-hosted repository.
 import re
 import logging
 
-from genaudit import util
-from genaudit import refs
-from genaudit.cache import CachingRequester
-
 from github.PullRequest import PullRequest
 from github.PullRequestReview import PullRequestReview
 from github.Commit import Commit
 from github import Github
+
+from genaudit import util
+from genaudit import refs
+from genaudit.cache import CachingRequester
 
 class CachingGithub(Github):
     def __init__(self, login_or_token, cache_location = None):

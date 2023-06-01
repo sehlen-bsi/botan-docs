@@ -101,6 +101,7 @@ class Renderer:
 
         def render_classification(classification):
             return {Classification.UNSPECIFIED: "Unspecified category",
+                    Classification.OUT_OF_SCOPE: "Out of scope",
                     Classification.INFORMATIONAL: "Category III - Informational",
                     Classification.RELEVANT: "Category II - Relevant for security",
                     Classification.CRITICAL: "Category I - Critical for security"}[classification]
@@ -150,6 +151,7 @@ class Renderer:
 
         def render_classification(classification):
             return {Classification.UNSPECIFIED: "n/a",
+                    Classification.OUT_OF_SCOPE: "out of scope",
                     Classification.INFORMATIONAL: "info",
                     Classification.RELEVANT: "moderate",
                     Classification.CRITICAL: "critical"}[classification]

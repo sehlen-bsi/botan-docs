@@ -3,25 +3,28 @@ References to specific Git(Hub) objects like Pull Requests and Commits
 """
 
 from enum import IntEnum
-
 from functools import total_ordering
 
 class Classification(IntEnum):
     """ Not yet decided """
     UNSPECIFIED = 0
 
+    """ Topic is not in scope of the review """
+    OUT_OF_SCOPE = 1
+
     """ Topic does not affect the security of the system (formerly "Kategorie III") """
-    INFORMATIONAL = 1
+    INFORMATIONAL = 2
 
     """ Topic may be relevant for the effictivness or efficiency of security features in the system (formerly "Kategorie II") """
-    RELEVANT = 2
+    RELEVANT = 3
 
     """ Topic is critical for the security of the system (formerly "Kategorie I") """
-    CRITICAL = 3
+    CRITICAL = 4
 
     @staticmethod
     def from_string(classification: str):
         return {'unspecified': Classification.UNSPECIFIED,
+                'out of scope': Classification.OUT_OF_SCOPE,
                 'critical': Classification.CRITICAL,
                 'relevant': Classification.RELEVANT,
                 'info': Classification.INFORMATIONAL}[classification]

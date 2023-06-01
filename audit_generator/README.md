@@ -33,7 +33,7 @@ classification: relevant
 patches:
 # Support hash truncation in ECKCDSA (#2742)  (@lieser)
 - 3393:  # GitHub pull request number
-  classification: relevant  # (or: 'unspecified', 'info', 'critical')
+  classification: relevant  # (or: 'unspecified', 'out_of_scope', 'info', 'critical')
   comment: |
     Ensures that hash truncation in ECKCDSA is performed as specified in ISO
     14888-3:2016.
@@ -120,3 +120,17 @@ Example:
 export BASIC_GH_TOKEN="<mytoken>" # should be placed in the environment in some reasonable way
 python audit.py unrefed --yaml <config_dir>
 ```
+
+## Limitations
+
+### Co-Authorship is Ignored
+
+The reported author of a pull request is always the user that opened the pull
+request. If the pull request contains commits with varying authorship, other
+users are currently not listed. This should be achievable by scanning all
+commits of a pull request, however.
+
+Commits with co-authors (via `Co-Authored-By: First Last <email@company.org>`)
+are also reported as being authored by just the principal author. Parsing the
+commit messages for said markups is possible. Though, it remains to be seen
+whether the GitHub API allows resolving email addresses to GitHub handles.

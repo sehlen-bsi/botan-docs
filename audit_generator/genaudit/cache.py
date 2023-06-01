@@ -55,6 +55,7 @@ class CachingRequester(Requester.Requester):
         return cache_dict[ref]
 
     def _retrieve_from_disk(self, res, ref):
+        assert self.has_disk_cache()
         logging.debug("Pulling '%s' with ref '%s' from disk cache" % (res, ref))
         with open(self._cache_path(res, ref), 'r') as f:
             data = json.load(f)

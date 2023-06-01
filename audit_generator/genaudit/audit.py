@@ -3,11 +3,11 @@ Audits are full document description for an individual code audit. They
 typically consist of several topics.
 """
 
-import yaml
 import os
 import logging
-
 from glob import iglob
+
+import yaml
 
 from genaudit.topic import Topic
 

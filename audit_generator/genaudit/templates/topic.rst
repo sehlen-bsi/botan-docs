@@ -51,7 +51,7 @@ Security Classification: *{{ classification }}*
        {% endif %}
      - {{ patch.classification }}
      - {{ macros.short_author(patch.author) }}
-     - {{ macros.short_author(patch.committer) }}
+     - n/a
 {% endif %}
 {% endfor %}
 {% endif %}
