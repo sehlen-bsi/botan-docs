@@ -8,8 +8,9 @@ Contents
 
    00_00_preface
    00_09_introduction
+   01_method
 
    changes/index
 
-   01_side_channels
+   02_side_channels
 
