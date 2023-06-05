@@ -54,3 +54,45 @@ jobs:
         run: pip install -r requirements.txt
       - name: Build with URL check enabled
         run: make SPHINXOPTS="-D src_ref_check_url=True -W" html
+
+  audit_generation:
+    name: Build PDF - Audit Report 3.0.0
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ./source
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: randombit/botan
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre latexmk
+          pip install -r source/audit_generator/requirements.txt
+          pip install -r source/audit_report/3.0.0/requirements.txt
+
+      - name: Handle the Audit Generator Cache
+        uses: actions/cache@v3
+        with:
+          path: ./audit_generator_cache
+          key: audit_3.0-${{ github.run_id }}
+          restore-keys: audit_3.0
+
+      - name: Build Document
+        working-directory: source/audit_report/3.0.0
+        run: make latexpdf
+        env:
+          PYTHONPATH: ${{ github.workspace }}/source/audit_generator
+          AUDIT_CACHE_LOCATION: ${{ github.workspace }}/audit_generator_cache
+          AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
+          BASIC_GH_TOKEN: ${{ github.token }}
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: botan_audit_3.0.0_${{ github.sha }}
+          path: source/audit_report/3.0.0/_build/latex/*.pdf

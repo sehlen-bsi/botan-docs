@@ -1,0 +1,154 @@
+title: Public Key Infrastructure
+
+description: |
+  Patches on the public key infrastructure. Mostly X.509 but also asymmetric
+  cryptography related changes.
+
+patches:
+# New approach for discrete logarithm keys  (@randombit)
+- pr: 3210  # https://github.com/randombit/botan/pull/3210
+  classification: unspecified
+
+# When performing PKCS11 RSA padding in userspace, pad to modulus size  (@randombit)
+- pr: 3460  # https://github.com/randombit/botan/pull/3460
+  classification: unspecified
+
+# Add Private_Key::raw_private_key_bits  (@randombit)
+- pr: 3437  # https://github.com/randombit/botan/pull/3437
+  classification: unspecified
+
+# Remove erronous check on RSA-PSS certificates  (@randombit)
+- pr: 3421  # https://github.com/randombit/botan/pull/3421
+  classification: unspecified
+
+# OID improvements  (@randombit)
+- pr: 3415  # https://github.com/randombit/botan/pull/3415
+  classification: unspecified
+
+# Add support for modifying the extensions included in a new cert  (@randombit)
+- pr: 3486  # https://github.com/randombit/botan/pull/3486
+  classification: unspecified
+
+# Remove the RNG argument from PK_KEM_Encryptor  (@randombit)
+- pr: 3346  # https://github.com/randombit/botan/pull/3346
+  classification: unspecified
+
+# Reject overly long RSA ciphertexts  (@randombit)
+- pr: 3344  # https://github.com/randombit/botan/pull/3344
+  classification: unspecified
+
+# Allow initializing a PK_Verifier from an AlgorithmIdentifier  (@randombit)
+- pr: 3329  # https://github.com/randombit/botan/pull/3329
+  classification: unspecified
+
+# Update the Wycheproof ECDSA test data to the latest version  (@randombit)
+- pr: 3332  # https://github.com/randombit/botan/pull/3332
+  classification: unspecified
+
+# Add Asymmetric_Key::supports_operation  (@randombit)
+- pr: 3326  # https://github.com/randombit/botan/pull/3326
+  classification: unspecified
+
+# Remove OID::operator+  (@randombit)
+- pr: 3331  # https://github.com/randombit/botan/pull/3331
+  classification: unspecified
+
+# Reduce usage of oids.h  (@randombit)
+- pr: 3330  # https://github.com/randombit/botan/pull/3330
+  classification: unspecified
+
+# Remove EMSA1 from OIDs and other internal uses  (@randombit)
+- pr: 3327  # https://github.com/randombit/botan/pull/3327
+  classification: unspecified
+
+# Add PK_Verifier::hash_function, remove X509_Object::hash_used_for_signature  (@randombit)
+- pr: 3325  # https://github.com/randombit/botan/pull/3325
+  classification: unspecified
+
+# New mechanism for signature types to be identified  (@randombit)
+- pr: 3320  # https://github.com/randombit/botan/pull/3320
+  classification: unspecified
+
+# Signature padding improvements  (@randombit)
+- pr: 3315  # https://github.com/randombit/botan/pull/3315
+  classification: unspecified
+
+# Add support for key generation stability tests  (@randombit)
+- pr: 3269  # https://github.com/randombit/botan/pull/3269
+  classification: unspecified
+
+# Add Asymmetric_Key base class  (@randombit)
+- pr: 3266  # https://github.com/randombit/botan/pull/3266
+  classification: unspecified
+
+# Deprecate get_ prefix functions on AlgorithmIdentifier  (@randombit)
+- pr: 3265  # https://github.com/randombit/botan/pull/3265
+  classification: unspecified
+
+# Rename Public_Key::get_oid to object_identifier  (@randombit)
+- pr: 3264  # https://github.com/randombit/botan/pull/3264
+  classification: unspecified
+
+# Add Public_Key::get_int_field  (@randombit)
+- pr: 3200  # https://github.com/randombit/botan/pull/3200
+  classification: unspecified
+
+# Modify EMSA::config_for_x509 to no longer require a private key  (@randombit)
+- pr: 3142  # https://github.com/randombit/botan/pull/3142
+  classification: unspecified
+
+# Overhaul OCSP Validation  (@reneme)
+- pr: 3067  # https://github.com/randombit/botan/pull/3067
+  classification: unspecified
+
+# Add a simple fuzzer for X509 path validation  (@randombit)
+- pr: 3090  # https://github.com/randombit/botan/pull/3090
+  classification: unspecified
+
+# Test: Enable system certificate store test on windows  (@reneme)
+- pr: 3009  # https://github.com/randombit/botan/pull/3009
+  classification: unspecified
+
+# PKCS#11 RSA allows choosing software EME  (@reneme)
+- pr: 3034  # https://github.com/randombit/botan/pull/3034
+  classification: unspecified
+
+# Remove unused get_emsa() declaration  (@lieser)
+- pr: 3031  # https://github.com/randombit/botan/pull/3031
+  classification: unspecified
+
+# Fix ecdsa_unit test failures when SHA-1 is not available  (@securitykernel)
+- pr: 2933  # https://github.com/randombit/botan/pull/2933
+  classification: unspecified
+
+# Remove duplicated chars from allowed chars in ASN1_Type::PrintableString  (@lieser)
+- pr: 2924  # https://github.com/randombit/botan/pull/2924
+  classification: unspecified
+
+# Reject RSA signatures larger than the modulus  (@Jack Lloyd)
+- commit: 6506df0a121ed687a8aa5decb6e4e10b273f03bc  # https://github.com/randombit/botan/commit/6506df0a121ed687a8aa5decb6e4e10b273f03bc
+  classification: unspecified
+
+# Deprecate ability to create composite order EC_Group [ci skip]  (@Jack Lloyd)
+- commit: 0ac8b21a723cd464c171fe0cda76d14ef8e805c0  # https://github.com/randombit/botan/commit/0ac8b21a723cd464c171fe0cda76d14ef8e805c0
+  classification: unspecified
+
+# Small cleanup in RSA keygen code  (@Jack Lloyd)
+- commit: a6ffa13514e0faab7e769cae83d0e193f39edfcf  # https://github.com/randombit/botan/commit/a6ffa13514e0faab7e769cae83d0e193f39edfcf
+  classification: unspecified
+
+# Add missing Ed25519 keygen test  (@Jack Lloyd)
+- commit: 47813fab34f2d22b8b2cdcaa4e1816692b459fb6  # https://github.com/randombit/botan/commit/47813fab34f2d22b8b2cdcaa4e1816692b459fb6
+  classification: unspecified
+
+# Fix sqrt_modulo_prime to reject even "primes" greater than 2  (@Jack Lloyd)
+- commit: 8bfb00f6f142bd8160c09514508b270b3a422e3f  # https://github.com/randombit/botan/commit/8bfb00f6f142bd8160c09514508b270b3a422e3f
+  classification: unspecified
+
+# Fix Bailie PSW primality test for 2  (@Jack Lloyd)
+- commit: 5446e00ba748d22632474e149d0a2a1d3c686e98  # https://github.com/randombit/botan/commit/5446e00ba748d22632474e149d0a2a1d3c686e98
+  classification: unspecified
+
+# Remove support for NEWHOPE and CECPQ1  (@randombit)
+- pr: 3094  # https://github.com/randombit/botan/pull/3094
+  classification: unspecified

@@ -1,0 +1,30 @@
+title: Auxiliary Scripts and Tools
+
+description: |
+  Concerns tools and scripts that are used during development and (manual)
+  testing but typically don't end up in the final library builds.
+
+patches:
+# Clean up the src/scripts directory a bit  (@randombit)
+- pr: 3281  # https://github.com/randombit/botan/pull/3281
+  classification: unspecified
+
+# Remove support for InnoSetup  (@randombit)
+- pr: 3247  # https://github.com/randombit/botan/pull/3247
+  classification: unspecified
+
+# Add a script that detects possible issues with headers  (@randombit)
+- pr: 3183  # https://github.com/randombit/botan/pull/3183
+  classification: unspecified
+
+# VS Code: Basic Integrations and Helpers  (@reneme)
+- pr: 3061  # https://github.com/randombit/botan/pull/3061
+  classification: unspecified
+
+# Improve compile_commands.json  (@reneme)
+- pr: 3057  # https://github.com/randombit/botan/pull/3057
+  classification: unspecified
+
+# Provide Editor Configurations via .editorconfig and specifically for Sublime Text  (@reneme)
+- pr: 2932  # https://github.com/randombit/botan/pull/2932
+  classification: unspecified

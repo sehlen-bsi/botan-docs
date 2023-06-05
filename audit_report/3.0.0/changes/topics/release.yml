@@ -1,0 +1,29 @@
+title: Release Preparation
+
+description: |
+  Patches preparing for Botan releases and release candidates.
+
+patches:
+# Add a section for Releases so it is easier to fin [ci skip]  (@Jack Lloyd)
+- commit: 91c23d7415321129ceb6f31f2d95dccd12f57988  # https://github.com/randombit/botan/commit/91c23d7415321129ceb6f31f2d95dccd12f57988
+  classification: unspecified
+
+# Release 3.0.0-rc1  (@Jack Lloyd)
+- commit: a3fd9d7d3194d7ad4c266bc2a89989b9d656156a  # https://github.com/randombit/botan/commit/a3fd9d7d3194d7ad4c266bc2a89989b9d656156a
+  classification: unspecified
+
+# Bump version to RC1  (@Jack Lloyd)
+- commit: 6341d8ec89ea069a56547c0048a5de12f48e95c1  # https://github.com/randombit/botan/commit/6341d8ec89ea069a56547c0048a5de12f48e95c1
+  classification: unspecified
+
+# Add 2.19.3 info  (@Jack Lloyd)
+- commit: 668131bb5eb76829cc51e15258789f948e6b4bbc  # https://github.com/randombit/botan/commit/668131bb5eb76829cc51e15258789f948e6b4bbc
+  classification: unspecified
+
+# Add 2.19.1/2.19.2 info to news, update readme  (@Jack Lloyd)
+- commit: db89870e580e0e4a95384b41c3ae81f15b9bc9ad  # https://github.com/randombit/botan/commit/db89870e580e0e4a95384b41c3ae81f15b9bc9ad
+  classification: unspecified
+
+# Update for 3.0.0 release  (@Jack Lloyd)
+- commit: 51b06ca93d1998d19927699f78b8d67539148dde  # https://github.com/randombit/botan/commit/51b06ca93d1998d19927699f78b8d67539148dde
+  classification: unspecified
