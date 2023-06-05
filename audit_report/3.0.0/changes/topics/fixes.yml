@@ -2,65 +2,65 @@ title: Fixes and Improvements
 
 patches:
 # FIX: Avoid unnecessary exception  (@reneme)
-- 3485:  # https://github.com/randombit/botan/pull/3485
+- pr: 3485  # https://github.com/randombit/botan/pull/3485
   classification: unspecified
 
 # Change SP800-56A hash based KDF to reject non-empty salt  (@randombit)
-- 3458:  # https://github.com/randombit/botan/pull/3458
+- pr: 3458  # https://github.com/randombit/botan/pull/3458
   classification: unspecified
 
 # In DH bound the exponent size by the private key size  (@randombit)
-- 3426:  # https://github.com/randombit/botan/pull/3426
+- pr: 3426  # https://github.com/randombit/botan/pull/3426
   classification: unspecified
 
 # In KEM and key agreement reject non-empty salts if no KDF is in use  (@randombit)
-- 3372:  # https://github.com/randombit/botan/pull/3372
+- pr: 3372  # https://github.com/randombit/botan/pull/3372
   classification: unspecified
 
 # Fix NIST key wrap for 64 bit inputs  (@randombit)
-- 3340:  # https://github.com/randombit/botan/pull/3340
+- pr: 3340  # https://github.com/randombit/botan/pull/3340
   classification: unspecified
 
 # Fix Ed25519 signature malleability  (@randombit)
-- 3338:  # https://github.com/randombit/botan/pull/3338
+- pr: 3338  # https://github.com/randombit/botan/pull/3338
   classification: unspecified
 
 # Fix a bug handling DER signature verification  (@randombit)
-- 3333:  # https://github.com/randombit/botan/pull/3333
+- pr: 3333  # https://github.com/randombit/botan/pull/3333
   classification: unspecified
 
 # Fix HKDF_Expand which did not allow a maximum length output  (@randombit)
-- 3219:  # https://github.com/randombit/botan/pull/3219
+- pr: 3219  # https://github.com/randombit/botan/pull/3219
   classification: unspecified
 
 # Fix incorrect output of negative BigInts (GH #3073)  (@randombit)
-- 3121:  # https://github.com/randombit/botan/pull/3121
+- pr: 3121  # https://github.com/randombit/botan/pull/3121
   classification: unspecified
 
 # Fix overwriting an attribute in an AttributeContainer  (@lieser)
-- 3138:  # https://github.com/randombit/botan/pull/3138
+- pr: 3138  # https://github.com/randombit/botan/pull/3138
   classification: unspecified
 
 # Fix entropy test and increase RDSEED timeout limit  (@randombit)
-- 3128:  # https://github.com/randombit/botan/pull/3128
+- pr: 3128  # https://github.com/randombit/botan/pull/3128
   classification: unspecified
 
 # FIX: -Wmaybe-uninitialized due to std::swap()  (@reneme)
-- 2984:  # https://github.com/randombit/botan/pull/2984
+- pr: 2984  # https://github.com/randombit/botan/pull/2984
   classification: unspecified
 
 # Correct the case of ressol modulo 2  (@randombit)
-- 2964:  # https://github.com/randombit/botan/pull/2964
+- pr: 2964  # https://github.com/randombit/botan/pull/2964
   classification: unspecified
 
 # Fix a bug in SRP6  (@randombit)
-- 3236:  # https://github.com/randombit/botan/pull/3236
+- pr: 3236  # https://github.com/randombit/botan/pull/3236
   classification: unspecified
 
 # Fix bug handling nonce state in EAX mode  (@randombit)
-- 3335:  # https://github.com/randombit/botan/pull/3335
+- pr: 3335  # https://github.com/randombit/botan/pull/3335
   classification: unspecified
 
 # Only allow "SHA-1" as a valid name for SHA-1  (@randombit)
-- 3186:  # https://github.com/randombit/botan/pull/3186
+- pr: 3186  # https://github.com/randombit/botan/pull/3186
   classification: unspecified

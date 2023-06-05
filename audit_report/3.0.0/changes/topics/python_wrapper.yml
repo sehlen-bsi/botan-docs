@@ -2,17 +2,17 @@ title: Python Bindings
 
 patches:
 # Fix Python wrappers string conversion  (@randombit)
-- 3422:  # https://github.com/randombit/botan/pull/3422
+- pr: 3422  # https://github.com/randombit/botan/pull/3422
   classification: unspecified
 
 # Rename the Python module to match the major version  (@randombit)
-- 3272:  # https://github.com/randombit/botan/pull/3272
+- pr: 3272  # https://github.com/randombit/botan/pull/3272
   classification: unspecified
 
 # Add check on input count in Python zfec decoding [ci skip]  (@Jack Lloyd)
-- 053d9d91e5e5a145b555969c37367ae5ef27415f:  # https://github.com/randombit/botan/commit/053d9d91e5e5a145b555969c37367ae5ef27415f
+- commit: 053d9d91e5e5a145b555969c37367ae5ef27415f  # https://github.com/randombit/botan/commit/053d9d91e5e5a145b555969c37367ae5ef27415f
   classification: unspecified
 
 # Fix Python unspecified-encoding lint  (@randombit)
-- 3089:  # https://github.com/randombit/botan/pull/3089
+- pr: 3089  # https://github.com/randombit/botan/pull/3089
   classification: unspecified

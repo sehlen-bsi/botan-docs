@@ -33,11 +33,11 @@ def find_unrefed(args: argparse.Namespace):
 
         if args.yaml:
             print("# %s  (@%s)" % (title, author))
-            print("- %d:  # %s" % (issue, url))
+            print("- pr: %d  # %s" % (issue, url))
             print("  classification: unspecified")
             print()
         else:
-            print("Pull Request: '%s' by @%s              \n%s" % (title, author, url))
+            print("Pull Request: '%s' by @%s\n              %s" % (title, author, url))
 
     def render_commit(info: Commit):
         sha = info.sha
@@ -47,7 +47,7 @@ def find_unrefed(args: argparse.Namespace):
 
         if args.yaml:
             print("# %s  (@%s)" % (msg, author))
-            print("- %s:  # %s" % (sha, url))
+            print("- commit: %s  # %s" % (sha, url))
             print("  classification: unspecified")
             print()
         else:

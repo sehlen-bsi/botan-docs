@@ -2,85 +2,85 @@ title: Foreign Function Interface
 
 patches:
 # FFI fixes  (@randombit)
-- 3457:  # https://github.com/randombit/botan/pull/3457
+- pr: 3457  # https://github.com/randombit/botan/pull/3457
   classification: unspecified
 
 # Added botan_system_rng_get convenience function  (@oviano)
-- 3453:  # https://github.com/randombit/botan/pull/3453
+- pr: 3453  # https://github.com/randombit/botan/pull/3453
   classification: unspecified
 
 # Added missing void to ffi function prototype  (@oviano)
-- 3452:  # https://github.com/randombit/botan/pull/3452
+- pr: 3452  # https://github.com/randombit/botan/pull/3452
   classification: unspecified
 
 # Update the FFI docs  (@randombit)
-- 3379:  # https://github.com/randombit/botan/pull/3379
+- pr: 3379  # https://github.com/randombit/botan/pull/3379
   classification: unspecified
 
 # Add KEM interface to FFI  (@randombit)
-- 3366:  # https://github.com/randombit/botan/pull/3366
+- pr: 3366  # https://github.com/randombit/botan/pull/3366
   classification: unspecified
 
 # More FFI view functions  (@randombit)
-- 3362:  # https://github.com/randombit/botan/pull/3362
+- pr: 3362  # https://github.com/randombit/botan/pull/3362
   classification: unspecified
 
 # Add FFI function for querying the size of a SRP6 group  (@randombit)
-- 3361:  # https://github.com/randombit/botan/pull/3361
+- pr: 3361  # https://github.com/randombit/botan/pull/3361
   classification: unspecified
 
 # Introduce view functions to the FFI layer  (@randombit)
-- 3360:  # https://github.com/randombit/botan/pull/3360
+- pr: 3360  # https://github.com/randombit/botan/pull/3360
   classification: unspecified
 
 # Split the FFI tests into multiple units  (@randombit)
-- 3358:  # https://github.com/randombit/botan/pull/3358
+- pr: 3358  # https://github.com/randombit/botan/pull/3358
   classification: unspecified
 
 # Add FFI functions for NIST key wrap variants  (@randombit)
-- 3341:  # https://github.com/randombit/botan/pull/3341
+- pr: 3341  # https://github.com/randombit/botan/pull/3341
   classification: unspecified
 
 # Add FFI function to set the nonce for a MAC  (@randombit)
-- 3339:  # https://github.com/randombit/botan/pull/3339
+- pr: 3339  # https://github.com/randombit/botan/pull/3339
   classification: unspecified
 
 # Add an FFI function for getting the ECC public point  (@randombit)
-- 3334:  # https://github.com/randombit/botan/pull/3334
+- pr: 3334  # https://github.com/randombit/botan/pull/3334
   classification: unspecified
 
 # Add an FFI-friendly interface for ZFEC encoding and decoding  (@exarkun)
-- 3196:  # https://github.com/randombit/botan/pull/3196
+- pr: 3196  # https://github.com/randombit/botan/pull/3196
   classification: unspecified
 
 # Chore: Replace BOTAN_FFI_DO/RETURNING with BOTAN_FFI_VISIT  (@reneme)
-- 3079:  # https://github.com/randombit/botan/pull/3079
+- pr: 3079  # https://github.com/randombit/botan/pull/3079
   classification: unspecified
 
 # Add support for SRP6 FFI  (@JustPretender)
-- 2936:  # https://github.com/randombit/botan/pull/2936
+- pr: 2936  # https://github.com/randombit/botan/pull/2936
   classification: unspecified
 
 # Mention new FFI interfaces in the release notes  (@Jack Lloyd)
-- 57813122a0396f504a8802c3154cf15cf733fd05:  # https://github.com/randombit/botan/commit/57813122a0396f504a8802c3154cf15cf733fd05
+- commit: 57813122a0396f504a8802c3154cf15cf733fd05  # https://github.com/randombit/botan/commit/57813122a0396f504a8802c3154cf15cf733fd05
   classification: unspecified
 
 # Fix test  (@Jack Lloyd)
-- aaf3c383d8dd775301863c606163038c8ebe35e8:  # https://github.com/randombit/botan/commit/aaf3c383d8dd775301863c606163038c8ebe35e8
+- commit: aaf3c383d8dd775301863c606163038c8ebe35e8  # https://github.com/randombit/botan/commit/aaf3c383d8dd775301863c606163038c8ebe35e8
   classification: unspecified
 
 # Small post-merge fixes for #3453  (@Jack Lloyd)
-- 5a214584f0e8e3ff1e09b017c1e8516aa2affe4a:  # https://github.com/randombit/botan/commit/5a214584f0e8e3ff1e09b017c1e8516aa2affe4a
+- commit: 5a214584f0e8e3ff1e09b017c1e8516aa2affe4a  # https://github.com/randombit/botan/commit/5a214584f0e8e3ff1e09b017c1e8516aa2affe4a
   classification: unspecified
 
 # Take advantage of Private_Key::public_key in FFI  (@Jack Lloyd)
-- 3e2b06b204d7e8417622579eb413b0df84f8ff38:  # https://github.com/randombit/botan/commit/3e2b06b204d7e8417622579eb413b0df84f8ff38
+- commit: 3e2b06b204d7e8417622579eb413b0df84f8ff38  # https://github.com/randombit/botan/commit/3e2b06b204d7e8417622579eb413b0df84f8ff38
   classification: unspecified
 
 # Correct FFI error return  (@Jack Lloyd)
-- a827d1b8002f75c905ea674c281b37106c8bdca8:  # https://github.com/randombit/botan/commit/a827d1b8002f75c905ea674c281b37106c8bdca8
+- commit: a827d1b8002f75c905ea674c281b37106c8bdca8  # https://github.com/randombit/botan/commit/a827d1b8002f75c905ea674c281b37106c8bdca8
   classification: unspecified
 
 # Fix FFI when SRP6 is disabled in the build  (@randombit)
-- 3214:  # https://github.com/randombit/botan/pull/3214
+- pr: 3214  # https://github.com/randombit/botan/pull/3214
   classification: unspecified

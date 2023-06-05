@@ -2,145 +2,145 @@ title: Continuous Integration
 
 patches:
 # Use sccache 0.4.0 in CI  (@randombit)
-- 3416:  # https://github.com/randombit/botan/pull/3416
+- pr: 3416  # https://github.com/randombit/botan/pull/3416
   classification: unspecified
 
 # Skip running lcov in the coverage CI build  (@randombit)
-- 3381:  # https://github.com/randombit/botan/pull/3381
+- pr: 3381  # https://github.com/randombit/botan/pull/3381
   classification: unspecified
 
 # Reduce CI package installs  (@randombit)
-- 3371:  # https://github.com/randombit/botan/pull/3371
+- pr: 3371  # https://github.com/randombit/botan/pull/3371
   classification: unspecified
 
 # Deal with codecov flakiness  (@randombit)
-- 3370:  # https://github.com/randombit/botan/pull/3370
+- pr: 3370  # https://github.com/randombit/botan/pull/3370
   classification: unspecified
 
 # Move codecov.yml config into .github subdir  (@randombit)
-- 3353:  # https://github.com/randombit/botan/pull/3353
+- pr: 3353  # https://github.com/randombit/botan/pull/3353
   classification: unspecified
 
 # Fix removal of the wrong CI job  (@randombit)
-- 3250:  # https://github.com/randombit/botan/pull/3250
+- pr: 3250  # https://github.com/randombit/botan/pull/3250
   classification: unspecified
 
 # Drop CI builds that are stuck with GCC 10  (@randombit)
-- 3248:  # https://github.com/randombit/botan/pull/3248
+- pr: 3248  # https://github.com/randombit/botan/pull/3248
   classification: unspecified
 
 # Reorganize the CI matrix  (@randombit)
-- 3241:  # https://github.com/randombit/botan/pull/3241
+- pr: 3241  # https://github.com/randombit/botan/pull/3241
   classification: unspecified
 
 # Fix regression in sanitizer test times (GH #3238)  (@randombit)
-- 3239:  # https://github.com/randombit/botan/pull/3239
+- pr: 3239  # https://github.com/randombit/botan/pull/3239
   classification: unspecified
 
 # FIX: test_cli.py does not fail on 'unknown command'  (@reneme)
-- 3222:  # https://github.com/randombit/botan/pull/3222
+- pr: 3222  # https://github.com/randombit/botan/pull/3222
   classification: unspecified
 
 # Speed up sanitizer builds  (@randombit)
-- 3198:  # https://github.com/randombit/botan/pull/3198
+- pr: 3198  # https://github.com/randombit/botan/pull/3198
   classification: unspecified
 
 # Add fuzzers for the Comba multiply and square functions  (@randombit)
-- 3160:  # https://github.com/randombit/botan/pull/3160
+- pr: 3160  # https://github.com/randombit/botan/pull/3160
   classification: unspecified
 
 # CI: Use Android NDK provided by GH Actions  (@reneme)
-- 3154:  # https://github.com/randombit/botan/pull/3154
+- pr: 3154  # https://github.com/randombit/botan/pull/3154
   classification: unspecified
 
 # Move the emscripten CI build to a Linux target  (@randombit)
-- 3148:  # https://github.com/randombit/botan/pull/3148
+- pr: 3148  # https://github.com/randombit/botan/pull/3148
   classification: unspecified
 
 # Use the macos-12 target instead of macos-latest  (@randombit)
-- 3122:  # https://github.com/randombit/botan/pull/3122
+- pr: 3122  # https://github.com/randombit/botan/pull/3122
   classification: unspecified
 
 # Limit compiler cache sizes in CI to 200MB  (@randombit)
-- 3135:  # https://github.com/randombit/botan/pull/3135
+- pr: 3135  # https://github.com/randombit/botan/pull/3135
   classification: unspecified
 
 # Disable using debug-mode for sanitizer builds  (@randombit)
-- 3134:  # https://github.com/randombit/botan/pull/3134
+- pr: 3134  # https://github.com/randombit/botan/pull/3134
   classification: unspecified
 
 # Limit the number of builds we use Boost for  (@randombit)
-- 3132:  # https://github.com/randombit/botan/pull/3132
+- pr: 3132  # https://github.com/randombit/botan/pull/3132
   classification: unspecified
 
 # Modify the CI matrix to improve coverage  (@randombit)
-- 3127:  # https://github.com/randombit/botan/pull/3127
+- pr: 3127  # https://github.com/randombit/botan/pull/3127
   classification: unspecified
 
 # CI: Run sanitizers on the entire test corpus  (@reneme)
-- 3012:  # https://github.com/randombit/botan/pull/3012
+- pr: 3012  # https://github.com/randombit/botan/pull/3012
   classification: unspecified
 
 # Add a RISCV64 cross compilation CI build  (@randombit)
-- 3109:  # https://github.com/randombit/botan/pull/3109
+- pr: 3109  # https://github.com/randombit/botan/pull/3109
   classification: unspecified
 
 # Add Linux/ARM compile+run cross compile CI target  (@randombit)
-- 3096:  # https://github.com/randombit/botan/pull/3096
+- pr: 3096  # https://github.com/randombit/botan/pull/3096
   classification: unspecified
 
 # Use actions/cache v3 to avoid deprecation issues  (@randombit)
-- 3095:  # https://github.com/randombit/botan/pull/3095
+- pr: 3095  # https://github.com/randombit/botan/pull/3095
   classification: unspecified
 
 # Bump GitHub Actions CI target to Ubuntu 22.04  (@randombit)
-- 3092:  # https://github.com/randombit/botan/pull/3092
+- pr: 3092  # https://github.com/randombit/botan/pull/3092
   classification: unspecified
 
 # Remove LGTM support (GH #3068)  (@randombit)
-- 3087:  # https://github.com/randombit/botan/pull/3087
+- pr: 3087  # https://github.com/randombit/botan/pull/3087
   classification: unspecified
 
 # CI: Use GitHub Actions for Windows builds  (@reneme)
-- 3007:  # https://github.com/randombit/botan/pull/3007
+- pr: 3007  # https://github.com/randombit/botan/pull/3007
   classification: unspecified
 
 # Build examples from documentation in CI  (@lieser)
-- 3025:  # https://github.com/randombit/botan/pull/3025
+- pr: 3025  # https://github.com/randombit/botan/pull/3025
   classification: unspecified
 
 # CI: Improvements and preparation for Windows on GitHub Actions  (@reneme)
-- 3011:  # https://github.com/randombit/botan/pull/3011
+- pr: 3011  # https://github.com/randombit/botan/pull/3011
   classification: unspecified
 
 # Ignore a few more tests under valgrind  (@Jack Lloyd)
-- 50845840b1864fcd636ae3b0de85255977a035bf:  # https://github.com/randombit/botan/commit/50845840b1864fcd636ae3b0de85255977a035bf
+- commit: 50845840b1864fcd636ae3b0de85255977a035bf  # https://github.com/randombit/botan/commit/50845840b1864fcd636ae3b0de85255977a035bf
   classification: unspecified
 
 # Skip dsa_kat_verify test under valgrind  (@Jack Lloyd)
-- 47f848b0199ad0bf1afa83372baceb2cf626f282:  # https://github.com/randombit/botan/commit/47f848b0199ad0bf1afa83372baceb2cf626f282
+- commit: 47f848b0199ad0bf1afa83372baceb2cf626f282  # https://github.com/randombit/botan/commit/47f848b0199ad0bf1afa83372baceb2cf626f282
   classification: unspecified
 
 # Revert "Cancel CiFuzz jobs when a new commit is pushed"  (@Jack Lloyd)
-- b699581fdc1dea7345b6a7a01a4f627e091db399:  # https://github.com/randombit/botan/commit/b699581fdc1dea7345b6a7a01a4f627e091db399
+- commit: b699581fdc1dea7345b6a7a01a4f627e091db399  # https://github.com/randombit/botan/commit/b699581fdc1dea7345b6a7a01a4f627e091db399
   classification: unspecified
 
 # Cancel CiFuzz jobs when a new commit is pushed  (@Jack Lloyd)
-- 572adf0b1a9c6c73c50f3141403ca635fbf19960:  # https://github.com/randombit/botan/commit/572adf0b1a9c6c73c50f3141403ca635fbf19960
+- commit: 572adf0b1a9c6c73c50f3141403ca635fbf19960  # https://github.com/randombit/botan/commit/572adf0b1a9c6c73c50f3141403ca635fbf19960
   classification: unspecified
 
 # Reduce CiFuzz runtimes somewhat  (@Jack Lloyd)
-- 8ec3bd2594afb5954a7bfa7d570503f1c95ccd90:  # https://github.com/randombit/botan/commit/8ec3bd2594afb5954a7bfa7d570503f1c95ccd90
+- commit: 8ec3bd2594afb5954a7bfa7d570503f1c95ccd90  # https://github.com/randombit/botan/commit/8ec3bd2594afb5954a7bfa7d570503f1c95ccd90
   classification: unspecified
 
 # Skip the slow CLI tests in sanitizer mode  (@Jack Lloyd)
-- b187b7d5481261e8ca25d9dfcc53686b51b76aa3:  # https://github.com/randombit/botan/commit/b187b7d5481261e8ca25d9dfcc53686b51b76aa3
+- commit: b187b7d5481261e8ca25d9dfcc53686b51b76aa3  # https://github.com/randombit/botan/commit/b187b7d5481261e8ca25d9dfcc53686b51b76aa3
   classification: unspecified
 
 # Remove Linux clang amalgamation build (keep the macOS version)  (@Jack Lloyd)
-- 6319feec714f6b508aeeb7039b0bc1d5b5a2857c:  # https://github.com/randombit/botan/commit/6319feec714f6b508aeeb7039b0bc1d5b5a2857c
+- commit: 6319feec714f6b508aeeb7039b0bc1d5b5a2857c  # https://github.com/randombit/botan/commit/6319feec714f6b508aeeb7039b0bc1d5b5a2857c
   classification: unspecified
 
 # Skip a few tests that are very slow under arm32 qemu  (@randombit)
-- 3373:  # https://github.com/randombit/botan/pull/3373
+- pr: 3373  # https://github.com/randombit/botan/pull/3373
   classification: unspecified

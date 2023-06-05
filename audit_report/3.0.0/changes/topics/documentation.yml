@@ -2,197 +2,197 @@ title: Documentation
 
 patches:
 # Documentation and example improvements  (@randombit)
-- 3420:  # https://github.com/randombit/botan/pull/3420
+- pr: 3420  # https://github.com/randombit/botan/pull/3420
   classification: unspecified
 
 # Update the FFI docs  (@randombit)
-- 3379:  # https://github.com/randombit/botan/pull/3379
+- pr: 3379  # https://github.com/randombit/botan/pull/3379
   classification: unspecified
 
 # Fix some Doxygen warnings  (@randombit)
-- 3259:  # https://github.com/randombit/botan/pull/3259
+- pr: 3259  # https://github.com/randombit/botan/pull/3259
   classification: unspecified
 
 # Doc: Render <module_info> into Doxygen  (@reneme)
-- 3033:  # https://github.com/randombit/botan/pull/3033
+- pr: 3033  # https://github.com/randombit/botan/pull/3033
   classification: unspecified
 
 # FIX: small typos in doc  (@lieser)
-- 3048:  # https://github.com/randombit/botan/pull/3048
+- pr: 3048  # https://github.com/randombit/botan/pull/3048
   classification: unspecified
 
 # FIX: Missing release suffix in Sphinx documentation  (@reneme)
-- 3018:  # https://github.com/randombit/botan/pull/3018
+- pr: 3018  # https://github.com/randombit/botan/pull/3018
   classification: unspecified
 
 # Fix: Sphinx warnings  (@reneme)
-- 3029:  # https://github.com/randombit/botan/pull/3029
+- pr: 3029  # https://github.com/randombit/botan/pull/3029
   classification: unspecified
 
 # Fix examples in API doc  (@lieser)
-- 3024:  # https://github.com/randombit/botan/pull/3024
+- pr: 3024  # https://github.com/randombit/botan/pull/3024
   classification: unspecified
 
 # Small docstring fixes  (@lieser)
-- 3023:  # https://github.com/randombit/botan/pull/3023
+- pr: 3023  # https://github.com/randombit/botan/pull/3023
   classification: unspecified
 
 # Fix XMSS example  (@lieser)
-- 3021:  # https://github.com/randombit/botan/pull/3021
+- pr: 3021  # https://github.com/randombit/botan/pull/3021
   classification: unspecified
 
 # Documentation: Updates  (@reneme)
-- 3004:  # https://github.com/randombit/botan/pull/3004
+- pr: 3004  # https://github.com/randombit/botan/pull/3004
   classification: unspecified
 
 # Fix references to botan2.py [ci skip]  (@Jack Lloyd)
-- 16f427848db498b4c69faee59ec0e45be3b0f2bc:  # https://github.com/randombit/botan/commit/16f427848db498b4c69faee59ec0e45be3b0f2bc
+- commit: 16f427848db498b4c69faee59ec0e45be3b0f2bc  # https://github.com/randombit/botan/commit/16f427848db498b4c69faee59ec0e45be3b0f2bc
   classification: unspecified
 
 # Improve the footgun docs a bit [ci skip]  (@Jack Lloyd)
-- f4c219aea369e3b305665fab8404854859ccb68f:  # https://github.com/randombit/botan/commit/f4c219aea369e3b305665fab8404854859ccb68f
+- commit: f4c219aea369e3b305665fab8404854859ccb68f  # https://github.com/randombit/botan/commit/f4c219aea369e3b305665fab8404854859ccb68f
   classification: unspecified
 
 # Mention fork problems in the footgun doc  (@Jack Lloyd)
-- 3172b53fb3e0a57c9072ce7ff26ba0cfccdc7361:  # https://github.com/randombit/botan/commit/3172b53fb3e0a57c9072ce7ff26ba0cfccdc7361
+- commit: 3172b53fb3e0a57c9072ce7ff26ba0cfccdc7361  # https://github.com/randombit/botan/commit/3172b53fb3e0a57c9072ce7ff26ba0cfccdc7361
   classification: unspecified
 
 # Clarify the use of cli options in the doc [ci skip]  (@Jack Lloyd)
-- 1e6e15b7b56cb78b26aa51103bd8b61f879972a6:  # https://github.com/randombit/botan/commit/1e6e15b7b56cb78b26aa51103bd8b61f879972a6
+- commit: 1e6e15b7b56cb78b26aa51103bd8b61f879972a6  # https://github.com/randombit/botan/commit/1e6e15b7b56cb78b26aa51103bd8b61f879972a6
   classification: unspecified
 
 # Add some notes on static object lifetimes and thread object access  (@Jack Lloyd)
-- b1d6d1c781cd093b0118d81615acd8c3308d61ba:  # https://github.com/randombit/botan/commit/b1d6d1c781cd093b0118d81615acd8c3308d61ba
+- commit: b1d6d1c781cd093b0118d81615acd8c3308d61ba  # https://github.com/randombit/botan/commit/b1d6d1c781cd093b0118d81615acd8c3308d61ba
   classification: unspecified
 
 # Update docs  (@Jack Lloyd)
-- d8db5f2892ba1e789b1304345e9a9136c0150e66:  # https://github.com/randombit/botan/commit/d8db5f2892ba1e789b1304345e9a9136c0150e66
+- commit: d8db5f2892ba1e789b1304345e9a9136c0150e66  # https://github.com/randombit/botan/commit/d8db5f2892ba1e789b1304345e9a9136c0150e66
   classification: unspecified
 
 # Update the public key docs  (@Jack Lloyd)
-- 1da16e1fccc364068783d97662cbcb053131e5d6:  # https://github.com/randombit/botan/commit/1da16e1fccc364068783d97662cbcb053131e5d6
+- commit: 1da16e1fccc364068783d97662cbcb053131e5d6  # https://github.com/randombit/botan/commit/1da16e1fccc364068783d97662cbcb053131e5d6
   classification: unspecified
 
 # Add sem_ver.rst to the table of contents  (@Jack Lloyd)
-- da7ed089fb4023963b1f819545ab2355121b965c:  # https://github.com/randombit/botan/commit/da7ed089fb4023963b1f819545ab2355121b965c
+- commit: da7ed089fb4023963b1f819545ab2355121b965c  # https://github.com/randombit/botan/commit/da7ed089fb4023963b1f819545ab2355121b965c
   classification: unspecified
 
 # Update to include GH ref  (@Jack Lloyd)
-- 65a8b6efd1551326ef775974080e27c77d2a34ff:  # https://github.com/randombit/botan/commit/65a8b6efd1551326ef775974080e27c77d2a34ff
+- commit: 65a8b6efd1551326ef775974080e27c77d2a34ff  # https://github.com/randombit/botan/commit/65a8b6efd1551326ef775974080e27c77d2a34ff
   classification: unspecified
 
 # Document our exact SemVer guarantees  (@Jack Lloyd)
-- 32275308c24479b69c99a56ab9b7b8cad02587be:  # https://github.com/randombit/botan/commit/32275308c24479b69c99a56ab9b7b8cad02587be
+- commit: 32275308c24479b69c99a56ab9b7b8cad02587be  # https://github.com/randombit/botan/commit/32275308c24479b69c99a56ab9b7b8cad02587be
   classification: unspecified
 
 # Expand on this news item  (@Jack Lloyd)
-- 5d87926595ffa38db140e7384de3b23cb9eee713:  # https://github.com/randombit/botan/commit/5d87926595ffa38db140e7384de3b23cb9eee713
+- commit: 5d87926595ffa38db140e7384de3b23cb9eee713  # https://github.com/randombit/botan/commit/5d87926595ffa38db140e7384de3b23cb9eee713
   classification: unspecified
 
 # Fix typo in Doxygen comment  (@Jack Lloyd)
-- 49a845b09713a5ed7c8c0b64a3006f88f747439b:  # https://github.com/randombit/botan/commit/49a845b09713a5ed7c8c0b64a3006f88f747439b
+- commit: 49a845b09713a5ed7c8c0b64a3006f88f747439b  # https://github.com/randombit/botan/commit/49a845b09713a5ed7c8c0b64a3006f88f747439b
   classification: unspecified
 
 # Update docs re KDF creation [ci skip]  (@Jack Lloyd)
-- 6f0b01f6ee7f5abaeb6939212022d2663e75dad9:  # https://github.com/randombit/botan/commit/6f0b01f6ee7f5abaeb6939212022d2663e75dad9
+- commit: 6f0b01f6ee7f5abaeb6939212022d2663e75dad9  # https://github.com/randombit/botan/commit/6f0b01f6ee7f5abaeb6939212022d2663e75dad9
   classification: unspecified
 
 # Deprecation updates  (@Jack Lloyd)
-- e5c7f99717d4ef025be7735184176b3b542db676:  # https://github.com/randombit/botan/commit/e5c7f99717d4ef025be7735184176b3b542db676
+- commit: e5c7f99717d4ef025be7735184176b3b542db676  # https://github.com/randombit/botan/commit/e5c7f99717d4ef025be7735184176b3b542db676
   classification: unspecified
 
 # Update git signing key  (@Jack Lloyd)
-- ca4f11a4009c55fe720d6e1177cdcc28545d967a:  # https://github.com/randombit/botan/commit/ca4f11a4009c55fe720d6e1177cdcc28545d967a
+- commit: ca4f11a4009c55fe720d6e1177cdcc28545d967a  # https://github.com/randombit/botan/commit/ca4f11a4009c55fe720d6e1177cdcc28545d967a
   classification: unspecified
 
 # Update migration guide  (@Jack Lloyd)
-- 2bed788572ca42de65afef037630f1fb9d642378:  # https://github.com/randombit/botan/commit/2bed788572ca42de65afef037630f1fb9d642378
+- commit: 2bed788572ca42de65afef037630f1fb9d642378  # https://github.com/randombit/botan/commit/2bed788572ca42de65afef037630f1fb9d642378
   classification: unspecified
 
 # Update the roadmap  (@Jack Lloyd)
-- 68b651f91b57ad50617236db0a2632df0398b974:  # https://github.com/randombit/botan/commit/68b651f91b57ad50617236db0a2632df0398b974
+- commit: 68b651f91b57ad50617236db0a2632df0398b974  # https://github.com/randombit/botan/commit/68b651f91b57ad50617236db0a2632df0398b974
   classification: unspecified
 
 # Add a todo [ci skip]  (@Jack Lloyd)
-- 6869fe74e02dbada21a72fa6467600f51ea64375:  # https://github.com/randombit/botan/commit/6869fe74e02dbada21a72fa6467600f51ea64375
+- commit: 6869fe74e02dbada21a72fa6467600f51ea64375  # https://github.com/randombit/botan/commit/6869fe74e02dbada21a72fa6467600f51ea64375
   classification: unspecified
 
 # Use 2024-12-31 instead of 2025-1-1 as the proposed 2.x EOL [ci skip]  (@Jack Lloyd)
-- 2a4885bf724f14623a1cf040fe51cbe1edace32e:  # https://github.com/randombit/botan/commit/2a4885bf724f14623a1cf040fe51cbe1edace32e
+- commit: 2a4885bf724f14623a1cf040fe51cbe1edace32e  # https://github.com/randombit/botan/commit/2a4885bf724f14623a1cf040fe51cbe1edace32e
   classification: unspecified
 
 # Update changelog  (@Jack Lloyd)
-- 8a3649bbb3b069ddee85a3b604f5b7c12c574359:  # https://github.com/randombit/botan/commit/8a3649bbb3b069ddee85a3b604f5b7c12c574359
+- commit: 8a3649bbb3b069ddee85a3b604f5b7c12c574359  # https://github.com/randombit/botan/commit/8a3649bbb3b069ddee85a3b604f5b7c12c574359
   classification: unspecified
 
 # Remove coverity badge from readme [ci skip]  (@Jack Lloyd)
-- 8993e9776ae853d358661088084dc69dd7e970d0:  # https://github.com/randombit/botan/commit/8993e9776ae853d358661088084dc69dd7e970d0
+- commit: 8993e9776ae853d358661088084dc69dd7e970d0  # https://github.com/randombit/botan/commit/8993e9776ae853d358661088084dc69dd7e970d0
   classification: unspecified
 
 # Extend support for 2.x until at least beginning of 2025 [ci skip]  (@Jack Lloyd)
-- 164a684ac94771b7cbf87722811169d035a98a4b:  # https://github.com/randombit/botan/commit/164a684ac94771b7cbf87722811169d035a98a4b
+- commit: 164a684ac94771b7cbf87722811169d035a98a4b  # https://github.com/randombit/botan/commit/164a684ac94771b7cbf87722811169d035a98a4b
   classification: unspecified
 
 # Remove outdated comment [ci skip]  (@Jack Lloyd)
-- 5147a35103cecab823c6509de0ce456472e0cb66:  # https://github.com/randombit/botan/commit/5147a35103cecab823c6509de0ce456472e0cb66
+- commit: 5147a35103cecab823c6509de0ce456472e0cb66  # https://github.com/randombit/botan/commit/5147a35103cecab823c6509de0ce456472e0cb66
   classification: unspecified
 
 # Small migration guide updates  (@Jack Lloyd)
-- 65a43c4c6f736f691716ad95bf9c9a464b67c156:  # https://github.com/randombit/botan/commit/65a43c4c6f736f691716ad95bf9c9a464b67c156
+- commit: 65a43c4c6f736f691716ad95bf9c9a464b67c156  # https://github.com/randombit/botan/commit/65a43c4c6f736f691716ad95bf9c9a464b67c156
   classification: unspecified
 
 # Update the todo [ci skip]  (@Jack Lloyd)
-- 36440e61f86c8286854863127c6572a572e8ea5a:  # https://github.com/randombit/botan/commit/36440e61f86c8286854863127c6572a572e8ea5a
+- commit: 36440e61f86c8286854863127c6572a572e8ea5a  # https://github.com/randombit/botan/commit/36440e61f86c8286854863127c6572a572e8ea5a
   classification: unspecified
 
 # Update migration guide  (@Jack Lloyd)
-- 087f5f31e985099ff2a6309675224b185d73066f:  # https://github.com/randombit/botan/commit/087f5f31e985099ff2a6309675224b185d73066f
+- commit: 087f5f31e985099ff2a6309675224b185d73066f  # https://github.com/randombit/botan/commit/087f5f31e985099ff2a6309675224b185d73066f
   classification: unspecified
 
 # Update the release notes [ci skip]  (@Jack Lloyd)
-- b61a445445094b1da91afc209071d3b5b38eae46:  # https://github.com/randombit/botan/commit/b61a445445094b1da91afc209071d3b5b38eae46
+- commit: b61a445445094b1da91afc209071d3b5b38eae46  # https://github.com/randombit/botan/commit/b61a445445094b1da91afc209071d3b5b38eae46
   classification: unspecified
 
 # Some readme updates [ci skip]  (@Jack Lloyd)
-- 8bec24efab3a9ddb4c5235246a8f87dd807de062:  # https://github.com/randombit/botan/commit/8bec24efab3a9ddb4c5235246a8f87dd807de062
+- commit: 8bec24efab3a9ddb4c5235246a8f87dd807de062  # https://github.com/randombit/botan/commit/8bec24efab3a9ddb4c5235246a8f87dd807de062
   classification: unspecified
 
 # Deprecate Lion [ci skip]  (@Jack Lloyd)
-- 73ae1142453c3f56943e14954aefbdd41a16701b:  # https://github.com/randombit/botan/commit/73ae1142453c3f56943e14954aefbdd41a16701b
+- commit: 73ae1142453c3f56943e14954aefbdd41a16701b  # https://github.com/randombit/botan/commit/73ae1142453c3f56943e14954aefbdd41a16701b
   classification: unspecified
 
 # Add todo [ci skip]  (@Jack Lloyd)
-- b693e4c735068c24d741087e365ad57b6449bea9:  # https://github.com/randombit/botan/commit/b693e4c735068c24d741087e365ad57b6449bea9
+- commit: b693e4c735068c24d741087e365ad57b6449bea9  # https://github.com/randombit/botan/commit/b693e4c735068c24d741087e365ad57b6449bea9
   classification: unspecified
 
 # Happy New Year  (@Jack Lloyd)
-- 4d0371816763f16ea0b9694155016db591293c8e:  # https://github.com/randombit/botan/commit/4d0371816763f16ea0b9694155016db591293c8e
+- commit: 4d0371816763f16ea0b9694155016db591293c8e  # https://github.com/randombit/botan/commit/4d0371816763f16ea0b9694155016db591293c8e
   classification: unspecified
 
 # Remove obsolte todo [ci skip]  (@Jack Lloyd)
-- 2bd9215197a48ee6699d10b4635273ce45c24a90:  # https://github.com/randombit/botan/commit/2bd9215197a48ee6699d10b4635273ce45c24a90
+- commit: 2bd9215197a48ee6699d10b4635273ce45c24a90  # https://github.com/randombit/botan/commit/2bd9215197a48ee6699d10b4635273ce45c24a90
   classification: unspecified
 
 # Some news updates [ci skip]  (@Jack Lloyd)
-- c3bcfab68b34ac1f94beed475f4461129b985da9:  # https://github.com/randombit/botan/commit/c3bcfab68b34ac1f94beed475f4461129b985da9
+- commit: c3bcfab68b34ac1f94beed475f4461129b985da9  # https://github.com/randombit/botan/commit/c3bcfab68b34ac1f94beed475f4461129b985da9
   classification: unspecified
 
 # Update the todo list a bit [ci skip]  (@Jack Lloyd)
-- 7f26f6381cf0d9a98b9a84d5bfe48b8b1556d1e1:  # https://github.com/randombit/botan/commit/7f26f6381cf0d9a98b9a84d5bfe48b8b1556d1e1
+- commit: 7f26f6381cf0d9a98b9a84d5bfe48b8b1556d1e1  # https://github.com/randombit/botan/commit/7f26f6381cf0d9a98b9a84d5bfe48b8b1556d1e1
   classification: unspecified
 
 # Update Android build instructions [ci skip]  (@Jack Lloyd)
-- 86c8cf3fb64e33fa73f21a3a308c9fe41888db24:  # https://github.com/randombit/botan/commit/86c8cf3fb64e33fa73f21a3a308c9fe41888db24
+- commit: 86c8cf3fb64e33fa73f21a3a308c9fe41888db24  # https://github.com/randombit/botan/commit/86c8cf3fb64e33fa73f21a3a308c9fe41888db24
   classification: unspecified
 
 # Bump version to RC1  (@Jack Lloyd)
-- 6341d8ec89ea069a56547c0048a5de12f48e95c1:  # https://github.com/randombit/botan/commit/6341d8ec89ea069a56547c0048a5de12f48e95c1
+- commit: 6341d8ec89ea069a56547c0048a5de12f48e95c1  # https://github.com/randombit/botan/commit/6341d8ec89ea069a56547c0048a5de12f48e95c1
   classification: unspecified
 
 # Update the release process notes and also the version  (@Jack Lloyd)
-- 5d7e029641456dbeac3381b81e3710d40b1c9b35:  # https://github.com/randombit/botan/commit/5d7e029641456dbeac3381b81e3710d40b1c9b35
+- commit: 5d7e029641456dbeac3381b81e3710d40b1c9b35  # https://github.com/randombit/botan/commit/5d7e029641456dbeac3381b81e3710d40b1c9b35
   classification: unspecified
 
 # Add a Note on a BSI Test Description (re: GH #2736)  (@reneme)
-- 3006:  # https://github.com/randombit/botan/pull/3006
+- pr: 3006  # https://github.com/randombit/botan/pull/3006
   classification: unspecified

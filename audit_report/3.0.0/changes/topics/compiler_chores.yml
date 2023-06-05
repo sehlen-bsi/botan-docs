@@ -5,93 +5,93 @@ description: |
 
 patches:
 # Disable MSVC warnings about inheritance via dominance  (@oviano)
-- 3462:  # https://github.com/randombit/botan/pull/3462
+- pr: 3462  # https://github.com/randombit/botan/pull/3462
   classification: unspecified
 
 # Add BOTAN_COMPILER_HAS_ATTRIBUTE  (@randombit)
-- 3471:  # https://github.com/randombit/botan/pull/3471
+- pr: 3471  # https://github.com/randombit/botan/pull/3471
   classification: unspecified
 
 # Work around an XCode 14.3 miscompilation affecting ARIA key schedule  (@randombit)
-- 3492:  # https://github.com/randombit/botan/pull/3492
+- pr: 3492  # https://github.com/randombit/botan/pull/3492
   classification: unspecified
 
 # GCC 13 pre-release fix proposal  (@devnexen)
-- 3435:  # https://github.com/randombit/botan/pull/3435
+- pr: 3435  # https://github.com/randombit/botan/pull/3435
   classification: unspecified
 
 # Remove code no longer relevant now that our minimum Clang is 14  (@randombit)
-- 3175:  # https://github.com/randombit/botan/pull/3175
+- pr: 3175  # https://github.com/randombit/botan/pull/3175
   classification: unspecified
 
 # Add BOTAN_COMPILER_HAS_BUILTIN  (@randombit)
-- 3174:  # https://github.com/randombit/botan/pull/3174
+- pr: 3174  # https://github.com/randombit/botan/pull/3174
   classification: unspecified
 
 # FIX/Update: Apple Clang version map  (@reneme)
-- 3155:  # https://github.com/randombit/botan/pull/3155
+- pr: 3155  # https://github.com/randombit/botan/pull/3155
   classification: unspecified
 
 # Various fixes to avoid GCC 12 bugs which affect C++20 compliation  (@randombit)
-- 3083:  # https://github.com/randombit/botan/pull/3083
+- pr: 3083  # https://github.com/randombit/botan/pull/3083
   classification: unspecified
 
 # FIX: clangd complaining about 'suspicious string literal'  (@reneme)
-- 2959:  # https://github.com/randombit/botan/pull/2959
+- pr: 2959  # https://github.com/randombit/botan/pull/2959
   classification: unspecified
 
 # Add support for Clang ivdep pragma  (@Jack Lloyd)
-- d32764416febba8d245619307aaaeee50c0d53d0:  # https://github.com/randombit/botan/commit/d32764416febba8d245619307aaaeee50c0d53d0
+- commit: d32764416febba8d245619307aaaeee50c0d53d0  # https://github.com/randombit/botan/commit/d32764416febba8d245619307aaaeee50c0d53d0
   classification: unspecified
 
 # Revert use of Clang ivdep pragma  (@Jack Lloyd)
-- 720d06b711b24187ec643771f92b234b99bbbf37:  # https://github.com/randombit/botan/commit/720d06b711b24187ec643771f92b234b99bbbf37
+- commit: 720d06b711b24187ec643771f92b234b99bbbf37  # https://github.com/randombit/botan/commit/720d06b711b24187ec643771f92b234b99bbbf37
   classification: unspecified
 
 # Bump DEFAULT_BUFFER_SIZE to 4096  (@Jack Lloyd)
-- 48cb874c3a3afebed55daff3412b6a6a96ee20a3:  # https://github.com/randombit/botan/commit/48cb874c3a3afebed55daff3412b6a6a96ee20a3
+- commit: 48cb874c3a3afebed55daff3412b6a6a96ee20a3  # https://github.com/randombit/botan/commit/48cb874c3a3afebed55daff3412b6a6a96ee20a3
   classification: unspecified
 
 # Fix a warning from Clang [ci skip]  (@Jack Lloyd)
-- 77cd355b0bf6c19fb4586188879e9af74d5c81c9:  # https://github.com/randombit/botan/commit/77cd355b0bf6c19fb4586188879e9af74d5c81c9
+- commit: 77cd355b0bf6c19fb4586188879e9af74d5c81c9  # https://github.com/randombit/botan/commit/77cd355b0bf6c19fb4586188879e9af74d5c81c9
   classification: unspecified
 
 # Add BOTAN_AVX2_FN annotation macro  (@Jack Lloyd)
-- 7b6e17c2d65ca3868d235ef8ecdbf74d493c7179:  # https://github.com/randombit/botan/commit/7b6e17c2d65ca3868d235ef8ecdbf74d493c7179
+- commit: 7b6e17c2d65ca3868d235ef8ecdbf74d493c7179  # https://github.com/randombit/botan/commit/7b6e17c2d65ca3868d235ef8ecdbf74d493c7179
   classification: unspecified
 
 # Disable argon2_ssse3 on MSVC  (@Jack Lloyd)
-- e37989c5402747f2d1eb26eb6217a40bfe23307f:  # https://github.com/randombit/botan/commit/e37989c5402747f2d1eb26eb6217a40bfe23307f
+- commit: e37989c5402747f2d1eb26eb6217a40bfe23307f  # https://github.com/randombit/botan/commit/e37989c5402747f2d1eb26eb6217a40bfe23307f
   classification: unspecified
 
 # Use init_priority attribute on the pool allocator  (@randombit)
-- 3481:  # https://github.com/randombit/botan/pull/3481
+- pr: 3481  # https://github.com/randombit/botan/pull/3481
   classification: unspecified
 
 # Fixed bcrypt WinRT build  (@oviano)
-- 3428:  # https://github.com/randombit/botan/pull/3428
+- pr: 3428  # https://github.com/randombit/botan/pull/3428
   classification: unspecified
 
 # Fix mul128.h to support MSVC ARM64 target  (@nursik)
-- 3000:  # https://github.com/randombit/botan/pull/3000
+- pr: 3000  # https://github.com/randombit/botan/pull/3000
   classification: unspecified
 
 # Offer a proper array prefetch function, refactor CPUID, and remove cache line size detection  (@randombit)
-- 3391:  # https://github.com/randombit/botan/pull/3391
+- pr: 3391  # https://github.com/randombit/botan/pull/3391
   classification: unspecified
 
 # Improve CPUID support for AVX-512  (@randombit)
-- 3166:  # https://github.com/randombit/botan/pull/3166
+- pr: 3166  # https://github.com/randombit/botan/pull/3166
   classification: unspecified
 
 # Remove explicit BMI1 support from CPUID  (@Jack Lloyd)
-- a52d5e332618e844af84ad4f79ebf5bc848cac9c:  # https://github.com/randombit/botan/commit/a52d5e332618e844af84ad4f79ebf5bc848cac9c
+- commit: a52d5e332618e844af84ad4f79ebf5bc848cac9c  # https://github.com/randombit/botan/commit/a52d5e332618e844af84ad4f79ebf5bc848cac9c
   classification: unspecified
 
 # Silence warning when no CPUID bits exist  (@Jack Lloyd)
-- 892988da346683484b9c68113a6bed14bf370157:  # https://github.com/randombit/botan/commit/892988da346683484b9c68113a6bed14bf370157
+- commit: 892988da346683484b9c68113a6bed14bf370157  # https://github.com/randombit/botan/commit/892988da346683484b9c68113a6bed14bf370157
   classification: unspecified
 
 # Remove the Threefish-512 AVX2 implementation  (@randombit)
-- 3299:  # https://github.com/randombit/botan/pull/3299
+- pr: 3299  # https://github.com/randombit/botan/pull/3299
   classification: unspecified

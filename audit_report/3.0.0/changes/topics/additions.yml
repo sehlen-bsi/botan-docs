@@ -8,55 +8,55 @@ description: |
 
 patches:
 # Remove build-time configuration of mlock limit  (@randombit)
-- 3405:  # https://github.com/randombit/botan/pull/3405
+- pr: 3405  # https://github.com/randombit/botan/pull/3405
   classification: unspecified
   comment: |
     This is a comment regarding this specific patch.
 
 # Added secure_vector<T>::lock  (@oviano)
-- 3431:  # https://github.com/randombit/botan/pull/3431
+- pr: 3431  # https://github.com/randombit/botan/pull/3431
   classification: unspecified
 
 # Add StreamCipher::buffer_size  (@randombit)
-- 3404:  # https://github.com/randombit/botan/pull/3404
+- pr: 3404  # https://github.com/randombit/botan/pull/3404
   classification: unspecified
 
 # Add support for XTS short nonces  (@randombit)
-- 3336:  # https://github.com/randombit/botan/pull/3336
+- pr: 3336  # https://github.com/randombit/botan/pull/3336
   classification: unspecified
 
 # Add SymmetricAlgorithm::has_keying_material  (@randombit)
-- 3295:  # https://github.com/randombit/botan/pull/3295
+- pr: 3295  # https://github.com/randombit/botan/pull/3295
   classification: unspecified
 
 # Add a hash truncation wrapper (eg. `Truncated(SHA-256,192)`)  (@reneme)
-- 3284:  # https://github.com/randombit/botan/pull/3284
+- pr: 3284  # https://github.com/randombit/botan/pull/3284
   classification: unspecified
 
 # Implement write_keystream for CTR and SHAKE  (@randombit)
-- 3189:  # https://github.com/randombit/botan/pull/3189
+- pr: 3189  # https://github.com/randombit/botan/pull/3189
   classification: unspecified
 
 # Add Cipher_Mode::requires_entire_message  (@randombit)
-- 3172:  # https://github.com/randombit/botan/pull/3172
+- pr: 3172  # https://github.com/randombit/botan/pull/3172
   classification: unspecified
 
 # Add Cipher_Mode::ideal_granularity  (@randombit)
-- 3168:  # https://github.com/randombit/botan/pull/3168
+- pr: 3168  # https://github.com/randombit/botan/pull/3168
   classification: unspecified
 
 # Follow up: Sanity check for Shake_Cipher base class  (@reneme)
-- 3170:  # https://github.com/randombit/botan/pull/3170
+- pr: 3170  # https://github.com/randombit/botan/pull/3170
   classification: unspecified
 
 # Stream cipher facade for SHAKE-256  (@reneme)
-- 3167:  # https://github.com/randombit/botan/pull/3167
+- pr: 3167  # https://github.com/randombit/botan/pull/3167
   classification: unspecified
 
 # new util to name the data pages for now linux and especially android  (@devnexen)
-- 2944:  # https://github.com/randombit/botan/pull/2944
+- pr: 2944  # https://github.com/randombit/botan/pull/2944
   classification: unspecified
 
 # new util to name the data pages for now linux and especially android  (@devnexen)
-- 2944:  # https://github.com/randombit/botan/pull/2944
+- pr: 2944  # https://github.com/randombit/botan/pull/2944
   classification: unspecified

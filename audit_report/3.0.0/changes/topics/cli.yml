@@ -2,45 +2,45 @@ title: Command Line Interface
 
 patches:
 # Change cli to use --cipher and --pbkdf options instead of --pbe  (@randombit)
-- 3417:  # https://github.com/randombit/botan/pull/3417
+- pr: 3417  # https://github.com/randombit/botan/pull/3417
   classification: unspecified
 
 # Let test_cli produce stack traces in case of test errors  (@reneme)
-- 3414:  # https://github.com/randombit/botan/pull/3414
+- pr: 3414  # https://github.com/randombit/botan/pull/3414
   classification: unspecified
 
 # Modify the cli sign utility to accept unencrypted keys  (@randombit)
-- 3177:  # https://github.com/randombit/botan/pull/3177
+- pr: 3177  # https://github.com/randombit/botan/pull/3177
   classification: unspecified
 
 # tls server socket listen backlog adjustment  (@devnexen)
-- 2987:  # https://github.com/randombit/botan/pull/2987
+- pr: 2987  # https://github.com/randombit/botan/pull/2987
   classification: unspecified
 
 # TLS Client Authentication for the CLI tool  (@reneme)
-- 2960:  # https://github.com/randombit/botan/pull/2960
+- pr: 2960  # https://github.com/randombit/botan/pull/2960
   classification: unspecified
 
 # Fix `botan speed Kyber`  (@Jack Lloyd)
-- d2d33cdfe65038d932160f9ba39f53b5c3e46629:  # https://github.com/randombit/botan/commit/d2d33cdfe65038d932160f9ba39f53b5c3e46629
+- commit: d2d33cdfe65038d932160f9ba39f53b5c3e46629  # https://github.com/randombit/botan/commit/d2d33cdfe65038d932160f9ba39f53b5c3e46629
   classification: unspecified
 
 # Make this error more helpful by naming the algorithm involved  (@Jack Lloyd)
-- 563f18622c970f4916f5f7e843ffcc9a745b6dad:  # https://github.com/randombit/botan/commit/563f18622c970f4916f5f7e843ffcc9a745b6dad
+- commit: 563f18622c970f4916f5f7e843ffcc9a745b6dad  # https://github.com/randombit/botan/commit/563f18622c970f4916f5f7e843ffcc9a745b6dad
   classification: unspecified
 
 # In cli, error on duplicated option  (@Jack Lloyd)
-- 50accfa85d0db34c66e7dd7aecd25f182f6ec94e:  # https://github.com/randombit/botan/commit/50accfa85d0db34c66e7dd7aecd25f182f6ec94e
+- commit: 50accfa85d0db34c66e7dd7aecd25f182f6ec94e  # https://github.com/randombit/botan/commit/50accfa85d0db34c66e7dd7aecd25f182f6ec94e
   classification: unspecified
 
 # Prevent use of --der-format option in cli if it doesn't make sense  (@Jack Lloyd)
-- a63dbd97f8f931f23fad9bbe1f98e9a5a00385b6:  # https://github.com/randombit/botan/commit/a63dbd97f8f931f23fad9bbe1f98e9a5a00385b6
+- commit: a63dbd97f8f931f23fad9bbe1f98e9a5a00385b6  # https://github.com/randombit/botan/commit/a63dbd97f8f931f23fad9bbe1f98e9a5a00385b6
   classification: unspecified
 
 # cli: tls_client: support custom DTLS version  (@nunojpg)
-- 3455:  # https://github.com/randombit/botan/pull/3455
+- pr: 3455  # https://github.com/randombit/botan/pull/3455
   classification: unspecified
 
 # Impove the cli sign/verify utilities  (@Jack Lloyd)
-- 6235e865d7e3aa84998a4ac431778b474c40a818:  # https://github.com/randombit/botan/commit/6235e865d7e3aa84998a4ac431778b474c40a818
+- commit: 6235e865d7e3aa84998a4ac431778b474c40a818  # https://github.com/randombit/botan/commit/6235e865d7e3aa84998a4ac431778b474c40a818
   classification: unspecified

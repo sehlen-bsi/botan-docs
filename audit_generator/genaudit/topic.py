@@ -27,27 +27,21 @@ class Topic:
                           self._classification, self.title, len(self.patches))
 
     def _load_patches(self, cfg) -> list[refs.PullRequest|refs.Commit]:
-        is_pr = re.compile(r'^\d+$')
-        is_commit = re.compile(r'^[0-9a-f]{40}$')
-
         def load(patch):
             def get_ref():
-                if isinstance(patch, dict):
-                    ref = [m for m in patch if str(m) not in ['classification', 'comment']]
-                    if len(ref) != 1:
-                        raise RuntimeError("Failed to read patch: '%s'" % patch)
-                    return ref[0]
-                else:
-                    return patch
+                ref = [(k,v) for k,v in patch.items() if str(k) not in ['classification', 'comment']]
+                if len(ref) != 1:
+                    raise RuntimeError("Failed to read patch: '%s'" % patch)
+                return ref[0]
 
             def get_comment():
                 return patch.get("comment", None)
 
-            ref = get_ref()
-            if isinstance(ref, int) or is_pr.search(ref):
-                return refs.PullRequest(int(ref), self._load_classification(patch), get_comment())
-            elif is_commit.search(ref):
-                return refs.Commit(ref, self._load_classification(patch), get_comment())
+            ref_type, value = get_ref()
+            if ref_type == "pr":
+                return refs.PullRequest(int(value), self._load_classification(patch), get_comment())
+            elif ref_type == "commit":
+                return refs.Commit(value, self._load_classification(patch), get_comment())
             else:
                 raise RuntimeError("Patch is neither a Pull Request nor a Commit: %s" % patch)
 
