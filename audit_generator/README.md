@@ -32,19 +32,19 @@ classification: relevant
 
 patches:
 # Support hash truncation in ECKCDSA (#2742)  (@lieser)
-- 3393:  # GitHub pull request number
+- pr: 3393  # GitHub pull request number
   classification: relevant  # (or: 'unspecified', 'out_of_scope', 'info', 'critical')
   comment: |
     Ensures that hash truncation in ECKCDSA is performed as specified in ISO
     14888-3:2016.
 
 # Disable ECKCDSA signing with hash truncation  (@randombit)
-- 2749:
+- pr: 2749
   classification: relevant
   auditer: reneme
 
 # Remove bogus comment [ci skip]  (@Jack Lloyd)
-- b61c1c149971f52b0ce273af29074843581e3581: # Git commit SHA
+- commit: b61c1c149971f52b0ce273af29074843581e3581 # Git commit SHA
   classification: info
 ```
 

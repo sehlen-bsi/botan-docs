@@ -29,7 +29,7 @@ class Topic:
     def _load_patches(self, cfg) -> list[refs.PullRequest|refs.Commit]:
         def load(patch):
             def get_ref():
-                ref = [(k,v) for k,v in patch.items() if str(k) not in ['classification', 'comment', 'auditer']]
+                ref = [(k,v) for k,v in patch.items() if str(k) in ['pr', 'commit']]
                 if len(ref) != 1:
                     raise RuntimeError("Failed to read patch: '%s'" % patch)
                 return ref[0]
