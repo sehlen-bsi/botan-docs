@@ -95,3 +95,8 @@ patches:
 # Remove the Threefish-512 AVX2 implementation  (@randombit)
 - pr: 3299  # https://github.com/randombit/botan/pull/3299
   classification: unspecified
+
+# Fix ppc64 build  (@Jack Lloyd)
+- commit: 9069dfa680e3179d437e4c0f15980bf850545647  # https://github.com/randombit/botan/commit/9069dfa680e3179d437e4c0f15980bf850545647
+  classification: info
+  auditer: reneme

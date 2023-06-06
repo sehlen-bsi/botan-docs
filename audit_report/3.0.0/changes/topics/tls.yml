@@ -237,3 +237,22 @@ patches:
 # Public TLS API uses std::span  (@reneme)
 - pr: 3363  # https://github.com/randombit/botan/pull/3363
   classification: info
+
+# Fix clang-tidy warning (pointless move)  (@Jack Lloyd)
+- commit: 74bf5ecc63907283cbe869bb2a921f381a5a177d  # https://github.com/randombit/botan/commit/74bf5ecc63907283cbe869bb2a921f381a5a177d
+  classification: info
+  auditer: reneme
+
+# Fix formatting in this header (no code changes)  (@Jack Lloyd)
+- commit: d488402dbfe35fdfb5b09e96718c15ab33760500  # https://github.com/randombit/botan/commit/d488402dbfe35fdfb5b09e96718c15ab33760500
+  classification: info
+  auditer: reneme
+
+# Fix deprecation warning  (@Jack Lloyd)
+- commit: 3327538c86f9301f61e19769b7d58d5b3505909f  # https://github.com/randombit/botan/commit/3327538c86f9301f61e19769b7d58d5b3505909f
+  classification: info
+  auditer: reneme
+
+# CamelCase the members of PSK_Type   (@randombit)
+- pr: 3311  # https://github.com/randombit/botan/pull/3311
+  classification: info
