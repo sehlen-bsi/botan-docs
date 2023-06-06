@@ -196,3 +196,7 @@ patches:
 # Add a Note on a BSI Test Description (re: GH #2736)  (@reneme)
 - pr: 3006  # https://github.com/randombit/botan/pull/3006
   classification: unspecified
+
+# Doc/FIX: misleading usage of Credentials_Manager::cert_chain()  (@reneme)
+- pr: 3260  # https://github.com/randombit/botan/pull/3260
+  classification: unspecified
