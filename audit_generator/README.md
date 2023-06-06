@@ -41,6 +41,7 @@ patches:
 # Disable ECKCDSA signing with hash truncation  (@randombit)
 - 2749:
   classification: relevant
+  auditer: reneme
 
 # Remove bogus comment [ci skip]  (@Jack Lloyd)
 - b61c1c149971f52b0ce273af29074843581e3581: # Git commit SHA
@@ -53,6 +54,11 @@ restructured text formatting markups. Mentions of patch references (e.g. "See GH
 to other topics is possible by simply using the other topic's YAML file name as
 the reference target. E.g. "See also :ref:\`changes/my_other_topic\` for further
 info".
+
+"Approvers" of a patch are users that approved a pull request, users that merged
+other user's pull requests or an explicit "auditer" stated in the YAML file.
+Auditers from the YAML file are rendered in parenthesis and _replace_ potential
+approvers from GitHub in the final rendering. Use the auditer's GitHub handle!
 
 Eventually, the directory with all topic description YAML files is passed to
 `audit.py` to render them into rST documents to be consumed by Sphinx.
