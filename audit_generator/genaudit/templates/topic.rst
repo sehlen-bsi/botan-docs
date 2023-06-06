@@ -41,7 +41,7 @@ Security Classification: *{{ classification }}*
        {% endif %}
      - {{ patch.classification }}
      - {{ macros.short_author(patch.author) }}
-     - {{ macros.short_authors_list(patch.approvers) }}
+     - {% if patch.auditer %}({{ macros.short_author(patch.auditer) }}){% else %}{{ macros.short_authors_list(patch.approvers) }}{% endif +%}
 {% elif patch.type == "commit" %}
    * - {{ macros.patch_reference(patch) }}
      - {% if patch.comment %}**{{ patch.message|first_line|escape_rst }}**
@@ -51,7 +51,7 @@ Security Classification: *{{ classification }}*
        {% endif %}
      - {{ patch.classification }}
      - {{ macros.short_author(patch.author) }}
-     - n/a
+     - {% if patch.auditer %}({{ macros.short_author(patch.auditer) }}){% else %}none{% endif +%}
 {% endif %}
 {% endfor %}
 {% endif %}

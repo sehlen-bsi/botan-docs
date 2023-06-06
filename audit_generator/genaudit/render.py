@@ -142,12 +142,25 @@ class Renderer:
     def _render_patch_references(self, topic: Topic):
         logging.debug("collecting render variables for patch references")
 
-        def render_approvers(patch):
+        def render_approvers(patch, pr_info: PullRequest):
             assert isinstance(patch, PullRequest)
             review_info = self.repo.review_info(patch)
             approvers = {
                 review.user.login: review.user for review in review_info if review.state == "APPROVED"}
-            return [self._render_user(approver) for approver in approvers.values()]
+            if approvers:
+                return [self._render_user(approver) for approver in approvers.values()]
+
+            # If the PR was merged by a user that is not the PR's author, the
+            # merger is assumed to approve on the PR as well, despite not having
+            # approved via a GitHub review explicitly.
+            elif pr_info.merged_by and pr_info.user != pr_info.merged_by:
+                return [self._render_user(pr_info.merged_by)]
+
+        def render_auditer(patch):
+            if not patch.auditer:
+                return None
+            user = self.repo.user_info(patch.auditer)
+            return self._render_user(user)
 
         def render_classification(classification):
             return {Classification.UNSPECIFIED: "n/a",
@@ -170,7 +183,8 @@ class Renderer:
                         # merged manually and GitHub cannot figure it out properly. For instance, see:
                         #   https://github.com/randombit/botan/pull/3103
                         "merger": self._render_user(pr_info.merged_by) if pr_info.merged_by else None,
-                        "approvers": render_approvers(patch),
+                        "approvers": render_approvers(patch, pr_info),
+                        "auditer": render_auditer(patch),
                         "url": pr_info.html_url}
             if isinstance(patch, Commit):
                 commit_info = self.repo.commit_info(patch)
@@ -181,6 +195,7 @@ class Renderer:
                         "comment": self._insert_smart_refs(topic, patch.comment),
                         "author": self._render_user(commit_info.author),
                         "committer": self._render_user(commit_info.committer),
+                        "auditer": render_auditer(patch),
                         "url": commit_info.html_url}
             raise RenderError("Unknown patch type encountered")
 

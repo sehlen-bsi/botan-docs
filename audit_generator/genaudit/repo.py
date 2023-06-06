@@ -8,6 +8,7 @@ import logging
 from github.PullRequest import PullRequest
 from github.PullRequestReview import PullRequestReview
 from github.Commit import Commit
+from github.NamedUser import NamedUser
 from github import Github
 
 from genaudit import util
@@ -108,3 +109,6 @@ class GitRepo:
     def commit_info(self, commit_hash: refs.Commit) -> Commit:
         assert len(commit_hash.ref) == 40
         return self.repo.get_commit(commit_hash.ref)
+
+    def user_info(self, login_name: str) -> NamedUser:
+        return self.connection.get_user(login_name)

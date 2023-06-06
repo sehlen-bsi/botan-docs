@@ -29,7 +29,7 @@ class Topic:
     def _load_patches(self, cfg) -> list[refs.PullRequest|refs.Commit]:
         def load(patch):
             def get_ref():
-                ref = [(k,v) for k,v in patch.items() if str(k) not in ['classification', 'comment']]
+                ref = [(k,v) for k,v in patch.items() if str(k) in ['pr', 'commit']]
                 if len(ref) != 1:
                     raise RuntimeError("Failed to read patch: '%s'" % patch)
                 return ref[0]
@@ -37,11 +37,14 @@ class Topic:
             def get_comment():
                 return patch.get("comment", None)
 
+            def get_auditer():
+                return patch.get("auditer", None)
+
             ref_type, value = get_ref()
             if ref_type == "pr":
-                return refs.PullRequest(int(value), self._load_classification(patch), get_comment())
+                return refs.PullRequest(int(value), self._load_classification(patch), get_auditer(), get_comment())
             elif ref_type == "commit":
-                return refs.Commit(value, self._load_classification(patch), get_comment())
+                return refs.Commit(value, self._load_classification(patch), get_auditer(), get_comment())
             else:
                 raise RuntimeError("Patch is neither a Pull Request nor a Commit: %s" % patch)
 

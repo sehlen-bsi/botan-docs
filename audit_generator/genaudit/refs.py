@@ -31,8 +31,9 @@ class Classification(IntEnum):
 
 @total_ordering
 class Patch:
-    def __init__(self, classification: Classification, comment: str):
+    def __init__(self, classification: Classification, auditer: str = None, comment: str = None):
         self.classification = classification
+        self.auditer = auditer
         self.comment = comment
     def __lt__(self, other):
         if not isinstance(other, type(self)):
@@ -44,15 +45,15 @@ class Patch:
         return self.ref == other.ref
 
 class PullRequest(Patch):
-    def __init__(self, pr_ref: int, classification: Classification = Classification.UNSPECIFIED, comment: str = None):
-        super().__init__(classification, comment)
+    def __init__(self, pr_ref: int, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None):
+        super().__init__(classification, auditer, comment)
         self.ref = pr_ref
     def __repr__(self):
         return "GH #%d (%s)"
 
 class Commit(Patch):
-    def __init__(self, commit_ref: str, classification: Classification = Classification.UNSPECIFIED, comment: str = None):
-        super().__init__(classification, comment)
+    def __init__(self, commit_ref: str, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None):
+        super().__init__(classification, auditer, comment)
         if len(commit_ref) != 40:
             raise RuntimeError("Incomplete commit hash: %s" % commit_ref)
         self.ref = commit_ref
