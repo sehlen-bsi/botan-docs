@@ -69,3 +69,10 @@ patches:
 - pr: 3176  # https://github.com/randombit/botan/pull/3176
   classification: info
   auditer: reneme
+
+# Tidy up OS feature flags  (@Jack Lloyd)
+- commit: fd3303f6baa4245fd1e6b66934806c32bafbde74  # https://github.com/randombit/botan/commit/fd3303f6baa4245fd1e6b66934806c32bafbde74
+  classification: relevant
+  auditer: reneme
+  comment: |
+    System call ``getrandom()`` is now available on FreeBSD.
