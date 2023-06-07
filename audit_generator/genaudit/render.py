@@ -156,6 +156,9 @@ class Renderer:
             elif pr_info.merged_by and pr_info.user != pr_info.merged_by:
                 return [self._render_user(pr_info.merged_by)]
 
+            else:
+                return []
+
         def render_auditer(patch):
             if not patch.auditer:
                 return None
