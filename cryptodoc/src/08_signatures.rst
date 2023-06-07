@@ -866,12 +866,13 @@ To distinguish both cases with slightly different boundaries, :math:`\mathbf{w_1
 SPHINCS\ :sup:`+`
 -----------------
 
-SPHINCS\ :sup:`+` is composed of Forest Of Random Subset (FORS) signatures and
-Winternitz One-Time Signatures (WOTS\ :sup:`+`), which are used
-within hypertree signatures (a variant of XMSS\ :sup:`MT`). In short, messages
+SPHINCS\ :sup:`+` is composed of Forest Of Random Subsets (FORS) few-time signatures
+and Winternitz One-Time Signatures (WOTS\ :sup:`+`), which are used within
+hypertree signatures (a variant of XMSS\ :sup:`MT`). In short, messages
 are signed via FORS. The FORS public key is signed via XMSS with WOTS\ :sup:`+`
-as part of the hypertree and the overall root represents the SPHINCS\ :sup:`+`
-root. Table :ref:`SPHINCS+ logical components <signatures/sphincsplus/table>`
+as part of the hypertree. The root of the top-level tree in the hypertree
+structure then essentially represents the SPHINCS\ :sup:`+` root.
+Table :ref:`SPHINCS+ logical components <signatures/sphincsplus/table>`
 provides an overview of these components and their Botan implementations. The
 :ref:`SPHINCS+ <signatures/sphincsplus/sphincsplus>` component, by making use of
 the other components, provides the overall signature generation and verification
@@ -898,7 +899,7 @@ operations.
    +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
    | :ref:`WOTS+ <signatures/sphincsplus/wotsplus>`       | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.h`       | WOTS\ :sup:`+` signature                   | 3                            |
    +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`XMSS <signatures/sphincsplus/xmss>`            | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_xmss.h`       |     XMSS    signature                      | 4.1                          |
+   | :ref:`XMSS <signatures/sphincsplus/xmss>`            | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_xmss.h`       | XMSS signature                             | 4.1                          |
    +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
    | :ref:`Hypertree <signatures/sphincsplus/hypertree>`  | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_hypertree.h`  | Hypertree signature                        | 4.2                          |
    +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
@@ -976,9 +977,9 @@ calling the method ``T``, which allows for arbitrary input lengths.
 Treehash
 ^^^^^^^^
 
-Botan generalizes the treehash Algorithms 7  (:math:`\mathtt{treehash}`) and 15
+Botan generalizes the treehash Algorithms 7 (:math:`\mathtt{treehash}`) and 15
 (:math:`\mathtt{fors\_treehash}`) of [SPX-R3]_ using a single function
-``treehash``,  similar to SPHINCS\ :sup:`+`'s reference implementation. This
+``treehash``, similar to SPHINCS\ :sup:`+`'s reference implementation. This
 approach minimizes duplicate code while explicitly being in accordance with the
 specification (see Section 5.3 of [SPX-R3]_). The only difference between the
 treehash of FORS and XMSS is the creation of leaf nodes. Therefore, ``treehash``
@@ -1041,7 +1042,7 @@ fuses the WOTS\ :sup:`+` public key and signature creation, i.e., the algorithms
 one method. When building up an XMSS tree, all leaf nodes must be computed,
 which are the hashed WOTS\ :sup:`+` public keys. Only one leaf is used to sign
 the underlying root. The WOTS\ :sup:`+` signature consists of values that are
-computed in every public key creation; these values are part of the
+computed in every public key creation; these values are elements of the
 WOTS\ :sup:`+` hash chains. This observation leads to Botan's
 ``wots_sign_and_pkgen`` method that combines both logics, i.e., the entire
 WOTS\ :sup:`+` chains are computed for the public key while the WOTS\ :sup:`+`
@@ -1132,7 +1133,7 @@ Algorithm 20 of [SPX-R3]_:
 
    **Steps:**
 
-   1. ``opt_rand`` is set to ``SK.public_seed``. If the scheme is randomized, ``opt_rand`` is set to a freshly generated random byte vector.
+   1. ``opt_rand`` is set to ``SK.public_seed``. If the scheme is randomized, ``opt_rand`` is instead set to a freshly generated random byte vector.
    2. ``msg_random_s = PRF_msg(m, SK.prf, opt_rand)`` and append ``msg_random_s`` to ``sig``.
    3. ``mhash || tree_idx || leaf_idx = H_msg(msg_random_s, SK.sphincs_root, m)``.
    4. Set type of ``fors_addr`` to FORS tree, its tree to ``tree_idx``, and its keypair address to ``leaf_idx``.

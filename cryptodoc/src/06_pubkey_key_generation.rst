@@ -481,10 +481,11 @@ SPHINCS\ :sup:`+`
 -----------------
 
 Botan's SPHINCS\ :sup:`+` implementation is found in
-:srcref:`src/lib/pubkey/sphincsplus/` and follows [SPX-R3]_. It supports the
-parameter sets provided in Table 3 of [SPX-R3]_ for the SHA2 and SHAKE
-instantiations of hash functions (note that currently, the instantiations with
-Haraka are not supported). An overview is provided in Table :ref:`Supported
+:srcref:`src/lib/pubkey/sphincsplus/` and follows [SPX-R3]_.
+Only the "simple" version of the scheme is available.
+Botan supports the parameter sets provided in Table 3 of [SPX-R3]_ for the SHA2
+and SHAKE instantiations of hash functions (note that currently, the instantiations
+with Haraka are not supported). An overview is provided in Table :ref:`Supported
 SPHINCS+ parameter sets <pubkey_key_generation/sphincsplus/params_table>`.
 
 .. _pubkey_key_generation/sphincsplus/params_table:
@@ -509,7 +510,7 @@ SPHINCS+ parameter sets <pubkey_key_generation/sphincsplus/params_table>`.
 
 SPHINCS\ :sup:`+` key generation follows Section 6.2 of [SPX-R3]_ and is
 implemented in :srcref:`src/lib/pubkey/sphincsplus/sphincspluscommon/sphincsplus.cpp`
-within the the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
+within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
 
 .. admonition:: SPHINCS+ Key Generation
 
@@ -519,7 +520,7 @@ within the the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
 
    **Output:**
 
-   -  ``SK``, ``PK``: private and public keys
+   -  ``SK``, ``PK``: private and public key
 
    **Steps:**
 
