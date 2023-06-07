@@ -57,7 +57,7 @@ info".
 
 "Approvers" of a patch are users that approved a pull request, users that merged
 other user's pull requests or an explicit "auditer" stated in the YAML file.
-Auditers from the YAML file are rendered in parenthesis and _replace_ potential
+Auditers from the YAML file are rendered in parenthesis along with potential
 approvers from GitHub in the final rendering. Use the auditer's GitHub handle!
 
 Eventually, the directory with all topic description YAML files is passed to

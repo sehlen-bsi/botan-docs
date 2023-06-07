@@ -4,6 +4,7 @@ import argparse
 import os
 import sys
 import logging
+import io
 
 from github.PullRequest import PullRequest
 from github.Commit import Commit
@@ -25,53 +26,58 @@ def _init(args: argparse.Namespace):
 def find_unrefed(args: argparse.Namespace):
     audit, repo = _init(args)
 
-    def render_pull_request(info: PullRequest):
+    def render_pull_request(info: PullRequest, stream: io.StringIO):
         issue = info.number
         title = info.title
         author = info.user.login
         url = info.html_url
 
         if args.yaml:
-            print("# %s  (@%s)" % (title, author))
-            print("- pr: %d  # %s" % (issue, url))
-            print("  classification: unspecified")
-            print()
+            print("# %s  (@%s)" % (title, author), file=stream)
+            print("- pr: %d  # %s" % (issue, url), file=stream)
+            print("  classification: unspecified", file=stream)
+            print(file=stream)
         else:
-            print("Pull Request: '%s' by @%s\n              %s" % (title, author, url))
+            print("Pull Request: '%s' by @%s\n              %s" % (title, author, url), file=stream)
 
-    def render_commit(info: Commit):
+    def render_commit(info: Commit, stream: io.StringIO):
         sha = info.sha
         msg = info.commit.message.splitlines()[0]
         author = info.commit.author.name
         url = info.html_url
 
         if args.yaml:
-            print("# %s  (@%s)" % (msg, author))
-            print("- commit: %s  # %s" % (sha, url))
-            print("  classification: unspecified")
-            print()
+            print("# %s  (@%s)" % (msg, author), file=stream)
+            print("- commit: %s  # %s" % (sha, url), file=stream)
+            print("  classification: unspecified", file=stream)
+            print(file=stream)
         else:
-            print("Commit: '%s' by %s\n        %s" % (msg, author, url))
+            print("Commit: '%s' by %s\n        %s" % (msg, author, url), file=stream)
 
+    output = io.StringIO()
     if args.yaml:
-        print("patches:")
+        print("patches:", file=output)
 
     prs = 0
     cos = 0
     for unrefed in genaudit.find_unreferenced_patches(audit, repo):
         if isinstance(unrefed, genaudit.refs.PullRequest):
             info = repo.pull_request_info(unrefed)
-            render_pull_request(info)
+            render_pull_request(info, output)
             prs += 1
         if isinstance(unrefed, genaudit.refs.Commit):
             info = repo.commit_info(unrefed)
-            render_commit(info)
+            render_commit(info, output)
             cos += 1
 
-    if not args.yaml:
+    logging.info("Found %d unreferenced Pull Requests and %d unreferenced Commits", prs, cos)
+
+    if prs+cos > 0:
         print()
-        print(
-            "Found %d unreferenced Pull Requests and %d unreferenced Commits" % (prs, cos))
+        print(output.getvalue())
+        return 1
+    else:
+        return 0
 
 
 def render_audit_report(args: argparse.Namespace):
@@ -84,6 +90,8 @@ def render_audit_report(args: argparse.Namespace):
             print("Rendered nothing. Everything up-to-date")
     else:
         print(renderer.render())
+
+    return 0
 
 
 def main():
@@ -124,8 +132,8 @@ def main():
 
     loglevel = logging.DEBUG if args.verbose else logging.INFO
     logging.basicConfig(level=loglevel)
-    args.func(args)
+    return args.func(args)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

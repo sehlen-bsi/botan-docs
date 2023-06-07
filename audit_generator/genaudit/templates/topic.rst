@@ -41,7 +41,7 @@ Security Classification: *{{ classification }}*
        {% endif %}
      - {{ patch.classification }}
      - {{ macros.short_author(patch.author) }}
-     - {% if patch.auditer %}({{ macros.short_author(patch.auditer) }}){% else %}{{ macros.short_authors_list(patch.approvers) }}{% endif +%}
+     - {{ macros.approvers_and_auditer_list(patch.auditer, patch.approvers) }}
 {% elif patch.type == "commit" %}
    * - {{ macros.patch_reference(patch) }}
      - {% if patch.comment %}**{{ patch.message|first_line|escape_rst }}**
