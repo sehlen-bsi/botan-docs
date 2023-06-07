@@ -15,3 +15,16 @@ patches:
 # [TLS 1.3] Test Framework Utilities  (@reneme)
 - pr: 2941  # https://github.com/randombit/botan/pull/2941
   classification: info
+
+# Chore: Improve Test Registration  (@reneme)
+- pr: 3215  # https://github.com/randombit/botan/pull/3215
+  classification: info
+
+# Report Code Locations of test failures  (@reneme)
+- pr: 3058  # https://github.com/randombit/botan/pull/3058
+  classification: info
+  auditer: reneme
+
+# Refactor: Log Test results via a dedicated reporter class  (@reneme)
+- pr: 3027  # https://github.com/randombit/botan/pull/3027
+  classification: info

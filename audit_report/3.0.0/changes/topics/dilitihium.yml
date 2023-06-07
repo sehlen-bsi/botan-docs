@@ -48,3 +48,18 @@ patches:
 # In Dilithium accept only two specific params  (@Jack Lloyd)
 - commit: 409182a0ec86ec35cafb9734b0b50c0b56e45cb2  # https://github.com/randombit/botan/commit/409182a0ec86ec35cafb9734b0b50c0b56e45cb2
   classification: unspecified
+
+# Avoid unnecessary copy in this test  (@Jack Lloyd)
+- commit: ab24ac263f17a5d884cc580cbe26199b90399404  # https://github.com/randombit/botan/commit/ab24ac263f17a5d884cc580cbe26199b90399404
+  classification: out of scope
+  auditer: reneme
+
+# Add a destructor to appease clang-tidy  (@Jack Lloyd)
+- commit: 1623bfc70097e4ce5ef98d38ef2f31f92f56c812  # https://github.com/randombit/botan/commit/1623bfc70097e4ce5ef98d38ef2f31f92f56c812
+  classification: info
+  auditer: reneme
+
+# Remove unnecesary include  (@Jack Lloyd)
+- commit: fa95c776ebf5a3c066a90c9546f09f41ed569133  # https://github.com/randombit/botan/commit/fa95c776ebf5a3c066a90c9546f09f41ed569133
+  classification: out of scope
+  auditer: reneme
