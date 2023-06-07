@@ -257,6 +257,8 @@ it is not expected that this restriction affects the security of the resulting R
 [TR-02102-1]_. The minimum possible bit length of the modulus N should be
 increased to the recommendation of 2000 bit.
 
+.. _pubkey_key_generation/xmss:
+
 XMSS with WOTS+
 ---------------
 
@@ -472,6 +474,66 @@ in constant time on identical hardware if the hash function computations
 run in constant time. Therefore, an attacker can infer the position in
 the tree that the algorithm is currently working on even if only a
 single thread is used.
+
+.. _pubkey_key_generation/sphincsplus:
+
+SPHINCS\ :sup:`+`
+-----------------
+
+Botan's SPHINCS\ :sup:`+` implementation is found in
+:srcref:`src/lib/pubkey/sphincsplus/` and follows [SPX-R3]_. It supports the
+parameter sets provided in Table 3 of [SPX-R3]_ for the SHA2 and SHAKE
+instantiations of hash functions (note that currently, the instantiations with
+Haraka are not supported). An overview is provided in Table :ref:`Supported
+SPHINCS+ parameter sets <pubkey_key_generation/sphincsplus/params_table>`.
+
+.. _pubkey_key_generation/sphincsplus/params_table:
+
+.. table::  Supported SPHINCS+ parameter sets (see Table 3 of [SPX-R3]_). <hash> can either be ``sha2`` or ``shake``.
+
+   +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
+   | Parameter Set                    |  :math:`n`  |  :math:`h`  | :math:`d` | :math:`log(t)`  | :math:`k` | :math:`w` |
+   +==================================+=============+=============+===========+=================+===========+===========+
+   | ``SphincsPlus-<hash>-128s-r3.1`` | 16          | 63          | 7         | 12              | 14        | 16        |
+   +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
+   | ``SphincsPlus-<hash>-128f-r3.1`` | 16          | 66          | 22        |  6              | 33        | 16        |
+   +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
+   | ``SphincsPlus-<hash>-192s-r3.1`` | 24          | 63          | 7         | 14              | 17        | 16        |
+   +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
+   | ``SphincsPlus-<hash>-192f-r3.1`` | 24          | 66          | 22        |  8              | 33        | 16        |
+   +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
+   | ``SphincsPlus-<hash>-256s-r3.1`` | 32          | 64          | 8         | 14              | 22        | 16        |
+   +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
+   | ``SphincsPlus-<hash>-256f-r3.1`` | 32          | 68          | 17        |  9              | 35        | 16        |
+   +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
+
+SPHINCS\ :sup:`+` key generation follows Section 6.2 of [SPX-R3]_ and is
+implemented in :srcref:`src/lib/pubkey/sphincsplus/sphincspluscommon/sphincsplus.cpp`
+within the the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
+
+.. admonition:: SPHINCS+ Key Generation
+
+   **Input:**
+
+   -  ``rng``: random number generator
+
+   **Output:**
+
+   -  ``SK``, ``PK``: private and public keys
+
+   **Steps:**
+
+   1. Generate new values ``secret_seed``, ``prf``, and ``public_seed`` using ``rng``.
+   2. ``sphincs_root = xmss_gen_root(secret_seed)``
+      (see :ref:`SPHINCS+ XMSS <signatures/sphincsplus/XMSS>`).
+   3. | ``SK = {secret_seed, prf, public_seed, sphincs_root}``
+      | ``PK = {public_seed, sphincs_root}``
+
+   **Notes:**
+
+   - The creation of a public key is conducted using the
+     ``public_key`` method of the private key.
+
 
 .. _pubkey_key_generation/dilithium:
 
