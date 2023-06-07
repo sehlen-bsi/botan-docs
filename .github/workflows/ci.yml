@@ -59,7 +59,8 @@ jobs:
     name: Build PDF - Audit Report 3.0.0
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
         with:
           path: ./source
       - name: Fetch Botan Repository
@@ -67,6 +68,7 @@ jobs:
         with:
           path: ./botan
           repository: randombit/botan
+          fetch-depth: 0
 
       - name: Install Build Dependencies
         run: |
@@ -81,6 +83,15 @@ jobs:
           path: ./audit_generator_cache
           key: audit_3.0-${{ github.run_id }}
           restore-keys: audit_3.0
+
+      - name: Verify Patch Coverage
+        working-directory: source/audit_report/3.0.0
+        run: python3 -m audit unrefed --yaml changes
+        env:
+          PYTHONPATH: ${{ github.workspace }}/source/audit_generator
+          AUDIT_CACHE_LOCATION: ${{ github.workspace }}/audit_generator_cache
+          AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
+          BASIC_GH_TOKEN: ${{ github.token }}
 
       - name: Build Document
         working-directory: source/audit_report/3.0.0
