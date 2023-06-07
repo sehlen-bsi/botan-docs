@@ -1,34 +1,71 @@
 title: Random Number Generator
 
+description: |
+  The patches GH #3195 and GH #3403 make significant changes to the
+  inner-workings of Botan's "default" RNG (``AutoSeeded_RNG``) or its underlying
+  DRBG (``HMAC_DRBG``) and therefore underwent careful review. The other patches
+  provide minor adaptions of API or internal characteristics.
+
 patches:
 # std::span (and more) for Botan::RandomNumberGenerator  (@reneme)
 - pr: 3195  # https://github.com/randombit/botan/pull/3195
-  classification: unspecified
+  classification: critical
+  comment: |
+    This is a modernization of the random number generator's API both externally
+    (by providing support for C++20's ``std::span``) as well as internally (by
+    combining the legacy pure virtual methods ``randomize()`` and
+    ``add_entropy()`` to a single ``fill_bytes_with_input()``).
+
+    The latter required adaptions to the shipped random number generators. Most
+    notably ``HMAC_DRBG`` and its super-class ``Stateful_RNG``. In this
+    refactoring some time-based seed generation moved from ``Stateful_RNG`` into
+    the very base class to allow other RNG implementations to benefit from it.
+
+    The process fork detection in ``Stateful_RNG`` was not altered in the patch.
 
 # Change how AutoSeeded_RNG HMAC is chosen  (@randombit)
 - pr: 3403  # https://github.com/randombit/botan/pull/3403
-  classification: unspecified
+  classification: critical
+  auditer: reneme
+  comment: |
+    Previously, end-users could influence which hash function should be used for
+    HMAC_DRBG by defining ``BOTAN_AUTO_RNG_HMAC`` at the library's build time.
+    If the user didn't define it, the library would fall back to (in order of
+    preference) SHA-384, SHA-256, SHA-3(256) or SHA-1 was used. Now it always
+    uses SHA-512 or SHA-256 depending on the availability.
+
+    Note that HMAC_DRBG is the DRBG used in Botan's ``AutoSeeded_RNG`` and can
+    therefore be considered as the "default RNG" of the library.
 
 # Feature: Generalization of RandomNumberGenerator::random_vec()  (@reneme)
 - pr: 3201  # https://github.com/randombit/botan/pull/3201
-  classification: unspecified
+  classification: info
+  comment: |
+    Just a high-level API adaption as a spin-off from GH #3195.
 
 # Remove Serialized_RNG  (@randombit)
 - pr: 3157  # https://github.com/randombit/botan/pull/3157
-  classification: unspecified
+  classification: info
+  comment: |
+    This was a simple wrapper to make random number generators thread safe. It
+    is not needed as of Botan 2.16.0 as relevant RNGs feature an internal mutex
+    since then.
 
 # Fix UWP System_RNG build issue (GH #2887)  (@randombit)
 - pr: 2909  # https://github.com/randombit/botan/pull/2909
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add a test that RNGs accept input and output lengths of many sizes  (@Jack Lloyd)
 - commit: a379e17340ce26a6f71fd59e3b5ec352d2cce152  # https://github.com/randombit/botan/commit/a379e17340ce26a6f71fd59e3b5ec352d2cce152
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Retry DARN instruction 10 times as suggested in PowerISA  (@reneme)
 - pr: 3043  # https://github.com/randombit/botan/pull/3043
-  classification: unspecified
+  classification: info
 
 # Enable getrandom/getentropy again  (@randombit)
 - pr: 3176  # https://github.com/randombit/botan/pull/3176
-  classification: unspecified
+  classification: info
+  auditer: reneme
