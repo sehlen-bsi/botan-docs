@@ -28,3 +28,7 @@ patches:
 # Refactor: Log Test results via a dedicated reporter class  (@reneme)
 - pr: 3027  # https://github.com/randombit/botan/pull/3027
   classification: info
+
+# Let test_cli produce stack traces in case of test errors  (@reneme)
+- pr: 3414  # https://github.com/randombit/botan/pull/3414
+  classification: info
