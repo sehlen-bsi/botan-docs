@@ -54,3 +54,7 @@ patches:
 - commit: 6235e865d7e3aa84998a4ac431778b474c40a818  # https://github.com/randombit/botan/commit/6235e865d7e3aa84998a4ac431778b474c40a818
   classification: info
   auditer: reneme
+
+# FIX: test_cli.py does not fail on 'unknown command'  (@reneme)
+- pr: 3222  # https://github.com/randombit/botan/pull/3222
+  classification: info

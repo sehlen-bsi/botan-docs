@@ -64,3 +64,8 @@ patches:
 # Only allow "SHA-1" as a valid name for SHA-1  (@randombit)
 - pr: 3186  # https://github.com/randombit/botan/pull/3186
   classification: unspecified
+
+# Fix regression in sanitizer test times (GH #3238)  (@randombit)
+- pr: 3239  # https://github.com/randombit/botan/pull/3239
+  classification: out of scope
+  auditer: reneme
