@@ -256,3 +256,7 @@ patches:
 # CamelCase the members of PSK_Type   (@randombit)
 - pr: 3311  # https://github.com/randombit/botan/pull/3311
   classification: info
+
+# FIX: clangd complaining about 'suspicious string literal'  (@reneme)
+- pr: 2959  # https://github.com/randombit/botan/pull/2959
+  classification: info

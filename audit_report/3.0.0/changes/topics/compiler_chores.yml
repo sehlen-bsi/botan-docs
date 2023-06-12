@@ -1,100 +1,120 @@
 title: Compiler Workarounds and Compile-Flag Adaptions
 
 description: |
-  Changes that work around compiler issues or set up specifics for certain compilers.
+  Changes that work around compiler issues, improve the CPU feature detection or
+  modify CPU/ISA specific implementations and workarounds.
 
 patches:
 # Disable MSVC warnings about inheritance via dominance  (@oviano)
 - pr: 3462  # https://github.com/randombit/botan/pull/3462
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add BOTAN_COMPILER_HAS_ATTRIBUTE  (@randombit)
 - pr: 3471  # https://github.com/randombit/botan/pull/3471
-  classification: unspecified
+  classification: info
 
 # Work around an XCode 14.3 miscompilation affecting ARIA key schedule  (@randombit)
 - pr: 3492  # https://github.com/randombit/botan/pull/3492
-  classification: unspecified
+  classification: out of scope
+  auditer: reneme
 
 # GCC 13 pre-release fix proposal  (@devnexen)
 - pr: 3435  # https://github.com/randombit/botan/pull/3435
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Remove code no longer relevant now that our minimum Clang is 14  (@randombit)
 - pr: 3175  # https://github.com/randombit/botan/pull/3175
-  classification: unspecified
+  classification: info
 
 # Add BOTAN_COMPILER_HAS_BUILTIN  (@randombit)
 - pr: 3174  # https://github.com/randombit/botan/pull/3174
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # FIX/Update: Apple Clang version map  (@reneme)
 - pr: 3155  # https://github.com/randombit/botan/pull/3155
-  classification: unspecified
+  classification: info
 
 # Various fixes to avoid GCC 12 bugs which affect C++20 compliation  (@randombit)
 - pr: 3083  # https://github.com/randombit/botan/pull/3083
-  classification: unspecified
-
-# FIX: clangd complaining about 'suspicious string literal'  (@reneme)
-- pr: 2959  # https://github.com/randombit/botan/pull/2959
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add support for Clang ivdep pragma  (@Jack Lloyd)
 - commit: d32764416febba8d245619307aaaeee50c0d53d0  # https://github.com/randombit/botan/commit/d32764416febba8d245619307aaaeee50c0d53d0
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Revert use of Clang ivdep pragma  (@Jack Lloyd)
 - commit: 720d06b711b24187ec643771f92b234b99bbbf37  # https://github.com/randombit/botan/commit/720d06b711b24187ec643771f92b234b99bbbf37
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Bump DEFAULT_BUFFER_SIZE to 4096  (@Jack Lloyd)
 - commit: 48cb874c3a3afebed55daff3412b6a6a96ee20a3  # https://github.com/randombit/botan/commit/48cb874c3a3afebed55daff3412b6a6a96ee20a3
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fix a warning from Clang [ci skip]  (@Jack Lloyd)
 - commit: 77cd355b0bf6c19fb4586188879e9af74d5c81c9  # https://github.com/randombit/botan/commit/77cd355b0bf6c19fb4586188879e9af74d5c81c9
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add BOTAN_AVX2_FN annotation macro  (@Jack Lloyd)
 - commit: 7b6e17c2d65ca3868d235ef8ecdbf74d493c7179  # https://github.com/randombit/botan/commit/7b6e17c2d65ca3868d235ef8ecdbf74d493c7179
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Disable argon2_ssse3 on MSVC  (@Jack Lloyd)
 - commit: e37989c5402747f2d1eb26eb6217a40bfe23307f  # https://github.com/randombit/botan/commit/e37989c5402747f2d1eb26eb6217a40bfe23307f
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Use init_priority attribute on the pool allocator  (@randombit)
 - pr: 3481  # https://github.com/randombit/botan/pull/3481
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fixed bcrypt WinRT build  (@oviano)
 - pr: 3428  # https://github.com/randombit/botan/pull/3428
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fix mul128.h to support MSVC ARM64 target  (@nursik)
 - pr: 3000  # https://github.com/randombit/botan/pull/3000
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Offer a proper array prefetch function, refactor CPUID, and remove cache line size detection  (@randombit)
 - pr: 3391  # https://github.com/randombit/botan/pull/3391
-  classification: unspecified
+  classification: info
+  auditer: reneme
+  comment: |
+    Contains significant changes to side channel countermeasures in ARIA,
+    Camellia and SEED block ciphers. None of which is in scope for this review.
+    Therefore this is purely informational.
 
 # Improve CPUID support for AVX-512  (@randombit)
 - pr: 3166  # https://github.com/randombit/botan/pull/3166
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Remove explicit BMI1 support from CPUID  (@Jack Lloyd)
 - commit: a52d5e332618e844af84ad4f79ebf5bc848cac9c  # https://github.com/randombit/botan/commit/a52d5e332618e844af84ad4f79ebf5bc848cac9c
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Silence warning when no CPUID bits exist  (@Jack Lloyd)
 - commit: 892988da346683484b9c68113a6bed14bf370157  # https://github.com/randombit/botan/commit/892988da346683484b9c68113a6bed14bf370157
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Remove the Threefish-512 AVX2 implementation  (@randombit)
 - pr: 3299  # https://github.com/randombit/botan/pull/3299
-  classification: unspecified
+  classification: out of scope
+  auditer: reneme
 
 # Fix ppc64 build  (@Jack Lloyd)
 - commit: 9069dfa680e3179d437e4c0f15980bf850545647  # https://github.com/randombit/botan/commit/9069dfa680e3179d437e4c0f15980bf850545647
