@@ -64,5 +64,8 @@ class Audit:
                 topics.append(Topic(tf))
             except RuntimeError as ex:
                 logging.error("Failed to parse topic: %s" % ex)
-                continue
+                if self.fail_on_load_error:
+                    raise ex
+                else:
+                    continue
         return topics
