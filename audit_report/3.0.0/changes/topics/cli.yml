@@ -9,7 +9,7 @@ patches:
 # Change cli to use --cipher and --pbkdf options instead of --pbe  (@randombit)
 - pr: 3417  # https://github.com/randombit/botan/pull/3417
   classification: info
-  audit: reneme
+  auditer: reneme
 
 # Modify the cli sign utility to accept unencrypted keys  (@randombit)
 - pr: 3177  # https://github.com/randombit/botan/pull/3177

@@ -8,15 +8,17 @@ import yaml
 import logging
 import re
 
-from genaudit import refs
+from genaudit import refs, util
 
 class Topic:
     def __init__(self, topic_file: str):
         self.file = topic_file
         with open(topic_file, 'r') as f:
             cfg = yaml.load(f, Loader=yaml.FullLoader)
-            if not cfg or 'title' not in cfg:
+            if not cfg:
                 raise RuntimeError("Failed to load Topic in '%s'" % topic_file)
+
+            util.check_keys("Topic", cfg.keys(), ['classification', 'title', 'patches', 'description'])
 
             self.title = cfg['title']
             self.patches = self._load_patches(cfg)
@@ -39,6 +41,8 @@ class Topic:
 
             def get_auditer():
                 return patch.get("auditer", None)
+
+            util.check_keys("Patch", patch.keys(), ['pr', 'commit', 'merge_commit', 'classification', 'comment', 'auditer'])
 
             ref_type, value = get_ref()
             if ref_type == "pr":
