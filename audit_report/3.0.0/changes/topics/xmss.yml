@@ -1,46 +1,68 @@
 title: "PQC: XMSS"
 
+description: |
+  The most critical changes are related to XMSS's adaptations to NIST SP.800-208.
+  It defines specific parameter sets and a new WOTS key derivation. Therefore,
+  the algorithm's logic changed after these adaptations. Also, a legacy support
+  for versions before the NIST SP.800-208 adaptations is provided.
+
+  Less critical changes are some architectural changes with the WOTS keys, minor
+  general optimizations, test additions, and some polishing.
+
 patches:
 # XMSS encodes the WOTS+ key derivation into the private key  (@reneme)
 - pr: 3413  # https://github.com/randombit/botan/pull/3413
-  classification: unspecified
+  merge_commit: 8c7a1c4c67a5777e0c653bb184507679e1eafdad
+  classification: critical
 
 # Implement legacy support for old XMSS_PrivateKeys  (@FAlbertDev)
 - pr: 3388  # https://github.com/randombit/botan/pull/3388
-  classification: unspecified
+  merge_commit: a9c445a6d9b2e4c68315cd581b88a866dfaad896
+  classification: critical
 
 # Add XMSS Parameter sets defined in NIST SP.800-208  (@reneme)
 - pr: 3292  # https://github.com/randombit/botan/pull/3292
-  classification: unspecified
+  merge_commit: f615dc7418b64360b18dc1906cab80a73b8a9866
+  classification: critical
 
 # Clean up `XMSS_Hash` and prepare for NIST SP.800-208 parameter sets  (@reneme)
 - pr: 3287  # https://github.com/randombit/botan/pull/3287
-  classification: unspecified
+  merge_commit: e1b3226d32303995bdf79120655f83fd46ad2ae0
+  classification: critical
 
 # Implement XMSS PRF_keygen as in NIST SP.800-208 Section 6.2  (@reneme)
 - pr: 3280  # https://github.com/randombit/botan/pull/3280
-  classification: unspecified
+  merge_commit: 22b6863ed0628a4128a1f52b462c406e7b0a52ce
+  classification: critical
 
 # FIX: undefined behaviour in c'tor of XMSS_WOTS_Privatekey  (@reneme)
 - pr: 3283  # https://github.com/randombit/botan/pull/3283
-  classification: unspecified
+  merge_commit: 9772a442497edef3fdfe01684b866ec3a6d952a0
+  classification: info
 
 # Chore: Simplify (internal)WOTS Public/Private Key Implementation  (@reneme)
 - pr: 3277  # https://github.com/randombit/botan/pull/3277
-  classification: unspecified
+  merge_commit: c8183107bbd82121ec61fd1f8318d95d48be8d7c
+  classification: relevant
+  comment: |
+    Restructuring of the WOTS architecture in XMSS.
 
 # Remove Accessors to XMSS internals  (@reneme)
 - pr: 3276  # https://github.com/randombit/botan/pull/3276
-  classification: unspecified
+  merge_commit: 83e4c300a9963320363230a79a0e6b2fb668debe
+  classification: info
 
 # Refactor: Make xmss_wots.h and xmss_hash.h internal  (@reneme)
 - pr: 3263  # https://github.com/randombit/botan/pull/3263
-  classification: unspecified
+  merge_commit: 7ab861c33e6c97646a6dbfa0d2866994cbffb814
+  classification: info
 
 # Remove XMSS_WOTS_Addressed_{Public,Private}Key  (@randombit)
 - pr: 3126  # https://github.com/randombit/botan/pull/3126
-  classification: unspecified
+  merge_commit: 4af78fb3989e50841521e470d52b2c061665c26c
+  classification: info
 
 # Cleanup: Documentation Nits and rvalue-ref overloads in XMSS  (@reneme)
 - pr: 3040  # https://github.com/randombit/botan/pull/3040
-  classification: unspecified
+  merge_commit: 94a2fed335c305f06b1138f4afd7ca0c07d82525
+  classification: info
