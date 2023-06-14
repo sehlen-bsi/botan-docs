@@ -29,4 +29,4 @@ def find_unreferenced_patches(audit: Audit, repo: GitRepo) -> list[PullRequest|C
     patches_after = len(prs) + len(commits) + len(merges)
     logging.debug("Found %d referenced patches and %d unreferenced" % (patches_before - patches_after, patches_after))
 
-    return prs + commits + merges
+    return filter(lambda patch: not audit.patch_ignored(patch), prs + commits + merges)

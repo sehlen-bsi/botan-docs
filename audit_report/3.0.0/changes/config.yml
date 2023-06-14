@@ -8,3 +8,10 @@ repo:
 
 topics: topics
 cache: ../_build/audit_generator_cache
+
+ignore:
+  # This patch was merged twice manually. Jack forgot to pull recent changes by
+  # the pull request author and created a second merge commit after realizing
+  # his mistake. As a result GH #2944 has references in two merge commits. To
+  # avoid issues in the verification scripts we ignore this patch.
+  - pr: 2944
