@@ -9,54 +9,73 @@ description: |
 patches:
 # Remove build-time configuration of mlock limit  (@randombit)
 - pr: 3405  # https://github.com/randombit/botan/pull/3405
+  merge_commit: 8dd4e756bb7e05f2fa5aed0e4f18467619a30a74
   classification: unspecified
   comment: |
     This is a comment regarding this specific patch.
 
 # Added secure_vector<T>::lock  (@oviano)
 - pr: 3431  # https://github.com/randombit/botan/pull/3431
+  merge_commit: 2cb7acb3e0f87356907d79775a07a64122d2d396
   classification: unspecified
 
 # Add StreamCipher::buffer_size  (@randombit)
 - pr: 3404  # https://github.com/randombit/botan/pull/3404
+  merge_commit: 9c7ee1781a01842f7f1f7d9224b1f032f570c1d5
   classification: unspecified
 
 # Add support for XTS short nonces  (@randombit)
 - pr: 3336  # https://github.com/randombit/botan/pull/3336
+  merge_commit: 30f2f49cdddc28c30c64ed2df664bd57d556d413
   classification: unspecified
 
 # Add SymmetricAlgorithm::has_keying_material  (@randombit)
 - pr: 3295  # https://github.com/randombit/botan/pull/3295
+  merge_commit: ded1a8c7e0a496e6aca194d852fc92602193ab8d
   classification: unspecified
 
 # Add a hash truncation wrapper (eg. `Truncated(SHA-256,192)`)  (@reneme)
 - pr: 3284  # https://github.com/randombit/botan/pull/3284
+  merge_commit: c166d6e396a0d8ff5c1373d1e47f3fee6b7f8e69
   classification: unspecified
 
 # Implement write_keystream for CTR and SHAKE  (@randombit)
 - pr: 3189  # https://github.com/randombit/botan/pull/3189
+  merge_commit: f1ec760f312ec53bfdb39c802abb38ee8d24a98b
   classification: unspecified
 
 # Add Cipher_Mode::requires_entire_message  (@randombit)
 - pr: 3172  # https://github.com/randombit/botan/pull/3172
+  merge_commit: d955da28f7a2dae5178df3e1d3962940e275fee7
   classification: unspecified
 
 # Add Cipher_Mode::ideal_granularity  (@randombit)
 - pr: 3168  # https://github.com/randombit/botan/pull/3168
+  merge_commit: b783fa16e3ffaacff596e0be04f7dc4ae05326cf
   classification: unspecified
 
 # Follow up: Sanity check for Shake_Cipher base class  (@reneme)
 - pr: 3170  # https://github.com/randombit/botan/pull/3170
+  merge_commit: 0e215cde490d9ec134a13d32011b6c4387aebda1
   classification: unspecified
 
 # Stream cipher facade for SHAKE-256  (@reneme)
 - pr: 3167  # https://github.com/randombit/botan/pull/3167
+  merge_commit: f16dc8a58b035e733871caf1b537686a548f618f
   classification: unspecified
+
+# new util to name the data pages for now linux and especially android (part 2)  (@devnexen)
+- commit: fa120ca3ad5dd6b3bee9750418fd9dd21380f647  # https://github.com/randombit/botan/pull/fa120ca3ad5dd6b3bee9750418fd9dd21380f647
+  classification: unspecified
+  comment: |
+    This is a manual (second) merge of GH #2944 due to a user error. Further
+    details can be found here: https://github.com/randombit/botan/pull/2953
 
 # new util to name the data pages for now linux and especially android  (@devnexen)
 - pr: 2944  # https://github.com/randombit/botan/pull/2944
+  merge_commit: 1fa8bdefad6dcff17eb5a1f074ccb23a2b22ffa8
   classification: unspecified
-
-# new util to name the data pages for now linux and especially android  (@devnexen)
-- pr: 2944  # https://github.com/randombit/botan/pull/2944
-  classification: unspecified
+  comment: |
+    This was merged before in fa120ca3ad5dd6b3bee9750418fd9dd21380f647 but
+    Jack forgot to pull before merging locally. Resulting in an inconsistent state.
+    See here: https://github.com/randombit/botan/pull/2953

@@ -8,21 +8,25 @@ description: |
 patches:
 # Change cli to use --cipher and --pbkdf options instead of --pbe  (@randombit)
 - pr: 3417  # https://github.com/randombit/botan/pull/3417
+  merge_commit: 3c6fa85b52299f4207ab7a8171b48ab755b1b49b
   classification: info
-  audit: reneme
+  auditer: reneme
 
 # Modify the cli sign utility to accept unencrypted keys  (@randombit)
 - pr: 3177  # https://github.com/randombit/botan/pull/3177
+  merge_commit: 0eea7961ec793957458811b1785fc8c0bd384915
   classification: info
   auditer: reneme
 
 # tls server socket listen backlog adjustment  (@devnexen)
 - pr: 2987  # https://github.com/randombit/botan/pull/2987
+  merge_commit: 4021ef57c965f39493e7d0a96e7ac28fd03f6b52
   classification: info
   auditer: reneme
 
 # TLS Client Authentication for the CLI tool  (@reneme)
 - pr: 2960  # https://github.com/randombit/botan/pull/2960
+  merge_commit: 2fb7ba81b0304f0864a557e3f3a010f4c2ce08d3
   classification: info
 
 # Fix `botan speed Kyber`  (@Jack Lloyd)
@@ -47,6 +51,7 @@ patches:
 
 # cli: tls_client: support custom DTLS version  (@nunojpg)
 - pr: 3455  # https://github.com/randombit/botan/pull/3455
+  merge_commit: 0e4ae66b902c6d5f2f3aa08e69e9d85955959471
   classification: info
   auditer: reneme
 
@@ -57,4 +62,5 @@ patches:
 
 # FIX: test_cli.py does not fail on 'unknown command'  (@reneme)
 - pr: 3222  # https://github.com/randombit/botan/pull/3222
+  merge_commit: 4f26d30ba46dc4533bfec856b38fc59ae176d9c0
   classification: info
