@@ -13,49 +13,60 @@ description: |
 patches:
 # Documentation and example improvements  (@randombit)
 - pr: 3420  # https://github.com/randombit/botan/pull/3420
+  merge_commit: 41a278311d431a7808e2f67391d6a0f6b7e01bc4
   classification: info
   auditer: reneme
 
 # Update the FFI docs  (@randombit)
 - pr: 3379  # https://github.com/randombit/botan/pull/3379
+  merge_commit: a93d4493060b3f72093af475adcc5c118828df90
   classification: info
   auditer: reneme
 
 # Fix some Doxygen warnings  (@randombit)
 - pr: 3259  # https://github.com/randombit/botan/pull/3259
+  merge_commit: 911ecf7994c4de72e10a68271c00473baec7bac0
   classification: info
   auditer: reneme
 
 # Doc: Render <module_info> into Doxygen  (@reneme)
 - pr: 3033  # https://github.com/randombit/botan/pull/3033
+  merge_commit: e6111358dd9a1988facb77deee0ce8e0a9691d70
   classification: info
 
 # FIX: small typos in doc  (@lieser)
 - pr: 3048  # https://github.com/randombit/botan/pull/3048
+  merge_commit: dc745af8dda868aaf31071264aa37f014ef231eb
   classification: info
 
 # FIX: Missing release suffix in Sphinx documentation  (@reneme)
 - pr: 3018  # https://github.com/randombit/botan/pull/3018
+  merge_commit: c239410189259dba67a7c0603bfce3b6e2f1bbd4
   classification: info
 
 # Fix: Sphinx warnings  (@reneme)
 - pr: 3029  # https://github.com/randombit/botan/pull/3029
+  merge_commit: db4286636e5b00dad8eb8b876cc1f043ea39f6ae
   classification: info
 
 # Fix examples in API doc  (@lieser)
 - pr: 3024  # https://github.com/randombit/botan/pull/3024
+  merge_commit: 120ab62f9f892d2b269badd968996a8c47f4d532
   classification: info
 
 # Small docstring fixes  (@lieser)
 - pr: 3023  # https://github.com/randombit/botan/pull/3023
+  merge_commit: 4fb88f04e14db378fd0c267511532d4b9cfbaabf
   classification: info
 
 # Fix XMSS example  (@lieser)
 - pr: 3021  # https://github.com/randombit/botan/pull/3021
+  merge_commit: 52810a2f6b1ef2f0fd6a3597060ba8dd7ced67a0
   classification: info
 
 # Documentation: Updates  (@reneme)
 - pr: 3004  # https://github.com/randombit/botan/pull/3004
+  merge_commit: 802fc5e40024314a0cb1f2b855ab7f072e9e8120
   classification: info
 
 # Fix references to botan2.py [ci skip]  (@Jack Lloyd)
@@ -200,8 +211,10 @@ patches:
 
 # Add a Note on a BSI Test Description (re: GH #2736)  (@reneme)
 - pr: 3006  # https://github.com/randombit/botan/pull/3006
+  merge_commit: 366d13685c76415b42ff7059e0849e5c7aa5522f
   classification: info
 
 # Doc/FIX: misleading usage of Credentials_Manager::cert_chain()  (@reneme)
 - pr: 3260  # https://github.com/randombit/botan/pull/3260
+  merge_commit: ad5e2afb6848dee68ea404dda8bc6f7c5c207731
   classification: info
