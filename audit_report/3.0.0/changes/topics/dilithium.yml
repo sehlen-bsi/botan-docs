@@ -32,7 +32,7 @@ patches:
 - pr: 3368  # https://github.com/randombit/botan/pull/3368
   merge_commit: f4711866d84c37fdb64c19a8efff8da50599f722
   classification: relevant
-  description: |
+  comment: |
     Fix of a bug, where all verifications after the first one fail
 
 # Add Dilithium to cli speed tool  (@randombit)
@@ -45,7 +45,7 @@ patches:
 - pr: 3304  # https://github.com/randombit/botan/pull/3304
   merge_commit: 8eb535f099a5ea732dd9c729c4fb9beaaac8b945
   classification: relevant
-  description: |
+  comment: |
     Fix of a bug, where the message is no reset after the verification
 
 # Reduce the size of Dilithium and Kyber test data  (@randombit)
