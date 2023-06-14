@@ -32,8 +32,11 @@ unit and integration tests (in ``src/tests``, ``src/bogo_shim``,
 The review in this document keeps track of changes in all the above-mentioned
 components. For the library implementation itself (``src/lib``) all modules that
 are *required* or *available* in the BSI build policy and their dependencies are
-in the scope of this document. Patches that don't alter any of the
-above-mentioned components or relevant modules are considered out-of-scope.
+in the scope of this document. Additionally, we review the following modules and
+its dependencies: `getentropy`, `ffi`, `xts`, `pkcs11`, `tls12`, `tls13`,
+`tls_cbc`, `x509`, `certstor_windows`, `certstor_macos`, `certstor_flatfile`
+Patches that don't alter any of the above-mentioned components or relevant
+modules are considered out-of-scope.
 
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
