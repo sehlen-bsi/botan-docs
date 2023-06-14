@@ -9,50 +9,61 @@ description: |
 patches:
 # Kyber Encoding Improvements  (@reneme)
 - pr: 3411  # https://github.com/randombit/botan/pull/3411
+  merge_commit: ab8ee4ce1229349b19cb6458143bef2fb7021c13
   classification: info
 
 # Kyber optimizations  (@randombit)
 - pr: 3387  # https://github.com/randombit/botan/pull/3387
+  merge_commit: eb51e40ea6464280f97dc034585603b8d5d32ba5
   classification: relevant
 
 # Reduce the size of Dilithium and Kyber test data  (@randombit)
 - pr: 3270  # https://github.com/randombit/botan/pull/3270
+  merge_commit: 687369347f9d6d5a0d7140e6b8e1c449212cbcab
   classification: info
 
 # Use private OIDs for Kyber  (@reneme)
 - pr: 3218  # https://github.com/randombit/botan/pull/3218
+  merge_commit: 99ee2ba51768c3d367433f591ce4f475f73e9874
   classification: info
 
 # Dilithium/Kyber in X.509  (@reneme)
 - pr: 3212  # https://github.com/randombit/botan/pull/3212
+  merge_commit: 38bae86fcac0c98521a1e1a4bf8d3125ea47645b
   classification: critical
 
 # Support encoding/decoding Kyber keys through the generic interfaces  (@randombit)
 - pr: 3178  # https://github.com/randombit/botan/pull/3178
+  merge_commit: d805a19d67d23db902b1ff5745ed188306dbdf02
   classification: info
 
 # Don't include an internal header in a public header  (@randombit)
 - pr: 3181  # https://github.com/randombit/botan/pull/3181
+  merge_commit: ae06dfb6ea719afae0d87c23224bffd3ca6bc2b3
   classification: info
   auditer: FAlbertDev
 
 # Support generating Kyber keys via create_private_key  (@randombit)
 - pr: 3101  # https://github.com/randombit/botan/pull/3101
+  merge_commit: 41bef0efce60dbec5a2f3b9e1c21106ae360af95
   classification: info
   auditer: FAlbertDev
 
 # Add speed cmdlet for benchmarking Kyber  (@randombit)
 - pr: 3100  # https://github.com/randombit/botan/pull/3100
+  merge_commit: 07184903adb3701a0cb5e6a5ab1aba070120b98b
   classification: info
   auditer: FAlbertDev
 
 # Always use Kyber raw encoding for internal public key hashes  (@reneme)
 - pr: 3005  # https://github.com/randombit/botan/pull/3005
+  merge_commit: c6870fe1a70e871997f5145c43ea7395d66303e3
   classification: relevant
   auditer: FAlbertDev
 
 # FIX: Kyber KEM with a KDF + some nitpicks  (@reneme)
 - pr: 2982  # https://github.com/randombit/botan/pull/2982
+  merge_commit: 8739125c21523b0d4d4012833ef30da76644dbc8
   classification: info
 
 # Fix Kyber test build failure when AES is not available  (@Jack Lloyd)
