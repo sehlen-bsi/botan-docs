@@ -6,7 +6,6 @@ patches.
 import os
 import yaml
 import logging
-import re
 
 from genaudit import refs
 
@@ -42,7 +41,7 @@ class Topic:
 
             ref_type, value = get_ref()
             if ref_type == "pr":
-                return refs.PullRequest(int(value), self._load_classification(patch), get_auditer(), get_comment())
+                return refs.PullRequest(int(value), patch.get('merge_commit', None), self._load_classification(patch), get_auditer(), get_comment())
             elif ref_type == "commit":
                 return refs.Commit(value, self._load_classification(patch), get_auditer(), get_comment())
             else:

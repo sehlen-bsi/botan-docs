@@ -23,24 +23,31 @@ def _init(args: argparse.Namespace):
     return audit, repo
 
 
+def _render_pull_request(info: PullRequest, yaml_info: genaudit.PullRequest, yaml: bool, stream: io.StringIO):
+    issue = info.number
+    title = info.title
+    author = info.user.login
+    url = info.html_url
+    classification = yaml_info.classification.to_string()
+
+    if yaml:
+        print("# %s  (@%s)" % (title, author), file=stream)
+        print("- pr: %d  # %s" % (issue, url), file=stream)
+        print("  merge_commit: %s" % yaml_info.ref, file=stream)
+        print("  classification: %s" % classification, file=stream)
+        if(yaml_info.auditer):
+            print("  auditer: %s" % yaml_info.auditer, file=stream)
+        if(yaml_info.comment):
+            print("  comment: |", file=stream)
+            print("    %s" % '    '.join(yaml_info.comment.splitlines(True)), file=stream)
+
+        print(file=stream)
+    else:
+        print("Pull Request: '%s' by @%s\n              %s" % (title, author, url), file=stream)
+
+
 def find_unrefed(args: argparse.Namespace):
-    audit, repo = _init(args)
-
-    def render_pull_request(info: PullRequest, stream: io.StringIO):
-        issue = info.number
-        title = info.title
-        author = info.user.login
-        url = info.html_url
-
-        if args.yaml:
-            print("# %s  (@%s)" % (title, author), file=stream)
-            print("- pr: %d  # %s" % (issue, url), file=stream)
-            print("  classification: unspecified", file=stream)
-            print(file=stream)
-        else:
-            print("Pull Request: '%s' by @%s\n              %s" % (title, author, url), file=stream)
-
-    def render_commit(info: Commit, stream: io.StringIO):
+    def _render_commit(info: Commit, stream: io.StringIO):
         sha = info.sha
         msg = info.commit.message.splitlines()[0]
         author = info.commit.author.name
@@ -54,6 +61,8 @@ def find_unrefed(args: argparse.Namespace):
         else:
             print("Commit: '%s' by %s\n        %s" % (msg, author, url), file=stream)
 
+    audit, repo = _init(args)
+
     output = io.StringIO()
     if args.yaml:
         print("patches:", file=output)
@@ -63,11 +72,11 @@ def find_unrefed(args: argparse.Namespace):
     for unrefed in genaudit.find_unreferenced_patches(audit, repo):
         if isinstance(unrefed, genaudit.refs.PullRequest):
             info = repo.pull_request_info(unrefed)
-            render_pull_request(info, output)
+            _render_pull_request(info, unrefed, args.yaml, output)
             prs += 1
         if isinstance(unrefed, genaudit.refs.Commit):
             info = repo.commit_info(unrefed)
-            render_commit(info, output)
+            _render_commit(info, output)
             cos += 1
 
     logging.info("Found %d unreferenced Pull Requests and %d unreferenced Commits", prs, cos)
@@ -78,6 +87,27 @@ def find_unrefed(args: argparse.Namespace):
         return 1
     else:
         return 0
+
+
+def verify_merge_commits(args: argparse.Namespace):
+    audit, repo = _init(args)
+
+    inconsistent_prs = genaudit.find_misreferenced_pull_request_merges(audit, repo)
+    logging.info("Found %d Pull Requests with misreferenced commits", len(inconsistent_prs))
+
+    if args.yaml:
+        output = io.StringIO()
+        print("patches:", file=output)
+        for pr in inconsistent_prs:
+            pr_ref = pr[0]
+            pr_commit_ref  = pr[1]
+            pr_ref.ref = pr_commit_ref
+            _render_pull_request(repo.pull_request_info(pr_ref), pr_ref, args.yaml, output)
+
+        print()
+        print(output.getvalue())
+
+    return 0 if not inconsistent_prs else 1
 
 
 def render_audit_report(args: argparse.Namespace):
@@ -117,6 +147,14 @@ def main():
     unrefed.add_argument('audit_config_dir',
                          help='the audit directory to be used')
     unrefed.set_defaults(func=find_unrefed)
+
+    merge_commits = subparsers.add_parser(
+        'verify_merges', help='Find pull requests that are not referenced with their respective merge commit hash')
+    merge_commits.add_argument('--yaml', action='store_true', default=False,
+                               help='print the correction as a YAML document compatible with the topic.yml format')
+    merge_commits.add_argument('audit_config_dir',
+                               help='the audit directory to be used')
+    merge_commits.set_defaults(func=verify_merge_commits)
 
     renderer = subparsers.add_parser(
         'render', help='Render the audit document.')

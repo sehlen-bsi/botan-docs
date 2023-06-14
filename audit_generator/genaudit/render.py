@@ -175,8 +175,12 @@ class Renderer:
         def render_patch(patch):
             if isinstance(patch, PullRequest):
                 pr_info = self.repo.pull_request_info(patch)
+                commit_url = self.repo.commit_info(patch.merge_commit).html_url if patch.merge_commit else None
+
                 return {"type": "pull_request",
-                        "ref": patch.ref,
+                        "merge_commit": patch.ref,
+                        "merge_commit_url": commit_url,
+                        "github_ref": patch.github_ref,
                         "classification": render_classification(patch.classification),
                         "title": pr_info.title,
                         "comment": self._insert_smart_refs(topic, patch.comment),
@@ -213,7 +217,7 @@ class Renderer:
 
         def replace_pr_ref(match):
             for patch in topic.patches:
-                if isinstance(patch, PullRequest) and patch.ref == int(match.group(1)):
+                if isinstance(patch, PullRequest) and patch.github_ref == int(match.group(1)):
                     pr_info = self.repo.pull_request_info(patch)
                     return "`%s <%s>`_" % (match.group(0), pr_info.html_url)
             return match.group(0)

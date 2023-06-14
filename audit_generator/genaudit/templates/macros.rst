@@ -4,4 +4,4 @@
 
 {% macro full_author(author) %}{% if author.full_name %}{{ author.full_name }} ({% endif %}`@{{ author.nick }} <{{ author.url }}>`_{% if author.full_name %}){% endif %}{% endmacro %}
 
-{% macro patch_reference(patch) %}{% if patch.type == "pull_request" %}`#{{ patch.ref }} <{{ patch.url }}>`_{% elif patch.type == "commit" %}`{{ patch.ref|truncate(7, true, "") }} <{{ patch.url }}>`_{% endif %}{% endmacro %}
+{% macro patch_reference(patch) %}{% if patch.type == "pull_request" %}`#{{ patch.github_ref }} <{{ patch.url }}>`_{%if patch.merge_commit %} (`{{ patch.merge_commit|truncate(7, true, "") }} <{{ patch.merge_commit_url }}>`_){% endif %}{% elif patch.type == "commit" %}`{{ patch.ref|truncate(7, true, "") }} <{{ patch.url }}>`_{% endif %}{% endmacro %}
