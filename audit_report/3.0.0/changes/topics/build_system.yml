@@ -9,64 +9,78 @@ description: |
 patches:
 # Remove the configure.py option --with-everything  (@randombit)
 - pr: 3433  # https://github.com/randombit/botan/pull/3433
+  merge_commit: d18961a74549597fad22ab9c60b8518657764369
   classification: info
   auditer: reneme
 
 # The Windows library should also include the major version  (@randombit)
 - pr: 3231  # https://github.com/randombit/botan/pull/3231
+  merge_commit: b1abee9aac369c429f570cbc7ad8c5a512f334fe
   classification: info
   auditer: reneme
 
 # Drop VC 2019 support  (@randombit)
 - pr: 3224  # https://github.com/randombit/botan/pull/3224
+  merge_commit: 0384ae4daf83bc8f4c044e8774c5d5fe9dd9b04d
   classification: info
   auditer: reneme
 
 # Remove --test-mode  (@randombit)
 - pr: 3133  # https://github.com/randombit/botan/pull/3133
+  merge_commit: f613209b34ad1e9d77284af4bb1cb12f6b315632
   classification: info
   auditer: reneme
 
 # CI: Allow building out-of-source  (@reneme)
 - pr: 3077  # https://github.com/randombit/botan/pull/3077
+  merge_commit: 4921c27800f1f29b6d5fbb1f6840bb8077807292
   classification: info
 
 # Use C++20 for Botan 3.0  (@randombit)
 - pr: 3086  # https://github.com/randombit/botan/pull/3086
+  merge_commit: 783cced96e9130c8de76d341046c3c14280653a7
   classification: info
   auditer: reneme
 
 # Bump to Android NDK 25b  (@randombit)
 - pr: 3088  # https://github.com/randombit/botan/pull/3088
+  merge_commit: 933cb1b4cdd09ddc0bf68e27e160c1d5a27b68cd
   classification: info
   auditer: reneme
 
 # Fix out-of-source builds on windows  (@dg0yt)
 - pr: 3072  # https://github.com/randombit/botan/pull/3072
+  merge_commit: b6bcaec45c05ad3fb95bc51ddbdd3f759f04bbb6
   classification: info
 
 # Test: Allow reporting results as JUnit  (@reneme)
 - pr: 3028  # https://github.com/randombit/botan/pull/3028
+  merge_commit: 0c649c1a594dabe6cb3824ee6313ff0a5a113629
   classification: info
 
 # Handle multiple `src` dirs in source path  (@dg0yt)
 - pr: 3069  # https://github.com/randombit/botan/pull/3069
+  merge_commit: 719552d7236911f84c44fd73ecc86f7d31c3358a
   classification: info
 
 # fix source path of "compiler_include_dirs" with cmake on windows  (@boricm)
 - pr: 3060  # https://github.com/randombit/botan/pull/3060
+  merge_commit: 5fe47ff30df09b8510d35895406ba542bb844949
   classification: info
 
 # FIX: emscripten object file suffix is .o  (@reneme)
 - pr: 3045  # https://github.com/randombit/botan/pull/3045
+  merge_commit: aaa273bae01383441e132c786dff91f89c418b12
   classification: info
 
 # Feature: <module_info> in info.txt files  (@reneme)
 - pr: 3032  # https://github.com/randombit/botan/pull/3032
+  merge_commit: da47e074c5164dc1f8ab09b1ed647ec54ad83295
   classification: info
 
 # ./configure.py --terminate-on-asserts  (@reneme)
 - pr: 2980  # https://github.com/randombit/botan/pull/2980
+  merge_commit: a78ea35eaf002435da729eff810460d5f534b0a4
   classification: info
   comment: |
     Optionally switching assertions from throwing an exception to hard-aborting
@@ -76,6 +90,7 @@ patches:
 
 # Stop linking against libboost_system / start using -isystem compiler option  (@reneme)
 - pr: 3010  # https://github.com/randombit/botan/pull/3010
+  merge_commit: de9ea92037eb8a6f9727d5726e4de4ae8c5229cb
   classification: info
 
 # Fix distribution of release candidates  (@Jack Lloyd)
@@ -114,20 +129,24 @@ patches:
   auditer: reneme
 
 # Allow the user to disable internal modules  (@randombit)
-- pr: 3489 # https://github.com/randombit/botan/pull/3489
+- pr: 3489  # https://github.com/randombit/botan/pull/3489
+  merge_commit: 0150a2b5bee4ad013483764a00bbd80789d38af3
   classification: info
 
 # Remove support for IncludeOS  (@randombit)
-- pr: 3406 # https://github.com/randombit/botan/pull/3406
+- pr: 3406  # https://github.com/randombit/botan/pull/3406
+  merge_commit: 1a5642379d61051f3f1b4fb1a45e4f6680f73916
   classification: info
   auditer: reneme
 
 # src/build-data/arch/superh.txt: add sh4{eb,aeb}  (@ffontaine)
-- pr: 3038 # https://github.com/randombit/botan/pull/3038
+- pr: 3038  # https://github.com/randombit/botan/pull/3038
+  merge_commit: cdab3ef582d056d17f1f40d0db33a99d8af454e9
   classification: info
 
 # Update BSI policy  (@lieser)
-- pr: 2998 # https://github.com/randombit/botan/pull/2998
+- pr: 2998  # https://github.com/randombit/botan/pull/2998
+  merge_commit: f7928220e0244b3d31c4447efcd987eb8d8cc2a9
   classification: relevant
   comment: |
     Prohibits ISA-specific additional implementations of Serpent, SHACAL-2 and
@@ -135,7 +154,8 @@ patches:
     with "ec_h2c" (hash to curve) and the BLAKE2b message authentication code.
 
 # Add kyber, argon2 to BSI module policy  (@securitykernel)
-- pr: 2930 # https://github.com/randombit/botan/pull/2930
+- pr: 2930  # https://github.com/randombit/botan/pull/2930
+  merge_commit: 8de350e896c9f3a998c8eff0053630ff8fa7d560
   classification: relevant
   comment: |
     Sets Kyber and argon2 as required modules, along with the required
