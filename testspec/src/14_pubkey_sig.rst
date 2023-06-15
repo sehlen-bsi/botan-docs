@@ -1528,17 +1528,22 @@ therefore not discussed in detail in this chapter.
    |                        |                                                                         |
    |                        | * :srcref:`src/tests/data/pubkey/sphincsplus_wots.vec`                  |
    |                        |                                                                         |
-   |                        | To save disk space, the WOTS+ public keys in the test vector are        |
-   |                        | stored as digests only.                                                 |
    +------------------------+-------------------------------------------------------------------------+
-   | **Expected Output:**   | WOTS+ signatures and keys as defined in the test vector                 |
+   | **Expected Output:**   | Hashed WOTS+ signatures and keys as defined in the test vector.         |
+   |                        |                                                                         |
+   |                        | To save disk space, the WOTS+ public keys and signatures in the test    |
+   |                        | vector are stored as digests only. The WOTS+ public key is hashed just  |
+   |                        | as it would be when creating an XMSS leaf node.                         |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | For each test vector entry:                                             |
    |                        |                                                                         |
-   |                        | #. Extract and validate the WOTS+ public key from the given signature   |
+   |                        | #. Recreate the WOTS+ signature and hashed public key from the          |
+   |                        |    given input values and validate it against the provided values.      |
+   |                        |    The signature is hashed for comparison.                              |
    |                        |                                                                         |
-   |                        | #. Recreate the WOTS+ signature and public key from the given input     |
-   |                        |    values and validate it against the provided values.                  |
+   |                        | #. Extract and validate the WOTS+ public key from the computed          |
+   |                        |    signature. The WOTS+ public key is hashed for comparison.            |
+   |                        |                                                                         |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
