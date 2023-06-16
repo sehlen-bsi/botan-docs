@@ -9,6 +9,7 @@ description: |
 patches:
 # std::span (and more) for Botan::RandomNumberGenerator  (@reneme)
 - pr: 3195  # https://github.com/randombit/botan/pull/3195
+  merge_commit: 88eaa008716182796ff30d365c650cb26b7eb00e
   classification: critical
   comment: |
     This is a modernization of the random number generator's API both externally
@@ -25,6 +26,7 @@ patches:
 
 # Change how AutoSeeded_RNG HMAC is chosen  (@randombit)
 - pr: 3403  # https://github.com/randombit/botan/pull/3403
+  merge_commit: 5092858032608c66e317005c3fdb90e67eafaa1d
   classification: critical
   auditer: reneme
   comment: |
@@ -39,12 +41,14 @@ patches:
 
 # Feature: Generalization of RandomNumberGenerator::random_vec()  (@reneme)
 - pr: 3201  # https://github.com/randombit/botan/pull/3201
+  merge_commit: d17c9c16d4571c9c00e2ab2573832e37d3fb18a9
   classification: info
   comment: |
     Just a high-level API adaption as a spin-off from GH #3195.
 
 # Remove Serialized_RNG  (@randombit)
 - pr: 3157  # https://github.com/randombit/botan/pull/3157
+  merge_commit: 261927ef2307c4c95716e24c8dc1baed53ed2df1
   classification: info
   comment: |
     This was a simple wrapper to make random number generators thread safe. It
@@ -53,6 +57,7 @@ patches:
 
 # Fix UWP System_RNG build issue (GH #2887)  (@randombit)
 - pr: 2909  # https://github.com/randombit/botan/pull/2909
+  merge_commit: e720f146e3b609570e357b3b702f62ed3b6c0f57
   classification: info
   auditer: reneme
 
@@ -63,9 +68,11 @@ patches:
 
 # Retry DARN instruction 10 times as suggested in PowerISA  (@reneme)
 - pr: 3043  # https://github.com/randombit/botan/pull/3043
+  merge_commit: 95aeb45b3d832649ab663a87a8ff5b98340f20cf
   classification: info
 
 # Enable getrandom/getentropy again  (@randombit)
 - pr: 3176  # https://github.com/randombit/botan/pull/3176
+  merge_commit: 15d4d6bd4326d4c4e4cd50822a9bd15a53b5d354
   classification: info
   auditer: reneme

@@ -7,38 +7,46 @@ description: |
 patches:
 # Disable MSVC warnings about inheritance via dominance  (@oviano)
 - pr: 3462  # https://github.com/randombit/botan/pull/3462
+  merge_commit: 7293032815a4a74ec900ffe55ea518be0c099038
   classification: info
   auditer: reneme
 
 # Add BOTAN_COMPILER_HAS_ATTRIBUTE  (@randombit)
 - pr: 3471  # https://github.com/randombit/botan/pull/3471
+  merge_commit: 70d06e46455735fdbbb51e4d641382e34647dc84
   classification: info
 
 # Work around an XCode 14.3 miscompilation affecting ARIA key schedule  (@randombit)
 - pr: 3492  # https://github.com/randombit/botan/pull/3492
+  merge_commit: 1b1596720abe8870833daeb595dfc8eb57cfbca5
   classification: out of scope
   auditer: reneme
 
 # GCC 13 pre-release fix proposal  (@devnexen)
 - pr: 3435  # https://github.com/randombit/botan/pull/3435
+  merge_commit: f808e3b72ca40df5878dcc84daba066bb74b40b3
   classification: info
   auditer: reneme
 
 # Remove code no longer relevant now that our minimum Clang is 14  (@randombit)
 - pr: 3175  # https://github.com/randombit/botan/pull/3175
+  merge_commit: 7df696a9fbcefaf7ac9cf43edea15bbeddd21d8c
   classification: info
 
 # Add BOTAN_COMPILER_HAS_BUILTIN  (@randombit)
 - pr: 3174  # https://github.com/randombit/botan/pull/3174
+  merge_commit: b3a94912196beb837b4901709266a500ec28e369
   classification: info
   auditer: reneme
 
 # FIX/Update: Apple Clang version map  (@reneme)
 - pr: 3155  # https://github.com/randombit/botan/pull/3155
+  merge_commit: 84e662b740650302a9bc194367220167155f38af
   classification: info
 
 # Various fixes to avoid GCC 12 bugs which affect C++20 compliation  (@randombit)
 - pr: 3083  # https://github.com/randombit/botan/pull/3083
+  merge_commit: ee0b58e0a77ecb94c2ee95c1e366f0eee09f657a
   classification: info
   auditer: reneme
 
@@ -74,21 +82,25 @@ patches:
 
 # Use init_priority attribute on the pool allocator  (@randombit)
 - pr: 3481  # https://github.com/randombit/botan/pull/3481
+  merge_commit: 9647e4fd354e243720719fda180642a46e6e8b6f
   classification: info
   auditer: reneme
 
 # Fixed bcrypt WinRT build  (@oviano)
 - pr: 3428  # https://github.com/randombit/botan/pull/3428
+  merge_commit: f4c3a6527848fe01d739ff5f9aabf4ec25319e41
   classification: info
   auditer: reneme
 
 # Fix mul128.h to support MSVC ARM64 target  (@nursik)
 - pr: 3000  # https://github.com/randombit/botan/pull/3000
+  merge_commit: 0dd5c5b7b606f0682658b32470434a4ef2f6d184
   classification: info
   auditer: reneme
 
 # Offer a proper array prefetch function, refactor CPUID, and remove cache line size detection  (@randombit)
 - pr: 3391  # https://github.com/randombit/botan/pull/3391
+  merge_commit: d6ba34e8287ec60c0fc0476d3fc2aad198085d93
   classification: info
   auditer: reneme
   comment: |
@@ -98,6 +110,7 @@ patches:
 
 # Improve CPUID support for AVX-512  (@randombit)
 - pr: 3166  # https://github.com/randombit/botan/pull/3166
+  merge_commit: feb75cc49739dbec2fb5435c861d3422f29b5fa8
   classification: info
   auditer: reneme
 
@@ -113,6 +126,7 @@ patches:
 
 # Remove the Threefish-512 AVX2 implementation  (@randombit)
 - pr: 3299  # https://github.com/randombit/botan/pull/3299
+  merge_commit: 9574cb123588157f3d0a507bfec70f8cdc51308a
   classification: out of scope
   auditer: reneme
 

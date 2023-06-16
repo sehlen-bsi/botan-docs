@@ -10,126 +10,153 @@ description: |
   documentation. Those are marked as 'informational' but none contains
   significant changes to the library's sensitive logic.
 
+
 patches:
 # Use sccache 0.4.0 in CI  (@randombit)
 - pr: 3416  # https://github.com/randombit/botan/pull/3416
+  merge_commit: ced35f4f62ec940c778f6a212f1fe17f5d48f567
   classification: out of scope
   auditer: reneme
 
 # Skip running lcov in the coverage CI build  (@randombit)
 - pr: 3381  # https://github.com/randombit/botan/pull/3381
+  merge_commit: c810e6ce7bdf1e7282f4c6e7b1d6ea9261c32e4c
   classification: out of scope
   auditer: reneme
 
 # Reduce CI package installs  (@randombit)
 - pr: 3371  # https://github.com/randombit/botan/pull/3371
+  merge_commit: 35bf2389e666fe2e0f349ed18de82cd3bb5ae34e
   classification: out of scope
   auditer: reneme
 
 # Deal with codecov flakiness  (@randombit)
 - pr: 3370  # https://github.com/randombit/botan/pull/3370
+  merge_commit: effdde7e4c79c0192d16c57315daa544ca5a8a2f
   classification: out of scope
   auditer: reneme
 
 # Move codecov.yml config into .github subdir  (@randombit)
 - pr: 3353  # https://github.com/randombit/botan/pull/3353
+  merge_commit: 9ca818145d229e20c39e108451d4532008ee0a29
   classification: out of scope
   auditer: reneme
 
 # Fix removal of the wrong CI job  (@randombit)
 - pr: 3250  # https://github.com/randombit/botan/pull/3250
+  merge_commit: 35e28d03ab4ce518b9b817a58b5992b1ddb3b3ae
   classification: out of scope
 
 # Drop CI builds that are stuck with GCC 10  (@randombit)
 - pr: 3248  # https://github.com/randombit/botan/pull/3248
+  merge_commit: ef9b3072e5b4fd5a81393ea94a33e25c6319a95c
   classification: out of scope
   auditer: reneme
 
 # Reorganize the CI matrix  (@randombit)
 - pr: 3241  # https://github.com/randombit/botan/pull/3241
+  merge_commit: 01a32c16e0fa4ec7e88a2d9ae8ffbf8125f17302
   classification: out of scope
 
 # Speed up sanitizer builds  (@randombit)
 - pr: 3198  # https://github.com/randombit/botan/pull/3198
+  merge_commit: a7c470698994bf4444c6a48f584c2c59122e1b9b
   classification: info
   auditer: reneme
 
 # Add fuzzers for the Comba multiply and square functions  (@randombit)
 - pr: 3160  # https://github.com/randombit/botan/pull/3160
+  merge_commit: f1ff577226a4f4ef074e5447f4442f7c8430681b
   classification: info
   auditer: reneme
 
 # CI: Use Android NDK provided by GH Actions  (@reneme)
 - pr: 3154  # https://github.com/randombit/botan/pull/3154
+  merge_commit: 4db0d7447f46cc0b3b767d247568926150a2f69b
   classification: out of scope
 
 # Move the emscripten CI build to a Linux target  (@randombit)
 - pr: 3148  # https://github.com/randombit/botan/pull/3148
+  merge_commit: c3bac19bd7d3090019da62c540645d3cee8d1228
   classification: out of scope
 
 # Use the macos-12 target instead of macos-latest  (@randombit)
 - pr: 3122  # https://github.com/randombit/botan/pull/3122
+  merge_commit: 990c714af963ad872ebf0e634d79fff5955a022a
   classification: info
 
 # Limit compiler cache sizes in CI to 200MB  (@randombit)
 - pr: 3135  # https://github.com/randombit/botan/pull/3135
+  merge_commit: 6863eb2e07bd892cc8cee511c8737a126e4958c5
   classification: out of scope
   auditer: reneme
 
 # Disable using debug-mode for sanitizer builds  (@randombit)
 - pr: 3134  # https://github.com/randombit/botan/pull/3134
+  merge_commit: 90c7b5099260f7df43c4e69877c82b1f677583b4
   classification: info
   auditer: reneme
 
 # Limit the number of builds we use Boost for  (@randombit)
 - pr: 3132  # https://github.com/randombit/botan/pull/3132
+  merge_commit: 87338cb8648902f5fb2fc32b8d1fad803ee99d87
   classification: out of scope
   auditer: reneme
 
 # Modify the CI matrix to improve coverage  (@randombit)
 - pr: 3127  # https://github.com/randombit/botan/pull/3127
+  merge_commit: 3e32154719e3ebafa46a64bf095efee2a4497a9b
   classification: out of scope
   auditer: reneme
 
 # CI: Run sanitizers on the entire test corpus  (@reneme)
 - pr: 3012  # https://github.com/randombit/botan/pull/3012
+  merge_commit: 9aae42338083518b44fedc35e2c6b1f2b1d91725
   classification: info
 
 # Add a RISCV64 cross compilation CI build  (@randombit)
 - pr: 3109  # https://github.com/randombit/botan/pull/3109
+  merge_commit: d1f81814d4ecfe0050aa9369d1337a8f73c9c767
   classification: out of scope
   auditer: reneme
 
 # Add Linux/ARM compile+run cross compile CI target  (@randombit)
 - pr: 3096  # https://github.com/randombit/botan/pull/3096
+  merge_commit: 2589d46a3ae213d6410d64641678311164de1683
   classification: out of scope
   auditer: reneme
 
 # Use actions/cache v3 to avoid deprecation issues  (@randombit)
 - pr: 3095  # https://github.com/randombit/botan/pull/3095
+  merge_commit: a364142cac71794335eb174032796c7af17c7366
   classification: out of scope
   auditer: reneme
 
 # Bump GitHub Actions CI target to Ubuntu 22.04  (@randombit)
 - pr: 3092  # https://github.com/randombit/botan/pull/3092
+  merge_commit: 17ad921049a713cb1e31c618037b6bbd10b59ec1
   classification: out of scope
   auditer: reneme
 
 # Remove LGTM support (GH #3068)  (@randombit)
 - pr: 3087  # https://github.com/randombit/botan/pull/3087
+  merge_commit: c8ae5abaca3a32232adc68d9fc3cf09d35e5e7e7
   classification: info
   auditer: reneme
 
 # CI: Use GitHub Actions for Windows builds  (@reneme)
 - pr: 3007  # https://github.com/randombit/botan/pull/3007
+  merge_commit: f7bb8a326803d885f6f9d310388af5016262d100
   classification: info
 
 # Build examples from documentation in CI  (@lieser)
 - pr: 3025  # https://github.com/randombit/botan/pull/3025
+  merge_commit: e6d747297137aba447816459c03d13cedd0f6950
   classification: info
 
 # CI: Improvements and preparation for Windows on GitHub Actions  (@reneme)
 - pr: 3011  # https://github.com/randombit/botan/pull/3011
+  merge_commit: d5a80239ca376cfc2b565c7488ff919132485128
   classification: info
 
 # Ignore a few more tests under valgrind  (@Jack Lloyd)
@@ -169,5 +196,6 @@ patches:
 
 # Skip a few tests that are very slow under arm32 qemu  (@randombit)
 - pr: 3373  # https://github.com/randombit/botan/pull/3373
+  merge_commit: 52b20254bce6d3a4951992a4ad120957908b6a62
   classification: out of scope
   auditer: reneme

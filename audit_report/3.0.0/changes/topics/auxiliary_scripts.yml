@@ -8,25 +8,31 @@ description: |
 patches:
 # Clean up the src/scripts directory a bit  (@randombit)
 - pr: 3281  # https://github.com/randombit/botan/pull/3281
+  merge_commit: 2f0e903fa9579806146d9561accc71ce4c688bbf
   classification: out of scope
 
 # Remove support for InnoSetup  (@randombit)
 - pr: 3247  # https://github.com/randombit/botan/pull/3247
+  merge_commit: a912ccef91aba4de2670f828fcccda9697bd2484
   classification: info
 
 # Add a script that detects possible issues with headers  (@randombit)
 - pr: 3183  # https://github.com/randombit/botan/pull/3183
+  merge_commit: e065e2ec72c69266f160ae89b13c4c3cab69bac0
   classification: info
   auditer: reneme
 
 # VS Code: Basic Integrations and Helpers  (@reneme)
 - pr: 3061  # https://github.com/randombit/botan/pull/3061
+  merge_commit: 864cbf2760c862ed6ff1b15d9f046dcad4cbd6d0
   classification: out of scope
 
 # Improve compile_commands.json  (@reneme)
 - pr: 3057  # https://github.com/randombit/botan/pull/3057
+  merge_commit: c248e4cc9bce83d400333c81cfa639ff06715831
   classification: info
 
 # Provide Editor Configurations via .editorconfig and specifically for Sublime Text  (@reneme)
 - pr: 2932  # https://github.com/randombit/botan/pull/2932
+  merge_commit: 546e8064d5a428d90a02c859ea164c28366579ff
   classification: out of scope
