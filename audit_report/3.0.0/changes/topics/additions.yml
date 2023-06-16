@@ -65,7 +65,7 @@ patches:
   classification: unspecified
 
 # new util to name the data pages for now linux and especially android (part 2)  (@devnexen)
-- commit: fa120ca3ad5dd6b3bee9750418fd9dd21380f647  # https://github.com/randombit/botan/pull/fa120ca3ad5dd6b3bee9750418fd9dd21380f647
+- commit: fa120ca3ad5dd6b3bee9750418fd9dd21380f647  # https://github.com/randombit/botan/commit/fa120ca3ad5dd6b3bee9750418fd9dd21380f647
   classification: unspecified
   comment: |
     This is a manual (second) merge of GH #2944 due to a user error. Further
