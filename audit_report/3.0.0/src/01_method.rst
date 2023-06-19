@@ -27,15 +27,19 @@ The library's code repository is structured into fine grained modules
 unit and integration tests (in ``src/tests``, ``src/bogo_shim``,
 ``src/fuzzer``), a command line interface (in ``src/cli``), python wrapper (in
 ``src/python``), build system related files and scripts (in ``configure.py``,
-``src/build-data``), examples (in ``src/examples``) and documentation (in
-``src/doc``).
+``src/build-data``) and documentation (in ``src/doc``).
 
-The review in this document focusses on the library implementation itself and
-specifically all modules that are *required* or *available* in the BSI build
-policy and their dependencies. Patches that don't alter any of these modules are
-considered out-of-scope.
+The review in this document keeps track of changes in all the above-mentioned
+components. For the library implementation itself (``src/lib``) all modules that
+are *required* or *available* in the BSI build policy and their dependencies are
+in the scope of this document. Additionally, we review the following modules and
+its dependencies: `getentropy`, `ffi`, `xts`, `pkcs11`, `tls12`, `tls13`,
+`tls_cbc`, `x509`, `certstor_windows`, `certstor_macos`, `certstor_flatfile`
+Patches that don't alter any of the above-mentioned components or relevant
+modules are considered out-of-scope.
 
-Below is the full list of modules whose changes were reviewed:
+Below is the full list of modules (from ``src/lib``) whose changes were
+reviewed:
 
 .. list-table::
 
