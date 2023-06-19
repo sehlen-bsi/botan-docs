@@ -9,6 +9,7 @@ repo:
 topics: topics
 cache: ../_build/audit_generator_cache
 
+fail_on_load_error: true
 ignore:
   # This patch was merged twice manually. Jack forgot to pull recent changes by
   # the pull request author and created a second merge commit after realizing

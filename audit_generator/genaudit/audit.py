@@ -11,18 +11,25 @@ import yaml
 
 from genaudit.topic import Topic
 from genaudit.refs import PullRequest, Commit
-
+from genaudit import util
 
 class Audit:
     def __init__(self, audit_dir: str):
         self.config_file = os.path.join(audit_dir, "config.yml")
         strm = open(self.config_file, 'r')
         cfg = yaml.load(strm, Loader=yaml.FullLoader)
+        if not cfg:
+            raise RuntimeError("Failed to load configuation: %s" % self.config_file)
+
+        util.check_keys("Configuration", cfg.keys(), ['project', 'repo', 'topics', 'cache', 'fail_on_load_error', 'ignore'])
 
         self.project_name = cfg['project']
         logging.info("Found configuration for '%s'", self.project_name)
 
         self.cache_location = cfg['cache'] if 'cache' in cfg else None
+        self.fail_on_load_error = cfg.get('fail_on_load_error', False)
+
+        util.check_keys("Repo", cfg['repo'].keys(), ['github_handle', 'local_checkout', 'audit_ref_from', 'audit_ref_to'])
 
         self.github_handle = cfg['repo']['github_handle']
         self.local_checkout = cfg['repo']['local_checkout']
@@ -57,5 +64,8 @@ class Audit:
                 topics.append(Topic(tf))
             except RuntimeError as ex:
                 logging.error("Failed to parse topic: %s" % ex)
-                continue
+                if self.fail_on_load_error:
+                    raise ex
+                else:
+                    continue
         return topics
