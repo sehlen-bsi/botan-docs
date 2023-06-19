@@ -56,6 +56,12 @@ patches:
   merge_commit: ed5a2adfca9e493036ea5ac6951739e81b7f2a58
   classification: unspecified
 
+  # Fix array bounds (GH #3065)  (@Jack Lloyd)
+- commit: b202720802ebcb2ea23301c535da9ffe5367291b  # https://github.com/randombit/botan/commit/b202720802ebcb2ea23301c535da9ffe5367291b
+  classification: relevant
+  comment: Fix of wrong array bounds in serpent avx2
+  auditer: FAlbertDev
+
 # FIX: -Wmaybe-uninitialized due to std::swap()  (@reneme)
 - pr: 2984  # https://github.com/randombit/botan/pull/2984
   merge_commit: 9cdcd968ace63cdcd17e3b3f999310a99c1eaa5d

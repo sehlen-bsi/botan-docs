@@ -21,8 +21,7 @@ patches:
 - pr: 3162  # https://github.com/randombit/botan/pull/3162
   merge_commit: 8fa679331b708cad199ba274453cbdbf01416492
   classification: relevant
-  comment: |
-    Optimization that was removed later.
+  comment: Optimization that was removed later.
   auditer: FAlbertDev
 
 # performance: don't reserve before buffer inserting  (@hrantzsch)
@@ -48,17 +47,10 @@ patches:
   classification: relevant
   auditer: FAlbertDev
 
-# Fix array bounds (GH #3065)  (@Jack Lloyd)
-- commit: b202720802ebcb2ea23301c535da9ffe5367291b  # https://github.com/randombit/botan/commit/b202720802ebcb2ea23301c535da9ffe5367291b
-  classification: relevant
-  comment: |
-    Fix of wrong array bounds in serpent avx2
-  auditer: FAlbertDev
-
 # In SM2 encryption cache the hash and KDF objects instead of creating each time  (@randombit)
 - pr: 3345  # https://github.com/randombit/botan/pull/3345
   merge_commit: ab7dd3caa24ad6656840928137717f8489cc63b7
-  classification: relevant
+  classification: out of scope
   auditer: FAlbertDev
 
 # Further improvements to Montgomery reduction  (@randombit)
@@ -89,7 +81,7 @@ patches:
 
 # Small cleanups in CRC24  (@randombit)
 - pr: 3343  # https://github.com/randombit/botan/pull/3343
-  classification: relevant
+  classification: out of scope
   merge_commit: a12e9bf5d3eed5c1f68f360f1f53eb01ee531a26
   comment: |
     Usage of utility functions in CRC24 computation. Also some cleanup.
