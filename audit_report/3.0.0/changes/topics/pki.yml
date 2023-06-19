@@ -17,9 +17,9 @@ patches:
   classification: relevant
   comment: |
     Centralizes discrete logarithm key generation and auxiliary functionality
-    into free-standing classes `DL_PublicKey`, `DL_PrivateKey` that are not part
-    of Botan's `Asymmetric_Key` class hierarchy. Instead they act as shared
-    building blocks for Diffie-Hellman, DSA and ElGamal signatures.
+    into free-standing classes `DL_PublicKey` and `DL_PrivateKey` that are not
+    part of Botan's `Asymmetric_Key` class hierarchy. Instead, they act as
+    shared building blocks for Diffie-Hellman, DSA and ElGamal signatures.
   auditer: reneme
 
 # When performing PKCS11 RSA padding in userspace, pad to modulus size  (@randombit)
@@ -132,7 +132,7 @@ patches:
   comment: |
     This reworks the signature generation and verification logic to restrict the
     usage of EMSAs to RSA, only. This allows each signature algorithm to freely
-    deal with their individual implementation details without affecting the
+    deal with its individual implementation details without affecting the
     interface complexity of other algorithms.
 
     Historically, all signature schemes except RSA were meant to use EMSA1 (i.e. no
@@ -180,12 +180,11 @@ patches:
   merge_commit: 4eb304b304891cad55dcc9dcfff4aa15ac7d009c
   classification: critical
   comment: |
-    This is fallout of `the OCSP vulnerability found in the previous audit
+    This is a fallout of `the OCSP vulnerability found in the previous audit
     <https://github.com/randombit/botan/security/advisories/GHSA-4v9w-qvcq-6q7w>`_.
     API adaptions were necessary to fully address this issue, therefore Botan
-    2.19.3 contains a sub-optimal workaround, only. This addresses the
-    vulnerability more thoroughly and improves on the validation of OCSP
-    responses.
+    2.19.3 has only a sub-optimal workaround. This addresses the vulnerability
+    more thoroughly and improves the validation of OCSP responses.
 
     Note that recursive validation of authorized OCSP responder certificates is
     still not supported in Botan. However, we view this as a fairly rare setup
