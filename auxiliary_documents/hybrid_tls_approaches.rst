@@ -170,20 +170,20 @@ Mechanism. KEM public keys used in such a handshake would be long-lived and
 certified by a CA. Authenticity would be established by demonstrating a
 successful decapsulation of a shared secret encapsulated with the certified
 public key. This removes the need for an authenticating signature in the TLS
-handshake and would safe substantial bandwidth as signatures of post-quantum
+handshake and would save substantial bandwidth as signatures of post-quantum
 algorithms tend to be rather large. Additional changes to the protocol are
 proposed to relieve the server from sending its certificate chain under certain
 conditions, aiming at further bandwidth reductions.
 
-Additional to the KEM-based key exchange, this approach uses the standard
+In additional to the KEM-based key exchange, this approach uses the standard
 (EC)DHE key exchange to encrypt all TLS handshake messages after the initial
 Client Hello/Server Hello exchange. As a result, it can be seen as a hybrid
 approach by default.
 
 The required changes for this approach are quite substantial and we won't go
 into any further detail in this document. The adaptions to Botan's TLS 1.3
-implementation would be extensive and far above the scope of this project's main
-objective: namely to just allow for a hybrid key exchange. Furthermore, it seems
+implementation would be extensive and far beyond the scope of this project's
+main objective: simply allowing for a hybrid key exchange. Furthermore, it seems
 questionable that any other production-ready implementation would be available
 in the near future.
 
@@ -206,7 +206,7 @@ challenging. That said, [IETF_Stebila]_ was adopted by the IETF's TLS working
 group and other implementations exist in field tests allowing for meaningful
 interoperability tests.
 
-Despite that, there are a few points to consider:
+Despite, there are a few points to consider:
 
  * Algorithm specifications may evolve during the standardization process: That
    may involve both the algorithm's mechanics as well as value encodings
