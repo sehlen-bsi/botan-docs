@@ -5,6 +5,11 @@ description: |
   and protocol implementations.
 
 patches:
+# In DH bound the exponent size by the private key size  (@randombit)
+- pr: 3426  # https://github.com/randombit/botan/pull/3426
+  merge_commit: 3e18b629254bf21fecc12ae9e85a01c0a296d607
+  classification: relevant
+
 # Speed up sanitizer builds  (@randombit)
 - pr: 3198  # https://github.com/randombit/botan/pull/3198
   classification: unspecified
