@@ -4,182 +4,262 @@ description: |
   Patches on the public key infrastructure. Mostly X.509 but also asymmetric
   cryptography related changes.
 
+  Notably, this contains a major refactoring to the way signature schemes are
+  handled. Historically, a lot of this was hinged on the concept of EMSAs. Now,
+  individual implementations of signature algorithms gained more flexibility by
+  shedding the involvement with an EMSA, that is technically applicable to only
+  RSA anyway. Particularly see GH #3325, GH #3320 and GH #3315.
+
 patches:
 # New approach for discrete logarithm keys  (@randombit)
 - pr: 3210  # https://github.com/randombit/botan/pull/3210
   merge_commit: 30c8c01edd51e176b62cb58d8469702d39e7e344
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Centralizes discrete logarithm key generation and auxiliary functionality
+    into free-standing classes `DL_PublicKey` and `DL_PrivateKey` that are not
+    part of Botan's `Asymmetric_Key` class hierarchy. Instead, they act as
+    shared building blocks for Diffie-Hellman, DSA and ElGamal signatures.
+  auditer: reneme
 
 # When performing PKCS11 RSA padding in userspace, pad to modulus size  (@randombit)
 - pr: 3460  # https://github.com/randombit/botan/pull/3460
   merge_commit: 512f227bd8163c2a652aacf7a1e4d3b38809765d
-  classification: unspecified
+  classification: info
 
 # Add Private_Key::raw_private_key_bits  (@randombit)
 - pr: 3437  # https://github.com/randombit/botan/pull/3437
   merge_commit: d3a15a2fda1d67d70b1998c60f69670d90342599
-  classification: unspecified
+  classification: info
 
 # Remove erronous check on RSA-PSS certificates  (@randombit)
 - pr: 3421  # https://github.com/randombit/botan/pull/3421
   merge_commit: 319c7010182dcdc694f27b9f872539c1412d6c98
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Removes a check in X.509 certificate parsing that prevented the use of
+    certificates containing a RSA-PSS key that wasn't signed with RSA-PSS.
+  auditer: reneme
 
 # OID improvements  (@randombit)
 - pr: 3415  # https://github.com/randombit/botan/pull/3415
   merge_commit: e8c028c64d1872459651faaf8a2a87d704561758
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add support for modifying the extensions included in a new cert  (@randombit)
 - pr: 3486  # https://github.com/randombit/botan/pull/3486
   merge_commit: 3a2b906c5a3c1fd5e5e8c623627decc67c3dd916
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Remove the RNG argument from PK_KEM_Encryptor  (@randombit)
 - pr: 3346  # https://github.com/randombit/botan/pull/3346
   merge_commit: 60cc1856b57f87a189ad4c5cda1a26ca615a2b7b
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Reject overly long RSA ciphertexts  (@randombit)
 - pr: 3344  # https://github.com/randombit/botan/pull/3344
   merge_commit: 4bca07aa9f94ef3d6f8ee496090b9df85b2c3319
-  classification: unspecified
+  classification: info
+  comment: |
+    Previously, too-long ciphertexts were accepted iff the extra length came
+    from nothing but leading zeros (that would be stripped anyway).
+  auditer: reneme
 
 # Allow initializing a PK_Verifier from an AlgorithmIdentifier  (@randombit)
 - pr: 3329  # https://github.com/randombit/botan/pull/3329
   merge_commit: 78479b6aaad358b68c48f32f6e3dbbd81e346187
-  classification: unspecified
+  classification: info
 
 # Update the Wycheproof ECDSA test data to the latest version  (@randombit)
 - pr: 3332  # https://github.com/randombit/botan/pull/3332
   merge_commit: b90acaf92efb0dd262d0c53a42d7f0586457ea2d
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add Asymmetric_Key::supports_operation  (@randombit)
 - pr: 3326  # https://github.com/randombit/botan/pull/3326
   merge_commit: 393a91d4f6971b0c2cd205850e1eebd1ce6e3921
-  classification: unspecified
+  classification: info
 
 # Remove OID::operator+  (@randombit)
 - pr: 3331  # https://github.com/randombit/botan/pull/3331
   merge_commit: c86f835c9aa8ac3ad7d84c6f5b175c81d6bf7bf9
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Reduce usage of oids.h  (@randombit)
 - pr: 3330  # https://github.com/randombit/botan/pull/3330
   merge_commit: 06d1e227f92f97e8f569f50517b58181357b9d5a
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Remove EMSA1 from OIDs and other internal uses  (@randombit)
 - pr: 3327  # https://github.com/randombit/botan/pull/3327
   merge_commit: 40aead558dfff60ff214f01cd8b4bd5b9a176b13
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add PK_Verifier::hash_function, remove X509_Object::hash_used_for_signature  (@randombit)
 - pr: 3325  # https://github.com/randombit/botan/pull/3325
   merge_commit: 58994d535d158ce921a9b46b3987fb0303f191c5
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # New mechanism for signature types to be identified  (@randombit)
 - pr: 3320  # https://github.com/randombit/botan/pull/3320
   merge_commit: 30aeeacafc30c770b7109a36ee3205f4279de70e
-  classification: unspecified
+  classification: relevant
+  comment: |
+    This refactors the signature scheme selection control flow. Historically,
+    this is handled in the EMSA implementations and was tailored for use in
+    X.509 objects. Also, the concrete signature scheme implementations now
+    define their own algorithm identifiers for X.509.
+
+    These changes provide each protocol (e.g. X.509 or TLS) with more
+    flexibility in selecting and managing its employed signature scheme.
+
+    In the process, support for EMSA1 (sign the raw unpadded hash of a message)
+    with RSA was removed.
+  auditer: reneme
 
 # Signature padding improvements  (@randombit)
 - pr: 3315  # https://github.com/randombit/botan/pull/3315
   merge_commit: 2e517921f34d16a976abab8c36e77aa5b55950fb
-  classification: unspecified
+  classification: relevant
+  comment: |
+    This reworks the signature generation and verification logic to restrict the
+    usage of EMSAs to RSA, only. This allows each signature algorithm to freely
+    deal with its individual implementation details without affecting the
+    interface complexity of other algorithms.
+
+    Historically, all signature schemes except RSA were meant to use EMSA1 (i.e. no
+    padding, just hashing). Now, just RSA can be used with an EMSA in the first
+    place. For the other algorithms "hash-then-sign" is hard-coded.
+
+    Note that this sets the stage for GH #3320 where the implementation of EMSA1
+    was removed for good.
+  auditer: reneme
 
 # Add support for key generation stability tests  (@randombit)
 - pr: 3269  # https://github.com/randombit/botan/pull/3269
   merge_commit: 3c48cf71b08531c1061b522083d03cb65dd341b4
-  classification: unspecified
+  classification: info
 
 # Add Asymmetric_Key base class  (@randombit)
 - pr: 3266  # https://github.com/randombit/botan/pull/3266
   merge_commit: 336ec32c1f3c8f052ee56804cfba46480fc9d0c0
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Deprecate get_ prefix functions on AlgorithmIdentifier  (@randombit)
 - pr: 3265  # https://github.com/randombit/botan/pull/3265
   merge_commit: adbf5ea4cf3399218afa4cad3ad9a82b6894c759
-  classification: unspecified
+  classification: info
 
 # Rename Public_Key::get_oid to object_identifier  (@randombit)
 - pr: 3264  # https://github.com/randombit/botan/pull/3264
   merge_commit: 1bc9d673c984194dfbfa23185051adfdbeae0fe7
-  classification: unspecified
+  classification: info
 
 # Add Public_Key::get_int_field  (@randombit)
 - pr: 3200  # https://github.com/randombit/botan/pull/3200
   merge_commit: c256e63eaa833f89191ccf556fca14545f8db30d
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Modify EMSA::config_for_x509 to no longer require a private key  (@randombit)
 - pr: 3142  # https://github.com/randombit/botan/pull/3142
   merge_commit: f216fe16e924af9ba987068a04d808f7d73dba08
-  classification: unspecified
+  classification: info
 
 # Overhaul OCSP Validation  (@reneme)
 - pr: 3067  # https://github.com/randombit/botan/pull/3067
   merge_commit: 4eb304b304891cad55dcc9dcfff4aa15ac7d009c
-  classification: unspecified
+  classification: critical
+  comment: |
+    This is a fallout of `the OCSP vulnerability found in the previous audit
+    <https://github.com/randombit/botan/security/advisories/GHSA-4v9w-qvcq-6q7w>`_.
+    API adaptions were necessary to fully address this issue, therefore Botan
+    2.19.3 has only a sub-optimal workaround. This addresses the vulnerability
+    more thoroughly and improves the validation of OCSP responses.
+
+    Note that recursive validation of authorized OCSP responder certificates is
+    still not supported in Botan. However, we view this as a fairly rare setup
+    in practice. See `here <https://github.com/randombit/botan/issues/3124>`_
+    for further details.
 
 # Add a simple fuzzer for X509 path validation  (@randombit)
 - pr: 3090  # https://github.com/randombit/botan/pull/3090
   merge_commit: aa266236b4e2f2b3e65cfa393033bcc89af52704
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Test: Enable system certificate store test on windows  (@reneme)
 - pr: 3009  # https://github.com/randombit/botan/pull/3009
   merge_commit: 31dd431d448fd0dd884492d44683707f3c3289fb
-  classification: unspecified
+  classification: info
 
 # PKCS#11 RSA allows choosing software EME  (@reneme)
 - pr: 3034  # https://github.com/randombit/botan/pull/3034
   merge_commit: 61e924efd6a7bafdfcba12421a53293fd135d0f8
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Applications can now choose to perform the raw RSA operation on the PKCS #11
+    module, only. The required padding operation would then be done in software.
+    With an appropriate padding, applications can hide the plaintext being
+    worked on from the PKCS #11 module and all associated middleware on its
+    path.
 
 # Remove unused get_emsa() declaration  (@lieser)
 - pr: 3031  # https://github.com/randombit/botan/pull/3031
   merge_commit: 7ba63f92c4c8d9ef5fcc75bbc261ac843a6c4403
-  classification: unspecified
+  classification: info
 
 # Fix ecdsa_unit test failures when SHA-1 is not available  (@securitykernel)
 - pr: 2933  # https://github.com/randombit/botan/pull/2933
   merge_commit: 6ada2f328c71bd3e9cb332aebe4113208f033050
-  classification: unspecified
+  classification: info
 
 # Remove duplicated chars from allowed chars in ASN1_Type::PrintableString  (@lieser)
 - pr: 2924  # https://github.com/randombit/botan/pull/2924
   merge_commit: 8c61154a57c4feaa813a43ad0be96bd27464ca54
-  classification: unspecified
+  classification: info
 
 # Reject RSA signatures larger than the modulus  (@Jack Lloyd)
 - commit: 6506df0a121ed687a8aa5decb6e4e10b273f03bc  # https://github.com/randombit/botan/commit/6506df0a121ed687a8aa5decb6e4e10b273f03bc
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Deprecate ability to create composite order EC_Group [ci skip]  (@Jack Lloyd)
 - commit: 0ac8b21a723cd464c171fe0cda76d14ef8e805c0  # https://github.com/randombit/botan/commit/0ac8b21a723cd464c171fe0cda76d14ef8e805c0
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Small cleanup in RSA keygen code  (@Jack Lloyd)
 - commit: a6ffa13514e0faab7e769cae83d0e193f39edfcf  # https://github.com/randombit/botan/commit/a6ffa13514e0faab7e769cae83d0e193f39edfcf
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add missing Ed25519 keygen test  (@Jack Lloyd)
 - commit: 47813fab34f2d22b8b2cdcaa4e1816692b459fb6  # https://github.com/randombit/botan/commit/47813fab34f2d22b8b2cdcaa4e1816692b459fb6
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fix sqrt_modulo_prime to reject even "primes" greater than 2  (@Jack Lloyd)
 - commit: 8bfb00f6f142bd8160c09514508b270b3a422e3f  # https://github.com/randombit/botan/commit/8bfb00f6f142bd8160c09514508b270b3a422e3f
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fix Bailie PSW primality test for 2  (@Jack Lloyd)
 - commit: 5446e00ba748d22632474e149d0a2a1d3c686e98  # https://github.com/randombit/botan/commit/5446e00ba748d22632474e149d0a2a1d3c686e98
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Remove support for NEWHOPE and CECPQ1  (@randombit)
 - pr: 3094  # https://github.com/randombit/botan/pull/3094
   merge_commit: fe265d3f99da227590d1d931990838d584c14299
-  classification: unspecified
+  classification: info
+  auditer: reneme
