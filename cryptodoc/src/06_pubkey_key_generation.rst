@@ -509,7 +509,7 @@ SPHINCS+ parameter sets <pubkey_key_generation/sphincsplus/params_table>`.
    +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
 
 SPHINCS\ :sup:`+` key generation follows Section 6.2 of [SPX-R3]_ and is
-implemented in :srcref:`src/lib/pubkey/sphincsplus/sphincspluscommon/sphincsplus.cpp`
+implemented in :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sphincsplus.cpp`
 within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
 
 .. admonition:: SPHINCS+ Key Generation
