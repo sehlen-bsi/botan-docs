@@ -1,3 +1,8 @@
 {
-    "esbonio.sphinx.confDir": "${workspaceFolder}/cryptodoc/src"
+    "esbonio.sphinx.confDir": "${workspaceFolder}/cryptodoc/src",
+    "yaml.schemas": {
+        "audit_generator/topic-schema.json": [
+            "audit_report/*/changes/topics/*.yml",
+        ],
+    },
 }

@@ -33,7 +33,7 @@ classification: relevant
 patches:
 # Support hash truncation in ECKCDSA (#2742)  (@lieser)
 - pr: 3393  # GitHub pull request number
-  classification: relevant  # (or: 'unspecified', 'out_of_scope', 'info', 'critical')
+  classification: relevant  # (or: 'unspecified', 'out of scope', 'info', 'critical')
   comment: |
     Ensures that hash truncation in ECKCDSA is performed as specified in ISO
     14888-3:2016.
