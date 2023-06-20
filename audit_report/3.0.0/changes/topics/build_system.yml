@@ -149,9 +149,11 @@ patches:
   merge_commit: f7928220e0244b3d31c4447efcd987eb8d8cc2a9
   classification: relevant
   comment: |
-    Prohibits ISA-specific additional implementations of Serpent, SHACAL-2 and
-    SM4. Their software implementations were prohibited before. Also prohibits
-    with "ec_h2c" (hash to curve) and the BLAKE2b message authentication code.
+    Serpent, SHACAL-2 and SM4 were prohibited by the BSI build policy. For
+    consistency, the ISA-specific implementations of those algorithms are now
+    explicitly prohibited. Previously, this prohibition was implicit. Also this
+    prohibits "ec_h2c" (hash to curve) and the BLAKE2b message authentication
+    code.
 
 # Add kyber, argon2 to BSI module policy  (@securitykernel)
 - pr: 2930  # https://github.com/randombit/botan/pull/2930
