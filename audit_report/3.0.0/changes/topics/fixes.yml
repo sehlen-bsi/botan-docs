@@ -58,7 +58,7 @@ patches:
 
   # Fix array bounds (GH #3065)  (@Jack Lloyd)
 - commit: b202720802ebcb2ea23301c535da9ffe5367291b  # https://github.com/randombit/botan/commit/b202720802ebcb2ea23301c535da9ffe5367291b
-  classification: relevant
+  classification: out of scope
   comment: Fix of wrong array bounds in serpent avx2
   auditer: FAlbertDev
 
