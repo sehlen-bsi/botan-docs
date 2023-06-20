@@ -4,13 +4,17 @@ patches:
 # Support hash truncation in ECKCDSA (#2742)  (@lieser)
 - pr: 3393  # https://github.com/randombit/botan/pull/3393
   merge_commit: cdee485ca5b0f134be306c4898eeabd2e8bc968e
-  classification: unspecified
+  classification: relevant
 
 # Disable ECKCDSA signing with hash truncation  (@randombit)
 - pr: 2749  # https://github.com/randombit/botan/pull/2749
   merge_commit: d41afa1edeb4a539bec912360ed639d708ba7f16
-  classification: unspecified
+  classification: info
+  auditer: lieser
+  comment: |
+    Reverted by fixing the hash truncation in #3393.
 
 # Remove bogus comment [ci skip]  (@Jack Lloyd)
 - commit: b61c1c149971f52b0ce273af29074843581e3581  # https://github.com/randombit/botan/commit/b61c1c149971f52b0ce273af29074843581e3581
-  classification: unspecified
+  classification: info
+  auditer: lieser
