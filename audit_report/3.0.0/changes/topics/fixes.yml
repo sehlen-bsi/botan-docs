@@ -1,60 +1,71 @@
 title: Fixes and Improvements
+description: |
+  Most fixes and improvements are related to edge cases of algorithms,
+  that were not correctly handled yet and were not yet covered by tests.
+  Others are related to unnecessary performance issues or simply renaming
+  to more meaningful names.
 
 patches:
 # FIX: Avoid unnecessary exception  (@reneme)
 - pr: 3485  # https://github.com/randombit/botan/pull/3485
   merge_commit: 68f6e1401ff11b12a9e102404789b79254d3fdb2
-  classification: unspecified
+  classification: info
 
 # Change SP800-56A hash based KDF to reject non-empty salt  (@randombit)
 - pr: 3458  # https://github.com/randombit/botan/pull/3458
   merge_commit: ac2c91029ef5f8e25d8b376021946486f78f0503
-  classification: unspecified
-
-# In DH bound the exponent size by the private key size  (@randombit)
-- pr: 3426  # https://github.com/randombit/botan/pull/3426
-  merge_commit: 3e18b629254bf21fecc12ae9e85a01c0a296d607
-  classification: unspecified
+  classification: out of scope
+  auditer: FAlbertDev
 
 # In KEM and key agreement reject non-empty salts if no KDF is in use  (@randombit)
 - pr: 3372  # https://github.com/randombit/botan/pull/3372
   merge_commit: e4cfce8425a8bbfba225057a98827be4a58a52a6
-  classification: unspecified
+  classification: relevant
+  auditer: FAlbertDev
 
 # Fix NIST key wrap for 64 bit inputs  (@randombit)
 - pr: 3340  # https://github.com/randombit/botan/pull/3340
   merge_commit: a264abf00fece513792cd75b2b1194452b5971ec
-  classification: unspecified
+  classification: out of scope
+  auditer: FAlbertDev
 
 # Fix Ed25519 signature malleability  (@randombit)
 - pr: 3338  # https://github.com/randombit/botan/pull/3338
   merge_commit: d71c43066d2d27677fe9ec5e5f28295c01d9fa23
-  classification: unspecified
+  classification: relevant
+  auditer: FAlbertDev
+  comment: |
+    Add a missed check for Ed2519 verify, checking that the
+    signature value S is within the modular group.
 
 # Fix a bug handling DER signature verification  (@randombit)
 - pr: 3333  # https://github.com/randombit/botan/pull/3333
   merge_commit: 67b865167e540205af6797964d397d2006126420
-  classification: unspecified
+  classification: relevant
+  auditer: FAlbertDev
 
 # Fix HKDF_Expand which did not allow a maximum length output  (@randombit)
 - pr: 3219  # https://github.com/randombit/botan/pull/3219
   merge_commit: a3ac19a0cef586f246534440b74ef1c60c87dbf1
-  classification: unspecified
+  classification: relevant
+  auditer: FAlbertDev
 
 # Fix incorrect output of negative BigInts (GH #3073)  (@randombit)
 - pr: 3121  # https://github.com/randombit/botan/pull/3121
   merge_commit: c61f78bdb0d6de0e7c59cb7a1d3aa887ae49218a
-  classification: unspecified
+  classification: info
 
 # Fix overwriting an attribute in an AttributeContainer  (@lieser)
 - pr: 3138  # https://github.com/randombit/botan/pull/3138
   merge_commit: a3339cd844f7a986620598993f973de19369b2b3
-  classification: unspecified
+  classification: relevant
+
 
 # Fix entropy test and increase RDSEED timeout limit  (@randombit)
 - pr: 3128  # https://github.com/randombit/botan/pull/3128
   merge_commit: ed5a2adfca9e493036ea5ac6951739e81b7f2a58
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
   # Fix array bounds (GH #3065)  (@Jack Lloyd)
 - commit: b202720802ebcb2ea23301c535da9ffe5367291b  # https://github.com/randombit/botan/commit/b202720802ebcb2ea23301c535da9ffe5367291b
@@ -65,27 +76,36 @@ patches:
 # FIX: -Wmaybe-uninitialized due to std::swap()  (@reneme)
 - pr: 2984  # https://github.com/randombit/botan/pull/2984
   merge_commit: 9cdcd968ace63cdcd17e3b3f999310a99c1eaa5d
-  classification: unspecified
+  classification: info
 
 # Correct the case of ressol modulo 2  (@randombit)
 - pr: 2964  # https://github.com/randombit/botan/pull/2964
   merge_commit: 2e39b7eca17f6b718a22faa51a9991ad46ac91de
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Rename the Tonelli-Shanks algorithm symbol. Also, add
+    a fix to support the prime number 2.
 
 # Fix a bug in SRP6  (@randombit)
 - pr: 3236  # https://github.com/randombit/botan/pull/3236
   merge_commit: bf9acf43d71bb36279ee3fd94f13a791f657c26b
-  classification: unspecified
+  classification: out of scope
+  auditer: FAlbertDev
 
 # Fix bug handling nonce state in EAX mode  (@randombit)
 - pr: 3335  # https://github.com/randombit/botan/pull/3335
   merge_commit: e9978c0c49f1218e478c9918e9e53e26634fdac0
-  classification: unspecified
+  classification: relevant
+  auditer: FAlbertDev
+  comment: |
+    Fix a bug in AEAD, EAX mode. A member variable
+    was not cleared after the decryption, resulting in failures
+    for the following decryption attempts.
 
 # Only allow "SHA-1" as a valid name for SHA-1  (@randombit)
 - pr: 3186  # https://github.com/randombit/botan/pull/3186
   merge_commit: 70153f522c113a4be6b91960823b02832d33aad7
-  classification: unspecified
+  classification: info
 
 # Fix regression in sanitizer test times (GH #3238)  (@randombit)
 - pr: 3239  # https://github.com/randombit/botan/pull/3239
