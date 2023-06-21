@@ -30,3 +30,27 @@ def find_unreferenced_patches(audit: Audit, repo: GitRepo) -> list[PullRequest|C
     logging.debug("Found %d referenced patches and %d unreferenced" % (patches_before - patches_after, patches_after))
 
     return filter(lambda patch: not audit.patch_ignored(patch), prs + commits + merges)
+
+
+def find_misreferenced_pull_request_merges(audit: Audit, repo: GitRepo) -> list[tuple[PullRequest,str]]:
+    def reference_in_repo(yaml_patch: PullRequest, repo_patches: list[PullRequest]) -> bool:
+        try:
+            idx = repo_patches.index(yaml_patch)
+            return repo_patches[idx].ref
+        except ValueError:
+            raise RuntimeError("Pull Request #%d not found in repo history" % yaml_patch.github_ref)
+
+    result = []
+    prs = repo.merged_pull_requests_between(audit.git_ref_from, audit.git_ref_to)
+    for topic in audit.topics:
+        for patch in topic.patches:
+            if not isinstance(patch, PullRequest):
+                continue
+
+            ref = reference_in_repo(patch, prs)
+            if ref != patch.ref:
+                result.append((patch, ref))
+
+    logging.debug("Found %d pull request references with inconsistent merge commit hashes" % len(result))
+
+    return result

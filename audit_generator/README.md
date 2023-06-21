@@ -127,6 +127,27 @@ export BASIC_GH_TOKEN="<mytoken>" # should be placed in the environment in some 
 python audit.py unrefed --yaml <config_dir>
 ```
 
+### Verifying Pull Requests' Merge Commits (`audit.py verify_merges)
+
+For accountability reasons we keep track of the merge commits' hashes for each
+pull request that landed. This command allows validating that all referenced
+pull requests are associated with the correct merge commit (given a local
+repository check out as ground truth).
+
+Example:
+
+```bash
+export BASIC_GH_TOKEN="<mytoken>" # should be placed in the environment in some reasonable way
+python audit.py verify_merges <config_dir>
+```
+
+To additionally gain YAML-formatted corrections for pull requests that don't
+feature any merge commit or that appear inconsistent with the local checkout, run:
+
+```bash
+python audit.py verify_merges --yaml <config_dir>
+```
+
 ## Limitations
 
 ### Co-Authorship is Ignored

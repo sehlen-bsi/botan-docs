@@ -45,23 +45,24 @@ class GitRepo:
 
         return [extract_commit_ref(line) for line in output.splitlines()]
 
-    def _extract_pull_request_number(self, line):
+    def _extract_pull_request_info(self, line):
         regex = re.compile(r"^([0-9a-f]+) [^#]+#(\d+) .*$")
         match = regex.match(line)
         if not match:
             raise RuntimeError(
                 "Failed to interpret git log output line: %s" % line)
-        return refs.PullRequest(int(match.group(2)))
+        return refs.PullRequest(int(match.group(2)), match.group(1))
 
     def merged_pull_requests_between(self, start_ref, end_ref) -> list[refs.PullRequest]:
         out = self._run_git(["log", "--merges",
                                     "--no-decorate",
                                     "--oneline",
+                                    "--no-abbrev-commit",
                                     "--grep=^Merge pull request",
                                     "--grep=^Merge GH",
                                     "%s..%s" % (start_ref, end_ref)])
 
-        return [self._extract_pull_request_number(line) for line in out.splitlines()]
+        return [self._extract_pull_request_info(line) for line in out.splitlines()]
 
     def manual_merge_commits_to_main_branch_between(self, start_ref, end_ref) -> list[refs.Commit]:
         out = self._run_git(["log", "--merges",
@@ -101,10 +102,10 @@ class GitRepo:
         return [sha for sha in all_commits_between_start_and_end_ref if sha in commits_to_main_since_start_ref]
 
     def pull_request_info(self, pr_number: refs.PullRequest) -> PullRequest:
-        return self.repo.get_pull(pr_number.ref)
+        return self.repo.get_pull(pr_number.github_ref)
 
     def review_info(self, pr_number: refs.PullRequest) -> list[PullRequestReview]:
-        return self.repo.get_pull(pr_number.ref).get_reviews()
+        return self.repo.get_pull(pr_number.github_ref).get_reviews()
 
     def commit_info(self, commit_hash: refs.Commit) -> Commit:
         assert len(commit_hash.ref) == 40
