@@ -313,3 +313,18 @@ patches:
 - pr: 2959  # https://github.com/randombit/botan/pull/2959
   merge_commit: 3fa4e8fdae80bfcb245f8b615a3db50e993c32ff
   classification: info
+
+# Fixes: RFC-compliance of TLS (zero premaster sec + disabled ECC extensions)  (@FAlbertDev)
+- pr: 3520  # https://github.com/randombit/botan/pull/3520
+  merge_commit: 0919de93a411570f4c9b992304fce6808ffa67d8
+  classification: unspecified
+
+# Fixes: RFC-compliance of TLS (EtM extension + Supported Point Formats Extension)  (@lieser)
+- pr: 3537  # https://github.com/randombit/botan/pull/3537
+  merge_commit: 84b13227f4a664620b0500abb9a8b96e0f30e56c
+  classification: unspecified
+
+# FIX: allow custom KEX logic for TLS 1.2 server  (@reneme)
+- pr: 3539  # https://github.com/randombit/botan/pull/3539
+  merge_commit: b37705fe12306c0973f03137f40d24b173c5a67a
+  classification: unspecified

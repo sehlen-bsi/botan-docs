@@ -1,0 +1,58 @@
+title: Clang Format
+
+patches:
+# Change AllowShortFunctionsOnASingleLine from All to Inline  (@randombit)
+- pr: 3584  # https://github.com/randombit/botan/pull/3584
+  merge_commit: 96fe3b96d88a24eaceb6c5e14f15b77f816b339f
+  classification: unspecified
+
+# In run_clang_format.py, start formatting os_utils.cpp right away  (@randombit)
+- pr: 3574  # https://github.com/randombit/botan/pull/3574
+  merge_commit: 57e400802b219376dd0bd0e0eec1e3b625964468
+  classification: unspecified
+
+# Configure VSCode for clangd and clang-format  (@reneme)
+- pr: 3563  # https://github.com/randombit/botan/pull/3563
+  merge_commit: 58109ff6ad4db5911003f0eaf9262bf02da3c99c
+  classification: unspecified
+
+# Change clang-format AllowShortBlocksOnASingleLine from true to Empty  (@randombit)
+- pr: 3568  # https://github.com/randombit/botan/pull/3568
+  merge_commit: be0b24f78c4ffbf1fa306df07c60abea67d2cac2
+  classification: unspecified
+
+# Add braces around all if/else statements  (@randombit)
+- pr: 3558  # https://github.com/randombit/botan/pull/3558
+  merge_commit: a84a385ea8438545d0e2a55646d48138be7b5801
+  classification: unspecified
+
+# Update the codegen scripts to output clang-format compatible output  (@randombit)
+- pr: 3559  # https://github.com/randombit/botan/pull/3559
+  merge_commit: 5b8077004438ed9bf8f9118e7f1f3c65f5466ba8
+  classification: unspecified
+
+# Apply clang-format to the codebase  (@randombit)
+- pr: 3502  # https://github.com/randombit/botan/pull/3502
+  merge_commit: b538e89fc209be88c733c54f7eb5179d4c002d39
+  classification: unspecified
+
+# Include one newline after the main include in a source file  (@randombit)
+- pr: 3507  # https://github.com/randombit/botan/pull/3507
+  merge_commit: 8f71238392da9d7aba1f8823da87e13d47ac253c
+  classification: unspecified
+
+# Fix some funky formatting  (@Jack Lloyd)
+- commit: 68aaa84bfaa2cd75a859b967f59a8f9905f9ed52  # https://github.com/randombit/botan/commit/68aaa84bfaa2cd75a859b967f59a8f9905f9ed52
+  classification: unspecified
+
+# Use difflib to generate the diff if format check fails  (@Jack Lloyd)
+- commit: 41f72675088f5e1370e50ba3f48f983d6b4c17fd  # https://github.com/randombit/botan/commit/41f72675088f5e1370e50ba3f48f983d6b4c17fd
+  classification: unspecified
+
+# Fix weird formatting in CAST-128  (@Jack Lloyd)
+- commit: 16b3f8b2c68e2dea6ca7afd4548ffce56e99198d  # https://github.com/randombit/botan/commit/16b3f8b2c68e2dea6ca7afd4548ffce56e99198d
+  classification: unspecified
+
+# Fix clang-format fuckup  (@Jack Lloyd)
+- commit: 155a72d50a791079d63123c2bc717663a727d4f4  # https://github.com/randombit/botan/commit/155a72d50a791079d63123c2bc717663a727d4f4
+  classification: unspecified

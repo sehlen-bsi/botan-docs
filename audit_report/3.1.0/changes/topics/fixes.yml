@@ -112,3 +112,8 @@ patches:
   merge_commit: b0a0900de5e68939a0bf8cd8098f339c981f309c
   classification: out of scope
   auditer: reneme
+
+# FIX: minor quirks in DL Scheme implementation  (@reneme)
+- pr: 3586  # https://github.com/randombit/botan/pull/3586
+  merge_commit: 5288e84e1ed9702092e034bef8a43c615480bd57
+  classification: unspecified

@@ -78,3 +78,19 @@ patches:
 - commit: 5d7e029641456dbeac3381b81e3710d40b1c9b35  # https://github.com/randombit/botan/commit/5d7e029641456dbeac3381b81e3710d40b1c9b35
   classification: info
   auditer: reneme
+
+# Update news  (@Jack Lloyd)
+- commit: 3f7cfbeabb18ace7a855370aaf73838940d16fb7  # https://github.com/randombit/botan/commit/3f7cfbeabb18ace7a855370aaf73838940d16fb7
+  classification: unspecified
+
+# Bump embedded version number  (@Jack Lloyd)
+- commit: a02c95be24a9bec9dbf774d515af9d3d9b991ec8  # https://github.com/randombit/botan/commit/a02c95be24a9bec9dbf774d515af9d3d9b991ec8
+  classification: unspecified
+
+# Next release will be 3.1.0. Update release notes  (@Jack Lloyd)
+- commit: ee9b4386f491b2103173105304cb72f3b8938dbb  # https://github.com/randombit/botan/commit/ee9b4386f491b2103173105304cb72f3b8938dbb
+  classification: unspecified
+
+# Bump to 3.0.1. Add initial release notes  (@Jack Lloyd)
+- commit: 7bf53621be808192fdb87832c5317178fa2c6ef7  # https://github.com/randombit/botan/commit/7bf53621be808192fdb87832c5317178fa2c6ef7
+  classification: unspecified

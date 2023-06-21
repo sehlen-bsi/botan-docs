@@ -218,3 +218,40 @@ patches:
 - pr: 3260  # https://github.com/randombit/botan/pull/3260
   merge_commit: ad5e2afb6848dee68ea404dda8bc6f7c5c207731
   classification: info
+
+# Example: Hybrid Encryption w/ RSA+AES/GCM  (@reneme)
+- pr: 3551  # https://github.com/randombit/botan/pull/3551
+  merge_commit: 460354fdfe9e603d3c321c2ce23985de87ef65f6
+  classification: unspecified
+
+# Deprecate SM2_Enc/SM2_Sig names [ci skip]  (@Jack Lloyd)
+- commit: 1468b5cee2b82439cf90253eef33a5635021ab1a  # https://github.com/randombit/botan/commit/1468b5cee2b82439cf90253eef33a5635021ab1a
+  classification: unspecified
+
+# Update the configure docs [ci skip]  (@Jack Lloyd)
+- commit: 9c7cfb36b80690dffecb9c93ecfed929430ea73f  # https://github.com/randombit/botan/commit/9c7cfb36b80690dffecb9c93ecfed929430ea73f
+  classification: unspecified
+
+# Update these pre-release notes [ci skip]  (@Jack Lloyd)
+- commit: 2baaf9dc9e9a9c872f564fa99c1b9b3dcb3d7ad2  # https://github.com/randombit/botan/commit/2baaf9dc9e9a9c872f564fa99c1b9b3dcb3d7ad2
+  classification: unspecified
+
+# Update the CI docs [ci skip]  (@Jack Lloyd)
+- commit: c8d3023618a984a3f2a00fcbd8b3d99d61a6a2d5  # https://github.com/randombit/botan/commit/c8d3023618a984a3f2a00fcbd8b3d99d61a6a2d5
+  classification: unspecified
+
+# Update support table  (@Jack Lloyd)
+- commit: 15495015ebabadf0fbef2cd4dfa6166972fcda01  # https://github.com/randombit/botan/commit/15495015ebabadf0fbef2cd4dfa6166972fcda01
+  classification: unspecified
+
+# Fix comment  (@Jack Lloyd)
+- commit: 5a75be85347666a9b9383d12422c620b6adfaea4  # https://github.com/randombit/botan/commit/5a75be85347666a9b9383d12422c620b6adfaea4
+  classification: unspecified
+
+# Clarify docs on Truncated_Hash [ci skip]  (@Jack Lloyd)
+- commit: 1b2fb71b13e7a047100a9ec51327bb69188d26e3  # https://github.com/randombit/botan/commit/1b2fb71b13e7a047100a9ec51327bb69188d26e3
+  classification: unspecified
+
+# Specify BOTAN_MLOCK_POOL_SIZE is given in bytes [ci skip]  (@Jack Lloyd)
+- commit: 66acd0e6868223cd12607555cd7da2223cc4924d  # https://github.com/randombit/botan/commit/66acd0e6868223cd12607555cd7da2223cc4924d
+  classification: unspecified

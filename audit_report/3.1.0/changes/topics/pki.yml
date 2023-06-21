@@ -263,3 +263,13 @@ patches:
   merge_commit: fe265d3f99da227590d1d931990838d584c14299
   classification: info
   auditer: reneme
+
+# Add a testcase from #3544  (@randombit)
+- pr: 3575  # https://github.com/randombit/botan/pull/3575
+  merge_commit: f896922083ec913a2fe9a875c49158aa772b751b
+  classification: unspecified
+
+# Fix some issues with OCSP response handling  (@randombit)
+- pr: 3515  # https://github.com/randombit/botan/pull/3515
+  merge_commit: 594e3560801f781d8b889759898e2f8907c54a3d
+  classification: unspecified

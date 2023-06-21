@@ -66,3 +66,8 @@ patches:
 - pr: 3040  # https://github.com/randombit/botan/pull/3040
   merge_commit: 94a2fed335c305f06b1138f4afd7ca0c07d82525
   classification: info
+
+# FIX: Missing update of XMSS private key in CLI's X.509 operations  (@reneme)
+- pr: 3579  # https://github.com/randombit/botan/pull/3579
+  merge_commit: 5b815bf45aaa0861d40139969c2a64125779983e
+  classification: unspecified

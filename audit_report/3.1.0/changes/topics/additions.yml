@@ -101,3 +101,18 @@ patches:
     This was merged before in fa120ca3ad5dd6b3bee9750418fd9dd21380f647 but
     Jack forgot to pull before merging locally. Resulting in an inconsistent state.
     See here: https://github.com/randombit/botan/pull/2953
+
+# Add vpternlogd based Serpent sboxes  (@randombit)
+- pr: 3536  # https://github.com/randombit/botan/pull/3536
+  merge_commit: 8b3dff8896c9f157c86c7469702acd1519e7752a
+  classification: unspecified
+
+# Add env var to clear CPUID bits  (@randombit)
+- pr: 3535  # https://github.com/randombit/botan/pull/3535
+  merge_commit: 2f7d5296eb045169ec9de1d712cde050c2e3336d
+  classification: unspecified
+
+# Add CT::all_zeros  (@randombit)
+- pr: 3522  # https://github.com/randombit/botan/pull/3522
+  merge_commit: cd6afda867fc0d9c97edbaa1fd3814272ee1fbed
+  classification: unspecified
