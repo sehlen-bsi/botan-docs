@@ -53,7 +53,7 @@ jobs:
       - name: Install Python Dependencies
         run: pip install -r requirements.txt
       - name: Build with URL check enabled
-        run: make SPHINXOPTS="-D src_ref_check_url=True -W" html
+        run: make SPHINXOPTS="-D src_ref_check_url=True -W --keep-going" html
 
   audit_generation:
     name: Build PDF - Audit Report 3.0.0

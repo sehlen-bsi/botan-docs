@@ -29,11 +29,10 @@ class SourceReferenceRole(ReferenceRole):
 
     def run(self) -> tuple[list[Node], list[system_message]]:
         ref_uri = self.build_uri()
-        if not self.check_url(ref_uri):
-            msg = self.inliner.reporter.error('invalid source reference to path "%s"' % self.target,
-                                              line=self.lineno)
-            prb = self.inliner.problematic(self.rawtext, self.rawtext, msg)
-            return [prb], [msg]
+
+        if self.env.app.config.src_ref_check_url:
+            if result := self.check_url(ref_uri):
+                return result
 
         ref_node = nodes.reference('', '', internal=False, refuri=ref_uri, **self.options)
         if self.has_explicit_title:
@@ -46,12 +45,15 @@ class SourceReferenceRole(ReferenceRole):
     def build_uri(self) -> str:
         return f'{self.env.app.config.src_ref_base_url}/{self.env.app.config.src_ref_reference}/{self.target}'
 
-    def check_url(self, url: str) -> bool:
-        if not self.env.app.config.src_ref_check_url:
-            return True
-
+    def check_url(self, url: str) -> tuple[list[Node], list[system_message]] | None:
         ret = requests.head(url)
-        return ret.status_code < 400
+        if ret.status_code < 400:
+            return None
+
+        msg = self.inliner.reporter.error(f'invalid source reference to path "{self.target}", GitHub said: {ret.status_code} - {ret.reason} (requested: {url})',
+                                          line=self.lineno)
+        prb = self.inliner.problematic(self.rawtext, self.rawtext, msg)
+        return [prb], [msg]
 
 
 def setup(app: Sphinx):
