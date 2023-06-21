@@ -555,3 +555,63 @@ patches:
   merge_commit: 90bd415d22d36697dfd8e5224fc440367f83b38f
   classification: info
   auditer: reneme
+
+# Add assert_unreachable to API  (@FAlbertDev)
+- pr: 3588  # https://github.com/randombit/botan/pull/3588
+  merge_commit: cfa9f32f670fe1665b077f2f525d83897142a548
+  classification: unspecified
+
+# Replace unreachable with BOTAN_ASSERT_UNREACHABLE which avoids UB  (@randombit)
+- pr: 3582  # https://github.com/randombit/botan/pull/3582
+  merge_commit: 848b9174cb8cb3014c87b00bfa819929bc9968d5
+  classification: unspecified
+
+# Enable some additional clang-tidy warnings  (@randombit)
+- pr: 3573  # https://github.com/randombit/botan/pull/3573
+  merge_commit: 013dadcb9ddf5ad8bfd1211c8d89ec68f21cd46a
+  classification: unspecified
+
+# Disable noisy/pointless pylint warnings  (@randombit)
+- pr: 3565  # https://github.com/randombit/botan/pull/3565
+  merge_commit: 760561ef0959001345de38ba5ef0329d35967046
+  classification: unspecified
+
+# Clean up getentropy includes  (@randombit)
+- pr: 3561  # https://github.com/randombit/botan/pull/3561
+  merge_commit: d91c27a0485d600641f3d2657a4b1c02c160eb1d
+  classification: unspecified
+
+# moving from few static_assert to concept's requires  (@devnexen)
+- pr: 3548  # https://github.com/randombit/botan/pull/3548
+  merge_commit: 8bedd1dd609082819d752d647b5adcfe2129e10d
+  classification: unspecified
+
+# Avoid using macros for creating BOTAN_UNUSED  (@randombit)
+- pr: 3530  # https://github.com/randombit/botan/pull/3530
+  merge_commit: e7c58a21658f5a357979214a2233390f730e0792
+  classification: unspecified
+
+# Prefer clear to resize(0) with std::vector  (@randombit)
+- pr: 3521  # https://github.com/randombit/botan/pull/3521
+  merge_commit: 5ff02ca02587a67a97a84741902d8d83b5a09e25
+  classification: unspecified
+
+# Ignore this clang-tidy warning for now  (@Jack Lloyd)
+- commit: 1eb4688457a662a75047c7e2737270545b370f33  # https://github.com/randombit/botan/commit/1eb4688457a662a75047c7e2737270545b370f33
+  classification: unspecified
+
+# Fix some pylint warnings  (@Jack Lloyd)
+- commit: dc1ca96f0308b0e42aba08054c95713aedc0c454  # https://github.com/randombit/botan/commit/dc1ca96f0308b0e42aba08054c95713aedc0c454
+  classification: unspecified
+
+# Remove unused import  (@Jack Lloyd)
+- commit: 4b5370c1849f660c2bcc5ff14d17ac57f8f48097  # https://github.com/randombit/botan/commit/4b5370c1849f660c2bcc5ff14d17ac57f8f48097
+  classification: unspecified
+
+# Use combined namespace in this header  (@Jack Lloyd)
+- commit: b5b692bd7b9dcdfd4835d5334ade69637968c262  # https://github.com/randombit/botan/commit/b5b692bd7b9dcdfd4835d5334ade69637968c262
+  classification: unspecified
+
+# Change how dword type is defined  (@Jack Lloyd)
+- commit: 3561957052a3a1c8a55198ca0bd2577ecfd9f307  # https://github.com/randombit/botan/commit/3561957052a3a1c8a55198ca0bd2577ecfd9f307
+  classification: unspecified

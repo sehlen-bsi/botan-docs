@@ -122,3 +122,17 @@ patches:
 - pr: 3214  # https://github.com/randombit/botan/pull/3214
   merge_commit: a53b274e48f9e101e65e555be6c95fe7150faced
   classification: out of scope
+
+# expose kyber 512/768/1024 in the ffi interface  (@alexanderkjall)
+- pr: 3546  # https://github.com/randombit/botan/pull/3546
+  merge_commit: a9c4a8e56f19353247341eb6b2415989d6cfb9bd
+  classification: unspecified
+
+# Modify the headers so ffi.h no longer depends on compiler.h  (@randombit)
+- pr: 3531  # https://github.com/randombit/botan/pull/3531
+  merge_commit: 003efcdaa07ec5c54be0ff7e5642d7ba3663d402
+  classification: unspecified
+
+# Bump ffi version code  (@Jack Lloyd)
+- commit: 0105ce8f15ccdc6023f60635832f5352c4c41e60  # https://github.com/randombit/botan/commit/0105ce8f15ccdc6023f60635832f5352c4c41e60
+  classification: unspecified

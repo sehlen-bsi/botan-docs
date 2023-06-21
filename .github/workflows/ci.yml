@@ -56,7 +56,7 @@ jobs:
         run: make SPHINXOPTS="-D src_ref_check_url=True -W --keep-going" html
 
   audit_generation:
-    name: Build PDF - Audit Report 3.0.0
+    name: Build PDF - Audit Report 3.1.0
     runs-on: ubuntu-22.04
     steps:
       - name: Fetch Audit Repository
@@ -75,17 +75,17 @@ jobs:
           sudo apt-get update
           sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre latexmk
           pip install -r source/audit_generator/requirements.txt
-          pip install -r source/audit_report/3.0.0/requirements.txt
+          pip install -r source/audit_report/3.1.0/requirements.txt
 
       - name: Handle the Audit Generator Cache
         uses: actions/cache@v3
         with:
           path: ./audit_generator_cache
-          key: audit_3.0-${{ github.run_id }}
+          key: audit_3.1-${{ github.run_id }}
           restore-keys: audit_3.0
 
       - name: Verify Patch Coverage
-        working-directory: source/audit_report/3.0.0
+        working-directory: source/audit_report/3.1.0
         run: python3 -m audit unrefed --yaml changes
         env:
           PYTHONPATH: ${{ github.workspace }}/source/audit_generator
@@ -94,7 +94,7 @@ jobs:
           BASIC_GH_TOKEN: ${{ github.token }}
 
       - name: Build Document
-        working-directory: source/audit_report/3.0.0
+        working-directory: source/audit_report/3.1.0
         run: make latexpdf
         env:
           PYTHONPATH: ${{ github.workspace }}/source/audit_generator
@@ -105,5 +105,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: botan_audit_3.0.0_${{ github.sha }}
-          path: source/audit_report/3.0.0/_build/latex/*.pdf
+          name: botan_audit_3.1.0_${{ github.sha }}
+          path: source/audit_report/3.1.0/_build/latex/*.pdf

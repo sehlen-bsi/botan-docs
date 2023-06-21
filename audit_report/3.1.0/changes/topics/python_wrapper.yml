@@ -27,3 +27,7 @@ patches:
   merge_commit: baf14791c908980d11782a26ac956a81ed6f7692
   classification: info
   auditer: reneme
+
+# Bump PBKDF default iterations in the Python module  (@Jack Lloyd)
+- commit: 289cfb1e3c4ddfcdd861c5495ba7eee2062d8ad5  # https://github.com/randombit/botan/commit/289cfb1e3c4ddfcdd861c5495ba7eee2062d8ad5
+  classification: unspecified

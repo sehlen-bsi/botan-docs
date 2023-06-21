@@ -1,0 +1,12 @@
+title: "PQC: SPHINCS+"
+
+patches:
+# SPHINCS+  (@reneme)
+- pr: 3549  # https://github.com/randombit/botan/pull/3549
+  merge_commit: 99dbdd53a9a9ac66e4d4fe710413bb7402f6cb95
+  classification: unspecified
+
+# Utility Preparations for SPHINCS+  (@reneme)
+- pr: 3564  # https://github.com/randombit/botan/pull/3564
+  merge_commit: 1cbeffafb28214533b27157a87f2a9dcb91a068a
+  classification: unspecified

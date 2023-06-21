@@ -4,7 +4,10 @@ repo:
   github_handle:  randombit/botan
   local_checkout: ../_build/botan
   audit_ref_from: 3.0.0-alpha1
-  audit_ref_to:   3.0.0
+
+  # Tip of `master` on the 21st of June 2023
+  # TODO: change that to 3.1.0 (or further intermediate steps) eventually
+  audit_ref_to:   99dbdd53a9a9ac66e4d4fe710413bb7402f6cb95
 
 topics: topics
 cache: ../_build/audit_generator_cache
