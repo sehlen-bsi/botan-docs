@@ -267,9 +267,17 @@ patches:
 # Add a testcase from #3544  (@randombit)
 - pr: 3575  # https://github.com/randombit/botan/pull/3575
   merge_commit: f896922083ec913a2fe9a875c49158aa772b751b
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fix some issues with OCSP response handling  (@randombit)
 - pr: 3515  # https://github.com/randombit/botan/pull/3515
   merge_commit: 594e3560801f781d8b889759898e2f8907c54a3d
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Fixes a parsing issue in OCSP responses where Botan would have excepted
+    responses that identify the responder certificate both by name and key hash.
+    This would now result in a decoding error. Also fixes that TLS 1.3
+    client/server certificate validation would confuse the certificate's origin
+    when invoking the ``Credentials_Manager::trusted_certificate_authorities()``
+    callback.
