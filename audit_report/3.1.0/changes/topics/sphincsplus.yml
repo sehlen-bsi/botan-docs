@@ -4,9 +4,16 @@ patches:
 # SPHINCS+  (@reneme)
 - pr: 3549  # https://github.com/randombit/botan/pull/3549
   merge_commit: 99dbdd53a9a9ac66e4d4fe710413bb7402f6cb95
-  classification: unspecified
+  classification: critical
+  comment: |
+    Adds an implementation of SPHINCS+ as specified in `version 3.1 of the NIST
+    submission documents
+    <https://sphincs.org/data/sphincs+-r3.1-specification.pdf>`_ (June 2022).
+    The parameter sets suggested in this document are implemented and usable.
+    Note however, that neither the "robust" mode nor the "Haraka" hash function
+    are implemented.
 
 # Utility Preparations for SPHINCS+  (@reneme)
 - pr: 3564  # https://github.com/randombit/botan/pull/3564
   merge_commit: 1cbeffafb28214533b27157a87f2a9dcb91a068a
-  classification: unspecified
+  classification: info
