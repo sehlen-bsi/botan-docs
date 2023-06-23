@@ -10,8 +10,8 @@ patches:
     submission documents
     <https://sphincs.org/data/sphincs+-r3.1-specification.pdf>`_ (June 2022).
     The parameter sets suggested in this document are implemented and usable.
-    Note however, that neither the "robust" mode nor the "Haraka" hash function
-    are implemented.
+    Note, however, that neither the "robust" mode nor the "Haraka" hash function
+    is implemented.
 
 # Utility Preparations for SPHINCS+  (@reneme)
 - pr: 3564  # https://github.com/randombit/botan/pull/3564
