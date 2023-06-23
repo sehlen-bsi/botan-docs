@@ -70,4 +70,7 @@ patches:
 # FIX: Missing update of XMSS private key in CLI's X.509 operations  (@reneme)
 - pr: 3579  # https://github.com/randombit/botan/pull/3579
   merge_commit: 5b815bf45aaa0861d40139969c2a64125779983e
-  classification: unspecified
+  classification: critical
+  comment: |
+    Botan's CLI failed to update the private key when using XMSS for signing
+    X.509 certificates or CSRs.
