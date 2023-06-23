@@ -11,7 +11,14 @@ from github import Requester, Consts
 
 class CachingRequester(Requester.Requester):
     def __init__(self, login_or_token, cache_location):
-        super().__init__(login_or_token, None, None, None, Consts.DEFAULT_BASE_URL, Consts.DEFAULT_TIMEOUT, "PyGithub-genaudit/Python", Consts.DEFAULT_PER_PAGE, True, None, None)
+        super().__init__(login_or_token,
+                         Consts.DEFAULT_BASE_URL,
+                         Consts.DEFAULT_TIMEOUT,
+                         Consts.DEFAULT_USER_AGENT,
+                         Consts.DEFAULT_PER_PAGE,
+                         True, # verify
+                         None,
+                         None)
 
         # The regexes should have one or more match groups that will be used as
         # the key in the underlying cache. Multiple match groups will be

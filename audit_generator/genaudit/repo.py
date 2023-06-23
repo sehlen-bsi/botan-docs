@@ -9,6 +9,7 @@ from github.PullRequest import PullRequest
 from github.PullRequestReview import PullRequestReview
 from github.Commit import Commit
 from github.NamedUser import NamedUser
+from github.Auth import Token
 from github import Github
 
 from genaudit import util
@@ -25,7 +26,7 @@ class GitRepo:
         self.local_repo_root = local_repo_root
         self.github_handle = github_handle
         self.main_branch = main_branch
-        self.connection = CachingGithub(github_token, cache_location)
+        self.connection = CachingGithub(Token(github_token), cache_location)
 
         self.repo = self.connection.get_repo(self.github_handle)
 
