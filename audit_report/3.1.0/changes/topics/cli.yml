@@ -65,6 +65,12 @@ patches:
   merge_commit: 4f26d30ba46dc4533bfec856b38fc59ae176d9c0
   classification: info
 
+# cli: pubkey: improve handling of pbkdf settings  (@nunojpg)
+- pr: 3518  # https://github.com/randombit/botan/pull/3518
+  merge_commit: cd8215cb53b80a8d8d8809b246db5756b8ea0f22
+  classification: info
+  auditer: FAlbertDev
+
 # Add PSK-support to TLS client/server CLI tools  (@reneme)
 - pr: 3552  # https://github.com/randombit/botan/pull/3552
   merge_commit: 9bb052c31540b336ab6b0008e64382fdcd438bb9

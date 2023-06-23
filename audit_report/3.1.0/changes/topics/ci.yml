@@ -203,57 +203,63 @@ patches:
 # Add a CI job for quick clang-tidy checks  (@randombit)
 - pr: 3571  # https://github.com/randombit/botan/pull/3571
   merge_commit: a3e89cf2f365716c4cf564b9fd5f1e40fee9a4a2
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Add nightly CI jobs: clang-tidy and full valgrind run  (@randombit)
 - pr: 3567  # https://github.com/randombit/botan/pull/3567
   merge_commit: 44282e9fe56d1fb0097cfaf2fc3005a5dc66b524
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Switch to using the macOS 13 GH Actions image  (@randombit)
 - pr: 3560  # https://github.com/randombit/botan/pull/3560
   merge_commit: abe8a2d51f88f2660b32521b8dfdf3af97165604
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Don't pin sccache install from chocolatey anymore  (@randombit)
 - pr: 3523  # https://github.com/randombit/botan/pull/3523
   merge_commit: b6e705f7128c259caf965ecd6f37b76f31ba015f
-  classification: unspecified
-
-# cli: pubkey: improve handling of pbkdf settings  (@nunojpg)
-- pr: 3518  # https://github.com/randombit/botan/pull/3518
-  merge_commit: cd8215cb53b80a8d8d8809b246db5756b8ea0f22
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Switch from codecov to coveralls for the coverage report  (@randombit)
 - pr: 3512  # https://github.com/randombit/botan/pull/3512
   merge_commit: 7d28f64c2bd1659cdc03e2480484bb1b64e37236
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Fix codecov to use their new uploader  (@randombit)
 - pr: 3506  # https://github.com/randombit/botan/pull/3506
   merge_commit: b73fcad6f4263e3dd5e6c94c1efe8b24b04e06c2
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Disable the fast clang-tidy run (GH #3576)  (@Jack Lloyd)
 - commit: 3484675d73a749245419ffcc72c8482f13c1b0f0  # https://github.com/randombit/botan/commit/3484675d73a749245419ffcc72c8482f13c1b0f0
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Disable some more tests in the standard valgrind run [ci skip]  (@Jack Lloyd)
 - commit: 9cb6dbc16f28ef7c07fc924264a214be7c0bb8c4  # https://github.com/randombit/botan/commit/9cb6dbc16f28ef7c07fc924264a214be7c0bb8c4
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Add a badge for the nightly CI checks [ci skip]  (@Jack Lloyd)
 - commit: 69c7a6a1515c1481f191f7bd88ccb1ce229c661c  # https://github.com/randombit/botan/commit/69c7a6a1515c1481f191f7bd88ccb1ce229c661c
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Remove reference to sublime config  (@Jack Lloyd)
 - commit: bc394d4c88f1d744fe15837fa3836884d5c0b8bf  # https://github.com/randombit/botan/commit/bc394d4c88f1d744fe15837fa3836884d5c0b8bf
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Use coverage badge from shields.io [ci skip]  (@Jack Lloyd)
 - commit: 3364d87e662b8cdfe2ab5bd9477d59470168e4c6  # https://github.com/randombit/botan/commit/3364d87e662b8cdfe2ab5bd9477d59470168e4c6
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Update CI to XCode 14.3  (@randombit)
 - pr: 3598  # https://github.com/randombit/botan/pull/3598
