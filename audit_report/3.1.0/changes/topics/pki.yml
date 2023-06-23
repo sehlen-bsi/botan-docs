@@ -275,7 +275,7 @@ patches:
   merge_commit: 594e3560801f781d8b889759898e2f8907c54a3d
   classification: relevant
   comment: |
-    Fixes a parsing issue in OCSP responses where Botan would have excepted
+    Fixes a parsing issue in OCSP responses where Botan would have accepted
     responses that identify the responder certificate both by name and key hash.
     This would now result in a decoding error. Also fixes that TLS 1.3
     client/server certificate validation would confuse the certificate's origin
