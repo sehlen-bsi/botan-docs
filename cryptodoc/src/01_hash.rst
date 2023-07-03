@@ -79,6 +79,16 @@ data compression.
 .. [#sha_intrinsics]
    https://github.com/noloader/SHA-Intrinsics
 
+SHAKE
+-----
+
+Botan implements the two SHA-3 XOFs SHAKE128 and SHAKE256 in
+:srcref:`src/lib/hash/shake/shake.cpp` as defined in [FIPS-202]_. It
+utilizes the sponge construction methods of the basic SHA-3
+implementation using the SHAKE-specific padding. In contrast to SHA-3
+we allow arbitrary output lengths which are provided to the constructor
+of the class.
+
 BLAKE2b
 -------
 
