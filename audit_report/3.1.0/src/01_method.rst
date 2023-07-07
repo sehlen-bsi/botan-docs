@@ -177,3 +177,8 @@ reviewed:
      - xts
      -
      -
+
+The following previously existing modules are now in scope
+and were fully reviewed:
+
+- hkdf

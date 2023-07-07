@@ -1,6 +1,24 @@
 Key Derivation Functions
 ========================
 
+HKDF (RFC 5869)
+---------------
+
+HKDF is a key derivation function defined in [RFC5869]_.
+HKDF is implemented according to [RFC5869]_ with some additions.
+The implementation can be found in :srcref:`src/lib/kdf/hkdf/hkdf.cpp`.
+
+It can be instantiated with HMAC with any hash function.
+It can also be instantiated with any other MAC,
+such usage is however outside the specification in [RFC5869]_.
+
+Note that the implementation of ``HKDF-Expand(PRK, info, L)``
+takes in Botan a ``label`` and ``salt`` value instead of ``info``.
+The ``info`` value is the concatenation of ``label | salt``.
+
+Botan also includes a ``HKDF-Expand-Label()`` implementation,
+used e.g. in TLS 1.3.
+
 KDF1 (ISO 18033)
 ----------------
 
