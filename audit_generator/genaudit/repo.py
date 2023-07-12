@@ -10,16 +10,19 @@ from github.PullRequestReview import PullRequestReview
 from github.Commit import Commit
 from github.NamedUser import NamedUser
 from github.Auth import Token
-from github import Github
+from github import Github, Rate
 
 from genaudit import util
 from genaudit import refs
 from genaudit.cache import CachingRequester
 
+from datetime import datetime
+
 class CachingGithub(Github):
     def __init__(self, login_or_token, cache_location = None):
         super().__init__(None)
-        self._Github__requester = CachingRequester(login_or_token, cache_location)
+        self.requester = CachingRequester(login_or_token, cache_location)
+        self._Github__requester = self.requester
 
 class GitRepo:
     def __init__(self, github_token: str, cache_location: str, local_repo_root: str, github_handle: str, main_branch: str = "master"):
@@ -114,3 +117,12 @@ class GitRepo:
 
     def user_info(self, login_name: str) -> NamedUser:
         return self.connection.get_user(login_name)
+
+    def rate_limit(self) -> Rate:
+        return self.connection.get_rate_limit().core
+
+    def api_cache_hit_rate(self):
+        return self.connection.requester.cache_hit_rate()
+
+    def api_request_count(self):
+        return self.connection.requester.request_count()
