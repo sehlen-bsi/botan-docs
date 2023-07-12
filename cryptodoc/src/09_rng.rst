@@ -10,7 +10,7 @@ take a reference to a random number generator instance as a parameter.
 
 Random number generators in Botan include deterministic generators, such as
 ``HMAC_DRBG`` and ``AutoSeeded_RNG``, system-specific generators such as
-System_RNG and hardware random number generators such as ``Processor_RNG``.
+``System_RNG`` and hardware random number generators such as ``Processor_RNG``.
 
 All random number generators in Botan implement the
 ``RandomNumberGenerator`` interface. This interface provides the following
