@@ -1,3 +1,5 @@
+.. _deliverables:
+
 Zusammenfassung und Ergebnisse
 ==============================
 

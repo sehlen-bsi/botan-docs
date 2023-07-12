@@ -165,6 +165,10 @@ Weiterhin bietet Git die Möglichkeit einzelne Commits mittels GPG zu signieren.
 Auf diese Weise wird die Authentizität der Commits sichergestellt. Die Botan
 Entwickler machen von dieser Möglichkeit weitestgehend Gebrauch.
 
+Teil :ref:`des Abgabe-Paketes <deliverables>` jedes Audits ist ein signiertes
+Quellcode-Archiv der auditierten Bibliotheksversion. Nutzer der Bibliothek haben
+somit auch ohne die Verwendung von Git Zugriff auf den gesamten Quellcode.
+
 .. [#githubsha1] `github.blog/2017-03-20-sha-1-collision-detection-on-github-com <https://github.blog/2017-03-20-sha-1-collision-detection-on-github-com>`_
 .. [#gitsha1] `github.blog/2017-05-10-git-2-13-has-been-released <https://github.blog/2017-05-10-git-2-13-has-been-released/#sha-1-collision-detection>`_
 .. [#lwngitsha1] `lwn.net/Articles/898522 <https://lwn.net/Articles/898522>`_
