@@ -385,7 +385,7 @@ function.
    1. Set ``bytes_to_generate = output.size()``
    2. While (``bytes_to_generate`` > 0) do:
 
-      1. Set ``this_req = min(max_number_of_bytes_per_request, bytes_to_generate``
+      1. Set ``this_req = min(max_number_of_bytes_per_request, bytes_to_generate)``
       2. Call Stateful_RNG's ``reseed_check()``
       3. If ``input.size() != 0``, then ``update(input)`` (once per top-level request, see (7))
       4. While (``this_req`` > 0) do:
