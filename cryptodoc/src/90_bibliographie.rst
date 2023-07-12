@@ -138,6 +138,11 @@
    "Deterministic Usage of the Digital Signature Algorithm (DSA) and Elliptic Curve Digital Signature Algorithm (ECDSA)",
    August 2013
 
+.. [RFC7693] M-J. Saarinen, Ed., J-P. Aumasson: RFC7693:
+   "The BLAKE2 Cryptographic Hash and Message Authentication Code (MAC)",
+   https://www.rfc-editor.org/info/rfc7693,
+   November 2015
+
 .. [SP800-38E] NIST Special Publication SP 800-38E:
    "Recommendation for Block Cipher Modes of Operation: the XTS-AES Mode for Confidentiality on Storage Devices",
    https://csrc.nist.gov/publications/detail/sp/800-38e/final,
