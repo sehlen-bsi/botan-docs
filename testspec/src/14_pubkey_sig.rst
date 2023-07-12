@@ -1467,8 +1467,9 @@ therefore not discussed in detail in this chapter.
    +========================+=========================================================================+
    | **Type:**              | Known Answer Tests                                                      |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Uses the KAT vectors of SPHINCS+' reference implementation as           |
-   |                        | specified in the NIST submission.                                       |
+   | **Description:**       | Uses the KAT vectors as specified in the API specification of the NIST  |
+   |                        | competition [#NISTAPI]_  and generated using the reference              |
+   |                        | implementation revision 06f42f47 [#SPXrefimpl]_                         |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
@@ -1510,6 +1511,18 @@ therefore not discussed in detail in this chapter.
    |                        | #. Retry the verification using the same key object with the valid      |
    |                        |    signature.                                                           |
    +------------------------+-------------------------------------------------------------------------+
+
+.. [#NISTAPI]
+
+   API description for NIST submissions. See section "Additional functions" for
+   a description how Known Answer Tests are to be structured
+   https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/example-files/api-notes.pdf
+
+.. [#SPXrefimpl]
+
+   Revision of the SPHINCS+ reference implementation used as the basis for the
+   implementation in Botan
+   https://github.com/sphincs/sphincsplus/commit/06f42f47491085ac879a72b486ca8edb10891963
 
 .. table::
    :class: longtable
