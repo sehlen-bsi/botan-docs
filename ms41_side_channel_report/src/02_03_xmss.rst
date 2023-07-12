@@ -58,7 +58,7 @@ Der Kontrollfluss-Leak weist auf diese Unterschiede in der Ausführung hin.
 Die Variablen *start_idx* und *steps* geben den Start und die Anzahl der Schritte in der Hashketten-Berechnung vor.
 Je nach Wert des Nachrichtenhashes wird daher die *for*-Schleife unterschiedlich oft ausgeführt.
 Das ist die Grundlage des beobachteten Kontrollfluss-Leaks.
-Dieses Leak manifestiert sich in der Analyse, da das XMSS-Verfahren den Hash einer Nachricht mittels *randomized hashing* [NIST_SP_800_208]_ berechnet.
+Das XMSS-Verfahren berechnet den Hash einer Nachricht mittels *randomized hashing* [NIST_SP_800_208]_ .
 Dies verhindert generische Kollisionsangriffe und erhöht damit die Sicherheit des Verfahrens erheblich.
 Beim *randomized hashing* wird für jede Nachricht eine zufällige Zeichenfolge, das *Salt*, gewählt.
 Diese Zeichenfolge wird zusammen mit dem öffentlichen Schlüssel der Nachricht vorangestellt.
