@@ -15,6 +15,7 @@ from github import Github
 from genaudit import util
 from genaudit import refs
 from genaudit.cache import CachingRequester
+from functools import lru_cache
 
 class CachingGithub(Github):
     def __init__(self, login_or_token, cache_location = None):
@@ -102,15 +103,18 @@ class GitRepo:
                            "%s..%s" % (start_ref, end_ref)]))
         return [sha for sha in all_commits_between_start_and_end_ref if sha in commits_to_main_since_start_ref]
 
+    @lru_cache(maxsize=None)
     def pull_request_info(self, pr_number: refs.PullRequest) -> PullRequest:
         return self.repo.get_pull(pr_number.github_ref)
 
     def review_info(self, pr_number: refs.PullRequest) -> list[PullRequestReview]:
         return self.repo.get_pull(pr_number.github_ref).get_reviews()
 
+    @lru_cache(maxsize=None)
     def commit_info(self, commit_hash: refs.Commit) -> Commit:
         assert len(commit_hash.ref) == 40
         return self.repo.get_commit(commit_hash.ref)
 
+    @lru_cache(maxsize=None)
     def user_info(self, login_name: str) -> NamedUser:
         return self.connection.get_user(login_name)

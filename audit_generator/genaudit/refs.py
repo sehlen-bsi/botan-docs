@@ -55,6 +55,10 @@ class Patch:
         self.auditer = auditer
         self.comment = comment
 
+    def __hash__(self):
+        return hash((self.ref, self.classification, self.auditer, self.comment))
+
+
 @total_ordering
 class PullRequest(Patch):
     def __init__(self, github_ref: int, merge_commit_ref: str = None, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None):
@@ -75,6 +79,8 @@ class PullRequest(Patch):
     def merge_commit(self):
         return Commit(self.ref) if self.ref else None
 
+    __hash__ = Patch.__hash__
+
 @total_ordering
 class Commit(Patch):
     def __init__(self, commit_ref: str, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None):
@@ -89,3 +95,5 @@ class Commit(Patch):
         if not isinstance(other, type(self)):
             return NotImplemented
         return self.ref < other.ref
+
+    __hash__ = Patch.__hash__
