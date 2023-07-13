@@ -54,4 +54,5 @@ patches:
 # Use deterministic port numbers for the CLI tests  (@randombit)
 - pr: 3596  # https://github.com/randombit/botan/pull/3596
   merge_commit: eac046cee93930d51cdebba3d1c4534949f163de
-  classification: unspecified
+  classification: info
+  auditer: reneme
