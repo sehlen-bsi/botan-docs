@@ -22,3 +22,8 @@ patches:
 - commit: 59cb03996b6d308485b847b0aade46e6d124a29c  # https://github.com/randombit/botan/commit/59cb03996b6d308485b847b0aade46e6d124a29c
   classification: info
   auditer: FAlbertDev
+
+# Fix some clang-tidy warnings that popped up in the nightly run  (@Jack Lloyd)
+- commit: d09bff761e819a5937883051090ede59050aaaaa  # https://github.com/randombit/botan/commit/d09bff761e819a5937883051090ede59050aaaaa
+  classification: info
+  auditer: reneme
