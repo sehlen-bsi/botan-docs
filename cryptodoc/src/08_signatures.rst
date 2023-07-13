@@ -339,7 +339,8 @@ The signature generation algorithm works as follows:
       , where :math:`h`
       is the hash function used in the current instance of the signature scheme.
    5. If the output length of the hash function :math:`h` exceeds the size of the group order,
-      truncate the *most significant bytes* in :math:`r` on a byte level to the size of the group order.
+      truncate the *low side* in :math:`r` on a byte level to the size of the group order.
+      This means bytes in :math:`r` are discarded starting from the beginning of the byte sequence.
    6. Compute
       :math:`{s = {d \ast {({{k - r}\oplus m})}}}\bmod n`
       . If :math:`s=0` applies, the algorithm terminates with an error.
@@ -374,7 +375,8 @@ The signature verification algorithm works as follows:
    4. Recompute the witness :math:`r'=h(x_i)`,
       where :math:`h` is the hash function used in the current instance of the signature scheme.
    5. If the output length of the hash function :math:`h` exceeds the size of the group order,
-      truncate the *most significant bytes* in :math:`r'` on a byte level to the size of the group order.
+      truncate the *low side* in :math:`r` on a byte level to the size of the group order.
+      This means bytes in :math:`r` are discarded starting from the beginning of the byte sequence.
    6. Return ``true`` if the recomputed witness :math:`r'` is equal to
       the witness :math:`r` inside the signature.
       Otherwise return ``false``.
