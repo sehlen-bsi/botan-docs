@@ -50,7 +50,7 @@ class GitRepo:
         return [extract_commit_ref(line) for line in output.splitlines()]
 
     def _extract_pull_request_info(self, line):
-        regex = re.compile(r"^([0-9a-f]+) [^#]+#(\d+) .*$")
+        regex = re.compile(r"^([0-9a-f]+) [^#]+#(\d+)(?: .*)?$")
         match = regex.match(line)
         if not match:
             raise RuntimeError(
