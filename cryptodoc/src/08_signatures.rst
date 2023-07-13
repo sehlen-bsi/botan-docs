@@ -455,6 +455,8 @@ XMSS with WOTS+
 WOTS+
 ^^^^^
 
+.. _pubkey_signature/xmss/wotsp_sign:
+
 Signature Creation
 ~~~~~~~~~~~~~~~~~~
 
@@ -485,9 +487,7 @@ The signature generation process works as follows:
    2. Compute a checksum over the converted message and convert this
       checksum into base_w representation. Append the checksum to the
       message ``m``.
-   3. Derive the private WOTS+ key for the given ``ADRS`` value from
-      ``private_seed`` into ``sig[i]``. [#wots_nist_sp_800_208]_
-   4. Generate the resulting signature bytes ``sig`` as follows:
+   3. Generate the resulting signature bytes ``sig`` as follows:
 
       1. Set ``i=0;``
       2. While (``i < len``) do:
@@ -498,9 +498,6 @@ The signature generation process works as follows:
 **Remark:** :ref:`Remark about XMSS being based on the repeated application of a hash function <pubkey_key_generation/xmss/Remark_02>`
 applies here as well.
 
-.. [#wots_nist_sp_800_208]
-   The private WOTS+ key derivation from ``private_seed`` is implemented as suggested in [XMSS]_ and :ref:`does not comform to the recommendations <pubkey_key_generation/xmss/remark_nist_sp800208>` in [NIST-HashSigs]_.
-
 Signature Validation
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -509,7 +506,7 @@ implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
 
 The signature validation process works as follows:
 
-.. admonition:: ``XMSS_WOTS_PublicKey::pub_key_from_signature()``
+.. admonition:: ``XMSS_WOTS_PublicKey()`` constructor
 
    **Input:**
 
@@ -570,14 +567,17 @@ follows:
 
    1. Initialize the signature operation and reserve a new leaf index ``idx``
       of an *unused* WOTS+ signature. This index cannot be reused in
-      further operations. Calculate a pseudorandom value r using the output
+      further operations. Calculate a pseudorandom value ``r`` using the output
       of PRF on ``SK_PRF || idx``.
-   2. Generate a hash over the message ``m``, Merkle tree root, index ``idx``,
-      and output of the PRF function over the secret seed ``SK_PRF``.
+   2. Generate a hash over the output of the PRF function ``r``, Merkle tree ``root``, index ``idx``,
+      and message ``m`` using the message hash function ``H()``.
    3. Build an authentication path ``auth_path`` by using the leaf index
       ``idx``, and address ``ADRS``.
-   4. Compute a WOTS+ signature ``sig_ots`` over the constructed hash value.
-   5. ``Sig = {idx, r, auth_path, sig_ots}``
+   4. Derive the WOTS+ private key for the generated authentication path from
+      ``public_seed`` and ``private_seed`` as described in :ref:`pubkey_key_generation/wotsp`.
+   5. Compute a WOTS+ signature ``sig_ots`` over the constructed hash value
+      as described in :ref:`WOTS+ Signature Creation <pubkey_signature/xmss/wotsp_sign>`.
+   6. Set ``Sig = {idx, r, auth_path, sig_ots}``
 
 **Remark:** Due to the complexity of managing the XMSS private key state it is
 generally discouraged to use software for performing XMSS private key operations
@@ -651,7 +651,7 @@ No further infrastructure is provided to maintain persistent private XMSS state.
 XMSS private key is not possible if the private key should outlive the operating
 system process that generated it. It is therefore **strongly discouraged to use
 Botan's XMSS signing implementation in production applications**. Similarly,
-[NIST-HashSigs]_ demands the usage of dedicated hardware for XMSS private key
+[SP800-208]_ demands the usage of dedicated hardware for XMSS private key
 operations.
 
 Note that validating XMSS signatures does not depend on this state management
