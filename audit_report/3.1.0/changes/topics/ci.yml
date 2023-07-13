@@ -265,3 +265,14 @@ patches:
 - pr: 3598  # https://github.com/randombit/botan/pull/3598
   merge_commit: 7451323ce2329709ef1a02fa2f70ed57bf157f67
   classification: info
+
+# Add a clang-tidy check in the regular CI run  (@randombit)
+- pr: 3620  # https://github.com/randombit/botan/pull/3620
+  merge_commit: 601a5f0993be2458683245ae26047fca9def9f71
+  classification: info
+  auditer: reneme
+
+# Fix bugs in clang-tidy CI check  (@Jack Lloyd)
+- commit: 054e13f3d7007e6f99e40697c01189ff2ef42aa9  # https://github.com/randombit/botan/commit/054e13f3d7007e6f99e40697c01189ff2ef42aa9
+  classification: info
+  auditer: reneme

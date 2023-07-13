@@ -110,3 +110,18 @@ patches:
 # Update release notes [ci skip]  (@Jack Lloyd)
 - commit: 0eeb41761250169c75594b2d54a002198dbaf78c  # https://github.com/randombit/botan/commit/0eeb41761250169c75594b2d54a002198dbaf78c
   classification: unspecified
+
+# Bump version to 3.2.0  (@Jack Lloyd)
+- commit: 0e3f1434d1bd1290164e4f3a8b97a41e56b6ad60  # https://github.com/randombit/botan/commit/0e3f1434d1bd1290164e4f3a8b97a41e56b6ad60
+  classification: info
+  auditer: reneme
+
+# Update for 3.1.1 release  (@Jack Lloyd)
+- commit: f60608b8818c7bb8579fe797122ed6116f4134af  # https://github.com/randombit/botan/commit/f60608b8818c7bb8579fe797122ed6116f4134af
+  classification: info
+  auditer: reneme
+
+# Update release notes, move version to 3.1.1  (@Jack Lloyd)
+- commit: 35e5e6665b751e63c00687899e259c066903e5e4  # https://github.com/randombit/botan/commit/35e5e6665b751e63c00687899e259c066903e5e4
+  classification: info
+  auditer: reneme

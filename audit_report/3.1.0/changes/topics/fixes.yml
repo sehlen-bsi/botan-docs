@@ -128,3 +128,8 @@ patches:
 - commit: d6912de4e4b71f10cc76e6bb7c068ff09cadba7d  # https://github.com/randombit/botan/commit/d6912de4e4b71f10cc76e6bb7c068ff09cadba7d
   classification: info
   auditer: FAlbertDev
+
+# Fix sporadic test failure (GH #3623)  (@randombit)
+- pr: 3625  # https://github.com/randombit/botan/pull/3625
+  merge_commit: 12156720c8a1a1c9d84c669167a7fe83d4b958ad
+  classification: info
