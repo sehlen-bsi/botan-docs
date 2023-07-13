@@ -86,8 +86,9 @@ Folgender Codeausschnitt zeigt dieses Verfahren in der Botan Implementierung [BO
 
 Dementsprechend kommt es auch bei konstanter Nachricht und konstantem, öffentlichen Schlüssel zu unterschiedlichen Hashes, die signiert werden.
 Dies führt zu unterschiedlich vielen Schritten in den Hash-Ketten, damit zu unterschiedlichen Verteilungen der beobachteten Adressen und folglich zum Kontrollfluss-Leak, das DATA in Phase 2 identifiziert.
-Dieses Leak gibt jedoch nur Informationen über den berechneten Hash preis und nicht über die Daten, auf denen der Hash basiert.
-Diese Daten sind das zufällig gewählte Salt, der öffentliche Schlüssel und die zu signierende Nachricht.
+Dieses Leak gibt jedoch nur Informationen über den berechneten Hash preis.
+Der Hashwert wird erzeugt mithilfe von öffentlichen Daten.
+Diese sind das zufällig gewählte Salt, der öffentliche Schlüssel und die zu signierende Nachricht. 
 Aus diesem Grund ist das hier identifizierte Kontrollfluss-Leak als unproblematisch einzustufen.
 
 In den verwendeten Hash-Funktionen SHA-256, SHA-512 und SHAKE256 wurden keine Leaks identifiziert.
