@@ -31,9 +31,14 @@ Diese Änderung hat keinen Einfluss auf die Ergebnisse der durchgeführten Seite
 
 Bei der Analyse wurde ein Kontrollfluss-Leak in der Funktion `chain()` [BOTAN_XMSS_CHAIN]_ gefunden.
 Diese Funktion ist Teil des Winternitz One-Time Signature (WOTS) Verfahrens.
-Das WOTS-Verfahren zerlegt den Hash der Nachricht in einzelne Teile und signiert diese jeweils durch Berechnung von Hash-Ketten.
-Der Input dieser Hash-Ketten ist der private Schlüssel.
-Die Anzahl der Schritte der Hash-Ketten-Berechnung entspricht dem Wert des jeweiligen Teils des Nachrichtenhashes.
+Das WOTS-Verfahren basiert auf der Verwendung von Hash-Ketten mit definierter Länge.
+Mithilfe des privaten WOTS-Schlüssels werden die anfänglichen Werte der Hash-Kette berechnet.
+Diese Werte sind die privaten Schlüssel der Hash-Ketten.
+Die öffentlichen Schlüssel dieser Hash-Ketten werden berechnet indem man die Hash-Kette bis zum definierten Ende rechnet.
+Diese öffentlichen Schlüssel der Hash-Ketten werden in einem weiteren Berechnungsschritt verwendet, um den öffentlichen WOTS-Schlüssel zu berechnen.
+Um eine Signatur zu erstellen wird der Hash einer Nachricht und eine zusätzliche Checksumme in einzelne Teile zerlegt, sogenannte Chunks.
+Jeder Chunk wird von einer Hash-Kette signiert.
+Die Anzahl der Schritte der Hash-Ketten-Berechnung entspricht dem Wert des jeweiligen Chunks.
 Der Kontrollfluss-Leak weist auf diese Unterschiede in der Ausführung hin.
 
 .. code-block:: cpp
