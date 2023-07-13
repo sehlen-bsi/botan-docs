@@ -43,12 +43,13 @@ patches:
 # Segmentation Fault Protection in test_tls_rfc8448  (@FAlbertDev)
 - pr: 3587  # https://github.com/randombit/botan/pull/3587
   merge_commit: 682fe6da5584da7b04ad6a6f6ca78dc5819a7c9b
-  classification: unspecified
+  classification: info
 
 # In stdout test runner, use flush after each test report  (@randombit)
 - pr: 3583  # https://github.com/randombit/botan/pull/3583
   merge_commit: 9bf2f5456d4af67b112b35fa9208265d7353992b
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Use deterministic port numbers for the CLI tests  (@randombit)
 - pr: 3596  # https://github.com/randombit/botan/pull/3596

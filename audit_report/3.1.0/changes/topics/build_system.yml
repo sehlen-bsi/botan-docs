@@ -166,56 +166,64 @@ patches:
 # Add support for compiler exclusions in module files  (@randombit)
 - pr: 3562  # https://github.com/randombit/botan/pull/3562
   merge_commit: 4f92051b583e42f0af6b5a7bf72bda67ba3ba461
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Update of BSI policy for BSI guidelines 2023  (@FAlbertDev)
 - pr: 3482  # https://github.com/randombit/botan/pull/3482
   merge_commit: ce428cb6e005de72496220eaee4d0aad173a01a8
-  classification: unspecified
+  classification: info
 
 # Fix compile_commands.json  (@lieser)
 - pr: 3538  # https://github.com/randombit/botan/pull/3538
   merge_commit: 0d0a2874d94908773717b3d1b81002289b978916
-  classification: unspecified
+  classification: info
 
 # Add the examples as a first class target in the build  (@randombit)
 - pr: 3527  # https://github.com/randombit/botan/pull/3527
   merge_commit: 7427ef87f652b23e4b7be37552e18035b8b220a6
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Move logic for deciding to use GCC inline asm into build info files  (@randombit)
 - pr: 3529  # https://github.com/randombit/botan/pull/3529
   merge_commit: 4d5ca933054c0cb49bea14fd4a994ccd627096d4
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Detect and error during configuration if an unsupported compiler is detected  (@randombit)
 - pr: 3526  # https://github.com/randombit/botan/pull/3526
   merge_commit: 79f50afb75497f6b85032e086457c6710da6a9a9
-  classification: unspecified
+  classification: info
 
 # Fix bugs related to --library-suffix  (@randombit)
 - pr: 3511  # https://github.com/randombit/botan/pull/3511
   merge_commit: b01ffaf070d3f9673d632604a616da9bb339fd0e
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Additions to configure.py to support ninja  (@randombit)
 - pr: 3503  # https://github.com/randombit/botan/pull/3503
   merge_commit: 717b243a1ff84d485b12aa4db515853670c5df8d
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Avoid using hardlinks unless explicitly requested  (@randombit)
 - pr: 3504  # https://github.com/randombit/botan/pull/3504
   merge_commit: 7fefc07efc13fd268236385598e262094ace4d48
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Remove support for building with CMake  (@randombit)
 - pr: 3501  # https://github.com/randombit/botan/pull/3501
   merge_commit: c9a59ac60bbb0113feb5d4abfb0bbcf1ff561475
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Fix variable reference in exception  (@Jack Lloyd)
 - commit: 3acee255dab73c1e066b8be038f967571f0e5bcf  # https://github.com/randombit/botan/commit/3acee255dab73c1e066b8be038f967571f0e5bcf
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Fix up XCode detection a bit  (@randombit)
 - pr: 3597  # https://github.com/randombit/botan/pull/3597
