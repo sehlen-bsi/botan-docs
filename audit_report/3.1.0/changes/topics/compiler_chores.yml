@@ -138,12 +138,15 @@ patches:
 # Small cleanups for the mul128.h header  (@randombit)
 - pr: 3534  # https://github.com/randombit/botan/pull/3534
   merge_commit: 8a8dec9bbac2bd8179a2842fae9a90747ee5e7cc
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Remove compiler restriction for SM4 module  (@Jack Lloyd)
 - commit: 057bcbc35bd06937c6173ab4cecfe1953dedc4b8  # https://github.com/randombit/botan/commit/057bcbc35bd06937c6173ab4cecfe1953dedc4b8
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Limit the Serpent AVX512 code to GCC or Clang  (@Jack Lloyd)
 - commit: a76f7ea4d14470a0b651c3cd6e9f8158f2e7499d  # https://github.com/randombit/botan/commit/a76f7ea4d14470a0b651c3cd6e9f8158f2e7499d
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
