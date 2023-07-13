@@ -96,4 +96,5 @@ patches:
 
 # Fix formatting weirdness in psk_db.h  (@Jack Lloyd)
 - commit: 6cf5abeaf0d452d030f44f1de109c2fdbcc6bd54  # https://github.com/randombit/botan/commit/6cf5abeaf0d452d030f44f1de109c2fdbcc6bd54
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
