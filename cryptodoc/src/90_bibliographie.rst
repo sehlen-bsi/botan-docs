@@ -125,6 +125,11 @@
 
 .. [RFC5652] R. Housley. RFC-5652. Cryptographic Message Syntax. 2009
 
+.. [RFC5869] Dr. Hugo Krawczyk, Pasi Eronen: RFC 5869:
+   "HMAC-based Extract-and-Expand Key Derivation Function (HKDF)",
+   https://www.rfc-editor.org/info/rfc5869,
+   May 2010
+
 .. [RFC6125] Internet Engineering Task Force: RFC6125:
    "Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)",
    http://tools.ietf.org/html/rfc6125, March 2011
