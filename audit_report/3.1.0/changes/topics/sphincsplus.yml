@@ -20,4 +20,5 @@ patches:
 
 # Add SPHINCS+ speed run to the CLI tests  (@Jack Lloyd)
 - commit: 59cb03996b6d308485b847b0aade46e6d124a29c  # https://github.com/randombit/botan/commit/59cb03996b6d308485b847b0aade46e6d124a29c
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev

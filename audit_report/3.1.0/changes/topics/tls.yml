@@ -350,24 +350,25 @@ patches:
 # [TLS 1.3] Use a KEM interface in the Callbacks  (@reneme)
 - pr: 3608  # https://github.com/randombit/botan/pull/3608
   merge_commit: cf8d8a6ca86e50708e6b4e0122f08a775362ec80
-  classification: unspecified
+  classification: relevant
 
 # Chore: Update BoGo tests  (@reneme)
 - pr: 3616  # https://github.com/randombit/botan/pull/3616
   merge_commit: 85406718a30f713ee8768a4371a5edd26e663b28
-  classification: unspecified
+  classification: info
 
 # [TLS 1.3] Preparations for externally provided PSKs  (@reneme)
 - pr: 3617  # https://github.com/randombit/botan/pull/3617
   merge_commit: 3a70598f9381278eb77551e4487a447e69256e5e
-  classification: unspecified
+  classification: relevant
 
 # Fix some clang-tidy warnings in the TLS 1.3 PSK extension code  (@randombit)
 - pr: 3619  # https://github.com/randombit/botan/pull/3619
   merge_commit: dc3a37d2d3901160e293f3d91cee143ce9ee300c
-  classification: unspecified
+  classification: info
 
 # Fix clang-tidy warnings in tls_client_impl_12.cpp  (@randombit)
 - pr: 3605  # https://github.com/randombit/botan/pull/3605
   merge_commit: 19b605dcb6ee967fe9645cd49548c4bd40a1934f
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev

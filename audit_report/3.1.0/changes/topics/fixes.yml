@@ -121,8 +121,10 @@ patches:
 # Fix BigInt::random_integer logic that can cause slow execution  (@randombit)
 - pr: 3594  # https://github.com/randombit/botan/pull/3594
   merge_commit: e16e58a368014c4f062c2342f108cbca90e55f46
-  classification: unspecified
+  classification: relevant
+  auditer: FAlbertDev
 
 # Add an assert before jumping to CPU ghash impl  (@Jack Lloyd)
 - commit: d6912de4e4b71f10cc76e6bb7c068ff09cadba7d  # https://github.com/randombit/botan/commit/d6912de4e4b71f10cc76e6bb7c068ff09cadba7d
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
