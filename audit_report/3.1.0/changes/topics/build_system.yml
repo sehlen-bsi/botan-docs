@@ -216,3 +216,24 @@ patches:
 # Fix variable reference in exception  (@Jack Lloyd)
 - commit: 3acee255dab73c1e066b8be038f967571f0e5bcf  # https://github.com/randombit/botan/commit/3acee255dab73c1e066b8be038f967571f0e5bcf
   classification: unspecified
+
+# Fix up XCode detection a bit  (@randombit)
+- pr: 3597  # https://github.com/randombit/botan/pull/3597
+  merge_commit: 7ffba4fdee8b830710431e5f2f44333ade5ebab2
+  classification: unspecified
+
+# Add a 'tidy' make target [ci skip]  (@Jack Lloyd)
+- commit: 963c16c7b13563ed0dc3c2e94dadcf776e03413c  # https://github.com/randombit/botan/commit/963c16c7b13563ed0dc3c2e94dadcf776e03413c
+  classification: unspecified
+
+# Fix quoting  (@Jack Lloyd)
+- commit: f6a9834545bcefed38274e8a46aa66bd377e0544  # https://github.com/randombit/botan/commit/f6a9834545bcefed38274e8a46aa66bd377e0544
+  classification: unspecified
+
+# Rephrase this log line  (@Jack Lloyd)
+- commit: fa9972e3a6365c40cafc7cb9913534688a8f2b7f  # https://github.com/randombit/botan/commit/fa9972e3a6365c40cafc7cb9913534688a8f2b7f
+  classification: unspecified
+
+# Fix compile_commands.json  (@Jack Lloyd)
+- commit: d7f54291d485f48b075733a758747f31e13e8312  # https://github.com/randombit/botan/commit/d7f54291d485f48b075733a758747f31e13e8312
+  classification: unspecified

@@ -49,3 +49,8 @@ patches:
 - pr: 3583  # https://github.com/randombit/botan/pull/3583
   merge_commit: 9bf2f5456d4af67b112b35fa9208265d7353992b
   classification: unspecified
+
+# Use deterministic port numbers for the CLI tests  (@randombit)
+- pr: 3596  # https://github.com/randombit/botan/pull/3596
+  merge_commit: eac046cee93930d51cdebba3d1c4534949f163de
+  classification: unspecified

@@ -98,3 +98,15 @@ patches:
 - commit: 7bf53621be808192fdb87832c5317178fa2c6ef7  # https://github.com/randombit/botan/commit/7bf53621be808192fdb87832c5317178fa2c6ef7
   classification: info
   auditer: reneme
+
+# Update for 3.1.0 release  (@Jack Lloyd)
+- commit: c6a09af66a77fca62bbd85242192fa045d04a5b3  # https://github.com/randombit/botan/commit/c6a09af66a77fca62bbd85242192fa045d04a5b3
+  classification: unspecified
+
+# Update changelog  (@Jack Lloyd)
+- commit: 682f88be390151cc7814975c569e81fc29d80222  # https://github.com/randombit/botan/commit/682f88be390151cc7814975c569e81fc29d80222
+  classification: unspecified
+
+# Update release notes [ci skip]  (@Jack Lloyd)
+- commit: 0eeb41761250169c75594b2d54a002198dbaf78c  # https://github.com/randombit/botan/commit/0eeb41761250169c75594b2d54a002198dbaf78c
+  classification: unspecified
