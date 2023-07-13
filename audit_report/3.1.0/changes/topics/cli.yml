@@ -74,4 +74,4 @@ patches:
 # Add PSK-support to TLS client/server CLI tools  (@reneme)
 - pr: 3552  # https://github.com/randombit/botan/pull/3552
   merge_commit: 9bb052c31540b336ab6b0008e64382fdcd438bb9
-  classification: unspecified
+  classification: info

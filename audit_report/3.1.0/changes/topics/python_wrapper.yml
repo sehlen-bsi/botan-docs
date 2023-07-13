@@ -30,4 +30,5 @@ patches:
 
 # Bump PBKDF default iterations in the Python module  (@Jack Lloyd)
 - commit: 289cfb1e3c4ddfcdd861c5495ba7eee2062d8ad5  # https://github.com/randombit/botan/commit/289cfb1e3c4ddfcdd861c5495ba7eee2062d8ad5
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
