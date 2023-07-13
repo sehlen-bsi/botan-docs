@@ -82,7 +82,7 @@ jobs:
         with:
           path: ./audit_generator_cache
           key: audit_3.1-${{ github.run_id }}
-          restore-keys: audit_3.0
+          restore-keys: audit_3.1
 
       - name: Verify Patch Coverage
         working-directory: source/audit_report/3.1.0

@@ -36,6 +36,9 @@ class CachingRequester(Requester.Requester):
         for keys in self.cachable_resources:
             self.cache[keys] = {}
 
+        self._requests = 0
+        self._cache_hits = 0
+
     def _should_cache_as(self, verb, url):
         if verb != "GET":
             return None, None
@@ -93,13 +96,25 @@ class CachingRequester(Requester.Requester):
     def has_disk_cache(self):
         return self.cache_location is not None
 
+    def request_count(self):
+        return self._requests
+
+    def cache_hits(self):
+        return self._cache_hits
+
+    def cache_hit_rate(self):
+        return float(self._cache_hits) / float(self._requests)
+
     # This hooks into PyGithub's Requester, intercepts all network requests
     # to GitHub's API and injects cached items as needed
     def _Requester__requestEncode(self, cnx, verb, url, parameters, headers, input, encode):
         res, ref = self._should_cache_as(verb, url)
         should_cache = res != None
 
+        self._requests += 1
+
         if should_cache and self.contains(res, ref):
+            self._cache_hits += 1
             return 200, *self._retrieve_from_cache(res, ref)
 
         if should_cache:

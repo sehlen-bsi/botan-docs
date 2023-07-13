@@ -6,6 +6,8 @@ import sys
 import logging
 import io
 
+from datetime import datetime
+
 from github.PullRequest import PullRequest
 from github.Commit import Commit
 
@@ -46,7 +48,7 @@ def _render_pull_request(info: PullRequest, yaml_info: genaudit.PullRequest, yam
         print("Pull Request: '%s' by @%s\n              %s" % (title, author, url), file=stream)
 
 
-def find_unrefed(args: argparse.Namespace):
+def find_unrefed(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.Namespace):
     def _render_commit(info: Commit, stream: io.StringIO):
         sha = info.sha
         msg = info.commit.message.splitlines()[0]
@@ -60,8 +62,6 @@ def find_unrefed(args: argparse.Namespace):
             print(file=stream)
         else:
             print("Commit: '%s' by %s\n        %s" % (msg, author, url), file=stream)
-
-    audit, repo = _init(args)
 
     output = io.StringIO()
     if args.yaml:
@@ -89,9 +89,7 @@ def find_unrefed(args: argparse.Namespace):
         return 0
 
 
-def verify_merge_commits(args: argparse.Namespace):
-    audit, repo = _init(args)
-
+def verify_merge_commits(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.Namespace):
     inconsistent_prs = genaudit.find_misreferenced_pull_request_merges(audit, repo)
     logging.info("Found %d Pull Requests with misreferenced commits", len(inconsistent_prs))
 
@@ -110,8 +108,7 @@ def verify_merge_commits(args: argparse.Namespace):
     return 0 if not inconsistent_prs else 1
 
 
-def render_audit_report(args: argparse.Namespace):
-    audit, repo = _init(args)
+def render_audit_report(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.Namespace):
     renderer = genaudit.Renderer(audit, repo)
     if args.out_dir:
         if renderer.render_to_files(args.out_dir, args.update):
@@ -170,7 +167,17 @@ def main():
 
     loglevel = logging.DEBUG if args.verbose else logging.INFO
     logging.basicConfig(level=loglevel)
-    return args.func(args)
+
+    audit, repo = _init(args)
+    try:
+        rate_limit = repo.rate_limit()
+        reset_time_h = int((rate_limit.reset - datetime.now()).seconds / 60 / 60)
+        reset_time_m = (rate_limit.reset - datetime.now()).seconds / 60 % 60
+        logging.info("Current GitHub API rate limit: %d/%d (will reset in: %d hours %d minutes)", rate_limit.remaining, rate_limit.limit, reset_time_h, reset_time_m)
+
+        return args.func(audit, repo, args)
+    finally:
+        logging.info("Performed %d API requests (%.1f%% cache hits)", repo.api_request_count(), repo.api_cache_hit_rate() * 100)
 
 
 if __name__ == "__main__":
