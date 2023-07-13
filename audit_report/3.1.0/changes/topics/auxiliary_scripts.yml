@@ -48,3 +48,8 @@ patches:
 # Add a script to analyze output of `botan timing_test` [ci skip]  (@Jack Lloyd)
 - commit: 49cb42470d670f9c9b102a2c5bbf0492d9f9254a  # https://github.com/randombit/botan/commit/49cb42470d670f9c9b102a2c5bbf0492d9f9254a
   classification: unspecified
+
+# Generate .clang-tidy files from run_clang_tidy.py  (@reneme)
+- pr: 3592  # https://github.com/randombit/botan/pull/3592
+  merge_commit: 63cd7a25828de02c921efa3a3d08862ff2bfdcaf
+  classification: unspecified

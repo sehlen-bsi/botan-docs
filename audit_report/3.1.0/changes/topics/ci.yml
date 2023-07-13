@@ -254,3 +254,8 @@ patches:
 # Use coverage badge from shields.io [ci skip]  (@Jack Lloyd)
 - commit: 3364d87e662b8cdfe2ab5bd9477d59470168e4c6  # https://github.com/randombit/botan/commit/3364d87e662b8cdfe2ab5bd9477d59470168e4c6
   classification: unspecified
+
+# Update CI to XCode 14.3  (@randombit)
+- pr: 3598  # https://github.com/randombit/botan/pull/3598
+  merge_commit: 7451323ce2329709ef1a02fa2f70ed57bf157f67
+  classification: unspecified
