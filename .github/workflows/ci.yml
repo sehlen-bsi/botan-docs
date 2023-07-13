@@ -102,6 +102,19 @@ jobs:
           AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
           BASIC_GH_TOKEN: ${{ github.token }}
 
+      - name: Query the API Rate Limit
+        run: ${{ github.workspace }}/source/.github/scripts/query_rate_limit.sh
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Store Audit Generator Cache on Rate Limit Exceeded
+        uses: actions/cache/save@v3
+        if: ${{ failure() && env.API_RATE_LIMIT_EXCEEDED == 'true' }}
+        with:
+          path: ./audit_generator_cache
+          key: audit_3.1-${{ github.run_id }}
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:

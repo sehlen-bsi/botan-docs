@@ -10,6 +10,7 @@ from datetime import datetime
 
 from github.PullRequest import PullRequest
 from github.Commit import Commit
+from github.GithubException import RateLimitExceededException
 
 import genaudit
 
@@ -176,6 +177,11 @@ def main():
         logging.info("Current GitHub API rate limit: %d/%d (will reset in: %d hours %d minutes)", rate_limit.remaining, rate_limit.limit, reset_time_h, reset_time_m)
 
         return args.func(audit, repo, args)
+    except RateLimitExceededException:
+        rate_limit = repo.rate_limit()
+        reset_time_m = (rate_limit.reset - datetime.now()).seconds / 60
+        logging.error("API rate limit exceeded (will reset in %d minutes)" % reset_time_m)
+        return 1
     finally:
         logging.info("Performed %d API requests (%.1f%% cache hits)", repo.api_request_count(), repo.api_cache_hit_rate() * 100)
 
