@@ -113,7 +113,7 @@ DSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^
 
 For DSA signatures no padding is required. The only suitable signature
-scheme DL/ECSSA (EMSA1) uses a cryptographic hash function to compute a
+scheme DL/ECSSA (EMSA1) [IEEE-1363-2000]_ uses a cryptographic hash function to compute a
 representative message with the length of ``q`` from the DSA public key.
 If the computed hash is longer than the specified ``output_bits`` (length of
 ``q``), the algorithm returns only the ``output_bits`` highest bits of the
@@ -216,7 +216,7 @@ The implementation follows [X9.62]_ or [RFC6979]_ if the corresponding module is
 ECDSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Similarly to DSA, ECDSA uses the DL/ECSSA (EMSA1) signature scheme to
+Similarly to DSA, ECDSA uses the DL/ECSSA (EMSA1) [IEEE-1363-2000]_ signature scheme to
 compute a representative of the message to be signed.
 
 Signature Creation
@@ -301,9 +301,11 @@ implementation follows [ISO-14888-3]_.
 ECKCDSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Similarly to other DSA variants, ECKCDSA uses the DL/ECSSA (EMSA1)
+Unlike other DSA variants, ECKCDSA does not use the DL/ECSSA (EMSA1) [IEEE-1363-2000]_
 signature scheme to compute a representative of the message to be
 signed.
+Instead besides the the message itself,
+it also includes the public key in the representative.
 
 Signature Creation
 ^^^^^^^^^^^^^^^^^^

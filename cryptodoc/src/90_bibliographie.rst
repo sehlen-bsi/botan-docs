@@ -49,6 +49,11 @@
    Nonce-Disrespecting Adversaries: Practical Forgery Attacks on GCM in TLS.
    WOOT'16
 
+.. [IEEE-1363-2000] IEEE Std 1363-2000:
+   "IEEE Standard Specifications for Public-Key Cryptography",
+   https://ieeexplore.ieee.org/document/891000,
+   29 August 2000
+
 .. [IEEE-1619] IEEE Std 1619-2018:
    "IEEE Standard for Cryptographic Protection of Data on Block-Oriented Storage Devices",
    https://ieeexplore.ieee.org/document/8637988,
