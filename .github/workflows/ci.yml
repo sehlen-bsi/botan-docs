@@ -7,6 +7,19 @@ permissions:
   contents: read
   # implicitly all other scopes not listed become none
 
+env:
+  # The version of Botan that is currently being targeted by this documentation.
+  # This must be a semver version string and will be printed (among other
+  # things) as the reference version in the final document outputs. As such, it
+  # might be a preliminary version that is still in development.
+  BOTAN_TARGET_VERSION: 3.1.1
+
+  # The concrete Botan repository reference that is currently used in the
+  # creation of source-code related document generation. Once a Botan release is
+  # minted, this may be the git-tag of that release. During development of an
+  # upcoming version it should be a concrete commit SHA on Botan's main branch.
+  BOTAN_TARGET_REF: 3.1.1
+
 jobs:
   pdf_creation:
     strategy:
@@ -56,7 +69,7 @@ jobs:
         run: make SPHINXOPTS="-D src_ref_check_url=True -W --keep-going" html
 
   audit_generation:
-    name: Build PDF - Audit Report 3.1.0
+    name: Build PDF - Audit Report
     runs-on: ubuntu-22.04
     steps:
       - name: Fetch Audit Repository
@@ -75,17 +88,17 @@ jobs:
           sudo apt-get update
           sudo apt-get -qq install texlive-latex-extra texlive-fonts-recommended tex-gyre latexmk
           pip install -r source/audit_generator/requirements.txt
-          pip install -r source/audit_report/3.1.0/requirements.txt
+          pip install -r source/audit_report/${{ env.BOTAN_TARGET_VERSION }}/requirements.txt
 
       - name: Handle the Audit Generator Cache
         uses: actions/cache@v3
         with:
           path: ./audit_generator_cache
-          key: audit_3.1-${{ github.run_id }}
-          restore-keys: audit_3.1
+          key: audit_${{ github.run_id }}
+          restore-keys: audit_
 
       - name: Verify Patch Coverage
-        working-directory: source/audit_report/3.1.0
+        working-directory: source/audit_report/${{ env.BOTAN_TARGET_VERSION }}
         run: python3 -m audit unrefed --yaml changes
         env:
           PYTHONPATH: ${{ github.workspace }}/source/audit_generator
@@ -94,7 +107,7 @@ jobs:
           BASIC_GH_TOKEN: ${{ github.token }}
 
       - name: Build Document
-        working-directory: source/audit_report/3.1.0
+        working-directory: source/audit_report/${{ env.BOTAN_TARGET_VERSION }}
         run: make latexpdf
         env:
           PYTHONPATH: ${{ github.workspace }}/source/audit_generator
@@ -113,10 +126,10 @@ jobs:
         if: ${{ failure() && env.API_RATE_LIMIT_EXCEEDED == 'true' }}
         with:
           path: ./audit_generator_cache
-          key: audit_3.1-${{ github.run_id }}
+          key: audit_${{ github.run_id }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: botan_audit_3.1.0_${{ github.sha }}
-          path: source/audit_report/3.1.0/_build/latex/*.pdf
+          name: Botan ${{ env.BOTAN_TARGET_VERSION }} Audit Report
+          path: source/audit_report/${{ env.BOTAN_TARGET_VERSION }}/_build/latex/*.pdf
