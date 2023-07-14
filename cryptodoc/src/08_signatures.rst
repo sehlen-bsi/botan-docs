@@ -304,7 +304,7 @@ ECKCDSA Signature Schemes
 Unlike other DSA variants, ECKCDSA does not use the DL/ECSSA (EMSA1) [IEEE-1363-2000]_
 signature scheme to compute a representative of the message to be
 signed.
-Instead besides the the message itself,
+Instead besides the message itself,
 it also includes the public key in the representative.
 
 Signature Creation
