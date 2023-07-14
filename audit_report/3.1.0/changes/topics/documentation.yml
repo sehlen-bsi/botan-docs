@@ -267,24 +267,30 @@ patches:
 # Add some examples of how to write a custom entropy source  (@randombit)
 - pr: 3606  # https://github.com/randombit/botan/pull/3606
   merge_commit: 4eb70d21a1fc916cfe0df4ec163938ff218ea0bb
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Clarify that we actually need at least GCC 11.2 [ci skip]  (@Jack Lloyd)
 - commit: c2521c323d18a677ba4fa6905769f25824f3fe7d  # https://github.com/randombit/botan/commit/c2521c323d18a677ba4fa6905769f25824f3fe7d
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update todos [ci skip]  (@Jack Lloyd)
 - commit: 1892840be8300e24c6a2b0abfa9424cbbc9b497e  # https://github.com/randombit/botan/commit/1892840be8300e24c6a2b0abfa9424cbbc9b497e
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update todo  (@Jack Lloyd)
 - commit: 4af92f41de05fc8c9f0a97d545172eaaaf977017  # https://github.com/randombit/botan/commit/4af92f41de05fc8c9f0a97d545172eaaaf977017
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Call out that the NDK/XCode minimum version is floating [ci skip]  (@Jack Lloyd)
 - commit: bc5e1c87093ea71b738066341edf3d0213562cc7  # https://github.com/randombit/botan/commit/bc5e1c87093ea71b738066341edf3d0213562cc7
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update readme [ci skip]  (@Jack Lloyd)
 - commit: f5fb96c39fe83edcbc8206dbdc9e159edde0e77c  # https://github.com/randombit/botan/commit/f5fb96c39fe83edcbc8206dbdc9e159edde0e77c
-  classification: unspecified
+  classification: info
+  auditer: reneme
