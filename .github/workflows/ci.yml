@@ -46,7 +46,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: botan_${{ matrix.element.out_name }}-${{ github.sha }}
+          name: Botan ${{ env.BOTAN_TARGET_VERSION }} ${{ matrix.element.name }}
           path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}.pdf
 
   url_check:
