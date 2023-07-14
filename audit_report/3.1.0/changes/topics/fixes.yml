@@ -116,7 +116,7 @@ patches:
 # FIX: minor quirks in DL Scheme implementation  (@reneme)
 - pr: 3586  # https://github.com/randombit/botan/pull/3586
   merge_commit: 5288e84e1ed9702092e034bef8a43c615480bd57
-  classification: unspecified
+  classification: info
 
 # Fix BigInt::random_integer logic that can cause slow execution  (@randombit)
 - pr: 3594  # https://github.com/randombit/botan/pull/3594
