@@ -130,6 +130,11 @@
    https://www.rfc-editor.org/info/rfc5869,
    May 2010
 
+.. [RFC9106] Alex Biryukov, Daniel Dinu, Dmitry Khovratovich, Simon Josefsson: RFC 9106:
+   "Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications",
+   https://www.rfc-editor.org/info/rfc9106,
+   September 2021
+
 .. [RFC6125] Internet Engineering Task Force: RFC6125:
    "Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)",
    http://tools.ietf.org/html/rfc6125, March 2011

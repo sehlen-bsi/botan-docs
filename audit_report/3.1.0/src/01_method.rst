@@ -55,130 +55,131 @@ reviewed:
      - aes_power8
    * - aes_vperm
      - argon2
+     - argon2_avx2
      - argon2_ssse3
      - argon2fmt
-     - asn1
-   * - auto_rng
+   * - asn1
+     - auto_rng
      - base
      - base64
      - bigint
-     - blake2
-   * - block
+   * - blake2
+     - block
      - cbc
      - ccm
      - certstor
-     - certstor_flatfile
-   * - certstor_macos
+   * - certstor_flatfile
+     - certstor_macos
      - certstor_sql
      - certstor_sqlite3
      - certstor_system
-     - certstor_system_macos
-   * - certstor_system_windows
+   * - certstor_system_macos
+     - certstor_system_windows
      - certstor_windows
      - cmac
      - cpuid
-     - ctr
-   * - dh
+   * - ctr
+     - dh
      - dilithium
      - dilithium_aes
      - dilithium_common
-     - dl_algo
-   * - dl_group
+   * - dl_algo
+     - dl_group
      - dlies
      - dsa
      - dyn_load
-     - ec_group
-   * - ecc_key
+   * - ec_group
+     - ecc_key
      - ecdh
      - ecdsa
      - ecgdsa
-     - ecies
-   * - eckcdsa
+   * - ecies
+     - eckcdsa
      - eme_oaep
      - eme_pkcs1
      - emsa_pkcs1
-     - emsa_pssr
-   * - entropy
+   * - emsa_pssr
+     - entropy
      - ffi
      - gcm
      - getentropy
-     - ghash
-   * - ghash_cpu
+   * - ghash
+     - ghash_cpu
      - ghash_vperm
      - gmac
      - hash
-     - hash_id
-   * - hex
+   * - hash_id
+     - hex
      - hkdf
      - hmac
      - hmac_drbg
-     - http_util
-   * - iso9796
+   * - http_util
+     - iso9796
      - kdf
      - kdf1_iso18033
      - keypair
-     - kyber
-   * - kyber_90s
+   * - kyber
+     - kyber_90s
      - kyber_common
      - locking_allocator
      - mac
-     - mdx_hash
-   * - mem_pool
+   * - mdx_hash
+     - mem_pool
      - mgf1
      - mode_pad
      - modes
-     - mp
-   * - numbertheory
+   * - mp
+     - numbertheory
      - pbkdf
      - pem
      - pk_pad
-     - pkcs11
-   * - poly_dbl
+   * - pkcs11
+     - poly_dbl
      - prf_tls
      - processor_rng
      - pubkey
-     - rdseed
-   * - rng
+   * - rdseed
+     - rng
      - rsa
      - sha1
      - sha1_armv8
-     - sha1_sse2
-   * - sha1_x86
+   * - sha1_sse2
+     - sha1_x86
      - sha2_32
      - sha2_32_armv8
      - sha2_32_bmi2
-     - sha2_32_x86
-   * - sha2_64
+   * - sha2_32_x86
+     - sha2_64
      - sha2_64_bmi2
      - sha3
-     - sha3_bmi2
-   * - shake
+   * - sha3_bmi2
+     - shake
      - shake_cipher
      - simd
      - socket
-     - sp800_108
-   * - sp800_56c
+   * - sp800_108
+     - sp800_56c
      - sphincsplus_common
      - sphincsplus_sha2
      - sphincsplus_shake
-     - stateful_rng
-   * - stream
+   * - stateful_rng
+     - stream
      - system_rng
      - thread_utils
      - tls
-     - tls_cbc
-   * - tls12
+   * - tls_cbc
+     - tls12
      - tls13
      - trunc_hash
      - utils
-     - win32_stats
-   * - x509
+   * - win32_stats
+     - x509
      - xmss
      - xts
-     -
      -
 
 The following previously existing modules are now in scope
 and were fully reviewed:
 
+- argon2, argon2_avx2, argon2_ssse3
 - hkdf
