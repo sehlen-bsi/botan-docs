@@ -53,4 +53,4 @@ patches:
   # Generate .clang-tidy files from run_clang_tidy.py  (@reneme)
 - pr: 3592  # https://github.com/randombit/botan/pull/3592
   merge_commit: 63cd7a25828de02c921efa3a3d08862ff2bfdcaf
-  classification: unspecified
+  classification: info

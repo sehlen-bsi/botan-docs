@@ -264,4 +264,4 @@ patches:
 # Update CI to XCode 14.3  (@randombit)
 - pr: 3598  # https://github.com/randombit/botan/pull/3598
   merge_commit: 7451323ce2329709ef1a02fa2f70ed57bf157f67
-  classification: unspecified
+  classification: info
