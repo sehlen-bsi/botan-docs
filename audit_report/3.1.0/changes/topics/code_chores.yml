@@ -627,49 +627,63 @@ patches:
 # Fix some clang-tidy warnings in ARM specific code  (@randombit)
 - pr: 3603  # https://github.com/randombit/botan/pull/3603
   merge_commit: 2f51bce338913663213455756dd16f284e253045
-  classification: unspecified
+  classification: relevant
+  auditer: reneme
+  comment: |
+    Among other (less relevant) changes, this refactors the ARM-specific
+    implementation of AES to use forced-inline functions instead of preprocessor
+    macros for orchestrating certain AES hardware intrinsics.
 
 # Fix clang-tidy warnings in the compression code  (@randombit)
 - pr: 3602  # https://github.com/randombit/botan/pull/3602
   merge_commit: d638bcdefeddc0d7b1053a172df81eef8dfc64aa
-  classification: unspecified
+  classification: out of scope
+  auditer: reneme
 
 # Fix clang-tidy warnings in some asio specific tests  (@randombit)
 - pr: 3601  # https://github.com/randombit/botan/pull/3601
   merge_commit: 3c2b9c57c824c5a21d7490906af26e33a22d239f
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Further clang-tidy fixes  (@randombit)
 - pr: 3600  # https://github.com/randombit/botan/pull/3600
   merge_commit: e6b379b30b690a439b19749ef856a88c61e3bbb1
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Improve clang-tidy coverage  (@randombit)
 - pr: 3595  # https://github.com/randombit/botan/pull/3595
   merge_commit: cbfbfa15503b7901976d7dbf18e3d5801e5e18c9
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Chore: Make clang-tidy believe that StrongSpan<> really is cheap to copy  (@reneme)
 - pr: 3593  # https://github.com/randombit/botan/pull/3593
   merge_commit: 92171c524519fd225be3cc55fe289c5ad28ff0b7
-  classification: unspecified
+  classification: info
 
 # Small macro cleanup  (@Jack Lloyd)
 - commit: b510d4c398807bfed329e4620ce38011e7f43724  # https://github.com/randombit/botan/commit/b510d4c398807bfed329e4620ce38011e7f43724
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fix one more clang-tidy warning  (@Jack Lloyd)
 - commit: 73ad31acf0789a1c10e29121ab42a9f18e8b33b8  # https://github.com/randombit/botan/commit/73ad31acf0789a1c10e29121ab42a9f18e8b33b8
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Disable pylint too-many-return-statements  (@Jack Lloyd)
 - commit: c12cab94dbcbd3edc82b610356d8fbe6b244425e  # https://github.com/randombit/botan/commit/c12cab94dbcbd3edc82b610356d8fbe6b244425e
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fix another clang-tidy warning  (@Jack Lloyd)
 - commit: e15c45c297e930ac62c5575848f3c0c350249503  # https://github.com/randombit/botan/commit/e15c45c297e930ac62c5575848f3c0c350249503
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fix some clang-tidy warnings that popped up in the nightly run  (@Jack Lloyd)
 - commit: d09bff761e819a5937883051090ede59050aaaaa  # https://github.com/randombit/botan/commit/d09bff761e819a5937883051090ede59050aaaaa
-  classification: unspecified
+  classification: info
+  auditer: reneme
