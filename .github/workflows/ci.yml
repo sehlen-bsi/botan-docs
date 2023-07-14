@@ -143,3 +143,28 @@ jobs:
         with:
           name: Botan ${{ env.BOTAN_VERSION }} Audit Report
           path: source/docs/audit_report/_build/latex/*.pdf
+
+  source_archive:
+    name: "Source Archive"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: randombit/botan
+          fetch-depth: 0
+          ref: 3.1.1
+
+      - name: Generate Archive
+        run: python3 ${{ github.workspace }}/source/codebase_exports/source_archive/generate.py --output-dir build --source-dir botan
+
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Botan Source Archive
+          path: build/*.zip
