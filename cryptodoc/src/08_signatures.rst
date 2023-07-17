@@ -113,7 +113,7 @@ DSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^
 
 For DSA signatures no padding is required. The only suitable signature
-scheme DL/ECSSA (EMSA1) uses a cryptographic hash function to compute a
+scheme DL/ECSSA (EMSA1) [IEEE-1363-2000]_ uses a cryptographic hash function to compute a
 representative message with the length of ``q`` from the DSA public key.
 If the computed hash is longer than the specified ``output_bits`` (length of
 ``q``), the algorithm returns only the ``output_bits`` highest bits of the
@@ -216,7 +216,7 @@ The implementation follows [X9.62]_ or [RFC6979]_ if the corresponding module is
 ECDSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Similarly to DSA, ECDSA uses the DL/ECSSA (EMSA1) signature scheme to
+Similarly to DSA, ECDSA uses the DL/ECSSA (EMSA1) [IEEE-1363-2000]_ signature scheme to
 compute a representative of the message to be signed.
 
 Signature Creation
@@ -296,14 +296,16 @@ ECKCDSA
 
 The Korean Certificate-based Digital Signature Algorithm over elliptic
 curves is implemented in :srcref:`src/lib/pubkey/eckcdsa/eckcdsa.cpp`. The
-implementation follows [TR-03111]_.
+implementation follows [ISO-14888-3]_.
 
 ECKCDSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Similarly to other DSA variants, ECKCDSA uses the DL/ECSSA (EMSA1)
+Unlike other DSA variants, ECKCDSA does not use the DL/ECSSA (EMSA1) [IEEE-1363-2000]_
 signature scheme to compute a representative of the message to be
 signed.
+Instead besides the message itself,
+it also includes the public key in the representative.
 
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
@@ -314,10 +316,12 @@ The signature generation algorithm works as follows:
 
    **Input:**
 
-   -  ``m``: raw bytes to sign (EMSA1 encoded data)
-   -  EC_Privatekey with inverse: ``d``, ``Q``, domain(curve parameters(first
-      coefficient a, second coefficient b, prime p), base point G, ord(G)
-      n, cofactor of the curve h)
+   -  ``m``: raw bytes to sign (the hash-code ``H`` in  [ISO-14888-3]_,
+      which is the truncated hash from the public key and message)
+   -  EC_Privatekey with invers: ``d``, ``Q``, domain (curve parameters (first coefficient
+      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
+      cofactor of the curve ``h``)
+   -  ``rng``: random number generator
 
    **Output:**
 
@@ -331,18 +335,18 @@ The signature generation algorithm works as follows:
       :ref:`pubkey_param/rng`.
    2. Sample a :math:`\lceil \frac{lenth(n)}{2} \rceil` bit long random blinding
       ``mask`` from ``rng`` and compute :math:`k'=k+n*mask`.
-   3. Compute point :math:`W=(x_1,y_1)=k'*G`. This computation utilizes randomized Jacobian point
-      coordinates with a blinding masks that is equal in size to the
-      underlying field.
-   4. Compute
-      :math:`{r = H}{(x_{1})}`
-      , where :math:`H`
-      is the hash function used in the current instance of the EMSA1
-      signature scheme.
-   5. Compute
+   3. Compute point :math:`W=(x_1,y_1)=k'*G`.
+   4. Compute the witness
+      :math:`{r = h}{(x_{1})}`
+      , where :math:`h`
+      is the hash function used in the current instance of the signature scheme.
+   5. If the output length of the hash function :math:`h` exceeds the size of the group order,
+      truncate the *low side* in :math:`r` on a byte level to the size of the group order.
+      This means bytes in :math:`r` are discarded starting from the beginning of the byte sequence.
+   6. Compute
       :math:`{s = {d \ast {({{k - r}\oplus m})}}}\bmod n`
       . If :math:`s=0` applies, the algorithm terminates with an error.
-   6. Return ECKCDSA signature (r,s).
+   7. Return ECKCDSA signature (r,s).
 
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -353,10 +357,11 @@ The signature verification algorithm works as follows:
 
    **Input:**
 
-   -  ``m``: message bytes
-   -  EC_Publickey: ``Q``, domain(curve parameters(first coefficient a,
-      second coefficient b, prime p), base point G, ord(G) n, cofactor of
-      the curve h)
+   -  ``m``: raw bytes to verify (the hash-code ``H`` in  [ISO-14888-3]_,
+      which is the truncated hash from the public key and message)
+   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
+      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
+      cofactor of the curve ``h``)
    -  (``r``, ``s``): ECKCDSA signature
 
    **Output:**
@@ -369,9 +374,14 @@ The signature verification algorithm works as follows:
       Terminates otherwise.
    2. Compute :math:`e=r \oplus m \bmod n`.
    3. Compute point :math:`W=s*q+e*G` with Shamir's trick.
-   4. Return ``true`` if :math:`r=H(x_i)` applies, where :math:`H` is the hash function used in the
-      current instance of the EMSA1 signature scheme. Otherwise returns
-      ``false``.
+   4. Recompute the witness :math:`r'=h(x_i)`,
+      where :math:`h` is the hash function used in the current instance of the signature scheme.
+   5. If the output length of the hash function :math:`h` exceeds the size of the group order,
+      truncate the *low side* in :math:`r` on a byte level to the size of the group order.
+      This means bytes in :math:`r` are discarded starting from the beginning of the byte sequence.
+   6. Return ``true`` if the recomputed witness :math:`r'` is equal to
+      the witness :math:`r` inside the signature.
+      Otherwise return ``false``.
 
 ECGDSA
 ------
@@ -393,9 +403,10 @@ The signature generation algorithm works as follows:
    **Input:**
 
    -  ``m``: raw bytes to sign (EMSA1 encoded data)
-   -  EC_Privatekey with inverse: ``d``, ``Q``, domain(curve parameters(first
-      coefficient a, second coefficient b, prime p), base point G, ord(G)
-      n, cofactor of the curve h)
+   -  EC_Privatekey with invers: ``d``, ``Q``, domain (curve parameters (first coefficient
+      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
+      cofactor of the curve ``h``)
+   -  ``rng``: random number generator
 
    **Output:**
 
@@ -428,9 +439,9 @@ The signature verification algorithm works as follows:
    **Input:**
 
    -  ``m``: message bytes
-   -  EC_Publickey: ``Q``, domain(curve parameters(first coefficient a,
-      second coefficient b, prime p), base point G, ord(G) n, cofactor of
-      the curve h)
+   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
+      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
+      cofactor of the curve ``h``)
    -  (``r``, ``s``): ECGDSA signature
 
    **Output:**
