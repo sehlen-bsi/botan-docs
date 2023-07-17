@@ -15,3 +15,6 @@ The maximum memory size in Botan is more restricted than specified in [RFC9106]_
 Botan allows a maximum of :math:`2^{23}` KiB.
 
 The default parameter choice and tuning of parameters does not follow [RFC9106]_.
+Instead a less secure default is used for the default values.
+Used parameters should be selected by an expert for the specific use case
+instead of relying on Botan's default values.
