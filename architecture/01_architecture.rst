@@ -56,7 +56,7 @@ Users can specify fine-grained selections on which cryptographic algorithms,
 hardware-specific optimized implementations, protocols, operating system adapters
 and more should be part of their custom built library.
 This module selection can also be driven by a build policy.
-E.g. the `BSI build policy <https://github.com/randombit/botan/blob/master/src/build-data/policy/bsi.txt>`_ can be used to create a Botan build that contains algorithms compliant with BSI's technical specifications only.
+E.g. the BSI build policy :srcref:`src/build-data/policy/bsi.txt` can be used to create a Botan build that contains algorithms compliant with BSI's technical specifications only.
 
 Further details on the usage and implementation of Botan's build system are available here:
 
