@@ -1,0 +1,89 @@
+title: "PQC: Dilithium"
+
+description: |
+  CRYSTALS-Dilithium was added to Botan. Additionally, some adjustments were
+  made including the adaptions for the usage in X.509 certificates, test
+  additions and optimizations, and general polishing. Also, there are fixes of
+  minor bugs and some optimizations by precomputing and reusing values.
+
+patches:
+# Removed redundant matrix creation in dilithium keygen  (@FAlbertDev)
+- pr: 3449  # https://github.com/randombit/botan/pull/3449
+  merge_commit: 7333e0a9136ef7941e0cba560bd3560ec4cfaa8a
+  classification: info
+
+# Remove DER encoding support in Dilithium  (@reneme)
+- pr: 3412  # https://github.com/randombit/botan/pull/3412
+  merge_commit: c412549d14f250f5aa8348b83e2ee1b39537d3c4
+  classification: info
+
+# In Dilithium cache the public matrix in the operations struct  (@randombit)
+- pr: 3386  # https://github.com/randombit/botan/pull/3386
+  merge_commit: 738906e6b1fa420590f5ddc9ea4ec2b4b0d78dd6
+  classification: info
+
+# In Dilithium cache the public key hash  (@randombit)
+- pr: 3369  # https://github.com/randombit/botan/pull/3369
+  merge_commit: 652d33e56237c8a81e686765b9a954af0d361dd0
+  classification: info
+  auditer: FAlbertDev
+
+# Fix Dilithium verification  (@randombit)
+- pr: 3368  # https://github.com/randombit/botan/pull/3368
+  merge_commit: f4711866d84c37fdb64c19a8efff8da50599f722
+  classification: relevant
+  comment: |
+    Fix of a bug, where all verifications after the first one fail
+
+# Add Dilithium to cli speed tool  (@randombit)
+- pr: 3301  # https://github.com/randombit/botan/pull/3301
+  merge_commit: 29565c5bfe11ae54941232cad267b5cdc36a4296
+  classification: info
+  auditer: FAlbertDev
+
+# Fix Dilithium verification  (@randombit)
+- pr: 3304  # https://github.com/randombit/botan/pull/3304
+  merge_commit: 8eb535f099a5ea732dd9c729c4fb9beaaac8b945
+  classification: relevant
+  comment: |
+    Fix of a bug, where the message is no reset after the verification
+
+# Reduce the size of Dilithium and Kyber test data  (@randombit)
+- pr: 3270  # https://github.com/randombit/botan/pull/3270
+  merge_commit: 687369347f9d6d5a0d7140e6b8e1c449212cbcab
+  classification: info
+
+# FIX: Verify X.509 with Dilithium  (@reneme)
+- pr: 3223  # https://github.com/randombit/botan/pull/3223
+  merge_commit: 96a11cb189130718361cf91368af5a7a447ea289
+  classification: relevant
+
+# Dilithium/Kyber in X.509  (@reneme)
+- pr: 3212  # https://github.com/randombit/botan/pull/3212
+  merge_commit: 38bae86fcac0c98521a1e1a4bf8d3125ea47645b
+  classification: critical
+
+# Dilithium pqc  (@omarama)
+- pr: 2973  # https://github.com/randombit/botan/pull/2973
+  merge_commit: d5083f3013bdc5eb26252f3764db55564946ca99
+  classification: critical
+
+# In Dilithium accept only two specific params  (@Jack Lloyd)
+- commit: 409182a0ec86ec35cafb9734b0b50c0b56e45cb2  # https://github.com/randombit/botan/commit/409182a0ec86ec35cafb9734b0b50c0b56e45cb2
+  classification: info
+  auditer: FAlbertDev
+
+# Avoid unnecessary copy in this test  (@Jack Lloyd)
+- commit: ab24ac263f17a5d884cc580cbe26199b90399404  # https://github.com/randombit/botan/commit/ab24ac263f17a5d884cc580cbe26199b90399404
+  classification: out of scope
+  auditer: reneme
+
+# Add a destructor to appease clang-tidy  (@Jack Lloyd)
+- commit: 1623bfc70097e4ce5ef98d38ef2f31f92f56c812  # https://github.com/randombit/botan/commit/1623bfc70097e4ce5ef98d38ef2f31f92f56c812
+  classification: info
+  auditer: reneme
+
+# Remove unnecesary include  (@Jack Lloyd)
+- commit: fa95c776ebf5a3c066a90c9546f09f41ed569133  # https://github.com/randombit/botan/commit/fa95c776ebf5a3c066a90c9546f09f41ed569133
+  classification: out of scope
+  auditer: reneme

@@ -1,0 +1,34 @@
+title: Python Bindings
+
+description: |
+  Minor adjustments and fixes for the python bindings. No new functionality was
+  added.
+
+patches:
+# Fix Python wrappers string conversion  (@randombit)
+- pr: 3422  # https://github.com/randombit/botan/pull/3422
+  merge_commit: abe9fc44ce921382a397097515c02a9788fa3665
+  classification: info
+  auditer: reneme
+
+# Rename the Python module to match the major version  (@randombit)
+- pr: 3272  # https://github.com/randombit/botan/pull/3272
+  merge_commit: 80591d063bb1efdafbc4ef03ad945dba6bf082e4
+  classification: info
+  auditer: reneme
+
+# Add check on input count in Python zfec decoding [ci skip]  (@Jack Lloyd)
+- commit: 053d9d91e5e5a145b555969c37367ae5ef27415f  # https://github.com/randombit/botan/commit/053d9d91e5e5a145b555969c37367ae5ef27415f
+  classification: info
+  auditer: reneme
+
+# Fix Python unspecified-encoding lint  (@randombit)
+- pr: 3089  # https://github.com/randombit/botan/pull/3089
+  merge_commit: baf14791c908980d11782a26ac956a81ed6f7692
+  classification: info
+  auditer: reneme
+
+# Bump PBKDF default iterations in the Python module  (@Jack Lloyd)
+- commit: 289cfb1e3c4ddfcdd861c5495ba7eee2062d8ad5  # https://github.com/randombit/botan/commit/289cfb1e3c4ddfcdd861c5495ba7eee2062d8ad5
+  classification: info
+  auditer: FAlbertDev

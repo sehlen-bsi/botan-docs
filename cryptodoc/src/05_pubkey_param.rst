@@ -19,7 +19,7 @@ suitable, for example, for the generation of random parameters for DSA
 signatures.
 
 In order to generate integers from an arbitrary range as required for the implemented public key algorithms,
-Botan uses the ``BigInt::random_integer()`` method (implemented in ``src/lib/math/bigint/big_rand.cpp``).
+Botan uses the ``BigInt::random_integer()`` method (implemented in :srcref:`src/lib/math/bigint/big_rand.cpp`).
 It works as follows:
 
 .. admonition:: ``BigInt::random_integer()``
@@ -54,7 +54,7 @@ multiplicative cyclic group (**Z**/*p*\ **Z**)* where ``p`` is a prime, and a ge
 group or a subgroup. These parameters are called DH
 parameters and are typically precomputed as their generation is
 very resource-intensive. Botan implements a generic discrete logarithm
-group class in ``src/lib/pubkey/dl_group/dl_group.cpp``. The class
+group class in :srcref:`src/lib/pubkey/dl_group/dl_group.cpp`. The class
 ``DL_Group`` offers the constructor ``DL_Group(RandomNumberGenerator&
 rng, PrimeType type, size_t pbits, size_t qbits = 0)`` which can be used
 to generate DH parameters. Alternatively, Botan offers several
@@ -117,7 +117,7 @@ The constructor generating a ``DL_Group`` operates as follows:
       of the discrete logarithm problem
       :math:`2*\log_{2} (e^{1.92*\sqrt[3]{ \ln{(2^{qbits})} * \ln{(\ln{(2^{qbits})})^{2}} }} *k)`
       found by calling ``dl_exponent_size()`` from
-      ``src/lib/pubkey/workfactor.cpp``.
+      :srcref:`src/lib/pubkey/workfactor.cpp`.
       Instead of calculating the estimate, the function uses the following predefined buckets:
 
       - :math:`pbits = 0`: this can not occur as :math:`pbits \geq 1024` is required
@@ -235,7 +235,7 @@ Theoretically, it is possible to generate a new elliptic curve suitable for
 ECDH. As this process is very costly and comes with many pitfalls, only
 precomputed standardized curves are used in Botan. Thus the feature of
 elliptic curve parameter generation is not implemented. 27 standardized
-curves are provided in ``src/lib/pubkey/ec_group/ec_named.cpp``. All curves
+curves are provided in :srcref:`src/lib/pubkey/ec_group/ec_named.cpp`. All curves
 recommended in [TR-02102-1]_ are included.
 
 It is possible to import custom elliptic curves at run time. However, it is the

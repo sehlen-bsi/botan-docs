@@ -13,7 +13,7 @@ AES Block Cipher
 Botan provides five AES implementations: software, assembly and three
 hardware alternatives (Advanced Encryption Standard New Instructions (AES-NI), AES-ARMV8, AES-POWER8).
 
-The software implementation (located in ``src/lib/block/aes/aes.cpp``) is
+The software implementation (located in :srcref:`src/lib/block/aes/aes.cpp`) is
 using a constant time bitsliced implementation with 32bit words.
 Essentially, bit slicing emulates strategies of hardware-implementations in
 software. Instead of using precomputed lookup tables, AES S-Boxes are
@@ -37,7 +37,7 @@ instruction set created by Intel, ARM's Advanced SIMD (Neon) instruction
 set and PowerPC's AltiVec instruction set. The implementation is based
 on the code of Mike Hamburg, which provides protection against cache and
 timing side channel attacks [AES-SSSE3]_. The code is located in
-``src/lib/block/aes_vperm/aes_vperm.cpp``.
+:srcref:`src/lib/block/aes/aes_vperm/aes_vperm.cpp`.
 
 Additionally, Botan provides interfaces to cryptographic hardware extensions
 in some widespread commodity processor instruction sets. They are hardened
@@ -45,11 +45,11 @@ against side channel attacks and are usually faster than the above-mentioned
 software implementations. Specifically, Botan supports:
 
 - | Intel's AES-NI
-  | (code in ``src/lib/block/aes_ni/aes_ni.cpp``)
+  | (code in :srcref:`src/lib/block/aes/aes_ni/aes_ni.cpp`)
 - | ARMv8 AES extensions
-  | (code in ``src/lib/block/aes_armv8/aes_armv8.cpp``)
+  | (code in :srcref:`src/lib/block/aes/aes_armv8/aes_armv8.cpp`)
 - | Power8 AES extensions
-  | (code in ``src/lib/block/aes_power8/aes_power8.cpp``)
+  | (code in :srcref:`src/lib/block/aes/aes_power8/aes_power8.cpp`)
 
 An application developer can enable and disable a specific
 implementation at compile time by using macros:
@@ -65,7 +65,7 @@ The order in which the macros appear in the list above also indicated the order 
 Botan uses the first enabled implementation
 for which the corresponding instruction set is available on the
 processor used. The code invoking a specific AES implementation is in
-``src/lib/block/aes/aes.cpp``.
+:srcref:`src/lib/block/aes/aes.cpp`.
 
 AES-CCM
 -------
@@ -76,7 +76,7 @@ Chaining-Message Authentication Code (CBC-MAC). Botan implements AES-CCM
 according to the NIST specification [CCM]_.
 
 The AES-CCM functionality is implemented in the classes ``CCM_Encryption``
-and ``CCM_Decryption`` (located in ``src/lib/modes/aead/ccm/ccm.cpp``). Both
+and ``CCM_Decryption`` (located in :srcref:`src/lib/modes/aead/ccm/ccm.cpp`). Both
 classes extend functionality of the ``CCM_Mode``, ``AEAD_Mode`` and
 ``Cipher_Mode`` abstract classes. The following public methods are used by
 a developer when working with AES-CBC:
@@ -138,7 +138,7 @@ counter mode with authentication over Galois fields. Botan implements
 AES-GCM according to the NIST specification [GCM]_.
 
 The AES-GCM functionality is implemented in the classes ``GCM_Encryption``
-and ``GCM_Decryption`` (located in ``src/lib/modes/aead/gcm/gcm.cpp``). Both
+and ``GCM_Decryption`` (located in :srcref:`src/lib/modes/aead/gcm/gcm.cpp`). Both
 classes extend functionality of the ``GCM_Mode``, ``AEAD_Mode`` and ``Cipher_Mode``
 abstract classes. These classes offer the following public methods,
 which are used by a developer when working with AES-GCM:
@@ -194,7 +194,7 @@ AES-CBC
 -------
 
 AES-CBC [CBC]_ is implemented in classes ``CBC_Encryption`` and
-``CBC_Decryption`` (located in ``src/lib/modes/cbc/cbc.cpp``). The
+``CBC_Decryption`` (located in :srcref:`src/lib/modes/cbc/cbc.cpp`). The
 constructors of these classes offer usage of different padding schemes.
 When using AES-CBC, the AES cipher has to be provided as a parameter.
 
@@ -229,7 +229,7 @@ properties for raw storage media encryption. Referring to
 [SP800-38E]_ it should be avoided in other scenarios such as transit data
 encryption. In addition, it is recommended that the length of the
 ciphertext, protected with the same key should not exceed the length of :math:`2^{20}`
-cipher blocks. Botan implements XTS in ``src/lib/modes/xts/xts.cpp``
+cipher blocks. Botan implements XTS in :srcref:`src/lib/modes/xts/xts.cpp`
 according to [IEEE-1619]_. The following functions are available:
 
 -  ``XTS_Mode(cipher)``: Constructs a XTS_Mode object with the passed
@@ -249,7 +249,7 @@ Padding Schemes
 ---------------
 
 Botan implements the following block cipher padding schemes (see
-``src/lib/modes/mode_pad/mode_pad.cpp``):
+:srcref:`src/lib/modes/mode_pad/mode_pad.cpp`):
 
 -  PKCS#7 [RFC5652]_: The last byte in the padded block defines the
    padding length *p*, the remaining padding bytes are set to *p* as
@@ -274,6 +274,6 @@ decrypted.
 
 **Remark:** The TLS implementation introduces a constant time CBC
 unpadding functionality to prevent the Lucky 13 attack [Lucky13]_. This
-can be found in ``src/lib/tls/tls_cbc/tls_cbc.cpp``. It is important to
+can be found in :srcref:`src/lib/tls/tls12/tls_cbc/tls_cbc.cpp`. It is important to
 note that for DTLS there still exists a timing channel that may be
 exploitable in a Lucky13 variant.

@@ -1,0 +1,130 @@
+title: Release Preparation
+
+description: |
+  Patches preparing for Botan releases and release candidates.
+
+patches:
+# Add a section for Releases so it is easier to fin [ci skip]  (@Jack Lloyd)
+- commit: 91c23d7415321129ceb6f31f2d95dccd12f57988  # https://github.com/randombit/botan/commit/91c23d7415321129ceb6f31f2d95dccd12f57988
+  classification: info
+  auditer: reneme
+
+# Release 3.0.0-rc1  (@Jack Lloyd)
+- commit: a3fd9d7d3194d7ad4c266bc2a89989b9d656156a  # https://github.com/randombit/botan/commit/a3fd9d7d3194d7ad4c266bc2a89989b9d656156a
+  classification: info
+  auditer: reneme
+
+# Bump version to RC1  (@Jack Lloyd)
+- commit: 6341d8ec89ea069a56547c0048a5de12f48e95c1  # https://github.com/randombit/botan/commit/6341d8ec89ea069a56547c0048a5de12f48e95c1
+  classification: info
+  auditer: reneme
+
+# Add 2.19.3 info  (@Jack Lloyd)
+- commit: 668131bb5eb76829cc51e15258789f948e6b4bbc  # https://github.com/randombit/botan/commit/668131bb5eb76829cc51e15258789f948e6b4bbc
+  classification: info
+  auditer: reneme
+
+# Add 2.19.1/2.19.2 info to news, update readme  (@Jack Lloyd)
+- commit: db89870e580e0e4a95384b41c3ae81f15b9bc9ad  # https://github.com/randombit/botan/commit/db89870e580e0e4a95384b41c3ae81f15b9bc9ad
+  classification: info
+  auditer: reneme
+
+# Update for 3.0.0 release  (@Jack Lloyd)
+- commit: 51b06ca93d1998d19927699f78b8d67539148dde  # https://github.com/randombit/botan/commit/51b06ca93d1998d19927699f78b8d67539148dde
+  classification: info
+  auditer: reneme
+
+# Update to include GH ref  (@Jack Lloyd)
+- commit: 65a8b6efd1551326ef775974080e27c77d2a34ff  # https://github.com/randombit/botan/commit/65a8b6efd1551326ef775974080e27c77d2a34ff
+  classification: info
+  auditer: reneme
+
+# Expand on this news item  (@Jack Lloyd)
+- commit: 5d87926595ffa38db140e7384de3b23cb9eee713  # https://github.com/randombit/botan/commit/5d87926595ffa38db140e7384de3b23cb9eee713
+  classification: info
+  auditer: reneme
+
+# Deprecation updates  (@Jack Lloyd)
+- commit: e5c7f99717d4ef025be7735184176b3b542db676  # https://github.com/randombit/botan/commit/e5c7f99717d4ef025be7735184176b3b542db676
+  classification: info
+  auditer: reneme
+
+# Use 2024-12-31 instead of 2025-1-1 as the proposed 2.x EOL [ci skip]  (@Jack Lloyd)
+- commit: 2a4885bf724f14623a1cf040fe51cbe1edace32e  # https://github.com/randombit/botan/commit/2a4885bf724f14623a1cf040fe51cbe1edace32e
+  classification: info
+  auditer: reneme
+
+# Update changelog  (@Jack Lloyd)
+- commit: 8a3649bbb3b069ddee85a3b604f5b7c12c574359  # https://github.com/randombit/botan/commit/8a3649bbb3b069ddee85a3b604f5b7c12c574359
+  classification: info
+  auditer: reneme
+
+# Update the release notes [ci skip]  (@Jack Lloyd)
+- commit: b61a445445094b1da91afc209071d3b5b38eae46  # https://github.com/randombit/botan/commit/b61a445445094b1da91afc209071d3b5b38eae46
+  classification: info
+  auditer: reneme
+
+# Some news updates [ci skip]  (@Jack Lloyd)
+- commit: c3bcfab68b34ac1f94beed475f4461129b985da9  # https://github.com/randombit/botan/commit/c3bcfab68b34ac1f94beed475f4461129b985da9
+  classification: info
+  auditer: reneme
+
+# Bump version to RC1  (@Jack Lloyd)
+- commit: 6341d8ec89ea069a56547c0048a5de12f48e95c1  # https://github.com/randombit/botan/commit/6341d8ec89ea069a56547c0048a5de12f48e95c1
+  classification: info
+  auditer: reneme
+
+# Update the release process notes and also the version  (@Jack Lloyd)
+- commit: 5d7e029641456dbeac3381b81e3710d40b1c9b35  # https://github.com/randombit/botan/commit/5d7e029641456dbeac3381b81e3710d40b1c9b35
+  classification: info
+  auditer: reneme
+
+# Update news  (@Jack Lloyd)
+- commit: 3f7cfbeabb18ace7a855370aaf73838940d16fb7  # https://github.com/randombit/botan/commit/3f7cfbeabb18ace7a855370aaf73838940d16fb7
+  classification: info
+  auditer: reneme
+
+# Bump embedded version number  (@Jack Lloyd)
+- commit: a02c95be24a9bec9dbf774d515af9d3d9b991ec8  # https://github.com/randombit/botan/commit/a02c95be24a9bec9dbf774d515af9d3d9b991ec8
+  classification: info
+  auditer: reneme
+
+# Next release will be 3.1.0. Update release notes  (@Jack Lloyd)
+- commit: ee9b4386f491b2103173105304cb72f3b8938dbb  # https://github.com/randombit/botan/commit/ee9b4386f491b2103173105304cb72f3b8938dbb
+  classification: info
+  auditer: reneme
+
+# Bump to 3.0.1. Add initial release notes  (@Jack Lloyd)
+- commit: 7bf53621be808192fdb87832c5317178fa2c6ef7  # https://github.com/randombit/botan/commit/7bf53621be808192fdb87832c5317178fa2c6ef7
+  classification: info
+  auditer: reneme
+
+# Update for 3.1.0 release  (@Jack Lloyd)
+- commit: c6a09af66a77fca62bbd85242192fa045d04a5b3  # https://github.com/randombit/botan/commit/c6a09af66a77fca62bbd85242192fa045d04a5b3
+  classification: info
+  auditer: reneme
+
+# Update changelog  (@Jack Lloyd)
+- commit: 682f88be390151cc7814975c569e81fc29d80222  # https://github.com/randombit/botan/commit/682f88be390151cc7814975c569e81fc29d80222
+  classification: info
+  auditer: reneme
+
+# Update release notes [ci skip]  (@Jack Lloyd)
+- commit: 0eeb41761250169c75594b2d54a002198dbaf78c  # https://github.com/randombit/botan/commit/0eeb41761250169c75594b2d54a002198dbaf78c
+  classification: info
+  auditer: reneme
+
+# Bump version to 3.2.0  (@Jack Lloyd)
+- commit: 0e3f1434d1bd1290164e4f3a8b97a41e56b6ad60  # https://github.com/randombit/botan/commit/0e3f1434d1bd1290164e4f3a8b97a41e56b6ad60
+  classification: info
+  auditer: reneme
+
+# Update for 3.1.1 release  (@Jack Lloyd)
+- commit: f60608b8818c7bb8579fe797122ed6116f4134af  # https://github.com/randombit/botan/commit/f60608b8818c7bb8579fe797122ed6116f4134af
+  classification: info
+  auditer: reneme
+
+# Update release notes, move version to 3.1.1  (@Jack Lloyd)
+- commit: 35e5e6665b751e63c00687899e259c066903e5e4  # https://github.com/randombit/botan/commit/35e5e6665b751e63c00687899e259c066903e5e4
+  classification: info
+  auditer: reneme

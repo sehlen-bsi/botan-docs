@@ -5,7 +5,7 @@ RSA
 ---
 
 The RSA signature algorithm is provided in the class
-``RSA_Signature_Operation`` in ``src/lib/pubkey/rsa/rsa.cpp``. The
+``RSA_Signature_Operation`` in :srcref:`src/lib/pubkey/rsa/rsa.cpp`. The
 respective verification algorithm is implemented in the class
 ``RSA_Verify_Operation``.
 The implementation follows [RFC3447]_.
@@ -17,10 +17,10 @@ Before a message can be signed it must be processed to achieve the bit
 length of the RSA modulus ``N``. Therefore, a padding scheme is applied to
 the message ``m``. Botan implements multiple padding schemes. For RSA
 signatures the probabilistic RSA-PSS scheme (EMSA4) implemented in
-``src/lib/pk_pad/emsa_pssr/pssr.cpp`` is recommended [TR-02102-1]_. The
+:srcref:`src/lib/pk_pad/emsa_pssr/pssr.cpp` is recommended [TR-02102-1]_. The
 RSA-PSS implementation follows the definition in [RFC3447]_. The ISO
 9796-2 DS2 and ISO 9796-2 DS3 padding schemes are implemented in
-``src/lib/pk_pad/iso9796/iso9796.cpp``
+:srcref:`src/lib/pk_pad/iso9796/iso9796.cpp`
 Both implementations follow the specification [ISO-9796-2]_.
 Alternatively, Botan provides the deterministic PKCS#1 v1.5 RSA
 signature scheme (EMSA3), which is obsolete and thus not recommended [#sig_emsa3_disclaimer]_.
@@ -106,17 +106,16 @@ DSA
 ---
 
 The Digital Signature Algorithm (DSA) is implemented in
-``src/lib/pubkey/dsa/dsa.cpp``.
+:srcref:`src/lib/pubkey/dsa/dsa.cpp`.
 The implementation follows [FIPS-186-4]_ or [RFC6979]_ if the corresponding module is enabled.
 
 DSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^
 
 For DSA signatures no padding is required. The only suitable signature
-scheme DL/ECSSA (EMSA1) uses a cryptographic hash function to compute a
+scheme DL/ECSSA (EMSA1) [IEEE-1363-2000]_ uses a cryptographic hash function to compute a
 representative message with the length of ``q`` from the DSA public key.
-Botan implements EMSA1 in ``src/lib/pk_pad/emsa1/emsa1.cpp``. If the
-computed hash is longer than the specified ``output_bits`` (length of
+If the computed hash is longer than the specified ``output_bits`` (length of
 ``q``), the algorithm returns only the ``output_bits`` highest bits of the
 computed hash.
 
@@ -211,13 +210,13 @@ ECDSA
 -----
 
 The Digital Signature Algorithm over elliptic curves is implemented in
-``src/lib/pubkey/ecdsa/ecdsa.cpp``.
+:srcref:`src/lib/pubkey/ecdsa/ecdsa.cpp`.
 The implementation follows [X9.62]_ or [RFC6979]_ if the corresponding module is enabled.
 
 ECDSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Similarly to DSA, ECDSA uses the DL/ECSSA (EMSA1) signature scheme to
+Similarly to DSA, ECDSA uses the DL/ECSSA (EMSA1) [IEEE-1363-2000]_ signature scheme to
 compute a representative of the message to be signed.
 
 Signature Creation
@@ -296,15 +295,17 @@ ECKCDSA
 -------
 
 The Korean Certificate-based Digital Signature Algorithm over elliptic
-curves is implemented in ``src/lib/pubkey/eckcdsa/eckcdsa.cpp``. The
-implementation follows [TR-03111]_.
+curves is implemented in :srcref:`src/lib/pubkey/eckcdsa/eckcdsa.cpp`. The
+implementation follows [ISO-14888-3]_.
 
 ECKCDSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Similarly to other DSA variants, ECKCDSA uses the DL/ECSSA (EMSA1)
+Unlike other DSA variants, ECKCDSA does not use the DL/ECSSA (EMSA1) [IEEE-1363-2000]_
 signature scheme to compute a representative of the message to be
 signed.
+Instead besides the message itself,
+it also includes the public key in the representative.
 
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
@@ -315,10 +316,12 @@ The signature generation algorithm works as follows:
 
    **Input:**
 
-   -  ``m``: raw bytes to sign (EMSA1 encoded data)
-   -  EC_Privatekey with inverse: ``d``, ``Q``, domain(curve parameters(first
-      coefficient a, second coefficient b, prime p), base point G, ord(G)
-      n, cofactor of the curve h)
+   -  ``m``: raw bytes to sign (the hash-code ``H`` in  [ISO-14888-3]_,
+      which is the truncated hash from the public key and message)
+   -  EC_Privatekey with invers: ``d``, ``Q``, domain (curve parameters (first coefficient
+      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
+      cofactor of the curve ``h``)
+   -  ``rng``: random number generator
 
    **Output:**
 
@@ -332,18 +335,18 @@ The signature generation algorithm works as follows:
       :ref:`pubkey_param/rng`.
    2. Sample a :math:`\lceil \frac{lenth(n)}{2} \rceil` bit long random blinding
       ``mask`` from ``rng`` and compute :math:`k'=k+n*mask`.
-   3. Compute point :math:`W=(x_1,y_1)=k'*G`. This computation utilizes randomized Jacobian point
-      coordinates with a blinding masks that is equal in size to the
-      underlying field.
-   4. Compute
-      :math:`{r = H}{(x_{1})}`
-      , where :math:`H`
-      is the hash function used in the current instance of the EMSA1
-      signature scheme.
-   5. Compute
+   3. Compute point :math:`W=(x_1,y_1)=k'*G`.
+   4. Compute the witness
+      :math:`{r = h}{(x_{1})}`
+      , where :math:`h`
+      is the hash function used in the current instance of the signature scheme.
+   5. If the output length of the hash function :math:`h` exceeds the size of the group order,
+      truncate the *low side* in :math:`r` on a byte level to the size of the group order.
+      This means bytes in :math:`r` are discarded starting from the beginning of the byte sequence.
+   6. Compute
       :math:`{s = {d \ast {({{k - r}\oplus m})}}}\bmod n`
       . If :math:`s=0` applies, the algorithm terminates with an error.
-   6. Return ECKCDSA signature (r,s).
+   7. Return ECKCDSA signature (r,s).
 
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -354,10 +357,11 @@ The signature verification algorithm works as follows:
 
    **Input:**
 
-   -  ``m``: message bytes
-   -  EC_Publickey: ``Q``, domain(curve parameters(first coefficient a,
-      second coefficient b, prime p), base point G, ord(G) n, cofactor of
-      the curve h)
+   -  ``m``: raw bytes to verify (the hash-code ``H`` in  [ISO-14888-3]_,
+      which is the truncated hash from the public key and message)
+   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
+      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
+      cofactor of the curve ``h``)
    -  (``r``, ``s``): ECKCDSA signature
 
    **Output:**
@@ -370,9 +374,14 @@ The signature verification algorithm works as follows:
       Terminates otherwise.
    2. Compute :math:`e=r \oplus m \bmod n`.
    3. Compute point :math:`W=s*q+e*G` with Shamir's trick.
-   4. Return ``true`` if :math:`r=H(x_i)` applies, where :math:`H` is the hash function used in the
-      current instance of the EMSA1 signature scheme. Otherwise returns
-      ``false``.
+   4. Recompute the witness :math:`r'=h(x_i)`,
+      where :math:`h` is the hash function used in the current instance of the signature scheme.
+   5. If the output length of the hash function :math:`h` exceeds the size of the group order,
+      truncate the *low side* in :math:`r` on a byte level to the size of the group order.
+      This means bytes in :math:`r` are discarded starting from the beginning of the byte sequence.
+   6. Return ``true`` if the recomputed witness :math:`r'` is equal to
+      the witness :math:`r` inside the signature.
+      Otherwise return ``false``.
 
 ECGDSA
 ------
@@ -381,7 +390,7 @@ ECGDSA Signature Schemes
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 The German Digital Signature Algorithm over elliptic curves is
-implemented in ``src/lib/pubkey/ecgdsa/ecgdsa.cpp``. The implementation
+implemented in :srcref:`src/lib/pubkey/ecgdsa/ecgdsa.cpp`. The implementation
 follows [ISO-14888-3]_.
 
 Signature Creation
@@ -394,9 +403,10 @@ The signature generation algorithm works as follows:
    **Input:**
 
    -  ``m``: raw bytes to sign (EMSA1 encoded data)
-   -  EC_Privatekey with inverse: ``d``, ``Q``, domain(curve parameters(first
-      coefficient a, second coefficient b, prime p), base point G, ord(G)
-      n, cofactor of the curve h)
+   -  EC_Privatekey with invers: ``d``, ``Q``, domain (curve parameters (first coefficient
+      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
+      cofactor of the curve ``h``)
+   -  ``rng``: random number generator
 
    **Output:**
 
@@ -429,9 +439,9 @@ The signature verification algorithm works as follows:
    **Input:**
 
    -  ``m``: message bytes
-   -  EC_Publickey: ``Q``, domain(curve parameters(first coefficient a,
-      second coefficient b, prime p), base point G, ord(G) n, cofactor of
-      the curve h)
+   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
+      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
+      cofactor of the curve ``h``)
    -  (``r``, ``s``): ECGDSA signature
 
    **Output:**
@@ -456,11 +466,13 @@ XMSS with WOTS+
 WOTS+
 ^^^^^
 
+.. _pubkey_signature/xmss/wotsp_sign:
+
 Signature Creation
 ~~~~~~~~~~~~~~~~~~
 
 WOTS+ signing follows Algorithm 5 in [XMSS]_. It is implemented in
-``src/lib/pubkey/xmss/xmss_wots_privatekey.cpp``.
+:srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
 
 The signature generation process works as follows:
 
@@ -486,9 +498,7 @@ The signature generation process works as follows:
    2. Compute a checksum over the converted message and convert this
       checksum into base_w representation. Append the checksum to the
       message ``m``.
-   3. Derive the private WOTS+ key for the given ``ADRS`` value from
-      ``private_seed`` into ``sig[i]``. [#wots_nist_sp_800_208]_
-   4. Generate the resulting signature bytes ``sig`` as follows:
+   3. Generate the resulting signature bytes ``sig`` as follows:
 
       1. Set ``i=0;``
       2. While (``i < len``) do:
@@ -499,18 +509,15 @@ The signature generation process works as follows:
 **Remark:** :ref:`Remark about XMSS being based on the repeated application of a hash function <pubkey_key_generation/xmss/Remark_02>`
 applies here as well.
 
-.. [#wots_nist_sp_800_208]
-   The private WOTS+ key derivation from ``private_seed`` is implemented as suggested in [XMSS]_ and :ref:`does not comform to the recommendations <pubkey_key_generation/xmss/remark_nist_sp800208>` in [NIST-HashSigs]_.
-
 Signature Validation
 ~~~~~~~~~~~~~~~~~~~~
 
 WOTS+ signature validation strictly follows Algorithm 6 in [XMSS]_. It is
-implemented in ``src/lib/pubkey/xmss/xmss_wots_publickey.cpp``.
+implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
 
 The signature validation process works as follows:
 
-.. admonition:: ``XMSS_WOTS_PublicKey::pub_key_from_signature()``
+.. admonition:: ``XMSS_WOTS_PublicKey()`` constructor
 
    **Input:**
 
@@ -549,8 +556,8 @@ Signature Creation
 ~~~~~~~~~~~~~~~~~~
 
 XMSS signature generation functionality is implemented in
-``src/lib/pubkey/xmss/xmss_privatekey.cpp`` and
-``src/lib/pubkey/xmss/xmss_signature_operation.cpp``
+:srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp` and
+:srcref:`src/lib/pubkey/xmss/xmss_signature_operation.cpp`
 
 The algorithm for signature generation follows methods ``treeSig`` and
 ``XMSS_sig`` from Algorithms 11 and 12 in [XMSS]_. The algorithm works as
@@ -571,14 +578,17 @@ follows:
 
    1. Initialize the signature operation and reserve a new leaf index ``idx``
       of an *unused* WOTS+ signature. This index cannot be reused in
-      further operations. Calculate a pseudorandom value r using the output
+      further operations. Calculate a pseudorandom value ``r`` using the output
       of PRF on ``SK_PRF || idx``.
-   2. Generate a hash over the message ``m``, Merkle tree root, index ``idx``,
-      and output of the PRF function over the secret seed ``SK_PRF``.
+   2. Generate a hash over the output of the PRF function ``r``, Merkle tree ``root``, index ``idx``,
+      and message ``m`` using the message hash function ``H()``.
    3. Build an authentication path ``auth_path`` by using the leaf index
       ``idx``, and address ``ADRS``.
-   4. Compute a WOTS+ signature ``sig_ots`` over the constructed hash value.
-   5. ``Sig = {idx, r, auth_path, sig_ots}``
+   4. Derive the WOTS+ private key for the generated authentication path from
+      ``public_seed`` and ``private_seed`` as described in :ref:`pubkey_key_generation/wotsp`.
+   5. Compute a WOTS+ signature ``sig_ots`` over the constructed hash value
+      as described in :ref:`WOTS+ Signature Creation <pubkey_signature/xmss/wotsp_sign>`.
+   6. Set ``Sig = {idx, r, auth_path, sig_ots}``
 
 **Remark:** Due to the complexity of managing the XMSS private key state it is
 generally discouraged to use software for performing XMSS private key operations
@@ -588,8 +598,8 @@ Signature Validation
 ~~~~~~~~~~~~~~~~~~~~
 
 XMSS signature validation functionality is implemented in
-``src/lib/pubkey/xmss/xmss_publickey.cpp`` and
-``src/lib/pubkey/xmss/xmss_verification_operation.cpp``.
+:srcref:`src/lib/pubkey/xmss/xmss_publickey.cpp` and
+:srcref:`src/lib/pubkey/xmss/xmss_verification_operation.cpp`.
 
 The algorithm for signature verification follows methods
 ``XMSS_rootFromSig`` and ``XMSS_verify`` from Algorithms 13 and 14 in
@@ -652,7 +662,7 @@ No further infrastructure is provided to maintain persistent private XMSS state.
 XMSS private key is not possible if the private key should outlive the operating
 system process that generated it. It is therefore **strongly discouraged to use
 Botan's XMSS signing implementation in production applications**. Similarly,
-[NIST-HashSigs]_ demands the usage of dedicated hardware for XMSS private key
+[SP800-208]_ demands the usage of dedicated hardware for XMSS private key
 operations.
 
 Note that validating XMSS signatures does not depend on this state management

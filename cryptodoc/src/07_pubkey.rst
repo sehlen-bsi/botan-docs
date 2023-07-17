@@ -4,7 +4,7 @@ Asymmetric Encryption and Key Exchange Schemes
 RSA
 ---
 
-Botan implements RSA in ``src/lib/pubkey/rsa/rsa.cpp``. RSA encryption
+Botan implements RSA in :srcref:`src/lib/pubkey/rsa/rsa.cpp`. RSA encryption
 and decryption are implemented in classes ``RSA_Encryption_Operation``
 and ``RSA_Decryption_Operation``.
 
@@ -90,7 +90,7 @@ The PKCS#1 v1.5 padding has the form:
                    (must be at least 8 bytes)
 
 The RSA-PKCS#1 v1.5 padding functionality is implemented in
-``src/lib/pk_pad/eme_pkcs1/eme_pkcs.cpp``, in the methods ``pad`` and
+:srcref:`src/lib/pk_pad/eme_pkcs1/eme_pkcs.cpp`, in the methods ``pad`` and
 ``unpad``.
 
 Padding a message ``k`` for a maximum input length ``l`` works as follows:
@@ -162,13 +162,13 @@ timing constant validation. This method is implemented as follows:
    11. ``return k, valid_mask``
 
 **Remark:** For TLS, Botan uses a different unpadding function
-``decrypt_or_random()``, which is located in ``src/lib/pubkey/pubkey.cpp``.
+``decrypt_or_random()``, which is located in :srcref:`src/lib/pubkey/pubkey.cpp`.
 
 RSA-OAEP
 ^^^^^^^^
 
 The RSA-OAEP functionality is implemented in
-``src/lib/pk_pad/eme_oaep/oaep.cpp``, in the functions ``pad()`` and
+:srcref:`src/lib/pk_pad/eme_oaep/oaep.cpp`, in the functions ``pad()`` and
 ``unpad()``.
 
 Padding a message ``k`` for a key length ``l`` works as follows:
@@ -259,7 +259,7 @@ Diffie-Hellman (DH)
 In the following section we describe the implementation of the
 Diffie-Hellman key exchange over cyclic groups (**Z**/*p*\ **Z**)*. The
 respective classes and functions can be found in
-``src/lib/pubkey/dh/dh.cpp``.
+:srcref:`src/lib/pubkey/dh/dh.cpp`.
 
 Botan computes the shared Diffie-Hellman secret with the following
 algorithm, implemented in ``raw_agree(const byte w[], size_t w_len)``
@@ -300,7 +300,7 @@ Elliptic Curve Diffie-Hellman (ECDH)
 ------------------------------------
 
 The elliptic curve variant of the Diffie-Hellman key exchange is
-implemented in ``src/lib/pubkey/ecdh/ecdh.cpp``.
+implemented in :srcref:`src/lib/pubkey/ecdh/ecdh.cpp`.
 
 The shared secret is computed by calling ``raw_agree(const byte w[],
 size_t w_len)`` from the respective ECDH operation class
@@ -364,7 +364,7 @@ DLIES
 The Discrete Logarithm Integrated Encryption Scheme (DLIES) utilizes the
 Diffie-Hellman key exchange as the asymmetric component of the scheme.
 The symmetric cipher and MAC can be chosen. Botan implements the DLIES
-encryption scheme in ``src/lib/pubkey/dlies/dlies.cpp``, providing the
+encryption scheme in :srcref:`src/lib/pubkey/dlies/dlies.cpp`, providing the
 classes DLIES_Decryptor and DLIES_Encryptor. DLIES can be used in either
 stream or block cipher mode. Both modes are implemented according to
 [ISO-18033-2]_.
@@ -433,7 +433,7 @@ Diffie-Hellman key exchange over elliptic curves is used as the
 asymmetric component of the hybrid scheme. Botan implements the scheme
 according to [ISO-18033-2]_. The implementation offers the operator
 classes ``ECIES_Encryptor`` and ``ECIES_Decryptor`` and the ``ECIES_System_Params``
-class in ``src/lib/pubkey/ecies/ecies.cpp``. [ISO-18033-2]_ requires the
+class in :srcref:`src/lib/pubkey/ecies/ecies.cpp`. [ISO-18033-2]_ requires the
 definition of ECIES specific system parameters, called ECIES flags. The
 available ECIES flags dictate certain computation rules:
 
@@ -448,7 +448,7 @@ available ECIES flags dictate certain computation rules:
    function with cofactor multiplication is part of Botans default ECDH
    implementation. The ECIES specific implementation without cofactor
    multiplication is implemented in class ``ECIES_ECDH_KA_Operation`` of
-   ``src/lib/pubkey/ecies/ecies.cpp``. The agreement without cofactor
+   :srcref:`src/lib/pubkey/ecies/ecies.cpp`. The agreement without cofactor
    mode operates as follows:
 
    .. admonition:: ``ECIES_ECDH_KA_Operation::raw_agree()``

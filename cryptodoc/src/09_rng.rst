@@ -8,41 +8,42 @@ library, as explained in the former chapters, and can also be used by
 application developers. All functions in Botan that need random numbers
 take a reference to a random number generator instance as a parameter.
 
-Random number generators in Botan include deterministic generators, such
-as HMAC_DRBG and AutoSeeded_RNG, system-specific generators such as
-System_RNG and hardware random number generators such as RDRAND_RNG.
+Random number generators in Botan include deterministic generators, such as
+``HMAC_DRBG`` and ``AutoSeeded_RNG``, system-specific generators such as
+``System_RNG`` and hardware random number generators such as ``Processor_RNG``.
 
 All random number generators in Botan implement the
 ``RandomNumberGenerator`` interface. This interface provides the following
-important member functions:
+important member functions that typically take ``std::span`` from C++20:
 
--  ``randomize(output, length)``: Extracts ``length`` random bytes from the
-   random number generator and writes the output to ``output``.
--  ``add_entropy(input, length)``: Incorporates ``length`` bytes of entropy
+-  ``randomize(output)``: Extracts ``output.size()`` random bytes from the
+   random number generator and writes them into ``output``.
+-  ``add_entropy(input)``: Incorporates ``input.size()`` bytes of entropy
    from the input buffer ``input`` into the random number generator's
    entropy pool.
--  ``randomize_with_input(output, output_len, input, input_len)``:
-   Incorporates ``input_len`` bytes of entropy from the input buffer
+-  ``randomize_with_input(output, input)``:
+   Incorporates ``input.size()`` bytes of entropy from the input buffer
    ``input`` into the random number generator's entropy pool and then
-   extracts ``output_len`` random bytes from the random number generator
-   and writes the output to ``output``.
--  ``randomize_with_ts_input(output, output_len)``: Incorporates a 64
-   bit system timestamp and a 64 bit processor timestamp into the random
-   number generator's entropy pool and then extracts ``output_len`` random
-   bytes from the random number generator and writes the output to
-   ``output``.
+   extracts ``output.size()`` random bytes from the random number generator
+   and writes them into ``output``.
+-  ``randomize_with_ts_input(output)``: First refreshes the random number
+   generator's entropy pool with a 64 bit system timestamp and, if a system
+   RNG is available, 96bits from the system's RNG. Otherwise, those 96bits
+   are filled with a 64 bit processor timestamp and the operating system's
+   process ID. It then extracts ``output.size()`` random bytes from the
+   random number generator and writes them into ``output``.
 -  ``reseed(entropy_sources, poll_bits, poll_timeout)``: Polls the
    ``entropy_sources`` for up to ``poll_bits`` bits of entropy or until the
    ``poll_timeout`` expires, calls ``add_entropy()`` on this random
    generator and returns an estimate of the number of bits collected.
    The default value for ``poll_bits`` is ``BOTAN_RNG_RESEED_POLL_BITS``,
-   which defaults to 128. The default value for ``poll_timeout`` is
+   which defaults to 256. The default value for ``poll_timeout`` is
    ``BOTAN_RNG_RESEED_DEFAULT_TIMEOUT``, which defaults to 50
    milliseconds.
 -  ``reseed_from_rng(rng, poll_bits)``: Polls the ``rng`` for ``poll_bits``
    bits of entropy and calls ``add_entropy()`` on this random generator.
    The default value for ``poll_bits`` is ``BOTAN_RNG_RESEED_POLL_BITS``,
-   which defaults to 128.
+   which defaults to 256.
 
 Deterministic Generators
 ------------------------
@@ -54,6 +55,8 @@ deterministically using a specific algorithm. Deterministic generators
 **must** be seeded with a seed of sufficiently high entropy. For the
 requirements on seed generation, see [TR-02102-1]_ sec. 9.5.
 
+.. _rng/hmac_drbg:
+
 HMAC_DRBG
 ^^^^^^^^^
 
@@ -61,8 +64,8 @@ HMAC_DRBG is a deterministic random bit generator specified in
 [SP800-90A]_. The ``HMAC_DRBG`` class derives from the ``Stateful_RNG`` base
 class, which provides such functionality as automatic reseeding after a
 defined interval and after a process fork. The HMAC_DRBG is provided in
-``src/lib/rng/hmac_drbg/hmac_drbg.cpp``, the Stateful_RNG in
-``src/lib/rng/stateful_rng/stateful_rng.cpp``.
+:srcref:`src/lib/rng/hmac_drbg/hmac_drbg.cpp`, the Stateful_RNG in
+:srcref:`src/lib/rng/stateful_rng/stateful_rng.cpp`.
 
 HMAC_DRBG Instantiation
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -274,14 +277,13 @@ were passed.
    **Input:**
 
    -  ``input``: The string of bits obtained from the entropy source.
-   -  ``input_len``: Length of ``input`` in bytes.
 
    **Output:** None
 
    **Steps:**
 
-   1. Call ``add_entropy(input, input_len)``
-   2. If (``8*input_len >= security_level()``) then do call
+   1. Call ``add_entropy(input)``
+   2. If (``8*input.size() >= security_level()``) then do call
       ``reset_reseed_counter()``
 
 HMAC_DRBG Reseeding
@@ -289,22 +291,20 @@ HMAC_DRBG Reseeding
 
 HMAC_DRBG can be reseeded using the ``add_entropy()`` function, which
 internally calls the function ``update()`` to update the entropy pool and
-resets the reseed counter if at ``security_level()`` entropy bytes were
-passed.
+resets the reseed counter if ``security_level()`` entropy bytes were passed.
 
 .. admonition:: HMAC_DRBG Reseeding
 
    **Input:**
 
    1. ``input``: The string of bits obtained from the entropy source.
-   2. ``input_len``: Length of ``input`` in bytes.
 
    **Output:** None
 
    **Steps:**
 
-   1. Call ``update(input, input_len)``
-   2. If (``8*input_len >= security_level()``) then do call
+   1. Call ``update(input)``
+   2. If (``8*input.size() >= security_level()``) then do call
       ``reset_reseed_counter()``
 
 Function update():
@@ -318,7 +318,6 @@ The ``update()`` function resets the internal state values ``V`` and MAC
    **Input:**
 
    1. ``input``: The string of bits obtained from the entropy source.
-   2. ``input_len``: Length of ``input`` in bytes.
 
    **Output:** None
 
@@ -326,7 +325,7 @@ The ``update()`` function resets the internal state values ``V`` and MAC
 
    1. ``K`` = **HMAC**\ (``K``, ``V`` \|\| 0x00 \|\| ``input``)
    2. ``V`` = **HMAC**\ (``K``, ``V``)
-   3. If (``input_len`` > 0) then:
+   3. If (``input.size()`` > 0) then:
 
       1. ``K`` = **HMAC**\ (``K``, ``V`` \|\| 0x01 \|\| ``input``)
       2. ``V`` = **HMAC**\ (``K``, ``V``)
@@ -334,74 +333,71 @@ The ``update()`` function resets the internal state values ``V`` and MAC
 HMAC_DRBG Randomize
 ~~~~~~~~~~~~~~~~~~~
 
-Random bytes can be requested from HMAC_DRBG using the ``randomize()``,
-``randomize_with_input()`` and ``randomize_with_ts_input()`` functions.
-``randomize()`` takes an output buffer and the number of requested bytes
-while ``randomize_with_input()`` additionally takes entropy input that is
-added to the entropy pool by calling the ``update()`` before extracting
-random bytes from the pool. ``randomize_with_ts_input()`` queries a
-processor timestamp. Additionally it queries the System_RNG if
-available. Otherwise it additionally queries a system clock timestamp
-and the PID. The queried inputs are then passed as
-additional entropy to ``randomize_with_input()``. ``randomize()`` does not
-implement any logic, but simply calls ``randomize_with_input()`` with an
-entropy input buffer of length zero.
+All random number generators in Botan are implemented based on the
+virtual internal method `fill_bytes_with_input()` that takes the buffers
+``output`` and ``input``. Either of those can be empty. Typically, this
+will first incorporate the bits in ``input`` into the RNG's internal state
+and then fill the ``output`` buffer with random bytes. All public methods
+are implemented as facades of this internal method.
 
-The ``randomize_with_input()`` function extracts the requested number of
-random bytes from the internal state value ``V`` using the PRF given
-during construction according to [SP800-90A]_ section 10.1.2.5.
+For all subclasses of ``Stateful_RNG`` (i.e. ``HMAC_DRBG``), the
+``fill_bytes_with_input()`` is implemented based on the virtual internal
+methods ``update()`` and ``generate_output()``.
+``generate_output()`` extracts the requested number of random bytes
+from the internal state ``V`` using the PRF given during construction
+and will update ``V`` as defined in [SP800-90A]_ using ``update()``. Note
+that ``update()`` by itself can also be used to update ``V`` without
+generating output bytes.
+See :srcref:`src/lib/rng/hmac_drbg/hmac_drbg.cpp` for further details.
 
-In contrast to [SP800-90A]_ section 10.1.2.5, the
-``randomize_with_input()`` will not output an error if a reseed is
-required, but instead perform an automatic reseed from the entropy
-source given during construction. Additionally, ``randomize_with_input()``
-will also not output an error if ``requested_number_of_bytes >
-max_number_of_bytes_per_request``, but instead treat such calls as if
-multiple subsequent calls to ``randomize_with_input()`` were made.
+Random bytes can be requested from HMAC_DRBG using the public methods
+``randomize()``, ``randomize_with_input()`` and ``randomize_with_ts_input()``
+functions. See above for further implementation details of those methods.
 
-``randomize_with_input()`` also attempts to detect a fork of the process
+In contrast to [SP800-90A]_ section 10.1.2.5, Botan's implementation of
+``HMAC_DRBG`` will not output an error if a reseed is required, but instead
+perform an automatic reseed from the entropy source given during construction.
+Additionally, it will also not output an error if ``requested_number_of_bytes >
+max_number_of_bytes_per_request``, but instead treat such calls as if multiple
+subsequent calls to the random number generator were made.
+
+The automatic reseeding will also attempts to detect a fork of the process
 on Unix systems by comparing the process ID between calls. If the
 process ID changed, it will automatically perform a reseed. Seeding and
 reseeding is done in the Stateful_RNG's ``reseed_check()`` member
 function.
 
-``randomize_with_input()`` is implemented as follows.
-
-.. admonition:: ``randomize_with_input()``
+.. admonition:: ``fill_bytes_with_input()``
 
    **Input:**
 
    1. ``output``: Output buffer to hold the requested random bytes.
-   2. ``output_len``: Number of requested random bytes.
-   3. ``input``: A string of bits obtained from an entropy source to be mixed
-      into the entropy pool before extraction.
-   4. ``input_len``: Number of bytes in ``input``.
+   2. ``input``: A string of bits obtained from an entropy source to be mixed
+                 into the entropy pool before extraction.
 
    **Output:**
 
-   1. ``returned_bytes``: The pseudorandom bits to be returned to the
-      consuming application.
+   1. ``output``: The pseudorandom bits to be returned to the consuming
+      application.
 
    **Steps:**
 
-   1. While (``output_len`` > 0) do:
+   1. Set ``bytes_to_generate = output.size()``
+   2. While (``bytes_to_generate`` > 0) do:
 
-      1. Set ``this_req`` = **min**\ (``max_number_of_bytes_per_request``,
-         ``output_len``)
-      2. Set ``requested_number_of_bytes`` = ``output_len`` - ``this_req``
-      3. Call Stateful_RNG's ``reseed_check()``
-      4. If **len**\ (``input``) != 0, then (*Key, V*) =
-         **HMAC_DRBG_Update**\ (``input``, ``Key``, ``V``)
-      5. While (``this_req`` > 0) do:
+      1. Set ``this_req = min(max_number_of_bytes_per_request, bytes_to_generate)``
+      2. Call Stateful_RNG's ``reseed_check()``
+      3. If ``input.size() != 0``, then ``update(input)`` (once per top-level request, see (7))
+      4. While (``this_req`` > 0) do:
 
-         1. ``to_copy``\ = **min**\ (``this_req``, **len**\ (``V``))
-         2. ``V`` = **HMAC**\ (``Key``, ``V``)
-         3. ``returned_bytes`` = ``returned_bytes`` \|\| **leftmost**\ (``V``,
-            ``to_copy``)
+         1. ``to_copy = min(this_req, V.size())``
+         2. ``V = HMAC(Key, V)``
+         3. ``output = output || leftmost(V, to_copy)``
+         4. ``this_req = this_req - to_copy``
 
-      6. **HMAC_DRBG_Update**\ (``input``, ``Key``, ``V``)
-
-   2. Return (SUCCESS, ``returned_bytes``, ``Key``, ``V``, ``reseed_counter``)
+      5. Call ``update(input)``
+      6. Set ``bytes_to_generate = bytes_to_generate - this_req``
+      7. Clear the input for the next inner loop: ``input = {}``
 
 ``randomize_with_ts_input()`` incorporates a 64 bit processor timestamp,
 using QueryPerformanceCounter's QuadPart value on Windows and an inline
@@ -416,7 +412,6 @@ It is implemented as follows.
    **Input:**
 
    1. ``output``: Output buffer to hold the requested random bytes\ *.*
-   2. ``output_len``: Number of requested random bytes.
 
    **Output:** None
 
@@ -430,8 +425,7 @@ It is implemented as follows.
       1. Add a 64 bit system clock timestamp to ``additional_input``
       2. Add the 32 bit process ID to ``additional_input``
 
-   4. Call ``randomize_with_input(output, output_len, additional_input,
-      sizeof(additional_input))``
+   4. Call ``fill_bytes_with_input(output, additional_input)``
 
 Function ``Stateful_RNG::reseed_check()``:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -511,21 +505,22 @@ instead of outputting an error in this case and it outputs random bytes
 even if the requested number of bytes is greater than the
 max_number_of_bytes_per_request parameter permits. In both cases though,
 the internal state is updated with fresh entropy if required and thus
-the security is ensured.
+the security is ensured as if the application was to perform individual
+calls to the RNG.
 
 AutoSeeded_RNG
 ^^^^^^^^^^^^^^
 
 AutoSeeded_RNG is a random number generator that is automatically
-seeded. AutoSeeded_RNG internally uses the HMAC_DRBG. If no entropy
-source is explicitly given, AutoSeeded_RNG uses the System_RNG as the
-entropy source for HMAC_DRBG. If the System_RNG is not available, that
+seeded. AutoSeeded_RNG internally uses the :ref:`HMAC_DRBG <rng/hmac_drbg>`.
+If no entropy source is explicitly given, AutoSeeded_RNG uses the System_RNG
+as the entropy source for HMAC_DRBG. If the System_RNG is not available, that
 means it is not part of the library build because it was explicitly
 disabled manually or because it is not available [#System_RNG_available]_ for this platform,
 it uses a default [#System_RNG_default]_ set of entropy sources. As the name implies,
 AutoSeeded_RNG is automatically seeded (and reseeded) from these
 sources. The AutoSeeded_RNG is provided in
-``src/lib/rng/auto_rng/auto_rng.cpp``.
+:srcref:`src/lib/rng/auto_rng/auto_rng.cpp`.
 
 .. [#System_RNG_available]
    Note that the System_RNG is available on most platforms, including
@@ -566,7 +561,7 @@ in the same order of preference as they appear in the table above.
 In the following,
 the Instantiate, Add_Entropy and Generate functions of all six
 implementations are specified. The System_RNG is provided in
-``src/lib/rng/system_rng/system_rng.cpp``.
+:srcref:`src/lib/rng/system_rng/system_rng.cpp`.
 
 RtlGenRandom
 ^^^^^^^^^^^^
@@ -593,7 +588,6 @@ RtlGenRandom
 
    1. ``m_rtlgenrandom``: Handle to the RtlGenRandom function.
    2. ``buf``: The buffer receiving the pseudorandom bytes.
-   3. ``len``: The number of pseudorandom bytes to be returned.
 
    **Output:**
 
@@ -603,7 +597,7 @@ RtlGenRandom
    **Steps:**
 
    1. ``limit`` = maximum **RtlGenRandom** can return in one call
-   2. ``bytesLeft = len``
+   2. ``bytesLeft = buf.size()``
    3. If (``bytesLeft > 0``):
 
       1. ``blockSize = min(bytesLeft, limit)``
@@ -645,7 +639,6 @@ BCryptGenRandom
 
    1. ``provider_handle``: Handle to the CNG provider.
    2. ``buf``: The buffer receiving the pseudorandom bytes.
-   3. ``len``: The number of pseudorandom bytes to be returned.
 
    **Output:**
 
@@ -655,7 +648,7 @@ BCryptGenRandom
    **Steps:**
 
    1. ``limit`` = maximum **BCryptGenRandom** can return in one call
-   2. ``bytesLeft = len``
+   2. ``bytesLeft = buf.size()``
    3. If (``bytesLeft > 0``):
 
       1. ``blockSize = min(bytesLeft, limit)``
@@ -687,7 +680,6 @@ CCRandomGenerateBytes
    **Input:**
 
    1. ``buf``: The buffer receiving the pseudorandom bytes.
-   2. ``len``: The number of pseudorandom bytes to be returned.
 
    **Output:**
 
@@ -696,7 +688,7 @@ CCRandomGenerateBytes
 
    **Steps:**
 
-   1. ret = **CCRandomGenerateBytes**\ (``buf``, ``len``)
+   1. ret = **CCRandomGenerateBytes**\ (``buf``, ``buf.size()``)
    2. If (ret != kCCSuccess) then output "System_RNG CCRandomGenerateBytes failed"
 
 arc4random
@@ -721,7 +713,6 @@ arc4random
    **Input:**
 
    1. ``buf``: The buffer receiving the pseudorandom bytes.
-   2. ``len``: The number of pseudorandom bytes to be returned.
 
    **Output:**
 
@@ -730,7 +721,7 @@ arc4random
 
    **Steps:**
 
-   1. If (len > 0) then **arc4random_buf**\ (``buf``, ``len``)
+   1. If (!buf.empty()) then **arc4random_buf**\ (``buf``, ``buf.size()``)
 
 getrandom
 ^^^^^^^^^
@@ -753,7 +744,6 @@ getrandom
    **Input:**
 
    1. ``buf``: The buffer receiving the pseudorandom bytes.
-   2. ``len``: The number of pseudorandom bytes to be returned.
 
    **Output:**
 
@@ -762,7 +752,8 @@ getrandom
 
    **Steps:**
 
-   1. While (``len`` > 0) do:
+   1. ``len = buf.size()``
+   2. While (``len`` > 0) do:
 
       1. ``got`` = **getrandom**\ (``buf``, ``len``, 0)
       2. If (``got`` < 0 ) then do:
@@ -814,12 +805,12 @@ getrandom
 
    1. ``fd``: File descriptor to the RNG device.
    2. ``input``: Additional input received from the consuming application.
-   3. ``len``: Size of ``input`` in bytes.
 
    **Steps:**
 
-   1. If (``fd`` was opened as read-only) do Return
-   2. While (``len`` > 0) do:
+   1. ``len = input.size()``
+   2. If (``fd`` was opened as read-only) do Return
+   3. While (``len`` > 0) do:
 
       1. ``got`` = **write**\ (``fd``, ``additional_entropy``, ``len``)
       2. If (``got`` < 0) then do:
@@ -837,16 +828,16 @@ getrandom
 
    1. ``fd``: File descriptor to the RNG device.
    2. ``buf``: The buffer receiving the pseudorandom bytes.
-   3. ``len``: The number of pseudorandom bytes to be returned.
 
    **Output:**
 
-   1. ``buffer``: The pseudorandom bits to be returned to the consuming
+   1. ``buf``: The pseudorandom bits to be returned to the consuming
       application.
 
    **Steps:**
 
-   1. While (len > 0) do:
+   1. ``len = buf.size()``
+   2. While (len > 0) do:
 
       1. ``got`` = **read**\ (``fd``, ``buf``, len ``s``)
       2. If (``got`` < 0) then do:
@@ -867,7 +858,7 @@ PKCS11_RNG
 PKCS11_RNG is a random generator that uses the PKCS#11 interface to
 retrieve random bytes from a hardware security module (HSM) supporting
 the PKCS#11 standard, e.g., a smartcard. The PKCS11_RNG is provided in
-``src/lib/prov/pkcs11/p11_randomgenerator.cpp``.
+:srcref:`src/lib/prov/pkcs11/p11_randomgenerator.cpp`.
 
 .. admonition:: Construction
 
@@ -884,18 +875,16 @@ the PKCS#11 standard, e.g., a smartcard. The PKCS11_RNG is provided in
    **Input:**
 
    1. ``in``: Additional input received from the consuming application.
-   2. ``length``: Length of ``in`` in bytes.
 
    **Steps:**
 
-   1. **C_SeedRandom**\ (``m_session.get().module()``, ``in``, ``length``)
+   1. **C_SeedRandom**\ (``m_session.get().module()``, ``in``, ``in.size()``)
 
 .. admonition:: Randomize
 
    **Input:**
 
    1. ``output``: The buffer receiving the pseudorandom bytes.
-   2. ``length``: The number of pseudorandom bytes to be returned.
 
    **Output:**
 
@@ -904,7 +893,7 @@ the PKCS#11 standard, e.g., a smartcard. The PKCS11_RNG is provided in
 
    **Steps:**
 
-   1. **C\_GenerateRandom**\ (``m_session.get().handle()``, ``in``, ``length``)
+   1. **C\_GenerateRandom**\ (``m_session.get().handle()``, ``output``, ``output.size()``)
 
 .. _rng/processor_generators:
 
@@ -917,7 +906,7 @@ On x86, the RDRAND instruction is used.
 On POWER, the DARN instruction is used.
 As there is no way to add entropy to the rdrand or darn entropy pool,
 ``add_entropy()`` is a no-operation.
-The ``Processor_RNG`` is provided in ``src/lib/rng/processor_rng/processor_rng.cpp``.
+The ``Processor_RNG`` is provided in :srcref:`src/lib/rng/processor_rng/processor_rng.cpp`.
 
 .. admonition:: Construction
 
@@ -935,7 +924,6 @@ The ``Processor_RNG`` is provided in ``src/lib/rng/processor_rng/processor_rng.c
    **Input:**
 
    1. ``out``: The buffer receiving the pseudorandom bytes.
-   2. ``out_len``: The number of pseudorandom bytes to be returned.
 
    **Output:**
 
@@ -944,14 +932,15 @@ The ``Processor_RNG`` is provided in ``src/lib/rng/processor_rng/processor_rng.c
 
    **Steps:**
 
-   1. While (``out_len`` >= 4) do:
+   1. ``out_len = out.size()``
+   2. While (``out_len`` >= 4) do:
 
       1. ``r`` = **read\_hwrng**\ ()
       2. **store_le**\ (``r``, ``buffer``)
       3. ``out`` = ``out`` + 4
       4. ``out_len`` = ``out_len`` - 4
 
-   2. If (``out_len`` > 0) then do:
+   3. If (``out_len`` > 0) then do:
 
       1. ``r`` = **read\_hwrng**\ ()
       2. For (i = 0..\ ``out_len``-1) do:
@@ -1022,7 +1011,8 @@ assembly for ``rdrand %eax`` is used in step 3.
 **Remark (RDRAND):** On 64-bit systems, instead ``_rdrand64_step`` is used in
 step 3.
 
-**Remark (DARN):** As the DARN instruction indicates an error by returning ``0xFF..FF``
-it is slightly biased.
-Botan tries to mitigate the bias by invoking DARN twice and XORing the two results iff both succeed.
-In case one or both invocations fail (i.e. return ``0xFF..FF``), the action is retried 512 times. If the failure persists it is escalated to the user as an exception.
+**Remark (DARN):** As the DARN instruction indicates an error by returning
+``0xFF..FF`` it is slightly biased. Botan tries to mitigate the bias by invoking
+DARN twice and XORing the two results iff both succeed. In case one or both
+invocations fail (i.e. return ``0xFF..FF``), the action is retried 512 times. If
+the failure persists it is escalated to the user as an exception.

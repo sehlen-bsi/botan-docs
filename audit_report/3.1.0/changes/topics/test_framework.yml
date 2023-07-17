@@ -1,0 +1,58 @@
+title: Test Framework
+
+description: |
+  This contains patches to Botan's test system infrastructure.
+
+patches:
+# [TLS 1.3] Add a "consolidation c'tor" for Test::Result  (@reneme)
+- pr: 2967  # https://github.com/randombit/botan/pull/2967
+  merge_commit: f4bbe0a393d5b47f98bd8ebc9968996b32b95f20
+  classification: info
+
+# [TLS 1.3] Fallback for Fixed_Output_RNG  (@reneme)
+- pr: 2949  # https://github.com/randombit/botan/pull/2949
+  merge_commit: 13ca87fab8cfad8b1600c2507139b4336a991f6c
+  classification: info
+
+# [TLS 1.3] Test Framework Utilities  (@reneme)
+- pr: 2941  # https://github.com/randombit/botan/pull/2941
+  merge_commit: 3b3965ffc688196314fe8ae5ff26084421fc549d
+  classification: info
+
+# Chore: Improve Test Registration  (@reneme)
+- pr: 3215  # https://github.com/randombit/botan/pull/3215
+  merge_commit: 3898cc7e3f7453079b434461293094fc7902f996
+  classification: info
+
+# Report Code Locations of test failures  (@reneme)
+- pr: 3058  # https://github.com/randombit/botan/pull/3058
+  merge_commit: 49080fb8dece069d9e3252ba42769019f8bf9a09
+  classification: info
+  auditer: reneme
+
+# Refactor: Log Test results via a dedicated reporter class  (@reneme)
+- pr: 3027  # https://github.com/randombit/botan/pull/3027
+  merge_commit: 307027e40e34a4dab449b381bb550d55d6d7a1d3
+  classification: info
+
+# Let test_cli produce stack traces in case of test errors  (@reneme)
+- pr: 3414  # https://github.com/randombit/botan/pull/3414
+  merge_commit: a735162cfe466f8394a9a65b7cdbcf61df6cec5c
+  classification: info
+
+# Segmentation Fault Protection in test_tls_rfc8448  (@FAlbertDev)
+- pr: 3587  # https://github.com/randombit/botan/pull/3587
+  merge_commit: 682fe6da5584da7b04ad6a6f6ca78dc5819a7c9b
+  classification: info
+
+# In stdout test runner, use flush after each test report  (@randombit)
+- pr: 3583  # https://github.com/randombit/botan/pull/3583
+  merge_commit: 9bf2f5456d4af67b112b35fa9208265d7353992b
+  classification: info
+  auditer: FAlbertDev
+
+# Use deterministic port numbers for the CLI tests  (@randombit)
+- pr: 3596  # https://github.com/randombit/botan/pull/3596
+  merge_commit: eac046cee93930d51cdebba3d1c4534949f163de
+  classification: info
+  auditer: reneme

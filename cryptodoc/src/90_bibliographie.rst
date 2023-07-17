@@ -49,6 +49,11 @@
    Nonce-Disrespecting Adversaries: Practical Forgery Attacks on GCM in TLS.
    WOOT'16
 
+.. [IEEE-1363-2000] IEEE Std 1363-2000:
+   "IEEE Standard Specifications for Public-Key Cryptography",
+   https://ieeexplore.ieee.org/document/891000,
+   29 August 2000
+
 .. [IEEE-1619] IEEE Std 1619-2018:
    "IEEE Standard for Cryptographic Protection of Data on Block-Oriented Storage Devices",
    https://ieeexplore.ieee.org/document/8637988,
@@ -62,9 +67,9 @@
    Information technology -- Security techniques -- Digital signature schemes giving message recovery -- Part 2:
    Integer factorization based mechanisms
 
-.. [ISO-14888-3] ISO/IEC 14888-3:2006:
+.. [ISO-14888-3] ISO/IEC 14888-3:2018:
    Information technology -- Security techniques -- Digital signatures with appendix -- Part 3:
-   Discrete logarithm based mechanisms (with technical corrigendum 2, published 2009-02-15)
+   Discrete logarithm based mechanisms
 
 .. [ISO-15946-1] ISO/IEC 15946-1:2016:
    Information technology -- Security techniques -- Cryptographic techniques based on elliptic curves -- Part 1: General
@@ -101,11 +106,6 @@
    2015.
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
 
-.. [NIST-HashSigs] National Institute of Standards and Technology
-   SP.800-208: "Recommendation for Stateful Hash-Based Signature Schemes"
-   October 2020.
-   https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-208.pdf
-
 .. [ReqEC] BSI.
    Minimum Requirements for Evaluating Side-Channel Attack Resistance of Elliptic Curve Implementations.
    Version 2.0, 21.11.2016
@@ -135,6 +135,11 @@
 
 .. [RFC5652] R. Housley. RFC-5652. Cryptographic Message Syntax. 2009
 
+.. [RFC5869] Dr. Hugo Krawczyk, Pasi Eronen: RFC 5869:
+   "HMAC-based Extract-and-Expand Key Derivation Function (HKDF)",
+   https://www.rfc-editor.org/info/rfc5869,
+   May 2010
+
 .. [RFC6125] Internet Engineering Task Force: RFC6125:
    "Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)",
    http://tools.ietf.org/html/rfc6125, March 2011
@@ -142,6 +147,11 @@
 .. [RFC6979] Internet Engineering Task Force: RF6979:
    "Deterministic Usage of the Digital Signature Algorithm (DSA) and Elliptic Curve Digital Signature Algorithm (ECDSA)",
    August 2013
+
+.. [RFC7693] M-J. Saarinen, Ed., J-P. Aumasson: RFC7693:
+   "The BLAKE2 Cryptographic Hash and Message Authentication Code (MAC)",
+   https://www.rfc-editor.org/info/rfc7693,
+   November 2015
 
 .. [SP800-38E] NIST Special Publication SP 800-38E:
    "Recommendation for Block Cipher Modes of Operation: the XTS-AES Mode for Confidentiality on Storage Devices",
@@ -168,6 +178,11 @@
    "Recommendation for Key Derivation Using Pseudorandom Functions",
    https://csrc.nist.gov/publications/detail/sp/800-108/rev-1/final,
    August 2022
+
+.. [SP800-208] NIST Special Publication 800-208:
+   "Recommendation for Stateful Hash-Based Signature Schemes",
+   https://csrc.nist.gov/publications/detail/sp/800-208/final,
+   October 2020
 
 .. [TR-02102-1] BSI Technische Richtlinie BSI TR-02102-1:
    "Kryptographische Verfahren: Empfehlungen und Schlüssellängen",

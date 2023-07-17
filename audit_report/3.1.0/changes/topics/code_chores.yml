@@ -1,0 +1,689 @@
+title: Code Cleanups and Chores
+
+description: |
+  These cleanups and code style improvements do not affect the security of the
+  library. With one exception (GH #3291) that performs a refactoring at the
+  internal workings of SHA-2 and AES. No changes that might alter the behaviour
+  of the library were identified.
+
+patches:
+# Use std::string_view and fmt more extensively  (@randombit)
+- pr: 3480  # https://github.com/randombit/botan/pull/3480
+  merge_commit: e4022277548c910da1f554449171d2ee775717bd
+  classification: info
+  auditer: reneme
+
+# Fixed a couple of unused argument warnings in minimized build  (@oviano)
+- pr: 3463  # https://github.com/randombit/botan/pull/3463
+  merge_commit: 015c0c2b3d70fbef54955ea6f308d765f73a4e5d
+  classification: info
+
+# Various clang-tidy fixes  (@randombit)
+- pr: 3456  # https://github.com/randombit/botan/pull/3456
+  merge_commit: 9b7ea98824147d3273cfe4f7a00ffbef6aaa3025
+  classification: info
+
+# Remove various public member variables  (@randombit)
+- pr: 3454  # https://github.com/randombit/botan/pull/3454
+  merge_commit: a212b98b4147e1ede074d46dbc67f3fc73018125
+  classification: info
+  auditer: reneme
+
+# Use span for the argument to lock  (@randombit)
+- pr: 3442  # https://github.com/randombit/botan/pull/3442
+  merge_commit: b9590bc9e47e002ce3994647356172f24a1989a9
+  classification: info
+
+# Add a simple formatting helper  (@randombit)
+- pr: 3440  # https://github.com/randombit/botan/pull/3440
+  merge_commit: 8a1f7d2df7ce05b429a66aaf4eee9232b9b1c6e8
+  classification: info
+
+# Adopt std::string_view in various APIs  (@randombit)
+- pr: 3432  # https://github.com/randombit/botan/pull/3432
+  merge_commit: 9e19e43176edc500c25864f58b3c304873230803
+  classification: info
+
+# FIxed sqlite3 forward declarations to use struct not class  (@oviano)
+- pr: 3427  # https://github.com/randombit/botan/pull/3427
+  merge_commit: 9b555eac23a7d85f710aaf3f33cba72f1eb1cd71
+  classification: info
+
+# Rename the BSI X.509 test data to use shorter names  (@randombit)
+- pr: 3423  # https://github.com/randombit/botan/pull/3423
+  merge_commit: 6385c08fc30ef5a23025ab8b3e4793080768f689
+  classification: info
+  auditer: reneme
+
+# Remove #if 0 disabled code  (@randombit)
+- pr: 3419  # https://github.com/randombit/botan/pull/3419
+  merge_commit: 464e3d9360f3611ed744e7c0f9b1b069e6af6ae0
+  classification: info
+  auditer: reneme
+
+# Use std::span instead of vector references to pass key bits to public keys  (@randombit)
+- pr: 3418  # https://github.com/randombit/botan/pull/3418
+  merge_commit: 39a1aa982486b06263450fa4ec3e781d4ea413de
+  classification: info
+  auditer: reneme
+
+# Fix some clang-tidy warnings  (@randombit)
+- pr: 3410  # https://github.com/randombit/botan/pull/3410
+  merge_commit: d321603c31c3ec42df7f4d89c54a66990821f4e1
+  classification: info
+  auditer: reneme
+
+# Chore: AEAD_Mode can deal with generic containers  (@reneme)
+- pr: 3317  # https://github.com/randombit/botan/pull/3317
+  merge_commit: 02ae99ab09420bb68eafb5ddf049972f5b66c838
+  classification: info
+
+# std::span for Stream_Cipher  (@reneme)
+- pr: 3395  # https://github.com/randombit/botan/pull/3395
+  merge_commit: ad41dc4d4953c59567d645347108b909424df148
+  classification: info
+
+# Chore: Iterate the Buffered_Computation API  (@reneme)
+- pr: 3396  # https://github.com/randombit/botan/pull/3396
+  merge_commit: e8a87768334520b36d6c813520921cb8b605e7b3
+  classification: info
+
+# std::span for MessageAuthenticationCode  (@reneme)
+- pr: 3397  # https://github.com/randombit/botan/pull/3397
+  merge_commit: 853808f3ca48e72800f203374c1bce6c64681e99
+  classification: info
+
+# std::span for Key Derivation Function  (@reneme)
+- pr: 3398  # https://github.com/randombit/botan/pull/3398
+  merge_commit: 0d916fde8c015ed621bf5d9f6bb0dbad55a78767
+  classification: info
+
+# std::span, std::string_view for base32, base58  (@reneme)
+- pr: 3399  # https://github.com/randombit/botan/pull/3399
+  merge_commit: ff51148d41fbf46132199359bdfc5391382ffda2
+  classification: info
+
+# std::span for Public Key Operations  (@reneme)
+- pr: 3400  # https://github.com/randombit/botan/pull/3400
+  merge_commit: 7007c95efdd137df800e8c5071b4b127a4750603
+  classification: info
+
+# std::span for Botan::BlockCipher  (@reneme)
+- pr: 3394  # https://github.com/randombit/botan/pull/3394
+  merge_commit: eb573a2afa7aa9b98bd6fd36c073bc8d9a493b62
+  classification: info
+
+# Chore: Symmetric_Algorithm can deal with generic containers  (@reneme)
+- pr: 3297  # https://github.com/randombit/botan/pull/3297
+  merge_commit: e6000de2391e9575de60afd8dccbda570251de51
+  classification: info
+
+# Chore: Buffered_Computation can deal with generic containers  (@reneme)
+- pr: 3294  # https://github.com/randombit/botan/pull/3294
+  merge_commit: 8460ca2b769f0e8a06b0bf2cc5169244011c9815
+  classification: info
+
+# FIX: Remove const from std::span parameter  (@reneme)
+- pr: 3378  # https://github.com/randombit/botan/pull/3378
+  merge_commit: 6fb0c0253d60c4d94b3fdd6e43402909c75558b1
+  classification: info
+
+# Further unique_ptr cleanups  (@randombit)
+- pr: 3359  # https://github.com/randombit/botan/pull/3359
+  merge_commit: e8e875a21bc604c7c13a20a7afdd039e2c910674
+  classification: info
+  auditer: reneme
+
+# Some unique_ptr related cleanups  (@randombit)
+- pr: 3357  # https://github.com/randombit/botan/pull/3357
+  merge_commit: 9adf9eb3654f0151640aabde44d9d23fd29a91c9
+  classification: info
+  auditer: reneme
+
+# Fix some recent pylint warnings  (@randombit)
+- pr: 3354  # https://github.com/randombit/botan/pull/3354
+  merge_commit: fdaf433f4abe89af03d1585a75b4d3e04aa235a4
+  classification: info
+  auditer: reneme
+
+# Remove secure_vector from EMSA API  (@randombit)
+- pr: 3352  # https://github.com/randombit/botan/pull/3352
+  merge_commit: 17df4f949e170f171e13d8037c3dcaf7efa9cf1d
+  classification: info
+  auditer: reneme
+
+# std::span/std::string_view for base64 codec  (@reneme)
+- pr: 3350  # https://github.com/randombit/botan/pull/3350
+  merge_commit: 7b1b55ccac5522d28e6b05f43b63fa022a16c998
+  classification: info
+
+# std::span/std::string_view for hex_encode/decode  (@reneme)
+- pr: 3349  # https://github.com/randombit/botan/pull/3349
+  merge_commit: 21372f80c93cb6eb722a107d9c1539f05042bd6f
+  classification: info
+
+# Fix clang-tidy warnings in recently introduced code  (@randombit)
+- pr: 3323  # https://github.com/randombit/botan/pull/3323
+  merge_commit: d07c6001cf3f44d99d956b0e7d02cb29218385e4
+  classification: info
+
+# Replace EC_Point::Compression_Type with EC_Point_Format enum  (@randombit)
+- pr: 3310  # https://github.com/randombit/botan/pull/3310
+  merge_commit: a3c26f510369d85a8c9138dd1e60999ec8e189bc
+  classification: info
+  auditer: reneme
+
+# Some misc ASN1_Time improvements/cleanups  (@randombit)
+- pr: 3306  # https://github.com/randombit/botan/pull/3306
+  merge_commit: 07fa851b5fd72c23cf958b19e309cdca41a3aa99
+  classification: info
+  auditer: reneme
+
+# Avoid some ineffcient string concatenations  (@randombit)
+- pr: 3305  # https://github.com/randombit/botan/pull/3305
+  merge_commit: 5baec353074ca0786c089b5f3c4fddd21bbed7ee
+  classification: info
+  auditer: reneme
+
+# Yet more various clang-tidy fixes  (@randombit)
+- pr: 3298  # https://github.com/randombit/botan/pull/3298
+  merge_commit: 6b5d7dc26b05ff63cc8e1c949e269caa6355f135
+  classification: info
+  auditer: reneme
+
+# Fix a false positive from clang-tidy in the PKCS11 tests  (@randombit)
+- pr: 3293  # https://github.com/randombit/botan/pull/3293
+  merge_commit: 6d1e48c6f024509691ce9eecd1073253323ccddc
+  classification: info
+  auditer: reneme
+
+# More clang-tidy warning fixes  (@randombit)
+- pr: 3289  # https://github.com/randombit/botan/pull/3289
+  merge_commit: 28bd4ccf065c5e050495b75b5e99dfddc17f679f
+  classification: info
+  auditer: reneme
+
+# Further clang-tidy warning fixes  (@randombit)
+- pr: 3288  # https://github.com/randombit/botan/pull/3288
+  merge_commit: fe0bacab50df34f05a15a07de42a7e0d611a9913
+  classification: info
+  auditer: reneme
+
+# Update clang-tidy config and fix many warnings  (@randombit)
+- pr: 3286  # https://github.com/randombit/botan/pull/3286
+  merge_commit: 08cea489277f67d8ee110e063e551cf2a40cc5c7
+  classification: info
+  auditer: reneme
+
+# [std::span] X509:: and PKCS8:: load_key(std::span)  (@reneme)
+- pr: 3203  # https://github.com/randombit/botan/pull/3203
+  merge_commit: eb7eb9a7c7a3009c797cd51c62c2411957c4dde4
+  classification: info
+
+# few `typedef` -> `using` changes and adding constraints  (@devnexen)
+- pr: 3253  # https://github.com/randombit/botan/pull/3253
+  merge_commit: dc3c79e1412e93ef829fe653fa35e8ac7547ce89
+  classification: info
+  auditer: reneme
+
+# CamelCase the CRL_Code enum  (@randombit)
+- pr: 3245  # https://github.com/randombit/botan/pull/3245
+  merge_commit: b326c59663e5eb74d6a0a0952fcf84cbb69d6e00
+  classification: info
+
+# Make Cipher_Dir an enum class  (@randombit)
+- pr: 3242  # https://github.com/randombit/botan/pull/3242
+  merge_commit: 6529407c828c2a83d1ed2eb92023a0edcd0bd4a2
+  classification: info
+  auditer: reneme
+
+# More raw pointer cleanups  (@randombit)
+- pr: 3229  # https://github.com/randombit/botan/pull/3229
+  merge_commit: 4b74c7eb3a84bd560713effe99a18bb7101bfd65
+  classification: info
+
+# Add back the old Signature_Format values (as deprecated)  (@randombit)
+- pr: 3230  # https://github.com/randombit/botan/pull/3230
+  merge_commit: 54084d3fee68eacba38e38fce25f07337ac350f1
+  classification: info
+
+# Make Key_Constraints an "enum class"-like class  (@randombit)
+- pr: 3225  # https://github.com/randombit/botan/pull/3225
+  merge_commit: 00d6064906ec28298ca8a6d4d5eaf679810472c2
+  classification: info
+
+# Remove various uses of raw pointers in the public API  (@randombit)
+- pr: 3220  # https://github.com/randombit/botan/pull/3220
+  merge_commit: 6835fe511571fbd946905a5ef904d0e7d05f44a3
+  classification: info
+
+# starting to remove handmade thread facilities in favor of their C++20…  (@devnexen)
+- pr: 3158  # https://github.com/randombit/botan/pull/3158
+  merge_commit: 8c69a2513af0868356833d7d9f8806eabb126082
+  classification: info
+
+# Annotate a few classes that should be final  (@randombit)
+- pr: 3173  # https://github.com/randombit/botan/pull/3173
+  merge_commit: c9858a6d6d1352fcf7e8ed32d5f676aa1435f0dd
+  classification: info
+  auditer: reneme
+
+# Introduce a strong-type template  (@reneme)
+- pr: 3165  # https://github.com/randombit/botan/pull/3165
+  merge_commit: a548f1fc5404fa0af85f3b51eb79be64a0c64f71
+  classification: info
+
+# Rename PointGFp to EC_Point  (@randombit)
+- pr: 3152  # https://github.com/randombit/botan/pull/3152
+  merge_commit: 5799d1004c649fce26344d6b7b84a8321a37f9f9
+  classification: info
+
+# following up change to c++20 level, introducing constinit  (@devnexen)
+- pr: 3114  # https://github.com/randombit/botan/pull/3114
+  merge_commit: 6cdb4739290865a769e62ea9d0b11ab67ec2c7ed
+  classification: info
+  auditer: reneme
+
+# one step further towards C++20, while __builtin_expect is GNU compile…  (@devnexen)
+- pr: 3115  # https://github.com/randombit/botan/pull/3115
+  merge_commit: a4a5df764ca86c817979ed2704f879446042f5d0
+  classification: info
+  auditer: reneme
+
+# Remove redundant use of `Botan::` prefix when already in that namespace  (@randombit)
+- pr: 3103  # https://github.com/randombit/botan/pull/3103
+  merge_commit: 92f424f8b5f4e215d43b5c245e86765910f32194
+  classification: info
+  auditer: reneme
+
+# Remove uses of ';;' to terminate statements.  (@randombit)
+- pr: 3102  # https://github.com/randombit/botan/pull/3102
+  merge_commit: 4f95bc3063b6f220fb369f0b08f3a77005d0a745
+  classification: info
+  auditer: reneme
+
+# Fix more Pylint warnings  (@randombit)
+- pr: 3093  # https://github.com/randombit/botan/pull/3093
+  merge_commit: f031d8e3964dabfce417e56143b89562b9d411b9
+  classification: info
+  auditer: reneme
+
+# Fix various Pylint warnings  (@randombit)
+- pr: 3091  # https://github.com/randombit/botan/pull/3091
+  merge_commit: 0d1e9f6ff082936ca497944cfa24d9ee09b741ec
+  classification: info
+  auditer: reneme
+
+# Convert Signature_Format to an enum class  (@randombit)
+- pr: 3084  # https://github.com/randombit/botan/pull/3084
+  merge_commit: d2b45fa6edf93e473922f370d8c5b31131b96d3d
+  classification: info
+
+# Sunset Python 2 support  (@reneme)
+- pr: 3046  # https://github.com/randombit/botan/pull/3046
+  merge_commit: 5688284f102a79490e7f6bfb3c0b9a81f6de9dd3
+  classification: info
+
+# Improve performance/usability of STL util `concat`  (@reneme)
+- pr: 3052  # https://github.com/randombit/botan/pull/3052
+  merge_commit: 91ecff648e811febe475e2d59aea8b617fc70c39
+  classification: info
+
+# Remove deprecated OCSP-related Certificate Status Codes  (@reneme)
+- pr: 3050  # https://github.com/randombit/botan/pull/3050
+  merge_commit: 3a05b5523c73ca656216a76454bc0ddaad52cf53
+  classification: info
+
+# Nit: remove std::optional<> where it is not needed  (@reneme)
+- pr: 3047  # https://github.com/randombit/botan/pull/3047
+  merge_commit: dcedc3183cca48db32de542572d1835b29d6ebd5
+  classification: info
+
+# FIX: compiler warning uint64_t -> uint32_t  (@reneme)
+- pr: 3016  # https://github.com/randombit/botan/pull/3016
+  merge_commit: dc0a59cdd795490c021be95480fdbe31f1c5d94b
+  classification: info
+
+# FIX: Array Parameter Warnings  (@reneme)
+- pr: 3015  # https://github.com/randombit/botan/pull/3015
+  merge_commit: 7551a4d8d32be6f26d0f2f6430479003905ffdd6
+  classification: info
+
+# Fixed more -Wredundant-tags warnings  (@jankoerner)
+- pr: 2929  # https://github.com/randombit/botan/pull/2929
+  merge_commit: 4cf3e979467673ca2d2ad32ba1bbf33bf8f5e2c9
+  classification: info
+  auditer: reneme
+
+# Fixed -Wredundant-tags Warnings  (@jankoerner)
+- pr: 2928  # https://github.com/randombit/botan/pull/2928
+  merge_commit: eaf5e4ea2184f6f179cdbef5790d3ad2dd4c88bf
+  classification: info
+  auditer: reneme
+
+# Fix some clang-tidy warnings  (@Jack Lloyd)
+- commit: 747a54592234a15ffc86c108edb692cd3b59b1d3  # https://github.com/randombit/botan/commit/747a54592234a15ffc86c108edb692cd3b59b1d3
+  classification: info
+  auditer: reneme
+
+# Improve error message if the PKCS11 RSA decrypt test fails  (@Jack Lloyd)
+- commit: 13aabae3119961400f213be1891f0b415443f4d8  # https://github.com/randombit/botan/commit/13aabae3119961400f213be1891f0b415443f4d8
+  classification: info
+  auditer: reneme
+
+# Ignore clang-tidy warning in test [ci skip]  (@Jack Lloyd)
+- commit: 0bc1657b080be12666a3aeb3bc48573cc992440b  # https://github.com/randombit/botan/commit/0bc1657b080be12666a3aeb3bc48573cc992440b
+  classification: info
+  auditer: reneme
+
+# Revert "Use span for the argument to lock"  (@Jack Lloyd)
+- commit: 02b25fc1e84bfa33dcef4a1c63ad124d017e7bf7  # https://github.com/randombit/botan/commit/02b25fc1e84bfa33dcef4a1c63ad124d017e7bf7
+  classification: info
+  auditer: reneme
+
+# Silence deprecation warnings in the test  (@Jack Lloyd)
+- commit: 2b6139e0224cd072afc424620a0e05b57f9436f2  # https://github.com/randombit/botan/commit/2b6139e0224cd072afc424620a0e05b57f9436f2
+  classification: info
+  auditer: reneme
+
+# Silence deprecation warning  (@Jack Lloyd)
+- commit: fef1c699c1da4d44ec57c8fb7f7d818fd97ae3ed  # https://github.com/randombit/botan/commit/fef1c699c1da4d44ec57c8fb7f7d818fd97ae3ed
+  classification: info
+  auditer: reneme
+
+# Deprecate cryptobox module  (@Jack Lloyd)
+- commit: 05b3b02b117770cd14a54321fd7223495f3e51bc  # https://github.com/randombit/botan/commit/05b3b02b117770cd14a54321fd7223495f3e51bc
+  classification: out of scope
+  auditer: reneme
+
+# Deprecate pbkdf.h  (@Jack Lloyd)
+- commit: d5efbb4c79c9c85adab73ada26b00b2cb7bcd6e3  # https://github.com/randombit/botan/commit/d5efbb4c79c9c85adab73ada26b00b2cb7bcd6e3
+  classification: info
+  auditer: reneme
+
+# Remove debug printf  (@Jack Lloyd)
+- commit: 55aaa5149c5d4cda52f14093db2c770dcc4da6d9  # https://github.com/randombit/botan/commit/55aaa5149c5d4cda52f14093db2c770dcc4da6d9
+  classification: info
+  auditer: reneme
+
+# Fix unused variable warning  (@Jack Lloyd)
+- commit: f0746663564a13f28892910d97dc1c49d47c93ae  # https://github.com/randombit/botan/commit/f0746663564a13f28892910d97dc1c49d47c93ae
+  classification: info
+  auditer: reneme
+
+# Clean up factory methods a bit  (@Jack Lloyd)
+- commit: 2a2d3a1df14eb02db316f6866187fe675ac58051  # https://github.com/randombit/botan/commit/2a2d3a1df14eb02db316f6866187fe675ac58051
+  classification: info
+  auditer: reneme
+
+# Fix some clang-tidy warnings  (@Jack Lloyd)
+- commit: 01e67a5980e53de7e5c752f7eb25107abf3c84ee  # https://github.com/randombit/botan/commit/01e67a5980e53de7e5c752f7eb25107abf3c84ee
+  classification: info
+  auditer: reneme
+
+# Fix some clang-tidy warnings  (@Jack Lloyd)
+- commit: d6d74f9fd0118ff659eaa8e02779592accc1dba9  # https://github.com/randombit/botan/commit/d6d74f9fd0118ff659eaa8e02779592accc1dba9
+  classification: info
+  auditer: reneme
+
+# Add missing final annotation to PSS_Params  (@Jack Lloyd)
+- commit: f5a3ba994b51e9357eb19e40f04f8eb3755a042b  # https://github.com/randombit/botan/commit/f5a3ba994b51e9357eb19e40f04f8eb3755a042b
+  classification: info
+  auditer: reneme
+
+# Remove unncessary includes of oids.h  (@Jack Lloyd)
+- commit: ff1d94663530eb5c6484735cde7bc0157ea67202  # https://github.com/randombit/botan/commit/ff1d94663530eb5c6484735cde7bc0157ea67202
+  classification: info
+  auditer: reneme
+
+# Fix clang-tidy macro usage warning  (@Jack Lloyd)
+- commit: 5cf62af943d9a8511b13ed9a6e3ce4114c9abf9c  # https://github.com/randombit/botan/commit/5cf62af943d9a8511b13ed9a6e3ce4114c9abf9c
+  classification: info
+  auditer: reneme
+
+# Remove two checks from the clang-tidy ignore list  (@Jack Lloyd)
+- commit: 41e2905c0fa1373ea453025d4b8f37d8921dacfe  # https://github.com/randombit/botan/commit/41e2905c0fa1373ea453025d4b8f37d8921dacfe
+  classification: out of scope
+  auditer: reneme
+
+# Fix some container size() > 0 checks to use empty instead  (@Jack Lloyd)
+- commit: 998d74e27fd02cd4377484a3ba0c61847e974716  # https://github.com/randombit/botan/commit/998d74e27fd02cd4377484a3ba0c61847e974716
+  classification: info
+  auditer: reneme
+
+# Bump amalgamation copyright header [ci skip]  (@Jack Lloyd)
+- commit: f3a957da59487f05432a1d13b52e109d978c4eea  # https://github.com/randombit/botan/commit/f3a957da59487f05432a1d13b52e109d978c4eea
+  classification: info
+  auditer: reneme
+
+# Tweak shake_cipher.h header guard [ci skip]  (@Jack Lloyd)
+- commit: 3fceec42e6d002cd767ce5101cf9fe618d4b9c78  # https://github.com/randombit/botan/commit/3fceec42e6d002cd767ce5101cf9fe618d4b9c78
+  classification: info
+  auditer: reneme
+
+# Fix compile and update comment  (@Jack Lloyd)
+- commit: cf283e4cc81916f4002ac12a5d5960b098b03840  # https://github.com/randombit/botan/commit/cf283e4cc81916f4002ac12a5d5960b098b03840
+  classification: info
+  auditer: reneme
+
+# Fix compilation  (@Jack Lloyd)
+- commit: 4ced99be8cb1cb3949229d369984fe7cae7b2b48  # https://github.com/randombit/botan/commit/4ced99be8cb1cb3949229d369984fe7cae7b2b48
+  classification: info
+  auditer: reneme
+
+# Remove pointless preprocessor guards  (@Jack Lloyd)
+- commit: e2a0c273a865d07c1552f800cf8e01854ce24acf  # https://github.com/randombit/botan/commit/e2a0c273a865d07c1552f800cf8e01854ce24acf
+  classification: info
+  auditer: reneme
+
+# Remove public named constants for SM3 params  (@Jack Lloyd)
+- commit: 7f745f2bbb0ca78b7f491d338dbad5e8ba2e90df  # https://github.com/randombit/botan/commit/7f745f2bbb0ca78b7f491d338dbad5e8ba2e90df
+  classification: out of scope
+  auditer: reneme
+
+# Formatting nit  (@Jack Lloyd)
+- commit: 4f715e863fbc464a5a73d483a0ba4ee47c8cb7dd  # https://github.com/randombit/botan/commit/4f715e863fbc464a5a73d483a0ba4ee47c8cb7dd
+  classification: info
+  auditer: reneme
+
+# Indentation fixes  (@Jack Lloyd)
+- commit: 15de63fe0c92e4b895d182cb1b1fb105ea5de769  # https://github.com/randombit/botan/commit/15de63fe0c92e4b895d182cb1b1fb105ea5de769
+  classification: info
+  auditer: reneme
+
+# Move name to within #ifdef block  (@Jack Lloyd)
+- commit: 225cc9a1cbb9b2add45872257909c177ff97a80f  # https://github.com/randombit/botan/commit/225cc9a1cbb9b2add45872257909c177ff97a80f
+  classification: info
+  auditer: reneme
+
+# Remove needless include  (@Jack Lloyd)
+- commit: b8997eeeae3df8b3e6c73b7337682c8db4fae2e3  # https://github.com/randombit/botan/commit/b8997eeeae3df8b3e6c73b7337682c8db4fae2e3
+  classification: info
+  auditer: reneme
+
+# Use CamelCase for ECIES_Flags enumeration  (@randombit)
+- pr: 3309  # https://github.com/randombit/botan/pull/3309
+  merge_commit: d3c0b2f994c13bbfd17fa19a4d8aa3780d4b2560
+  classification: info
+  auditer: reneme
+
+# Remove various function-like macros  (@randombit)
+- pr: 3291  # https://github.com/randombit/botan/pull/3291
+  merge_commit: c7367b0722b55190d4657dc31c0536c19bacc2c5
+  classification: relevant
+  auditer: reneme
+  comment: |
+    This refactors some low-level implementation details in AES-NI, SHA-2 and
+    some other (out-of-scope) algorithms. Namely replacing preprocessor macros
+    with inline functions or template functions. The actual implementation stays
+    the same.
+
+# Remove unused member since 3bedb5f3cb94ecc5607572b404c4a324f7acc2a7  (@nunojpg)
+- pr: 3278  # https://github.com/randombit/botan/pull/3278
+  merge_commit: fd8c8c9177080e72d057ddad50c3777ff2e72e15
+  classification: info
+  auditer: reneme
+
+# Remove some unnecessary typedefs  (@randombit)
+- pr: 3267  # https://github.com/randombit/botan/pull/3267
+  merge_commit: 2c4a35c9ac11bd2e8420928f70c1f05d8f13f65f
+  classification: info
+
+# concat, addressing todo.  (@devnexen)
+- pr: 3251  # https://github.com/randombit/botan/pull/3251
+  merge_commit: ebf2da68b1279b2145593ecdbcd925d4c30df3da
+  classification: info
+
+# few little todos  (@devnexen)
+- pr: 3226  # https://github.com/randombit/botan/pull/3226
+  merge_commit: fd5760da80c55f6975aa0ff1754d76dcb8144855
+  classification: info
+
+# Revert GH #3158 adopting std::counting_semaphore  (@randombit)
+- pr: 3207  # https://github.com/randombit/botan/pull/3207
+  merge_commit: 71595f79f9fd42abe1c89a8a9be43440a7f4ee34
+  classification: info
+  auditer: reneme
+
+# Small cleanups for polyn_gf2m type  (@randombit)
+- pr: 3082  # https://github.com/randombit/botan/pull/3082
+  merge_commit: 61c594764244f16a524df854bc36f144d9e47225
+  classification: info
+
+# rotate helpers converts to constraints.  (@devnexen)
+- pr: 3252  # https://github.com/randombit/botan/pull/3252
+  merge_commit: 90bd415d22d36697dfd8e5224fc440367f83b38f
+  classification: info
+  auditer: reneme
+
+# Add assert_unreachable to API  (@FAlbertDev)
+- pr: 3588  # https://github.com/randombit/botan/pull/3588
+  merge_commit: cfa9f32f670fe1665b077f2f525d83897142a548
+  classification: info
+
+# Replace unreachable with BOTAN_ASSERT_UNREACHABLE which avoids UB  (@randombit)
+- pr: 3582  # https://github.com/randombit/botan/pull/3582
+  merge_commit: 848b9174cb8cb3014c87b00bfa819929bc9968d5
+  classification: info
+
+# Enable some additional clang-tidy warnings  (@randombit)
+- pr: 3573  # https://github.com/randombit/botan/pull/3573
+  merge_commit: 013dadcb9ddf5ad8bfd1211c8d89ec68f21cd46a
+  classification: info
+
+# Disable noisy/pointless pylint warnings  (@randombit)
+- pr: 3565  # https://github.com/randombit/botan/pull/3565
+  merge_commit: 760561ef0959001345de38ba5ef0329d35967046
+  classification: info
+
+# Clean up getentropy includes  (@randombit)
+- pr: 3561  # https://github.com/randombit/botan/pull/3561
+  merge_commit: d91c27a0485d600641f3d2657a4b1c02c160eb1d
+  classification: info
+  auditer: FAlbertDev
+
+# moving from few static_assert to concept's requires  (@devnexen)
+- pr: 3548  # https://github.com/randombit/botan/pull/3548
+  merge_commit: 8bedd1dd609082819d752d647b5adcfe2129e10d
+  classification: info
+
+# Avoid using macros for creating BOTAN_UNUSED  (@randombit)
+- pr: 3530  # https://github.com/randombit/botan/pull/3530
+  merge_commit: e7c58a21658f5a357979214a2233390f730e0792
+  classification: info
+  auditer: FAlbertDev
+
+# Prefer clear to resize(0) with std::vector  (@randombit)
+- pr: 3521  # https://github.com/randombit/botan/pull/3521
+  merge_commit: 5ff02ca02587a67a97a84741902d8d83b5a09e25
+  classification: info
+  auditer: FAlbertDev
+
+# Ignore this clang-tidy warning for now  (@Jack Lloyd)
+- commit: 1eb4688457a662a75047c7e2737270545b370f33  # https://github.com/randombit/botan/commit/1eb4688457a662a75047c7e2737270545b370f33
+  classification: info
+  auditer: FAlbertDev
+
+# Fix some pylint warnings  (@Jack Lloyd)
+- commit: dc1ca96f0308b0e42aba08054c95713aedc0c454  # https://github.com/randombit/botan/commit/dc1ca96f0308b0e42aba08054c95713aedc0c454
+  classification: info
+  auditer: FAlbertDev
+
+# Remove unused import  (@Jack Lloyd)
+- commit: 4b5370c1849f660c2bcc5ff14d17ac57f8f48097  # https://github.com/randombit/botan/commit/4b5370c1849f660c2bcc5ff14d17ac57f8f48097
+  classification: info
+  auditer: FAlbertDev
+
+# Use combined namespace in this header  (@Jack Lloyd)
+- commit: b5b692bd7b9dcdfd4835d5334ade69637968c262  # https://github.com/randombit/botan/commit/b5b692bd7b9dcdfd4835d5334ade69637968c262
+  classification: info
+  auditer: FAlbertDev
+
+# Change how dword type is defined  (@Jack Lloyd)
+- commit: 3561957052a3a1c8a55198ca0bd2577ecfd9f307  # https://github.com/randombit/botan/commit/3561957052a3a1c8a55198ca0bd2577ecfd9f307
+  classification: info
+  auditer: FAlbertDev
+
+# Fix some clang-tidy warnings in ARM specific code  (@randombit)
+- pr: 3603  # https://github.com/randombit/botan/pull/3603
+  merge_commit: 2f51bce338913663213455756dd16f284e253045
+  classification: relevant
+  auditer: reneme
+  comment: |
+    Among other (less relevant) changes, this refactors the ARM-specific
+    implementation of AES to use forced-inline functions instead of preprocessor
+    macros for orchestrating certain AES hardware intrinsics.
+
+# Fix clang-tidy warnings in the compression code  (@randombit)
+- pr: 3602  # https://github.com/randombit/botan/pull/3602
+  merge_commit: d638bcdefeddc0d7b1053a172df81eef8dfc64aa
+  classification: out of scope
+  auditer: reneme
+
+# Fix clang-tidy warnings in some asio specific tests  (@randombit)
+- pr: 3601  # https://github.com/randombit/botan/pull/3601
+  merge_commit: 3c2b9c57c824c5a21d7490906af26e33a22d239f
+  classification: info
+  auditer: reneme
+
+# Further clang-tidy fixes  (@randombit)
+- pr: 3600  # https://github.com/randombit/botan/pull/3600
+  merge_commit: e6b379b30b690a439b19749ef856a88c61e3bbb1
+  classification: info
+  auditer: reneme
+
+# Improve clang-tidy coverage  (@randombit)
+- pr: 3595  # https://github.com/randombit/botan/pull/3595
+  merge_commit: cbfbfa15503b7901976d7dbf18e3d5801e5e18c9
+  classification: info
+  auditer: reneme
+
+# Chore: Make clang-tidy believe that StrongSpan<> really is cheap to copy  (@reneme)
+- pr: 3593  # https://github.com/randombit/botan/pull/3593
+  merge_commit: 92171c524519fd225be3cc55fe289c5ad28ff0b7
+  classification: info
+
+# Small macro cleanup  (@Jack Lloyd)
+- commit: b510d4c398807bfed329e4620ce38011e7f43724  # https://github.com/randombit/botan/commit/b510d4c398807bfed329e4620ce38011e7f43724
+  classification: info
+  auditer: reneme
+
+# Fix one more clang-tidy warning  (@Jack Lloyd)
+- commit: 73ad31acf0789a1c10e29121ab42a9f18e8b33b8  # https://github.com/randombit/botan/commit/73ad31acf0789a1c10e29121ab42a9f18e8b33b8
+  classification: info
+  auditer: reneme
+
+# Disable pylint too-many-return-statements  (@Jack Lloyd)
+- commit: c12cab94dbcbd3edc82b610356d8fbe6b244425e  # https://github.com/randombit/botan/commit/c12cab94dbcbd3edc82b610356d8fbe6b244425e
+  classification: info
+  auditer: reneme
+
+# Fix another clang-tidy warning  (@Jack Lloyd)
+- commit: e15c45c297e930ac62c5575848f3c0c350249503  # https://github.com/randombit/botan/commit/e15c45c297e930ac62c5575848f3c0c350249503
+  classification: info
+  auditer: reneme
+
+# Fix some clang-tidy warnings that popped up in the nightly run  (@Jack Lloyd)
+- commit: d09bff761e819a5937883051090ede59050aaaaa  # https://github.com/randombit/botan/commit/d09bff761e819a5937883051090ede59050aaaaa
+  classification: info
+  auditer: reneme

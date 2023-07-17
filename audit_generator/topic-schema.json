@@ -1,0 +1,90 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://github.com/sehlen-bsi/botan-docs/audit/topics-schema.json",
+    "title": "Audit topic",
+    "description": "A single topic for the BSI audit document of Botan.",
+    "type": "object",
+    "additionalProperties": false,
+    "$defs": {
+        "classification": {
+            "type": "string",
+            "enum": [
+                "unspecified",
+                "out of scope",
+                "critical",
+                "relevant",
+                "info"
+            ]
+        }
+    },
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "classification": {
+            "$ref": "#/$defs/classification"
+        },
+        "patches": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "oneOf": [
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "pr": {
+                                "type": "number"
+                            },
+                            "merge_commit": {
+                                "type": "string"
+                            },
+                            "classification": {
+                                "$ref": "#/$defs/classification"
+                            },
+                            "auditer": {
+                                "type": "string"
+                            },
+                            "comment": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "pr",
+                            "merge_commit"
+                        ]
+                    },
+                    {
+                        "additionalProperties": false,
+                        "properties": {
+                            "commit": {
+                                "type": "string"
+                            },
+                            "classification": {
+                                "$ref": "#/$defs/classification"
+                            },
+                            "auditer": {
+                                "type": "string"
+                            },
+                            "comment": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "commit"
+                        ]
+                    }
+                ],
+                "required": [
+                    "classification"
+                ]
+            }
+        }
+    },
+    "required": [
+        "title",
+        "patches"
+    ]
+}

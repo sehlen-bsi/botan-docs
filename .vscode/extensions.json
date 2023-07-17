@@ -2,6 +2,7 @@
     "recommendations": [
         "lextudio.restructuredtext",
         "trond-snekvik.simple-rst",
-        "editorconfig.editorconfig"
+        "editorconfig.editorconfig",
+        "redhat.vscode-yaml",
     ]
 }

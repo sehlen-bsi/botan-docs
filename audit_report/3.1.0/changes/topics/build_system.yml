@@ -1,0 +1,252 @@
+title: Build and Configuration System
+
+description: |
+  This mostly tweaks the build system with minor new features useful for
+  maintainers of the library. Some patches enable certain functionality that
+  influence the libraries security characteristics or change the BSI build
+  policy.
+
+patches:
+# Remove the configure.py option --with-everything  (@randombit)
+- pr: 3433  # https://github.com/randombit/botan/pull/3433
+  merge_commit: d18961a74549597fad22ab9c60b8518657764369
+  classification: info
+  auditer: reneme
+
+# The Windows library should also include the major version  (@randombit)
+- pr: 3231  # https://github.com/randombit/botan/pull/3231
+  merge_commit: b1abee9aac369c429f570cbc7ad8c5a512f334fe
+  classification: info
+  auditer: reneme
+
+# Drop VC 2019 support  (@randombit)
+- pr: 3224  # https://github.com/randombit/botan/pull/3224
+  merge_commit: 0384ae4daf83bc8f4c044e8774c5d5fe9dd9b04d
+  classification: info
+  auditer: reneme
+
+# Remove --test-mode  (@randombit)
+- pr: 3133  # https://github.com/randombit/botan/pull/3133
+  merge_commit: f613209b34ad1e9d77284af4bb1cb12f6b315632
+  classification: info
+  auditer: reneme
+
+# CI: Allow building out-of-source  (@reneme)
+- pr: 3077  # https://github.com/randombit/botan/pull/3077
+  merge_commit: 4921c27800f1f29b6d5fbb1f6840bb8077807292
+  classification: info
+
+# Use C++20 for Botan 3.0  (@randombit)
+- pr: 3086  # https://github.com/randombit/botan/pull/3086
+  merge_commit: 783cced96e9130c8de76d341046c3c14280653a7
+  classification: info
+  auditer: reneme
+
+# Bump to Android NDK 25b  (@randombit)
+- pr: 3088  # https://github.com/randombit/botan/pull/3088
+  merge_commit: 933cb1b4cdd09ddc0bf68e27e160c1d5a27b68cd
+  classification: info
+  auditer: reneme
+
+# Fix out-of-source builds on windows  (@dg0yt)
+- pr: 3072  # https://github.com/randombit/botan/pull/3072
+  merge_commit: b6bcaec45c05ad3fb95bc51ddbdd3f759f04bbb6
+  classification: info
+
+# Test: Allow reporting results as JUnit  (@reneme)
+- pr: 3028  # https://github.com/randombit/botan/pull/3028
+  merge_commit: 0c649c1a594dabe6cb3824ee6313ff0a5a113629
+  classification: info
+
+# Handle multiple `src` dirs in source path  (@dg0yt)
+- pr: 3069  # https://github.com/randombit/botan/pull/3069
+  merge_commit: 719552d7236911f84c44fd73ecc86f7d31c3358a
+  classification: info
+
+# fix source path of "compiler_include_dirs" with cmake on windows  (@boricm)
+- pr: 3060  # https://github.com/randombit/botan/pull/3060
+  merge_commit: 5fe47ff30df09b8510d35895406ba542bb844949
+  classification: info
+
+# FIX: emscripten object file suffix is .o  (@reneme)
+- pr: 3045  # https://github.com/randombit/botan/pull/3045
+  merge_commit: aaa273bae01383441e132c786dff91f89c418b12
+  classification: info
+
+# Feature: <module_info> in info.txt files  (@reneme)
+- pr: 3032  # https://github.com/randombit/botan/pull/3032
+  merge_commit: da47e074c5164dc1f8ab09b1ed647ec54ad83295
+  classification: info
+
+# ./configure.py --terminate-on-asserts  (@reneme)
+- pr: 2980  # https://github.com/randombit/botan/pull/2980
+  merge_commit: a78ea35eaf002435da729eff810460d5f534b0a4
+  classification: info
+  comment: |
+    Optionally switching assertions from throwing an exception to hard-aborting
+    the program revealed a few minor bugs that were addressed in this pull
+    request. In some places the implementation was relying on assertions in
+    production code for constraint checks.
+
+# Stop linking against libboost_system / start using -isystem compiler option  (@reneme)
+- pr: 3010  # https://github.com/randombit/botan/pull/3010
+  merge_commit: de9ea92037eb8a6f9727d5726e4de4ae8c5229cb
+  classification: info
+
+# Fix distribution of release candidates  (@Jack Lloyd)
+- commit: 2db85727e8c9f19745298c2a4c5320986a47fbfe  # https://github.com/randombit/botan/commit/2db85727e8c9f19745298c2a4c5320986a47fbfe
+  classification: out of scope
+  auditer: reneme
+
+# Tidy up OS feature flags  (@Jack Lloyd)
+- commit: fd3303f6baa4245fd1e6b66934806c32bafbde74  # https://github.com/randombit/botan/commit/fd3303f6baa4245fd1e6b66934806c32bafbde74
+  classification: relevant
+  auditer: reneme
+  comment: |
+    System call ``getrandom()`` is now available on FreeBSD.
+
+# Add support for explicit_bzero on Linux  (@Jack Lloyd)
+- commit: e6819a380fb67c1be546dc618248b62d93266423  # https://github.com/randombit/botan/commit/e6819a380fb67c1be546dc618248b62d93266423
+  classification: relevant
+  auditer: reneme
+  comment: |
+    System call ``explicit_bzero()`` is now used to scrub sensitive memory on
+    Linux.
+
+# Remove further obsolete/unused build.h toggles  (@Jack Lloyd)
+- commit: 37896ecb6c52a469ab10f0c2068427b80caa0c72  # https://github.com/randombit/botan/commit/37896ecb6c52a469ab10f0c2068427b80caa0c72
+  classification: info
+  auditer: reneme
+
+# Remove unused build.h toggles  (@Jack Lloyd)
+- commit: ab99bb231220c6ca772cfdad333c841ee64d7e26  # https://github.com/randombit/botan/commit/ab99bb231220c6ca772cfdad333c841ee64d7e26
+  classification: info
+  auditer: reneme
+
+# Fix configure.py when invoked as an absolute path  (@Jack Lloyd)
+- commit: 3b15cd6a1d9eb7048807cfa21ab3129b712cc221  # https://github.com/randombit/botan/commit/3b15cd6a1d9eb7048807cfa21ab3129b712cc221
+  classification: info
+  auditer: reneme
+
+# Allow the user to disable internal modules  (@randombit)
+- pr: 3489  # https://github.com/randombit/botan/pull/3489
+  merge_commit: 0150a2b5bee4ad013483764a00bbd80789d38af3
+  classification: info
+
+# Remove support for IncludeOS  (@randombit)
+- pr: 3406  # https://github.com/randombit/botan/pull/3406
+  merge_commit: 1a5642379d61051f3f1b4fb1a45e4f6680f73916
+  classification: info
+  auditer: reneme
+
+# src/build-data/arch/superh.txt: add sh4{eb,aeb}  (@ffontaine)
+- pr: 3038  # https://github.com/randombit/botan/pull/3038
+  merge_commit: cdab3ef582d056d17f1f40d0db33a99d8af454e9
+  classification: info
+
+# Update BSI policy  (@lieser)
+- pr: 2998  # https://github.com/randombit/botan/pull/2998
+  merge_commit: f7928220e0244b3d31c4447efcd987eb8d8cc2a9
+  classification: relevant
+  comment: |
+    Serpent, SHACAL-2 and SM4 were prohibited by the BSI build policy. For
+    consistency, the ISA-specific implementations of those algorithms are now
+    explicitly prohibited. Previously, this prohibition was implicit. Also this
+    prohibits "ec_h2c" (hash to curve) and the BLAKE2b message authentication
+    code.
+
+# Add kyber, argon2 to BSI module policy  (@securitykernel)
+- pr: 2930  # https://github.com/randombit/botan/pull/2930
+  merge_commit: 8de350e896c9f3a998c8eff0053630ff8fa7d560
+  classification: relevant
+  comment: |
+    Sets Kyber and argon2 as required modules, along with the required
+    dependencies (shake, shake_cipher, blake2, blake2_ssse3).
+
+# Add support for compiler exclusions in module files  (@randombit)
+- pr: 3562  # https://github.com/randombit/botan/pull/3562
+  merge_commit: 4f92051b583e42f0af6b5a7bf72bda67ba3ba461
+  classification: info
+  auditer: FAlbertDev
+
+# Update of BSI policy for BSI guidelines 2023  (@FAlbertDev)
+- pr: 3482  # https://github.com/randombit/botan/pull/3482
+  merge_commit: ce428cb6e005de72496220eaee4d0aad173a01a8
+  classification: info
+
+# Fix compile_commands.json  (@lieser)
+- pr: 3538  # https://github.com/randombit/botan/pull/3538
+  merge_commit: 0d0a2874d94908773717b3d1b81002289b978916
+  classification: info
+
+# Add the examples as a first class target in the build  (@randombit)
+- pr: 3527  # https://github.com/randombit/botan/pull/3527
+  merge_commit: 7427ef87f652b23e4b7be37552e18035b8b220a6
+  classification: info
+  auditer: FAlbertDev
+
+# Move logic for deciding to use GCC inline asm into build info files  (@randombit)
+- pr: 3529  # https://github.com/randombit/botan/pull/3529
+  merge_commit: 4d5ca933054c0cb49bea14fd4a994ccd627096d4
+  classification: info
+  auditer: FAlbertDev
+
+# Detect and error during configuration if an unsupported compiler is detected  (@randombit)
+- pr: 3526  # https://github.com/randombit/botan/pull/3526
+  merge_commit: 79f50afb75497f6b85032e086457c6710da6a9a9
+  classification: info
+
+# Fix bugs related to --library-suffix  (@randombit)
+- pr: 3511  # https://github.com/randombit/botan/pull/3511
+  merge_commit: b01ffaf070d3f9673d632604a616da9bb339fd0e
+  classification: info
+  auditer: FAlbertDev
+
+# Additions to configure.py to support ninja  (@randombit)
+- pr: 3503  # https://github.com/randombit/botan/pull/3503
+  merge_commit: 717b243a1ff84d485b12aa4db515853670c5df8d
+  classification: info
+  auditer: FAlbertDev
+
+# Avoid using hardlinks unless explicitly requested  (@randombit)
+- pr: 3504  # https://github.com/randombit/botan/pull/3504
+  merge_commit: 7fefc07efc13fd268236385598e262094ace4d48
+  classification: info
+  auditer: FAlbertDev
+
+# Remove support for building with CMake  (@randombit)
+- pr: 3501  # https://github.com/randombit/botan/pull/3501
+  merge_commit: c9a59ac60bbb0113feb5d4abfb0bbcf1ff561475
+  classification: info
+  auditer: FAlbertDev
+
+# Fix variable reference in exception  (@Jack Lloyd)
+- commit: 3acee255dab73c1e066b8be038f967571f0e5bcf  # https://github.com/randombit/botan/commit/3acee255dab73c1e066b8be038f967571f0e5bcf
+  classification: info
+  auditer: FAlbertDev
+
+# Fix up XCode detection a bit  (@randombit)
+- pr: 3597  # https://github.com/randombit/botan/pull/3597
+  merge_commit: 7ffba4fdee8b830710431e5f2f44333ade5ebab2
+  classification: info
+  auditer: reneme
+
+# Add a 'tidy' make target [ci skip]  (@Jack Lloyd)
+- commit: 963c16c7b13563ed0dc3c2e94dadcf776e03413c  # https://github.com/randombit/botan/commit/963c16c7b13563ed0dc3c2e94dadcf776e03413c
+  classification: info
+  auditer: reneme
+
+# Rephrase this log line  (@Jack Lloyd)
+- commit: fa9972e3a6365c40cafc7cb9913534688a8f2b7f  # https://github.com/randombit/botan/commit/fa9972e3a6365c40cafc7cb9913534688a8f2b7f
+  classification: info
+  auditer: reneme
+
+# Fix quoting  (@Jack Lloyd)
+- commit: f6a9834545bcefed38274e8a46aa66bd377e0544  # https://github.com/randombit/botan/commit/f6a9834545bcefed38274e8a46aa66bd377e0544
+  classification: info
+  auditer: reneme
+
+# Fix compile_commands.json  (@Jack Lloyd)
+- commit: d7f54291d485f48b075733a758747f31e13e8312  # https://github.com/randombit/botan/commit/d7f54291d485f48b075733a758747f31e13e8312
+  classification: info
+  auditer: reneme

@@ -1,0 +1,105 @@
+title: Optimization
+
+description: |
+  Optimizations of runtime or memory consumption characteristics of algorithms
+  and protocol implementations.
+
+patches:
+# In DH bound the exponent size by the private key size  (@randombit)
+- pr: 3426  # https://github.com/randombit/botan/pull/3426
+  merge_commit: 3e18b629254bf21fecc12ae9e85a01c0a296d607
+  classification: relevant
+
+# Speed up sanitizer builds  (@randombit)
+- pr: 3198  # https://github.com/randombit/botan/pull/3198
+  merge_commit: a7c470698994bf4444c6a48f584c2c59122e1b9b
+  classification: info
+  auditer: FAlbertDev
+
+# Scale the ChaCha buffer size depending on hardware support  (@randombit)
+- pr: 3193  # https://github.com/randombit/botan/pull/3193
+  merge_commit: cf5fd9138dd35fe59ca628ac736a9c8389a29cec
+  classification: relevant
+  auditer: FAlbertDev
+
+# If dword is available, use it to implement word_add  (@randombit)
+- pr: 3162  # https://github.com/randombit/botan/pull/3162
+  merge_commit: 8fa679331b708cad199ba274453cbdbf01416492
+  classification: relevant
+  comment: Optimization that was removed later.
+  auditer: FAlbertDev
+
+# performance: don't reserve before buffer inserting  (@hrantzsch)
+- pr: 2943  # https://github.com/randombit/botan/pull/2943
+  merge_commit: e52d3301ee3e98020c74263dfedb231ca7c83ca2
+  classification: info
+
+# Fix CBC decrypt perfomance regression introduced by #3168  (@Jack Lloyd)
+- commit: cf8f7b5bd0d9618ec9cb7412ed46eab186d6b1ce  # https://github.com/randombit/botan/commit/cf8f7b5bd0d9618ec9cb7412ed46eab186d6b1ce
+  classification: relevant
+  auditer: FAlbertDev
+
+# Revert #3162 adding a dword base implementation of word_add  (@Jack Lloyd)
+- commit: 025d7133abf33bcb18d8351409b2bf313fae0795  # https://github.com/randombit/botan/commit/025d7133abf33bcb18d8351409b2bf313fae0795
+  classification: relevant
+  comment: |
+    Undo an earlier optimization for mp word addition that seems to be slower than
+    the default implementation.
+  auditer: FAlbertDev
+
+# Add helpers for SHA-2 rotation operations  (@Jack Lloyd)
+- commit: 4802354f42ca63873f5403dd1705bd0ea46349ba  # https://github.com/randombit/botan/commit/4802354f42ca63873f5403dd1705bd0ea46349ba
+  classification: relevant
+  auditer: FAlbertDev
+
+# In SM2 encryption cache the hash and KDF objects instead of creating each time  (@randombit)
+- pr: 3345  # https://github.com/randombit/botan/pull/3345
+  merge_commit: ab7dd3caa24ad6656840928137717f8489cc63b7
+  classification: out of scope
+  auditer: FAlbertDev
+
+# Further improvements to Montgomery reduction  (@randombit)
+- pr: 3161  # https://github.com/randombit/botan/pull/3161
+  classification: relevant
+  merge_commit: 7e3ec818a355f77930cc5322ce802b6405839d6c
+  comment: |
+    Addition of a fuzzing test for Montgomery reduction. Application of the changes of GH #3159 to
+    the places using Montgomery reduction.
+  auditer: FAlbertDev
+
+# Remove pointless addition in the script-generated Montgomery redc  (@randombit)
+- pr: 3159  # https://github.com/randombit/botan/pull/3159
+  merge_commit: cd4b705781ef69ec3bf45b15bdbd63c85a3e01c2
+  classification: relevant
+  comment: |
+    Eliminate an unnecessary addition from the Montgomery reduction. This also
+    allows us to shrink the minimal size of the Montgomery input/output arrays.
+  auditer: FAlbertDev
+
+# Cleanup the SHA-1 SSE2 code  (@randombit)
+- pr: 3290  # https://github.com/randombit/botan/pull/3290
+  classification: relevant
+  merge_commit: 68765f2fc18508607b24984c8c839c5915eae4b5
+  comment: |
+    Use Botan's SSE2 wrapper functions for SHA-1 SSE2.
+  auditer: FAlbertDev
+
+# Small cleanups in CRC24  (@randombit)
+- pr: 3343  # https://github.com/randombit/botan/pull/3343
+  classification: out of scope
+  merge_commit: a12e9bf5d3eed5c1f68f360f1f53eb01ee531a26
+  comment: |
+    Usage of utility functions in CRC24 computation. Also some cleanup.
+  auditer: FAlbertDev
+
+# Initial AVX512 support  (@randombit)
+- pr: 3206  # https://github.com/randombit/botan/pull/3206
+  merge_commit: 1881cd8ed31c4ba6c36cdb4dc93c9e89746ecf3d
+  classification: out of scope
+  comment: AVX512 support for ChaCha and Serpent (both out of scope)
+
+# Small base64 optimization  (@randombit)
+- pr: 3528  # https://github.com/randombit/botan/pull/3528
+  merge_commit: 8e2b8c104e5cbd1b1c4336ae9d83cabeb977bf6e
+  classification: info
+  auditer: FAlbertDev

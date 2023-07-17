@@ -1,0 +1,34 @@
+title: "PQC: SPHINCS+"
+
+patches:
+# SPHINCS+  (@reneme)
+- pr: 3549  # https://github.com/randombit/botan/pull/3549
+  merge_commit: 99dbdd53a9a9ac66e4d4fe710413bb7402f6cb95
+  classification: critical
+  comment: |
+    Adds an implementation of SPHINCS+ as specified in `version 3.1 of the NIST
+    submission documents
+    <https://sphincs.org/data/sphincs+-r3.1-specification.pdf>`_ (June 2022).
+    The parameter sets suggested in this document are implemented and usable.
+    Note, however, that neither the "robust" mode nor the "Haraka" hash function
+    is implemented.
+
+# Utility Preparations for SPHINCS+  (@reneme)
+- pr: 3564  # https://github.com/randombit/botan/pull/3564
+  merge_commit: 1cbeffafb28214533b27157a87f2a9dcb91a068a
+  classification: info
+
+# Add SPHINCS+ speed run to the CLI tests  (@Jack Lloyd)
+- commit: 59cb03996b6d308485b847b0aade46e6d124a29c  # https://github.com/randombit/botan/commit/59cb03996b6d308485b847b0aade46e6d124a29c
+  classification: info
+  auditer: FAlbertDev
+
+# Fix some clang-tidy warnings that popped up in the nightly run  (@Jack Lloyd)
+- commit: d09bff761e819a5937883051090ede59050aaaaa  # https://github.com/randombit/botan/commit/d09bff761e819a5937883051090ede59050aaaaa
+  classification: info
+  auditer: reneme
+
+# Update release notes [ci skip]  (@Jack Lloyd)
+- commit: 0eeb41761250169c75594b2d54a002198dbaf78c  # https://github.com/randombit/botan/commit/0eeb41761250169c75594b2d54a002198dbaf78c
+  classification: info
+  auditer: reneme

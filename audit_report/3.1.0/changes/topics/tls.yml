@@ -1,0 +1,374 @@
+title: Transport Layer Security 1.3
+
+description: |
+  Most relevant patches for TLS 1.3 support in Botan landed between alpha
+  release `3.0.0-alpha1` and Botan `3.0.0`. Below is a complete list of those
+  patches. Those include preparatory refactorings, additions of TLS 1.3 specific
+  protocol implementation and eventually some fixes for bugs that were found
+  later in the development.
+
+  Support for TLS 1.1 and older was removed in the early stages of the
+  development towards Botan 3.0. As a result, the new TLS 1.3 implementation
+  currently co-exists with (D)TLS 1.2 exclusively.
+
+  Patches that add significant protocol implementation code are marked as
+  "critical", most notable are GH #2922 and GH #3053 that add most of the client
+  and server foundations respectively. Refactorings to prepare the legacy code
+  base or cleanups that aim to improve end-user API usability are marked as
+  "informational".
+
+  Note that the implementation of TLS 1.3 in Botan 3.0 is not complete. Most
+  notably it lacks support for:
+
+  * 0-Round Trip Time handshakes and early data
+  * Preshared Keys (PSK) provided out-of-band by the user
+  * Raw Public Key authentication (in-lieu of X.509 certificates or PSK)
+  * Post-Handshake client authentication
+
+patches:
+# Add virtual TLS header  (@lieser)
+- pr: 3483  # https://github.com/randombit/botan/pull/3483
+  merge_commit: 190c64d68143b1a44ee198aa5845ee1cd77db520
+  classification: info
+
+# FIX: build with TLS 1.3 disabled  (@reneme)
+- pr: 3466  # https://github.com/randombit/botan/pull/3466
+  merge_commit: 0a4ab5d796e823cf7e7807757ec842b932869694
+  classification: info
+
+# FIX: Session_Manager::find_all() is inefficient  (@reneme)
+- pr: 3451  # https://github.com/randombit/botan/pull/3451
+  merge_commit: b46af1abff68f8a11e90f478ade853a1f9a88548
+  classification: info
+
+# TEST: disable session pruning in SQL manager  (@reneme)
+- pr: 3448  # https://github.com/randombit/botan/pull/3448
+  merge_commit: 9476e626dea62211a025f77f2da14ba9a226b10e
+  classification: info
+
+# Improve locking in TLS::Session_Manager  (@reneme)
+- pr: 3450  # https://github.com/randombit/botan/pull/3450
+  merge_commit: c2d3846d453fc30815c6bf8207ec49d6927300bb
+  classification: info
+
+# When m_max_sessions is zero, don't prune the session cache.  (@oviano)
+- pr: 3439  # https://github.com/randombit/botan/pull/3439
+  merge_commit: c0285f14cf57e0a18c13edfc2070ce749718855a
+  classification: info
+
+# [TLS 1.3] Dependency Lifetimes  (@reneme)
+- pr: 3409  # https://github.com/randombit/botan/pull/3409
+  merge_commit: 7ba000c739ee9d66e83096eb49dafa2d6fbb76b2
+  classification: info
+
+# m_cipher_state may be null in the early stages of handshake  (@oviano)
+- pr: 3443  # https://github.com/randombit/botan/pull/3443
+  merge_commit: 7afc4260e8d77b2686210daa9e2aa248181a40eb
+  classification: info
+
+# [TLS 1.3] Generalize ephemeral key handling callbacks  (@reneme)
+- pr: 3322  # https://github.com/randombit/botan/pull/3322
+  merge_commit: 33c6ad98f4406a52c00ba3af7ae42ea9d10fbe7d
+  classification: critical
+
+# [TLS 1.3] Use TLS::Callbacks::tls_session_established()  (@reneme)
+- pr: 3337  # https://github.com/randombit/botan/pull/3337
+  merge_commit: cdcd84c49408f2e6014f4b2c970380097f3bbddd
+  classification: info
+
+# Regression Test: trying to reproduce GH #3342  (@reneme)
+- pr: 3376  # https://github.com/randombit/botan/pull/3376
+  merge_commit: 6acb87921617152fd977a70ba284bd940df58190
+  classification: info
+
+# Chore: Enable some more BoGo tests  (@reneme)
+- pr: 3365  # https://github.com/randombit/botan/pull/3365
+  merge_commit: ce38eb9d90c38e3e3669c5e1507c46cb3ab5ac09
+  classification: info
+
+# Chore: Update BoringSSL's test suite to latest master  (@reneme)
+- pr: 3364  # https://github.com/randombit/botan/pull/3364
+  merge_commit: c9b2c0c1ae3ecb8dc959b2e3a1bb2ea66c3facc9
+  classification: info
+
+# [TLS 1.3] Cleanup Session Object  (@reneme)
+- pr: 3316  # https://github.com/randombit/botan/pull/3316
+  merge_commit: 6c2633c9dc96e9a485c8545c44ca7df0a4b8564c
+  classification: info
+
+# [TLS 1.3] Support Session Resumption for TLS Server   (@reneme)
+- pr: 3140  # https://github.com/randombit/botan/pull/3140
+  merge_commit: 085363d2719a31b28d209f63267253575f4b74d0
+  classification: critical
+
+# [TLS 1.3] Consolidate the Session Manager  (@reneme)
+- pr: 3150  # https://github.com/randombit/botan/pull/3150
+  merge_commit: a8d08535574f6f0906239bec65bdbc21b5cdd791
+  classification: info
+
+# [TLS 1.3] Update Migration Guide  (@reneme)
+- pr: 3308  # https://github.com/randombit/botan/pull/3308
+  merge_commit: 703d99c6e73d4a040c7c58f67a32cb5a4742a48b
+  classification: info
+
+# Convert the TLS version enum to an enum class  (@randombit)
+- pr: 3312  # https://github.com/randombit/botan/pull/3312
+  merge_commit: 1eb6e8b0a30adb4fdd1e5ee5351d2b44fc694dce
+  classification: info
+
+# Change Credentials_Manager::private_key_for to return a shared_ptr  (@randombit)
+- pr: 3258  # https://github.com/randombit/botan/pull/3258
+  merge_commit: eb59276b26f44a1ab52b664398990b4e090dafff
+  classification: info
+
+# Modify TLS Alert enum names  (@randombit)
+- pr: 3246  # https://github.com/randombit/botan/pull/3246
+  merge_commit: 22bc2db19ef4974e6023d614a1403a0bd94731b0
+  classification: info
+
+# [TLS 1.3] Prepare for Session Consolidation  (@reneme)
+- pr: 3244  # https://github.com/randombit/botan/pull/3244
+  merge_commit: 299b50216af5f48fdfef4bc40209c2788baf6bdb
+  classification: info
+
+# FIX: rendering of TLS::Text_Policy::record_size_limit()  (@reneme)
+- pr: 3243  # https://github.com/randombit/botan/pull/3243
+  merge_commit: 8069bf25a904ad33080d23350909a2c14e17e4c7
+  classification: info
+
+# Convert TLS::Handshake_Type to an enum class  (@randombit)
+- pr: 3240  # https://github.com/randombit/botan/pull/3240
+  merge_commit: f68873f31c820e3795e6d92e883128e739d75e2c
+  classification: info
+
+# Make TLS::Record_Type an enum class  (@randombit)
+- pr: 3237  # https://github.com/randombit/botan/pull/3237
+  merge_commit: 1faf857f211179f227e75d1418094686cc153d24
+  classification: info
+
+# Make TLS::Connection_Side an enum class  (@randombit)
+- pr: 3235  # https://github.com/randombit/botan/pull/3235
+  merge_commit: a13fdbf132897ecb2f0c4b9a8b9861c14cc2f0b3
+  classification: info
+
+# [TLS 1.3] Support signature_algorithm_cert Extension  (@reneme)
+- pr: 3125  # https://github.com/randombit/botan/pull/3125
+  merge_commit: c6733daa9c960139bd0aacdf42b114972fb35feb
+  classification: critical
+
+# [TLS 1.3] tls_reader benefiting std span usage  (@devnexen)
+- pr: 3194  # https://github.com/randombit/botan/pull/3194
+  merge_commit: 788dc65a69d43082afa59cc7d14ab2dcfc0da89b
+  classification: info
+
+# [TLS 1.3] further usage of std::span.  (@devnexen)
+- pr: 3187  # https://github.com/randombit/botan/pull/3187
+  merge_commit: b3a6d5073e6e9d501f8327baaaf3378239698682
+  classification: info
+
+# Use an inner TLS_Data_Reader when decoding TLS extensions  (@randombit)
+- pr: 3144  # https://github.com/randombit/botan/pull/3144
+  merge_commit: affd3151cda96ff7e5ca21ce758a719e47716436
+  classification: info
+
+# Convert Handshake_Extensions_Type to an enum class  (@randombit)
+- pr: 3145  # https://github.com/randombit/botan/pull/3145
+  merge_commit: 2e963fa826b2bdc8a4c5cc9b1f0acbad00815bbd
+  classification: info
+
+# Remove DSA codes from TLS::Signature_Scheme  (@randombit)
+- pr: 3143  # https://github.com/randombit/botan/pull/3143
+  merge_commit: 261b98a426a259fca0984df417f867c92fcd3b27
+  classification: info
+
+# [TLS 1.3] OCSP Stapling  (@reneme)
+- pr: 3112  # https://github.com/randombit/botan/pull/3112
+  merge_commit: b18049f604d66b3657ff5fc89b21bfd93d15864c
+  classification: critical
+
+# [TLS 1.3] Handle KeyUpdate post-handshake message in the Server  (@reneme)
+- pr: 3118  # https://github.com/randombit/botan/pull/3118
+  merge_commit: a44b15de228d218a72b6c0c2b4e8c6ff9c05d85c
+  classification: critical
+
+# [TLS 1.3] Server honors the Record Size Limit Extension  (@reneme)
+- pr: 3116  # https://github.com/randombit/botan/pull/3116
+  merge_commit: 90cade7a4a03c41b4164eba314f385f8d4b42ad3
+  classification: critical
+
+# [TLS 1.3] ALPN for the server  (@reneme)
+- pr: 3117  # https://github.com/randombit/botan/pull/3117
+  merge_commit: edbf0a3276764926dd9af630c67810f5461b7b68
+  classification: critical
+
+# [TLS 1.3] Server-Side Client Authentication  (@reneme)
+- pr: 3081  # https://github.com/randombit/botan/pull/3081
+  merge_commit: 7793d7021bda27c2d338fb68f95ed5f3b7904932
+  classification: critical
+
+# [TLS 1.3] Basic Server Implementation  (@reneme)
+- pr: 3053  # https://github.com/randombit/botan/pull/3053
+  merge_commit: cb1eb53277a915f12d23222aae2a7fdd2ab8e874
+  classification: critical
+  comment: |
+    This adds most of the foundational server-side mechanics. Most of the
+    low-level protocol implementations were added in GH #2922 and reused here.
+
+# [TLS 1.3] Refactor: Prepare for TLS 1.3 Server  (@reneme)
+- pr: 3062  # https://github.com/randombit/botan/pull/3062
+  merge_commit: 788b576c15d45737d362d5af0ab8dddecbd2cf18
+  classification: info
+
+# [TLS 1.3] Overhaul TLS::Callbacks  (@reneme)
+- pr: 2988  # https://github.com/randombit/botan/pull/2988
+  merge_commit: 08c54f5160b116a69804904a7600ea2fe4a0a057
+  classification: info
+
+# [TLS 1.3] Overhaul TLS::Policy  (@reneme)
+- pr: 2989  # https://github.com/randombit/botan/pull/2989
+  merge_commit: c58e0f53d325442e4463491d478f6fd3b3bcf349
+  classification: info
+
+# [TLS 1.3] FIX: Record Layer must handle multiple records in compatibility mode  (@reneme)
+- pr: 3064  # https://github.com/randombit/botan/pull/3064
+  merge_commit: 765f831bd831160845ef8fa0906db11bcd67f697
+  classification: info
+
+# [TLS 1.3] Fuzz Target for Handshake Message Parsing  (@lz101010)
+- pr: 3013  # https://github.com/randombit/botan/pull/3013
+  merge_commit: 76089a3e2452bf860fe3ecec86cf7406c53ed6f7
+  classification: info
+
+# [TLS 1.3] Session Resumption  (@reneme)
+- pr: 2974  # https://github.com/randombit/botan/pull/2974
+  merge_commit: 3188de0cef178e5c7cc6043c2aade1c31f7a0a27
+  classification: critical
+
+# [TLS 1.3] Client Authentication in the main Handshake  (@hrantzsch)
+- pr: 2957  # https://github.com/randombit/botan/pull/2957
+  merge_commit: 6b36f309d12cd5669a5ddfcb414a4d8dd403dcab
+  classification: critical
+
+# [TLS 1.3] Limited TLS 1.3 Client Implementation  (@hrantzsch)
+- pr: 2922  # https://github.com/randombit/botan/pull/2922
+  merge_commit: 987c7af3e59b6ea54270602952ca366575587491
+  classification: critical
+  comment: |
+    This introduces initial support for TLS 1.3 with most of the relevant
+    low-level protocol machinery to read/write the wire formats. Before this was
+    merged, a number of other patches prepared the existing TLS 1.2 code base to
+    co-exist. Actual protocol-level changes were first introduced in this patch.
+
+# Introduce TLS::Callbacks::tls_current_timestamp()  (@reneme)
+- pr: 2976  # https://github.com/randombit/botan/pull/2976
+  merge_commit: 15228710faef1b85aaad0cad4f207b8b6dfcdf74
+  classification: info
+
+# [TLS 1.3] Preparations for addition of TLS 1.3  (@reneme)
+- pr: 2946  # https://github.com/randombit/botan/pull/2946
+  merge_commit: 17fe9c1e47cc1ecfc13d607a68f463c286f8f187
+  classification: info
+
+# [TLS 1.3] Extract Handshake_Transitions from Handshake_State  (@reneme)
+- pr: 2947  # https://github.com/randombit/botan/pull/2947
+  merge_commit: b0409695bc9362b159399ea40cafbe18902da812
+  classification: info
+
+# [TLS 1.3] Additional convenience methods for TLS_Data_Reader  (@reneme)
+- pr: 2948  # https://github.com/randombit/botan/pull/2948
+  merge_commit: 2de3cb6c03cea0a25d35a05fb5b63e4ee8e5f89a
+  classification: info
+
+# [TLS 1.3] Build Module Configuration  (@reneme)
+- pr: 3468  # https://github.com/randombit/botan/pull/3468
+  merge_commit: 414c5eddab863d77d0b3bcdcb72eb1dce71a046a
+  classification: info
+
+# Public TLS API uses std::span  (@reneme)
+- pr: 3363  # https://github.com/randombit/botan/pull/3363
+  merge_commit: c6e9f134eeac625aeb35d909c714dfeb6b89d034
+  classification: info
+
+# Fix clang-tidy warning (pointless move)  (@Jack Lloyd)
+- commit: 74bf5ecc63907283cbe869bb2a921f381a5a177d  # https://github.com/randombit/botan/commit/74bf5ecc63907283cbe869bb2a921f381a5a177d
+  classification: info
+  auditer: reneme
+
+# Fix formatting in this header (no code changes)  (@Jack Lloyd)
+- commit: d488402dbfe35fdfb5b09e96718c15ab33760500  # https://github.com/randombit/botan/commit/d488402dbfe35fdfb5b09e96718c15ab33760500
+  classification: info
+  auditer: reneme
+
+# Fix deprecation warning  (@Jack Lloyd)
+- commit: 3327538c86f9301f61e19769b7d58d5b3505909f  # https://github.com/randombit/botan/commit/3327538c86f9301f61e19769b7d58d5b3505909f
+  classification: info
+  auditer: reneme
+
+# CamelCase the members of PSK_Type   (@randombit)
+- pr: 3311  # https://github.com/randombit/botan/pull/3311
+  merge_commit: 73f44e701b75ae513fe58d0b0ac291c483782dee
+  classification: info
+
+# FIX: clangd complaining about 'suspicious string literal'  (@reneme)
+- pr: 2959  # https://github.com/randombit/botan/pull/2959
+  merge_commit: 3fa4e8fdae80bfcb245f8b615a3db50e993c32ff
+  classification: info
+
+# Fixes: RFC-compliance of TLS (zero premaster sec + disabled ECC extensions)  (@FAlbertDev)
+- pr: 3520  # https://github.com/randombit/botan/pull/3520
+  merge_commit: 0919de93a411570f4c9b992304fce6808ffa67d8
+  classification: relevant
+  comment: |
+    Introduces a check for an all-zero result of an ECDH/X25519 key exchange as
+    specified in `RFC 8422 5.11 <https://www.rfc-editor.org/rfc/rfc8422#section-5.11>`_.
+
+# Fixes: RFC-compliance of TLS (EtM extension + Supported Point Formats Extension)  (@lieser)
+- pr: 3537  # https://github.com/randombit/botan/pull/3537
+  merge_commit: 84b13227f4a664620b0500abb9a8b96e0f30e56c
+  classification: info
+  comment: |
+    Introduces additional checks for the consistency of the Encrypt-then-MAC as
+    well as "Supported Point Format" extensions in TLS 1.2. We don't consider
+    the absence of those checks as relevant to the implementation's security.
+
+# FIX: allow custom KEX logic for TLS 1.2 server  (@reneme)
+- pr: 3539  # https://github.com/randombit/botan/pull/3539
+  merge_commit: b37705fe12306c0973f03137f40d24b173c5a67a
+  classification: info
+
+# Fix some issues with OCSP response handling  (@randombit)
+- pr: 3515  # https://github.com/randombit/botan/pull/3515
+  merge_commit: 594e3560801f781d8b889759898e2f8907c54a3d
+  classification: relevant
+  comment: |
+    TLS 1.3 client/server certificate validation would confuse the
+    certificate's origin when invoking the
+    ``Credentials_Manager::trusted_certificate_authorities()`` callback. Also
+    fixes a parsing issue in OCSP responses where Botan excepted responses that
+    identify the responder certificate both by name and key hash.
+
+# [TLS 1.3] Use a KEM interface in the Callbacks  (@reneme)
+- pr: 3608  # https://github.com/randombit/botan/pull/3608
+  merge_commit: cf8d8a6ca86e50708e6b4e0122f08a775362ec80
+  classification: relevant
+
+# Chore: Update BoGo tests  (@reneme)
+- pr: 3616  # https://github.com/randombit/botan/pull/3616
+  merge_commit: 85406718a30f713ee8768a4371a5edd26e663b28
+  classification: info
+
+# [TLS 1.3] Preparations for externally provided PSKs  (@reneme)
+- pr: 3617  # https://github.com/randombit/botan/pull/3617
+  merge_commit: 3a70598f9381278eb77551e4487a447e69256e5e
+  classification: relevant
+
+# Fix some clang-tidy warnings in the TLS 1.3 PSK extension code  (@randombit)
+- pr: 3619  # https://github.com/randombit/botan/pull/3619
+  merge_commit: dc3a37d2d3901160e293f3d91cee143ce9ee300c
+  classification: info
+
+# Fix clang-tidy warnings in tls_client_impl_12.cpp  (@randombit)
+- pr: 3605  # https://github.com/randombit/botan/pull/3605
+  merge_commit: 19b605dcb6ee967fe9645cd49548c4bd40a1934f
+  classification: info
+  auditer: FAlbertDev
