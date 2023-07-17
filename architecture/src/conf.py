@@ -14,7 +14,7 @@ from pylatexenc.latexencode import unicode_to_latex
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../_ext'))
+sys.path.insert(0, os.path.abspath('../../_ext'))
 
 
 # -- Project information -----------------------------------------------------
@@ -78,11 +78,11 @@ html_theme = 'alabaster'
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class], toctree_only).
 latex_documents = [
-    (root_doc, 'Architecture_3.0.0.tex', unicode_to_latex(project), unicode_to_latex(author), 'manual', False),
+    (root_doc, 'architecture.tex', unicode_to_latex(project), unicode_to_latex(author), 'manual', False),
 ]
 
 latex_additional_files = [
-    '../custom.sty'
+    'custom.sty'
 ]
 
 latex_elements = {
