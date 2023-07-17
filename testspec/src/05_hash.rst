@@ -888,6 +888,137 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       | #. Verify that both hash functions return same result                    |
    +-----------------------+--------------------------------------------------------------------------+
 
+SHAKE
+~~~~~
+
+SHAKE being a XOF it is tested for a number of output lengths with the following constraints:
+
+-  In: varying length
+
+   -  Range: 0 bits - 3041 bytes
+
+-  Out: 128 bits, 256 bits, 1120 bits, 2000 bits
+
+The following table shows an example test case with one test vector. All
+test vectors are listed in :srcref:`src/tests/data/hash/shake.vec`.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Test Case No.:**    | HASH-SHAKE-128-128                                                       |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Type:**             | Positive Test                                                            |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Description:**      | Combined unit and known answer test that checks that reset works         |
+   |                       | correctly and hashes a test message as a whole                           |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Preconditions:**    | None                                                                     |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Input Values:**     | In = 0xd4d67b00ca51397791b81205d5582c0a (128 bits)                       |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Expected Output:**  | .. code-block:: none                                                     |
+   |                       |                                                                          |
+   |                       |    Out = 0xd0acfb2a14928caf8c168ae514925e4e (128 bits)                   |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Steps:**            | #. Create a SHAKE-128(128) object                                        |
+   |                       |                                                                          |
+   |                       | #. Test SHAKE-128(128)'s name                                            |
+   |                       |                                                                          |
+   |                       | #. Feed the input value *In* into the SHAKE-128(128)                     |
+   |                       |                                                                          |
+   |                       | #. Calculate the message digest and compare with the expected output     |
+   |                       |    value *Out*                                                           |
+   |                       |                                                                          |
+   |                       | #. Feed the string value *“some discarded input”* into the               |
+   |                       |    SHAKE-128(128)                                                        |
+   |                       |                                                                          |
+   |                       | #. Reset the SHAKE-128(128)                                              |
+   |                       |                                                                          |
+   |                       | #. Feed an input value of length zero into the SHAKE-128(128)            |
+   |                       |                                                                          |
+   |                       | #. Feed the input value *In* into the SHAKE-128(128)                     |
+   |                       |                                                                          |
+   |                       | #. Calculate the message digest and compare with the expected output     |
+   |                       |    value *Out*                                                           |
+   |                       |                                                                          |
+   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       |                                                                          |
+   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |                                                                          |
+   |                       | #. Feed rest of *In* into both the original and the copied hash          |
+   |                       |    functions.                                                            |
+   |                       |                                                                          |
+   |                       | #. Verify that both hash functions return same result                    |
+   +-----------------------+--------------------------------------------------------------------------+
+
+Blake2b
+~~~~~~~
+
+Blake2b having a configurable output length it is being tested with the following constraints:
+
+-  In: varying length
+
+   -  Range: 0 bytes - 255 bytes
+
+-  Out: 224 bits, 256 bits, 384 bits, 512 bits
+
+The following table shows an example test case with one test vector. All
+test vectors are listed in :srcref:`src/tests/data/hash/blake2b.vec`.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Test Case No.:**    | HASH-BLAKE2B-384                                                         |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Type:**             | Positive Test                                                            |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Description:**      | Combined unit and known answer test that checks that reset works         |
+   |                       | correctly and hashes a test message as a whole                           |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Preconditions:**    | None                                                                     |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Input Values:**     | In = 0xd8dc8fdefbdce9d44e4cbafe78447bae3b5436102a (168 bits)             |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Expected Output:**  | .. code-block:: none                                                     |
+   |                       |                                                                          |
+   |                       |    Out = 0x6b27923e5a298cfc27c65daaedb95ad14eb60921f32ec921d75304cdcb70a |
+   |                       |          2f03c4b679b648b95bb3de654f99cc18a40 (384 bits)                  |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Steps:**            | #. Create a Blake2b(384) object                                          |
+   |                       |                                                                          |
+   |                       | #. Test Blake2b(384)'s name                                              |
+   |                       |                                                                          |
+   |                       | #. Feed the input value *In* into the Blake2b(384)                       |
+   |                       |                                                                          |
+   |                       | #. Calculate the message digest and compare with the expected output     |
+   |                       |    value *Out*                                                           |
+   |                       |                                                                          |
+   |                       | #. Feed the string value *“some discarded input”* into the               |
+   |                       |    Blake2b(384)                                                          |
+   |                       |                                                                          |
+   |                       | #. Reset the Blake2b(384)                                                |
+   |                       |                                                                          |
+   |                       | #. Feed an input value of length zero into the Blake2b(384)              |
+   |                       |                                                                          |
+   |                       | #. Feed the input value *In* into the Blake2b(384)                       |
+   |                       |                                                                          |
+   |                       | #. Calculate the message digest and compare with the expected output     |
+   |                       |    value *Out*                                                           |
+   |                       |                                                                          |
+   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       |                                                                          |
+   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |                                                                          |
+   |                       | #. Feed rest of *In* into both the original and the copied hash          |
+   |                       |    functions.                                                            |
+   |                       |                                                                          |
+   |                       | #. Verify that both hash functions return same result                    |
+   +-----------------------+--------------------------------------------------------------------------+
+
 Parallel Hash Function Tests
 ----------------------------
 
