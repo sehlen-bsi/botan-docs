@@ -365,3 +365,91 @@ test vectors are listed in :srcref:`src/tests/data/kdf/tls_prf.vec`.
    |                        | #. Input *Salt,* *Label* and *Secret* into the TLS_12_PRF and compare   |
    |                        |    the result with the expected output value *Out*                      |
    +------------------------+-------------------------------------------------------------------------+
+
+HKDF
+----
+
+``HKDF`` as a whole as well as its sub-routines ``HKDF-Extract`` and ``HKDF-Expand`` are tested.
+Each of those algorithms are instantiated with SHA-1, SHA-256 and SHA-512.
+
+For ``HKDF(HMAC(SHA-1))`` there's an additional regression test validating the longest possible output of 40.800bits.
+See `GitHub #3213 <https://github.com/randombit/botan/issues/3213>`_ for further details.
+
+-  Total number of test cases (across all algorithm configurations): 21
+-  Sources: RFC 5669, SHA-512 by Kullo GmbH
+
+-  PRFs: HMAC-SHA-1, HMAC-SHA-256, HMAC-SHA-512
+
+-  Output Length: 336 bits - 40800 bits
+-  Salt: 104 - 640 bits
+-  Secret: 88 - 640 bits
+-  Label: 80 - 640 bits
+
+The following tables show two example test cases.
+All test vectors are listed in :srcref:`src/tests/data/kdf/hkdf.vec`.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | KDF-HMAC([-Extract] | [-Expand])                                        |
+   +========================+=========================================================================+
+   | **Type:**              | Positive Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | KDF = HKDF-Extract(HMAC(SHA-256))                                       |
+   |                        |                                                                         |
+   |                        | Salt = 0x000102030405060708090a0b0c (104 bits)                          |
+   |                        |                                                                         |
+   |                        | Secret = 0x0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b (176 bits)      |
+   |                        |                                                                         |
+   |                        | Label = - (0 bits)                                                      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | .. code-block:: none                                                    |
+   |                        |                                                                         |
+   |                        |    Out = 0x665799823737ded04a88e47e54a5890bb2c3d247c7a4254a8e6135072359 |
+   |                        |          0a26c36238127d8661b88cf80ef802d57e2f7cebcf1e00e083848be19929c6 |
+   |                        |          1b4237 (512 bits)                                              |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create the HMAC-Extract object                                       |
+   |                        |                                                                         |
+   |                        | #. Input *Salt,* and *Secret* into the HMAC-Extract KDF and compare     |
+   |                        |    the result with the expected output value *Out*                      |
+   +------------------------+-------------------------------------------------------------------------+
+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | KDF-HMAC([-Extract] | [-Expand])                                        |
+   +========================+=========================================================================+
+   | **Type:**              | Positive Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | KDF = HKDF(HMAC(SHA-256))                                               |
+   |                        |                                                                         |
+   |                        | Salt = 0x000102030405060708090a0b0c (104 bits)                          |
+   |                        |                                                                         |
+   |                        | Secret = 0x0b0b0b0b0b0b0b0b0b0b0b (88 bits)                             |
+   |                        |                                                                         |
+   |                        | Label = 0xf0f1f2f3f4f5f6f7f8f9 (80 bits)                                |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | .. code-block:: none                                                    |
+   |                        |                                                                         |
+   |                        |    Out = 0x085a01ea1b10f36933068b56efa5ad81a4f14b822f5b091568a9cdd4f155 |
+   |                        |          fda2c22e422478d305f3f896 (336 bits)                            |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create the HMAC-Extract object                                       |
+   |                        |                                                                         |
+   |                        | #. Input *Salt,* *Label* and *Secret* into the HKDF and compare         |
+   |                        |    the result with the expected output value *Out*                      |
+   +------------------------+-------------------------------------------------------------------------+
