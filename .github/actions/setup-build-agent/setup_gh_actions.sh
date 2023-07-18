@@ -14,8 +14,6 @@ set -ex
 TARGET="$1"
 ARCH="$2"
 
-SCRIPT_LOCATION=$(cd "$(dirname "$0")"; pwd)
-
 setup_softhsm_and_tpm_linux() {
     sudo apt-get -qq install softhsm2 libtspi-dev
 
@@ -44,7 +42,7 @@ if type -p "apt-get"; then
         echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
     elif [ "$TARGET" = "pdf_docs" ]; then
-        sudo apt-get -qq install doxygen python-docutils python3-sphinx latexmk texlive-latex-extra
+        sudo apt-get -qq install doxygen python3-docutils python3-sphinx latexmk texlive-latex-extra
     fi
 else
     export HOMEBREW_NO_AUTO_UPDATE=1
