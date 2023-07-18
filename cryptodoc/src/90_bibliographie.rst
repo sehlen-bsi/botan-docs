@@ -64,6 +64,11 @@
    https://ieeexplore.ieee.org/document/8637988,
    25 January 2019
 
+.. [IR-8413] NIST Interagency or Internal Report 8413 Upd. 1:
+   "Status Report on the Third Round of the NIST Post-Quantum Cryptography Standardization Process",
+   https://nvlpubs.nist.gov/nistpubs/ir/2022/NIST.IR.8413-upd1.pdf,
+   September 2022
+
 .. [ISO-9594-8] ISO/IEC 9594-8:2017:
    Information technology -- Open Systems Interconnection -- The Directory -- Part 8:
    Public-key and attribute certificate frameworks
@@ -193,6 +198,11 @@
    "Recommendation for Stateful Hash-Based Signature Schemes",
    https://csrc.nist.gov/publications/detail/sp/800-208/final,
    October 2020
+
+.. [SPX-R3] J.-P. Aumasson, D. J. Bernstein, W. Beullens, C. Dobraunig, M. Eichlseder, S. Fluhrer, S.-L. Gazdag, A. Hülsing, P. Kampanakis, S. Kölbl, T. Lange, M. M. Lauridsen, F. Mendel, R. Niederhagen, C. Rechberger, J. Rijneveld, P. Schwabe, B. Westerbaan:
+   "SPHINCS+ Submission to the NIST post-quantum project, v.3.1",
+   NIST PQC Challenge Round 3 Submission, 2021,
+   https://sphincs.org/data/sphincs+-r3.1-specification.pdf
 
 .. [TR-02102-1] BSI Technische Richtlinie BSI TR-02102-1:
    "Kryptographische Verfahren: Empfehlungen und Schlüssellängen",
