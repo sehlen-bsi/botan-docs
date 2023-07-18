@@ -95,7 +95,7 @@ def determine_flags(target, target_os, target_cc, ccache,
 
     flags += ['--werror-mode']
 
-    flags += ['--module-policy=bsi', '--enable-modules=tls,tls_cbc,pkcs11,xts']
+    flags += ['--module-policy=bsi', '--enable-modules=tls12,tls13,tls_cbc,pkcs11,xts']
 
     if target in ['pdf_docs']:
         flags += ['--with-doxygen', '--with-sphinx', '--with-pdf']
