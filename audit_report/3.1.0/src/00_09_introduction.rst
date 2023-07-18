@@ -1,13 +1,14 @@
 Introduction
 ============
 
-Botan version 3.0.0-alpha1 is the latest available version, with a special recommendation by the BSI.
-It was examined by considering the BSI technical guidelines' recommendations.
+This audit report summarizes the review results of changes to the Botan library code
+base between the tagged releases 3.0.0-alpha1 and 3.1.1.
+They were examined by considering the BSI technical guidelines' recommendations.
 In the meantime, the development of Botan continues, e.g., new algorithms are added, or bugs are fixed.
 Rohde & Schwarz Cybersecurity is part of this maintenance process as a contractor for this project.
 
 Before switching to a new Botan version as part of the maintenance, all official and possibly hidden
-changes to the code must be thoroughly checked. For this purpose, each recommended version comes with an
+changes to the code must be thoroughly checked. For this purpose, each reviewed version comes with an
 audit report prepared by the contractor and submitted to the BSI with the source code.
 This examination applies, in particular, to cryptography-related changes. The BSI needs a well-founded decision
 basis for recommending a new Botan version. [PRM]_ describes the audit method that differs from the previous one.
@@ -24,20 +25,20 @@ The method for this audit differs from the processes of the previous audit.
 [PRM]_ describes the audit method in detail. The following gives
 a summary of the new audit method.
 
-This document aims at capturing all changes to the library that led from a
-defined base revision of version 3.0.0-alpha1 to the target revision of this
+This document captures all changes to the library that led from a
+defined base revision (git release tag `3.0.0-alpha1`) to the target revision of this
 review. To do this efficiently, we base our review on the Git history between
 those revisions.
 
 Botan is developed publicly on GitHub; hence, we take all individual pull
-requests that landed in the code base between the two revisions as the changeset
+requests in the code base between the two revisions as the changeset
 granularity. Additionally, all commits added by the maintainer straight to the
 *master* branch are considered changesets to be reviewed. We refer to these
 "atomic changesets" as *patches* in the remainder of this document.
 
-For each patch, the influence on the library's security guarantees was determined
-first. An in-depth review of the patch followed if the patch was considered
-relevant and touched parts of the code base that are in scope for this review.
+For each patch, the influence on the library's security guarantees is determined
+first. An in-depth review of the patch followed if the patch is considered
+relevant and touches parts of the code base that are in scope for this review.
 This document lists *all* patches along with links to their representation on
 GitHub, our classification, and optionally noteworthy remarks from the
 in-depth review.
@@ -55,7 +56,7 @@ unit and integration tests (in ``src/tests``, ``src/bogo_shim``,
 
 The review in this document keeps track of changes in all the above-mentioned
 components. For the library implementation itself (``src/lib``), all modules that
-are *required* or *available* in the BSI build policy, and their dependencies are
+are *required* or *available* in the BSI build policy and their dependencies are
 in the scope of this document. Additionally, we review the following modules and
 its dependencies: `getentropy`, `ffi`, `xts`, `pkcs11`, `tls12`, `tls13`,
 `tls_cbc`, `x509`, `certstor_windows`, `certstor_macos`, `certstor_flatfile`,
@@ -215,15 +216,15 @@ and were fully reviewed:
 Patch Description Content
 -------------------------
 
-Chapter 4 shows the changes for this document's review iteration for all topics in scope.
+:ref:`Chapter 4<changes>` shows the changes for this document's review iteration for all topics in scope.
 Patches are sorted in a semantically meaningful way by assigning each one to a sensible topic.
 Each topic provides a brief description and lists the authors for the contained patches.
 Afterward, an extensive table with all related patches is provided.
 
-The table contains the pull request ids or commit hashes of the reviewed patches with a GitHub link.
-For orientation, a brief description of the patch is given. Note that
-this description is only on a summary level and does not cover all patch changes in detail. Most
-pull requests and commits are sufficiently described at the provided GitHub link.
+The table contains the pull request IDs on GitHub or individual commit hashes of the reviewed patches with a link to GitHub.
+For reference, a brief description or title of the patch is provided. Note that
+this description is usually just a summary and might not cover all patch changes in detail. Most
+pull requests and commits feature a sufficient description on GitHub that is not repeated in this document.
 Also, each patch within the table is assigned a security category, and information about the approvers
 and auditors is given.
 
@@ -232,10 +233,10 @@ Security Categories
 ~~~~~~~~~~~~~~~~~~~
 
 For this audit, four security categories are distinguished. The category *critical* labels patches
-that apply breaking changes to cryptographic functionality, e.g., implementing a new algorithm
+that apply substantial changes to cryptographic functionality, e.g., implementing a new algorithm
 or updating an old one to a new standard. Patches labeled as *relevant* are changes to cryptographic
-algorithms without breaking the algorithm's specification. Mostly, this category contains
-optimizations or major refactoring of cryptographic modules. All changes with no direct effect on
+algorithms without altering the algorithm's observable behavior. Mostly, this category contains
+optimizations or refactoring of cryptographic modules. All changes with no direct effect on
 cryptographic operations are categorized as *info*. The *out of scope* category identifies patches
 that only affect modules not in this review's scope. Patches of the last type are not reviewed
 in detail.
@@ -244,12 +245,23 @@ in detail.
 Approvals and Auditors
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The audit process is based on two requirements. The first one is the four-eye principle, i.e., at least two individuals must vision each patch. In the best-case scenario, this is the author and a separate approver
-who performs an in-depth review. The second principle requires that at least one of the two participants
-must be involved in this audit process so that we can guarantee that the review meets the desired
-quality standard.
+The audit process is based on two requirements:
 
-If a patch has no participating approver, the patch is visioned in a later review by an auditor. The patch table lists this auditor in brackets, while real approvers are listed without them.
-Note that authors can edit pull requests after approval. Therefore, auditors vision additional changes after
-approval for this audit.
+* **The four-eye principle:** At least two individuals must inspect each patch
+* **Audit quality:** At least one of the inspectors must be involved in this audit process.
 
+Therefore, pull requests that were either authored or reviewed on GitHub by one
+of the members of this audit project do not require an additional in-depth
+review for this particular audit process. Other patches are evaluated and
+reviewed by an auditor retrospectively, with the results stated
+in this document. The distinction between "approvers" (of pull requests on
+GitHub) and "auditors" (in retrospect, explicitly for this project) is visualized
+by setting the latter into parenthesis in the patch tables below.
+
+Auditing members of this project and their GitHub handles are:
+
+* Fabian Albert (@FAlbertDev)
+* René Fischer (@securitykernel)
+* Philippe Lieser (@lieser)
+* René Meusel (@reneme)
+* Amos Treiber (@atreiber94)
