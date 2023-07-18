@@ -21,6 +21,11 @@
    "Recommendation for Block Cipher Modes of Operation: The CCM Mode for Authentication and Confidentiality",
    July 2007
 
+.. [Dilithium-R3] S. Bai, L. Ducas, E. Kiltz, T. Lepoint, V. Lyubashevsky, P. Schwabe, G. Seiler, D. Stehlé:
+   "CRYSTALS-Dilithium Algorithm Specifications and Supporting Documentation (Version 3.1)",
+   NIST PQC Challenge Round 3 Submission, 2021,
+   https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210208.pdf
+
 .. [DI08] Christophe Doche, Laurent Imbert.
    The Double-Base Number System in Elliptic Curve Cryptograhy.
    http://www.lirmm.fr/~imbert/talks/laurent_Asilomar_08.pdf
