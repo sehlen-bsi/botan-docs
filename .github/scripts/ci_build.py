@@ -213,8 +213,8 @@ def parse_args(args):
                       help='Set the target compiler type (default %default)')
     parser.add_option('--root-dir', metavar='D', default='.',
                       help='Set directory to execute from (default %default)')
-    # parser.add_option('--build-dir', metavar='D', default='.',
-    #                   help='Set directory to place build artifacts into (default %default)')
+    parser.add_option('--build-dir', metavar='D', default='.',
+                      help='Set directory to place build artifacts into (default %default)')
 
     parser.add_option('--make-tool', metavar='TOOL', default='make',
                       help='Specify tool to run to build source (default %default)')
