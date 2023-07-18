@@ -473,6 +473,144 @@ run in constant time. Therefore, an attacker can infer the position in
 the tree that the algorithm is currently working on even if only a
 single thread is used.
 
+.. _pubkey_key_generation/dilithium:
+
+Dilithium
+---------
+
+Botan's implementation of the CRYSTALS-Dilithium signature algorithm is based on the NIST round 3 specification [Dilithium-R3]_.
+The parameter sets shown in Table :ref:`Supported Dilithium signature algorithms <pubkey_key_generation/dilithium/parameter_table>` are supported.
+
+.. _pubkey_key_generation/dilithium/parameter_table:
+
+.. table::  Supported Dilithium signature algorithms and their parameters (see Table 2 of [Dilithium-R3]_)
+
+   +---------------------+------------------+------------------+------------------+
+   | ``DilithiumMode``   | ``Dilithium4x4`` | ``Dilithium6x5`` | ``Dilithium8x7`` |
+   +=====================+==================+==================+==================+
+   | NIST Security Level |     2            |     3            |     5            |
+   +---------------------+------------------+------------------+------------------+
+   |         :math:`q`   |  8380417         |  8380417         |  8380417         |
+   +---------------------+------------------+------------------+------------------+
+   |         :math:`d`   |     13           |     13           |     13           |
+   +---------------------+------------------+------------------+------------------+
+   |      :math:`\tau`   |     39           |     49           |     60           |
+   +---------------------+------------------+------------------+------------------+
+   | challenge entropy   |    192           |    225           |    257           |
+   +---------------------+------------------+------------------+------------------+
+   | :math:`\gamma_1`    |  :math:`2^{17}`  |  :math:`2^{19}`  |  :math:`2^{19}`  |
+   +---------------------+------------------+------------------+------------------+
+   | :math:`\gamma_2`    |(q - 1)/88        |(q - 1)/32        |(q - 1)/32        |
+   +---------------------+------------------+------------------+------------------+
+   | :math:`(k, \ell)`   |   (4, 4)         |   (6, 5)         |   (8, 7)         |
+   +---------------------+------------------+------------------+------------------+
+   |     :math:`\eta`    |     2            |     4            |     2            |
+   +---------------------+------------------+------------------+------------------+
+   |    :math:`\beta`    |     78           |    196           |    120           |
+   +---------------------+------------------+------------------+------------------+
+   |    :math:`\omega`   |     80           |     55           |     75           |
+   +---------------------+------------------+------------------+------------------+
+   |     Repetitions     |    4.25          |    5.1           |    3.85          |
+   +---------------------+------------------+------------------+------------------+
+
+The Dilithium implementation is composed of several components.
+An overview of the components is provided in Table :ref:`Dilithium components and file locations <pubkey_key_generation/dilithium/component_table>`.
+
+.. _pubkey_key_generation/dilithium/component_table:
+
+.. table::  Dilithium components and file locations.
+
+   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Component                                                                         | File                                                                                 | Purpose                                                                                                                                                                                |
+   +===================================================================================+======================================================================================+========================================================================================================================================================================================+
+   | :ref:`Modes <pubkey_key_generation/dilithium/modes>`                              | :srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium.h`                      | Provide parameters and primitives                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Constants and Symmetric Primitives <pubkey_key_generation/dilithium/modes>` | :srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium_symmetric_primitives.h` | Constants and primitives interface                                                                                                                                                     |
+   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Modern Variant <pubkey_key_generation/dilithium/modes>`                     | :srcref:`src/lib/pubkey/dilithium/dilithium`                                         | "Modern" instantiations of primitives                                                                                                                                                  |
+   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`AES Variant <pubkey_key_generation/dilithium/modes>`                        | :srcref:`src/lib/pubkey/dilithium/dilithium_aes`                                     | "AES" instantiations of primitives                                                                                                                                                     |
+   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Polynomial Operations <pubkey_key_generation/dilithium/polynomials>`        | :srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium_polynomials.h`          | Polynomials and operations on them                                                                                                                                                     |
+   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Dilithium                                                                         | :srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium.h`                      | Dilithium :ref:`Keys <pubkey_key_generation/dilithium/keys>`, :ref:`Signature Creation <pubkey_signature/dilithium/sig>`, :ref:`Signature Validation <pubkey_signature/dilithium/val>` |
+   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+.. _pubkey_key_generation/dilithium/modes:
+
+**Modes, Constants and Symmetric Primitives**
+
+Similar to CRYSTALS-Kyber, the different ways to instantiate Dilithium are realized as different modes (class ``DilithiumMode``; see Table :ref:`Supported Dilithium signature algorithms <pubkey_key_generation/dilithium/parameter_table>`).
+A ``DilithiumMode`` provides the constants of the respective parameter set as ``DilithiumModeConstants``.
+Also like Kyber, Dilithium additionally supports different instantiations of symmetric primitives via the class ``Dilithium_Symmetric_Primitives`` (see usage of SHAKE-128 vs. AES in Section 5.3 of [Dilithium-R3]_).
+These are also provided by the mode and result in the "modern" and "AES" versions.
+An "AES" version is identified via the ``_aes`` suffix in the mode string.
+
+.. _pubkey_key_generation/dilithium/polynomials:
+
+**Polynomial Operations**
+
+``A*b`` of a polynomial matrix ``A`` and a polynomial vector ``b`` in the NTT domain is given via ``PolynomialVector::generate_polyvec_matrix_pointwise_montgomery`` and ``a*b`` of two polynomial vectors ``a`` and ``b`` is given via ``PolynomialVector::polyvec_pointwise_poly_montgomery``.
+Matrices and vectors are transformed to the NTT representation prior to the operation.
+To perform the multiplication ``2^d*a`` with the scalar ``2^d`` and the vector ``a``, the method ``PolynomialVector::polyvec_shiftl`` is used.
+
+In addition to core polynomial operations, Dilithium relies on several supporting algorithms, see Section 2.3, Section 2.4, and the alterations of Section 5 of [Dilithium-R3]_.
+Concretely, :math:`\mathsf{SampleInBall}` of [Dilithium-R3]_ is provided via ``Polynomial::poly_challenge``, :math:`\mathsf{ExpandA}` via ``PolynomialMatrix::generate_matrix``, :math:`\mathsf{ExpandS}` via ``PolynomialVector::fill_polyvec_uniform_eta`` (called to fill vectors of different lengths), and :math:`\mathsf{ExpandMask}` via ``PolynomialVector::polyvecl_uniform_gamma1``.
+The function :math:`\mathsf{H}` is instantiated directly.
+
+Furthermore, the algorithm :math:`\mathsf{Power2Round}_q` of [Dilithium-R3]_ corresponds to the functions ``Polynomial::power2round`` and ``Polynomial::fill_polys_power2round``.
+:math:`\mathsf{MakeHint}_q` and :math:`\mathsf{UseHint}_q` of [Dilithium-R3]_ are realized by ``Polynomial::make_hint``\/\ ``Polynomial::generate_hint_polynomial`` and ``Polynomial::use_hint``, respectively.
+:math:`\mathsf{Decompose}_q` is given via ``Polynomial::decompose`` and ``Polynomial::poly_decompose``.
+During the signature operations, the decomposition functions are used directly instead of using the :math:`\mathsf{HighBits}_q` \/ :math:`\mathsf{LowBits}_q` paradigm.
+Versions with element-wise applications on polynomial vectors are given as well.
+
+Finally, Botan supplies packing operations (Section 5.2, [Dilithium-R3]) and the function ``PolynomialVector::polyvec_chknorm``, which realizes a check if the :math:`\lVert \cdot \rVert_\infty` norm of a given polynomial vector surpasses a provided bound.
+
+.. _pubkey_key_generation/dilithium/keys:
+
+**Keys**
+
+In Botan, Dilithium's keys are represented as ``Dilithium_PublicKey`` for public keys ``pk`` and as ``Dilithium_PrivateKey`` for secret keys ``sk``.
+Public keys contain the matrix seed ``rho`` and the public value ``t1``.
+Also, when creating a ``pk`` object the value  ``tr = CRH(rho || t1)`` is precomputed from the public key values ``rho`` and ``t1``, which is used by the verification algorithm.
+We therefore write ``pk = (rho, t1)`` during key generation and ``pk = (rho, t1, tr)`` during verification.
+The ``sk`` object contains the values ``rho`` and ``tr`` of the ``pk``.
+It also contains the seed ``key``, the vectors ``s1`` and ``s2``, and the value ``t0``. We write ``sk = (rho, tr, key, s1, s2, t0)``.
+
+The keys use a helper function ``calculate_t0_and_t1`` to compute :math:`(\mathbf{t_1},\mathbf{t_0})` based on the public key seed ``rho`` and private vectors ``s1, s2``, i.e., realizing L. 3, L.5, and L. 6, Fig. 4, [Dilithium-R3]_.
+Furthermore, encoding and decoding of keys and signatures are provided via the key classes.
+
+The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of [Dilithium-R3]_ and works as follows:
+
+.. admonition:: Dilithium_PrivateKey::Dilithium_PrivateKey()
+
+   **Input:**
+
+   -  ``rng``: random number generator
+   -  ``m``: Dilithium mode providing parameters and symmetric functions
+
+   **Output:**
+
+   -  ``sk``: secret key
+   -  ``pk``: public key
+
+   **Steps:**
+
+   1. Generate random seed ``seedbuf`` using ``rng`` (L. 1, Fig. 4, [Dilithium-R3]_)
+   2. ``(rho || rhoprime || key) = H(seedbuf)`` (L. 2, Fig. 4, [Dilithium-R3]_)
+   3. ``matrix = PolynomialMatrix::generate_matrix(rho, m)`` (L. 3, Fig. 4, [Dilithium-R3]_)
+   4. Use ``PolynomialVector::fill_polyvec_uniform_eta`` to fill ``s1`` and ``s2`` (L. 4, Fig. 4, [Dilithium-R3]_)
+   5. ``(t0, t1) = calculate_t0_and_t1(m, rho, s1, s2)`` (L. 5-6, Fig. 4, [Dilithium-R3]_)
+   6. ``pk = (rho, t1)`` (:math:`pk` in L. 8, Fig. 4, [Dilithium-R3]_)
+   7. ``tr = H(rho || t1)`` (L. 7, Fig. 4, [Dilithium-R3]_)
+   8. ``sk = (rho, tr, key, s1, s2, t0)`` (:math:`sk` in L. 8, Fig. 4, [Dilithium-R3]_)
+
+   **Notes:**
+
+   - ``matrix`` is already generated in NTT representation.
+   - The calculation of ``calculate_t0_and_t1`` includes the computation of ``matrix*s1`` in the NTT domain.
+
+
 .. _pubkey_key_generation/kyber:
 
 Kyber
