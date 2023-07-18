@@ -47,7 +47,7 @@ jobs:
           ref: ${{ env.BOTAN_REF }}
 
       - name: Setup Build Agent
-        uses: ./botan/.github/actions/setup-build-agent
+        uses: ./source/.github/actions/setup-build-agent
         with:
           target: ${{ matrix.target }}
           cache-key: bsi-${{ matrix.host_os }}-${{ matrix.target }}
@@ -93,7 +93,7 @@ jobs:
           ref: ${{ env.BOTAN_REF }}
 
       - name: Setup Build Agent
-        uses: ./botan/.github/actions/setup-build-agent
+        uses: ./source/.github/actions/setup-build-agent
         with:
           target: ${{ matrix.target }}
           cache-key: bsi-${{ matrix.platform.host_os }}-${{ matrix.platform.compiler }}-${{ matrix.target }}
