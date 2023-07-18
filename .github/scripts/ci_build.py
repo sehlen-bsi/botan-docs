@@ -51,7 +51,7 @@ def build_targets(target, target_os):
     yield 'tests'
 
 def determine_flags(target, target_os, target_cc, ccache,
-                    root_dir, build_dir, test_results_dir):
+                    root_dir, test_results_dir):
     """
     Return the configure.py flags as well as make/test running prefixes
     """
@@ -62,7 +62,7 @@ def determine_flags(target, target_os, target_cc, ccache,
 
     make_prefix = []
     test_prefix = []
-    test_cmd = [os.path.join(build_dir, 'botan-test'),
+    test_cmd = ['botan-test',
                 '--data-dir=%s' % os.path.join(root_dir, 'src', 'tests', 'data'),
                 '--run-memory-intensive-tests',
                 '--run-online-tests',
@@ -88,7 +88,6 @@ def determine_flags(target, target_os, target_cc, ccache,
              '--cc=%s' % (target_cc),
              '--os=%s' % (target_os),
              '--build-targets=%s' % ','.join(build_targets(target, target_os)),
-             '--with-build-dir=%s' % build_dir,
              '--link-method=symlink']
 
     if ccache is not None:
@@ -135,7 +134,7 @@ def determine_flags(target, target_os, target_cc, ccache,
 
     return flags, run_test_command, make_prefix
 
-def run_cmd(cmd, root_dir, build_dir):
+def run_cmd(cmd, root_dir):
     """
     Execute a command, die if it failed
     """
@@ -146,8 +145,6 @@ def run_cmd(cmd, root_dir, build_dir):
 
     cmd = [os.path.expandvars(elem) for elem in cmd]
     sub_env = os.environ.copy()
-    sub_env['LD_LIBRARY_PATH'] = os.path.abspath(build_dir)
-    sub_env['DYLD_LIBRARY_PATH'] = os.path.abspath(build_dir)
     sub_env['PYTHONPATH'] = os.path.abspath(os.path.join(root_dir, 'src/python'))
     cwd = None
 
@@ -213,8 +210,6 @@ def parse_args(args):
                       help='Set the target compiler type (default %default)')
     parser.add_option('--root-dir', metavar='D', default='.',
                       help='Set directory to execute from (default %default)')
-    # parser.add_option('--build-dir', metavar='D', default='.',
-    #                   help='Set directory to place build artifacts into (default %default)')
 
     parser.add_option('--make-tool', metavar='TOOL', default='make',
                       help='Specify tool to run to build source (default %default)')
@@ -259,20 +254,15 @@ def main(args):
     compiler_cache = detect_compiler_cache()
 
     root_dir = options.root_dir
-    build_dir = options.build_dir
 
     if not os.access(root_dir, os.R_OK):
         raise Exception('Bad root dir setting, dir %s not readable' % (root_dir))
-    if not os.path.exists(build_dir):
-        os.makedirs(build_dir)
-    elif not os.path.isdir(build_dir) or not os.access(build_dir, os.R_OK | os.W_OK):
-        raise Exception("Bad build dir setting %s is not a directory or not accessible" % (build_dir))
 
     cmds = []
 
     config_flags, run_test_command, make_prefix = determine_flags(
         target, target_os, options.cc,
-        compiler_cache, root_dir, build_dir, options.test_results_dir)
+        compiler_cache, root_dir, options.test_results_dir)
 
     cmds.append([py_interp, os.path.join(root_dir, 'configure.py')] + config_flags)
 
@@ -280,8 +270,6 @@ def main(args):
         options.make_tool = 'make'
 
     make_cmd = [options.make_tool]
-    if build_dir != '.':
-        make_cmd = ['indir:%s' % build_dir] + make_cmd
     if options.make_tool != 'nmake':
         build_jobs = get_concurrency()
         if build_jobs > 1 and options.make_tool != 'nmake':
@@ -307,24 +295,24 @@ def main(args):
 
     if target in ['shared', 'static']:
         cmds.append(make_cmd + ['install'])
-        build_config = os.path.join(build_dir, 'build', 'build_config.json')
+        build_config = 'build/build_config.json'
         cmds.append([py_interp, os.path.join(root_dir, 'src/scripts/ci_check_install.py'), build_config])
         cmds.append([py_interp, os.path.join(root_dir, 'src/scripts/ci_check_headers.py'), build_config])
 
     if target in ['coverage']:
-        cov_file = os.path.join(build_dir, 'coverage.lcov')
-        raw_cov_file = os.path.join(build_dir, 'coverage.raw.lcov')
+        cov_file = 'coverage.lcov'
+        raw_cov_file = 'coverage.raw.lcov'
 
-        cmds.append(['lcov', '--capture', '--directory', build_dir, '--output-file', raw_cov_file])
+        cmds.append(['lcov', '--capture', '--directory', '.', '--output-file', raw_cov_file])
         cmds.append(['lcov', '--remove', raw_cov_file, '/usr/*', '--output-file', cov_file])
         cmds.append(['lcov', '--list', cov_file])
         cmds.append([os.path.join(root_dir, 'src/scripts/rewrite_lcov.py'), cov_file])
 
         # Generate a local HTML report
-        cmds.append(['genhtml', cov_file, '--output-directory', os.path.join(build_dir, 'lcov-out')])
+        cmds.append(['genhtml', cov_file, '--output-directory', 'lcov-out'])
 
     for cmd in cmds:
-        run_cmd(cmd, root_dir, build_dir)
+        run_cmd(cmd, root_dir)
 
     return 0
 
