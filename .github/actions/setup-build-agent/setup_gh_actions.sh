@@ -45,6 +45,7 @@ if type -p "apt-get"; then
 
     elif [ "$TARGET" = "pdf_docs" ]; then
         sudo apt-get -qq install doxygen python-docutils python3-sphinx latexmk texlive-latex-extra
+    fi
 else
     export HOMEBREW_NO_AUTO_UPDATE=1
     brew install ccache
