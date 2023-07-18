@@ -10,7 +10,7 @@ Before switching to a new Botan version as part of the maintenance, all official
 changes to the code must be thoroughly checked. For this purpose, each recommended version comes with an
 audit report prepared by the contractor and submitted to the BSI with the source code.
 This examination applies, in particular, to cryptography-related changes. The BSI needs a well-founded decision
-basis for recommending a new Botan version. [TODO: Reference] describes the audit method that differs from the previous one.
+basis for recommending a new Botan version. [PRM]_ describes the audit method that differs from the previous one.
 
 This document contains the audit report of the changes between the Botan versions 3.0.0-alpha1 and
 3.1.1. Evaluated are the changes to relevant parts of the source code, the results of the side-channel
@@ -21,7 +21,7 @@ Review Method
 -------------
 
 The method for this audit differs from the processes of the previous audit.
-[TODO: Reference] describes the audit method in detail. The following gives
+[PRM]_ describes the audit method in detail. The following gives
 a summary of the new audit method.
 
 This document aims at capturing all changes to the library that led from a

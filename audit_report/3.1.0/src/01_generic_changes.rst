@@ -3,7 +3,7 @@ Changes Overview
 
 Regarding post-quantum cryptography, the most important changes since the last
 audit are the addition of CRYSTALS Dilithium and the SPHINCS+ signature
-algorithms. The crypto documentation [TODO: Ref Cryptodoc] describes Botan's
+algorithms. The crypto documentation [CRYPD]_ describes Botan's
 implementation of these algorithms. Dilithium is added within the modules
 `dilithium` and `dilithium_aes` for the modern and AES variant, respectively.
 For SPHINCS+ the modules `sphincsplus_sha2` and `sphincsplus_shake` are added

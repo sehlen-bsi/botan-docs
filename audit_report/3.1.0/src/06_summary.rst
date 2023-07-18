@@ -17,7 +17,7 @@ high-quality features.
 
 This audit report is part of the submission to the BSI, which includes the following documents:
 - Audit Report (this document)
-- Handbook
+- Botan Reference Guide
 - Library Architecture Overview
 - Test Specification
 - Test Report
