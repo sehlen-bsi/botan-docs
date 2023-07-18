@@ -6,7 +6,7 @@ audit are the addition of CRYSTALS Dilithium and the SPHINCS+ signature
 algorithms. The crypto documentation [CRYPD]_ describes Botan's
 implementation of these algorithms. Dilithium is added within the modules
 `dilithium` and `dilithium_aes` for the modern and AES variant, respectively.
-For SPHINCS+ the modules `sphincsplus_sha2` and `sphincsplus_shake` are added
+For SPHINCS+, the modules `sphincsplus_sha2` and `sphincsplus_shake` are added
 for the respective hash instantiation. Both algorithms depend on SHAKE;
 therefore, the module `shake` is added for review.
 

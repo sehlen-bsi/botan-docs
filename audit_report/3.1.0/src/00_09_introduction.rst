@@ -52,7 +52,7 @@ The library's code repository is structured into fine-grained modules
 unit and integration tests (in ``src/tests``, ``src/bogo_shim``,
 ``src/fuzzer``), a command line interface (in ``src/cli``), python wrapper (in
 ``src/python``), build system-related files and scripts (in ``configure.py``,
-``src/build-data``) and documentation (in ``src/doc``).
+``src/build-data``), and documentation (in ``src/doc``).
 
 The review in this document keeps track of changes in all the above-mentioned
 components. For the library implementation itself (``src/lib``), all modules that
@@ -216,7 +216,7 @@ and were fully reviewed:
 Patch Description Content
 -------------------------
 
-:ref:`Chapter 4<changes>` shows the changes for this document's review iteration for all topics in scope.
+:ref:`Chapter 4<changes/additions>` shows the changes for this document's review iteration for all topics in scope.
 Patches are sorted in a semantically meaningful way by assigning each one to a sensible topic.
 Each topic provides a brief description and lists the authors for the contained patches.
 Afterward, an extensive table with all related patches is provided.

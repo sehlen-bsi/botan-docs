@@ -44,7 +44,7 @@ it is executed for the version under examination, and the results are documented
 Cryptographic Documentation
 ---------------------------
 
-The document "Cryptographic Documentation" [CRYPD3]_ describes the cryptographic implementations of the
+The document "Cryptographic Documentation" [CRYPD]_ describes the cryptographic implementations of the
 library. This description includes the algorithms recommended by the BSI for hash functions, symmetric
 encryption, message authentication codes, prime number generation, parameter generation for public key algorithms,
 key generation for public key algorithms, asymmetric encryption and key exchange schemes, signatures,
