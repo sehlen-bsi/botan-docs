@@ -1440,6 +1440,156 @@ constraints for this test case are:
    |                        |    #. E >= 2                                                            |
    +------------------------+-------------------------------------------------------------------------+
 
+SPHINCS+
+--------
+
+The implementation is tested for correctness using the Known Answer Test vectors
+demanded by the NIST submission and provided by the reference implementation.
+Given SPHINCS+' performance characteristics, each supported algorithm
+parameterization gets just a single KAT test.
+
+Along with those integration tests Botan comes with a number of unit tests whose
+vectors were also extracted from intermediate results of the reference
+implementation. Particularly, the SPHINCS+-specific implementation of WOTS+ and
+FORS is covered by those unit tests.
+
+Additionally, Botan has implementation-specific test cases. Those ensure the
+interoperability of the algorithm when using Botan's generic API for public key
+algorithms. These test cases are equal for all public key schemes and are
+therefore not discussed in detail in this chapter.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-SPHINCS+-1                                                        |
+   +========================+=========================================================================+
+   | **Type:**              | Known Answer Tests                                                      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Uses the KAT vectors as specified in the API specification of the NIST  |
+   |                        | competition [#NISTAPI]_  and generated using the reference              |
+   |                        | implementation revision 06f42f47 [#SPXrefimpl]_                         |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | Test Vectors with RNG seed and test messages inputs in:                 |
+   |                        |                                                                         |
+   |                        | * :srcref:`src/tests/data/pubkey/sphincsplus.vec`                       |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | Above described test vector files contain expected values for:          |
+   |                        |                                                                         |
+   |                        | * SPHINCS+ Public Key                                                   |
+   |                        | * SPHINCS+ Private Key                                                  |
+   |                        | * Signature                                                             |
+   |                        |                                                                         |
+   |                        | to save disk space, the expected signature is stored as a digest only.  |
+   |                        | We use the same hash function of the respective SPHINCS+ instantiation. |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | For each KAT vector:                                                    |
+   |                        |                                                                         |
+   |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed and pull the     |
+   |                        |    entropy bits needed for generating a SPHINCS+ keypair from it.       |
+   |                        |                                                                         |
+   |                        | #. Generate a SPHINCS+ key pair and validate that it corresponds to the |
+   |                        |    expected key pair in the test vector.                                |
+   |                        |                                                                         |
+   |                        | #. Sign the message provided in the test vector with the just-generated |
+   |                        |    private key and validate that the digest of the calculated           |
+   |                        |    signature is equal to the test vector's expectation.                 |
+   |                        |                                                                         |
+   |                        | #. Verify the calculated signature using the generated public key.      |
+   |                        |                                                                         |
+   |                        | For a subset of combinations (namely when the "128bit fast" parameters  |
+   |                        | are used), run those additional tests:                                  |
+   |                        |                                                                         |
+   |                        | #. Deserialize the key pair from the encodings provided in the test     |
+   |                        |    vector and exercise the signing/validation cycle again.              |
+   |                        |                                                                         |
+   |                        | #. Randomly alter the signature and ensure that the verification fails. |
+   |                        |                                                                         |
+   |                        | #. Retry the verification using the same key object with the valid      |
+   |                        |    signature.                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. [#NISTAPI]
+
+   API description for NIST submissions. See section "Additional functions" for
+   a description how Known Answer Tests are to be structured
+   https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/example-files/api-notes.pdf
+
+.. [#SPXrefimpl]
+
+   Revision of the SPHINCS+ reference implementation used as the basis for the
+   implementation in Botan
+   https://github.com/sphincs/sphincsplus/commit/06f42f47491085ac879a72b486ca8edb10891963
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-SPHINCS+-2                                                        |
+   +========================+=========================================================================+
+   | **Type:**              | Known Answer Test                                                       |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Ensures that the WOTS+ sub-component of SPHINCS+ works as expected.     |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | Test Vectors in:                                                        |
+   |                        |                                                                         |
+   |                        | * :srcref:`src/tests/data/pubkey/sphincsplus_wots.vec`                  |
+   |                        |                                                                         |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | Hashed WOTS+ signatures and keys as defined in the test vector.         |
+   |                        |                                                                         |
+   |                        | To save disk space, the WOTS+ public keys and signatures in the test    |
+   |                        | vector are stored as digests only. The WOTS+ public key is hashed just  |
+   |                        | as it would be when creating an XMSS leaf node.                         |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | For each test vector entry:                                             |
+   |                        |                                                                         |
+   |                        | #. Recreate the WOTS+ signature and hashed public key from the          |
+   |                        |    given input values and validate it against the provided values.      |
+   |                        |    The signature is hashed for comparison.                              |
+   |                        |                                                                         |
+   |                        | #. Extract and validate the WOTS+ public key from the computed          |
+   |                        |    signature. The WOTS+ public key is hashed for comparison.            |
+   |                        |                                                                         |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-SPHINCS+-3                                                        |
+   +========================+=========================================================================+
+   | **Type:**              | Known Answer Test                                                       |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Ensures that the FORS sub-component of SPHINCS+ works as expected.      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | Test Vectors in:                                                        |
+   |                        |                                                                         |
+   |                        | * :srcref:`src/tests/data/pubkey/sphincsplus_fors.vec`                  |
+   |                        |                                                                         |
+   |                        | To save disk space, the FORS signatures in the test vector are stored   |
+   |                        | as digests only.                                                        |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | FORS signatures and keys as defined in the test vector                  |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | For each test vector entry:                                             |
+   |                        |                                                                         |
+   |                        | #. Generate a FORS signature and public key for the provided message    |
+   |                        |    and secret seed and validate those against the ones provided.        |
+   |                        |                                                                         |
+   |                        | #. From the generated FORS signature, recreate the FORS public key and  |
+   |                        |    validate it against the one provided in the test data.               |
+   +------------------------+-------------------------------------------------------------------------+
+
 Extended Hash-Based Signatures (XMSS)
 -------------------------------------
 
