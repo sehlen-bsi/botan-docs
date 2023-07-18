@@ -60,8 +60,6 @@ def determine_flags(target, target_os, target_cc, ccache,
         print('Error unknown OS %s' % (target_os))
         return (None, None, None)
 
-    make_prefix = []
-    test_prefix = []
     test_cmd = [os.path.join(build_dir, 'botan-test'),
                 '--data-dir=%s' % os.path.join(root_dir, 'src', 'tests', 'data'),
                 '--run-memory-intensive-tests',
@@ -128,12 +126,7 @@ def determine_flags(target, target_os, target_cc, ccache,
     if target_os == 'linux':
         flags += ['--with-tpm']
 
-    if test_cmd is None:
-        run_test_command = None
-    else:
-        run_test_command = test_prefix + test_cmd
-
-    return flags, run_test_command, make_prefix
+    return flags, test_cmd
 
 def run_cmd(cmd, root_dir, build_dir):
     """
@@ -270,7 +263,7 @@ def main(args):
 
     cmds = []
 
-    config_flags, run_test_command, make_prefix = determine_flags(
+    config_flags, run_test_command = determine_flags(
         target, target_os, options.cc,
         compiler_cache, root_dir, build_dir, options.test_results_dir)
 
@@ -297,7 +290,7 @@ def main(args):
 
         make_targets = ['libs', 'tests', 'cli']
 
-        cmds.append(make_prefix + make_cmd + make_targets)
+        cmds.append(make_cmd + make_targets)
 
         if compiler_cache is not None:
             cmds.append([compiler_cache, '--show-stats'])
