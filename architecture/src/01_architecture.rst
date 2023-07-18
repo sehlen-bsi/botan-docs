@@ -33,7 +33,8 @@ build-data       All build system related files
 cli              Command Line Tool
 configs          Various configuration files for e.g. pylint and sphinx
 editors          Code editor integrations (e.g. for vim or sublime)
-fuzzers          Fuzz targets for various modules of the library
+examples         Many small usage examples illustrating typical use cases
+fuzzer           Fuzz targets for various modules of the library
 lib              The library source code
 python           Python bindings of the library's FFI layer
 scripts          Helpers and continuous integration scripts
@@ -42,7 +43,8 @@ tests            Test suite and test data
 
 
 The ``lib`` directory has a fine-grained structure into modules and sub-modules.
-For further details, please see the Handbook section 15.1 or the online documentation:
+Botan's `online documentation <https://botan.randombit.net/doxygen/modules.html>`_ provides a comprehensive overview of those modules and their inter-dependency.
+For further details, please see the Handbook section 16.1 or the online documentation:
 `Notes for New Contributers <https://botan.randombit.net/handbook/dev_ref/contributing.html#library-layout>`_
 
 Botan Build System
@@ -50,7 +52,7 @@ Botan Build System
 
 The library follows the usual configure, build, test, install compilation workflow.
 Though, Botan does rely on its own homebrew build system implemented in python.
-This enables the library to provide a flexible module system as well as a advanced build features like an amalgamation build.
+This enables the library to provide a flexible module system as well as advanced build features like an amalgamation build.
 
 Users can specify fine-grained selections on which cryptographic algorithms,
 hardware-specific optimized implementations, protocols, operating system adapters
@@ -60,7 +62,7 @@ E.g. the BSI build policy :srcref:`src/build-data/policy/bsi.txt` can be used to
 
 Further details on the usage and implementation of Botan's build system are available here:
 
- * Handbook sections 4 and 15.2 or
+ * Handbook sections 4 and 16.2 or
  * the online documentation
    * `Building the library <https://botan.randombit.net/handbook/building.html>`_
    * `Understanding configure.py <https://botan.randombit.net/handbook/dev_ref/configure.html>`_
@@ -87,7 +89,7 @@ Similar interfaces exist; e.g. ``HashFunction``, ``MessageAuthenticationCode``, 
 
 Other concepts like random number generators, public/private keys, block/stream ciphers or asymmetric operations are also clustered with similar abstract base classes.
 
-Further details can be found in the handbook (section 6), the API reference documentation or online:
+Further details can be found in the handbook (section 7), the API reference documentation or online:
 
  * `API Reference Handbook <https://botan.randombit.net/handbook/api_ref/contents.html>`_
  * `Doxygen Documentation <https://botan.randombit.net/doxygen/>`_
@@ -130,7 +132,7 @@ Unit and Integration Tests
 Botan contains an extensive test suite that aims to cover the library source code with positive and negative tests.
 The test framework is homebrew and provides functionality for both typical "Arrange-Act-Assert"-style unit tests as well as more elaborate integration tests and external test-vector based KAT tests.
 
-Further details are in the handbook section 15.3 or the online documentation:
+Further details are in the handbook section 16.3 or the online documentation:
 `Test Framework <https://botan.randombit.net/handbook/dev_ref/test_framework.html>`_
 
 
