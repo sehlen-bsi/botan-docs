@@ -49,7 +49,7 @@ jobs:
           cache-key: bsi-${{ matrix.host_os }}-${{ matrix.target }}
 
       - name: Build and Test Botan
-        run: python3 ./botan/src/scripts/ci_build.py --with-bsi-policy ${{ matrix.target }}
+        run: python3 .github/scripts/ci_build.py --root-dir=botan --with-bsi-policy ${{ matrix.target }}
 
       - name: Archive Artifacts
         uses: actions/upload-artifact@v3
@@ -92,4 +92,4 @@ jobs:
           cache-key: bsi-${{ matrix.platform.host_os }}-${{ matrix.platform.compiler }}-${{ matrix.target }}
 
       - name: Build and Test Botan
-        run: python3 ./botan/src/scripts/ci_build.py --with-bsi-policy --cc='${{ matrix.platform.compiler }}' --make-tool='${{ matrix.platform.make_tool }}' ${{ matrix.target }}
+        run: python3 .github/scripts/ci_build.py --root-dir=botan  --with-bsi-policy --cc='${{ matrix.platform.compiler }}' --make-tool='${{ matrix.platform.make_tool }}' ${{ matrix.target }}
