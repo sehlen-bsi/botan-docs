@@ -100,7 +100,7 @@ test vectors are listed in :srcref:`src/tests/data/pbkdf/pbkdf2.vec`.
 Argon2
 ------
 
-Argon2 with its configurations Argon2, Argon2i, Argon2d and Argon2id is tested with the following constraints:
+Argon2 with its configurations Argon2i, Argon2d and Argon2id is tested with the following constraints:
 
 -  Number of test cases: 357
 -  Salt: 64 - 128 bits
