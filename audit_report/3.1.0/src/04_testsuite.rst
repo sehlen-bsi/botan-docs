@@ -1,5 +1,5 @@
 Test Suite
-=========
+==========
 
 The test suite guarantees the quality and functionality of the implementation for
 the examined version and in the continuous development process. It is executed
