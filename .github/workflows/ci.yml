@@ -13,7 +13,7 @@ jobs:
       matrix:
         element:
           - {name: Crypto Documentation, dir: docs/cryptodoc, out_name: crypto}
-          # - {name: Audit Method Description, dir: audit_method, out_name: audit_method}
+          - {name: Audit Method Description, dir: docs/audit_method, out_name: audit_method}
           # - {name: Test Specification, dir: testspec, out_name: testspec}
           - {name: Architecture Overview, dir: docs/architecture, out_name: architecture}
 
