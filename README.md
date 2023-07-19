@@ -4,6 +4,14 @@ Extended documentation for the [Botan](https://botan.randombit.net/)
 cryptography library in the context of the BSI project "Pflege und
 Weiterentwicklung der Kryptobibliothek Botan".
 
+## Repository Anatomy
+
+This monorepo contains documents (in `/docs`) as well as auxiliary helper
+scripts (in `/tools`). Most documents come with a `Makefile` to build them as
+PDF, HTML or other formats. Some generators depend on the helper scripts in
+`/tools`. We use [Poetry](https://python-poetry.org/) to manage the dependencies
+local and external dependencies.
+
 ## How to build the Documentation
 
 The documents are written using
@@ -12,13 +20,25 @@ The documents are written using
 tooling and generation steps. See the document-specific readmes for further
 guidance.
 
-Install Sphinx and other Python requirements using pip:
+We use [Poetry](https://python-poetry.org/) to manage the (internal and
+external) python dependencies of the document generators. In contrast to `pip`
+Poetry manages dependencies in virtual python environments. Therefore, it
+transparently handles the environment setup for the document generators.
+
+To install poetry run:
+
+```bash
+sudo apt install python3-poetry
+```
+
+Now, install Sphinx and other Python requirements of individual documents using
+Poetry:
 
 ```bash
 # Go into the directory of the document you want to build, e.g.
-cd cryptodoc
+cd docs/cryptodoc
 # Install Sphinx and the respective Python dependencies
-pip install -r requirements.txt
+poetry install
 ```
 
 ### Create PDF
@@ -37,9 +57,9 @@ To build a PDF do the following:
 
 ```bash
 # Go into the directory of the document you want to build, e.g.
-cd cryptodoc
+cd docs/cryptodoc
 # Create the PDF
-make latexpdf
+poetry run make latexpdf
 ```
 
 The PDF will be in the `_build/latex/` subfolder.
@@ -50,9 +70,5 @@ The recommended editor for editing the documentation is [*Visual Studio
 Code*](https://code.visualstudio.com/). A minimal configuration for *Visual
 Studio Code* with recommended extensions is included in the repository.
 
-Some extensions need additional Python requirements. Install them using pip within
-the respective directory:
-
-```bash
-pip install -r requirements-dev.txt
-```
+Some extensions need additional Python requirements. They are installed
+automatically via Poetry.
