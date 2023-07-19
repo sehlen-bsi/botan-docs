@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "genaudit"
+version = "0.1.0"
+description = "Generator scripts and helpers to pull patch information from GitHub"
+authors = ["René Meusel <rene.meusel@rohde-schwarz.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pygithub = "~1.59"
+pyyaml = "^6.0"
+Jinja2 = "^3.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
