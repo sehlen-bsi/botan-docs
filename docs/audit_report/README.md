@@ -6,18 +6,14 @@ This document is part of the BSI project "Pflege und Weiterentwicklung der Krypt
 
 This document has a custom build step to generate the audit report document from
 YAML files and information from the GitHub API. This is done with a generator
-that resides in `../../audit_generator` written in Python with a few dependencies.
-Make sure to install them additionally to the dependencies of this document:
+that resides in `../../tools/genaudit` written in Python with a few dependencies.
+
+As with the other documents, local and external dependencies are managed using
+Poetry. To generate the document simply run:
 
 ```bash
-pip install -r ../../audit_generator/requirements.txt
-```
-
-Also, the path to the generator scripts must be in your `$PYTHONPATH` before
-invoking `make`:
-
-```bash
-PYTHONPATH=../../audit_generator make latexpdf
+poetry install
+poetry run make latexpdf
 ```
 
 Note that the GitHub API has a rather tight rate limit on clients without a

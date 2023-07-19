@@ -61,13 +61,19 @@ Auditers from the YAML file are rendered in parenthesis along with potential
 approvers from GitHub in the final rendering. Use the auditer's GitHub handle!
 
 Eventually, the directory with all topic description YAML files is passed to
-`audit.py` to render them into rST documents to be consumed by Sphinx.
+the CLI to render them into rST documents to be consumed by Sphinx.
 
-## Usage of audit.py
+## Usage of the CLI
 
-Currently, the script has two modes: `render` and `unrefed`. It takes a
-configuration file (`config.yml`) and requires a number of parameters to be
-passed. Most notably, a GitHub access token (via `--token` or from the
+The CLI can be launched like this:
+
+```bash
+python3 -m genaudit.cli
+```
+
+Currently, the script has three modes: `render`, `unrefed` and `verify_merges`.
+It takes a configuration file (`config.yml`) and requires a number of parameters
+to be passed. Most notably, a GitHub access token (via `--token` or from the
 environment variable `$BASIC_GH_TOKEN`). All information pulled from GitHub by
 the generator is public; nevertheless requests that feature an access token are
 subject to relaxed API rate limits.
@@ -103,17 +109,17 @@ topics: topics_directory
 cache: /path/to/github/cache/directory  # (optional)
 ```
 
-### Rendering (`audit.py render`)
+### Rendering (`python3 -m genaudit.cli render`)
 
 This renders all topics into restructured text files to be consumed by a Sphinx
 documentation generator. Example:
 
 ```bash
 export BASIC_GH_TOKEN="<mytoken>" # should be placed in the environment in some reasonable way
-python audit.py render -o <output_dir> <config_dir>
+python3 -m genaudit.cli render -o <output_dir> <config_dir>
 ```
 
-### Finding unreferenced Patches (`audit.py unrefed`)
+### Finding unreferenced Patches (`python3 -m genaudit.cli unrefed`)
 
 This is useful to find patches that landed in the relevant audit interval
 (`audit_ref_from` through `audit_ref_to`) but are not referenced in any topic
@@ -124,10 +130,10 @@ Example:
 
 ```bash
 export BASIC_GH_TOKEN="<mytoken>" # should be placed in the environment in some reasonable way
-python audit.py unrefed --yaml <config_dir>
+python3 -m genaudit.cli unrefed --yaml <config_dir>
 ```
 
-### Verifying Pull Requests' Merge Commits (`audit.py verify_merges)
+### Verifying Pull Requests' Merge Commits (`python3 -m genaudit.cli`)
 
 For accountability reasons we keep track of the merge commits' hashes for each
 pull request that landed. This command allows validating that all referenced
@@ -138,14 +144,14 @@ Example:
 
 ```bash
 export BASIC_GH_TOKEN="<mytoken>" # should be placed in the environment in some reasonable way
-python audit.py verify_merges <config_dir>
+python3 -m genaudit.cli verify_merges <config_dir>
 ```
 
 To additionally gain YAML-formatted corrections for pull requests that don't
 feature any merge commit or that appear inconsistent with the local checkout, run:
 
 ```bash
-python audit.py verify_merges --yaml <config_dir>
+python3 -m genaudit.cli verify_merges --yaml <config_dir>
 ```
 
 ## Limitations
