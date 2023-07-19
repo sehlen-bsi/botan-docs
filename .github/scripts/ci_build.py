@@ -53,12 +53,11 @@ def build_targets(target, target_os):
 def determine_flags(target, target_os, target_cc, ccache,
                     root_dir, build_dir, test_results_dir, disabled_tests):
     """
-    Return the configure.py flags as well as make/test running prefixes
+    Return the configure.py flags as well as the test cmd.
     """
 
     if target_os not in ['linux', 'osx', 'windows']:
-        print('Error unknown OS %s' % (target_os))
-        return (None, None, None)
+        raise Exception(f'Error unknown OS {target_os}')
 
     test_cmd = [os.path.join(build_dir, 'botan-test'),
                 '--data-dir=%s' % os.path.join(root_dir, 'src', 'tests', 'data'),
@@ -134,8 +133,9 @@ def determine_flags(target, target_os, target_cc, ccache,
 
 def run_cmd(cmd, root_dir, build_dir):
     """
-    Execute a command, die if it failed
+    Execute a command, die if it failed.
     """
+
     print("Running '%s' ..." % (' '.join(cmd)))
     sys.stdout.flush()
 
@@ -202,12 +202,13 @@ def detect_compiler_cache():
 
 def parse_args(args):
     """
-    Parse arguments
+    Parse arguments.
     """
+
     parser = optparse.OptionParser()
 
     parser.add_option('--cc', default='gcc',
-                      help='Set the target compiler type (default %default)')
+                      help='Set the target compiler type (default %default).')
     parser.add_option('--root-dir', metavar='D', default='.',
                       help='Set directory to execute from (default %default). If given must be an absolute path.')
     parser.add_option('--build-dir', metavar='D', default='.',
@@ -215,20 +216,21 @@ def parse_args(args):
                            'If given must be an absolute path.')
 
     parser.add_option('--disabled-tests', metavar='DISABLED_TESTS', default=[], action='append',
-                      help='Comma separated list of tests that should not be run')
+                      help='Comma separated list of tests that should not be run.')
 
     parser.add_option('--make-tool', metavar='TOOL', default='make',
-                      help='Specify tool to run to build source (default %default)')
+                      help='Specify tool to run to build source (default %default).')
 
     parser.add_option('--test-results-dir', default=None,
-                      help='Directory to store JUnit XML test reports')
+                      help='Directory to store JUnit XML test reports.')
 
     return parser.parse_args(args)
 
 def have_prog(prog):
     """
-    Check if some named program exists in the path
+    Check if some named program exists in the path.
     """
+
     for path in os.environ['PATH'].split(os.pathsep):
         exe_file = os.path.join(path, prog)
         for ef in [exe_file, exe_file + ".exe"]:
@@ -272,8 +274,8 @@ def main(args):
     cmds = []
 
     config_flags, run_test_command = determine_flags(
-        target, target_os, options.cc,
-        compiler_cache, root_dir, build_dir, options.test_results_dir, options.disabled_tests)
+        target, target_os, options.cc, compiler_cache, root_dir, build_dir,
+        options.test_results_dir, options.disabled_tests)
 
     cmds.append([py_interp, os.path.join(root_dir, 'configure.py')] + config_flags)
 

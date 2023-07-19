@@ -53,6 +53,7 @@ jobs:
           cache-key: bsi-${{ matrix.host_os }}-${{ matrix.target }}
 
       - name: Build and Test Botan
+        # TODO: Disabled tests is temporary fix for https://github.com/randombit/botan/pull/3632
         run: >-
           python3 ./source/.github/scripts/ci_build.py
           --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
@@ -103,6 +104,7 @@ jobs:
           cache-key: bsi-${{ matrix.platform.host_os }}-${{ matrix.platform.compiler }}-${{ matrix.target }}
 
       - name: Build and Test Botan
+        # TODO: Disabled tests is temporary fix for https://github.com/randombit/botan/pull/3632
         run: >-
           python3 ./source/.github/scripts/ci_build.py
           --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
