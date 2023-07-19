@@ -15,7 +15,7 @@ jobs:
           - {name: Crypto Documentation, dir: docs/cryptodoc, out_name: crypto}
           # - {name: Audit Method Description, dir: audit_method, out_name: audit_method}
           # - {name: Test Specification, dir: testspec, out_name: testspec}
-          # - {name: Architecture Overview, dir: architecture, out_name: architecture}
+          - {name: Architecture Overview, dir: docs/architecture, out_name: architecture}
 
     name: Build PDF - ${{ matrix.element.name }}
     runs-on: ubuntu-22.04
@@ -44,7 +44,7 @@ jobs:
         element:
           - {name: Crypto Documentation, dir: docs/cryptodoc}
           # - {name: Test Specification, dir: testspec}
-          # - {name: Architecture, dir: architecture}
+          - {name: Architecture, dir: docs/architecture}
 
     name: Check source URLs - ${{ matrix.element.name }}
     runs-on: ubuntu-22.04
