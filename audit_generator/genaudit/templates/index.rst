@@ -1,3 +1,5 @@
+.. _{{ rst_ref }}:
+
 {{ document_title|rst_headline(1) }}
 
 .. toctree::
