@@ -216,7 +216,7 @@ and were fully reviewed:
 Patch Description Content
 -------------------------
 
-:ref:`Chapter 4<changes/additions>` shows the changes for this document's review iteration for all topics in scope.
+The changes for this document's review iteration for all relevant topics are found in :ref:`changes`.
 Patches are sorted in a semantically meaningful way by assigning each one to a sensible topic.
 Each topic provides a brief description and lists the authors for the contained patches.
 Afterward, an extensive table with all related patches is provided.
