@@ -29,7 +29,7 @@ and the test suite architecture. Changes to the library are adjusted accordingly
 Test Specification
 ------------------
 
-The document "Test Specification" [TESTSP]_ describes the tests implemented in Botans's test suite.
+The document "Test Specification" [TESTSP]_ describes the tests implemented in Botan's test suite.
 It contains both a description of the test cases and a partial listing of the test vectors. Deletions,
 additions, and modifications of tests are addressed in this document.
 
