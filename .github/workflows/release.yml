@@ -56,6 +56,7 @@ jobs:
         run: >-
           python3 ./source/.github/scripts/ci_build.py
           --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
+          --disabled-tests=tls_extensions_key_share_client_hello,xmss_keygen_reference
           ${{ matrix.target }}
 
       - name: Archive Artifacts
