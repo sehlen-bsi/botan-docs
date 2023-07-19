@@ -19,12 +19,12 @@ sys.path.insert(0, os.path.abspath('../../_ext'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Botan Prüfung 3.0.0 - Library Architecture Overview'
+project = 'Botan Prüfung 3.1.1 - Library Architecture Overview'
 copyright = '2023, Rohde & Schwarz'
 author = 'Rohde & Schwarz'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '1.1.0'
 
 
 # -- General configuration ---------------------------------------------------
