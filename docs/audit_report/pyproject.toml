@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "audit_report"
+version = "1.0.0"
+description = "Tracks the auditing results of the latest changes in the Botan library"
+authors = ["Fabian Albert <fabian.albert@rohde-schwarz.com>", "René Meusel <rene.meusel@rohde-schwarz.com>", "Philippe Lieser <philippe.lieser@rohde-schwarz.com"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Sphinx = "^6.1.3"
+pylatexenc = "^2.10"
+
+genaudit = { path = "../../tools/genaudit", develop = true }
+sourceref = { path = "../../tools/sourceref", develop = true }
+
+[tool.poetry.dev-dependencies]
+esbonio = "^0.16.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
