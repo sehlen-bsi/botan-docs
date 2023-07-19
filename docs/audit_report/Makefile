@@ -16,7 +16,7 @@ help:
 .PHONY: help Makefile
 
 rst_changes:
-	python3 -m audit render -u -o "$(BUILDDIR)/changes" "$(CHANGESDIR)"
+	python3 -m genaudit.cli render -u -o "$(BUILDDIR)/changes" "$(CHANGESDIR)"
 	rm "$(SOURCEDIR)/changes"; ln -s "../$(BUILDDIR)/changes" "$(SOURCEDIR)/changes"
 
 # Catch-all target: route all unknown targets to Sphinx using the new
