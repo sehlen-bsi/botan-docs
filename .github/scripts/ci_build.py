@@ -51,7 +51,7 @@ def build_targets(target, target_os):
     yield 'tests'
 
 def determine_flags(target, target_os, target_cc, ccache,
-                    root_dir, build_dir, test_results_dir):
+                    root_dir, build_dir, test_results_dir, disabled_tests):
     """
     Return the configure.py flags as well as make/test running prefixes
     """
@@ -65,6 +65,10 @@ def determine_flags(target, target_os, target_cc, ccache,
                 '--run-memory-intensive-tests',
                 '--run-online-tests',
                 '--run-long-tests']
+
+    # render 'disabled_tests' array into test_cmd
+    if disabled_tests:
+        test_cmd += ['--skip-tests=%s' % (','.join(disabled_tests))]
 
     # generate JUnit test report
     if test_results_dir:
@@ -210,6 +214,9 @@ def parse_args(args):
                       help='Set directory to place build artifacts into (default %default). '
                            'If given must be an absolute path.')
 
+    parser.add_option('--disabled-tests', metavar='DISABLED_TESTS', default=[], action='append',
+                      help='Comma separated list of tests that should not be run')
+
     parser.add_option('--make-tool', metavar='TOOL', default='make',
                       help='Specify tool to run to build source (default %default)')
 
@@ -266,7 +273,7 @@ def main(args):
 
     config_flags, run_test_command = determine_flags(
         target, target_os, options.cc,
-        compiler_cache, root_dir, build_dir, options.test_results_dir)
+        compiler_cache, root_dir, build_dir, options.test_results_dir, options.disabled_tests)
 
     cmds.append([py_interp, os.path.join(root_dir, 'configure.py')] + config_flags)
 
