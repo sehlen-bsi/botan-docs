@@ -1,9 +1,7 @@
 import requests
 from docutils import nodes
 from docutils.nodes import Node, system_message
-from sphinx.application import Sphinx
 from sphinx.roles import ReferenceRole
-
 
 class SourceReferenceRole(ReferenceRole):
     """A role to create a reference to a source file.
@@ -55,15 +53,3 @@ class SourceReferenceRole(ReferenceRole):
         prb = self.inliner.problematic(self.rawtext, self.rawtext, msg)
         return [prb], [msg]
 
-
-def setup(app: Sphinx):
-    app.add_config_value('src_ref_base_url', 'https://github.com/randombit/botan/blob', 'html')
-    app.add_config_value('src_ref_reference', 'master', 'html')
-    app.add_config_value('src_ref_check_url', False, 'env')
-
-    app.add_role('srcref', SourceReferenceRole())
-
-    return {
-        'parallel_read_safe': True,
-        'parallel_write_safe': True,
-    }
