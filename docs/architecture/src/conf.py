@@ -12,9 +12,9 @@ from pylatexenc.latexencode import unicode_to_latex
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
-sys.path.insert(0, os.path.abspath('../../_ext'))
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
@@ -34,7 +34,7 @@ release = '1.1.0'
 # ones.
 extensions = [
   'sphinx.ext.todo',
-  'botan_src_path'
+  'sourceref'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

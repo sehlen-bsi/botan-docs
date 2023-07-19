@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "architecture"
+version = "1.0.0"
+description = "Provides a high-level overview of the library and its architecture"
+authors = ["Fabian Albert <fabian.albert@rohde-schwarz.com>","René Fischer <rene.fischer@rohde-schwarz.com>","Philippe Lieser <philippe.lieser@rohde-schwarz.com","René Meusel <rene.meusel@rohde-schwarz.com>","Amos Treiber <amos.treiber@rohde-schwarz.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Sphinx = "^6.1.3"
+pylatexenc = "^2.10"
+
+sourceref = { path = "../../tools/sourceref", develop = true }
+
+[tool.poetry.dev-dependencies]
+esbonio = "^0.16.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
