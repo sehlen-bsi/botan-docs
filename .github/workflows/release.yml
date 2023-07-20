@@ -60,6 +60,11 @@ jobs:
           --disabled-tests=tls_extensions_key_share_client_hello
           ${{ matrix.target }}
 
+      - name: Debug
+        run: |
+          ls -lha ./build/${{ matrix.artifacts }}
+          ls -lha ${{ github.workspace }}/build/${{ matrix.artifacts }}
+
       - name: Archive Artifacts
         uses: actions/upload-artifact@v3
         with:
