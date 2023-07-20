@@ -9,7 +9,7 @@ Weiterentwicklung der Kryptobibliothek Botan".
 This monorepo contains documents (in `/docs`) as well as auxiliary helper
 scripts (in `/tools`). Most documents come with a `Makefile` to build them as
 PDF, HTML or other formats. Some generators depend on the helper scripts in
-`/tools`. We use [Poetry](https://python-poetry.org/) to manage the dependencies
+`/tools`. We use [Poetry](https://python-poetry.org/) to manage the
 local and external dependencies.
 
 ## How to build the Documentation
@@ -21,11 +21,11 @@ tooling and generation steps. See the document-specific readmes for further
 guidance.
 
 We use [Poetry](https://python-poetry.org/) to manage the (internal and
-external) python dependencies of the document generators. In contrast to `pip`
-Poetry manages dependencies in virtual python environments. Therefore, it
+external) Python dependencies of the document generators. In contrast to `pip`,
+Poetry manages dependencies in virtual Python environments. Therefore, it
 transparently handles the environment setup for the document generators.
 
-To install poetry run:
+To install poetry, run:
 
 ```bash
 sudo apt install python3-poetry

@@ -9,7 +9,7 @@ YAML files and information from the GitHub API. This is done with a generator
 that resides in `../../tools/genaudit` written in Python with a few dependencies.
 
 As with the other documents, local and external dependencies are managed using
-Poetry. To generate the document simply run:
+Poetry. To generate the document, simply run:
 
 ```bash
 poetry install
