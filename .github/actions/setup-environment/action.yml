@@ -11,11 +11,11 @@ runs:
   using: composite
   steps:
     - name: Set Environment Variables
-      run: python3 ${{ github.workspace }}/.github/scripts/read_environment.py ${{ inputs.env_file }} >> $GITHUB_ENV
+      run: python3 ${{ github.action_path }}/../../scripts/read_environment.py ${{ inputs.env_file }} >> $GITHUB_ENV
       shell: bash
       if: runner.os != 'Windows'
 
     - name: Set Environment Variables
-      run: python3 ${{ github.workspace }}/.github/scripts/read_environment.py ${{ inputs.env_file }} >> $GITHUB_ENV
+      run: python3 ${{ github.action_path }}/../../scripts/read_environment.py ${{ inputs.env_file }} >> $GITHUB_ENV
       shell: pwsh
       if: runner.os == 'Windows'
