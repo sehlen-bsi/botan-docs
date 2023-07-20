@@ -41,7 +41,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: botan_${{ matrix.element.out_name }}-${{ github.sha }}
+          name: Botan ${{ env.BOTAN_VERSION }} ${{ matrix.element.name }}
           path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}.pdf
 
   url_check:
@@ -141,5 +141,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: botan_audit_${{ github.sha }}
+          name: Botan ${{ env.BOTAN_VERSION }} Audit Report
           path: source/docs/audit_report/_build/latex/*.pdf
