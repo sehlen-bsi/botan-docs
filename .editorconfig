@@ -6,6 +6,14 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
 
+[*.py]
+indent_style = space
+tab_width = 4
+
 [*.rst]
 indent_style = space
 tab_width = 3
+
+[*.yml]
+indent_style = space
+tab_width = 2

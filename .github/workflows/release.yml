@@ -1,0 +1,111 @@
+name: Release
+
+on:
+  - workflow_dispatch
+
+permissions:
+  contents: read
+  # implicitly all other scopes not listed become none
+
+env:
+  BOTAN_REPO: randombit/botan
+  BOTAN_REF: 3.1.1
+
+jobs:
+  utility:
+    name: "Utility"
+    strategy:
+      fail-fast: false
+
+      matrix:
+        include:
+          - jobname: Documentation
+            target: pdf_docs
+            artifacts: |
+              build/build/docs/handbook/botan.pdf
+              build/build/docs/doxygen/
+            host_os: ubuntu-latest
+          - jobname: Coverage Report
+            target: coverage
+            artifacts: build/lcov-out/
+            host_os: ubuntu-latest
+
+    runs-on: ${{ matrix.host_os }}
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+          ref: ${{ env.BOTAN_REF }}
+
+      - name: Setup Build Agent
+        uses: ./source/.github/actions/setup-build-agent
+        with:
+          target: ${{ matrix.target }}
+          cache-key: bsi-${{ matrix.host_os }}-${{ matrix.target }}
+
+      - name: Build and Test Botan
+        # TODO: Disabled tests is temporary fix for https://github.com/randombit/botan/pull/3632
+        run: >-
+          python3 ./source/.github/scripts/ci_build.py
+          --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
+          --disabled-tests=tls_extensions_key_share_client_hello
+          ${{ matrix.target }}
+
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.jobname }}
+          path: ${{ matrix.artifacts }}
+        if: ${{ matrix.artifacts != '' }}
+
+  bsi_tests:
+    name: "BSI Build Policy Tests"
+    strategy:
+      fail-fast: false
+
+      matrix:
+        # basic configuration combinations should run on all target platforms
+        target:    [ static, shared ]
+        platform:  [
+          { host_os: windows-2022,  compiler: msvc,  make_tool: jom },
+          { host_os: ubuntu-latest, compiler: gcc,   make_tool: make },
+          { host_os: ubuntu-latest, compiler: clang, make_tool: make },
+          { host_os: macos-13,  compiler: clang, make_tool: make }
+        ]
+
+    runs-on: ${{ matrix.platform.host_os }}
+
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+          ref: ${{ env.BOTAN_REF }}
+
+      - name: Setup Build Agent
+        uses: ./source/.github/actions/setup-build-agent
+        with:
+          target: ${{ matrix.target }}
+          cache-key: bsi-${{ matrix.platform.host_os }}-${{ matrix.platform.compiler }}-${{ matrix.target }}
+
+      - name: Build and Test Botan
+        # TODO: Disabled tests is temporary fix for https://github.com/randombit/botan/pull/3632
+        run: >-
+          python3 ./source/.github/scripts/ci_build.py
+          --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
+          --cc='${{ matrix.platform.compiler }}' --make-tool='${{ matrix.platform.make_tool }}'
+          --disabled-tests=tls_extensions_key_share_client_hello
+          ${{ matrix.target }}
