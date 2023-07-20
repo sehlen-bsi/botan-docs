@@ -7,10 +7,6 @@ permissions:
   contents: read
   # implicitly all other scopes not listed become none
 
-env:
-  BOTAN_REPO: randombit/botan
-  BOTAN_REF: 3.1.1
-
 jobs:
   utility:
     name: "Utility"
@@ -36,6 +32,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/.github/environment/botan.env
+
       - name: Fetch Botan Repository
         uses: actions/checkout@v3
         with:
@@ -87,6 +89,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/.github/environment/botan.env
+
       - name: Fetch Botan Repository
         uses: actions/checkout@v3
         with:

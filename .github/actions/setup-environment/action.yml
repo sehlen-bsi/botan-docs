@@ -1,0 +1,21 @@
+
+name: Setup CI Environment
+description: Set up a build agent with the required environment
+
+inputs:
+  env_file:
+    description: The .env file containing the environment variables to be provisioned
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Set Environment Variables
+      run: python3 ${{ github.workspace }}/.github/scripts/read_environment.py ${{ inputs.env_file }} >> $GITHUB_ENV
+      shell: bash
+      if: runner.os != 'Windows'
+
+    - name: Set Environment Variables
+      run: python3 ${{ github.workspace }}/.github/scripts/read_environment.py ${{ inputs.env_file }} >> $GITHUB_ENV
+      shell: pwsh
+      if: runner.os == 'Windows'

@@ -24,6 +24,12 @@ jobs:
         working-directory: ${{matrix.element.dir }}
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup Environment Configuration
+        uses: ./.github/actions/setup-environment
+        with:
+          env_file: ./.github/environment/botan.env
+
       - name: Install Build Dependencies
         run: |
           sudo apt-get update
@@ -53,6 +59,12 @@ jobs:
         working-directory: ${{matrix.element.dir }}
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup Environment Configuration
+        uses: ./.github/actions/setup-environment
+        with:
+          env_file: ./.github/environment/botan.env
+
       - name: Install Build Dependencies
         run: |
           sudo apt-get update
@@ -70,11 +82,17 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/.github/environment/botan.env
+
       - name: Fetch Botan Repository
         uses: actions/checkout@v3
         with:
           path: ./botan
-          repository: randombit/botan
+          repository: ${{ env.BOTAN_REPO }}
           fetch-depth: 0
 
       - name: Install Build Dependencies
