@@ -83,5 +83,6 @@ latex_additional_files = [
 
 latex_elements = {
     'preamble': r'\usepackage{custom}\usepackage{xfrac}',
-    'maketitle': r'\custommanualmaketitle'
+    'maketitle': r'\custommanualmaketitle',
+    'utf8extra': ('\\DeclareUnicodeCharacter{03C1}{$\\rho$}'),
 }

@@ -13,9 +13,11 @@ Contents
    changes/index
 
    02_security_issues
-   03_side_channels
-   04_testsuite
-   05_documents
-   06_summary
-   07_bibliography
+
+   side_channels/index
+
+   03_testsuite
+   04_documents
+   05_summary
+   06_bibliography
 
