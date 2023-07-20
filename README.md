@@ -71,4 +71,18 @@ Code*](https://code.visualstudio.com/). A minimal configuration for *Visual
 Studio Code* with recommended extensions is included in the repository.
 
 Some extensions need additional Python requirements. They are installed
-automatically via Poetry.
+automatically via Poetry. To use the underlying language server (esbonio),
+VS Code either needs to be launched from the virtual environment of `poetry shell`
+or the respective venv interpreter must be configured in a running VS Code
+instance.
+
+```bash
+cd docs/cryptodoc
+poetry install # (if not already done)
+poetry shell
+code ../..
+```
+
+**Caveats:** The completion and preview are configured to work in the crypto
+documentation (see `.vscode/settings.json`). So far, we didn't find a way to
+make it work for all documents without manual reconfiguration.
