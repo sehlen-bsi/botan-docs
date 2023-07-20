@@ -2,8 +2,6 @@ name: Release
 
 on:
   - workflow_dispatch
-  # TODO: Temporary, should be removed before merged to main
-  - push
 
 permissions:
   contents: read
