@@ -21,8 +21,9 @@ class Audit:
         if not cfg:
             raise RuntimeError("Failed to load configuation: %s" % self.config_file)
 
-        util.check_keys("Configuration", cfg.keys(), ['project', 'repo', 'topics', 'cache', 'fail_on_load_error', 'ignore'])
+        util.check_keys("Configuration", cfg.keys(), ['rst_ref', 'project', 'repo', 'topics', 'cache', 'fail_on_load_error', 'ignore'])
 
+        self.rst_ref = cfg['rst_ref']
         self.project_name = cfg['project']
         logging.info("Found configuration for '%s'", self.project_name)
 

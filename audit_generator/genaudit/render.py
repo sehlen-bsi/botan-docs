@@ -88,6 +88,7 @@ class Renderer:
         if rendered > 0:
             with open(os.path.join(outdir, 'index.rst'), 'w+') as f:
                 f.write(self.tmpenv.get_template("index.rst").render({
+                    "rst_ref": self.audit.rst_ref,
                     "document_title": self.audit.project_name,
                     "topics": topic_files
                 }))
