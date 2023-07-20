@@ -102,6 +102,7 @@ def determine_flags(target, target_os, target_cc, ccache,
     enable_modules += ['pkcs11']
     enable_modules += ['xts']
     enable_modules += ['kyber','kyber_90s']
+    enable_modules += ['dilithium','dilithium_aes']
     enable_modules += ['sphincsplus_sha2','sphincsplus_shake']
     flags += ['--module-policy=bsi', '--enable-modules=%s' % ','.join(enable_modules)]
 
