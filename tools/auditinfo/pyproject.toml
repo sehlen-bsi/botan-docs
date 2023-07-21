@@ -1,16 +1,11 @@
 [tool.poetry]
-name = "genaudit"
+name = "auditinfo"
 version = "0.1.0"
-description = "Generator scripts and helpers to pull patch information from GitHub"
+description = "Central information retrieval of this audit project"
 authors = ["René Meusel <rene.meusel@rohde-schwarz.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pygithub = "~1.59"
-pyyaml = "^6.0"
-Jinja2 = "^3.0"
-
-auditinfo = { path = "../auditinfo", develop = true }
 
 [tool.poetry.dev-dependencies]
 

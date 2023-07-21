@@ -6,6 +6,8 @@
 
 from pylatexenc.latexencode import unicode_to_latex
 
+import auditinfo
+
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -23,7 +25,7 @@ project = 'Cryptographic Documentation'
 author = 'Rohde & Schwarz'
 
 # The full version, including alpha/beta/rc tags
-release = '1.5.0'
+release = auditinfo.botan_version()
 
 
 # -- General configuration ---------------------------------------------------
@@ -52,24 +54,6 @@ language = 'en'
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
-
-# -- Options for botan_src_path extension ------------------------------------
-
-# ATTENTION ON RELEASE
-# ATTENTION ON RELEASE
-# ATTENTION ON RELEASE
-#
-#   Change this to the Botan GitHub tag this document is referring to,
-#   before cutting a revision of the crypto documentation.
-#
-#   TODO: Add a more reliable way or some sort of checklist to avoid
-#         forgetting this before cuttung a release.
-#
-# ATTENTION ON RELEASE
-# ATTENTION ON RELEASE
-# ATTENTION ON RELEASE
-src_ref_reference = '3.1.1'
 
 # -- Options for HTML output -------------------------------------------------
 

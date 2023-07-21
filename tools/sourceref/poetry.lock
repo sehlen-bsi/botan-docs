@@ -7,6 +7,19 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "auditinfo"
+version = "0.1.0"
+description = "Central information retrieval of this audit project"
+category = "main"
+optional = false
+python-versions = "^3.10"
+develop = true
+
+[package.source]
+type = "directory"
+url = "../auditinfo"
+
+[[package]]
 name = "babel"
 version = "2.12.1"
 description = "Internationalization utilities"
@@ -233,7 +246,7 @@ test = ["pytest"]
 
 [[package]]
 name = "urllib3"
-version = "2.0.3"
+version = "2.0.4"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
@@ -248,10 +261,11 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "3c2eea576d0733a7305b5f3b1c98ee794c96e3e53eacf60e343533c6d046188a"
+content-hash = "fe215c7135eab4e4e66d73ece1120e1771bc0e69d672087b60f4b812e49af6e2"
 
 [metadata.files]
 alabaster = []
+auditinfo = []
 babel = []
 certifi = []
 charset-normalizer = []

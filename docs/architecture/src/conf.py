@@ -6,6 +6,8 @@
 
 from pylatexenc.latexencode import unicode_to_latex
 
+import auditinfo
+
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -19,12 +21,12 @@ from pylatexenc.latexencode import unicode_to_latex
 
 # -- Project information -----------------------------------------------------
 
-project = 'Botan Prüfung 3.1.1 - Library Architecture Overview'
+project = f'Botan Prüfung {auditinfo.botan_version()} - Library Architecture Overview'
 copyright = '2023, Rohde & Schwarz'
 author = 'Rohde & Schwarz'
 
 # The full version, including alpha/beta/rc tags
-release = '1.1.0'
+release = auditinfo.botan_version()
 
 
 # -- General configuration ---------------------------------------------------
@@ -54,11 +56,6 @@ language = 'en'
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
-# -- Options for botan_src_path extension ------------------------------------
-
-src_ref_reference = '3.1.1'
-# src_ref_check_url = True
 
 # -- Options for HTML output -------------------------------------------------
 

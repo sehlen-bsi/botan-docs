@@ -6,6 +6,8 @@
 
 from pylatexenc.latexencode import unicode_to_latex
 
+import auditinfo
+
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -24,7 +26,7 @@ project = 'Prüfmethodik für die Freigabe neuer Botan-Versionen'
 author = 'Rohde & Schwarz'
 
 # The full version, including alpha/beta/rc tags
-release = '2.1.2'
+release = auditinfo.botan_version()
 
 
 # -- General configuration ---------------------------------------------------

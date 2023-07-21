@@ -30,6 +30,19 @@ tests = ["attrs", "zope-interface"]
 tests-no-zope = ["cloudpickle", "hypothesis", "mypy (>=1.1.1)", "pympler", "pytest-mypy-plugins", "pytest-xdist", "pytest (>=4.3.0)"]
 
 [[package]]
+name = "auditinfo"
+version = "0.1.0"
+description = "Central information retrieval of this audit project"
+category = "main"
+optional = false
+python-versions = "^3.10"
+develop = true
+
+[package.source]
+type = "directory"
+url = "../../tools/auditinfo"
+
+[[package]]
 name = "babel"
 version = "2.12.1"
 description = "Internationalization utilities"
@@ -377,7 +390,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "urllib3"
-version = "2.0.3"
+version = "2.0.4"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
@@ -392,12 +405,13 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "06cbad4d40fa6194860db3e7aa876d8368c65501cff4b0b3b641ba476f7bfcfd"
+content-hash = "1d4f6d705fe35b871286af52f9a75c9b95045c88192e59fe6586d6e4b2d63909"
 
 [metadata.files]
 alabaster = []
 appdirs = []
 attrs = []
+auditinfo = []
 babel = []
 cattrs = []
 certifi = []
