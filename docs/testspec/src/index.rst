@@ -7,7 +7,6 @@ Contents
    :includehidden:
 
    00_00_preface
-   00_01_changelog
    00_09_introduction
 
    01_aead
