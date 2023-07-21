@@ -4,5 +4,7 @@
         "trond-snekvik.simple-rst",
         "editorconfig.editorconfig",
         "redhat.vscode-yaml",
+        "ms-python.python",
+        "david1542.poetrix",
     ]
 }

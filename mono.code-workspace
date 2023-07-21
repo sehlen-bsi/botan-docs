@@ -1,0 +1,16 @@
+{
+    "folders": [
+        {"path": ".", "name": "All"},
+        {"path": "docs/architecture", "name": "Doc: Architecture Overview"},
+        {"path": "docs/audit_method", "name": "Doc: Audit Method Description"},
+        {"path": "docs/audit_report", "name": "Doc: Audit Report"},
+        {"path": "docs/cryptodoc", "name": "Doc: Cryptographic Documentation"},
+        {"path": "docs/testspec", "name": "Doc: Test Specification"},
+        {"path": "tools/genaudit", "name": "Tool: genaudit"},
+        {"path": "tools/auditinfo", "name": "Tool: auditinfo"},
+        {"path": "tools/sourceref", "name": "Sphinx Extension: sourceref"},
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python3",
+    }
+}
