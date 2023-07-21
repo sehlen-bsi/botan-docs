@@ -2,10 +2,7 @@ project: Changes since last Audit
 rst_ref: changes
 
 repo:
-  github_handle:  randombit/botan
   local_checkout: ../_build/botan
-  audit_ref_from: 3.0.0-alpha1
-  audit_ref_to:   3.1.1
 
 topics: topics
 cache: ../_build/audit_generator_cache

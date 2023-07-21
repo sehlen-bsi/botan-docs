@@ -27,3 +27,7 @@ def botan_github_handle() -> str:
 def botan_git_ref() -> str:
     """ The git reference of the currently targeted Botan source revision """
     return __get_or_throw("BOTAN_REF")
+
+def botan_git_base_ref() -> str:
+    """ The git reference of the previously audited Botan source revision """
+    return __get_or_throw("BOTAN_BASE_REF")

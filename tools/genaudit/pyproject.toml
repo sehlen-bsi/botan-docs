@@ -10,6 +10,8 @@ pygithub = "~1.59"
 pyyaml = "^6.0"
 Jinja2 = "^3.0"
 
+auditinfo = { path = "../auditinfo", develop = true }
+
 [tool.poetry.dev-dependencies]
 
 [build-system]

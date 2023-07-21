@@ -13,6 +13,8 @@ from genaudit.topic import Topic
 from genaudit.refs import PullRequest, Commit
 from genaudit import util
 
+import auditinfo
+
 class Audit:
     def __init__(self, audit_dir: str):
         self.config_file = os.path.join(audit_dir, "config.yml")
@@ -30,12 +32,12 @@ class Audit:
         self.cache_location = cfg['cache'] if 'cache' in cfg else None
         self.fail_on_load_error = cfg.get('fail_on_load_error', False)
 
-        util.check_keys("Repo", cfg['repo'].keys(), ['github_handle', 'local_checkout', 'audit_ref_from', 'audit_ref_to'])
+        util.check_keys("Repo", cfg['repo'].keys(), ['local_checkout'])
 
-        self.github_handle = cfg['repo']['github_handle']
+        self.github_handle = auditinfo.botan_github_handle()
         self.local_checkout = cfg['repo']['local_checkout']
-        self.git_ref_from = cfg['repo']['audit_ref_from']
-        self.git_ref_to = cfg['repo']['audit_ref_to']
+        self.git_ref_from = auditinfo.botan_git_base_ref()
+        self.git_ref_to = auditinfo.botan_git_ref()
 
         self.ignore_list = self._load_ignore_list(cfg['ignore']) if 'ignore' in cfg else []
         self.topics = self._load_topics(os.path.join(audit_dir, cfg['topics']))

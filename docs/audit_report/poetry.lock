@@ -190,6 +190,7 @@ python-versions = "^3.10"
 develop = true
 
 [package.dependencies]
+auditinfo = {path = "../auditinfo", develop = true}
 Jinja2 = "^3.0"
 pygithub = "~1.59"
 pyyaml = "^6.0"
