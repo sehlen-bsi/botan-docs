@@ -26,7 +26,7 @@ copyright = '2023, Rohde & Schwarz'
 author = 'Rohde & Schwarz'
 
 # The full version, including alpha/beta/rc tags
-release = '1.1.0'
+release = auditinfo.botan_version()
 
 
 # -- General configuration ---------------------------------------------------

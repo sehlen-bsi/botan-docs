@@ -423,7 +423,7 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "35db06d2d9c00ef996f496630532cd7398a61fd12c1eadb858d3d8bc1f6fe0b2"
+content-hash = "540c1ac1e68bde045f99787fbfbff15e7a58a7068a7b05e767c3452a8a726de8"
 
 [metadata.files]
 alabaster = []

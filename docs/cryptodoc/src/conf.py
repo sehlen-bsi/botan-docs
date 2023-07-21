@@ -6,6 +6,8 @@
 
 from pylatexenc.latexencode import unicode_to_latex
 
+import auditinfo
+
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -23,7 +25,7 @@ project = 'Cryptographic Documentation'
 author = 'Rohde & Schwarz'
 
 # The full version, including alpha/beta/rc tags
-release = '1.5.0'
+release = auditinfo.botan_version()
 
 
 # -- General configuration ---------------------------------------------------

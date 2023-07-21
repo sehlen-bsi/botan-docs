@@ -29,7 +29,7 @@ will typically also have instructions to support one of the hardware-backend
 implementations nowadays.
 
 .. [#aes_64_128_bit_bitsliced_impl]
-   https://github.com/randombit/botan/blob/3.0.0-alpha1/src/lib/block/aes/aes.cpp#L29-L38
+   https://github.com/randombit/botan/blob/3.1.1/src/lib/block/aes/aes.cpp#L30-L39
 
 The assembly implementation is based on vector permutation instructions. It
 supports the Supplemental Streaming SIMD Extensions 3 (SSSE3)
