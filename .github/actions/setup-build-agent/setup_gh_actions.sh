@@ -24,6 +24,12 @@ setup_softhsm_and_tpm_linux() {
     echo "PKCS11_LIB=/usr/lib/softhsm/libsofthsm2.so" >> "$GITHUB_ENV"
 }
 
+setup_softhsm_macos() {
+    brew install softhsm
+    softhsm2-util --init-token --free --label test --pin 123456 --so-pin 12345678
+    echo "PKCS11_LIB=/usr/local/lib/softhsm/libsofthsm2.so" >> "$GITHUB_ENV"
+}
+
 if type -p "apt-get"; then
     sudo apt-get -qq update
     sudo apt-get -qq install ccache
@@ -43,6 +49,10 @@ if type -p "apt-get"; then
 
     elif [ "$TARGET" = "pdf_docs" ]; then
         sudo apt-get -qq install doxygen python3-docutils python3-sphinx latexmk texlive-latex-extra
+
+    elif [ "$TARGET" = "test-report" ]; then
+        sudo apt-get -qq install pandoc python3-pypandoc texlive-latex-extra python3-junitparser
+
     fi
 else
     export HOMEBREW_NO_AUTO_UPDATE=1
@@ -50,6 +60,7 @@ else
 
     if [ "$TARGET" = "shared" ]; then
         brew install boost
+        setup_softhsm_macos
     fi
 
     sudo xcrun xcode-select --switch '/Applications/Xcode_14.3.1.app/Contents/Developer'

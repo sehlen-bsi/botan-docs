@@ -28,6 +28,35 @@ def get_concurrency():
     except ImportError:
         return def_concurrency
 
+def human_readable_os_identifier():
+    sysname = platform.system()
+    if sysname == 'Linux':
+        if sys.version_info >= (3, 10):
+            try:
+                return platform.freedesktop_os_release()['PRETTY_NAME'] # pylint: disable=no-member
+            except OSError:
+                pass
+        return sysname
+    elif sysname == 'Windows':
+        winver = platform.win32_ver()
+        # In November 2022 the GitHub Actions image 'windows-2019' was using
+        # Python 3.7 forcing us to fall back in this case.
+        winedition = platform.win32_edition() if sys.version_info >= (3, 8) else ''
+        return "Windows %s %s %s" % (winver[0], winedition, winver[2])
+    elif sysname == 'Darwin':
+        return 'macOS %s' % platform.mac_ver()[0]
+    else:
+        return platform.platform()
+
+def human_readable_os_version():
+    sysname = platform.system()
+    if sysname == 'Windows':
+        return platform.win32_ver()[1]
+    elif sysname == 'Darwin':
+        return 'Darwin %s' % platform.release()
+    else:
+        return platform.release()
+
 def known_targets():
     return [
         'coverage',
@@ -51,7 +80,7 @@ def build_targets(target, target_os):
     yield 'tests'
 
 def determine_flags(target, target_os, target_cc, ccache,
-                    root_dir, build_dir, test_results_dir, disabled_tests):
+                    root_dir, build_dir, pkcs11_lib, test_results_dir, disabled_tests):
     """
     Return the configure.py flags as well as the test cmd.
     """
@@ -68,20 +97,6 @@ def determine_flags(target, target_os, target_cc, ccache,
     # render 'disabled_tests' array into test_cmd
     if disabled_tests:
         test_cmd += ['--skip-tests=%s' % (','.join(disabled_tests))]
-
-    # generate JUnit test report
-    if test_results_dir:
-        if not os.path.isdir(test_results_dir):
-            raise Exception("Test results directory does not exist")
-
-        def sanitize_kv(some_string):
-            return some_string.replace(':', '').replace(',', '')
-
-        report_props = {"ci_target": target, "os": target_os}
-
-        test_cmd += ['--test-results-dir=%s' % test_results_dir]
-        test_cmd += ['--report-properties=%s' %
-                     ','.join(['%s:%s' % (sanitize_kv(k), sanitize_kv(v)) for k, v in report_props.items()])]
 
     install_prefix = tempfile.mkdtemp(prefix='botan-install-')
 
@@ -133,8 +148,35 @@ def determine_flags(target, target_os, target_cc, ccache,
             if 'BOOST_INCLUDEDIR' in os.environ:
                 flags += ['--with-external-includedir', os.environ.get('BOOST_INCLUDEDIR')]
 
-    if target_os == 'linux':
-        flags += ['--with-tpm']
+    # if target_os == 'linux':
+    #     flags += ['--with-tpm']
+    if test_cmd and pkcs11_lib and os.access(pkcs11_lib, os.R_OK):
+        test_cmd += ['--pkcs11-lib=%s' % (pkcs11_lib)]
+
+    # generate JUnit test report
+    if test_results_dir:
+        if not os.path.isdir(test_results_dir):
+            raise Exception("Test results directory does not exist")
+
+        def sanitize_kv(some_string):
+            return some_string.replace(':', '').replace(',', ';')
+
+        report_props = {
+            "ci_target":   target,
+            "os":          target_os,
+            "os_name":     human_readable_os_identifier(),
+            "os_version": human_readable_os_version(),
+            "command": ' '.join(test_cmd),
+            "build_configuration": 'configure.py %s' % ' '.join(flags),
+            # TODO: compiler, compiler_version, architecture
+            "compiler": '<compiler>',
+            "compiler_version": '<compiler_version>',
+            "architecture": '<architecture>',
+        }
+
+        test_cmd += ['--test-results-dir=%s' % test_results_dir]
+        test_cmd += ['--report-properties=%s' %
+                     ','.join(['%s:%s' % (sanitize_kv(k), sanitize_kv(v)) for k, v in report_props.items()])]
 
     return flags, test_cmd
 
@@ -228,6 +270,9 @@ def parse_args(args):
     parser.add_option('--make-tool', metavar='TOOL', default='make',
                       help='Specify tool to run to build source (default %default).')
 
+    parser.add_option('--pkcs11-lib', default=os.getenv('PKCS11_LIB'), metavar='LIB',
+                      help='Set PKCS11 lib to use for testing')
+
     parser.add_option('--test-results-dir', default=None,
                       help='Directory to store JUnit XML test reports.')
 
@@ -280,8 +325,12 @@ def main(args):
 
     cmds = []
 
+    if options.test_results_dir:
+        os.makedirs(options.test_results_dir, exist_ok=True)
+
     config_flags, run_test_command = determine_flags(
         target, target_os, options.cc, compiler_cache, root_dir, build_dir,
+        options.pkcs11_lib,
         options.test_results_dir, options.disabled_tests)
 
     cmds.append([py_interp, os.path.join(root_dir, 'configure.py')] + config_flags)
