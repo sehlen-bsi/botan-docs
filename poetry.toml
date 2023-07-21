@@ -1,0 +1,5 @@
+[tool.poetry]
+virtualenvs.in-project = true
+
+[virtualenvs]
+in-project = true
