@@ -147,7 +147,7 @@ jobs:
         run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Setup Build Agent
-        uses: .github/actions/setup-build-agent
+        uses: ./.github/actions/setup-build-agent
         with:
           target: test-report
 
