@@ -117,3 +117,34 @@ jobs:
           --cc='${{ matrix.platform.compiler }}' --make-tool='${{ matrix.platform.make_tool }}'
           --disabled-tests=tls_extensions_key_share_client_hello
           ${{ matrix.target }}
+
+  source_archive:
+    name: "Source Archive"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
+
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+          ref: ${{ env.BOTAN_REF }}
+
+      - name: Generate Archive
+        run: python3 ${{ github.workspace }}/source/.github/scripts/tarball.py --output-dir build --source-dir botan
+
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Botan ${{ env.BOTAN_VERSION }} Source Archive
+          path: build/*.zip
