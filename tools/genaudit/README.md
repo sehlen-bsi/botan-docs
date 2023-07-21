@@ -98,12 +98,10 @@ along with the topic descriptions.
 
 ```yaml
 project: Changes since last Audit
+rst_ref: changes
 
 repo:
-  github_handle:  randombit/botan
   local_checkout: /path/to/local/repo/checkout
-  audit_ref_from: 3.0.0-alpha1
-  audit_ref_to:   3.0.0
 
 topics: topics_directory
 cache: /path/to/github/cache/directory  # (optional)
@@ -122,7 +120,7 @@ python3 -m genaudit.cli render -o <output_dir> <config_dir>
 ### Finding unreferenced Patches (`python3 -m genaudit.cli unrefed`)
 
 This is useful to find patches that landed in the relevant audit interval
-(`audit_ref_from` through `audit_ref_to`) but are not referenced in any topic
+(see `config/botan.env`) but are not referenced in any topic
 description file, yet. It allows to render these patches in a compatible YAML
 format right away to simplify the auditing workflow.
 
