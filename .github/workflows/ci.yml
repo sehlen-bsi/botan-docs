@@ -28,7 +28,7 @@ jobs:
       - name: Setup Environment Configuration
         uses: ./.github/actions/setup-environment
         with:
-          env_file: ./.github/environment/botan.env
+          env_file: ./config/botan.env
 
       - name: Install Build Dependencies
         run: |
@@ -63,7 +63,7 @@ jobs:
       - name: Setup Environment Configuration
         uses: ./.github/actions/setup-environment
         with:
-          env_file: ./.github/environment/botan.env
+          env_file: ./config/botan.env
 
       - name: Install Build Dependencies
         run: |
@@ -86,7 +86,7 @@ jobs:
       - name: Setup Environment Configuration
         uses: ./source/.github/actions/setup-environment
         with:
-          env_file: ./source/.github/environment/botan.env
+          env_file: ./source/config/botan.env
 
       - name: Fetch Botan Repository
         uses: actions/checkout@v3
