@@ -53,24 +53,6 @@ language = 'en'
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-
-# -- Options for botan_src_path extension ------------------------------------
-
-# ATTENTION ON RELEASE
-# ATTENTION ON RELEASE
-# ATTENTION ON RELEASE
-#
-#   Change this to the Botan GitHub tag this document is referring to,
-#   before cutting a revision of the crypto documentation.
-#
-#   TODO: Add a more reliable way or some sort of checklist to avoid
-#         forgetting this before cuttung a release.
-#
-# ATTENTION ON RELEASE
-# ATTENTION ON RELEASE
-# ATTENTION ON RELEASE
-src_ref_reference = '3.1.1'
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
