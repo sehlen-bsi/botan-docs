@@ -173,7 +173,7 @@ jobs:
         if: always()
         with:
           name: Test Report
-          path: test-report-*.*
+          path: test-report.pdf
           if-no-files-found: error
 
   source_archive:
