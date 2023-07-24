@@ -16,6 +16,6 @@ runs:
       if: runner.os != 'Windows'
 
     - name: Set Environment Variables
-      run: python3 ${{ github.action_path }}/../../scripts/read_environment.py ${{ inputs.env_file }} >> $GITHUB_ENV
+      run: python3 ${{ github.action_path }}/../../scripts/read_environment.py ${{ inputs.env_file }}  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
       shell: pwsh
       if: runner.os == 'Windows'
