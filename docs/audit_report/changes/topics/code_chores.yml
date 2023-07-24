@@ -71,7 +71,6 @@ patches:
 - pr: 3410  # https://github.com/randombit/botan/pull/3410
   merge_commit: d321603c31c3ec42df7f4d89c54a66990821f4e1
   classification: info
-  auditer: reneme
 
 # Chore: AEAD_Mode can deal with generic containers  (@reneme)
 - pr: 3317  # https://github.com/randombit/botan/pull/3317

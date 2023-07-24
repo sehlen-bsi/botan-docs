@@ -40,10 +40,12 @@ patches:
 # Update editor configurations  (@Jack Lloyd)
 - commit: 42ec00c272ad4958eb8637766f9949bde76fa589  # https://github.com/randombit/botan/commit/42ec00c272ad4958eb8637766f9949bde76fa589
   classification: out of scope
+  auditer: reneme
 
 # Update emacs config for new style  (@Jack Lloyd)
 - commit: 552c979bbaaa402a60d5d577d3aad98df3560eaa  # https://github.com/randombit/botan/commit/552c979bbaaa402a60d5d577d3aad98df3560eaa
   classification: out of scope
+  auditer: reneme
 
 # Add a script to analyze output of `botan timing_test` [ci skip]  (@Jack Lloyd)
 - commit: 49cb42470d670f9c9b102a2c5bbf0492d9f9254a  # https://github.com/randombit/botan/commit/49cb42470d670f9c9b102a2c5bbf0492d9f9254a

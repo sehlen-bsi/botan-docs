@@ -83,6 +83,7 @@ patches:
 - pr: 3326  # https://github.com/randombit/botan/pull/3326
   merge_commit: 393a91d4f6971b0c2cd205850e1eebd1ce6e3921
   classification: info
+  auditer: reneme
 
 # Remove OID::operator+  (@randombit)
 - pr: 3331  # https://github.com/randombit/botan/pull/3331

@@ -85,6 +85,7 @@ patches:
   comment: |
     Rename the Tonelli-Shanks algorithm symbol. Also, add
     a fix to support the prime number 2.
+  auditer: FAlbertDev
 
 # Fix a bug in SRP6  (@randombit)
 - pr: 3236  # https://github.com/randombit/botan/pull/3236
