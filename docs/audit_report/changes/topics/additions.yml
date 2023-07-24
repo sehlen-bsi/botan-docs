@@ -106,6 +106,7 @@ patches:
 - pr: 3536  # https://github.com/randombit/botan/pull/3536
   merge_commit: 8b3dff8896c9f157c86c7469702acd1519e7752a
   classification: out of scope
+  auditer: FAlbertDev
 
 # Add env var to clear CPUID bits  (@randombit)
 - pr: 3535  # https://github.com/randombit/botan/pull/3535

@@ -47,6 +47,7 @@ patches:
 - pr: 3361  # https://github.com/randombit/botan/pull/3361
   merge_commit: e4f32b8f930a64763e8e27ceec76a1e499bbd296
   classification: out of scope
+  auditer: reneme
 
 # Introduce view functions to the FFI layer  (@randombit)
 - pr: 3360  # https://github.com/randombit/botan/pull/3360
@@ -122,6 +123,7 @@ patches:
 - pr: 3214  # https://github.com/randombit/botan/pull/3214
   merge_commit: a53b274e48f9e101e65e555be6c95fe7150faced
   classification: out of scope
+  auditer: FAlbertDev
 
 # expose kyber 512/768/1024 in the ffi interface  (@alexanderkjall)
 - pr: 3546  # https://github.com/randombit/botan/pull/3546

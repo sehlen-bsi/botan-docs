@@ -122,9 +122,20 @@ Changelog
    |         |          | - ``CMAC::poly_double()`` removed           |            |
    |         |          | - Adapt to file moves                       |            |
    +---------+----------+---------------------------------------------+------------+
-   | 3.1.1   | FA, RM   | Update to 3.1.1:                            | TBD        |
-   |         |          |                                             |            |
+   | 3.1.1   | FA, RM,  | Update to 3.1.1:                            | TBD        |
+   |         | AT, PL   |                                             |            |
    |         |          | - Document version is now synchronized with |            |
    |         |          |   the respective Botan release version      |            |
    |         |          | - XMSS with NIST's keygen and parameters    |            |
+   |         |          | - Hash trunction in ECKCDSA                 |            |
+   |         |          | - Implementation updates in the RNG         |            |
+   |         |          | - New PQC algorithms                        |            |
+   |         |          |   - Kyber                                   |            |
+   |         |          |   - Dilithium                               |            |
+   |         |          |   - SPHINCS+                                |            |
+   |         |          | - New classical algorithms                  |            |
+   |         |          |   - Argon2                                  |            |
+   |         |          |   - Blake2b                                 |            |
+   |         |          |   - SHAKE                                   |            |
+   |         |          |   - HKDF                                    |            |
    +---------+----------+---------------------------------------------+------------+

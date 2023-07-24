@@ -14,7 +14,9 @@ post-quantum secure algorithms to Botan.
 The library will be provided to manufacturers of VS-NfD products, which will help
 the Federal Office for Information Security (BSI) to evaluate these products.
 
-This document specifies test cases implemented in the library's test suite.
+This document tracks the changes and their audit results between two library
+revisions. Typically audit iterations are performed starting from the previous
+audit target revision to establish a new audited revision.
 
 **Authors**
 

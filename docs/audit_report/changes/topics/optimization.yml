@@ -97,6 +97,7 @@ patches:
   merge_commit: 1881cd8ed31c4ba6c36cdb4dc93c9e89746ecf3d
   classification: out of scope
   comment: AVX512 support for ChaCha and Serpent (both out of scope)
+  auditer: FAlbertDev
 
 # Small base64 optimization  (@randombit)
 - pr: 3528  # https://github.com/randombit/botan/pull/3528
