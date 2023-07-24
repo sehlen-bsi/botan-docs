@@ -104,12 +104,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: ./botan
-          # TODO: env.BOTAN_REPO / env.BOTAN_REF is broken on Windows
-          # repository: ${{ env.BOTAN_REPO }}
-          repository: randombit/botan
+          repository: ${{ env.BOTAN_REPO }}
           fetch-depth: 0
-          # ref: ${{ env.BOTAN_REF }}
-          ref: 3.1.1
+          ref: ${{ env.BOTAN_REF }}
 
       - name: Setup Build Agent
         uses: ./source/.github/actions/setup-build-agent
@@ -144,10 +141,17 @@ jobs:
       - name: Fetch Audit Repository
         uses: actions/checkout@v3
 
-      # TODO: Fix short_sha
-      - name: Shorten the Git SHA
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+          ref: ${{ env.BOTAN_REF }}
+
+      - name: Botan Git SHA
         id: vars
-        run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: echo "botan_sha=$(git -C botan rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: Setup Build Agent
         uses: ./.github/actions/setup-build-agent
@@ -161,12 +165,11 @@ jobs:
           path: junit_reports
 
       - name: Generate Test Report
-        # TODO: Fix git-refname / git-refsha
         # TODO: Do we need the rst output?
         # TODO: Should bsi_test_report.py be a proper "tool"?
         run: |
-             python3 tools/bsi_test_report.py --preamble docs/testreport/testreport_preamble.rst --git-refname ${{ github.ref_name }} --git-refsha ${{ github.sha }} --format=rst junit_reports test-report-${{ steps.vars.outputs.short_sha }}.rst
-             python3 tools/bsi_test_report.py --preamble docs/testreport/testreport_preamble.rst --git-refname ${{ github.ref_name }} --git-refsha ${{ github.sha }} --format=pdf junit_reports test-report-${{ steps.vars.outputs.short_sha }}.pdf
+             python3 tools/bsi_test_report.py --preamble docs/testreport/testreport_preamble.rst --git-refname ${{ env.BOTAN_REF }} --git-refsha ${{ steps.vars.outputs.botan_sha }} --format=rst junit_reports test-report.rst
+             python3 tools/bsi_test_report.py --preamble docs/testreport/testreport_preamble.rst --git-refname ${{ env.BOTAN_REF }} --git-refsha ${{ steps.vars.outputs.botan_sha }} --format=pdf junit_reports test-report.pdf
       - name: Store Test Report
         uses: actions/upload-artifact@v3
         if: always()
