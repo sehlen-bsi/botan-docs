@@ -3,7 +3,7 @@ title: Build and Configuration System
 description: |
   This mostly tweaks the build system with minor new features useful for
   maintainers of the library. Some patches enable certain functionality that
-  influence the libraries security characteristics or change the BSI build
+  influence the library's security characteristics or change the BSI build
   policy.
 
 patches:
