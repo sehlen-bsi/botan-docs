@@ -34,5 +34,7 @@
    +---------+---------+--------------------------------------------------------------+------------+
    | 2.1.2   | RM      | - Überführung des Dokumentes nach reStructuredText           | 12.04.2023 |
    +---------+---------+--------------------------------------------------------------+------------+
-   | 3.1.1   | RM      | - Dokumentversion nun synchron mit der Botan Version         | 21.07.2023 |
+   | 3.1.1   | RM      | - Dokumentversion nun synchron mit der Botan Version         | TBD        |
+   |         |         | - Beschreibung der neuen Audit-Methode basierend auf GitHub  |            |
+   |         |         |   Patches                                                    |            |
    +---------+---------+--------------------------------------------------------------+------------+
