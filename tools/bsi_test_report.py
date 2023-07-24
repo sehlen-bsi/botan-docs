@@ -134,11 +134,15 @@ class Testsuites(junitparser.JUnitXml):
         return sum(asserts)
 
     def _format_command(self, command):
-        cmd = command.replace('\\', '/').replace(';', ',:raw-latex:`\\allowbreak` ').split(' --')
+        cmd = re.sub(r"^.+botan-test", "botan-test", command) \
+            .replace('\\', '/') \
+            .replace(';', ',:raw-latex:`\\allowbreak` ') \
+            .split(' --')
 
         def irrelevant_params(param):
             filtered_params = ['prefix', 'report-properties',
-                               'with-external-includedir', 'test-results-dir']
+                               'with-external-includedir', 'test-results-dir',
+                               'with-build-dir','data-dir']
             for p in filtered_params:
                 if param.startswith(p):
                     return False
