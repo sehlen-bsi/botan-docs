@@ -134,7 +134,7 @@ class Testsuites(junitparser.JUnitXml):
         return sum(asserts)
 
     def _format_command(self, command):
-        cmd = command.replace(';', ',').replace('\\', '/').split(' --')
+        cmd = command.replace('\\', '/').replace(';', ',:raw-latex:`\\allowbreak` ').split(' --')
 
         def irrelevant_params(param):
             filtered_params = ['prefix', 'report-properties',
