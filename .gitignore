@@ -1,3 +1,6 @@
 **/_build/
 **/__pycache__/*
 *.pyc
+
+# this symlink is required for technical reasons but must not be committed
+docs/audit_report/src/changes
