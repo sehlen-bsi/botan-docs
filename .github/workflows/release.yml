@@ -165,10 +165,8 @@ jobs:
           path: junit_reports
 
       - name: Generate Test Report
-        # TODO: Do we need the rst output?
         # TODO: Should bsi_test_report.py be a proper "tool"?
         run: |
-             python3 tools/bsi_test_report.py --preamble docs/testreport/testreport_preamble.rst --git-refname ${{ env.BOTAN_REF }} --git-refsha ${{ steps.vars.outputs.botan_sha }} --format=rst junit_reports test-report.rst
              python3 tools/bsi_test_report.py --preamble docs/testreport/testreport_preamble.rst --git-refname ${{ env.BOTAN_REF }} --git-refsha ${{ steps.vars.outputs.botan_sha }} --format=pdf junit_reports test-report.pdf
       - name: Store Test Report
         uses: actions/upload-artifact@v3
