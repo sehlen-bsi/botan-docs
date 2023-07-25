@@ -1,7 +1,12 @@
 name: Release
 
 on:
-  - workflow_dispatch
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/**
+      - docs/testreport/**
+      - config/botan.env
 
 permissions:
   contents: read
@@ -103,6 +108,9 @@ jobs:
           fetch-depth: 0
           ref: ${{ env.BOTAN_REF }}
 
+      - name: Apply Patch to Botan
+        run: git -C botan apply ${{ github.workspace }}/source/docs/testreport/test_properties.patch
+
       - name: Setup Build Agent
         uses: ./source/.github/actions/setup-build-agent
         with:
@@ -116,7 +124,72 @@ jobs:
           --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
           --cc='${{ matrix.platform.compiler }}' --make-tool='${{ matrix.platform.make_tool }}'
           --disabled-tests=tls_extensions_key_share_client_hello
+          --test-results-dir=junit_reports
           ${{ matrix.target }}
+
+      - name: Store JUnit Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: junit
+          path: junit_reports/*.xml
+          if-no-files-found: error
+
+  test_report:
+    name: "Generate Test Report"
+    needs: bsi_tests
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
+
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+          ref: ${{ env.BOTAN_REF }}
+
+      - name: Botan Git SHA
+        id: vars
+        run: echo "botan_sha=$(git -C botan rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Setup Build Agent
+        uses: ./source/.github/actions/setup-build-agent
+        with:
+          target: test-report
+
+      - name: Fetch JUnit Reports
+        uses: actions/download-artifact@v3
+        with:
+          name: junit
+          path: junit_reports
+
+      - name: Generate Test Report
+        run: >-
+          python3 ./source/docs/testreport/bsi_test_report.py
+          --preamble ./source/docs/testreport/testreport_preamble.rst
+          --git-refname ${{ env.BOTAN_REF }}
+          --git-refsha ${{ steps.vars.outputs.botan_sha }}
+          --botan-version ${{ env.BOTAN_VERSION }}
+          --format=pdf
+          junit_reports test-report.pdf
+      - name: Store Test Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Test Report
+          path: test-report.pdf
+          if-no-files-found: error
 
   source_archive:
     name: "Source Archive"
