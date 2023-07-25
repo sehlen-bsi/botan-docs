@@ -6,7 +6,6 @@ on:
     paths:
       - .github/**
       - docs/testreport/**
-      - tools/bsi_test_report.py
 
 permissions:
   contents: read
@@ -165,9 +164,8 @@ jobs:
           path: junit_reports
 
       - name: Generate Test Report
-        # TODO: Should bsi_test_report.py be a proper "tool"?
         run: >-
-          python3 tools/bsi_test_report.py
+          python3 docs/testreport/bsi_test_report.py
           --preamble docs/testreport/testreport_preamble.rst
           --git-refname ${{ env.BOTAN_REF }}
           --git-refsha ${{ steps.vars.outputs.botan_sha }}
