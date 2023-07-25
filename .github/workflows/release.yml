@@ -108,6 +108,9 @@ jobs:
           fetch-depth: 0
           ref: ${{ env.BOTAN_REF }}
 
+      - name: Apply Patch to Botan
+        run: git -C botan apply ${{ github.workspace }}/source/docs/testreport/test_properties.patch
+
       - name: Setup Build Agent
         uses: ./source/.github/actions/setup-build-agent
         with:
@@ -159,9 +162,6 @@ jobs:
       - name: Botan Git SHA
         id: vars
         run: echo "botan_sha=$(git -C botan rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Apply Patch to Botan
-        run: git -C botan apply ${{ github.workspace }}/source/docs/testreport/test_properties.patch
 
       - name: Setup Build Agent
         uses: ./source/.github/actions/setup-build-agent
