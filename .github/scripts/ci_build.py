@@ -168,10 +168,6 @@ def determine_flags(target, target_os, target_cc, ccache,
             "os_version": human_readable_os_version(),
             "command": ' '.join(test_cmd),
             "build_configuration": 'configure.py %s' % ' '.join(flags),
-            # TODO: compiler, compiler_version, architecture
-            "compiler": '<compiler>',
-            "compiler_version": '<compiler_version>',
-            "architecture": '<architecture>',
         }
 
         test_cmd += ['--test-results-dir=%s' % test_results_dir]

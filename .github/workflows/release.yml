@@ -159,6 +159,9 @@ jobs:
         id: vars
         run: echo "botan_sha=$(git -C botan rev-parse HEAD)" >> $GITHUB_OUTPUT
 
+      - name: Apply Patch to Botan
+        run: git -C botan apply ./source/docs/testreport/test_properties.patch
+
       - name: Setup Build Agent
         uses: ./.github/actions/setup-build-agent
         with:
