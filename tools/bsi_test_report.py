@@ -12,40 +12,6 @@ from datetime import datetime, date
 import junitparser
 
 
-def parse_version_file(version_path):
-    key_and_val = re.compile(r"^([a-z_]*) = (?:'([^']*)'|([a-zA-Z0-9:\-]+))$")
-
-    results = {}
-    with open(version_path, encoding='utf-8') as version_file:
-        for line in version_file.readlines():
-            match = key_and_val.match(line)
-            if not match:
-                continue
-
-            key = match.group(1)
-            strval = match.group(2)
-            intval = match.group(3)
-            assert (strval == None) ^ (intval == None)
-
-            if strval is not None:
-                results[key] = strval
-            elif intval == 'None':
-                results[key] = None
-            else:
-                results[key] = int(intval)
-
-    return results
-
-
-def get_botan_version_string():
-    # TODO: fix with build dir
-    # TODO: fix with build dir
-    return '9.9.9'
-    kv = parse_version_file(os.path.join(
-        os.path.dirname(__file__), '../build-data/version.txt'))
-    return '%d.%d.%d%s' % (kv['release_major'], kv['release_minor'], kv['release_patch'], kv['release_suffix'])
-
-
 def apply_template_variables(template, vars):
     value_pattern = re.compile(r'%{([a-z][a-z_0-9]+)}')
 
@@ -225,7 +191,7 @@ class Report:
             self.preamble = self._headline("Botan Test Report")
 
         self.preamble = apply_template_variables(self.preamble, {
-            'botan_version': get_botan_version_string(),
+            'botan_version': args.botan_version or 'Unknown',
             'botan_git_sha': args.git_refsha or 'Unknown',
             'botan_git_ref': args.git_refname or 'Unknown',
             'date_today':    date.today()
@@ -271,6 +237,8 @@ def main():
                         help='Reference string to identify the respective source revision (e.g. tag or branch name)')
     parser.add_argument('--git-refsha', default=None,
                         help='Reference commit SHA to identify the respective source revision')
+    parser.add_argument('--botan-version', default=None,
+                        help='The version of Botan that is currently being targeted by this documentation.')
 
     args = parser.parse_args()
 

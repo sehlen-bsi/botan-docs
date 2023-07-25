@@ -166,8 +166,14 @@ jobs:
 
       - name: Generate Test Report
         # TODO: Should bsi_test_report.py be a proper "tool"?
-        run: |
-             python3 tools/bsi_test_report.py --preamble docs/testreport/testreport_preamble.rst --git-refname ${{ env.BOTAN_REF }} --git-refsha ${{ steps.vars.outputs.botan_sha }} --format=pdf junit_reports test-report.pdf
+        run: >-
+          python3 tools/bsi_test_report.py
+          --preamble docs/testreport/testreport_preamble.rst
+          --git-refname ${{ env.BOTAN_REF }}
+          --git-refsha ${{ steps.vars.outputs.botan_sha }}
+          --botan-version ${{ env.BOTAN_VERSION }}
+          --format=pdf
+          junit_reports test-report.pdf
       - name: Store Test Report
         uses: actions/upload-artifact@v3
         if: always()
