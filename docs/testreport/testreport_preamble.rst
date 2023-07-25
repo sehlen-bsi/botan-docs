@@ -76,3 +76,6 @@ The following information is given for each test run:
 .. raw:: latex
 
    \pagebreak
+
+.. role:: raw-latex(raw)
+   :format: latex
