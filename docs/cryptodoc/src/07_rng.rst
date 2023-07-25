@@ -1016,3 +1016,43 @@ step 3.
 DARN twice and XORing the two results iff both succeed. In case one or both
 invocations fail (i.e. return ``0xFF..FF``), the action is retried 512 times. If
 the failure persists it is escalated to the user as an exception.
+
+
+.. _pubkey_param/rng:
+
+Random Number Generation for Probabilistic Public Key Algorithms
+----------------------------------------------------------------
+
+The algorithms analyzed in this document often require random number generation
+from a specific range. Typical random number generators only generate numbers
+from a range :math:`r \in {\{{0,...,{2^{n} - 1}}\}}`, where ``n`` is the maximum
+bit size of a generated number. This is not suitable, for example, for the
+generation of random parameters for DSA signatures.
+
+In order to generate integers from an arbitrary range as required for the implemented public key algorithms,
+Botan uses the ``BigInt::random_integer()`` method (implemented in :srcref:`src/lib/math/bigint/big_rand.cpp`).
+It works as follows:
+
+.. admonition:: ``BigInt::random_integer()``
+
+   **Input:**
+
+   -  ``rng``: random number generator (see :ref:`rng/main` for available algorithms)
+   -  ``min``: integer lower bound of desired range
+   -  ``max``: integer upper bound of desired range, excluding ``max``
+
+   **Output:**
+
+   -  ``r``: :math:`min \leq r < max`
+
+   **Steps:**
+
+   1. Preliminary parameter requirement checks are conducted. ``min`` must be
+      smaller than ``max``, and neither can be negative.
+   2. Retrieve the bit length ``n`` of the ``max`` value.
+   3. Use ``rng`` to generate :math:`r \in {\{{0,...,{2^{n} - 1}}\}}`.
+   4. if (:math:`min \leq r < max`) return ``r``.
+   5. Go to Step 3.
+
+**Conclusion:** The algorithm is a slight adaptation of Algorithm B.1 in Section B.4 of [TR-02102-1]_
+and thus complies with the recommendations in [TR-02102-1]_.
