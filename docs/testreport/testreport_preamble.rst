@@ -38,6 +38,7 @@ This document reports the test results of the Botan test suite.
 | Daniel Neus (DN)
 | René Fischer (RK)
 | René Meusel (RM)
+| Philippe Lieser (PL)
 
 **Copyright**
 
@@ -46,37 +47,6 @@ copyright law without explicit permission by the
 Federal Office for Information Security (BSI) is forbidden and will be prosecuted.
 This holds especially for the reproduction, translation, microfilming and
 storing and processing in electronic systems.
-
-.. raw:: latex
-
-   \pagebreak
-
-Changelog
-=========
-
-.. table::
-   :class: longtable
-
-   +---------+----------+---------------------------------------------+------------+
-   | Version | Authors  | Comment                                     | Date       |
-   +=========+==========+=============================================+============+
-   | 1.0.0   | DN, RK   | Initial version                             | 2016-11-11 |
-   +---------+----------+---------------------------------------------+------------+
-   | 1.1.0   | RK       | Update to Botan 2.0.0                       | 2017-01-09 |
-   +---------+----------+---------------------------------------------+------------+
-   | 1.2.0   | DN       | Update to Botan 2.0.1-RSCS1                 | 2017-03-06 |
-   +---------+----------+---------------------------------------------+------------+
-   | 1.3.0   | RK       | Update to Botan 2.4.0                       | 2018-05-07 |
-   +---------+----------+---------------------------------------------+------------+
-   | 1.3.1   | RK       | Update to latest Botan 2.4.0-RSCS1          | 2018-05-07 |
-   +---------+----------+---------------------------------------------+------------+
-   | 1.4.0   | RK       | Update to Botan 2.14.0-RSCS1                | 2020-06-24 |
-   +---------+----------+---------------------------------------------+------------+
-   | 1.5.0   | RM       | Update to Botan 3.0.0-alpha1-BSI1           | 2022-11-21 |
-   +---------+----------+---------------------------------------------+------------+
-   | 2.0.0   | RM       | | Switch to automatically generated test    | -          |
-   |         |          | | report. End of the changelog.             |            |
-   +---------+----------+---------------------------------------------+------------+
 
 .. raw:: latex
 
