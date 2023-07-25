@@ -148,8 +148,8 @@ def determine_flags(target, target_os, target_cc, ccache,
             if 'BOOST_INCLUDEDIR' in os.environ:
                 flags += ['--with-external-includedir', os.environ.get('BOOST_INCLUDEDIR')]
 
-    # if target_os == 'linux':
-    #     flags += ['--with-tpm']
+    if target_os == 'linux':
+        flags += ['--with-tpm']
     if test_cmd and pkcs11_lib and os.access(pkcs11_lib, os.R_OK):
         test_cmd += ['--pkcs11-lib=%s' % (pkcs11_lib)]
 
