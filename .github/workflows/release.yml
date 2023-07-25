@@ -163,7 +163,7 @@ jobs:
         run: git -C botan apply ${{ github.workspace }}/source/docs/testreport/test_properties.patch
 
       - name: Setup Build Agent
-        uses: ./.github/actions/setup-build-agent
+        uses: ./source/.github/actions/setup-build-agent
         with:
           target: test-report
 
