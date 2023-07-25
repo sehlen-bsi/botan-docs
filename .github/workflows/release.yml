@@ -176,7 +176,7 @@ jobs:
       - name: Generate Test Report
         run: >-
           python3 ./source/docs/testreport/bsi_test_report.py
-          --preamble docs/testreport/testreport_preamble.rst
+          --preamble ./source/docs/testreport/testreport_preamble.rst
           --git-refname ${{ env.BOTAN_REF }}
           --git-refsha ${{ steps.vars.outputs.botan_sha }}
           --botan-version ${{ env.BOTAN_VERSION }}
