@@ -6,6 +6,7 @@ on:
     paths:
       - .github/**
       - docs/testreport/**
+      - config/botan.env
 
 permissions:
   contents: read
