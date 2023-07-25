@@ -39,9 +39,7 @@ def human_readable_os_identifier():
         return sysname
     elif sysname == 'Windows':
         winver = platform.win32_ver()
-        # In November 2022 the GitHub Actions image 'windows-2019' was using
-        # Python 3.7 forcing us to fall back in this case.
-        winedition = platform.win32_edition() if sys.version_info >= (3, 8) else ''
+        winedition = platform.win32_edition()
         return "Windows %s %s %s" % (winver[0], winedition, winver[2])
     elif sysname == 'Darwin':
         return 'macOS %s' % platform.mac_ver()[0]
