@@ -139,6 +139,13 @@ jobs:
     steps:
       - name: Fetch Audit Repository
         uses: actions/checkout@v3
+        with:
+          path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
 
       - name: Fetch Botan Repository
         uses: actions/checkout@v3
@@ -165,7 +172,7 @@ jobs:
 
       - name: Generate Test Report
         run: >-
-          python3 docs/testreport/bsi_test_report.py
+          python3 ./source/docs/testreport/bsi_test_report.py
           --preamble docs/testreport/testreport_preamble.rst
           --git-refname ${{ env.BOTAN_REF }}
           --git-refsha ${{ steps.vars.outputs.botan_sha }}
