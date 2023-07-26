@@ -1,0 +1,147 @@
+.. _pubkey/dsa:
+
+DSA
+===
+
+The Digital Signature Algorithm (DSA) is implemented in
+:srcref:`src/lib/pubkey/dsa/dsa.cpp`.
+The implementation follows [FIPS-186-4]_ or [RFC6979]_ if the corresponding module is enabled.
+
+Parameter Generation
+--------------------
+
+See :ref:`the Diffie-Hellman parameter generation <pubkey/dh/param_gen>` for
+details on how Botan allows to generate custom domain parameters for DSA.
+
+Key Generation
+--------------
+
+The DSA implementation offers the DSA Key classes ``DSA_PrivateKey`` and
+``DSA_PublicKey`` with respective constructors. A DSA public key consists
+of a discrete logarithmic group (DH parameter) and a public value ``y``.
+The associated private key contains an additional private parameter ``x``.
+A ``DSA_PrivateKey`` can be generated with the constructor
+``DSA_PrivateKey(RandomNumberGenerator& rng, const DL_Group& grp, const
+BigInt& x_arg)``. The implementation operates as follows:
+
+.. admonition:: ``DSA_PrivateKey()``
+
+   **Input:**
+
+   -  ``rng``: random number generator
+   -  ``grp``: DL_Group (**Z**/*p*\ **Z**)\* : ``p``, generator ``g`` with order
+      ``q``
+   -  ``x_arg``: private DSA parameter
+
+   **Output:**
+
+   -  DSA_PrivateKey: ``x``, ``y``, DL_Group (**Z**/*p*\ **Z**)\* : ``p``,
+      generator ``g`` with order ``q``
+
+   **Steps:**
+
+   1. If private value ``x_arg`` was provided, set ``x`` to ``x_arg``. Otherwise,
+      sample ``x`` as a random number :math:`r<x<q-1` from ``rng`` using the algorithm
+      described in Section :ref:`pubkey_param/rng`.
+   2. Compute public value ``y`` as :math:`g^x \bmod{p}`
+
+      Optional verification of the generated key with
+      ``check_key(RandomNumberGenerator& rng, bool strong)``. See DH key
+      generation check.
+
+DSA Signature Schemes
+---------------------
+
+For DSA signatures no padding is required. The only suitable signature
+scheme DL/ECSSA (EMSA1) [IEEE-1363-2000]_ uses a cryptographic hash function to compute a
+representative message with the length of ``q`` from the DSA public key.
+If the computed hash is longer than the specified ``output_bits`` (length of
+``q``), the algorithm returns only the ``output_bits`` highest bits of the
+computed hash.
+
+Signature Creation
+------------------
+
+The message representative created by the EMSA1 encoding algorithm is
+passed to ``raw_sign(const byte msg[], size_t
+msg_len,RandomNumberGenerator& rng)`` of class
+``DSA_Signature_Operation``. Botan computes the DSA signature with the
+following algorithm.
+
+.. admonition:: ``DSA_Signature_Operation::raw_sign()``
+
+   **Input:**
+
+   -  ``rng``: random number generator
+   -  ``m``: raw bytes to sign (EMSA1 encoded data)
+   -  DSA_PrivateKey: ``x``, ``y``, DL_Group
+
+   **Output:**
+
+   -  (``r``, ``s``): DSA signature
+
+   **Steps:**
+
+   1. Perform conditional subtractions :math:`m=m-q`, while :math:`m \geq q`.
+   2. Generate parameter ``k`` as a random number :math:`0<k<q` from the passed ``rng`` using
+      the algorithm described in Section :ref:`pubkey_param/rng` or as HMAC_DRBG
+      output [RFC6979]_. If Botan is compiled with the module ``rfc6979`` the
+      HMAC_DRBG is used, otherwise ``k`` is sampled from the passed random
+      number generator ``rng``. HMAC_DRBG is deterministic and k thus depends
+      on the HMAC_DRBG inputs ``m`` and ``x``.
+   3. Compute :math:`r=(g^k \bmod p) \bmod q` and :math:`k^{-1} \bmod q`.
+   4. Compute :math:`s=k^{-1}*(x*r+m)\bmod q`. Computation of :math:`x*r+m` is blinded by computing it as
+      :math:`(x*r*b+m*b)/b`.
+   5. If :math:`s=0 \lor r=0` applies, the algorithm terminates with an error.
+
+**Remark:** If Botan is built with the RFC6979 module, it implements
+deterministic DSA signatures, which are not covered by [TR-02102-1]_. In
+this case the implemented DSA signature algorithm is not [FIPS-186-4]_
+conform. This cryptographic construct does not need a random number
+generator during signature computation. However, the RFC6979 module is
+prohibited in the BSI module policy.
+
+Signature Verification
+----------------------
+
+To verify a DSA signature the function ``verify(const byte msg[], size_t
+msg_len, const byte sig[], size_t sig_len)`` in class
+``DSA_Verification_Operation`` is implemented. The function receives a
+signature, the respective EMSA1 processed message and the lengths of the
+parameters. The algorithm operates as follows:
+
+.. admonition:: ``DSA_Verification_Operation::verify()``
+
+   **Input:**
+
+   -  (``r``, ``s``): DSA signature
+   -  ``m``: message bytes
+   -  DSA_PublicKey: ``y``, DL_Group
+
+   **Output:**
+
+   -  ``true``, if the signature for message ``m`` is valid. ``false`` otherwise
+
+   **Steps:**
+
+   1. Verify that the signature :math:`({r,s})`
+      has length :math:`2 \ast \mathit{qbits}`
+      and :math:`m < q`
+      applies. If that is not the case, the signature is invalid and
+      ``false`` is returned.
+   2. Assure that
+      :math:`0 < r < {q \land 0} < s < q`
+      applies. Otherwise the signature is invalid and ``false`` is
+      returned.
+   3. Compute
+      :math:`{w = s^{- 1}}\bmod q`
+   4. Compute
+      :math:`{v_{i} = g^{{w \ast i}\bmod q}}\bmod p`
+      and
+      :math:`{v_{r} = y^{{w \ast r}\bmod q}}\bmod p`
+      .
+   5. Compute
+      :math:`{v = {v_{i} \ast v_{r}}}\bmod p`
+   6. Return ``true``, if
+      :math:`{v \equiv r}\bmod p`
+      applies and ``false`` otherwise.

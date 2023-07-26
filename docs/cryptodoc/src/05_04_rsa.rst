@@ -1,0 +1,446 @@
+.. _pubkey/rsa:
+
+RSA
+===
+
+Key Generation
+--------------
+
+The appropriate RSA key pair constructor
+``RSA_PrivateKey(RandomNumberGenerator& rng,size_t bits, size_t exp =
+65537)`` of class RSA_PrivateKey is called when generating a new RSA key
+pair. ``rng`` is a random number generator, ``bits`` the desired bit length
+of the modulus ``N`` and ``exp`` the public exponent to be used.
+
+The key generation process works as follows:
+
+.. admonition:: ``RSA_PrivateKey()``
+
+   **Input:**
+
+   -  ``rng``: random number generator
+   -  ``bits``: bit length of RSA modulus ``N``
+   -  ``e``: public exponent
+
+   **Output:**
+
+   -  ``RSA_PrivateKey``: the first prime ``p``, the second prime ``q``, the public exponent ``e``,
+      the modulus ``N``, the private exponent ``d``, and the additional values for CRT-RSA :math:`d_1`, :math:`d_2`, and :math:`c` (see below)
+
+   **Steps:**
+
+   1. The algorithm initially checks if the passed key length is at least
+      1024. If this is not the case, the function terminates with an error
+      message. Thus, only keys with a desired length of at least 1024 bits
+      can be generated.
+   2. Subsequently the passed exponent is validated, as it must be odd and
+      larger than 2.
+   3. If this step is reached the 10th time the generation fails.
+      The algorithm samples 2 primes by successively calling
+      ``generate_rsa_prime()`` from :srcref:`src/lib/math/numbertheory/make_prm.cpp`,
+      passing the public exponent as ``coprime``. The first prime ``p`` has a
+      bit length of :math:`\lceil \frac{bits}{2} \rceil` and the second prime ``q`` is
+      :math:`\lfloor \frac{bits}{2} \rfloor` long.
+   4. If the difference between ``p`` and ``q`` is not at least :math:`2^{bits/2 - 100}`,
+      go to step 3.
+   5. If the product of the resulting primes ``N`` has not the specified bit
+      length, go to step 3.
+   6. The private exponent ``d`` is computed as :math:`e^{-1} \bmod \text{lcm}(p-1,q-1)`. For this purpose, the
+      extended Euclidean algorithm, implemented in
+      :srcref:`src/lib/math/numbertheory/numthry.cpp`, is used.
+
+   7. Additional values needed for CRT-RSA are computed as follows.
+
+      -  :math:`{d_{1} = d}\bmod {({p - 1})}`
+      -  :math:`{d_{2} = d}\bmod {({q - 1})}`
+      -  :math:`{c = q^{- 1}}\bmod p`
+
+      The key values can be manually checked for consistency with the
+      ``check_key(RandomNumberGenerator& rng, bool strong)`` function. The
+      key pair fails the check if one of the following conditions is met:
+
+      -  :math:`N < 35`
+      -  :math:`N\bmod {2 = 0}`
+      -  :math:`e < 3`
+      -  :math:`e\bmod {2 = 0}`
+      -  :math:`d < 2`
+      -  :math:`p < 3`
+      -  :math:`q < 3`
+      -  :math:`{p \ast q} \neq N`
+      -  :math:`{d_{1} \neq d}\bmod {({p - 1})}`
+      -  :math:`{d_{2} \neq d}\bmod {({q - 1})}`
+      -  :math:`{c \neq q^{- 1}}\bmod p`
+      -  Miller-Rabin primality test of ``p`` or ``q`` fails with 7 (65 if
+         ``strong`` is true) test iterations. The test is performed with the
+         function ``is_prime()`` for non random numbers.
+      -  Lucas primality test of ``p`` or ``q`` fails.
+      -  Only if ``strong`` is true:
+
+         -  :math:`{e \ast d}\bmod \mathit{lcm}{{({{p - 1},{q - 1}})} \neq 1}`
+         -  The creation and verification of a test signature fails
+            (``signature_consistency_check()``)
+
+**Remark:**
+The algorithm slightly deviates from the method outlined in [TR-02102-1]_
+in that the interval used for the prime generation depends on the parity of ``bits``
+and :math:`p` and :math:`q` are chosen to be congruent to :math:`3` modulo :math:`4`.
+However, the interval is still sufficiently large and since about 25% of all pairs of odd primes satisfy the congruence condition,
+it is not expected that this restriction affects the security of the resulting RSA keys.
+
+**Conclusion:** The algorithm fulfills all main requirements listed in
+[TR-02102-1]_. The minimum possible bit length of the modulus N should be
+increased to the recommendation of 2000 bit.
+
+
+Asymmetric Encryption
+---------------------
+
+Botan implements RSA in :srcref:`src/lib/pubkey/rsa/rsa.cpp`. RSA encryption
+and decryption are implemented in classes ``RSA_Encryption_Operation``
+and ``RSA_Decryption_Operation``.
+
+The RSA encryption operation is implemented as follows:
+
+.. admonition:: RSA encryption
+
+   **Input:**
+
+   - ``m``: plain text message
+   -  RSA_PublicKey: the exponent ``e``, the modulus ``N``
+
+   **Output:**
+
+   - ``ct``: ciphertext
+
+   **Steps:**
+
+   1. Calculate :math:`ct = m^e \bmod N` using non-constant-time Montgomery
+      exponentiation
+
+The RSA decryption operation is implemented as follows:
+
+.. admonition:: RSA decryption
+
+   **Input:**
+
+   -  ``rng``: random number generator
+   -  ``ct``: ciphertext
+   -  RSA_PrivateKey: the first prime ``p``, the second prime ``q``, the exponent ``e``,
+      the modulus :math:`N = p*q`,
+      :math:`d = e^{-1} \bmod \text{lcm}(p-1, q-1)`,
+      :math:`d_1 = d \bmod (p-1)`,
+      :math:`d_2 = d \bmod (q-1)`,
+      :math:`c = q^{-1} \bmod p`
+
+   **Output:**
+
+   -  ``m``: decrypted message
+
+   **Steps:**
+
+   0. Before the first decryption: The random number generator ``rng`` is
+      used to initialize the blinding values :math:`m_e` and its inverse :math:`m_d`. Their length
+      is set to ``(m_modulus_bits - 1)``.
+   1. Blind ciphertext: :math:`ct' = ct*{m_e}^e \bmod N`
+   2. Use Chinese Remainder Theorem (CRT) to decrypt ``ct'`` and retrieve ``m'``
+
+      1. | Calculate :math:`S_p` and :math:`S_q` using constant-time Montgomery
+           exponentiation and masking for :math:`d_1` and :math:`d_2` as:
+         | :math:`C_p = ct' \bmod p`
+         | :math:`C_q = ct' \bmod q`
+         | :math:`S_p = {C_p}^{d_1} \bmod p`
+         | :math:`S_q = {C_q}^{d_2} \bmod q`
+      2. | Use Garner's algorithm to reconstruct ``m'`` as:
+         | :math:`S = c * ((p + S_p) - S_q) \bmod p`
+         | :math:`m' = S * q + C_q`
+         | *Note that* :math:`p + S_p` *is done to avoid a negative result for*
+           :math:`S_p - S_q` *that would otherwise have required handling with
+           a leaking branch.*
+
+   3. Unblind message ::math:`m = m' * m_d \bmod N`
+
+**Remark:** After each blinding step, the blinding values change:
+:math:`m_e = m_e * m_e \bmod N`, :math:`m_d = m_d * m_d \bmod N`.
+This is performed at most 64 times (defined in
+``BOTAN_BLINDING_REINIT_INTERVAL``). Afterwards, ``rng`` is used to
+generate new blinding values.
+
+**Conclusion:** The algorithm complies with [TR-02102-1]_
+as long as a suitable padding function was applied to the message input.
+Note that currently only RSA-OAEP is recommended.
+
+RSA-PKCS#1 v1.5
+^^^^^^^^^^^^^^^
+
+The PKCS#1 v1.5 padding has the form:
+
+.. code-block:: none
+
+   0x00 0x02    0xPP 0xPP 0xPP ....            0x00         0xMM 0xMM 0xMM ....
+   ^~ constant  ^~ random non-zero fill bytes  ^~ constant  ^~ message bytes
+                   (must be at least 8 bytes)
+
+The RSA-PKCS#1 v1.5 padding functionality is implemented in
+:srcref:`src/lib/pk_pad/eme_pkcs1/eme_pkcs.cpp`, in the methods ``pad`` and
+``unpad``.
+
+Padding a message ``k`` for a maximum input length ``l`` works as follows:
+
+.. admonition:: ``EME_PKCS1v15::pad()``
+
+   **Input:**
+
+   - ``k``: the message to be padded
+   - ``l``: the maximum raw input length for the given algorithm parameters [#rsa_pkcs1_input_length]_
+   - ``rng``: a random number generator
+
+   **Output**
+
+   - ``m``: padded message
+
+   **Steps:**
+
+   1. Check that :math:`len(k) <= l - 10`
+   2. Create an output buffer matching the maximum raw input length: :math:`l`
+   3. Set the first byte to ``0x02`` [#rsa_pkcs1_leading_zero]_
+   4. Fill the buffer with random non-zero values up to :math:`len(k) - 2`
+   5. Insert a ``0x00`` to separate padding and message bytes
+   6. Append the message bytes in ``k`` -- fully filling up the buffer
+
+.. [#rsa_pkcs1_input_length]
+   The maximum input length is defined as the RSA key length in bytes minus one.
+
+.. [#rsa_pkcs1_leading_zero]
+   PKCS #1 v1.5 mandates a leading zero byte. This is not reflected in the
+   padding implementation as it is implicitly added once the padded message is
+   cast into a ``BigInteger`` for RSA-encryption.
+
+From the security perspective, the unpadding method is crucial since it
+has to resist the Bleichenbacher attack [Blei]_, and has to provide
+timing constant validation. This method is implemented as follows:
+
+.. admonition:: ``EME_PKCS1v15::unpad()``
+
+   **Input:**
+
+   -  ``valid_mask``: message validity mask indicating whether the padding
+      structure was valid
+   -  ``m``: padded message
+   -  ``in_len``: message length
+
+   **Output:**
+
+   -  ``k``: unpadded message
+   -  ``valid_mask``: message validity mask indicating whether the padding
+      structure was valid
+
+   **Steps:**
+
+   1. ``bad_input_m = 0``
+   2. ``seen_zero_m = 0``
+   3. ``delim_idx = 2``
+   4. ``bad_input_m |= (m[0] != 0x00)``
+   5. ``bad_input_m |= (m[0] != 0x02)``
+   6. ``for (i = 2; i < |m|; i++)``
+
+      -  ``delim_idx += (seen_zero_m == 0) & 1``
+      -  ``seen_zero_m |= (m[i] == 0x00)``
+
+   7. ``bad_input_m |= ~seen_zero``
+   8. ``bad_input_m |= (delim_idx < 11)``
+   9. ``valid_mask = ~bad_input_m;``
+   10. Set ``k`` to the byte array behind the first ``0x00``
+   11. ``return k, valid_mask``
+
+**Remark:** For TLS, Botan uses a different unpadding function
+``decrypt_or_random()``, which is located in :srcref:`src/lib/pubkey/pubkey.cpp`.
+
+RSA-OAEP
+^^^^^^^^
+
+The RSA-OAEP functionality is implemented in
+:srcref:`src/lib/pk_pad/eme_oaep/oaep.cpp`, in the functions ``pad()`` and
+``unpad()``.
+
+Padding a message ``k`` for a key length ``l`` works as follows:
+
+.. admonition:: ``EME_PKCS1v15::pad()``
+
+   **Input:**
+
+   - ``k``: the message to be padded
+   - ``l``: the maximum raw RSA encryption input length for the given
+     algorithm parameters [#rsa_oaep_input_length]_
+   - ``rng``: a random number generator
+   - ``H()``: the utilized hash function (``len(H())`` denoting the hash's output length)
+
+   **Output**
+
+   - ``m``: padded message
+
+   **Steps:**
+
+   1. Check that :math:`len(k) <= l - 2 * len(H()) - 1`
+   2. Create an output buffer of length :math:`l` and pre-fill it with:
+
+      - a random seed ``s`` of length :math:`len(H())`
+      - the output of ``H("")`` [#oaep_label]_
+      - some zero bytes to fill the buffer entirely (as needed)
+      - ``0x01``
+      - the message ``k``
+
+   3. Generate and apply the MGF masks according to the RSA-OAEP specification.
+      First using the random seed in the buffer as input to ``H()`` xor-ing over
+      the remaining buffer. Then vice versa.
+
+   4. Return ``m`` as the resulting buffer  [#rsa_oaep_leading_zero]_
+
+.. [#rsa_oaep_input_length]
+   The maximum input length is defined as the RSA key length in bytes minus one.
+
+.. [#oaep_label]
+   The OAEP specification supports an optional "label" whose hash is incorporated
+   into the output buffer before applying the padding masks. Typically this is
+   left as the default: an empty string. For the sake of simplicity we assume
+   the typical case.
+
+.. [#rsa_oaep_leading_zero]
+   RSA-OAEP mandates a leading zero byte. This is not reflected in the padding
+   implementation as it is implicitly added once the padded message is cast into
+   a ``BigInteger`` for RSA-encryption.
+
+From the security perspective, the unpadding method is crucial since it
+has to resist Manger's attack [Man]_, and has to provide timing constant
+validation. The decryption process cannot provide any information
+whether the first message byte was zero or not. This method is
+implemented as follows:
+
+.. admonition:: ``OAEP::unpad()``
+
+   **Input:**
+
+   -  ``valid_mask``: message validity mask indicating whether the padding
+      structure was valid
+   -  ``m``: padded message
+   -  ``in_len``: message length
+
+   **Output:**
+
+   -  ``k``: unpadded message
+   -  ``valid_mask``: message validity mask indicating whether the padding
+      structure was valid
+
+   **Steps:**
+
+   The first byte is extracted as follows:
+
+   1. ``leading_0 = (in[0]==0) & 0x01;``
+   2. ``m' = array(m + 1, m + in_len);``
+
+   The remaining steps operate on the message ``m'``, and proceed according
+   to the RSA-OAEP specification.
+
+   If ``leading_0`` is false the ``valid_mask`` is set to false.
+
+
+
+Signature
+---------
+
+RSA Signature Schemes
+^^^^^^^^^^^^^^^^^^^^^
+
+The RSA signature algorithm is provided in the class
+``RSA_Signature_Operation`` in :srcref:`src/lib/pubkey/rsa/rsa.cpp`. The
+respective verification algorithm is implemented in the class
+``RSA_Verify_Operation``.
+The implementation follows [RFC3447]_.
+
+Before a message can be signed it must be processed to achieve the bit
+length of the RSA modulus ``N``. Therefore, a padding scheme is applied to
+the message ``m``. Botan implements multiple padding schemes. For RSA
+signatures the probabilistic RSA-PSS scheme (EMSA4) implemented in
+:srcref:`src/lib/pk_pad/emsa_pssr/pssr.cpp` is recommended [TR-02102-1]_. The
+RSA-PSS implementation follows the definition in [RFC3447]_. The ISO
+9796-2 DS2 and ISO 9796-2 DS3 padding schemes are implemented in
+:srcref:`src/lib/pk_pad/iso9796/iso9796.cpp`
+Both implementations follow the specification [ISO-9796-2]_.
+Alternatively, Botan provides the deterministic PKCS#1 v1.5 RSA
+signature scheme (EMSA3), which is obsolete and thus not recommended [#sig_emsa3_disclaimer]_.
+
+.. [#sig_emsa3_disclaimer]
+   Despite being obsolete, PKCS#1 v1.5 is required for TLS 1.2, hence this EMSA
+   is not disabled in BSI's build policy by default.
+
+Signature Creation
+^^^^^^^^^^^^^^^^^^
+
+To sign data, the function ``secure_vector<byte> raw_sign(const byte
+msg[], size_t msg_len,RandomNumberGenerator&)`` is called. The bytes to
+sign ``m`` and its length is passed to the function. The RSA signature
+algorithm operates as follows:
+
+.. admonition:: ``RSA_Signature_Operation::raw_sign()``
+
+   **Input:**
+
+   -  ``m``: raw bytes to sign
+   -  RSA_PrivateKey: the first prime ``p``, the second prime ``q``, the exponent ``e``,
+      the modulus :math:`N = p*q`,
+      :math:`d = e^{-1} \bmod \text{lcm}(p-1, q-1)`,
+      :math:`d_1 = d \bmod (p-1)`,
+      :math:`d_2 = d \bmod (q-1)`,
+      :math:`c = q^{-1} \bmod p`
+
+   **Output:**
+
+   -  ``x``: raw RSA_Signature
+
+   **Steps:**
+
+   1. Verify that :math:`m < N`.
+      If the message to sign exceeds the modulus of the RSA private key,
+      the algorithm terminates with error.
+   2. Blind message m with random blinding nonce ``k``.
+   3. Compute
+      :math:`{x_{1} = m^{d_{1}}}\bmod p`
+      and
+      :math:`{x_{2} = m^{d_{2}}}\bmod q`
+      . This computations takes place simultaneously (additional thread).
+      Here, :math:`d_1` and :math:`d_2` are part of the RSA private key.
+   4. Compute
+      :math:`{h = {{({x_{1} - x_{2}})} \ast c}}\bmod p`.
+      Here, :math:`c` is part of the RSA private key.
+   5. Compute signature
+      :math:`x = {{h \ast q} + x_{2}}`.
+   6. Unblind ``x`` with :math:`k^{- 1}`.
+   7. Verify that
+      :math:`x^{e}\bmod {N = m}`
+      holds. Thus it is assured, that the algorithm returns a valid
+      signature. As a consequence, the implementation resists fault
+      attacks.
+
+Signature Verification
+^^^^^^^^^^^^^^^^^^^^^^
+
+To verify a RSA signature the signature value is passed to the function
+``secure_vector<byte> verify_mr(const byte msg[], size_t msg_len)``. This
+function proceeds as follows:
+
+.. admonition:: ``RSA_Verify_Operation::verify_mr()``
+
+   **Input:**
+
+   -  ``x``: raw RSA_Signature
+   -  RSA_PublicKey: ``N``, ``e``
+
+   **Output:**
+
+   -  ``v``: value to compare signed data to
+
+   **Steps:**
+
+   1. Verify that the signature is smaller than the modulus of the public
+      key.
+      I.e., if :math:`x \geq N`, then the algorithm throws an invalid argument error.
+   2. Compute :math:`v=x^e \bmod n`

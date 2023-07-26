@@ -1,0 +1,432 @@
+.. _pubkey/xmss:
+
+XMSS
+====
+
+Botan implements the single tree version of the eXtended Merkle
+Signature Scheme (XMSS) using Winternitz One Time Signatures+ (WOTS+) in
+:srcref:`src/lib/pubkey/xmss/`.
+
+.. _pubkey_key_generation/xmss:
+
+Key Generation
+--------------
+
+The implementation is based on RFC8391 [XMSS]_ and implements
+the additional parameter sets and the adaptions to the key generation defined in
+NIST's [SP800-208]_.
+The list of supported algorithms and their parameters is depicted in
+Table :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/table>`.
+
+.. _pubkey_key_generation/xmss/table:
+
+.. table::  Supported XMSS Signature algorithms and their parameters (see Section 5.3 in [XMSS]_)
+
+   +-------------------------+----+----+-----+----+--------------+
+   |                         | Parameters         |              |
+   | XMSS algorithm          +----+----+-----+----+ defined in   |
+   |                         | n  | w  | len | h  |              |
+   +=========================+====+====+=====+====+==============+
+   | XMSS-SHA2_10_256        | 32 | 16 | 67  | 10 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHA2_16_256        | 32 | 16 | 67  | 16 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHA2_20_256        | 32 | 16 | 67  | 20 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHA2_10_192        | 24 | 16 | 51  | 10 | [SP800-208]_ |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHA2_16_192        | 24 | 16 | 51  | 16 | [SP800-208]_ |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHA2_20_192        | 24 | 16 | 51  | 20 | [SP800-208]_ |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHA2_10_512 [#x]_  | 64 | 16 | 131 | 10 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHA2_16_512 [#x]_  | 64 | 16 | 131 | 16 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHA2_20_512 [#x]_  | 64 | 16 | 131 | 20 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE_10_256 [#x]_ | 32 | 16 | 67  | 10 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE_16_256 [#x]_ | 32 | 16 | 67  | 16 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE_20_256 [#x]_ | 32 | 16 | 67  | 20 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE_10_512 [#x]_ | 64 | 16 | 131 | 10 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE_16_512 [#x]_ | 64 | 16 | 131 | 16 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE_20_512 [#x]_ | 64 | 16 | 131 | 20 | [XMSS]_      |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE256_10_256    | 32 | 16 | 67  | 10 | [SP800-208]_ |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE256_16_256    | 32 | 16 | 67  | 16 | [SP800-208]_ |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE256_20_256    | 32 | 16 | 67  | 20 | [SP800-208]_ |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE256_10_192    | 24 | 16 | 51  | 10 | [SP800-208]_ |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE256_16_192    | 24 | 16 | 51  | 16 | [SP800-208]_ |
+   +-------------------------+----+----+-----+----+--------------+
+   | XMSS-SHAKE256_20_192    | 24 | 16 | 51  | 20 | [SP800-208]_ |
+   +-------------------------+----+----+-----+----+--------------+
+
+.. [#x] These parameter sets are explicitly not approved by NIST's [SP800-208]_.
+
+XMSS and WOTS+ rely on the hash function address scheme (``ADRS``). This
+scheme consists of 256 bits and stores OTS hash addresses and hash tree
+addresses, see Section 2.5 in [XMSS]_. ``ADRS`` is implemented in
+:srcref:`src/lib/pubkey/xmss/xmss_address.h` and offers the following setter methods.
+The respective getter methods were left out for readability:
+
+-  ``set_key_mask_mode(Key_Mode=0 / Mask_Mode=1, Mask_LSB_Mode=1,
+   Mask_MSB_Mode=2)``
+-  ``set_chain_address(i)``
+-  ``set_hash_address(i)``
+-  ``set_ots_address(i)``
+-  ``set_ltree_address(i)``
+-  ``set_type(OTS Hash Address / L-Tree Address / Hash Tree Address)``
+-  ``set_tree_height(i)``
+-  ``set_tree_index(i)``
+
+XMSS and WOTS+ use a specific **base w** number representation. For
+example, this representation turns a string ``X=0x1234`` into a byte array
+``{1,2,3,4}=base_w(X, 16, 4)``. We refer to Section 2.6, Algorithm 1
+[XMSS]_ for more details.
+
+.. _pubkey_key_generation/wotsp:
+
+WOTS+
+^^^^^
+
+WOTS+ uses a chaining function ``chain(X,i,s,ADRS,seed)`` to iteratively
+execute ``s`` PRF calls on a given input string ``X``, the start index ``i``,
+number of steps ``s``, combined with ``ADRS`` and a ``seed`` value. See
+Algorithm 2 in [XMSS]_ for more details.
+
+WOTS+ and in particular the ``chain`` function are implemented in
+:srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
+
+Botan's ``XMSS_WOTS_PrivateKey`` encapsulate a single WOTS+ leaf node and
+the associated key derivation from the ``private_seed`` and ``public_seed``.
+Note that this key derivation follows the recommendation from NIST's [SP800-208]_
+to avoid a multi-target attack vulnerability. This alternative derivation does not
+affect the interoperability of Botan's XMSS signature verification with other implementations that do not
+contain this countermeasure.
+
+.. admonition:: WOTS+ leaf node key generation
+
+   **Input:**
+
+   - ``ADRS``: address of the leaf node key to be generated
+   - ``oid``: XMSS WOTS+ parameters (``n``, ``w``, ``len``, ``PRF``)
+   - ``private_seed``: private seed to derive WOTS+ private keys from
+   - ``public_seed``: public seed
+
+   **Output:**
+
+   - ``sk`` and ``pk`` of the WOTS+ leaf node
+
+   **Steps:**
+
+   1. Derive the WOTS+ private key:
+
+       - For each ``sk[i]`` with  ``i`` from ``0`` to ``len`` in the WOTS+
+         private key set chain address to ``i`` in ``ADRS`` and generate
+         ``sk[i]`` as: ``PRF_keygen(private_seed, public_seed | ADRS)``
+
+   2. Derive the WOTS+ public key from the private key:
+
+       - For each ``pk[i]`` with ``i`` from ``0`` to ``len`` set chain
+         address to ``i`` in ``ADRS`` and generate ``pk[i]`` as:
+         ``chain(sk[i], 0, w-1, ADRS, public_seed)``
+
+   **Notes:**
+
+   - All referenced methods above are implemented in the constructors of
+     ``WOTS_Public_Key`` and ``WOTS_Private_Key`` in
+     :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
+
+XMSS
+^^^^
+
+XMSS functionality is implemented in :srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp`.
+
+The algorithm for key generation relies on the method ``treeHash`` from
+Algorithm 9 in [XMSS]_. The ``treeHash`` method takes as input secret key
+``sk``, start index ``s``, target node height ``t``, and address ``ADRS``. The
+algorithm uses the input parameters and the secret key ``sk`` stored in
+the XMSS_PrivateKey object to return the root node of a given tree,
+whose height is ``t``. The index s represents the index of the left most
+leaf of the WOTS+ public key. Botan implements the function as described
+in Algorithm 9.
+
+Based on the ``treeHash`` function the key generation process follows
+Algorithm 10 in [XMSS]_ and it works as follows:
+
+.. admonition:: XMSS key generation
+
+   **Input:**
+
+   -  ``rng``: random number generator
+   -  ``xmss_algo_id``: XMSS signature parameter identifier (``n``, ``w``, ``len``,
+      ``PRF``), see Table :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/table>`
+
+   **Output:**
+
+   -  ``XMSS_PrivateKey``: ``SK``, ``PK``
+
+   **Steps:**
+
+   1. Generate new ``public_seed``, ``private_seed`` and ``SK_PRF`` seed using ``rng``.
+      Each seed has length ``n``.
+   2. Initiate the index registry with ``idx=0``. This value references the
+      first unused leaf index.
+   3. Compute the ``root`` node value by walking through the entire XMSS tree
+      using the ``treeHash`` function (Algorithm 9 in [XMSS]_). This derives all
+      WOTS+ leaf nodes using the generation algorithm described above.
+
+      ``root = treeHash(0, h, ADRS);``
+
+   4. | ``SK = {idx, private_seed, SK_PRF, root, public_seed}``
+      | ``PK = {OID, root, public_seed}``
+
+   **Notes:**
+
+   - The generation procedure is implemented in :srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp`
+     in the ``XMSS_PrivateKey()`` constructor and ``XMSS_PrivateKey::tree_hash()``
+     as well as ``XMSS_PrivateKey::tree_hash_subtree()``
+
+**Remark:** Note that Botan does not store the whole XMSS keys in
+memory. Only ``public_seed``, ``private_seed``, and ``SK_PRF`` are stored, and
+are used to construct keys on demand. See also Section 4.1.11 in [XMSS]_.
+
+.. _pubkey_key_generation/xmss/Remark_02:
+
+**Remark:** XMSS is based on the repeated application of a hash function to
+secret key material. In order to conduct a successful timing-based side
+channel attack, an attacker needs to be able to calculate the hash
+value's pre images by observing the timing behavior of the involved
+processes. If such a side-channel exists in the implementation of the
+hash function, an attacker can exploit it even in a single threaded
+setting.
+
+Specifically, in Botan's (multi-threaded) implementation of the XMSS hash tree
+another (harmless) side channel may arise:
+
+By observing the system load or the number of active threads, an
+attacker can infer the location in the hash tree structure that the
+currently running computations are working on. Depending on the
+parameters, the key generation and the signature computation are running
+in constant time on identical hardware if the hash function computations
+run in constant time. Therefore, an attacker can infer the position in
+the tree that the algorithm is currently working on even if only a
+single thread is used.
+
+
+.. _signatures/xmss:
+
+Signature Creation
+------------------
+
+.. _pubkey_signature/xmss/wotsp_sign:
+
+WOTS+
+^^^^^
+
+WOTS+ signing follows Algorithm 5 in [XMSS]_. It is implemented in
+:srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
+
+The signature generation process works as follows:
+
+.. admonition:: ``XMSS_WOTS_PrivateKey::sign()``
+
+   **Input:**
+
+   -  ``m``: message to be signed
+   -  ``oid``: XMSS WOTS+ parameters (``n``, ``w``, ``len``, ``PRF``), which are chosen
+      automatically based on the XMSS parameters from Table
+      :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/table>`, see [XMSS]_
+   -  ``ADRS``: Address
+   -  ``public_seed``: public seed
+   -  ``private_seed``: private seed
+
+   **Output:**
+
+   -  ``sig``: signature
+
+   **Steps:**
+
+   1. Convert the message ``m`` into base_w representation.
+   2. Compute a checksum over the converted message and convert this
+      checksum into base_w representation. Append the checksum to the
+      message ``m``.
+   3. Generate the resulting signature bytes ``sig`` as follows:
+
+      1. Set ``i=0;``
+      2. While (``i < len``) do:
+
+         1. ``ADRS.set_chain_address(i);``
+         2. ``chain(sig[i], 0, m[i], public_seed, ADRS);``
+
+**Remark:** :ref:`Remark about XMSS being based on the repeated application of a hash function <pubkey_key_generation/xmss/Remark_02>`
+applies here as well.
+
+XMSS
+^^^^
+
+XMSS signature generation functionality is implemented in
+:srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp` and
+:srcref:`src/lib/pubkey/xmss/xmss_signature_operation.cpp`
+
+The algorithm for signature generation follows methods ``treeSig`` and
+``XMSS_sig`` from Algorithms 11 and 12 in [XMSS]_. The algorithm works as
+follows:
+
+.. admonition:: XMSS Signature Creation
+
+   **Input:**
+
+   -  ``m``: message to be signed
+   -  ``SK``: XMSS secret key, ``SK = {idx, SK_PRF, root, public_seed}``
+
+   **Output:**
+
+   -  ``Sig``: XMSS signature
+
+   **Steps:**
+
+   1. Initialize the signature operation and reserve a new leaf index ``idx``
+      of an *unused* WOTS+ signature. This index cannot be reused in
+      further operations. Calculate a pseudorandom value ``r`` using the output
+      of PRF on ``SK_PRF || idx``.
+   2. Generate a hash over the output of the PRF function ``r``, Merkle tree ``root``, index ``idx``,
+      and message ``m`` using the message hash function ``H()``.
+   3. Build an authentication path ``auth_path`` by using the leaf index
+      ``idx``, and address ``ADRS``.
+   4. Derive the WOTS+ private key for the generated authentication path from
+      ``public_seed`` and ``private_seed`` as described in :ref:`pubkey_key_generation/wotsp`.
+   5. Compute a WOTS+ signature ``sig_ots`` over the constructed hash value
+      as described in :ref:`WOTS+ Signature Creation <pubkey_signature/xmss/wotsp_sign>`.
+   6. Set ``Sig = {idx, r, auth_path, sig_ots}``
+
+**Remark:** Due to the complexity of managing the XMSS private key state it is
+generally discouraged to use software for performing XMSS private key operations
+in production. See also :ref:`pubkey_signature/xmss/leaf_index_registry`.
+
+
+Signature Verification
+----------------------
+
+WOTS+
+^^^^^
+
+WOTS+ signature validation strictly follows Algorithm 6 in [XMSS]_. It is
+implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
+
+The signature validation process works as follows:
+
+.. admonition:: ``XMSS_WOTS_PublicKey()`` constructor
+
+   **Input:**
+
+   -  ``m``: message to be validated
+   -  ``oid``: XMSS WOTS+ parameters (``n``, ``w``, ``len``, ``PRF``), which are chosen
+      automatically based on the XMSS parameters from Table
+      :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/table>`, see [XMSS]_
+   -  ``sig``: Signature
+   -  ``ADRS``: Address
+   -  ``public_seed``: public seed
+
+   **Output:**
+
+   -  ``tmp_pk``: Temporary WOTS+ public key. This public key is afterwards
+      compared with the provided public key.
+
+   **Steps:**
+
+   1. Convert the message ``m`` into base_w representation.
+   2. Compute a checksum over the converted message and convert this
+      checksum into base_w representation. Append the checksum to the
+      message ``m``.
+   3. Generate the temporary public key ``tmp_pk`` as follows:
+
+      1. Set ``i=0;``
+      2. While (``i<len``) do:
+
+         1. Initialize ``tmp_pk`` with the signature data: ``tmp_pk[i] = sig[i]``
+         2. ``ADRS.set_chain_address(i);``
+         3. ``chain(tmp_pk[i], m[i], w-1-m[i], public_seed, ADRS);``
+
+XMSS
+^^^^
+
+XMSS signature validation functionality is implemented in
+:srcref:`src/lib/pubkey/xmss/xmss_publickey.cpp` and
+:srcref:`src/lib/pubkey/xmss/xmss_verification_operation.cpp`.
+
+The algorithm for signature verification follows methods
+``XMSS_rootFromSig`` and ``XMSS_verify`` from Algorithms 13 and 14 in
+[XMSS]_. The algorithm works as follows:
+
+.. admonition:: XMSS Signature Validation
+
+   **Input:**
+
+   -  ``m``: message to be validated
+   -  ``Sig``: XMSS signature
+   -  ``PK``: XMSS public key, ``PK = {root, public_seed}``
+
+   **Output:**
+
+   -  ``true``, if the signature for message ``m`` is valid. ``false`` otherwise
+
+   **Steps:**
+
+   1. Generate a hash over randomness ``r``, Merkle tree root and index ``idx``
+      stored in the signature ``Sig``, and message ``m``.
+   2. Compute the root node ``node`` using the computed hash value, signature
+      ``Sig``, address ``ADRS``, and public seed ``public_seed`` (the root node
+      is computed using the ``XMSS_rootFromSig`` method from Algorithm 13
+      [XMSS]_).
+   3. Return ``(node == root)``
+
+**Remark:** XMSS does not specify any format for the storage of
+private and public keys. Currently, Botan serializes keys as plain byte
+arrays.
+
+.. _pubkey_signature/xmss/leaf_index_registry:
+
+Leaf Index Registry
+-------------------
+
+Handling the safe and persistent state update of XMSS private keys is crucial.
+Botan manages the XMSS private key states in an ``XMSS_Index_Registry``, a
+thread-safe "Singleton" object. That way, XMSS private key states are kept in
+a centrally managed location during application execution.
+
+The ``XMSS_Index_Registry`` singleton provides exactly one method:
+``::get(private_seed, prf) -> std::shared_ptr<Atomic<size_t>>``.
+The parameters uniquely identify the managed XMSS private key and the method
+returns a pointer to an atomic variable keeping the respective leaf index state.
+The signing algorithm now manipulates the XMSS state as needed *before* actually
+signing with the respective WOTS+ leaf.
+Since the state is manipulated with atomic memory access operations, it is safe
+to use the same XMSS private key in multiple threads of the same process. A new
+private key calling ``::get()`` for the first time lazily initializes the state
+variable to "0".
+
+When serializing private keys (using ``XMSS_PrivateKey::private_key_bits()``)
+the next unused WOTS+ leaf index is persisted along with the private key data.
+Loading a private key from a serialized buffer will initialize the leaf index in
+the registry object.
+No further infrastructure is provided to maintain persistent private XMSS state.
+
+**WARNING:** Using the provided facilities, the transaction-safe usage of an
+XMSS private key is not possible if the private key should outlive the operating
+system process that generated it. It is therefore **strongly discouraged to use
+Botan's XMSS signing implementation in production applications**. Similarly,
+[SP800-208]_ demands the usage of dedicated hardware for XMSS private key
+operations.
+
+Note that validating XMSS signatures does not depend on this state management
+and its usability is therefore *not affected* by this disclaimer.

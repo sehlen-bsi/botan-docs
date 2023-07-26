@@ -401,5 +401,5 @@ algorithm performs more than 50 iterations of the Miller-Rabin primality
 test, which means the generated primes are suitable for usage in
 long-term keys. As the default probability for generating keys is only
 128 in Botan, it is required to call the corresponding ``check_key()``
-functions described in section :ref:`pubkey_key_generation/main` with the ``strong``
+functions described in section :ref:`pubkey/rsa` with the ``strong``
 parameter set to true on keys that are intended for long-term usage.

@@ -126,6 +126,8 @@ Changelog
    |         | AT, PL   |                                             |            |
    |         |          | - Document version is now synchronized with |            |
    |         |          |   the respective Botan release version      |            |
+   |         |          | - Asymmetric algorithm chapters are now     |            |
+   |         |          |   structured by algorithm not by operation  |            |
    |         |          | - XMSS with NIST's keygen and parameters    |            |
    |         |          | - Hash trunction in ECKCDSA                 |            |
    |         |          | - Implementation updates in the RNG         |            |
