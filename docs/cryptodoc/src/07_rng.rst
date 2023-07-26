@@ -1031,14 +1031,20 @@ generation of random parameters for DSA signatures.
 
 In order to generate integers from an arbitrary range as required for the implemented public key algorithms,
 Botan uses the ``BigInt::random_integer()`` method (implemented in :srcref:`src/lib/math/bigint/big_rand.cpp`).
-It works as follows:
+Note that this algorithm allows to generate random numbers from an arbitrary range
+between a ``min`` and a ``max`` (exclusive) value. Typically, in public key algorithms,
+the ``min`` parameter will be zero.
 
-.. admonition:: ``BigInt::random_integer()``
+The algorithm has a special case for :math:`min > 1` to avoid unpredictable runtimes
+if ``min`` and ``max`` are both large but their difference is small.
+For clarity, we describe the two cases independently:
 
-   **Input:**
+.. admonition:: ``BigInt::random_integer()`` (for :math:`min \in \{0,1\}`)
+
+   **Input**
 
    -  ``rng``: random number generator (see :ref:`rng/main` for available algorithms)
-   -  ``min``: integer lower bound of desired range
+   -  ``min``: either 0 or 1
    -  ``max``: integer upper bound of desired range, excluding ``max``
 
    **Output:**
@@ -1054,5 +1060,29 @@ It works as follows:
    4. if (:math:`min \leq r < max`) return ``r``.
    5. Go to Step 3.
 
-**Conclusion:** The algorithm is a slight adaptation of Algorithm B.1 in Section B.4 of [TR-02102-1]_
+**Note:** Technically, the base implementation above should be defined for exactly :math:`min = 0`
+not :math:`min \in \{0,1\}`. When `adding this special case in Botan 3.1.0 <https://github.com/randombit/botan/pull/3594>`_
+this was done to avoid breaking existing test cases that depended on the determinism of this method for :math:`min = 1`.
+
+.. admonition:: ``BigInt::random_integer()`` (for :math:`min > 1`)
+
+   **Input:**
+
+   -  ``rng``: random number generator (see :ref:`rng/main` for available algorithms)
+   -  ``min``: integer lower bound of desired range (with :math:`min > 1`)
+   -  ``max``: integer upper bound of desired range, excluding ``max``
+
+   **Output:**
+
+   -  ``r``: :math:`min \leq r < max`
+
+   **Steps:**
+
+   1. Preliminary parameter requirement checks are conducted. ``min`` must be
+      smaller than ``max``, and neither can be negative.
+   2. Calculate ``diff`` as the difference between ``max`` and ``min``
+   3. Call ``BigInt::random_integer()`` for the interval ``0..diff`` to obtain ``n``
+   4. Return ``min + n``.
+
+**Conclusion:** The special case for :math:`min \in \{0,1\}` is equivalent to Algorithm B.1 in Section B.4 of [TR-02102-1]_
 and thus complies with the recommendations in [TR-02102-1]_.
