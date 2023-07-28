@@ -2,10 +2,12 @@
 Evaluierung ausgewählter Algorithmen in Botan
 ---------------------------------------------
 
-Dieses Kapitel beschreibt die Ergebnisse der Analyse ausgewählter Algorithmen in Botan Version 3.0.0 [BOTAN_GIT]_.
+Dieses Kapitel beschreibt die Ergebnisse der Analyse ausgewählter Algorithmen in Botan Version 3.
 Dazu wurden die ersten beiden Phasen von DATA verwendet.
 Die dritte Phase wurde für die Auswertung der Ergebnisse zunächst nicht benötigt.
-Die betrachteten Algorithmen sind CRYSTALS-Kyber, CRYSTALS-Dilithium und XMSS.
+Die betrachteten Algorithmen sind CRYSTALS-Kyber, CRYSTALS-Dilithium, XMSS und SPHINCS+.
+Die Code-Basis für Kyber, Dilithium und XMSS ist Botan Version 3.0.0 [BOTAN_GIT_300]_.
+Die Code-Basis für SPHINCS+ ist Botan Version 3.1.0 [BOTAN_GIT_310]_.
 Für jeden Algorithmus wurde ein Hilfsprogramm geschrieben.
 In den folgenden Kapiteln werden die verwendeten Analyseparameter erläutert und die gefundenen Leaks beschrieben.
 
@@ -33,7 +35,7 @@ Die Anzahl der Traces für die Analyse mit DATA entspricht daher in der Regel ei
 Ergebnisse
 ^^^^^^^^^^
 
-Die folgenden Kapitel enthalten die Ergebnisse der analysierten Implementierungen für CRYSTALS-Kyber, CRYSTALS-Dilithium und XMSS.
+Die folgenden Kapitel enthalten die Ergebnisse der analysierten Implementierungen für CRYSTALS-Kyber, CRYSTALS-Dilithium, XMSS und SPHINCS+.
 Wenn es mehrere Implementierungsvarianten eines Algorithmus gibt, werden diese am Anfang der Kapitel aufgeführt.
 Wenn das Botan CLI verwendet wird, ist das Kommando für den Aufruf angegeben.
 Details zur Kompilierung von Botan und zum Aufruf außerhalb der CLI sind ebenfalls angegeben.
@@ -46,3 +48,4 @@ Die Beschreibungen enthalten in der Regel auch den zugehörigen Quellcode und gg
    02_01_kyber
    02_02_dilithium
    02_03_xmss
+   02_04_sphincsplus
