@@ -130,7 +130,8 @@ Changelog
    |         |          |   structured by algorithm not by operation  |            |
    |         |          | - XMSS with NIST's keygen and parameters    |            |
    |         |          | - Hash trunction in ECKCDSA                 |            |
-   |         |          | - Implementation updates in the RNG         |            |
+   |         |          | - Implementation updates in the RNG and     |            |
+   |         |          |   random generation of big integers         |            |
    |         |          | - New PQC algorithms                        |            |
    |         |          |   - Kyber                                   |            |
    |         |          |   - Dilithium                               |            |
