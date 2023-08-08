@@ -1,7 +1,14 @@
 name: CI
 
 on:
-  push
+  push:
+  schedule:
+    # Run this around 2:37am once every 6-ish days to keep the GitHub API
+    # cache warm. Otherwise we would run into an API rate limit whenever
+    # we resume working on the repository after a weeks-long break.
+    #
+    # Github Actions caches are evicted after one week of not being used.
+    - cron: '37 2 1,7,13,19,25,31 * *'
 
 permissions:
   contents: read
