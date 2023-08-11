@@ -47,16 +47,15 @@ Der öffentliche FORS-Schlüssel ist der Wurzelknoten in einem Merkle-Baum.
 Die Kinder dieses Knotens sind Wurzelknoten einzelner Merkle-Bäume, die zur Signatur einer Nachricht verwendet werden.
 
 Die `treehash` Routine berechnet mithilfe der Blätter eines Merkle-Baums die darüber liegenden Knoten.
-Bestandteile einer FORS-Signatur sind die sogenannten Authentisierungsdaten.
-Das sind Knoten, die bei der Signaturerzeugung generiert werden und die für die Verifikation benötigt werden, um die jeweilige Wurzel des Merkle-Baums zu berechnen.
-Während der Verifikation werden Teile der Blätter abhängig von der Nachricht und der Signatur berechnet.
-Die restlichen, benötigten Knoten zur Berechnung der Wurzel sind die sogenannten Authentisierungsdaten, welche auch in der Signatur enthalten sind.
+Während der Verifikation wird ein Teil der Blätter anhand der Nachricht und der Signatur berechnet.
+Die restlichen Blätter oder Knoten eines Merkle-Baums, welche zur Verifikation benötigt werden, sind im sogenannten Authentisierungspfad enthalten.
+Dieser ist Bestandteil einer FORS-Signatur und wird bei der Signaturerzeugung generiert.
 
-Die `treehash` Routine detektiert während der Ausführung, ob der aktuell berechnete Knoten den Authentisierungsdaten hinzugefügt werden muss [BOTAN_SPHINCSPLUS_TREEHASH]_.
+Die `treehash` Routine detektiert während der Ausführung, ob der aktuell berechnete Knoten dem Authentisierungspfad hinzugefügt werden muss [BOTAN_SPHINCSPLUS_TREEHASH]_.
 Ist dies der Fall, kommt es zur Erfüllung einer Kondition im Programmablauf und zu einer geänderten Programmausführung.
 Dieser Kontrollflussunterschied wird durch DATA aufgezeigt.
 Der Unterschied ist unkritisch, weil die Werte der Knoten innerhalb dieser Merkle-Bäume öffentlich sind.
-Folglich ist es auch unkritsch, wenn anhand der Unterschiede ersichtlich ist, welche Knoten zu den Authentisierungsdaten gehören.
+Folglich ist es auch unkritsch, wenn anhand der Unterschiede ersichtlich ist, welche Knoten zum Authentisierungspfad gehören.
 Dieses Wissen ist auch von einer Nachricht und der zugehörigen Signatur ableitbar.
 
 .. code-block:: cpp
