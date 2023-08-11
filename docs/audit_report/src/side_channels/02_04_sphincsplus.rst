@@ -28,6 +28,8 @@ Dem Standard folgend wird dieses Verfahren auch in diesem Abschnitt als XMSS bez
 
 Die Laufzeit zur Erzeugung einer Signatur hängt von der Höhe des Hypertrees und der Anzahl der Merkle-Bäume ab.
 Um die Laufzeit zu reduzieren, wird die Gesamthöhe auf vier beschränkt und es werden zwei Merkle-Bäume mit jeweils einer Höhe von zwei verwendet.
+Der Algorithmus selbst benötigt diese Einschränkung im Produktiveinsatz nicht.
+Die Anpassung erfolgt lediglich, um die Analyse in angemessener Zeit durchführen zu können.
 Diese Änderung hat keinen Einfluss auf die Code-Coverage der durchgeführten Seitenkanalanalyse.
 
 **Leakage Zusammenfassung**
