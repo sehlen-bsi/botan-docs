@@ -7,7 +7,7 @@ Dazu wurden die ersten beiden Phasen von DATA verwendet.
 Die dritte Phase wurde für die Auswertung der Ergebnisse zunächst nicht benötigt.
 Die betrachteten Algorithmen sind CRYSTALS-Kyber, CRYSTALS-Dilithium, XMSS und SPHINCS+.
 Die Code-Basis für Kyber, Dilithium und XMSS ist Botan Version 3.0.0 [BOTAN_GIT_300]_.
-Die Code-Basis für SPHINCS+ ist Botan Version 3.1.0 [BOTAN_GIT_310]_.
+Die Code-Basis für SPHINCS+ ist Botan Version 3.1.1 [BOTAN_GIT_311]_.
 Für jeden Algorithmus wurde ein Hilfsprogramm geschrieben.
 In den folgenden Kapiteln werden die verwendeten Analyseparameter erläutert und die gefundenen Leaks beschrieben.
 

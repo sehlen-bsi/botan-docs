@@ -32,7 +32,7 @@
 
 .. [BOTAN_GIT_300] https://github.com/randombit/botan/tree/3.0.0
 
-.. [BOTAN_GIT_310] https://github.com/randombit/botan/tree/3.1.0
+.. [BOTAN_GIT_311] https://github.com/randombit/botan/tree/3.1.1
 
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser
 
