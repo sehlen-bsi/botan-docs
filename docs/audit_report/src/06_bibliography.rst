@@ -30,7 +30,9 @@
    Botan Test Report",
    Release TBD
 
-.. [BOTAN_GIT] https://github.com/randombit/botan/tree/3.1.1
+.. [BOTAN_GIT_300] https://github.com/randombit/botan/tree/3.0.0
+
+.. [BOTAN_GIT_311] https://github.com/randombit/botan/tree/3.1.1
 
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser
 
@@ -79,5 +81,11 @@
 .. [BOTAN_XMSS_CHAIN] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/xmss/xmss_wots.cpp#L43
 
 .. [BOTAN_XMSS_MSG_INIT] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/xmss/xmss_hash.cpp#L36
+
+.. [BOTAN_SPHINCSPLUS_TREEHASH] https://github.com/randombit/botan/blob/3.1.1/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_treehash.cpp#L73
+
+.. [BOTAN_SPHINCSPLUS_WOTS_SIGN_AND_PKGEN_SIG_NODE] https://github.com/randombit/botan/blob/3.1.1/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.cpp#L153
+
+.. [BOTAN_SPHINCSPLUS_WOTS_SIGN_AND_PKGEN_SIG_NODE_HC] https://github.com/randombit/botan/blob/3.1.1/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.cpp#L153
 
 .. [NIST_SP_800_208] https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-208.pdf
