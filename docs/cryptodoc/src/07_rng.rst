@@ -1025,34 +1025,64 @@ Random Number Generation for Probabilistic Public Key Algorithms
 
 The algorithms analyzed in this document often require random number generation
 from a specific range. Typical random number generators only generate numbers
-from a range :math:`r \in {\{{0,...,{2^{n} - 1}}\}}`, where ``n`` is the maximum
+from a range :math:`r \in {\{{0,...,{2^{n} - 1}}\}}`, where :math:`n` is the maximum
 bit size of a generated number. This is not suitable, for example, for the
 generation of random parameters for DSA signatures.
 
 In order to generate integers from an arbitrary range as required for the implemented public key algorithms,
 Botan uses the ``BigInt::random_integer()`` method (implemented in :srcref:`src/lib/math/bigint/big_rand.cpp`).
-It works as follows:
+Note that this algorithm allows to generate random numbers from an arbitrary range
+between a :math:`min` and a :math:`max` (exclusive) value. Typically, in public key algorithms,
+the :math:`min` parameter will be zero.
 
-.. admonition:: ``BigInt::random_integer()``
+The algorithm has a special case for :math:`min > 1` to avoid unpredictable runtimes
+if :math:`min` and :math:`max` are both large but their difference is small.
+For clarity, we describe the two cases independently:
 
-   **Input:**
+.. admonition:: ``BigInt::random_integer()`` (for :math:`min \in \{0,1\}`)
 
-   -  ``rng``: random number generator (see :ref:`rng/main` for available algorithms)
-   -  ``min``: integer lower bound of desired range
-   -  ``max``: integer upper bound of desired range, excluding ``max``
+   **Input**
+
+   -  :math:`rng`: random number generator (see :ref:`rng/main` for available algorithms)
+   -  :math:`min`: either 0 or 1
+   -  :math:`max`: integer upper bound of desired range, excluding :math:`max`
 
    **Output:**
 
-   -  ``r``: :math:`min \leq r < max`
+   -  :math:`r`: :math:`min \leq r < max`
 
    **Steps:**
 
-   1. Preliminary parameter requirement checks are conducted. ``min`` must be
-      smaller than ``max``, and neither can be negative.
-   2. Retrieve the bit length ``n`` of the ``max`` value.
-   3. Use ``rng`` to generate :math:`r \in {\{{0,...,{2^{n} - 1}}\}}`.
-   4. if (:math:`min \leq r < max`) return ``r``.
+   1. Preliminary parameter requirement checks are conducted. :math:`min` must be
+      smaller than :math:`max`, and neither can be negative.
+   2. Retrieve the bit length :math:`n` of the :math:`max` value.
+   3. Use :math:`rng` to generate :math:`r \in {\{{0,...,{2^{n} - 1}}\}}`.
+   4. If (:math:`min \leq r < max`) return :math:`r`.
    5. Go to Step 3.
 
-**Conclusion:** The algorithm is a slight adaptation of Algorithm B.1 in Section B.4 of [TR-02102-1]_
+**Note:** Technically, the base implementation above should be defined for exactly :math:`min = 0`
+not :math:`min \in \{0,1\}`. When `adding this special case in Botan 3.1.0 <https://github.com/randombit/botan/pull/3594>`_
+this was done to avoid breaking existing test cases that depended on the determinism of this method for :math:`min = 1`.
+
+.. admonition:: ``BigInt::random_integer()`` (for :math:`min > 1`)
+
+   **Input:**
+
+   -  :math:`rng`: random number generator (see :ref:`rng/main` for available algorithms)
+   -  :math:`min`: integer lower bound of desired range (with :math:`min > 1`)
+   -  :math:`max`: integer upper bound of desired range, excluding :math:`max`
+
+   **Output:**
+
+   -  :math:`r`: :math:`min \leq r < max`
+
+   **Steps:**
+
+   1. Preliminary parameter requirement checks are conducted. :math:`min` must be
+      smaller than :math:`max`, and neither can be negative.
+   2. Calculate :math:`diff` as the difference between :math:`max` and :math:`min`
+   3. Call ``BigInt::random_integer(rng, 0, diff)`` to obtain :math:`n`
+   4. Return :math:`min + n`.
+
+**Conclusion:** The special case for :math:`min \in \{0,1\}` is equivalent to Algorithm B.1 in Section B.4 of [TR-02102-1]_
 and thus complies with the recommendations in [TR-02102-1]_.
