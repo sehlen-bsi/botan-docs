@@ -122,7 +122,7 @@ Changelog
    |         |          | - ``CMAC::poly_double()`` removed           |            |
    |         |          | - Adapt to file moves                       |            |
    +---------+----------+---------------------------------------------+------------+
-   | 3.1.1   | FA, RM,  | Update to 3.1.1:                            | TBD        |
+   | 3.1.1   | FA, RM,  | Update to 3.1.1:                            | 2023-08-21 |
    |         | AT, PL   |                                             |            |
    |         |          | - Document version is now synchronized with |            |
    |         |          |   the respective Botan release version      |            |
