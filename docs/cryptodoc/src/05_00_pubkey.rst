@@ -21,3 +21,4 @@ encapsulation and decapsulation or the key exchange mechanism.
    05_06_spx
    05_07_dilithium
    05_08_kyber
+   05_09_frodokem
