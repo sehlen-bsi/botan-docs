@@ -42,6 +42,11 @@
    SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions.
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
 
+.. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria Nikolaenko, Chris Peikert, Ananth Raghunathan, Douglas Stebila
+   "FrodoKEM: Learning With Errors Key Encapsulation Preliminary Standardization Proposal (2023-03-14)",
+   Preliminary Standardization Proposal submitted to ISO, 2023,
+   https://frodokem.org/files/FrodoKEM-standard_proposal-20230314.pdf
+
 .. [GCM] U.S. DEPARTMENT OF COMMERCE/National Institute of Standards and Technology:
    "Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC",
    November 2007
