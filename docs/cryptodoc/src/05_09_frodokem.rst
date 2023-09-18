@@ -11,7 +11,7 @@ are supported.
 
 .. _pubkey/frodokem/parameter_table:
 
-.. table::  Supported FrodoKEM parameter sets (see Tables A.1 and A.2 of [FrodoKEM-ISO]_). ``<PRG>`` can either be ``AES`` or ``SHAKE``, depending on whether AES128 or SHAKE128 is used for expanding the seed for the matrix :math:`A`.
+.. table::  Supported FrodoKEM parameter sets (see Tables A.1 and A.2 of [FrodoKEM-ISO]_). ``<PRG>`` can either be ``AES`` or ``SHAKE``, depending on whether AES-128 or SHAKE-128 is used for expanding the seed for the matrix :math:`A`.
 
    +---------------------+----------------------+-----------------------+----------------------+-----------------------+-----------------------+------------------------+
    | ``FrodoKEMMode``    |``FrodoKEM-640-<PRG>``|``eFrodoKEM-640-<PRG>``|``FrodoKEM-976-<PRG>``|``eFrodoKEM-976-<PRG>``|``FrodoKEM-1344-<PRG>``|``eFrodoKEM-1344-<PRG>``|
@@ -30,7 +30,7 @@ are supported.
    +---------------------+----------------------+-----------------------+----------------------+-----------------------+-----------------------+------------------------+
    | :math:`len_{sec}`   |  .. centered:: 128                           | .. centered:: 192                            | .. centered:: 256                              |
    +---------------------+----------------------+-----------------------+----------------------+-----------------------+-----------------------+------------------------+
-   | :math:`\text{SHAKE}`|  .. centered:: SHAKE128                      | .. centered:: SHAKE256                       | .. centered:: SHAKE256                         |
+   | :math:`\text{SHAKE}`|  .. centered:: SHAKE-128                     | .. centered:: SHAKE-256                      | .. centered:: SHAKE-256                        |
    +---------------------+----------------------+-----------------------+----------------------+-----------------------+-----------------------+------------------------+
    | :math:`len_{SE}`    |   256                |   128                 |  384                 | 192                   |  512                  |  256                   |
    +---------------------+----------------------+-----------------------+----------------------+-----------------------+-----------------------+------------------------+
@@ -98,13 +98,13 @@ according to the :math:`Encode` (Section 7.2 of [FrodoKEM-ISO]_),
 and :math:`SampleMatrix` (Section 7.4 and 7.5) functions are provided, thereby realizing
 the respective functions in accordance with the specification.
 
-For performance reasons the implementation does not explicitly implement the
-:math:`Gen` function (Section 7.6 of [FrodoKEM-ISO]_) to create the public matrix
-:math:`A` from :math:`seed_A`. Instead, when matrix multiplication is performed,
-the desired elements of :math:`A` are derived from :math:`seed_A` on demand.
-This is done with callable generator functions that generate the rows of :math:`A`,
-depending on whether AES128 or SHAKE128 is used, and correspond to Sections 7.6.1
-and 7.6.2 of [FrodoKEM-ISO]_, respectively.
+The implementation does not explicitly provide the :math:`Gen` function (Section 7.6
+of [FrodoKEM-ISO]_) to create the large public matrix :math:`A` from :math:`seed_A`.
+Instead, to avoid having the entire matrix :math:`A` in memory for just one use per operation,
+the desired elements of :math:`A` are derived from :math:`seed_A` on demand when matrix
+multiplication is performed. This is done with callable generator functions that generate
+the rows of :math:`A`, depending on whether AES-128 or SHAKE-128 is used, and correspond to
+Sections 7.6.1 and 7.6.2 of [FrodoKEM-ISO]_, respectively.
 
 Moreover, the implementation does not perform the transpose operations on the matrix
 :math:`S^T` to obtain :math:`S` as in the pseudocode of Section 8 of [FrodoKEM-ISO]_
@@ -120,7 +120,7 @@ Consequently, each unique combination of matrix operations used by FrodoKEM
 :math:`S'B + E''`, and :math:`B'S` each have a corresponding method. Additionally, generic
 addition and subtraction methods are provided.
 The methods for :math:`AS + E` and :math:`S'A + E'` make use of manual loop unrolling
-to speed up performance.
+to speed up performance according to [BORSvV21]_.
 
 Since the implementations of the underlying matrix operations
 do not perform the neccessary reduction :math:`\text{mod}\, q`, a ``FrodoMatrix``

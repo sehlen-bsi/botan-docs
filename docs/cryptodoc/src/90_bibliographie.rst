@@ -13,6 +13,11 @@
 .. [Blei] Daniel Bleichenbacher:
    "Chosen Ciphertext Attacks Against Protocols Based on the RSA Encryption Standard PKCS #1", Crypto,1998
 
+.. [BORSvV21] Joppe W. Bos, Maximilian Ofner, Joost Renes, Tobias Schneider, and Christine van Vredendaal:
+   "The Matrix Reloaded: Multiplication Strategies in FrodoKEM".
+   Proceedings of Cryptology and Network Security (CANS'21): 20th International Conference.
+   Springer International Publishing, 2021.
+
 .. [CBC] William F. Ehrsam, Carl H. W. Meyer, John L. Smith, Walter L. Tuchman,
    "Message verification and transmission error detection by block chaining",
    US Patent 4074066, 1976
