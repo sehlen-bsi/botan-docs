@@ -1,30 +1,42 @@
 title: Release Preparation
 
+description: |
+  These patches update the library's release notes and prepare it for the
+  tagging of a new release. There is no relevant change to the actual
+  implementation of any library feature.
+
 patches:
 # Update news [ci skip]  (@Jack Lloyd)
 - commit: d382dbb09908b71f1c5a7451ac7c97bee3759c61  # https://github.com/randombit/botan/commit/d382dbb09908b71f1c5a7451ac7c97bee3759c61
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update change notes [ci skip]  (@Jack Lloyd)
 - commit: 5299c1635e96d2fcfb6a43aecdd3335556acd245  # https://github.com/randombit/botan/commit/5299c1635e96d2fcfb6a43aecdd3335556acd245
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update news  (@Jack Lloyd)
 - commit: aee8142b74e226330f7d8e305180bbfb72143fa3  # https://github.com/randombit/botan/commit/aee8142b74e226330f7d8e305180bbfb72143fa3
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update changelog [ci skip]  (@Jack Lloyd)
 - commit: 47ab8b1612ee51be675f7bd49f7be39112a87175  # https://github.com/randombit/botan/commit/47ab8b1612ee51be675f7bd49f7be39112a87175
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # We need to be bumping the ABI so rev as well  (@Jack Lloyd)
 - commit: 851b89b320dd2d61b8b581050301e5a5928d2a2d  # https://github.com/randombit/botan/commit/851b89b320dd2d61b8b581050301e5a5928d2a2d
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Bump version to 3.2.0  (@Jack Lloyd)
 - commit: e430d3e4dfedcfaaa33c29718afe80433e1381e8  # https://github.com/randombit/botan/commit/e430d3e4dfedcfaaa33c29718afe80433e1381e8
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Correct the link text  (@Jack Lloyd)
 - commit: 091b7c89b7d2e6f3a92121feb8fb37f75bd651cb  # https://github.com/randombit/botan/commit/091b7c89b7d2e6f3a92121feb8fb37f75bd651cb
-  classification: unspecified
+  classification: info
+  auditer: reneme
