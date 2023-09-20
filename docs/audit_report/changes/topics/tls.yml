@@ -21,6 +21,11 @@ patches:
   merge_commit: ee20e4a4052d0df1fa2a54258cf7a53363749f76
   classification: unspecified
 
+# [TLS 1.3] Extend CredentialsManager for upcoming TLS 1.3 PSK  (@reneme)
+- pr: 3622  # https://github.com/randombit/botan/pull/3622
+  merge_commit: 65b75486225c0d99cc2ada89be5f679b727c3430
+  classification: unspecified
+
 # [TLS 1.3] PSK Support  (@reneme)
 - pr: 3618  # https://github.com/randombit/botan/pull/3618
   merge_commit: 702b9f6afbfa8b4dd8a91dc8435e28373c641e86
@@ -28,4 +33,9 @@ patches:
 
 # Use a shorter name for the Anvil build [ci skip]  (@Jack Lloyd)
 - commit: 970181989cf53b19b7dc93590bf601a8acacce24  # https://github.com/randombit/botan/commit/970181989cf53b19b7dc93590bf601a8acacce24
+  classification: unspecified
+
+# Fix: Segfault in tls_http_server  (@FAlbertDev)
+- pr: 3634  # https://github.com/randombit/botan/pull/3634
+  merge_commit: cff50ed0f717dd82a3d3e06b706742f3b7ea2ef8
   classification: unspecified
