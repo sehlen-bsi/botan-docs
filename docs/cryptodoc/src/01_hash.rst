@@ -33,6 +33,12 @@ The ARMv8 implementation is in
 in :srcref:`src/lib/hash/sha1/sha1_x86/sha1_x86.cpp`. Both are based on the
 code by Jeffrey Walton [#sha_intrinsics]_.
 
+.. [#sha1_dean]
+   http://arctic.org/~dean/crypto/sha1.html
+
+.. [#sha_intrinsics]
+   https://github.com/noloader/SHA-Intrinsics
+
 SHA-2
 -----
 
@@ -61,33 +67,32 @@ Both are based on the code by Jeffrey Walton [#sha_intrinsics]_.
 SHA-3
 -----
 
-Botan provides two SHA-3 implemenatations: software and BMI2 (Bit
-Manipulation Instruction Set 2).
+SHA-3 does not rely on a Merkle-Damgard construction, as it uses a sponge
+construction to perform data compression. Botan provides two implementations of
+the Keccak sponge construction: software and BMI2 (Bit Manipulation Instruction
+Set 2).
 
-The software implementation is located in :srcref:`src/lib/hash/sha3/sha3.cpp`.
-The BMI2 implementation is located in
-:srcref:`src/lib/hash/sha3/sha3_bmi2/sha3_bmi2.cpp`.
+The software implementation is located in
+:srcref:`src/lib/permutations/keccak_perm/keccak_perm.cpp`. The BMI2
+implementation is located in
+:srcref:`src/lib/permutations/keccak_perm/keccak_perm_bmi2/keccak_perm_bmi2.cpp`.
 
-Both implementations follow the standard [FIPS-202]_ and thus support
-output lengths of 224, 256, 384 and 512 bits. SHA-3 does not rely on a
-Merkle-Damgard construction, as it uses a sponge construction to perform
-data compression.
-
-.. [#sha1_dean]
-   http://arctic.org/~dean/crypto/sha1.html
-
-.. [#sha_intrinsics]
-   https://github.com/noloader/SHA-Intrinsics
+Based on the generic Keccak construction Botan implements SHA-3 as defined in
+[FIPS-202]_ and thus supports output lengths of 224, 256, 384 and 512 bits. The
+SHA-3 parameterization is implemented in :srcref:`src/lib/hash/sha3/sha3.cpp`.
 
 SHAKE
 -----
 
-Botan implements the two SHA-3 XOFs SHAKE128 and SHAKE256 in
+Botan implements the two Keccak-based XOFs SHAKE128 and SHAKE256 in
 :srcref:`src/lib/hash/shake/shake.cpp` as defined in [FIPS-202]_. It
 utilizes the Keccak sponge construction methods also used in the SHA-3
 implementation using a padding that is specific to SHAKE. In contrast to SHA-3
 it allows arbitrary output lengths which are provided to the constructor
 of the class.
+
+As of version 3.2.0, Botan additionally provides SHAKE using a first-class XOF
+API that resides in :srcref:`src/lib/xof/shake_xof/shake_xof.cpp`.
 
 BLAKE2b
 -------
