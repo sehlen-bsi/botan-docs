@@ -1,7 +1,13 @@
 title: Build System
 
+description: |
+  Botan can now use the "ninja" build tool alongside "make". This is useful
+  especially on Windows where the builtin "nmake" build tool still does not
+  support parallel compilation. The security of the cryptographic
+  implementations in the library is not affected by this.
+
 patches:
 # Add ninja support  (@securitykernel)
 - pr: 3677  # https://github.com/randombit/botan/pull/3677
   merge_commit: 88fbc408173226be04ebf843447e76cdebcfee03
-  classification: unspecified
+  classification: info
