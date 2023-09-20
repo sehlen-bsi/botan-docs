@@ -21,3 +21,7 @@ patches:
 # Update API reference  (@Jack Lloyd)
 - commit: 93a0696aeaebd3f8f9d3f45383bb9bb61ff05e9c  # https://github.com/randombit/botan/commit/93a0696aeaebd3f8f9d3f45383bb9bb61ff05e9c
   classification: unspecified
+
+# Remove obsolete warning about the DES implementation  (@Jack Lloyd)
+- commit: c321da5c3d69b86962468d8eb55c9ea07be077d5  # https://github.com/randombit/botan/commit/c321da5c3d69b86962468d8eb55c9ea07be077d5
+  classification: unspecified
