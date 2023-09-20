@@ -78,7 +78,7 @@ def build_targets(target, target_os):
     yield 'tests'
 
 def determine_flags(target, target_os, target_cc, ccache,
-                    root_dir, build_dir, pkcs11_lib, test_results_dir, disabled_tests):
+                    root_dir, build_dir, make_tool, pkcs11_lib, test_results_dir, disabled_tests):
     """
     Return the configure.py flags as well as the test cmd.
     """
@@ -103,7 +103,8 @@ def determine_flags(target, target_os, target_cc, ccache,
              '--os=%s' % (target_os),
              '--build-targets=%s' % ','.join(build_targets(target, target_os)),
              '--with-build-dir=%s' % build_dir,
-             '--link-method=symlink']
+             '--link-method=symlink',
+             '--build-tool=%s' % make_tool]
 
     if ccache is not None:
         flags += ['--no-store-vc-rev', '--compiler-cache=%s' % (ccache)]
@@ -322,15 +323,15 @@ def main(args):
     if options.test_results_dir:
         os.makedirs(options.test_results_dir, exist_ok=True)
 
+    if options.make_tool == '':
+        options.make_tool = 'make'
+
     config_flags, run_test_command = determine_flags(
-        target, target_os, options.cc, compiler_cache, root_dir, build_dir,
+        target, target_os, options.cc, compiler_cache, root_dir, build_dir, options.make_tool,
         options.pkcs11_lib,
         options.test_results_dir, options.disabled_tests)
 
     cmds.append([py_interp, os.path.join(root_dir, 'configure.py')] + config_flags)
-
-    if options.make_tool == '':
-        options.make_tool = 'make'
 
     make_cmd = [options.make_tool]
     if build_dir != '.':
@@ -340,7 +341,10 @@ def main(args):
         if build_jobs > 1 and options.make_tool != 'nmake':
             make_cmd += ['-j%d' % (build_jobs)]
 
-    make_cmd += ['-k']
+    if options.make_tool == 'make':
+        make_cmd += ['-k']
+    elif options.make_tool == 'ninja':
+        make_cmd += ['-k0']
 
     if target in ['pdf_docs']:
         cmds.append(make_cmd + ['docs'])
