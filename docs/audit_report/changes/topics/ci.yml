@@ -1,52 +1,63 @@
 title: Continuous Integration
 
+description: |
+  This contains improvements and fixes to the library's Continuous Integration
+  setup. While being important for continuous functional validation, none of
+  these patches have an immediate impact on the cryptographic functionality of
+  Botan.
+
+  It is worth noting that Botan now uses GitHub's CodeQL service that
+  automatically scans the entire codebase for potential security
+  vulnerabilities. No issues have been found at the time of this writing.
+
 patches:
 # TLS Anvil Server Tests in Nightly CI  (@FAlbertDev)
 - pr: 3651  # https://github.com/randombit/botan/pull/3651
   merge_commit: fc4b4271fbaa47e886ee4028c2b2cb8eb3384543
-  classification: unspecified
+  classification: info
 
 # Modify the CI script to fall back to nmake if jom is missing  (@randombit)
 - pr: 3639  # https://github.com/randombit/botan/pull/3639
   merge_commit: 1e09116a34277515e52be0ad69c337a55fbe01bb
-  classification: unspecified
-
-# Fix: Segfault in tls_http_server  (@FAlbertDev)
-- pr: 3634  # https://github.com/randombit/botan/pull/3634
-  merge_commit: cff50ed0f717dd82a3d3e06b706742f3b7ea2ef8
-  classification: unspecified
-
-# [TLS 1.3] Extend CredentialsManager for upcoming TLS 1.3 PSK  (@reneme)
-- pr: 3622  # https://github.com/randombit/botan/pull/3622
-  merge_commit: 65b75486225c0d99cc2ada89be5f679b727c3430
-  classification: unspecified
+  classification: info
 
 # Try some GitHub Actions Workflow Commands  (@reneme)
 - pr: 3640  # https://github.com/randombit/botan/pull/3640
   merge_commit: 12de91e487ec60126c6bf692e5048ad668c675e9
-  classification: unspecified
+  classification: info
 
 # Add a S390x CI build  (@randombit)
 - pr: 3686  # https://github.com/randombit/botan/pull/3686
   merge_commit: 2c2ff3c710c6384ba42739934b6750abe1725d9d
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add CodeQL  (@randombit)
 - pr: 3663  # https://github.com/randombit/botan/pull/3663
   merge_commit: 8c72bab4c7e2348beb6753b8df9c3e9a65f89594
-  classification: unspecified
+  classification: info
+  auditer: reneme
+  comment: |
+    CodeQL is a GitHub service that provides static source code analysis to
+    automatically scan for vulnerabilities.
 
 # Add OpenSSF Scorecard badge  (@securitykernel)
 - pr: 3658  # https://github.com/randombit/botan/pull/3658
   merge_commit: 897f107e195fd7559afb5b98fb081ee3ae569376
-  classification: unspecified
+  classification: info
+  comment: |
+    OpenSSF Scorecards is an automated service that scans open source projects
+    for a number of software security best practices. The project then receives
+    a normalized score to give potential users a quick idea on the project's
+    trustworthiness. Botan currently scores 9/10 in this scorecard.
 
 # Set GH permissions on cifuzz CI job  (@randombit)
 - pr: 3661  # https://github.com/randombit/botan/pull/3661
   merge_commit: efb6a737958144d2fb0a2c00b4ea65e363759230
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add compiler and architecture information to XML report  (@lieser)
 - pr: 3642  # https://github.com/randombit/botan/pull/3642
   merge_commit: ea43a868e611b25dc8d8c5eba21caa807d3083e6
-  classification: unspecified
+  classification: info
