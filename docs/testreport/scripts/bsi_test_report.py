@@ -6,21 +6,9 @@ import glob
 import argparse
 import re
 from itertools import chain
-from functools import reduce
 from datetime import datetime, date
 
 import junitparser
-
-
-def apply_template_variables(template, vars):
-    value_pattern = re.compile(r'%{([a-z][a-z_0-9]+)}')
-
-    def insert_value(match):
-        v = match.group(1)
-        if v in vars:
-            return str(vars[v])
-        raise KeyError(v)
-    return value_pattern.sub(insert_value, template)
 
 
 class Testsuites(junitparser.JUnitXml):
@@ -158,24 +146,22 @@ class Testsuites(junitparser.JUnitXml):
 
 class Report:
     def __init__(self, report_files, args):
-        self._prepare_preamble(args)
         self.reports = [Testsuites.fromfile(report) for report in report_files]
         self.reports.sort(key=lambda x: x.platform +
                           x.os_version, reverse=True)
 
     def _headline(self, content, level=1):
-        if level in [1, 2]:
+        if level == 1:
             line = '='
-        elif level == 3:
+        elif level == 2:
             line = '-'
+        elif level == 3:
+            line = '^'
         else:
             raise ValueError("Headline level 1-3 are supported only")
 
         line = line * len(content)
-        if level == 1:
-            return '\n'.join([line, content, line, ''])
-        else:
-            return '\n'.join([content, line, ''])
+        return '\n'.join([content, line, ''])
 
     def _pagebreak(self):
         return '\n'.join(['.. raw:: latex',
@@ -183,41 +169,22 @@ class Report:
                           '   \pagebreak',
                           ''])
 
-    def _prepare_preamble(self, args):
-        if args.preamble:
-            with open(args.preamble) as f:
-                self.preamble = f.read()
-        else:
-            self.preamble = self._headline("Botan Test Report")
-
-        self.preamble = apply_template_variables(self.preamble, {
-            'botan_version': args.botan_version or 'Unknown',
-            'botan_git_sha': args.git_refsha or 'Unknown',
-            'botan_git_ref': args.git_refname or 'Unknown',
-            'date_today':    date.today()
-        })
-
     def _render_rst(self):
         current_chapter = ""
-        out = [self.preamble]
+        out = []
+        out.append(self._headline("Test Report", level=1))
+        out.append(self._pagebreak())
         for report in self.reports:
             if current_chapter != report.platform:
                 current_chapter = report.platform
-                out.append(self._headline(current_chapter, level=3))
+                out.append(self._headline(current_chapter, level=2))
             out.append(report.render())
             out.append(self._pagebreak())
         return '\n\n'.join(out)
 
-    def render(self, outfile, format):
-        if format == 'pdf':
-            from pypandoc import convert_text
-            convert_text(self._render_rst().encode('utf-8'), 'pdf',
-                         format='rst', outputfile=outfile)
-        elif format == 'rst':
-            with open(outfile, 'w+') as f:
-                f.write(self._render_rst())
-        else:
-            raise ValueError("unknown output format: " + format)
+    def render(self, outfile):
+        with open(outfile, 'w+') as f:
+            f.write(self._render_rst())
 
 
 def main():
@@ -225,32 +192,33 @@ def main():
         prog='BSI Test Result Generator',
         description='This takes a bunch of JUnit test results and generates a summary document from them.')
 
-    parser.add_argument('reportsdir',
-                        help='Directory where junit reports are stored. All *.xml files will be picked up.')
-    parser.add_argument('reportfile',
-                        help='Output file to be generated')
-    parser.add_argument('--format', choices=['pdf', 'rst'], default='rst',
-                        help='Output format of the report file')
-    parser.add_argument('--preamble', default=None,
-                        help='Input file containing reStructuredText that should be added before the generated report')
-    parser.add_argument('--git-refname', default=None,
-                        help='Reference string to identify the respective source revision (e.g. tag or branch name)')
-    parser.add_argument('--git-refsha', default=None,
-                        help='Reference commit SHA to identify the respective source revision')
-    parser.add_argument('--botan-version', default=None,
-                        help='The version of Botan that is currently being targeted by this documentation.')
+    parser.add_argument('--junitdir',
+                        help='Directory where junit reports are stored. All *.xml files will be picked up.',
+                        default=os.environ.get("TEST_REPORT_JUNIT_INPUT_DIRECTORY"))
+    parser.add_argument('--outfile',
+                        help='Output file to be generated',
+                        default=os.environ.get("TEST_REPORT_OUTPUT_DIRECTORY"))
 
     args = parser.parse_args()
 
-    if not os.path.isdir(args.reportsdir):
-        raise Exception("Cannot read junit files from given reports directory")
+    if not args.junitdir:
+        raise Exception("Missing parameter, maybe set TEST_REPORT_JUNIT_INPUT_DIRECTORY?")
 
-    report_files = glob.glob(os.path.join(args.reportsdir, "*.xml"))
+    if not args.outfile:
+        raise Exception("Missing parameter, maybe set TEST_REPORT_OUTPUT_DIRECTORY?")
+
+    if not os.path.isdir(args.junitdir):
+        raise Exception(f"Cannot read junit files from given reports directory: {args.junitdir}")
+
+    if not os.path.isdir(os.path.dirname(args.outfile)):
+        os.makedirs(os.path.dirname(args.outfile))
+
+    report_files = glob.glob(os.path.join(args.junitdir, "*.xml"))
     if not report_files:
-        raise Exception("Did not find any junit reports")
+        raise Exception(f"Did not find any junit reports in {args.junitdir}")
 
     report = Report(report_files, args)
-    report.render(args.reportfile, format=args.format)
+    report.render(args.outfile)
 
     return 0
 
