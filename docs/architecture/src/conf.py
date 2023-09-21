@@ -21,7 +21,7 @@ import auditinfo
 
 # -- Project information -----------------------------------------------------
 
-project = f'Botan Prüfung {auditinfo.botan_version()} - Library Architecture Overview'
+project = f'Library Architecture Overview'
 copyright = '2023, Rohde & Schwarz'
 author = 'Rohde & Schwarz'
 
@@ -79,11 +79,11 @@ latex_documents = [
 ]
 
 latex_additional_files = [
-    'custom.sty'
+    *auditinfo.coverpage_resources(language),
 ]
 
 latex_elements = {
-    'preamble': r'\usepackage{custom}',
+    'preamble': r'\usepackage{custom_coverpage}',
     'maketitle': r'\custommanualmaketitle',
 }
 
