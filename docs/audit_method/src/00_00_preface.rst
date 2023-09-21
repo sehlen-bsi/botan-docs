@@ -24,6 +24,10 @@ Botan-Versionen zum Einsatz kommt.
 | Philippe Lieser (PL)
 | René Meusel (RM)
 
+**Dokumentrevision**
+
+Dieses Dokument wurde am |document_datestamp| aus der Git Revision |document_gitsha_short| erzeugt.
+
 **Copyright**
 
 Das Werk einschließlich aller seiner Teile ist urheberrechtlich geschützt. Jede

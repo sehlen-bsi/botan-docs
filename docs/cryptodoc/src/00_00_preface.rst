@@ -26,6 +26,10 @@ This document describes the cryptographic implementations of Botan.
 | Amos Treiber (AT)
 | Fabian Albert (FA)
 
+**Document Revision**
+
+This document was generated on |document_datestamp| based on the git revision |document_gitsha_short|.
+
 **Copyright**
 
 This work is protected by copyright law. Every application outside of
