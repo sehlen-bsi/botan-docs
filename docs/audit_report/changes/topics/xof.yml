@@ -1,0 +1,7 @@
+title: eXtensible Output Functions
+
+patches:
+# eXtendable Output Functions as first-class citizen  (@reneme)
+- pr: 3671  # https://github.com/randombit/botan/pull/3671
+  merge_commit: 43dcc8a1da9e5976a548a156b69bfcc77f1ae728
+  classification: unspecified

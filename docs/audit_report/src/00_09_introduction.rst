@@ -2,7 +2,7 @@ Introduction
 ============
 
 This audit report summarizes the review results of changes to the Botan library code
-base between the tagged releases 3.0.0-alpha1 and 3.1.1.
+base between the tagged releases 3.1.1 and 3.2.0.
 They were examined by considering the BSI technical guidelines' recommendations.
 In the meantime, the development of Botan continues, e.g., new algorithms are added, or bugs are fixed.
 Rohde & Schwarz Cybersecurity is part of this maintenance process as a contractor for this project.
@@ -13,22 +13,17 @@ audit report prepared by the contractor and submitted to the BSI with the source
 This examination applies, in particular, to cryptography-related changes. The BSI needs a well-founded decision
 basis for recommending a new Botan version. [PRM]_ describes the audit method that differs from the previous one.
 
-This document contains the audit report of the changes between the Botan versions 3.0.0-alpha1 and
-3.1.1. Evaluated are the changes to relevant parts of the source code, the results of the side-channel
-analysis for Botan 3.1.1, and a list of updated documents.
+This document contains the audit report of the changes between the Botan versions 3.1.1 and
+3.2.0. Evaluated are the changes to relevant parts of the source code, the results of the side-channel
+analysis for Botan 3.2.0, and a list of updated documents.
 
 
 Review Method
 -------------
 
-The method for this audit differs from the processes of the previous audit.
-[PRM]_ describes the audit method in detail. The following gives
-a summary of the new audit method.
-
-This document captures all changes to the library that led from a
-defined base revision (git release tag `3.0.0-alpha1`) to the target revision of this
-review. To do this efficiently, we base our review on the Git history between
-those revisions.
+This document captures all changes to the library that led from a defined base
+revision to the target revision of this review. To do this efficiently, we base
+our review on the Git history between those revisions.
 
 Botan is developed publicly on GitHub; hence, we take all individual pull
 requests in the code base between the two revisions as the changeset
@@ -207,11 +202,10 @@ reviewed:
 The following previously existing modules are now in scope
 and were fully reviewed:
 
-- argon2, argon2_avx2, argon2_ssse3
-- blake2
-- hkdf
-- shake
+.. todo::
 
+   Update the lists above with the latest module list before releasing
+   e.g. "shake_xof" is new
 
 Patch Description Content
 -------------------------

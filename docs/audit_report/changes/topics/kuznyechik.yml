@@ -1,0 +1,11 @@
+title: Kyznyechik
+
+patches:
+# Kuznyechik block cipher  (@huven)
+- pr: 3680  # https://github.com/randombit/botan/pull/3680
+  merge_commit: 4ec8531e169d1241b1ab6731a2d7eebd25b02d49
+  classification: unspecified
+
+# Update policies and docs for Kuznyechik addition  (@Jack Lloyd)
+- commit: be263bab07288a54576c3e25bd3383fe9abad8fa  # https://github.com/randombit/botan/commit/be263bab07288a54576c3e25bd3383fe9abad8fa
+  classification: unspecified

@@ -58,11 +58,9 @@ jobs:
           cache-key: bsi-${{ matrix.host_os }}-${{ matrix.target }}
 
       - name: Build and Test Botan
-        # TODO: Disabled tests is temporary fix for https://github.com/randombit/botan/pull/3632
         run: >-
           python3 ./source/.github/scripts/ci_build.py
           --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
-          --disabled-tests=tls_extensions_key_share_client_hello
           ${{ matrix.target }}
 
       - name: Archive Artifacts
@@ -81,7 +79,7 @@ jobs:
         # basic configuration combinations should run on all target platforms
         target:    [ static, shared ]
         platform:  [
-          { host_os: windows-2022,  compiler: msvc,  make_tool: jom },
+          { host_os: windows-2022,  compiler: msvc,  make_tool: ninja },
           { host_os: ubuntu-latest, compiler: gcc,   make_tool: make },
           { host_os: ubuntu-latest, compiler: clang, make_tool: make },
           { host_os: macos-13,  compiler: clang, make_tool: make }
@@ -108,9 +106,6 @@ jobs:
           fetch-depth: 0
           ref: ${{ env.BOTAN_REF }}
 
-      - name: Apply Patch to Botan
-        run: git -C botan apply ${{ github.workspace }}/source/docs/testreport/test_properties.patch
-
       - name: Setup Build Agent
         uses: ./source/.github/actions/setup-build-agent
         with:
@@ -118,12 +113,10 @@ jobs:
           cache-key: bsi-${{ matrix.platform.host_os }}-${{ matrix.platform.compiler }}-${{ matrix.target }}
 
       - name: Build and Test Botan
-        # TODO: Disabled tests is temporary fix for https://github.com/randombit/botan/pull/3632
         run: >-
           python3 ./source/.github/scripts/ci_build.py
           --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
           --cc='${{ matrix.platform.compiler }}' --make-tool='${{ matrix.platform.make_tool }}'
-          --disabled-tests=tls_extensions_key_share_client_hello
           --test-results-dir=junit_reports
           ${{ matrix.target }}
 

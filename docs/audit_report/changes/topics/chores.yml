@@ -1,0 +1,109 @@
+title: Code Cleanup and Future Proofing
+
+patches:
+# Refactor: AlignmentBuffer<> helper for block-oriented Hashes  (@reneme)
+- pr: 3693  # https://github.com/randombit/botan/pull/3693
+  merge_commit: 1f26e75d781745a7dbead57f10e0d31077a79709
+  classification: unspecified
+
+# kem follow-up, now we do have BigInt::encode_1363 working with std::s…  (@devnexen)
+- pr: 3698  # https://github.com/randombit/botan/pull/3698
+  merge_commit: 95fe9713a1ab9336e039b203e89370aa85b25e8f
+  classification: unspecified
+
+# rsa, raw_op using std::span view for raw_kem_decrypt to avoid  (@devnexen)
+- pr: 3696  # https://github.com/randombit/botan/pull/3696
+  merge_commit: 4779ea4b1937ff6abf141893ff8939303d262ddc
+  classification: unspecified
+
+# Convert the hash2curve test vectors to binary  (@randombit)
+- pr: 3690  # https://github.com/randombit/botan/pull/3690
+  merge_commit: e097bd9c48d9172d61448f889a25c1bec2953a52
+  classification: unspecified
+
+# std::span for SymmetricAlgorithm::key_schedule()  (@reneme)
+- pr: 3684  # https://github.com/randombit/botan/pull/3684
+  merge_commit: 28b54236b870e40c9e919f92dd47c70e419bb9d1
+  classification: unspecified
+
+# std::span for Buffered_Computation  (@reneme)
+- pr: 3681  # https://github.com/randombit/botan/pull/3681
+  merge_commit: f906177af2625d96eb1eff3dca2827318f147da8
+  classification: unspecified
+
+# FIX: explicitly prohibit CT::Mask<bool>  (@reneme)
+- pr: 3678  # https://github.com/randombit/botan/pull/3678
+  merge_commit: f5ef4551599b6653db5f407653f003a710b9bd3d
+  classification: unspecified
+
+# roughtime remove redefinition of enable_if_t helper  (@devnexen)
+- pr: 3668  # https://github.com/randombit/botan/pull/3668
+  merge_commit: 72dc18bbf598f2c3bef81a4fb2915e9c3c524ac4
+  classification: unspecified
+
+# Allow the pubkey operations wrapper types to move  (@randombit)
+- pr: 3655  # https://github.com/randombit/botan/pull/3655
+  merge_commit: 2878d6aff2bc7508fc1f29699af823b4cba62368
+  classification: unspecified
+
+# Remove some unnecessary macros from loadstor.h  (@randombit)
+- pr: 3649  # https://github.com/randombit/botan/pull/3649
+  merge_commit: 3c7229cfee09d3355b7217590e65522059ad246a
+  classification: unspecified
+
+# Fix some clang-tidy issues in headers  (@randombit)
+- pr: 3646  # https://github.com/randombit/botan/pull/3646
+  merge_commit: e7352435e23f0c8fa4e43460759106360157e923
+  classification: unspecified
+
+# FIX: silent module dependencies in TLS and XMSS tests  (@reneme)
+- pr: 3632  # https://github.com/randombit/botan/pull/3632
+  merge_commit: bfd60f09090620158d1e9fdaafb77b2bf97d1bd4
+  classification: unspecified
+
+# Remove unnecessary variable in BLAKE2b  (@FAlbertDev)
+- pr: 3624  # https://github.com/randombit/botan/pull/3624
+  merge_commit: 2122c69625627bd5684ab002455d60c1b32b410d
+  classification: unspecified
+
+# API modernization PK_KEM_Encryptor/Decryptor  (@reneme)
+- pr: 3611  # https://github.com/randombit/botan/pull/3611
+  merge_commit: 3f3b9e16602bd574f10456fab59075e23a96d2aa
+  classification: unspecified
+
+# Remove obsolete warning about the DES implementation  (@Jack Lloyd)
+- commit: c321da5c3d69b86962468d8eb55c9ea07be077d5  # https://github.com/randombit/botan/commit/c321da5c3d69b86962468d8eb55c9ea07be077d5
+  classification: unspecified
+
+# Correct formatting  (@Jack Lloyd)
+- commit: 5504ad132674e14d38c92bb153223f4679187324  # https://github.com/randombit/botan/commit/5504ad132674e14d38c92bb153223f4679187324
+  classification: unspecified
+
+# Fix some funky formatting of AVX2 constants  (@Jack Lloyd)
+- commit: dfe17143ef3aaed723700746c6515ba6261c25cd  # https://github.com/randombit/botan/commit/dfe17143ef3aaed723700746c6515ba6261c25cd
+  classification: unspecified
+
+# Extend VS Code settings  (@lieser)
+- pr: 3615  # https://github.com/randombit/botan/pull/3615
+  merge_commit: 9d2ef81c1fdc9e479ac30ad97d5a21b71c7ffb61
+  classification: unspecified
+
+# Some Whirlpool cleanups  (@randombit)
+- pr: 3638  # https://github.com/randombit/botan/pull/3638
+  merge_commit: b61b9005bf71afbd4656db703793534b770fbf55
+  classification: unspecified
+
+# Remove bswap_4  (@randombit)
+- pr: 3643  # https://github.com/randombit/botan/pull/3643
+  merge_commit: 41f94d42aff67459a20647da08c386f1923a80fd
+  classification: unspecified
+
+# Add PK_KEM_Decryptor::encapsulated_key_length  (@randombit)
+- pr: 3653  # https://github.com/randombit/botan/pull/3653
+  merge_commit: 3708ca94849104457c1a372bd95237e382bc0611
+  classification: unspecified
+
+# For swap use ADL instead of specializing std::swap  (@randombit)
+- pr: 3656  # https://github.com/randombit/botan/pull/3656
+  merge_commit: 7c03c1b8939bf61508a34720a6a65631488d5df4
+  classification: unspecified
