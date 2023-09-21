@@ -20,4 +20,5 @@ def coverpage_resources(language: str) -> list[str]:
         raise RuntimeError(f"Unknown language: {language}")
     return [
         os.path.join(global_resources(), f"coverpage_{language}", "custom_coverpage.sty"),
+        os.path.join(global_resources(), "logos", "rscs.png"),
     ]
