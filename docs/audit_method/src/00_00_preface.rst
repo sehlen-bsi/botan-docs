@@ -1,7 +1,7 @@
 Vorwort
 =======
 
-**Zusammefassung**
+**Zusammenfassung**
 
 Mit Botan steht eine vom BSI geprüfte Kryptobibliothek zur Verfügung. Mit
 dem  Einsatz von Botan durch Herstellern von VS-Produkten kann der
