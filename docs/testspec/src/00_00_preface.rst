@@ -24,6 +24,10 @@ This document specifies test cases implemented in the library's test suite.
 | René Meusel (RM), Rohde & Schwarz Cybersecurity
 | Fabian Albert (FA), Rohde & Schwarz Cybersecurity
 
+**Document Revision**
+
+This document was generated on |document_datestamp| based on the git revision |document_gitsha_short|.
+
 **Copyright**
 
 This work is protected by copyright law. Every application outside of copyright

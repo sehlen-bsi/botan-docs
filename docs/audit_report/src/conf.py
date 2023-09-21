@@ -28,6 +28,7 @@ author = 'Rohde & Schwarz'
 # The full version, including alpha/beta/rc tags
 release = auditinfo.botan_version()
 
+rst_prolog = auditinfo.rst_substitutions()
 
 # -- General configuration ---------------------------------------------------
 

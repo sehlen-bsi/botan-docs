@@ -26,6 +26,10 @@ audit target revision to establish a new audited revision.
 | Andreas Seelos-Zankl (ASZ), Fraunhofer AISEC
 | Alexander Wagner (AW), Fraunhofer AISEC
 
+**Document Revision**
+
+This document was generated on |document_datestamp| based on the git revision |document_gitsha_short|.
+
 **Copyright**
 
 This work is protected by copyright law. Every application outside of copyright

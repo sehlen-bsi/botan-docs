@@ -1,6 +1,14 @@
 Botan Architecture
 ==================
 
+Document Revision
+-----------------
+
+This document was generated on |document_datestamp| based on the git revision |document_gitsha_short|.
+
+Introduction
+------------
+
 Botan consists of three main parts: the library itself, a CLI tool, and the test suite.
 The library itself is divided into separate modules.
 Botan uses a homebrew build system allowing for fine-grained configuration of the desired algorithms being built.
