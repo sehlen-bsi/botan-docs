@@ -21,7 +21,7 @@ import auditinfo
 
 # -- Project information -----------------------------------------------------
 
-project = 'Audit Report: Botan'
+project = 'Audit Report'
 # copyright = '???'
 author = 'Rohde & Schwarz'
 
@@ -79,11 +79,11 @@ latex_documents = [
 ]
 
 latex_additional_files = [
-    'custom.sty'
+    *auditinfo.coverpage_resources(language),
 ]
 
 latex_elements = {
-    'preamble': r'\usepackage{custom}\usepackage{xfrac}',
+    'preamble': r'\usepackage{custom_coverpage}\usepackage{xfrac}',
     'maketitle': r'\custommanualmaketitle',
     'utf8extra': ('\\DeclareUnicodeCharacter{03C1}{$\\rho$}'),
 }

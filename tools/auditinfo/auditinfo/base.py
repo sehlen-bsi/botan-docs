@@ -19,3 +19,8 @@ def repository_gitsha() -> str:
     if stderr or errcode != 0:
         raise RuntimeError(f"Failed to find git revision:\n{stderr}")
     return stdout.decode("utf-8")
+
+def global_resources() -> str:
+    """ Absolute path to the directory containing resource files """
+    return os.path.join(repository_root(), "resources")
+

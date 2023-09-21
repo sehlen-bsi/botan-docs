@@ -5,6 +5,15 @@ from collections.abc import Mapping
 from auditinfo.base import *
 from auditinfo.botan import *
 
+def coverpage_resources(language: str) -> list[str]:
+    """ Returns a list of absolute paths to files needed for the coverpage """
+    if language not in ["en", "de"]:
+        raise RuntimeError(f"Unknown language: {language}")
+    return [
+        os.path.join(global_resources(), f"coverpage_{language}", "custom_coverpage.sty"),
+    ]
+
+
 def rst_substitutions(custom_substitutions : Mapping[str, str] = {}) -> str:
     """ An rST prolog containing a number of useful substitutions.
 
