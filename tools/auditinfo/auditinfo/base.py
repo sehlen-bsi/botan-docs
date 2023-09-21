@@ -23,4 +23,3 @@ def repository_gitsha() -> str:
 def global_resources() -> str:
     """ Absolute path to the directory containing resource files """
     return os.path.join(repository_root(), "resources")
-
