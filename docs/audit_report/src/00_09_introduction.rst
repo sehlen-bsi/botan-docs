@@ -2,7 +2,7 @@ Introduction
 ============
 
 This audit report summarizes the review results of changes to the Botan library code
-base between the tagged releases 3.1.1 and 3.2.0.
+base between the tagged releases |botan_git_base_ref| and |botan_version|.
 They were examined by considering the BSI technical guidelines' recommendations.
 In the meantime, the development of Botan continues, e.g., new algorithms are added, or bugs are fixed.
 Rohde & Schwarz Cybersecurity is part of this maintenance process as a contractor for this project.
@@ -13,9 +13,9 @@ audit report prepared by the contractor and submitted to the BSI with the source
 This examination applies, in particular, to cryptography-related changes. The BSI needs a well-founded decision
 basis for recommending a new Botan version. [PRM]_ describes the audit method that differs from the previous one.
 
-This document contains the audit report of the changes between the Botan versions 3.1.1 and
-3.2.0. Evaluated are the changes to relevant parts of the source code, the results of the side-channel
-analysis for Botan 3.2.0, and a list of updated documents.
+This document contains the audit report of the changes between the Botan versions |botan_git_base_ref| and
+|botan_version|. Evaluated are the changes to relevant parts of the source code, the results of the side-channel
+analysis for Botan |botan_version|, and a list of updated documents.
 
 
 Review Method

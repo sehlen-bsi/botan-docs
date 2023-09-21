@@ -1,7 +1,7 @@
 Vorwort
 =======
 
-**Zusammefassung**
+**Zusammenfassung**
 
 Mit Botan steht eine vom BSI geprüfte Kryptobibliothek zur Verfügung. Mit
 dem  Einsatz von Botan durch Herstellern von VS-Produkten kann der
@@ -23,6 +23,10 @@ Botan-Versionen zum Einsatz kommt.
 | Daniel Neus (DN)
 | Philippe Lieser (PL)
 | René Meusel (RM)
+
+**Dokumentrevision**
+
+Dieses Dokument wurde am |document_datestamp| aus der Git Revision |document_gitsha_short| erzeugt.
 
 **Copyright**
 
