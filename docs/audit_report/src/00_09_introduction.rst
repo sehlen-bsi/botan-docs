@@ -202,12 +202,10 @@ reviewed:
 The following previously existing modules are now in scope
 and were fully reviewed:
 
-- shake_xof
-
 .. todo::
 
    Update the lists above with the latest module list before releasing
-
+   e.g. "shake_xof" is new
 
 Patch Description Content
 -------------------------
