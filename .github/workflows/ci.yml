@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         element:
-          - {name: Crypto Documentation, dir: docs/cryptodoc, out_name: crypto}
+          - {name: Crypto Documentation, dir: docs/cryptodoc, out_name: cryptodoc}
           - {name: Audit Method Description, dir: docs/audit_method, out_name: audit_method}
           - {name: Test Specification, dir: docs/testspec, out_name: testspec}
           - {name: Architecture Overview, dir: docs/architecture, out_name: architecture}
@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Botan ${{ env.BOTAN_VERSION }} ${{ matrix.element.name }}
-          path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}.pdf
+          path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}-*.pdf
 
   url_check:
     strategy:
