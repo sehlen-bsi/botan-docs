@@ -19,3 +19,16 @@ def repository_gitsha() -> str:
     if stderr or errcode != 0:
         raise RuntimeError(f"Failed to find git revision:\n{stderr}")
     return stdout.decode("utf-8")
+
+def global_resources() -> str:
+    """ Absolute path to the directory containing resource files """
+    return os.path.join(repository_root(), "resources")
+
+def coverpage_resources(language: str) -> list[str]:
+    """ Returns a list of absolute paths to files needed for the coverpage """
+    if language not in ["en", "de"]:
+        raise RuntimeError(f"Unknown language: {language}")
+    return [
+        os.path.join(global_resources(), f"coverpage_{language}", "custom_coverpage.sty"),
+        os.path.join(global_resources(), "logos", "rscs.png"),
+    ]

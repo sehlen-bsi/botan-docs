@@ -133,55 +133,39 @@ jobs:
     needs: bsi_tests
     if: always()
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs/testreport
     steps:
-      - name: Fetch Audit Repository
-        uses: actions/checkout@v3
-        with:
-          path: ./source
+      - uses: actions/checkout@v3
 
       - name: Setup Environment Configuration
-        uses: ./source/.github/actions/setup-environment
+        uses: ./.github/actions/setup-environment
         with:
-          env_file: ./source/config/botan.env
-
-      - name: Fetch Botan Repository
-        uses: actions/checkout@v3
-        with:
-          path: ./botan
-          repository: ${{ env.BOTAN_REPO }}
-          fetch-depth: 0
-          ref: ${{ env.BOTAN_REF }}
-
-      - name: Botan Git SHA
-        id: vars
-        run: echo "botan_sha=$(git -C botan rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Setup Build Agent
-        uses: ./source/.github/actions/setup-build-agent
-        with:
-          target: test-report
+          env_file: ./config/botan.env
 
       - name: Fetch JUnit Reports
         uses: actions/download-artifact@v3
         with:
           name: junit
-          path: junit_reports
+          path: ${{ github.workspace }}/junit_reports
 
-      - name: Generate Test Report
-        run: >-
-          python3 ./source/docs/testreport/bsi_test_report.py
-          --preamble ./source/docs/testreport/testreport_preamble.rst
-          --git-refname ${{ env.BOTAN_REF }}
-          --git-refsha ${{ steps.vars.outputs.botan_sha }}
-          --botan-version ${{ env.BOTAN_VERSION }}
-          --format=pdf
-          junit_reports test-report.pdf
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -qq install python3-poetry texlive-latex-extra texlive-fonts-recommended tex-gyre texlive-lang-german latexmk
+      - name: Install Python Dependencies
+        run: poetry install --no-dev
+      - name: Build pdf
+        run: poetry run make latexpdf
+        env:
+          TEST_REPORT_JUNIT_INPUT_DIRECTORY: ${{ github.workspace }}/junit_reports
+
       - name: Store Test Report
         uses: actions/upload-artifact@v3
-        if: always()
         with:
-          name: Test Report
-          path: test-report.pdf
+          name: Botan ${{ env.BOTAN_VERSION }} Test Report
+          path: docs/testreport/_build/latex/testreport-*.pdf
           if-no-files-found: error
 
   source_archive:

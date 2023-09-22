@@ -18,10 +18,9 @@ import auditinfo
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-
 # -- Project information -----------------------------------------------------
 
-project = 'Prüfmethodik für die Freigabe neuer Botan-Versionen'
+project = 'Test Report'
 # copyright = '???'
 author = 'Rohde & Schwarz'
 
@@ -36,6 +35,7 @@ rst_prolog = auditinfo.rst_substitutions()
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sourceref',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -49,13 +49,12 @@ root_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'de'
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -75,7 +74,7 @@ html_theme = 'alabaster'
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class], toctree_only).
 latex_documents = [
-    (root_doc, f'audit_method-botan-{auditinfo.botan_version()}.tex', unicode_to_latex(project), unicode_to_latex(author), 'manual', False),
+    (root_doc, f'testreport-botan-{auditinfo.botan_version()}.tex', unicode_to_latex(project), unicode_to_latex(author), 'manual', False),
 ]
 
 latex_additional_files = [
