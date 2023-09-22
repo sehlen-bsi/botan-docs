@@ -2,7 +2,7 @@ title: TLS Improvements and Extensions
 
 description: |
   Most notably, this adds support for user-provided Preshared Keys in TLS 1.3.
-  Apart from that a few minor fixes and internal improvements on the TLS
+  Apart from that, a few minor fixes and internal improvements on the TLS
   implementation were merged.
 
 patches:
