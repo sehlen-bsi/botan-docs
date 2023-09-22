@@ -1,12 +1,19 @@
 title: Random Number Generator
 
+description: |
+  On older versions of glibc (< 2.25) ``getrandom()`` is not available. Though,
+  this is just a wrapper around a system call with the same name. Those patches
+  allow older systems to use getrandom through the low-level ``syscall()``
+  interface.
+
 patches:
 # Use the raw getrandom syscall only if we detect an old glibc  (@randombit)
 - pr: 3688  # https://github.com/randombit/botan/pull/3688
   merge_commit: d9f9bb8a217df93c2074a178f5f43ac3baffd47b
-  classification: unspecified
+  classification: info
 
 # Use syscall for getrandom  (@uilianries)
 - pr: 3685  # https://github.com/randombit/botan/pull/3685
   merge_commit: 326f1f375920a0c9c5325533275a586ff7828760
-  classification: unspecified
+  classification: info
+  auditer: reneme
