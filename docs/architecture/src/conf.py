@@ -76,7 +76,7 @@ html_theme = 'alabaster'
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class], toctree_only).
 latex_documents = [
-    (root_doc, 'architecture.tex', unicode_to_latex(project), unicode_to_latex(author), 'manual', False),
+    (root_doc, f'architecture-botan-{auditinfo.botan_version()}.tex', unicode_to_latex(project), unicode_to_latex(author), 'manual', False),
 ]
 
 latex_additional_files = [
