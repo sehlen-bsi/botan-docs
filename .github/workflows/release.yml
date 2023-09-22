@@ -165,7 +165,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Botan ${{ env.BOTAN_VERSION }} Test Report
-          path: docs/testreport/_build/latex/testreport.pdf
+          path: docs/testreport/_build/latex/testreport-*.pdf
           if-no-files-found: error
 
   source_archive:
