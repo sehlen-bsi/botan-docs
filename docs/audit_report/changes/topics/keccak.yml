@@ -4,27 +4,36 @@ patches:
 # FIX: cSHAKE should not depend on the user calling start()  (@reneme)
 - pr: 3701  # https://github.com/randombit/botan/pull/3701
   merge_commit: a8d4d183df7da0563e37d7c9802175a51d044729
-  classification: unspecified
+  classification: info
 
 # Feature: KMAC-128/256, NIST SP.800-185  (@reneme)
 - pr: 3689  # https://github.com/randombit/botan/pull/3689
   merge_commit: bdbdb96fe9b9d2adefa0c5e50017ef568956dced
-  classification: unspecified
+  classification: out of scope
+  comment: |
+    Adds a new message authentication code "KMAC". KMAC is not mentioned in
+    TR-02102-2.
 
 # Also test MAC algorithms without calling start  (@randombit)
 - pr: 3699  # https://github.com/randombit/botan/pull/3699
   merge_commit: ac6d3dd4e42bc374936eb783a35be1c836b988ce
-  classification: unspecified
+  classification: info
 
 # Refactoring SHA3: based on new permutation keccak-fips  (@falko-strenzke)
 - pr: 3673  # https://github.com/randombit/botan/pull/3673
   merge_commit: 560aec3a8bfa2456cc309bac478aca9ae53f0fff
-  classification: unspecified
+  classification: relevant
+  comment: |
+    This prepares Botan's implementation of the Keccak permutation for a more
+    generic use cases. It is the basis for the addition of KMAC and SHAKE as a
+    XOF.
 
 # Add KMAC to the API reference  (@Jack Lloyd)
 - commit: e5af909e37dbb8fe81855e18c619210718969a62  # https://github.com/randombit/botan/commit/e5af909e37dbb8fe81855e18c619210718969a62
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Deprecate SHAKE as a cipher [ci skip]  (@Jack Lloyd)
 - commit: cf045523e2fbdeccf99e6f5e546dbd41cddf851f  # https://github.com/randombit/botan/commit/cf045523e2fbdeccf99e6f5e546dbd41cddf851f
-  classification: unspecified
+  classification: info
+  auditer: reneme
