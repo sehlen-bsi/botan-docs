@@ -2,7 +2,7 @@ title: Miscellaneous Extensions
 
 description: |
   This collects further new functionality and APIs that were added to the
-  library. Among those, a new top-level interface for eXtendable Output
+  library. Among those, a new top-level interface for eXtendable-Output
   Functions, and minor additions to the Python and C wrappers.
 
 patches:
