@@ -30,6 +30,10 @@
    Botan Test Report",
    Release TBD
 
+.. [BirPerUdo16] Alex Biryukov, Léo Perrin, Aleksei Udovenko
+   "Reverse-Engineering the S-Box of Streebog, Kuznyechik and STRIBOBr1"
+   Cryptology ePrint Archive, Paper 2016/071
+
 .. [BOTAN_GIT_300] https://github.com/randombit/botan/tree/3.0.0
 
 .. [BOTAN_GIT_311] https://github.com/randombit/botan/tree/3.1.1

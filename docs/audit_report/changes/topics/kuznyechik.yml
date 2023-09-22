@@ -1,11 +1,25 @@
 title: Kyznyechik
 
+classification: out of scope
+
+description: |
+  Kuznyechik (Russian: literally "grasshopper") is a block cipher
+  defined in the National Standard of the Russian Federation GOST R 34.12-2015.
+  It was discovered that its supposedly random S-boxes feature a mathematical
+  structure that is unlikely to have occured by chance [BirPerUdo16]_. It was accepted into
+  Botan because VeraCrypt supports it as an alternative cipher.
+
+  The BSI build policy prohibits the inclusion of Kuznyechik and no parts of it
+  will be compiled into the library's binary files.
+
 patches:
 # Kuznyechik block cipher  (@huven)
 - pr: 3680  # https://github.com/randombit/botan/pull/3680
   merge_commit: 4ec8531e169d1241b1ab6731a2d7eebd25b02d49
-  classification: unspecified
+  classification: out of scope
+  auditer: reneme
 
 # Update policies and docs for Kuznyechik addition  (@Jack Lloyd)
 - commit: be263bab07288a54576c3e25bd3383fe9abad8fa  # https://github.com/randombit/botan/commit/be263bab07288a54576c3e25bd3383fe9abad8fa
-  classification: unspecified
+  classification: info
+  auditer: reneme
