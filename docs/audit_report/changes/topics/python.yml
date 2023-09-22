@@ -1,7 +1,0 @@
-title: Python Wrapper
-
-patches:
-# Add an argon2 specific Python wrapper  (@randombit)
-- pr: 3667  # https://github.com/randombit/botan/pull/3667
-  merge_commit: 53b1722ce5a0c2932deb7be7fd57a11ba286958a
-  classification: unspecified
