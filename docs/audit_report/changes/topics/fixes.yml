@@ -4,17 +4,23 @@ patches:
 # Add missing size limits checks for argon2 on 64-bit arch  (@lieser)
 - pr: 3626  # https://github.com/randombit/botan/pull/3626
   merge_commit: e1a42ce548f74627e77d6d574b330a8c16e99401
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Adds checks that ensure Argon2 output and parameters stay within specified
+    bounds, i.e. less than 2^32.
 
 # Initialize stack array b in generate_prime  (@Jack Lloyd)
 - commit: bd251b7669dda9f0977f2386c56d2748767a6d0c  # https://github.com/randombit/botan/commit/bd251b7669dda9f0977f2386c56d2748767a6d0c
-  classification: unspecified
+  classification: relevant
+  comment: |
+    OSS-Fuzz found a potential read of uninitialized array data holding random
+    bytes. In normal operation, this array is filled with random bytes right
+    after creation. This is an additional safety precation but doesn't have any
+    practical relevance when assuming nominal operation of the RNG.
+  auditer: reneme
+
 
 # Add unistd.h include for FreeBSD  (@Jack Lloyd)
 - commit: 96871c284f0305cc72215368376260a2a9aec898  # https://github.com/randombit/botan/commit/96871c284f0305cc72215368376260a2a9aec898
-  classification: unspecified
-
-# Extend EC_Group to track when a group used the explicit encoding  (@randombit)
-- pr: 3665  # https://github.com/randombit/botan/pull/3665
-  merge_commit: 527084c51d5841624ea029cab2b26feb4b0d2699
-  classification: unspecified
+  classification: info
+  auditer: reneme

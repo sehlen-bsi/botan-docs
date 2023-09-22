@@ -1,0 +1,28 @@
+title: Miscellaneous Extensions
+
+description: |
+  This collects further new functionality and APIs that were added to the
+  library. Among those, a new top-level interface for eXtendable-Output
+  Functions, and minor additions to the Python and C wrappers.
+
+patches:
+# Extend EC_Group to track when a group used the explicit encoding  (@randombit)
+- pr: 3665  # https://github.com/randombit/botan/pull/3665
+  merge_commit: 527084c51d5841624ea029cab2b26feb4b0d2699
+  classification: info
+  auditer: reneme
+
+# Add an argon2 specific Python wrapper  (@randombit)
+- pr: 3667  # https://github.com/randombit/botan/pull/3667
+  merge_commit: 53b1722ce5a0c2932deb7be7fd57a11ba286958a
+  classification: info
+
+# eXtendable Output Functions as first-class citizen  (@reneme)
+- pr: 3671  # https://github.com/randombit/botan/pull/3671
+  merge_commit: 43dcc8a1da9e5976a548a156b69bfcc77f1ae728
+  classification: relevant
+  comment: |
+    Adds a new top-level interface: ``XOF`` and four concrete implementations
+    SHAKE-128, SHAKE-256, cSHAKE-128, cSHAKE-256. The latter two are not
+    available via the public API and are meant for internal users like KMAC.
+
