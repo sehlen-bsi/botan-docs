@@ -5,6 +5,9 @@ References to specific Git(Hub) objects like Pull Requests and Commits
 from enum import IntEnum
 from functools import total_ordering
 
+from github.PullRequest import PullRequest as GithubPullRequest
+from github.Commit import Commit as GithubCommit
+
 class Classification(IntEnum):
     """ Not yet decided """
     UNSPECIFIED = 0
@@ -75,6 +78,27 @@ class PullRequest(Patch):
     def merge_commit(self):
         return Commit(self.ref) if self.ref else None
 
+    def render(self, pr_info: GithubPullRequest, yaml: bool = False) -> str:
+        if yaml:
+            out = [
+                f"# {pr_info.title}  (@{pr_info.user.login})",
+                f"- pr: {pr_info.number}  # {pr_info.html_url}",
+                f"  merge_commit: {self.ref}",
+                f"  classification: {self.classification.to_string()}",
+            ]
+            if self.auditer:
+                out += [f"  auditer: {self.auditer}"]
+            if self.comment:
+                out += [f"  comment: |"]
+                out += [f"    {line}" for line in self.comment.splitlines()]
+            return '\n'.join(out)
+        else:
+            return '\n'.join([
+                f"Pull Request: '{pr_info.title}' by @{pr_info.user.login}",
+                f"              {pr_info.html_url}",
+            ])
+
+
 @total_ordering
 class Commit(Patch):
     def __init__(self, commit_ref: str, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None):
@@ -89,3 +113,24 @@ class Commit(Patch):
         if not isinstance(other, type(self)):
             return NotImplemented
         return self.ref < other.ref
+
+    def render(self, co_info: GithubCommit, yaml: bool = False) -> str:
+        msg = co_info.commit.message.splitlines()[0]
+        author = co_info.commit.author.name
+        if yaml:
+            out = [
+                f"# {msg}  ({author})",
+                f"- commit: {co_info.sha}  # {co_info.html_url}",
+                f"  classification: {self.classification.to_string()}",
+            ]
+            if self.auditer:
+                out += [f"  auditer: {self.auditer}"]
+            if self.comment:
+                out += [f"  comment: |"]
+                out += [f"    {line}" for line in self.comment.splitlines()]
+            return '\n'.join(out)
+        else:
+            return '\n'.join([
+                f"Commit: '{msg}' by {author}",
+                f"        {co_info.html_url}",
+            ])
