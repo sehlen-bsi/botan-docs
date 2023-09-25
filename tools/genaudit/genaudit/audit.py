@@ -51,6 +51,12 @@ class Audit:
         return patch in self.ignore_list
 
 
+    def get_topic_file_path(self, topic_file_name: str) -> str:
+        if os.path.split(topic_file_name)[0]:
+            raise RuntimeError("topic_file_name must be a file name, not a path")
+        return os.path.join(self.topics_dir, topic_file_name)
+
+
     def _load_ignore_list(self, ignore_list) -> list[PullRequest|Commit]:
         def load_list_entry(key_value: dict):
             if pr := key_value.get('pr', None):
