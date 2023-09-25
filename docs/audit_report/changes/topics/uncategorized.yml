@@ -1,0 +1,7 @@
+title: Uncategorized Patches
+
+patches:
+# Use -Wno-error=stringop-overread in Werror mode to bypass GCC bugs  (@randombit)
+- pr: 3711  # https://github.com/randombit/botan/pull/3711
+  merge_commit: e3679419f88a73f1678b83ff3529810927e9430e
+  classification: unspecified
