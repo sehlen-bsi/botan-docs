@@ -14,17 +14,6 @@ from github.GithubException import RateLimitExceededException
 
 import genaudit
 
-def _get_directory(config_file_dir, cfg_location, cli_location):
-    location = cli_location if cli_location else cfg_location
-    return location if os.path.isabs(location) else os.path.join(config_file_dir, location)
-
-def _init(args: argparse.Namespace):
-    audit = genaudit.Audit(args.audit_config_dir)
-    cache = _get_directory(args.audit_config_dir, audit.cache_location, args.cache_location)
-    checkout = _get_directory(args.audit_config_dir, audit.local_checkout, args.repo_location)
-    repo = genaudit.GitRepo(args.token, cache, checkout, audit.github_handle)
-    return audit, repo
-
 
 def _render_pull_request(info: PullRequest, yaml_info: genaudit.PullRequest, yaml: bool, stream: io.StringIO):
     issue = info.number
@@ -169,7 +158,7 @@ def main():
     loglevel = logging.DEBUG if args.verbose else logging.INFO
     logging.basicConfig(level=loglevel)
 
-    audit, repo = _init(args)
+    audit, repo = genaudit.init_from_command_line_arguments(args)
     try:
         rate_limit = repo.rate_limit()
         reset_time_h = int((rate_limit.reset - datetime.now()).seconds / 60 / 60)
