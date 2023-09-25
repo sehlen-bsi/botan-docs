@@ -4,6 +4,10 @@ Extended documentation for the [Botan](https://botan.randombit.net/)
 cryptography library in the context of the BSI project "Pflege und
 Weiterentwicklung der Kryptobibliothek Botan".
 
+## Status
+
+[![Audit Auto-update](https://github.com/sehlen-bsi/botan-docs/actions/workflows/auto-update.yml/badge.svg)](https://github.com/sehlen-bsi/botan-docs/actions/workflows/auto-update.yml)
+
 ## Repository Anatomy
 
 This monorepo contains documents (in `/docs`) as well as auxiliary helper
