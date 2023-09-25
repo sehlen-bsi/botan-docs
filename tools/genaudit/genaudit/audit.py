@@ -35,18 +35,26 @@ class Audit:
         util.check_keys("Repo", cfg['repo'].keys(), ['local_checkout'])
 
         self.github_handle = auditinfo.botan_github_handle()
+        self.main_branch = auditinfo.botan_main_branch()
         self.local_checkout = cfg['repo']['local_checkout']
         self.git_ref_from = auditinfo.botan_git_base_ref()
         self.git_ref_to = auditinfo.botan_git_ref()
 
         self.ignore_list = self._load_ignore_list(cfg['ignore']) if 'ignore' in cfg else []
-        self.topics = self._load_topics(os.path.join(audit_dir, cfg['topics']))
+        self.topics_dir = os.path.join(audit_dir, cfg['topics'])
+        self.topics = self._load_topics(self.topics_dir)
         logging.info("Read %d topic files for '%s'",
                      len(self.topics), self.project_name)
 
 
     def patch_ignored(self, patch: PullRequest|Commit) -> bool:
         return patch in self.ignore_list
+
+
+    def get_topic_file_path(self, topic_file_name: str) -> str:
+        if os.path.split(topic_file_name)[0]:
+            raise RuntimeError("topic_file_name must be a file name, not a path")
+        return os.path.join(self.topics_dir, topic_file_name)
 
 
     def _load_ignore_list(self, ignore_list) -> list[PullRequest|Commit]:

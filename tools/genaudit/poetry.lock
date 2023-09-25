@@ -12,8 +12,21 @@ type = "directory"
 url = "../auditinfo"
 
 [[package]]
+name = "auditutils"
+version = "0.1.0"
+description = "Basic helpers for audit generation"
+category = "main"
+optional = false
+python-versions = "^3.10"
+develop = true
+
+[package.source]
+type = "directory"
+url = "../auditutils"
+
+[[package]]
 name = "certifi"
-version = "2023.5.7"
+version = "2023.7.22"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -40,7 +53,7 @@ python-versions = ">=3.7.0"
 
 [[package]]
 name = "cryptography"
-version = "41.0.2"
+version = "41.0.4"
 description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
 category = "main"
 optional = false
@@ -113,7 +126,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "pygithub"
-version = "1.59.0"
+version = "1.59.1"
 description = "Use the full Github API v3"
 category = "main"
 optional = false
@@ -185,7 +198,7 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "urllib3"
-version = "2.0.4"
+version = "2.0.5"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
@@ -208,10 +221,11 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "a5cd20834c86cd8b4f5c76c47e138e4568af6b047dd218b1405429873f06e2f5"
+content-hash = "28800a727baf1e649c44818131124889ea56144db231a3b4d0b58045893a106e"
 
 [metadata.files]
 auditinfo = []
+auditutils = []
 certifi = []
 cffi = []
 charset-normalizer = []

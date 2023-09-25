@@ -12,9 +12,10 @@ from github.NamedUser import NamedUser
 from github.Auth import Token
 from github import Github, Rate
 
-from genaudit import util
 from genaudit import refs
 from genaudit.cache import CachingRequester
+
+import auditutils
 
 from datetime import datetime
 
@@ -34,8 +35,7 @@ class GitRepo:
         self.repo = self.connection.get_repo(self.github_handle)
 
     def _run_git(self, cmd):
-        logging.info("running git: `git %s`" % ' '.join(cmd))
-        return util.run(["git"] + cmd, self.local_repo_root).decode("utf-8")
+        return auditutils.run_git(cmd, self.local_repo_root)
 
     def _extract_commit_ref_from_log_output(self, output):
         regex = re.compile(r"^([0-9a-f]+) .*$")
@@ -104,6 +104,9 @@ class GitRepo:
                            "--no-merges",
                            "%s..%s" % (start_ref, end_ref)]))
         return [sha for sha in all_commits_between_start_and_end_ref if sha in commits_to_main_since_start_ref]
+
+    def tip_of_main_branch(self) -> Commit:
+        return self.repo.get_branch(self.main_branch).commit
 
     def pull_request_info(self, pr_number: refs.PullRequest) -> PullRequest:
         return self.repo.get_pull(pr_number.github_ref)

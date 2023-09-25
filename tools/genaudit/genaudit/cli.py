@@ -14,56 +14,8 @@ from github.GithubException import RateLimitExceededException
 
 import genaudit
 
-def _get_directory(config_file_dir, cfg_location, cli_location):
-    location = cli_location if cli_location else cfg_location
-    return location if os.path.isabs(location) else os.path.join(config_file_dir, location)
-
-def _init(args: argparse.Namespace):
-    audit = genaudit.Audit(args.audit_config_dir)
-    cache = _get_directory(args.audit_config_dir, audit.cache_location, args.cache_location)
-    checkout = _get_directory(args.audit_config_dir, audit.local_checkout, args.repo_location)
-    repo = genaudit.GitRepo(args.token, cache, checkout, audit.github_handle)
-    return audit, repo
-
-
-def _render_pull_request(info: PullRequest, yaml_info: genaudit.PullRequest, yaml: bool, stream: io.StringIO):
-    issue = info.number
-    title = info.title
-    author = info.user.login
-    url = info.html_url
-    classification = yaml_info.classification.to_string()
-
-    if yaml:
-        print("# %s  (@%s)" % (title, author), file=stream)
-        print("- pr: %d  # %s" % (issue, url), file=stream)
-        print("  merge_commit: %s" % yaml_info.ref, file=stream)
-        print("  classification: %s" % classification, file=stream)
-        if(yaml_info.auditer):
-            print("  auditer: %s" % yaml_info.auditer, file=stream)
-        if(yaml_info.comment):
-            print("  comment: |", file=stream)
-            print("    %s" % '    '.join(yaml_info.comment.splitlines(True)), file=stream)
-
-        print(file=stream)
-    else:
-        print("Pull Request: '%s' by @%s\n              %s" % (title, author, url), file=stream)
-
 
 def find_unrefed(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.Namespace):
-    def _render_commit(info: Commit, stream: io.StringIO):
-        sha = info.sha
-        msg = info.commit.message.splitlines()[0]
-        author = info.commit.author.name
-        url = info.html_url
-
-        if args.yaml:
-            print("# %s  (@%s)" % (msg, author), file=stream)
-            print("- commit: %s  # %s" % (sha, url), file=stream)
-            print("  classification: unspecified", file=stream)
-            print(file=stream)
-        else:
-            print("Commit: '%s' by %s\n        %s" % (msg, author, url), file=stream)
-
     output = io.StringIO()
     if args.yaml:
         print("patches:", file=output)
@@ -73,11 +25,13 @@ def find_unrefed(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.N
     for unrefed in genaudit.find_unreferenced_patches(audit, repo):
         if isinstance(unrefed, genaudit.refs.PullRequest):
             info = repo.pull_request_info(unrefed)
-            _render_pull_request(info, unrefed, args.yaml, output)
+            print(unrefed.render(info, args.yaml), file=output)
+            print(file=output)
             prs += 1
         if isinstance(unrefed, genaudit.refs.Commit):
             info = repo.commit_info(unrefed)
-            _render_commit(info, output)
+            print(unrefed.render(info, args.yaml), file=output)
+            print(file=output)
             cos += 1
 
     logging.info("Found %d unreferenced Pull Requests and %d unreferenced Commits", prs, cos)
@@ -101,7 +55,8 @@ def verify_merge_commits(audit: genaudit.Audit, repo: genaudit.GitRepo, args: ar
             pr_ref = pr[0]
             pr_commit_ref  = pr[1]
             pr_ref.ref = pr_commit_ref
-            _render_pull_request(repo.pull_request_info(pr_ref), pr_ref, args.yaml, output)
+            print(pr_ref.render(repo.pull_request_info(pr_ref), args.yaml), file=output)
+            print(file=output)
 
         print()
         print(output.getvalue())
@@ -169,7 +124,7 @@ def main():
     loglevel = logging.DEBUG if args.verbose else logging.INFO
     logging.basicConfig(level=loglevel)
 
-    audit, repo = _init(args)
+    audit, repo = genaudit.init_from_command_line_arguments(args)
     try:
         rate_limit = repo.rate_limit()
         reset_time_h = int((rate_limit.reset - datetime.now()).seconds / 60 / 60)
