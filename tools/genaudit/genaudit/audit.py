@@ -35,12 +35,14 @@ class Audit:
         util.check_keys("Repo", cfg['repo'].keys(), ['local_checkout'])
 
         self.github_handle = auditinfo.botan_github_handle()
+        self.main_branch = auditinfo.botan_main_branch()
         self.local_checkout = cfg['repo']['local_checkout']
         self.git_ref_from = auditinfo.botan_git_base_ref()
         self.git_ref_to = auditinfo.botan_git_ref()
 
         self.ignore_list = self._load_ignore_list(cfg['ignore']) if 'ignore' in cfg else []
-        self.topics = self._load_topics(os.path.join(audit_dir, cfg['topics']))
+        self.topics_dir = os.path.join(audit_dir, cfg['topics'])
+        self.topics = self._load_topics(self.topics_dir)
         logging.info("Read %d topic files for '%s'",
                      len(self.topics), self.project_name)
 

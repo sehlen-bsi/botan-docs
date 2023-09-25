@@ -19,5 +19,5 @@ def init_from_command_line_arguments(args: argparse.Namespace) -> tuple[Audit, G
     audit = Audit(args.audit_config_dir)
     cache = _get_directory(args.audit_config_dir, audit.cache_location, args.cache_location)
     checkout = _get_directory(args.audit_config_dir, audit.local_checkout, args.repo_location)
-    repo = GitRepo(args.token, cache, checkout, audit.github_handle)
+    repo = GitRepo(args.token, cache, checkout, audit.github_handle, audit.main_branch)
     return audit, repo

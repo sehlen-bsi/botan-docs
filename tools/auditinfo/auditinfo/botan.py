@@ -24,6 +24,10 @@ def botan_github_handle() -> str:
     """ The repository handle of the main code base on GitHub """
     return __get_or_throw("BOTAN_REPO")
 
+def botan_main_branch() -> str:
+    """ The name of the main branch of the main code base on GitHub """
+    return __get_or_throw("BOTAN_MAIN_BRANCH")
+
 def botan_git_ref() -> str:
     """ The git reference of the currently targeted Botan source revision """
     return __get_or_throw("BOTAN_REF")
@@ -31,3 +35,15 @@ def botan_git_ref() -> str:
 def botan_git_base_ref() -> str:
     """ The git reference of the previously audited Botan source revision """
     return __get_or_throw("BOTAN_BASE_REF")
+
+def auditdoc_github_handle() -> str:
+    """ The repository handle  of the audit documentation on GitHub """
+    return __get_or_throw("AUDITDOC_REPO")
+
+def auditdoc_main_branch() -> str:
+    """ The name of the main branch of the auditdoc repo on GitHub """
+    return __get_or_throw("AUDITDOC_MAIN_BRANCH")
+
+def auditdoc_autoupdate_branch() -> str:
+    """ The branch on the audit documentation repo managed by the nightly auto-update check """
+    return __get_or_throw("AUDITDOC_AUTO_UPDATE_BRANCH")
