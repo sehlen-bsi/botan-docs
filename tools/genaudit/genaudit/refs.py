@@ -58,6 +58,14 @@ class Patch:
         self.auditer = auditer
         self.comment = comment
 
+    def render_patch(self, repo, yaml: bool = False):
+        if isinstance(self, PullRequest):
+            return self.render(repo.pull_request_info(self), yaml)
+        elif isinstance(self, Commit):
+            return self.render(repo.commit_info(self), yaml)
+        else:
+            raise RuntimeError("Unexpected patch type")
+
 @total_ordering
 class PullRequest(Patch):
     def __init__(self, github_ref: int, merge_commit_ref: str = None, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None):

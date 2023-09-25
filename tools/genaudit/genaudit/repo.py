@@ -105,6 +105,9 @@ class GitRepo:
                            "%s..%s" % (start_ref, end_ref)]))
         return [sha for sha in all_commits_between_start_and_end_ref if sha in commits_to_main_since_start_ref]
 
+    def tip_of_main_branch(self) -> Commit:
+        return self.repo.get_branch(self.main_branch).commit
+
     def pull_request_info(self, pr_number: refs.PullRequest) -> PullRequest:
         return self.repo.get_pull(pr_number.github_ref)
 
