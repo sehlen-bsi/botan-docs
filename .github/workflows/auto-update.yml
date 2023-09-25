@@ -1,0 +1,68 @@
+name: Audit Auto-update
+
+on:
+  # TODO: remove the 'push:' event
+  push:
+  schedule:
+    # runs every day at 3:23 AM UTC
+    - cron:  '23 3 * * *'
+
+jobs:
+  audit_update:
+    name: "Auto-Update Audit Patches"
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    runs-on: ubuntu-22.04
+
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/source/tools/auditupdate
+
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+          fetch-depth: 0
+          # TODO: add 'ref: main' once the initial version is merged
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
+
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+
+      - name: Handle the Audit Generator Cache
+        uses: actions/cache@v3
+        with:
+          path: ./auditupdate_cache
+          key: auditupdate_3.1-${{ github.run_id }}
+          restore-keys: auditupdate_3.1
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -qq install python3-poetry
+          poetry install --no-dev
+
+      - name: Set Committer Identity
+        run: |
+          git config user.name "Audit Update Bot"
+          git config user.email "actions@github.com"
+
+      - name: Check for Patches
+        run: poetry run python3 -m auditupdate.cli ${{ github.workspace }}/source/docs/audit_report/changes
+        env:
+          AUDIT_CACHE_LOCATION: ${{ github.workspace }}/auditupdate_cache
+          AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
+          BASIC_GH_TOKEN: ${{ github.token }}
+
