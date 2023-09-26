@@ -61,3 +61,14 @@ patches:
 - pr: 3642  # https://github.com/randombit/botan/pull/3642
   merge_commit: ea43a868e611b25dc8d8c5eba21caa807d3083e6
   classification: info
+
+# Adopt XCode 15 for CI  (@randombit)
+- pr: 3717  # https://github.com/randombit/botan/pull/3717
+  merge_commit: 66519533222770be37bc8a46af429a9b1fb324be
+  classification: info
+  auditer: reneme
+
+# Switch CI to using NDK 26  (@randombit)
+- pr: 3718  # https://github.com/randombit/botan/pull/3718
+  merge_commit: 0a183f3f21492ff7d3967779dfe69b9ca2ef4cf5
+  classification: info
