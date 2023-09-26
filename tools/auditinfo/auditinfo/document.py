@@ -27,6 +27,7 @@ def rst_substitutions(custom_substitutions : Mapping[str, str] = {}) -> str:
 
 def unicode_mappings():
     mapping = {
+        "200B": "\\allowbreak", # zero-width space
         "03C1": "$\\rho$",
     }
 
