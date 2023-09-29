@@ -733,11 +733,12 @@ The tests are implemented in :srcref:`src/tests/test_tls.cpp`.
    -  TLS authentication methods
    -  TLS key exchange algorithms
 
-| Apart from internal tests, Botan integrates with BoringSSL's system
-  tests [#boring_bogo]_. These tests utilize a heavily instrumented TLS
-  implementation that can be configured to behave inconsistently with
-  the TLS RFCs in a plethora of ways. To interface with this test suite,
-  Botan provides an adapter that is implemented in:
+| Apart from internal tests, Botan integrates with BoringSSL's system tests
+  [#boring_bogo]_. These tests utilize a heavily instrumented TLS implementation
+  that can be configured to behave inconsistently with the TLS RFCs in a
+  plethora of ways. Explicitly note that BoringSSL does also implement a hybrid
+  TLS handshake using Kyber in its latest revision. To interface with this test
+  suite, Botan provides an adapter that is implemented in:
   :srcref:`src/bogo_shim/bogo_shim.cpp` and a configuration in
   :srcref:`src/bogo_shim/config.json`.
 | Further details of this test integration are beyond the scope of this
