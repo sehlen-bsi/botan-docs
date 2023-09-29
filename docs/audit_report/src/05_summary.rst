@@ -5,11 +5,8 @@ This document contains the audit report for the changes between Botan version |b
 |botan_version|. The performed analysis includes a patch-based, manual audit of Botan's source code and
 the results of several analysis tools.
 
-The most significant changes include the following:
-
-.. todo::
-
-   Add a short list of the most significant changes
+This version of Botan is capable of using post-quantum secure KEMs for establishing a TLS 1.3 connection
+with compatible peers.
 
 According to the observations of this audit, Botan version |botan_version| keeps the security level of
 the previously reviewed version and complements the old version with various sensible and

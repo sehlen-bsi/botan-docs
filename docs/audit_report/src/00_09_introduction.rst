@@ -63,8 +63,8 @@ its dependencies: `getentropy`, `ffi`, `xts`, `pkcs11`, `tls12`, `tls13`,
 Patches that don't alter any of the above-mentioned components or relevant
 modules are considered out-of-scope.
 
-Below is the full list of modules (from ``src/lib``) whose changes were
-reviewed:
+Below is a preliminary list of modules (from ``src/lib``) whose changes were
+reviewed. This list will be updated before the final 3.2.0 release.
 
 .. list-table::
 
@@ -201,11 +201,6 @@ reviewed:
 
 The following previously existing modules are now in scope
 and were fully reviewed:
-
-.. todo::
-
-   Update the lists above with the latest module list before releasing
-   e.g. "shake_xof" is new
 
 Patch Description Content
 -------------------------
