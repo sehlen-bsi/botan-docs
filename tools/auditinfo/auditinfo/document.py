@@ -23,3 +23,14 @@ def rst_substitutions(custom_substitutions : Mapping[str, str] = {}) -> str:
     }
 
     return '\n'.join([f".. |{subst}| replace:: {value}" for subst, value in substitutions.items()])
+
+
+def unicode_mappings():
+    mapping = {
+        "200B": "\\allowbreak", # zero-width space
+        "03C1": "$\\rho$",
+    }
+
+    return {
+        "utf8extra": (''.join(["\\DeclareUnicodeCharacter{%s}{%s}" % (codepoint, latex) for codepoint, latex in mapping.items()]))
+    }

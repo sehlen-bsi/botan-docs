@@ -85,4 +85,5 @@ latex_additional_files = [
 latex_elements = {
     'preamble': r'\usepackage{custom_coverpage}\usepackage{xfrac}',
     'maketitle': r'\custommanualmaketitle',
+    **auditinfo.unicode_mappings(),
 }

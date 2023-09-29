@@ -86,4 +86,5 @@ latex_elements = {
     'preamble': r'\usepackage{custom_coverpage}\usepackage{xfrac}',
     'maketitle': r'\custommanualmaketitle',
     'sphinxsetup': 'verbatimforcewraps=true',
+    **auditinfo.unicode_mappings(),
 }

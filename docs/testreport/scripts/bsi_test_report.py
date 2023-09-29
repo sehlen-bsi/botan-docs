@@ -88,9 +88,11 @@ class Testsuites(junitparser.JUnitXml):
         return sum(asserts)
 
     def _format_command(self, command):
+        # U+200B is a zero-width space: i.e. it is not rendered but allows line
+        #        breaks to appear at this location.
         cmd = re.sub(r"^.+botan-test", "botan-test", command) \
             .replace('\\', '/') \
-            .replace(';', ',:raw-latex:`\\allowbreak` ') \
+            .replace(';', ',\u200B') \
             .split(' --')
 
         def irrelevant_params(param):
