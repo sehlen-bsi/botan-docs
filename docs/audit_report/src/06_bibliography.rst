@@ -34,9 +34,8 @@
    "Reverse-Engineering the S-Box of Streebog, Kuznyechik and STRIBOBr1"
    Cryptology ePrint Archive, Paper 2016/071
 
-.. [BOTAN_GIT_300] https://github.com/randombit/botan/tree/3.0.0
 
-.. [BOTAN_GIT_311] https://github.com/randombit/botan/tree/3.1.1
+.. [BOTAN_GIT] https://github.com/randombit/botan/tree/0676a3d0a2cc17975053f115da852578556bf50c
 
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser
 
@@ -58,38 +57,18 @@
 
 .. [MONA_TIMING] https://github.com/seecurity/mona-timing-report
 
-.. [BOTAN_KYBER_KEM_CRYPTOR] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/kyber/kyber_common/kyber.cpp#L1228
+.. [BOTAN_CHACHAPOLY_DECRYPTION_FINISH_MSG] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/modes/aead/chacha20poly1305/chacha20poly1305.cpp#L128
 
-.. [BOTAN_KYBER_MATRIX] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/kyber/kyber_common/kyber.cpp#L822
+.. [BOTAN_CHACHA_CIPHER_BYTES] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/stream/chacha/chacha.cpp#L204
 
-.. [DILITHIUM_SPECIFICATION] https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210208.pdf
+.. [BOTAN_MEMOPS_XOR_BUF] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/utils/mem_ops.h#L237
 
-.. [DILITHIUM_REFERENCE_IMPLEMENTATION] https://github.com/pq-crystals/dilithium/blob/v3.1/ref/poly.c#L277-L279
+.. [BOTAN_BER_DECODER] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/asn1/ber_dec.cpp
 
-.. [BOTAN_DILITHIUM_GENERATE_HINT_POLYNOMIAL] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/dilithium/dilithium_common/dilithium_polynomials.h#L340
+.. [BOTAN_BIGINT_ENCODE_1363] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/math/bigint/big_code.cpp#L116
 
-.. [BOTAN_DILITHIUM_MAKE_HINT] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/dilithium/dilithium_common/dilithium_polynomials.h#L315
+.. [BOTAN_ECDSA_VERIFICATION_OPERATION_VERIFY] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/pubkey/ecdsa/ecdsa.cpp#L210
 
-.. [BOTAN_DILITHIUM_PACK_SIG] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp#L376
+.. [BOTAN_HANDSHAKE_MESSAGES_ADD] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/tls/tls13/tls_channel_impl_13.cpp#L228
 
-.. [BOTAN_DILITHIUM_POLY_CHALLENGE] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/dilithium/dilithium_common/dilithium_polynomials.h#L232
-
-.. [BOTAN_DILITHIUM_POLYVEC_CHKNORM] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/dilithium/dilithium_common/dilithium_polynomials.h#L1403
-
-.. [BOTAN_DILITHIUM_POLY_CHKNORM] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/dilithium/dilithium_common/dilithium_polynomials.h#L278
-
-.. [BOTAN_DILITHIUM_INFINITYNORM] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp#L335
-
-.. [BOTAN_DILITHIUM_GENERATE_MATRIX] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/dilithium/dilithium_common/dilithium_polynomials.h#L1581
-
-.. [BOTAN_XMSS_CHAIN] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/xmss/xmss_wots.cpp#L43
-
-.. [BOTAN_XMSS_MSG_INIT] https://github.com/randombit/botan/blob/3.0.0/src/lib/pubkey/xmss/xmss_hash.cpp#L36
-
-.. [BOTAN_SPHINCSPLUS_TREEHASH] https://github.com/randombit/botan/blob/3.1.1/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_treehash.cpp#L73
-
-.. [BOTAN_SPHINCSPLUS_WOTS_SIGN_AND_PKGEN_SIG_NODE] https://github.com/randombit/botan/blob/3.1.1/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.cpp#L153
-
-.. [BOTAN_SPHINCSPLUS_WOTS_SIGN_AND_PKGEN_SIG_NODE_HC] https://github.com/randombit/botan/blob/3.1.1/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.cpp#L153
-
-.. [NIST_SP_800_208] https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-208.pdf
+.. [BOTAN_MDX_FINAL_RESULT] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/hash/mdx_hash/mdx_hash.cpp#L84
