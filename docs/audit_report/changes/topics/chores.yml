@@ -126,3 +126,9 @@ patches:
 - pr: 3656  # https://github.com/randombit/botan/pull/3656
   merge_commit: 7c03c1b8939bf61508a34720a6a65631488d5df4
   classification: info
+
+# Use -Wno-error=stringop-overread in Werror mode to bypass GCC bugs  (@randombit)
+- pr: 3711  # https://github.com/randombit/botan/pull/3711
+  merge_commit: e3679419f88a73f1678b83ff3529810927e9430e
+  classification: info
+  auditer: reneme
