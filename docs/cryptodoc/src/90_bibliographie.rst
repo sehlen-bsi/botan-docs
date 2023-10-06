@@ -150,11 +150,6 @@
    https://www.rfc-editor.org/info/rfc5869,
    May 2010
 
-.. [RFC9106] Alex Biryukov, Daniel Dinu, Dmitry Khovratovich, Simon Josefsson: RFC 9106:
-   "Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications",
-   https://www.rfc-editor.org/info/rfc9106,
-   September 2021
-
 .. [RFC6125] Internet Engineering Task Force: RFC6125:
    "Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)",
    http://tools.ietf.org/html/rfc6125, March 2011
@@ -167,6 +162,21 @@
    "The BLAKE2 Cryptographic Hash and Message Authentication Code (MAC)",
    https://www.rfc-editor.org/info/rfc7693,
    November 2015
+
+.. [RFC8554] D. McGrew, M. Curcio, S. Fluhrer, Cisco Systems: RFC 8554:
+   "Leighton-Micali Hash-Based Signatures",
+   https://www.rfc-editor.org/info/rfc8554,
+   April 2019
+
+.. [RFC9106] Alex Biryukov, Daniel Dinu, Dmitry Khovratovich, Simon Josefsson: RFC 9106:
+   "Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications",
+   https://www.rfc-editor.org/info/rfc9106,
+   September 2021
+
+.. [draft-fluhrer-11] S. Fluhrer, Q. Dang, Cisco Systems, NIST: Internet-Draft draft-fluhrer-lms-more-parm-sets-11:
+   "Additional Parameter sets for HSS/LMS Hash-Based Signatures",
+   https://datatracker.ietf.org/doc/draft-fluhrer-lms-more-parm-sets/11/,
+   September 2023
 
 .. [SP800-38E] NIST Special Publication SP 800-38E:
    "Recommendation for Block Cipher Modes of Operation: the XTS-AES Mode for Confidentiality on Storage Devices",
