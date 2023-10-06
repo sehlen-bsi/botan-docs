@@ -18,7 +18,8 @@ encapsulation and decapsulation or the key exchange mechanism.
    05_03_ecc
    05_04_rsa
    05_05_xmss
-   05_06_spx
-   05_07_dilithium
-   05_08_kyber
-   05_09_frodokem
+   05_06_hss_lms
+   05_07_spx
+   05_08_dilithium
+   05_09_kyber
+   05_10_frodokem
