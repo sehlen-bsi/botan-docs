@@ -1254,6 +1254,89 @@ The constraints for this test case are:
    |                        |    46                                                                   |
    +------------------------+-------------------------------------------------------------------------+
 
+HSS/LMS
+-------
+
+The signature generation of the Hierarchical Signature System with Leighton-Micali
+Hash-Based Signatures (HSS/LMS) is tested within various files. Three components
+build up HSS/LMS: LM-OTS as the used one-time signature scheme, LMS as the scheme
+for single Merkle trees, and HSS for the hypertree construction. There are individual
+tests for LM-OTS and LMS testing their interfaces. HSS/LMS puts both other components
+together for an overall test of HSS/LMS. Since LM-OTS and LMS are only components
+of HSS/LMS, their interface is only functionally tested for debugging and not extensively.
+The HSS/LMS tests cover the Botan interface and the signature creation and verification in
+detail. The tests are located in :srcref:`src/tests/test_hss_lms.cpp`.
+
+There are no official KAT test vectors for HSS/LMS. Also, the format of a private key and
+its usage is not well defined in RFC 8554. RFC 8554 and draft-fluhrer-lms-more-parm-sets-11
+provide some test vectors, which are only suitable for verification tests due to the incomplete
+specification of private keys. Therefore, further test vectors were manually generated using
+the implementation referenced in RFC 8554 and its signature creation process adapted.
+This allows for known answer tests, even for signature creation.
+
+For HSS/LMS tests, Botan relies on the generic public key interface tests, including
+known answer tests for signature creation and verification, key generation, and negative
+tests for invalid signatures. Since these are not implementation-specific, they are not
+explained in detail at this point. The test vectors for these generic tests are located in
+the following files:
+
+- Signature creation and key generation tests: :srcref:`src/tests/data/pubkey/hss_lms_sig.vec`
+- Signature verification tests: :srcref:`src/tests/data/pubkey/hss_lms_verify.vec`
+- Negative signature verification tests: :srcref:`src/tests/data/pubkey/hss_lms_invalid.vec`
+
+Besides some non-cryptography-related API tests, the following tests are an extension to
+the (already extensive) generic tests.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-HSS/LMS-1                                                         |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Check that the verification of too short signatures fails properly      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create a valid HSS/LMS signature ``sig``                             |
+   |                        |                                                                         |
+   |                        | #. For i = 1,...,length of ``sig``: cut the last i bits from the valid  |
+   |                        |    signature and check that the verification of it fails correctly      |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-HSS/LMS-2                                                         |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Test the statefulness of the HSS/LMS private key                        |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create a valid HSS/LMS private key that can only be used for one     |
+   |                        |    more signature                                                       |
+   |                        |                                                                         |
+   |                        | #. Create a signature with the private key                              |
+   |                        |                                                                         |
+   |                        | #. Check that the private key is exhausted (remaining signatures is 0)  |
+   |                        |                                                                         |
+   |                        | #. Check that the creation of further signatures fails                  |
+   +------------------------+-------------------------------------------------------------------------+
+
 RSA
 ---
 
