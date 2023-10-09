@@ -9,7 +9,7 @@ Note that SHA-1 is not recommended to be used any longer.
 
 SHA-1 and SHA-2 hash functions rely on the Merkle-Damgard construction.
 The general functionality of this construction is implemented in class
-``MDx_HashFunction`` (located in :srcref:`src/lib/hash/mdx_hash/mdx_hash.cpp`).
+``MerkleDamgard_Hash`` (located in :srcref:`src/lib/hash/mdx_hash/mdx_hash.h`).
 This class handles splitting data into appropriate blocks and invocation
 of hash compression methods.
 
