@@ -23,6 +23,8 @@ Botan-Versionen zum Einsatz kommt.
 | Daniel Neus (DN)
 | Philippe Lieser (PL)
 | René Meusel (RM)
+| Andreas Seelos-Zankl (ASZ), Fraunhofer AISEC
+| Alexander Wagner (AW), Fraunhofer AISEC
 
 **Dokumentrevision**
 
