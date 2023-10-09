@@ -72,3 +72,8 @@ patches:
 - pr: 3718  # https://github.com/randombit/botan/pull/3718
   merge_commit: 0a183f3f21492ff7d3967779dfe69b9ca2ef4cf5
   classification: info
+
+# Move emscripten CI build to macOS  (@randombit)
+- pr: 3720  # https://github.com/randombit/botan/pull/3720
+  merge_commit: ae37d6503af79de5f376da2b6c92476a36e7d386
+  classification: info

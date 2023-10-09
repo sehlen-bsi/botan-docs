@@ -34,3 +34,18 @@ patches:
 - commit: c321da5c3d69b86962468d8eb55c9ea07be077d5  # https://github.com/randombit/botan/commit/c321da5c3d69b86962468d8eb55c9ea07be077d5
   classification: info
   auditer: reneme
+
+# Doc: Update TLS Chapter in Handbook  (@reneme)
+- pr: 3708  # https://github.com/randombit/botan/pull/3708
+  merge_commit: b1136e8c6eb4b1aaf92be71e3888b206ebf55660
+  classification: info
+
+# Minor updates to contribution doc [ci skip]  (Jack Lloyd)
+- commit: c09a134ceb5bc0a4f466442e3ff121638a9697d3  # https://github.com/randombit/botan/commit/c09a134ceb5bc0a4f466442e3ff121638a9697d3
+  classification: info
+  auditer: FAlbertDev
+
+# Update my PGP key [ci skip]  (Jack Lloyd)
+- commit: e38cc9213e834ced07d4c145f9ba4ef76545904a  # https://github.com/randombit/botan/commit/e38cc9213e834ced07d4c145f9ba4ef76545904a
+  classification: info
+  auditer: FAlbertDev
