@@ -109,6 +109,9 @@ jobs:
           sudo apt-get -qq install python3-poetry texlive-latex-extra texlive-fonts-recommended tex-gyre latexmk
           poetry install --no-dev
 
+      - name: Install GitHub webflow GPG public key
+        run: gpg --trusted-key 4AEE18F83AFDEB23 --import source/.github/resources/web-flow.gpg
+
       - name: Handle the Audit Generator Cache
         uses: actions/cache@v3
         with:
