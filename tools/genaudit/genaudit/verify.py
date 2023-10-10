@@ -15,7 +15,7 @@ def find_unreferenced_patches(audit: Audit, repo: GitRepo) -> list[PullRequest|C
             pass
 
     prs = repo.merged_pull_requests_between(audit.git_ref_from, audit.git_ref_to)
-    commits = repo.commits_to_main_branch_between(audit.git_ref_from, audit.git_ref_to)
+    commits = repo.maintainance_commits_to_main_branch_between(audit.git_ref_from, audit.git_ref_to)
     merges = repo.manual_merge_commits_to_main_branch_between(audit.git_ref_from, audit.git_ref_to)
 
     patches_before = len(prs) + len(commits) + len(merges)
