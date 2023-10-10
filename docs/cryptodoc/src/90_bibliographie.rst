@@ -182,7 +182,6 @@
    https://www.rfc-editor.org/info/rfc8554,
    April 2019
 
-
 .. [RFC9106] Alex Biryukov, Daniel Dinu, Dmitry Khovratovich, Simon Josefsson: RFC 9106:
    "Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications",
    https://www.rfc-editor.org/info/rfc9106,

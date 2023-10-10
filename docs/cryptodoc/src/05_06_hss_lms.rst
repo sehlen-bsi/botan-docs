@@ -4,16 +4,19 @@ HSS/LMS
 =======
 
 Botan implements the Hierarchical Signature System (HSS) with Leighton-Micali
-Hash-Based Signatures (HSS/LMS) as defined in [RFC8554]_. It supports the
-parameter sets defined in [RFC8554]_ and those in [draft-fluhrer-11]_.
+Hash-Based Signatures (HSS/LMS) as defined in [RFC8554]_ under consideration of
+the recommendations of [SP800-208]_. It supports the parameter sets defined in
+[RFC8554]_ and those in [draft-fluhrer-11]_.
 
 Algorithm Internals
 -------------------
 
-HSS/LMS consists of three building blocks. Like most hash-based signature schemes,
+The Hierarchical Signature System (HSS) with Leighton-Micali
+Hash-Based Signatures (HSS/LMS) consists of three building blocks.
+Like most hash-based signature schemes,
 it uses a One-Time Signature (OTS) at its base, named Leighton-Micali OTS
-(LM-OTS). The public keys of multiple LM-OTS instances are processed to the leaves
-of a Merkle tree. This composition is called the Leighton-Micali Signature (LMS)
+(LM-OTS). The public keys of multiple LM-OTS instances compose the leaves
+of a Merkle tree. This composition is the basis of the Leighton-Micali Signature (LMS)
 method. The root node of the LMS Merkle tree defines its public key. [RFC8554]_
 also provides HSS, a hypertree composition of multiple LMS trees, where the leaves
 of LMS trees sign the public keys of other LMS trees.
@@ -43,8 +46,8 @@ LM-OTS
 
 LM-OTS is configured with several parameters. The first parameter is the used hash
 function. Botan's implementation only allows one hash function for all
-LMS trees and their LM-OTS algorithm (recommended in [SP800-208]_). The width of
-the Winternitz coefficient ``w`` is the second parameter, defining the
+LMS trees and their LM-OTS algorithm (recommended in [RFC8554]_ and [SP800-208]_).
+The width of the Winternitz coefficient ``w`` is the second parameter, defining the
 time-signature-size-tradeoff of the LM-OTS instance.
 Those first two parameters implicitly define the hash function output size ``n``,
 the number of Winternitz chains ``p``, and the constant ``ls`` used for the
@@ -97,9 +100,9 @@ instance is defined by the identifier ``I`` of the LMS tree
 and the index of its leaf ``q``, where the LM-OTS instance is located; this is
 represented by the class ``OTS_Instance``.
 For each LM-OTS instance, we can create a keypair with a secret key (class
-``LMOTS_Private_Key``) and a public key (class ``LMOTS_Public_Key``). The
-pseudorandom key generation method recommended in [RFC8554]_ Appendix A derives the
-secret key's Winternitz chain inputs (``x[]`` of [RFC8554]_). The inputs for this
+``LMOTS_Private_Key``) and a public key (class ``LMOTS_Public_Key``). As required
+by [SP800-208]_, Botan uses the pseudorandom key generation method of [RFC8554]_ Appendix A to
+derive the secret key's Winternitz chain inputs (``x[]`` of [RFC8554]_). The inputs for this
 method are the LM-OTS instance parameters and a
 secret seed ``SEED`` associated with an LMS tree:
 
@@ -114,8 +117,8 @@ Besides the instance parameters, it contains the final hash value denoted as
 For creating an LM-OTS signature of a message, Botan offers the method
 ``LMOTS_Private_Key::sign``. For that, it implements Algorithm 1 of [RFC8554]_.
 One important remark is the creation of the randomizer ``C``. To create this
-randomizer, Botan adapts the same approach as the reference implementation by
-computing ``C`` with the following pseudorandom key generation method:
+randomizer, Botan adapts the same approach as the Cisco reference implementation
+by computing ``C`` with the following pseudorandom key generation method:
 
 .. math::
    \mathtt{C = Hash(I\ ||\ u32str(q)\ ||\ u16str(0xfffd)\ ||\ u8str(0xff)\ ||\ SEED)}
@@ -232,8 +235,9 @@ is always the same in every set at every level.
 
 As defined in [RFC8554]_, the public key of an HSS/LMS instance is composed of
 ``L`` and the public key of the hypertree's root LMS tree. The
-HSS/LMS secret key format is not defined in [RFC8554]_. Botan defines the following
-secret key byte format written in the same syntax as [RFC8554]_:
+HSS/LMS secret key format is not defined in [RFC8554]_. Botan defines its own
+secret key format under a private OID. The following describes its byte
+composition in the same syntax as [RFC8554]_:
 
 .. math::
    \mathtt{SK\_Bytes =\ } &\mathtt{u32str(L)\ ||\ u64str(idx)\ || }
@@ -257,10 +261,12 @@ are given. The classes ``HSS_LMS_PublicKeyInternal`` and
 ``HSS_LMS_PrivateKeyInternal`` realize the public and secret key, respectively.
 
 Botan's HSS/LMS implementation derives LMS seeds and identifiers
-by the same method the reference implementation applies.
+by the same method Cisco's reference implementation applies. This approach
+is called ``SECRET_METHOD 2`` in the Cisco implementation's configuration.
 ``SEED`` and ``I`` of child LMS trees are derived from the values of their
-parents and their position in the hypertree. The derivation functions are the
-following:
+parents and their position in the hypertree. This operation is similar to the
+pseudorandom key generation method of [RFC8554]_ Appendix A.
+The derivation functions are the following:
 
 .. math::
    \mathtt{SEED_{child}}\ &\mathtt{= Hash(I_{parent}\ ||\ u32str(q_{parent})\
