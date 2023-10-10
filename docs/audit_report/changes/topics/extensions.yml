@@ -26,3 +26,19 @@ patches:
     SHAKE-128, SHAKE-256, cSHAKE-128, cSHAKE-256. The latter two are not
     available via the public API and are meant for internal users like KMAC.
 
+# Use XOF interface in Kyber and Dilithium  (@reneme)
+- pr: 3672  # https://github.com/randombit/botan/pull/3672
+  merge_commit: b5d604419ed153eb6e071f50ae6314b4fca4638d
+  classification: relevant
+
+# Prepare for Kyber standardization updates  (@randombit)
+- pr: 3695  # https://github.com/randombit/botan/pull/3695
+  merge_commit: ff51697d484d042e0d5ec01b1a39abd4f570508f
+  classification: info
+
+# X509: Allow writing CDP extension into certificates  (@martin-schiffner)
+- pr: 3712  # https://github.com/randombit/botan/pull/3712
+  merge_commit: d2506bf61d8aec35b302a3ea84f80e08aa43b556
+  classification: relevant
+  auditer: FAlbertDev
+  comment: Allow support for the X509 extension CDP.

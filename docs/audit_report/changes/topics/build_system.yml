@@ -1,13 +1,48 @@
 title: Build System
 
 description: |
-  Botan can now use the "ninja" build tool alongside "make". This is useful
-  especially on Windows where the builtin "nmake" build tool still does not
+  Botan can now use the "ninja" build tool alongside "make". This is useful,
+  especially on Windows, where the built-in "nmake" build tool still does not
   support parallel compilation. The security of the cryptographic
-  implementations in the library is not affected by this.
+  implementations in the library is not affected by this. Another major change
+  is improved multithreading support, which also does not affect security.
 
 patches:
 # Add ninja support  (@securitykernel)
 - pr: 3677  # https://github.com/randombit/botan/pull/3677
   merge_commit: 88fbc408173226be04ebf843447e76cdebcfee03
+  classification: info
+
+# thead pool debugging support proposal using native capabilities if po…  (@devnexen)
+- pr: 3628  # https://github.com/randombit/botan/pull/3628
+  merge_commit: 86381e75cf7a286bb73068a97ec4bd9784316a15
+  classification: info
+  auditer: FAlbertDev
+
+# Remove Android NDK hack  (@randombit)
+- pr: 3721  # https://github.com/randombit/botan/pull/3721
+  merge_commit: 494d928af4e28e17d2938fec85a70357a9e7560c
+  classification: info
+
+# Update XLC build configuration  (@randombit)
+- pr: 3730  # https://github.com/randombit/botan/pull/3730
+  merge_commit: 921a9af069626d85497963773e4cef08e96aed8d
+  classification: info
+  auditer: FAlbertDev
+
+# Disable global thread pool on MinGW by default  (@randombit)
+- pr: 3726  # https://github.com/randombit/botan/pull/3726
+  merge_commit: ff187b33eef2d7285fdb9f27ecff4950d6c8ab2a
+  classification: info
+  auditer: FAlbertDev
+
+# OS::set_thread_name attempt to port to windows >= 10  (@devnexen)
+- pr: 3738  # https://github.com/randombit/botan/pull/3738
+  merge_commit: 39a07ebd60dda5dc8ba23d67abecaa4beca2f422
+  classification: info
+  auditer: FAlbertDev
+
+# Add missing simd requires to aes_ni  (@lieser)
+- pr: 3741  # https://github.com/randombit/botan/pull/3741
+  merge_commit: 335af7462959257be20d1044dd28c81382883c7a
   classification: info

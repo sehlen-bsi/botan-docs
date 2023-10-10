@@ -127,8 +127,29 @@ patches:
   merge_commit: 7c03c1b8939bf61508a34720a6a65631488d5df4
   classification: info
 
+# Refactor: Remove MDx_HashFunction  (@reneme)
+- pr: 3705  # https://github.com/randombit/botan/pull/3705
+  merge_commit: 1db2b19cd07d88630159716fbb6ebe7fd5a5dfdf
+  classification: relevant
+
 # Use -Wno-error=stringop-overread in Werror mode to bypass GCC bugs  (@randombit)
 - pr: 3711  # https://github.com/randombit/botan/pull/3711
   merge_commit: e3679419f88a73f1678b83ff3529810927e9430e
   classification: info
   auditer: reneme
+
+# std::span and AlignmentBuffer<> for GHASH  (@reneme)
+- pr: 3714  # https://github.com/randombit/botan/pull/3714
+  merge_commit: c7a4b4c5a40e25e634056c29064aa441b928989a
+  classification: info
+
+# std::span for MessageAuthenticationCode internals  (@reneme)
+- pr: 3713  # https://github.com/randombit/botan/pull/3713
+  merge_commit: b36d2bd8a0e26cc3f026ace71d568319970e16dd
+  classification: info
+
+# Some small updates for clang-tidy 16  (@randombit)
+- pr: 3735  # https://github.com/randombit/botan/pull/3735
+  merge_commit: 23b51a727b61097290ea65b87f23d65867fbe215
+  classification: info
+  auditer: FAlbertDev

@@ -23,3 +23,9 @@ patches:
 - commit: be263bab07288a54576c3e25bd3383fe9abad8fa  # https://github.com/randombit/botan/commit/be263bab07288a54576c3e25bd3383fe9abad8fa
   classification: info
   auditer: reneme
+
+# Some cleanups for Kuznyechik  (@randombit)
+- pr: 3724  # https://github.com/randombit/botan/pull/3724
+  merge_commit: 218f5028b2111b8c31406680f4fd1c13f55e8eb8
+  classification: out of scope
+  auditer: FAlbertDev

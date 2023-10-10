@@ -24,3 +24,21 @@ patches:
 - commit: 96871c284f0305cc72215368376260a2a9aec898  # https://github.com/randombit/botan/commit/96871c284f0305cc72215368376260a2a9aec898
   classification: info
   auditer: reneme
+
+# Add some minimal API sanity checks for PK_Signer/PK_Verifier  (@lieser)
+- pr: 3702  # https://github.com/randombit/botan/pull/3702
+  merge_commit: f7fcff3d6c8aef096da4520993e49c3c467a002d
+  classification: relevant
+  comment: |
+    This fixes potential use-after-free and/or null pointer dereferences in case
+    an asymmetric key operation outlived its underlying asymmetric key object.
+
+# Some small test cleanups as a followup to #3702  (@randombit)
+- pr: 3725  # https://github.com/randombit/botan/pull/3725
+  merge_commit: 30ecb87197a4bb94fc660a2e6d215b20a9ac7f06
+  classification: info
+
+  # FIX: out-of-bounds access of std::array  (@reneme)
+- pr: 3736  # https://github.com/randombit/botan/pull/3736
+  merge_commit: a8b4fe3e1eb88e286d67130e8fd7f77423420dda
+  classification: info
