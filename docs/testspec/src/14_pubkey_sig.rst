@@ -1268,8 +1268,10 @@ The HSS/LMS tests cover the Botan interface and the signature creation and verif
 detail. The tests are located in :srcref:`src/tests/test_hss_lms.cpp`.
 
 There are no official KAT test vectors for HSS/LMS. Also, the format of a private key and
-its usage is not well defined in RFC 8554. Therefore, test vectors were manually generated
-using the implementation referenced in RFC 8554 and its signature creation process adapted.
+its usage is not well defined in RFC 8554. RFC 8554 and draft-fluhrer-lms-more-parm-sets-11
+provide some test vectors, which are only suitable for verification tests due to the incomplete
+specification of private keys. Therefore, further test vectors were manually generated using
+the implementation referenced in RFC 8554 and its signature creation process adapted.
 This allows for known answer tests, even for signature creation.
 
 For HSS/LMS tests, Botan relies on the generic public key interface tests, including
