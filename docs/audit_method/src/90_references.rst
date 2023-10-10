@@ -48,3 +48,15 @@
 
 .. [DATA]
    `https://github.com/Fraunhofer-AISEC/DATA <https://github.com/Fraunhofer-AISEC/DATA>`_
+
+.. [INTEL_PIN] https://www.intel.com/content/www/us/en/developer/articles/tool/pin-a-dynamic-binary-instrumentation-tool.html
+
+.. [TVLA] https://csrc.nist.gov/CSRC/media/Events/Non-Invasive-Attack-Testing-Workshop/documents/08_Goodwill.pdf
+
+.. [RDC] https://proceedings.neurips.cc/paper/2013/file/aab3238922bcc25a6f606eb525ffdc56-Paper.pdf
+
+.. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
+
+.. [CT_GRIND] https://github.com/agl/ctgrind
+
+.. [VALGRIND_MEMCHECK] https://valgrind.org/docs/manual/mc-manual.html

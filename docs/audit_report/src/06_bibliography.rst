@@ -41,22 +41,6 @@
 
 .. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
 
-.. [INTEL_PIN] https://www.intel.com/content/www/us/en/developer/articles/tool/pin-a-dynamic-binary-instrumentation-tool.html
-
-.. [TVLA] https://csrc.nist.gov/CSRC/media/Events/Non-Invasive-Attack-Testing-Workshop/documents/08_Goodwill.pdf
-
-.. [RDC] https://proceedings.neurips.cc/paper/2013/file/aab3238922bcc25a6f606eb525ffdc56-Paper.pdf
-
-.. [CT_GRIND] https://github.com/agl/ctgrind
-
-.. [BOTAN_CT_UTILS] https://github.com/randombit/botan/blob/master/src/lib/utils/ct_utils.h
-
-.. [VALGRIND_MEMCHECK] https://valgrind.org/docs/manual/mc-manual.html
-
-.. [BOTAN_TIMING_TEST] https://github.com/randombit/botan/blob/master/src/cli/timing_tests.cpp
-
-.. [MONA_TIMING] https://github.com/seecurity/mona-timing-report
-
 .. [BOTAN_CHACHAPOLY_DECRYPTION_FINISH_MSG] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/modes/aead/chacha20poly1305/chacha20poly1305.cpp#L128
 
 .. [BOTAN_CHACHA_CIPHER_BYTES] https://github.com/randombit/botan/blob/0676a3d0a2cc17975053f115da852578556bf50c/src/lib/stream/chacha/chacha.cpp#L204
