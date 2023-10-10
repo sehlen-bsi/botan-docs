@@ -100,7 +100,7 @@ instance is defined by the identifier ``I`` of the LMS tree
 and the index of its leaf ``q``, where the LM-OTS instance is located; this is
 represented by the class ``OTS_Instance``.
 For each LM-OTS instance, we can create a keypair with a secret key (class
-``LMOTS_Private_Key``) and a public key (class ``LMOTS_Public_Key``). As required
+``LMOTS_Private_Key``) and a public key (class ``LMOTS_Public_Key``). As recommended
 by [SP800-208]_, Botan uses the pseudorandom key generation method of [RFC8554]_ Appendix A to
 derive the secret key's Winternitz chain inputs (``x[]`` of [RFC8554]_). The inputs for this
 method are the LM-OTS instance parameters and a
