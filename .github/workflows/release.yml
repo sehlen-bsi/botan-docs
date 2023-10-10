@@ -22,12 +22,14 @@ jobs:
         include:
           - jobname: Documentation
             target: pdf_docs
+            artifact_name: Upstream Documentation
             artifacts: |
               build/build/docs/handbook/botan.pdf
               build/build/docs/doxygen/
             host_os: ubuntu-latest
           - jobname: Coverage Report
             target: coverage
+            artifact_name: Coverage Report
             artifacts: build/lcov-out/
             host_os: ubuntu-latest
 
@@ -66,7 +68,7 @@ jobs:
       - name: Archive Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.jobname }}
+          name: Botan ${{ env.BOTAN_VERSION }} ${{ matrix.artifact_name }}
           path: ${{ matrix.artifacts }}
         if: ${{ matrix.artifacts != '' }}
 
