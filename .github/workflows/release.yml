@@ -30,7 +30,7 @@ jobs:
           - jobname: Coverage Report
             target: coverage
             artifact_name: Coverage Report
-            artifacts: build/lcov-out/
+            artifacts: build/coverage.zip
             host_os: ubuntu-latest
 
     runs-on: ${{ matrix.host_os }}

@@ -380,6 +380,7 @@ def main(args):
 
         # Generate a local HTML report
         cmds.append(['genhtml', cov_file, '--output-directory', os.path.join(build_dir, 'lcov-out')])
+        cmds.append(['indir:%s' % os.path.join(build_dir), 'zip', '-qr', 'coverage.zip', 'lcov-out'])
 
     for cmd in cmds:
         run_cmd(cmd, root_dir, build_dir)
