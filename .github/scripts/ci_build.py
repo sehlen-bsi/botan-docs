@@ -348,6 +348,7 @@ def main(args):
 
     if target in ['pdf_docs']:
         cmds.append(make_cmd + ['docs'])
+        cmds.append(['indir:%s' % os.path.join(build_dir, 'build', 'docs'), 'zip', '-qr', 'doxygen.zip', 'doxygen'])
     else:
         if compiler_cache is not None:
             cmds.append([compiler_cache, '--show-stats'])
