@@ -264,6 +264,24 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "sourceref"
+version = "0.1.0"
+description = "Sphinx extension to conveniently link to source files in a GitHub project"
+category = "main"
+optional = false
+python-versions = "^3.10"
+develop = true
+
+[package.dependencies]
+auditinfo = {path = "../auditinfo", develop = true}
+requests = "^2.25"
+Sphinx = "^6.1.3"
+
+[package.source]
+type = "directory"
+url = "../../tools/sourceref"
+
+[[package]]
 name = "sphinx"
 version = "6.2.1"
 description = "Python documentation generator"
@@ -405,7 +423,7 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "1d4f6d705fe35b871286af52f9a75c9b95045c88192e59fe6586d6e4b2d63909"
+content-hash = "540c1ac1e68bde045f99787fbfbff15e7a58a7068a7b05e767c3452a8a726de8"
 
 [metadata.files]
 alabaster = []
@@ -432,6 +450,7 @@ pylatexenc = []
 pyspellchecker = []
 requests = []
 snowballstemmer = []
+sourceref = []
 sphinx = []
 sphinxcontrib-applehelp = []
 sphinxcontrib-devhelp = []

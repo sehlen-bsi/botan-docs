@@ -50,36 +50,47 @@ unit and integration tests (in ``src/tests``, ``src/bogo_shim``,
 ``src/build-data``), and documentation (in ``src/doc``).
 
 The review in this document keeps track of changes in all the above-mentioned
-components. For the library implementation itself (``src/lib``), all modules that
-are *required* or *available* in the BSI build policy and their dependencies are
-in the scope of this document. Additionally, we review the following modules and
-its dependencies: `getentropy`, `ffi`, `xts`, `pkcs11`, `tls12`, `tls13`,
-`tls_cbc`, `x509`, `certstor_windows`, `certstor_macos`, `certstor_flatfile`,
-`certstor_sql`, `certstor_sqlite3`, `certstor_system_macos`, `certstor_system_windows`,
-`dilithium`, `dilithium_aes`, `dilithium_common`,
-`kyber`, `kyber_90s`, `kyber_common`,
-`sha1_armv8`, `sha1_sse2`, `sha1_x86`,
-`sphincsplus_common`, `sphincsplus_sha2`, `sphincsplus_shake`.
-Patches that don't alter any of the above-mentioned components or relevant
-modules are considered out-of-scope.
+components. For the library implementation itself (``src/lib``), all modules
+that are *required* or *available* in the BSI build policy and their
+dependencies are in the scope of this document. Additionally, we review the
+following modules and its dependencies: ``certstor_flatfile``,
+``certstor_system``, ``dilithium_aes``, ``dilithium``, ``ffi``, ``kyber_90s``,
+``kyber``, ``pkcs11``, ``shake``, ``sphincsplus_sha2``, ``sphincsplus_shake``,
+``tls_cbc``, ``tls12``, ``tls13_pqc``, ``tls13``, ``xts``. Patches that don't
+alter any of the above-mentioned components or relevant modules are considered
+out-of-scope.
 
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
+
+.. For each new document version, the list below should be sanity checked
+   and potentially adapted using the script in scripts/audited_modules_list.py
+   like so:
+
+     1. Update the list of additional and platform dependent modules in
+        the audited_modules_list.py script
+     2. Check out the to-be-audited version of Botan "somewhere"
+     3. poetry run python audited_modules_list.py --repo-location="somewhere"
+     4. Copy the script's output over the list below
+     5. Go through the `git diff` and sanity check
+     6. Update the enumeration of "additional modules" above with the
+        modules listed in the script.
 
 .. list-table::
 
    * - aead
      - aes
      - aes_armv8
-     - aes_ni
+     - aes_crystals_xof
+   * - aes_ni
      - aes_power8
-   * - aes_vperm
+     - aes_vperm
      - argon2
-     - argon2_avx2
+   * - argon2_avx2
      - argon2_ssse3
      - argon2fmt
-   * - asn1
-     - auto_rng
+     - asn1
+   * - auto_rng
      - base
      - base64
      - bigint
@@ -87,34 +98,31 @@ reviewed:
      - block
      - cbc
      - ccm
-     - certstor
    * - certstor_flatfile
-     - certstor_macos
      - certstor_sql
      - certstor_sqlite3
      - certstor_system
    * - certstor_system_macos
      - certstor_system_windows
-     - certstor_windows
      - cmac
      - cpuid
    * - ctr
      - dh
      - dilithium
      - dilithium_aes
-     - dilithium_common
-   * - dl_algo
+   * - dilithium_common
+     - dl_algo
      - dl_group
      - dlies
-     - dsa
+   * - dsa
      - dyn_load
-   * - ec_group
+     - ec_group
      - ecc_key
-     - ecdh
+   * - ecdh
      - ecdsa
      - ecgdsa
-   * - ecies
-     - eckcdsa
+     - ecies
+   * - eckcdsa
      - eme_oaep
      - eme_pkcs1
      - emsa_pkcs1
@@ -122,29 +130,31 @@ reviewed:
      - entropy
      - ffi
      - gcm
-     - getentropy
-   * - ghash
+   * - getentropy
+     - ghash
      - ghash_cpu
      - ghash_vperm
-     - gmac
+   * - gmac
      - hash
-   * - hash_id
+     - hash_id
      - hex
-     - hkdf
+   * - hkdf
      - hmac
      - hmac_drbg
-   * - http_util
-     - iso9796
+     - http_util
+   * - iso9796
      - kdf
      - kdf1_iso18033
+     - keccak_perm
+   * - keccak_perm_bmi2
      - keypair
-   * - kyber
+     - kyber
      - kyber_90s
-     - kyber_common
+   * - kyber_common
      - locking_allocator
      - mac
-   * - mdx_hash
-     - mem_pool
+     - mdx_hash
+   * - mem_pool
      - mgf1
      - mode_pad
      - modes
@@ -152,19 +162,19 @@ reviewed:
      - numbertheory
      - pbkdf
      - pem
-     - pk_pad
-   * - pkcs11
+   * - pk_pad
+     - pkcs11
      - poly_dbl
      - prf_tls
-     - processor_rng
+   * - processor_rng
      - pubkey
-   * - rdseed
+     - rdseed
      - rng
-     - rsa
+   * - rsa
      - sha1
      - sha1_armv8
-   * - sha1_sse2
-     - sha1_x86
+     - sha1_sse2
+   * - sha1_x86
      - sha2_32
      - sha2_32_armv8
      - sha2_32_bmi2
@@ -172,40 +182,36 @@ reviewed:
      - sha2_64
      - sha2_64_bmi2
      - sha3
-     - sha3_bmi2
    * - shake
-     - shake_cipher
+     - shake_xof
      - simd
      - socket
-     - sp800_108
-   * - sp800_56c
+   * - sp800_108
+     - sp800_56c
      - sphincsplus_common
      - sphincsplus_sha2
-     - sphincsplus_shake
+   * - sphincsplus_shake
      - stateful_rng
-   * - stream
+     - stream
      - system_rng
-     - thread_utils
-     - tls
-     - tls_cbc
-   * - tls12
+   * - tls
+     - tls12
      - tls13
+     - tls13_pqc
+   * - tls_cbc
      - trunc_hash
      - utils
-     - win32_stats
-   * - x509
-     - xmss
+     - x509
+   * - xmss
+     - xof
      - xts
      -
-     -
 
-The following previously existing modules are now in scope
-and were fully reviewed:
+Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
 
-.. todo::
-
-   Update the lists above with the latest module list before releasing
-   e.g. "shake_xof" is new
+* ``shake_xof`` contains a proper interface to the SHAKE XOFs and replaces
+  ``shake_cipher`` that provisionally exposed the XOF as a stream cipher
+* ``tls13_pqc`` implements a hybrid key exchange for TLS 1.3 for post-quantum security
 
 Patch Description Content
 -------------------------

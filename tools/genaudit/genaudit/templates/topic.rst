@@ -23,6 +23,7 @@ Security Classification: *{{ classification }}*
 {{ "Relevant Patches"|rst_headline(2) }}
 
 .. list-table::
+   :class: longtable
    :widths: 10 50 10 15 15
    :header-rows: 1
 
