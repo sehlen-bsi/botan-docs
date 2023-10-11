@@ -53,17 +53,12 @@ The review in this document keeps track of changes in all the above-mentioned
 components. For the library implementation itself (``src/lib``), all modules
 that are *required* or *available* in the BSI build policy and their
 dependencies are in the scope of this document. Additionally, we review the
-following modules and its dependencies: ``aes_armv8``, ``aes_ni``,
-``aes_power8``, ``aes_vperm``, ``argon2_avx2``, ``argon2_ssse3``,
-``certstor_flatfile``, ``certstor_sql``, ``certstor_sqlite3``,
-``certstor_system``, ``certstor_system_macos``, ``certstor_system_windows``,
-``dilithium``, ``dilithium_aes``, ``ffi``, ``ghash_cpu``, ``ghash_vperm``,
-``keccak_perm_bmi2``, ``kyber``, ``kyber_90s``, ``pkcs11``, ``sha1_armv8``,
-``sha1_sse2``, ``sha1_x86``, ``sha2_32_armv8``, ``sha2_32_bmi2``,
-``sha2_32_x86``, ``sha2_64_bmi2``, ``shake``, ``sphincsplus_sha2``,
-``sphincsplus_shake``, ``tls_cbc``, ``tls12``, ``tls13``, ``tls13_pqc``,
-``xts``. Patches that don't alter any of the above-mentioned components or
-relevant modules are considered out-of-scope.
+following modules and its dependencies: ``certstor_flatfile``,
+``certstor_system``, ``dilithium_aes``, ``dilithium``, ``ffi``, ``kyber_90s``,
+``kyber``, ``pkcs11``, ``shake``, ``sphincsplus_sha2``, ``sphincsplus_shake``,
+``tls_cbc``, ``tls12``, ``tls13_pqc``, ``tls13``, ``xts``. Patches that don't
+alter any of the above-mentioned components or relevant modules are considered
+out-of-scope.
 
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
@@ -211,6 +206,12 @@ reviewed:
      - xof
      - xts
      -
+
+Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
+
+* ``shake_xof`` contains a proper interface to the SHAKE XOFs and replaces
+  ``shake_cipher`` that provisionally exposed the XOF as a stream cipher
+* ``tls13_pqc`` implements a hybrid key exchange for TLS 1.3 for post-quantum security
 
 Patch Description Content
 -------------------------

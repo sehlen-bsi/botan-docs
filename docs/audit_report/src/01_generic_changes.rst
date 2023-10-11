@@ -12,13 +12,17 @@ using post-quantum secure KEMs. Botan |botan_version| supports hybrid key
 exchanges with the following algorithm combinations:
 
 +--------------------------------+--------------------------------+
-| PQ KEM                         | Classical Key Exchange         |
+| **PQ KEM**                     | **Classical Key Exchange**     |
 +--------------------------------+--------------------------------+
-| | Kyber R3 512                 | | X25519                       |
-| | Kyber R3 512                 | | NIST P-256                   |
-| | Kyber R3 768                 | | X25519                       |
-| | Kyber R3 768                 | | NIST P-384                   |
-| | Kyber R3 1024                | | NIST P-1024                  |
+| Kyber R3 512                   | X25519                         |
++--------------------------------+--------------------------------+
+| Kyber R3 512                   | NIST P-256                     |
++--------------------------------+--------------------------------+
+| Kyber R3 768                   | X25519                         |
++--------------------------------+--------------------------------+
+| Kyber R3 768                   | NIST P-384                     |
++--------------------------------+--------------------------------+
+| Kyber R3 1024                  | NIST P-1024                    |
 +--------------------------------+--------------------------------+
 
 Additionally, handshakes with just Kyber as a PQ KEM and without any classical
@@ -49,8 +53,8 @@ Kuznyechik
 ~~~~~~~~~~
 
 The National Standard of the Russian Federation GOST R 34.12-2015 defines
-Kuznyechik as a block cipher with a block length of 128 bits. This algorithm is
-_prohibited_ in the "BSI" build policy.
+Kuznyechik [RFC7801]_ as a block cipher with a block length of 128 bits. This
+algorithm is *prohibited* in the "BSI" build policy.
 
 Deprecations
 ------------

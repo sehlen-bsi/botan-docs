@@ -69,15 +69,12 @@ def print_table(columns: int, modules: list[str]):
     print(".. list-table::")
     print()
 
-    i = 0
-    for module in modules:
-        if(i == 0):
-            print("   * - {}".format(module))
-        else:
-            print("     - {}".format(module))
-        i = (i + 1) % columns
-    if(i > 0): # fill up the final row with empty cells
-        for _ in range(i, columns):
+    for i, module in enumerate(modules):
+        row_sep = "*" if i % columns == 0 else " "
+        print(f"   {row_sep} - {module}")
+
+    if len(modules) % columns != 0:
+        for _ in range(columns - (len(modules) % columns)):
             print("     -")
 
 

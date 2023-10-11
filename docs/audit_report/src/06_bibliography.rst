@@ -34,6 +34,10 @@
    "Reverse-Engineering the S-Box of Streebog, Kuznyechik and STRIBOBr1"
    Cryptology ePrint Archive, Paper 2016/071
 
+.. [RFC7801] Vasily Dolmatov (editor)
+   "GOST R 34.12-2015: Block Cipher Kuznyechik",
+   RFC 7801, March 2017
+   https://www.rfc-editor.org/rfc/rfc7801.html
 
 .. [BOTAN_GIT] https://github.com/randombit/botan/tree/0676a3d0a2cc17975053f115da852578556bf50c
 
