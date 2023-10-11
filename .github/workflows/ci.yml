@@ -49,7 +49,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Botan ${{ env.BOTAN_VERSION }} ${{ matrix.element.name }}
+          name: ${{ matrix.element.out_name }}
           path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}-*.pdf
 
   url_check:
@@ -154,7 +154,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Botan ${{ env.BOTAN_VERSION }} Audit Report
+          name: audit_report
           path: source/docs/audit_report/_build/latex/*.pdf
 
   utility:
@@ -166,14 +166,14 @@ jobs:
         include:
           - jobname: Documentation
             target: pdf_docs
-            artifact_name: Upstream Documentation
+            artifact_name: documentation
             artifacts: |
               build/build/docs/handbook/botan.pdf
               build/build/docs/doxygen.zip
             host_os: ubuntu-latest
           - jobname: Coverage Report
             target: coverage
-            artifact_name: Coverage Report
+            artifact_name: coverage
             artifacts: build/coverage.zip
             host_os: ubuntu-latest
 
@@ -212,7 +212,7 @@ jobs:
       - name: Archive Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Botan ${{ env.BOTAN_VERSION }} ${{ matrix.artifact_name }}
+          name: ${{ matrix.artifact_name }}
           path: ${{ matrix.artifacts }}
         if: ${{ matrix.artifacts != '' }}
 
@@ -310,7 +310,7 @@ jobs:
       - name: Store Test Report
         uses: actions/upload-artifact@v3
         with:
-          name: Botan ${{ env.BOTAN_VERSION }} Test Report
+          name: testreport
           path: docs/testreport/_build/latex/testreport-*.pdf
           if-no-files-found: error
 
@@ -342,5 +342,93 @@ jobs:
       - name: Archive Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Botan ${{ env.BOTAN_VERSION }} Source Archive
+          name: source
           path: build/*.zip
+
+  collect_artifacts:
+    name: "Collect Submission Artifacts"
+    runs-on: ubuntu-latest
+    needs:
+      - pdf_creation
+      - audit_generation
+      - utility
+      - test_report
+      - source_archive
+
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
+
+      - name: Fetch Botan Documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: documentation
+          path: staging/botandocs
+
+      - name: Split API Documentation and Handbook
+        run: |
+          mkdir -p 'final/API Documentation'
+          mkdir -p 'final/Handbuch'
+          cp staging/botandocs/*.zip 'final/API Documentation'
+          cp staging/botandocs/handbook/*.pdf 'final/Handbuch'
+
+      - name: Fetch Architecture
+        uses: actions/download-artifact@v3
+        with:
+          name: architecture
+          path: final/Architecture
+
+      - name: Fetch Audit Method
+        uses: actions/download-artifact@v3
+        with:
+          name: audit_method
+          path: final/Audit
+
+      - name: Fetch Audit Report
+        uses: actions/download-artifact@v3
+        with:
+          name: audit_report
+          path: final/Audit
+
+      - name: Fetch Coverage Report
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage
+          path: final/Coverage Report
+
+      - name: Fetch Cryptographic Documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: cryptodoc
+          path: final/Kryptodoc
+
+      - name: Fetch Source Code
+        uses: actions/download-artifact@v3
+        with:
+          name: source
+          path: final/Source Code
+
+      - name: Fetch Test Report
+        uses: actions/download-artifact@v3
+        with:
+          name: testreport
+          path: final/Test Report
+
+      - name: Fetch Testspezifikation
+        uses: actions/download-artifact@v3
+        with:
+          name: testspec
+          path: final/Testspezifikation
+
+      - name: Upload Bundled Submission Documents
+        uses: actions/upload-artifact@v3
+        with:
+          name: Submission Bundle for Botan ${{ env.BOTAN_VERSION }}
+          path: final/*
