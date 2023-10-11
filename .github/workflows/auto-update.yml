@@ -51,6 +51,9 @@ jobs:
           sudo apt-get -qq install python3-poetry
           poetry install --no-dev
 
+      - name: Install GitHub webflow GPG public key
+        run: gpg --trusted-key 4AEE18F83AFDEB23 --import ${{ github.workspace }}/source/.github/resources/web-flow.gpg
+
       - name: Set Committer Identity
         run: |
           git config user.name "Audit Update Bot"
