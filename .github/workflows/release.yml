@@ -25,12 +25,12 @@ jobs:
             artifact_name: Upstream Documentation
             artifacts: |
               build/build/docs/handbook/botan.pdf
-              build/build/docs/doxygen/
+              build/build/docs/doxygen.zip
             host_os: ubuntu-latest
           - jobname: Coverage Report
             target: coverage
             artifact_name: Coverage Report
-            artifacts: build/lcov-out/
+            artifacts: build/coverage.zip
             host_os: ubuntu-latest
 
     runs-on: ${{ matrix.host_os }}
