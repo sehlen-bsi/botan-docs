@@ -45,10 +45,11 @@ jobs:
         run: poetry install --no-dev
       - name: Build pdf
         run: poetry run make latexpdf
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Botan ${{ env.BOTAN_VERSION }} ${{ matrix.element.name }}
+          name: ${{ matrix.element.out_name }}
           path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}-*.pdf
 
   url_check:
@@ -79,6 +80,7 @@ jobs:
           sudo apt-get -qq install python3-poetry
       - name: Install Python Dependencies
         run: poetry install --no-dev
+
       - name: Build with URL check enabled
         run: poetry run make SPHINXOPTS="-D src_ref_check_url=True -W --keep-going" html
 
@@ -152,5 +154,281 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Botan ${{ env.BOTAN_VERSION }} Audit Report
+          name: audit_report
           path: source/docs/audit_report/_build/latex/*.pdf
+
+  utility:
+    name: "Utility"
+    strategy:
+      fail-fast: false
+
+      matrix:
+        include:
+          - jobname: Documentation
+            target: pdf_docs
+            artifact_name: documentation
+            artifacts: |
+              build/build/docs/handbook/botan.pdf
+              build/build/docs/doxygen.zip
+            host_os: ubuntu-latest
+          - jobname: Coverage Report
+            target: coverage
+            artifact_name: coverage
+            artifacts: build/coverage.zip
+            host_os: ubuntu-latest
+
+    runs-on: ${{ matrix.host_os }}
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
+
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+          ref: ${{ env.BOTAN_REF }}
+
+      - name: Setup Build Agent
+        uses: ./source/.github/actions/setup-build-agent
+        with:
+          target: ${{ matrix.target }}
+          cache-key: bsi-${{ matrix.host_os }}-${{ matrix.target }}
+
+      - name: Build and Test Botan
+        run: >-
+          python3 ./source/.github/scripts/ci_build.py
+          --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
+          ${{ matrix.target }}
+
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifacts }}
+        if: ${{ matrix.artifacts != '' }}
+
+  bsi_tests:
+    name: "BSI Build Policy Tests"
+    strategy:
+      fail-fast: false
+
+      matrix:
+        # basic configuration combinations should run on all target platforms
+        target:    [ static, shared ]
+        platform:  [
+          { host_os: windows-2022,  compiler: msvc,  make_tool: ninja },
+          { host_os: ubuntu-latest, compiler: gcc,   make_tool: make },
+          { host_os: ubuntu-latest, compiler: clang, make_tool: make },
+          { host_os: macos-13,  compiler: clang, make_tool: make }
+        ]
+
+    runs-on: ${{ matrix.platform.host_os }}
+
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
+
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+          ref: ${{ env.BOTAN_REF }}
+
+      - name: Setup Build Agent
+        uses: ./source/.github/actions/setup-build-agent
+        with:
+          target: ${{ matrix.target }}
+          cache-key: bsi-${{ matrix.platform.host_os }}-${{ matrix.platform.compiler }}-${{ matrix.target }}
+
+      - name: Build and Test Botan
+        run: >-
+          python3 ./source/.github/scripts/ci_build.py
+          --root-dir=${{ github.workspace }}/botan --build-dir=${{ github.workspace }}/build
+          --cc='${{ matrix.platform.compiler }}' --make-tool='${{ matrix.platform.make_tool }}'
+          --test-results-dir=junit_reports
+          ${{ matrix.target }}
+
+      - name: Store JUnit Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: junit
+          path: junit_reports/*.xml
+          if-no-files-found: error
+
+  test_report:
+    name: "Generate Test Report"
+    needs: bsi_tests
+    if: always()
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs/testreport
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Environment Configuration
+        uses: ./.github/actions/setup-environment
+        with:
+          env_file: ./config/botan.env
+
+      - name: Fetch JUnit Reports
+        uses: actions/download-artifact@v3
+        with:
+          name: junit
+          path: ${{ github.workspace }}/junit_reports
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -qq install python3-poetry texlive-latex-extra texlive-fonts-recommended tex-gyre texlive-lang-german latexmk
+      - name: Install Python Dependencies
+        run: poetry install --no-dev
+      - name: Build pdf
+        run: poetry run make latexpdf
+        env:
+          TEST_REPORT_JUNIT_INPUT_DIRECTORY: ${{ github.workspace }}/junit_reports
+
+      - name: Store Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: testreport
+          path: docs/testreport/_build/latex/testreport-*.pdf
+          if-no-files-found: error
+
+  source_archive:
+    name: "Source Archive"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
+
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+          ref: ${{ env.BOTAN_REF }}
+
+      - name: Generate Archive
+        run: python3 ${{ github.workspace }}/source/.github/scripts/tarball.py --output-dir build --source-dir botan
+
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: source
+          path: build/*.zip
+
+  collect_artifacts:
+    name: "Collect Submission Artifacts"
+    runs-on: ubuntu-latest
+    needs:
+      - pdf_creation
+      - audit_generation
+      - utility
+      - test_report
+      - source_archive
+
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v3
+        with:
+          path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
+
+      - name: Fetch Botan Documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: documentation
+          path: staging/botandocs
+
+      - name: Split API Documentation and Handbook
+        run: |
+          mkdir -p 'final/API Documentation'
+          mkdir -p 'final/Handbuch'
+          cp staging/botandocs/*.zip 'final/API Documentation'
+          cp staging/botandocs/handbook/*.pdf 'final/Handbuch'
+
+      - name: Fetch Architecture
+        uses: actions/download-artifact@v3
+        with:
+          name: architecture
+          path: final/Architecture
+
+      - name: Fetch Audit Method
+        uses: actions/download-artifact@v3
+        with:
+          name: audit_method
+          path: final/Audit
+
+      - name: Fetch Audit Report
+        uses: actions/download-artifact@v3
+        with:
+          name: audit_report
+          path: final/Audit
+
+      - name: Fetch Coverage Report
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage
+          path: final/Coverage Report
+
+      - name: Fetch Cryptographic Documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: cryptodoc
+          path: final/Kryptodoc
+
+      - name: Fetch Source Code
+        uses: actions/download-artifact@v3
+        with:
+          name: source
+          path: final/Source Code
+
+      - name: Fetch Test Report
+        uses: actions/download-artifact@v3
+        with:
+          name: testreport
+          path: final/Test Report
+
+      - name: Fetch Testspezifikation
+        uses: actions/download-artifact@v3
+        with:
+          name: testspec
+          path: final/Testspezifikation
+
+      - name: Upload Bundled Submission Documents
+        uses: actions/upload-artifact@v3
+        with:
+          name: Submission Bundle for Botan ${{ env.BOTAN_VERSION }}
+          path: final/*
