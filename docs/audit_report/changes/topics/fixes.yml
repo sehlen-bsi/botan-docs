@@ -1,44 +1,21 @@
 title: Fixes
 
 patches:
-# Add missing size limits checks for argon2 on 64-bit arch  (@lieser)
-- pr: 3626  # https://github.com/randombit/botan/pull/3626
-  merge_commit: e1a42ce548f74627e77d6d574b330a8c16e99401
-  classification: relevant
-  comment: |
-    Adds checks that ensure Argon2 output and parameters stay within specified
-    bounds, i.e. less than 2^32.
+# Fix build on NetBSD.  (@0-wiz-0)
+- pr: 3767  # https://github.com/randombit/botan/pull/3767
+  merge_commit: 3a0201668e8df8066e509696c40d8aaba83fa371
+  classification: unspecified
 
-# Initialize stack array b in generate_prime  (@Jack Lloyd)
-- commit: bd251b7669dda9f0977f2386c56d2748767a6d0c  # https://github.com/randombit/botan/commit/bd251b7669dda9f0977f2386c56d2748767a6d0c
-  classification: relevant
-  comment: |
-    OSS-Fuzz found a potential read of uninitialized array data holding random
-    bytes. In normal operation, this array is filled with random bytes right
-    after creation. This is an additional safety precation but doesn't have any
-    practical relevance when assuming nominal operation of the RNG.
-  auditer: reneme
+# FIX: TLS 1.3 server hit assertion if application did not provide a cert chain  (@reneme)
+- pr: 3754  # https://github.com/randombit/botan/pull/3754
+  merge_commit: 2c5f009ede382d091a56979c5482d989723205d8
+  classification: unspecified
 
+# Fix: Unintended Kyber Warnings  (@atreiber94)
+- pr: 3745  # https://github.com/randombit/botan/pull/3745
+  merge_commit: c47aac7e62a6f132b7a3179a086bee184f87cabd
+  classification: unspecified
 
-# Add unistd.h include for FreeBSD  (@Jack Lloyd)
-- commit: 96871c284f0305cc72215368376260a2a9aec898  # https://github.com/randombit/botan/commit/96871c284f0305cc72215368376260a2a9aec898
-  classification: info
-  auditer: reneme
-
-# Add some minimal API sanity checks for PK_Signer/PK_Verifier  (@lieser)
-- pr: 3702  # https://github.com/randombit/botan/pull/3702
-  merge_commit: f7fcff3d6c8aef096da4520993e49c3c467a002d
-  classification: relevant
-  comment: |
-    This fixes potential use-after-free and/or null pointer dereferences in case
-    an asymmetric key operation outlived its underlying asymmetric key object.
-
-# Some small test cleanups as a followup to #3702  (@randombit)
-- pr: 3725  # https://github.com/randombit/botan/pull/3725
-  merge_commit: 30ecb87197a4bb94fc660a2e6d215b20a9ac7f06
-  classification: info
-
-  # FIX: out-of-bounds access of std::array  (@reneme)
-- pr: 3736  # https://github.com/randombit/botan/pull/3736
-  merge_commit: a8b4fe3e1eb88e286d67130e8fd7f77423420dda
-  classification: info
+# Fix FFDHE selection in TLS to conform to RFC 7919 (#3743)  (Jack Lloyd)
+- commit: e27bf3f2bb85e40645b35650104601ead1ebf3cd  # https://github.com/randombit/botan/commit/e27bf3f2bb85e40645b35650104601ead1ebf3cd
+  classification: unspecified

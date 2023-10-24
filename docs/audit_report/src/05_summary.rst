@@ -7,10 +7,7 @@ the results of several analysis tools.
 
 The most significant changes are the following:
 
-* TLS 1.3: Quantum-secure hybrid PQ/T key exchange
-* TLS 1.3: User-defined Preshared Key support
-* New Message Authentication Code: KMAC
-* eXtendable Output Function: SHAKE as a XOF
+.. todo:: Add a bullet-point list for the most significant changes in Botan 3.3.0
 
 According to the observations of this audit, Botan version |botan_version| keeps the security level of
 the previously reviewed version and complements the old version with various sensible and

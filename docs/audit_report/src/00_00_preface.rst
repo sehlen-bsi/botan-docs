@@ -30,6 +30,8 @@ audit target revision to establish a new audited revision.
 
 This document was generated on |document_datestamp| based on the git revision |document_gitsha_short|.
 
+.. todolist::
+
 **Copyright**
 
 This work is protected by copyright law. Every application outside of copyright

@@ -6,62 +6,6 @@ description: |
   implementation of any library feature.
 
 patches:
-# Update news [ci skip]  (@Jack Lloyd)
-- commit: d382dbb09908b71f1c5a7451ac7c97bee3759c61  # https://github.com/randombit/botan/commit/d382dbb09908b71f1c5a7451ac7c97bee3759c61
-  classification: info
-  auditer: reneme
-
-# Update change notes [ci skip]  (@Jack Lloyd)
-- commit: 5299c1635e96d2fcfb6a43aecdd3335556acd245  # https://github.com/randombit/botan/commit/5299c1635e96d2fcfb6a43aecdd3335556acd245
-  classification: info
-  auditer: reneme
-
-# Update news  (@Jack Lloyd)
-- commit: aee8142b74e226330f7d8e305180bbfb72143fa3  # https://github.com/randombit/botan/commit/aee8142b74e226330f7d8e305180bbfb72143fa3
-  classification: info
-  auditer: reneme
-
-# Update changelog [ci skip]  (@Jack Lloyd)
-- commit: 47ab8b1612ee51be675f7bd49f7be39112a87175  # https://github.com/randombit/botan/commit/47ab8b1612ee51be675f7bd49f7be39112a87175
-  classification: info
-  auditer: reneme
-
-# We need to be bumping the ABI so rev as well  (@Jack Lloyd)
-- commit: 851b89b320dd2d61b8b581050301e5a5928d2a2d  # https://github.com/randombit/botan/commit/851b89b320dd2d61b8b581050301e5a5928d2a2d
-  classification: info
-  auditer: reneme
-
-# Bump version to 3.2.0  (@Jack Lloyd)
-- commit: e430d3e4dfedcfaaa33c29718afe80433e1381e8  # https://github.com/randombit/botan/commit/e430d3e4dfedcfaaa33c29718afe80433e1381e8
-  classification: info
-  auditer: reneme
-
-# Correct the link text  (@Jack Lloyd)
-- commit: 091b7c89b7d2e6f3a92121feb8fb37f75bd651cb  # https://github.com/randombit/botan/commit/091b7c89b7d2e6f3a92121feb8fb37f75bd651cb
-  classification: info
-  auditer: reneme
-
-# Update change notes [ci skip]  (Jack Lloyd)
-- commit: 5ccf554190949add414721e3652a8da66f67e520  # https://github.com/randombit/botan/commit/5ccf554190949add414721e3652a8da66f67e520
-  classification: info
-  auditer: FAlbertDev
-
-# Update change notes [ci skip]  (Jack Lloyd)
-- commit: 258211bd0eebb7ceddf6663bfaf1a37cb772d060  # https://github.com/randombit/botan/commit/258211bd0eebb7ceddf6663bfaf1a37cb772d060
-  classification: info
-  auditer: FAlbertDev
-
-# Update change notes [ci skip]  (Jack Lloyd)
-- commit: 68ca91208e2c640fab835f3ba40d5e37145beac4  # https://github.com/randombit/botan/commit/68ca91208e2c640fab835f3ba40d5e37145beac4
-  classification: info
-  auditer: FAlbertDev
-
-# Update change notes  (Jack Lloyd)
-- commit: e7b2aa5ee62c4f696f3c45c50e660fb0207b31f3  # https://github.com/randombit/botan/commit/e7b2aa5ee62c4f696f3c45c50e660fb0207b31f3
-  classification: info
-  auditer: FAlbertDev
-
-# Update for 3.2.0 release  (Jack Lloyd)
-- commit: 6f466a2704a31856ebc27451ca861527d3dd00a1  # https://github.com/randombit/botan/commit/6f466a2704a31856ebc27451ca861527d3dd00a1
-  classification: info
-  auditer: FAlbertDev
+# Update news and bump version to 3.3.0  (Jack Lloyd)
+- commit: c2a2c0e6d8a1093493ec4931ffa09ba98ee66a12  # https://github.com/randombit/botan/commit/c2a2c0e6d8a1093493ec4931ffa09ba98ee66a12
+  classification: unspecified
