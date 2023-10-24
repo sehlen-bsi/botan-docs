@@ -6,6 +6,8 @@ Document Revision
 
 This document was generated on |document_datestamp| based on the git revision |document_gitsha_short|.
 
+.. todolist::
+
 Introduction
 ------------
 

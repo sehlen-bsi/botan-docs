@@ -30,6 +30,8 @@ This document describes the cryptographic implementations of Botan.
 
 This document was generated on |document_datestamp| based on the git revision |document_gitsha_short|.
 
+.. todolist::
+
 **Copyright**
 
 This work is protected by copyright law. Every application outside of

@@ -61,6 +61,8 @@ following modules and its dependencies: ``certstor_flatfile``,
 ``tls13_pqc``, ``tls13``, ``xts``. Patches that don't alter any of the
 above-mentioned components or relevant modules are considered out-of-scope.
 
+.. todo:: Update the module list below for the upcoming Botan 3.3.0 release
+
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
 

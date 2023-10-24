@@ -30,6 +30,8 @@ Botan-Versionen zum Einsatz kommt.
 
 Dieses Dokument wurde am |document_datestamp| aus der Git Revision |document_gitsha_short| erzeugt.
 
+.. todolist::
+
 **Copyright**
 
 Das Werk einschließlich aller seiner Teile ist urheberrechtlich geschützt. Jede

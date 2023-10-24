@@ -36,6 +36,7 @@ rst_prolog = auditinfo.rst_substitutions()
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+  'sphinx.ext.todo',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -87,3 +88,7 @@ latex_elements = {
     'maketitle': r'\custommanualmaketitle',
     **auditinfo.unicode_mappings(),
 }
+
+# -- Options for extensions --------------------------------------------------
+
+todo_include_todos = True

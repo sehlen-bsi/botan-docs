@@ -24,6 +24,8 @@ This document reports the test results of the Botan test suite.
 
 This document was generated on |document_datestamp| based on the git revision |document_gitsha_short|.
 
+.. todolist::
+
 **Copyright**
 
 This work is protected by copyright law. Every application outside of

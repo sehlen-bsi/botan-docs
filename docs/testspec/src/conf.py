@@ -36,6 +36,7 @@ rst_prolog = auditinfo.rst_substitutions()
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.todo',
     'sourceref',
 ]
 
@@ -88,3 +89,7 @@ latex_elements = {
     'sphinxsetup': 'verbatimforcewraps=true',
     **auditinfo.unicode_mappings(),
 }
+
+# -- Options for extensions --------------------------------------------------
+
+todo_include_todos = True
