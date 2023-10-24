@@ -11,10 +11,14 @@ Weiterentwicklung der Kryptobibliothek Botan".
 ## Repository Anatomy
 
 This monorepo contains documents (in `/docs`) as well as auxiliary helper
-scripts (in `/tools`). Most documents come with a `Makefile` to build them as
-PDF, HTML or other formats. Some generators depend on the helper scripts in
-`/tools`. We use [Poetry](https://python-poetry.org/) to manage the
-local and external dependencies.
+scripts (in `/tools`) and some common resources (in `/resources`). The monorepo
+is configured in a global configuration file (in `/config/botan.env`). Internal
+documentation and checklists are located in `/internal`.
+
+Most documents come with a `Makefile` to build them as PDF, HTML or other
+formats. Some generators depend on the helper scripts in `/tools`. We use
+[Poetry](https://python-poetry.org/) to manage the local and external
+dependencies.
 
 ## How to build the Documentation
 
