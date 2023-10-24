@@ -1,0 +1,7 @@
+title: Command Line Interface
+
+patches:
+# Add a cli util for testing RSA using MARVIN  (@randombit)
+- pr: 3749  # https://github.com/randombit/botan/pull/3749
+  merge_commit: 73088f7b2ffdbf068e3022746b1437a9fab76a42
+  classification: unspecified

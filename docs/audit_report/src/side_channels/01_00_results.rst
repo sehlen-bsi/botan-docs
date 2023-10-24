@@ -30,14 +30,4 @@ The number of traces for the analysis with DATA therefore usually corresponds to
 Results
 ^^^^^^^
 
-The following chapters contain the results of the analysed implementations for x25519 and TLS 1.3 PQ-Hybrid.
-If there are several implementations of an algorithm, they are listed at the beginning of the chapters.
-If the Botan CLI is used, the command prompt is listed.
-Details on compiling Botan and using the algorithm without the CLI, if needed, are also given.
-Leaks found are described in separate sections.
-The descriptions usually also include the associated source code and, if applicable, the call hierarchy.
-
-.. toctree::
-
-   01_01_pq_tls
-   01_02_x25519
+.. todo:: Add side channel analysis results for the new algorithms that are included in Botan 3.3.0

@@ -6,74 +6,8 @@ description: |
   these patches have an immediate impact on the cryptographic functionality of
   Botan.
 
-  It is worth noting that Botan now uses GitHub's CodeQL service that
-  automatically scans the entire codebase for potential security
-  vulnerabilities. No issues have been found at the time of this writing.
-
 patches:
-# TLS Anvil Server Tests in Nightly CI  (@FAlbertDev)
-- pr: 3651  # https://github.com/randombit/botan/pull/3651
-  merge_commit: fc4b4271fbaa47e886ee4028c2b2cb8eb3384543
-  classification: info
-
-# Modify the CI script to fall back to nmake if jom is missing  (@randombit)
-- pr: 3639  # https://github.com/randombit/botan/pull/3639
-  merge_commit: 1e09116a34277515e52be0ad69c337a55fbe01bb
-  classification: info
-
-# Try some GitHub Actions Workflow Commands  (@reneme)
-- pr: 3640  # https://github.com/randombit/botan/pull/3640
-  merge_commit: 12de91e487ec60126c6bf692e5048ad668c675e9
-  classification: info
-
-# Add a S390x CI build  (@randombit)
-- pr: 3686  # https://github.com/randombit/botan/pull/3686
-  merge_commit: 2c2ff3c710c6384ba42739934b6750abe1725d9d
-  classification: info
-  auditer: reneme
-
-# Add CodeQL  (@randombit)
-- pr: 3663  # https://github.com/randombit/botan/pull/3663
-  merge_commit: 8c72bab4c7e2348beb6753b8df9c3e9a65f89594
-  classification: info
-  auditer: reneme
-  comment: |
-    CodeQL is a GitHub service that provides static source code analysis to
-    automatically scan for vulnerabilities.
-
-# Add OpenSSF Scorecard badge  (@securitykernel)
-- pr: 3658  # https://github.com/randombit/botan/pull/3658
-  merge_commit: 897f107e195fd7559afb5b98fb081ee3ae569376
-  classification: info
-  comment: |
-    OpenSSF Scorecards is an automated service that scans open source projects
-    for a number of software security best practices. The project then receives
-    a normalized score to give potential users a quick idea on the project's
-    trustworthiness. Botan currently scores 9/10 in this scorecard.
-
-# Set GH permissions on cifuzz CI job  (@randombit)
-- pr: 3661  # https://github.com/randombit/botan/pull/3661
-  merge_commit: efb6a737958144d2fb0a2c00b4ea65e363759230
-  classification: info
-  auditer: reneme
-
-# Add compiler and architecture information to XML report  (@lieser)
-- pr: 3642  # https://github.com/randombit/botan/pull/3642
-  merge_commit: ea43a868e611b25dc8d8c5eba21caa807d3083e6
-  classification: info
-
-# Adopt XCode 15 for CI  (@randombit)
-- pr: 3717  # https://github.com/randombit/botan/pull/3717
-  merge_commit: 66519533222770be37bc8a46af429a9b1fb324be
-  classification: info
-  auditer: reneme
-
-# Switch CI to using NDK 26  (@randombit)
-- pr: 3718  # https://github.com/randombit/botan/pull/3718
-  merge_commit: 0a183f3f21492ff7d3967779dfe69b9ca2ef4cf5
-  classification: info
-
-# Move emscripten CI build to macOS  (@randombit)
-- pr: 3720  # https://github.com/randombit/botan/pull/3720
-  merge_commit: ae37d6503af79de5f376da2b6c92476a36e7d386
-  classification: info
+# CI: Test nightly Hybrid PQ/T TLS interoperability  (@reneme)
+- pr: 3740  # https://github.com/randombit/botan/pull/3740
+  merge_commit: 520822ed860975ae165f40e41bf55bb4697dbbe8
+  classification: unspecified
