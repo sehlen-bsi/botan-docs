@@ -1,0 +1,101 @@
+"""""
+LMS
+"""""
+
+Analysed variants:
+
+- Truncated(SHA-256,192),HW(5,1)
+
+For the analysis of LMS, a utility was written that calls the functions to be analysed in a similar way to the Botan CLI.
+The following call is used to create the signature:
+
+.. code-block:: cpp
+
+    auto sk = Botan::HSS_LMS_PrivateKey(rng, mode);
+
+    Botan::PK_Signer sig(sk, rng, "");
+    signature = sig.sign_message(message, rng);
+
+
+**Leak: hash chain calculation**
+
+During the analysis, a control flow leak was found in the function `process()` [BOTAN_LMS_PROCESS]_.
+This function is part of the Winternitz One-Time Signature (WOTS) procedure.
+The WOTS procedure is based on the use of hash chains with a defined length.
+Using the private WOTS key, the initial values of the hash chain are calculated.
+These values are the private keys of the hash chains.
+The public keys of these hash chains are calculated by calculating the hash chain to the defined end.
+These public keys of the hash chains are used in a further calculation step to calculate the WOTS public key.
+To create a signature, the hash of a message and an additional checksum are split into individual parts, so-called chunks.
+Each chunk is signed by a hash chain.
+The number of steps in the hash chain calculation corresponds to the value of the respective chunk.
+The control flow leak indicates these differences in execution.
+
+.. code-block:: cpp
+
+    void process(HashFunction& hash,
+             uint16_t chain_idx,
+             uint8_t start,
+             uint8_t end,
+             std::span<const uint8_t> in,
+             std::span<uint8_t> out) {
+       BOTAN_ARG_CHECK(start <= end, "Start value is bigger than end value");
+
+       if(start == end) {
+          copy_into(out, in);
+          return;
+       }
+       m_gen.set_i(chain_idx);
+
+       // Unroll first iteration of the loop
+       m_gen.set_j(start++);
+       m_gen.gen(out, hash, in);
+
+       for(uint8_t j = start; j < end; ++j) {
+          m_gen.set_j(j);
+          m_gen.gen(out, hash, out);
+       }
+    }
+
+The variables *start* and *end* specify the start and the end index in the hash chain calculation.
+Depending on the value of the message hash, the *process()* routine is executed differently.
+This is the basis of the observed control flow leak.
+The LMS algorithm calculates the hash of a message using *randomised hashing* [NIST_SP_800_208]_.
+This prevents generic collision attacks and thus considerably increases the security of the procedure.
+With *randomised hashing*, a random string, the randomizer *C*, is chosen for each message.
+This string is prefixed to the message together with the LMS key pair identifier.
+The hash of all data is then calculated and used in the further algorithm steps.
+The following code excerpt shows this procedure in the Botan implementation [BOTAN_LMS_Q_WITH_CKSM]_:
+
+.. code-block:: cpp
+
+    std::vector<uint8_t> gen_Q_with_cksm(const LMOTS_Params& params,
+                                         const LMS_Identifier& identifier,
+                                         const LMS_Tree_Node_Idx& q,
+                                         std::span<const uint8_t> C,
+                                         const LMS_Message& msg) {
+       std::vector<uint8_t> Q_with_cksm(params.n() + sizeof(uint16_t));
+       BufferStuffer qwc_stuffer(Q_with_cksm);
+       const auto hash = HashFunction::create_or_throw(params.hash_name());
+       hash->update(identifier);
+       hash->update_be(q.get());
+       hash->update_be(D_MESG);
+       hash->update(C);
+       hash->update(msg);
+       auto Q_span = qwc_stuffer.next(params.n());
+       hash->final(Q_span);
+
+       qwc_stuffer.append_be(checksum(params, Q_span));
+
+       return Q_with_cksm;
+    }
+
+Accordingly, even with a constant message and a constant public key, different hashes are signed.
+This leads to different numbers of steps in the hash chains, thus to different distributions of the observed addresses and consequently to the control flow leak that DATA identifies in phase 2.
+However, this leak only reveals information about the calculated hash.
+The hash value is generated using public data.
+These are the LMS key pair identifier, the LMS tree node, the randomizer, and the message to be signed.
+For this reason, the control flow leak identified here can be classified as unproblematic.
+
+No leaks were identified in the used hash function SHA-256.
+The private key is thus not affected by any leak during signature generation.
