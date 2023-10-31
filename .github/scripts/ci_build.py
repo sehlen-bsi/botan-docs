@@ -118,6 +118,10 @@ def determine_flags(target, target_os, target_cc, ccache,
     enable_modules += ['kyber','kyber_90s']
     enable_modules += ['dilithium','dilithium_aes']
     enable_modules += ['sphincsplus_sha2','sphincsplus_shake']
+
+    if target in ['coverage', 'shared']:
+        enable_modules += ['asio']
+
     flags += ['--module-policy=bsi', '--enable-modules=%s' % ','.join(enable_modules)]
 
     if target in ['pdf_docs']:
