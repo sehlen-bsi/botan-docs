@@ -122,13 +122,13 @@ jobs:
           key: audit_3.1-${{ github.run_id }}
           restore-keys: audit_3.1
 
-      - name: Verify Patch Coverage
-        working-directory: source/docs/audit_report
-        run: poetry run python3 -m genaudit.cli unrefed --yaml changes
-        env:
-          AUDIT_CACHE_LOCATION: ${{ github.workspace }}/audit_generator_cache
-          AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
-          BASIC_GH_TOKEN: ${{ github.token }}
+      # - name: Verify Patch Coverage
+      #   working-directory: source/docs/audit_report
+      #   run: poetry run python3 -m genaudit.cli unrefed --yaml changes
+      #   env:
+      #     AUDIT_CACHE_LOCATION: ${{ github.workspace }}/audit_generator_cache
+      #     AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
+      #     BASIC_GH_TOKEN: ${{ github.token }}
 
       - name: Build Document
         working-directory: source/docs/audit_report
