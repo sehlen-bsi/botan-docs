@@ -43,6 +43,10 @@ def botan_github_handle() -> str:
     """ The repository handle of the main code base on GitHub """
     return __get_from_config("BOTAN_REPO")
 
+def botan_upstream_github_handle() -> str:
+    """ The repository handle of the upstream code base on GitHub """
+    return __get_from_config("BOTAN_UPSTREAM_REPO")
+
 def botan_main_branch() -> str:
     """ The name of the main branch of the main code base on GitHub """
     return __get_from_config("BOTAN_MAIN_BRANCH")

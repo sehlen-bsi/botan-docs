@@ -34,7 +34,7 @@ class Audit:
 
         util.check_keys("Repo", cfg['repo'].keys(), ['local_checkout'])
 
-        self.github_handle = auditinfo.botan_github_handle()
+        self.github_handle = auditinfo.botan_upstream_github_handle()
         self.main_branch = auditinfo.botan_main_branch()
         self.local_checkout = cfg['repo']['local_checkout']
         self.git_ref_from = auditinfo.botan_git_base_ref()
