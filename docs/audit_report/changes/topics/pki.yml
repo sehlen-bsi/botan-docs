@@ -1,0 +1,7 @@
+title: Public Key Infrastructure
+
+patches:
+# Implement encoding CA Issuer information in X.509 AIA extension  (@martin-schiffner)
+- pr: 3784  # https://github.com/randombit/botan/pull/3784
+  merge_commit: cef8f13347fe7f60b7e66519b0813e4c2c93d9af
+  classification: unspecified

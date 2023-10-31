@@ -1,0 +1,7 @@
+title: Minor Additions
+
+patches:
+# Feature: `AsymmetricKey::generate_another()`  (@reneme)
+- pr: 3770  # https://github.com/randombit/botan/pull/3770
+  merge_commit: 11b5d80790a65d6a7f8267a95224f9e8c5ac0080
+  classification: unspecified

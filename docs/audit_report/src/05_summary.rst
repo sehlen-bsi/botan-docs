@@ -7,7 +7,7 @@ the results of several analysis tools.
 
 The most significant changes are the following:
 
-.. todo:: Add a bullet-point list for the most significant changes in Botan 3.3.0
+* Introduction of HSS/LMS, a stateful hash-based signature scheme
 
 According to the observations of this audit, Botan version |botan_version| keeps the security level of
 the previously reviewed version and complements the old version with various sensible and

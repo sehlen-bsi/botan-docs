@@ -51,6 +51,7 @@ def additional_modules():
         'dilithium_aes',
         'dilithium',
         'ffi',
+        'hss_lms',
         'kyber_90s',
         'kyber',
         'pkcs11',

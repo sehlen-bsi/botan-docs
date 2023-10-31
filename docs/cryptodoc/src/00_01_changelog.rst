@@ -146,3 +146,6 @@ Changelog
    |         |          |   - Reflect Keccak permutation refactoring  |            |
    |         |          |   - Update source references                |            |
    +---------+----------+---------------------------------------------+------------+
+   | 3.3.0   | FA, PL   | New PQC algorithm:                          | 2023-10-32 |
+   | preview |          |   - HSS/LMS                                 |            |
+   +---------+----------+---------------------------------------------+------------+

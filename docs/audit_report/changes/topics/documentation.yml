@@ -1,0 +1,7 @@
+title: Documentation
+
+patches:
+# Add an example for X.509 path validation  (@securitykernel)
+- pr: 3777  # https://github.com/randombit/botan/pull/3777
+  merge_commit: 3f026576e737cf464c3da97046da3a9f59e23490
+  classification: unspecified

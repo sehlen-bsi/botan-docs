@@ -5,3 +5,8 @@ patches:
 - pr: 3749  # https://github.com/randombit/botan/pull/3749
   merge_commit: 73088f7b2ffdbf068e3022746b1437a9fab76a42
   classification: unspecified
+
+# Rewrite ./botan tls_http_server using Boost Beast  (@reneme)
+- pr: 3763  # https://github.com/randombit/botan/pull/3763
+  merge_commit: 5f502c695ab0cd38cab519e9da663e453fdf14ef
+  classification: unspecified

@@ -15,3 +15,8 @@ patches:
 - pr: 3748  # https://github.com/randombit/botan/pull/3748
   merge_commit: fb36b3ea43242cfdf993c1b3e0912a117a5035cf
   classification: unspecified
+
+# Ninja: use header dependencies for better rebuild support  (@lieser)
+- pr: 3769  # https://github.com/randombit/botan/pull/3769
+  merge_commit: 4fbff62b24606153ba1f804d9ef2197c2f82224f
+  classification: unspecified

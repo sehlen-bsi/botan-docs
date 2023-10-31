@@ -30,3 +30,18 @@ patches:
 - pr: 3758  # https://github.com/randombit/botan/pull/3758
   merge_commit: ccb7ab55b6c3c874e0a17b1bd9cfa74f29b5c54b
   classification: unspecified
+
+# OS::set_thread_name dragonflybsd support  (@devnexen)
+- pr: 3785  # https://github.com/randombit/botan/pull/3785
+  merge_commit: 11c7217c0a4f4fc0072abe5f42e458c9cc8648e8
+  classification: unspecified
+
+# Split out allocator helpers to allocator.h  (@randombit)
+- pr: 3752  # https://github.com/randombit/botan/pull/3752
+  merge_commit: f071533a90c0e1223bbaaa23515b0f1216e8a53f
+  classification: unspecified
+
+# Introduce <botan/boost_compat.h> as feature flag  (@reneme)
+- pr: 3765  # https://github.com/randombit/botan/pull/3765
+  merge_commit: fa143ad1484cca9b234b4e4ed41d4fa8d31e4366
+  classification: unspecified

@@ -19,3 +19,8 @@ patches:
 # Fix FFDHE selection in TLS to conform to RFC 7919 (#3743)  (Jack Lloyd)
 - commit: e27bf3f2bb85e40645b35650104601ead1ebf3cd  # https://github.com/randombit/botan/commit/e27bf3f2bb85e40645b35650104601ead1ebf3cd
   classification: unspecified
+
+# FIX: asio stream crashes after faulty initialization  (@reneme)
+- pr: 3766  # https://github.com/randombit/botan/pull/3766
+  merge_commit: a303f4af1504e7ac349dd798190924ea08ead9b7
+  classification: unspecified
