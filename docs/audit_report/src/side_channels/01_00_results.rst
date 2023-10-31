@@ -30,8 +30,7 @@ The number of traces for the analysis with DATA therefore usually corresponds to
 Results
 ^^^^^^^
 
-
-The following chapter contains the results of the analysed implementations for FrodoKEM.
+The following chapters contain the results of the analysed implementations.
 If there are several implementations of an algorithm, they are listed at the beginning of the chapters.
 If the Botan CLI is used, the command prompt is listed.
 Details on compiling Botan and using the algorithm without the CLI, if needed, are also given.
@@ -39,3 +38,5 @@ Leaks found are described in separate sections.
 The descriptions usually also include the associated source code and, if applicable, the call hierarchy.
 
 .. toctree::
+
+   01_01_lms
