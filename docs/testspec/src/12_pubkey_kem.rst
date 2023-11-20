@@ -1,6 +1,107 @@
 Public Key Encapsulation Mechanisms
 -----------------------------------
 
+FrodoKEM
+~~~~~~~~
+
+The implementation is tested for correctness using the Known Answer Test vectors
+demanded by the NIST submission and provided by the reference implementation.
+
+Additionally, Botan has implementation-specific test cases. Those ensure the
+interoperability of the algorithm when using Botan's generic API for public key
+algorithms. These test cases are equal for all public key schemes and are
+therefore not discussed in detail in this chapter.
+
+All FrodoKEM-specific test code can be found in
+:srcref:`src/tests/test_frodokem.cpp`. Relevant test data vectors for the KAT
+tests are in *src/tests/data/pubkey/frodokem_kat.vec.vec*.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKENC-FRODO-1                                                           |
+   +========================+=========================================================================+
+   | **Type:**              | Known Answer Tests                                                      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Uses the KAT vectors of FrodoKEM's reference implementation as          |
+   |                        | specified in the NIST submission                                        |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | Test Vectors with RNG seed inputs in:                                   |
+   |                        |                                                                         |
+   |                        | * :srcref:`src/tests/data/pubkey/frodokem_kat.vec`                      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | Above described test vector files contain expected values for:          |
+   |                        |                                                                         |
+   |                        | * Frodo Public Key                                                      |
+   |                        | * Frodo Private Key                                                     |
+   |                        | * Ciphertext                                                            |
+   |                        | * Shared Secret                                                         |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | For each KAT vector:                                                    |
+   |                        |                                                                         |
+   |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed                  |
+   |                        |                                                                         |
+   |                        | #. Use the seeded RNG to generate a FrodoKEM key pair and compare it to |
+   |                        |    the expected public and private key in the test vector. This uses    |
+   |                        |    the key encoding as implemented in the reference implementation and  |
+   |                        |    hashes the result using SHAKE-256(128) to save disk space in the KAT |
+   |                        |    vectors.                                                             |
+   |                        |                                                                         |
+   |                        | #. Encode both public and private key, and decode them again.           |
+   |                        |                                                                         |
+   |                        | #. Encapsulate a secret with the just-generated public key after the    |
+   |                        |    encode/decode roundtrip (using the same RNG) and compare the         |
+   |                        |    resulting shared secret and ciphertext to expected values in the     |
+   |                        |    test vector. Again, the ciphertext is hashed to save disk space.     |
+   |                        |                                                                         |
+   |                        | #. Decapsulate the just-calculated ciphertext with the private key from |
+   |                        |    the encode/decode roundtrip and ensure that the resulting shared     |
+   |                        |    secret is equal to the expected value from the test vector           |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKENC-FRODO-2                                                           |
+   +========================+=========================================================================+
+   | **Type:**              | Positive/Negative Test                                                  |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | For each implemented (and available) mode: generate a randome key pair  |
+   |                        | encapsulate/decapsulate a shared secret. Try to decapsulate again, with |
+   |                        | a different key pair, after a bit flip or a truncation in the           |
+   |                        | ciphertext, and expect a decryption failure.                            |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | For each available algorithm parameterization:                          |
+   |                        |                                                                         |
+   |                        | #. Generate a random key pair                                           |
+   |                        |                                                                         |
+   |                        | #. Encapsulate a shared secret with the just-generated public key       |
+   |                        |                                                                         |
+   |                        | #. Decapsulate the ciphertext with the associated private key and       |
+   |                        |    expect success.                                                      |
+   |                        |                                                                         |
+   |                        | #. Generate another random key pair, try to decapsulate the ciphertext  |
+   |                        |    from before with the new private key. Expect a decryption failure.   |
+   |                        |                                                                         |
+   |                        | #. Randomly mutate the ciphertext and attempt a decapsulation with the  |
+   |                        |    original private key. Expect a decryption failure.                   |
+   |                        |                                                                         |
+   |                        | #. Truncate the ciphertext by a single byte and attempt a decapsulation |
+   |                        |    with the original private key. Expect a decryption failure.          |
+   +------------------------+-------------------------------------------------------------------------+
+
 Kyber
 ~~~~~
 
