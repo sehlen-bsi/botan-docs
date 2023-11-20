@@ -7,14 +7,6 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
-name = "appdirs"
-version = "1.4.4"
-description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
-category = "dev"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "attrs"
 version = "23.1.0"
 description = "Classes Without Boilerplate"
@@ -43,38 +35,54 @@ type = "directory"
 url = "../../tools/auditinfo"
 
 [[package]]
+name = "auditutils"
+version = "0.1.0"
+description = "Basic helpers for audit generation"
+category = "main"
+optional = false
+python-versions = "^3.10"
+develop = true
+
+[package.source]
+type = "directory"
+url = "../../tools/auditutils"
+
+[[package]]
 name = "babel"
-version = "2.12.1"
+version = "2.13.1"
 description = "Internationalization utilities"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 
+[package.extras]
+dev = ["pytest (>=6.0)", "pytest-cov", "freezegun (>=1.0,<2.0)"]
+
 [[package]]
 name = "cattrs"
-version = "23.1.2"
+version = "23.2.1"
 description = "Composable complex class support for attrs and dataclasses."
 category = "dev"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 
 [package.dependencies]
-attrs = ">=20"
-exceptiongroup = {version = "*", markers = "python_version < \"3.11\""}
-typing_extensions = {version = ">=4.1.0", markers = "python_version < \"3.11\""}
+attrs = ">=23.1.0"
+exceptiongroup = {version = ">=1.1.1", markers = "python_version < \"3.11\""}
+typing-extensions = {version = ">=4.1.0,<4.6.3 || >4.6.3", markers = "python_version < \"3.11\""}
 
 [package.extras]
-pyyaml = ["PyYAML (>=6.0,<7.0)"]
-cbor2 = ["cbor2 (>=5.4.6,<6.0.0)"]
-msgpack = ["msgpack (>=1.0.2,<2.0.0)"]
-orjson = ["orjson (>=3.5.2,<4.0.0)"]
-bson = ["pymongo (>=4.2.0,<5.0.0)"]
-tomlkit = ["tomlkit (>=0.11.4,<0.12.0)"]
-ujson = ["ujson (>=5.4.0,<6.0.0)"]
+bson = ["pymongo (>=4.4.0)"]
+cbor2 = ["cbor2 (>=5.4.6)"]
+msgpack = ["msgpack (>=1.0.5)"]
+orjson = ["orjson (>=3.9.2)"]
+pyyaml = ["pyyaml (>=6.0)"]
+tomlkit = ["tomlkit (>=0.11.8)"]
+ujson = ["ujson (>=5.7.0)"]
 
 [[package]]
 name = "certifi"
-version = "2023.7.22"
+version = "2023.11.17"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -82,18 +90,18 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "cffi"
-version = "1.15.1"
+version = "1.16.0"
 description = "Foreign Function Interface for Python calling C code."
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 
 [package.dependencies]
 pycparser = "*"
 
 [[package]]
 name = "charset-normalizer"
-version = "3.2.0"
+version = "3.3.2"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
 category = "main"
 optional = false
@@ -109,7 +117,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7
 
 [[package]]
 name = "cryptography"
-version = "41.0.4"
+version = "41.0.5"
 description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
 category = "main"
 optional = false
@@ -152,22 +160,22 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "esbonio"
-version = "0.16.1"
+version = "0.16.2"
 description = "A Language Server for Sphinx projects."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
-appdirs = "*"
-pygls = ">=1.0.0"
+platformdirs = "*"
+pygls = ">=1.1.0"
 pyspellchecker = "*"
 sphinx = "*"
 
 [package.extras]
 dev = ["black", "flake8", "pre-commit", "tox"]
-test = ["pytest", "pytest-lsp", "pytest-cov", "pytest-timeout", "mock"]
-typecheck = ["mypy", "pytest-lsp", "types-appdirs", "types-docutils", "types-pygments"]
+test = ["pytest", "pytest-lsp (>=0.3.1)", "pytest-cov", "pytest-timeout", "mock"]
+typecheck = ["mypy", "pytest-lsp (>=0.3.1)", "types-appdirs", "types-docutils", "types-pygments"]
 
 [[package]]
 name = "exceptiongroup"
@@ -199,6 +207,7 @@ develop = true
 
 [package.dependencies]
 auditinfo = {path = "../auditinfo", develop = true}
+auditutils = {path = "../auditutils", develop = true}
 Jinja2 = "^3.0"
 pygithub = "~1.59"
 pyyaml = "^6.0"
@@ -250,7 +259,7 @@ future = "*"
 
 [[package]]
 name = "lsprotocol"
-version = "2023.0.0b1"
+version = "2023.0.0"
 description = "Python implementation of the Language Server Protocol."
 category = "dev"
 optional = false
@@ -270,11 +279,23 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "packaging"
-version = "23.1"
+version = "23.2"
 description = "Core utilities for Python packages"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "platformdirs"
+version = "4.0.0"
+description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx-autodoc-typehints (>=1.24)", "sphinx (>=7.1.1)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest-cov (>=4.1)", "pytest-mock (>=3.11.1)", "pytest (>=7.4)"]
 
 [[package]]
 name = "pycparser"
@@ -300,25 +321,21 @@ requests = ">=2.14.0"
 
 [[package]]
 name = "pygls"
-version = "1.0.2"
-description = "a pythonic generic language server (pronounced like \"pie glass\")."
+version = "1.2.0"
+description = "A pythonic generic language server (pronounced like 'pie glass')"
 category = "dev"
 optional = false
-python-versions = "<4,>=3.7"
+python-versions = ">=3.7.9,<4"
 
 [package.dependencies]
-lsprotocol = "*"
-typeguard = ">=3,<4"
+lsprotocol = "2023.0.0"
 
 [package.extras]
-dev = ["bandit (==1.7.4)", "flake8 (==4.0.1)", "mypy (==0.961)"]
-docs = ["sphinx (==5.0.1)", "sphinx-rtd-theme (==1.0.0)"]
-test = ["pytest (==7.1.2)", "pytest-asyncio (==0.18.3)"]
-ws = ["websockets (>=10.0.0,<11.0.0)"]
+ws = ["websockets (>=11.0.3,<12.0.0)"]
 
 [[package]]
 name = "pygments"
-version = "2.16.1"
+version = "2.17.1"
 description = "Pygments is a syntax highlighting package written in Python."
 category = "main"
 optional = false
@@ -326,6 +343,7 @@ python-versions = ">=3.7"
 
 [package.extras]
 plugins = ["importlib-metadata"]
+windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyjwt"
@@ -545,21 +563,6 @@ lint = ["flake8", "mypy", "docutils-stubs"]
 test = ["pytest"]
 
 [[package]]
-name = "typeguard"
-version = "3.0.2"
-description = "Run-time type checker for Python"
-category = "dev"
-optional = false
-python-versions = ">=3.7.4"
-
-[package.dependencies]
-typing-extensions = {version = ">=4.4.0", markers = "python_version < \"3.11\""}
-
-[package.extras]
-doc = ["packaging", "sphinx-rtd-theme", "sphinx-autodoc-typehints (>=1.2.0)"]
-test = ["pytest (>=7)", "mypy (>=0.991)"]
-
-[[package]]
 name = "typing-extensions"
 version = "4.8.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -569,25 +572,24 @@ python-versions = ">=3.8"
 
 [[package]]
 name = "urllib3"
-version = "2.0.5"
+version = "2.1.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 
 [package.extras]
 brotli = ["brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
-secure = ["certifi", "cryptography (>=1.9)", "idna (>=2.0.0)", "pyopenssl (>=17.1.0)", "urllib3-secure-extra"]
 socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "wrapt"
-version = "1.15.0"
+version = "1.16.0"
 description = "Module for decorators, wrappers and monkey patching."
 category = "main"
 optional = false
-python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
+python-versions = ">=3.6"
 
 [metadata]
 lock-version = "1.1"
@@ -596,9 +598,9 @@ content-hash = "7a608e6738e4a6887d195bc53a1326b4e2ea7c3bb093e9f21ca8263e38685e5f
 
 [metadata.files]
 alabaster = []
-appdirs = []
 attrs = []
 auditinfo = []
+auditutils = []
 babel = []
 cattrs = []
 certifi = []
@@ -619,6 +621,7 @@ junitparser = []
 lsprotocol = []
 markupsafe = []
 packaging = []
+platformdirs = []
 pycparser = []
 pygithub = []
 pygls = []
@@ -638,7 +641,6 @@ sphinxcontrib-htmlhelp = []
 sphinxcontrib-jsmath = []
 sphinxcontrib-qthelp = []
 sphinxcontrib-serializinghtml = []
-typeguard = []
 typing-extensions = []
 urllib3 = []
 wrapt = []
