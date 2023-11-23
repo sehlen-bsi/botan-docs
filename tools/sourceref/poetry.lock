@@ -21,15 +21,18 @@ url = "../auditinfo"
 
 [[package]]
 name = "babel"
-version = "2.12.1"
+version = "2.13.1"
 description = "Internationalization utilities"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 
+[package.extras]
+dev = ["pytest (>=6.0)", "pytest-cov", "freezegun (>=1.0,<2.0)"]
+
 [[package]]
 name = "certifi"
-version = "2023.5.7"
+version = "2023.11.17"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -37,7 +40,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "charset-normalizer"
-version = "3.2.0"
+version = "3.3.2"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
 category = "main"
 optional = false
@@ -99,7 +102,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "packaging"
-version = "23.1"
+version = "23.2"
 description = "Core utilities for Python packages"
 category = "main"
 optional = false
@@ -107,7 +110,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "pygments"
-version = "2.15.1"
+version = "2.17.1"
 description = "Pygments is a syntax highlighting package written in Python."
 category = "main"
 optional = false
@@ -115,6 +118,7 @@ python-versions = ">=3.7"
 
 [package.extras]
 plugins = ["importlib-metadata"]
+windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "requests"
@@ -175,11 +179,14 @@ test = ["pytest (>=4.6)", "html5lib", "cython", "filelock"]
 
 [[package]]
 name = "sphinxcontrib-applehelp"
-version = "1.0.4"
+version = "1.0.7"
 description = "sphinxcontrib-applehelp is a Sphinx extension which outputs Apple help books"
 category = "main"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
+
+[package.dependencies]
+Sphinx = ">=5"
 
 [package.extras]
 lint = ["flake8", "mypy", "docutils-stubs"]
@@ -187,11 +194,14 @@ test = ["pytest"]
 
 [[package]]
 name = "sphinxcontrib-devhelp"
-version = "1.0.2"
-description = "sphinxcontrib-devhelp is a sphinx extension which outputs Devhelp document."
+version = "1.0.5"
+description = "sphinxcontrib-devhelp is a sphinx extension which outputs Devhelp documents"
 category = "main"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.9"
+
+[package.dependencies]
+Sphinx = ">=5"
 
 [package.extras]
 lint = ["flake8", "mypy", "docutils-stubs"]
@@ -199,11 +209,14 @@ test = ["pytest"]
 
 [[package]]
 name = "sphinxcontrib-htmlhelp"
-version = "2.0.1"
+version = "2.0.4"
 description = "sphinxcontrib-htmlhelp is a sphinx extension which renders HTML help files"
 category = "main"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
+
+[package.dependencies]
+Sphinx = ">=5"
 
 [package.extras]
 lint = ["flake8", "mypy", "docutils-stubs"]
@@ -222,11 +235,14 @@ test = ["pytest", "flake8", "mypy"]
 
 [[package]]
 name = "sphinxcontrib-qthelp"
-version = "1.0.3"
-description = "sphinxcontrib-qthelp is a sphinx extension which outputs QtHelp document."
+version = "1.0.6"
+description = "sphinxcontrib-qthelp is a sphinx extension which outputs QtHelp documents"
 category = "main"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.9"
+
+[package.dependencies]
+Sphinx = ">=5"
 
 [package.extras]
 lint = ["flake8", "mypy", "docutils-stubs"]
@@ -234,11 +250,14 @@ test = ["pytest"]
 
 [[package]]
 name = "sphinxcontrib-serializinghtml"
-version = "1.1.5"
-description = "sphinxcontrib-serializinghtml is a sphinx extension which outputs \"serialized\" HTML files (json and pickle)."
+version = "1.1.9"
+description = "sphinxcontrib-serializinghtml is a sphinx extension which outputs \"serialized\" HTML files (json and pickle)"
 category = "main"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.9"
+
+[package.dependencies]
+Sphinx = ">=5"
 
 [package.extras]
 lint = ["flake8", "mypy", "docutils-stubs"]
@@ -246,15 +265,14 @@ test = ["pytest"]
 
 [[package]]
 name = "urllib3"
-version = "2.0.4"
+version = "2.1.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 
 [package.extras]
 brotli = ["brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
-secure = ["certifi", "cryptography (>=1.9)", "idna (>=2.0.0)", "pyopenssl (>=17.1.0)", "urllib3-secure-extra"]
 socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
 
