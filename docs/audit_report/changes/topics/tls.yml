@@ -25,3 +25,12 @@ patches:
 - pr: 3820  # https://github.com/randombit/botan/pull/3820
   merge_commit: 6a6ba96a6a5d2e112b53c9c9b9cf66d62cdf5fef
   classification: unspecified
+
+# Update BSI TLS Policy to 2023-1  (@securitykernel)
+- pr: 3809  # https://github.com/randombit/botan/pull/3809
+  merge_commit: dc4ac416125ad294e17cbe925363ec14844341f4
+  classification: relevant
+  comment: |
+    Updates Botan's TLS policy to the latest recommendations of `TR-02102-2 <https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-2.html>`_.
+    In particular, enables support for TLS 1.3, adds secp521r1 and increases the required key lengths for RSA and DSA.
+    Also sets the minimum key strength to 120 and removes support for FFDHE-2028.

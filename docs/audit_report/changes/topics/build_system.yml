@@ -1,37 +1,39 @@
 title: Build System
 
+description: |
+  Several minor additions and fixes to the build system. Most notably, the
+  library now ships a ``botan-config.cmake`` file that allows downstream
+  consumers to retire their custom ``FindBotan.cmake`` files. None of those
+  patches have a direct impact on the security of the library.
+
 patches:
 # Warn more sternly about unsafe for production build modes  (@randombit)
 - pr: 3755  # https://github.com/randombit/botan/pull/3755
   merge_commit: 39027776452035b0353ef858254449a855ec40f0
-  classification: unspecified
+  classification: info
 
 # Fix Ninja build to pass instruction set flags to the compiler  (@randombit)
 - pr: 3751  # https://github.com/randombit/botan/pull/3751
   merge_commit: 2423e91248735d4af945a0755dc9745de28c37dd
-  classification: unspecified
+  classification: info
 
 # In configure.py avoid recursing upwards out of our source tree  (@randombit)
 - pr: 3748  # https://github.com/randombit/botan/pull/3748
   merge_commit: fb36b3ea43242cfdf993c1b3e0912a117a5035cf
-  classification: unspecified
+  classification: info
 
 # Ninja: use header dependencies for better rebuild support  (@lieser)
 - pr: 3769  # https://github.com/randombit/botan/pull/3769
   merge_commit: 4fbff62b24606153ba1f804d9ef2197c2f82224f
-  classification: unspecified
+  classification: info
 
 # FIX: ninja bogo_shim generates ./botan_bogo_shim  (@reneme)
 - pr: 3798  # https://github.com/randombit/botan/pull/3798
   merge_commit: 6c8a6db121c202c4916c289e1f46c60093b2d153
-  classification: unspecified
+  classification: info
 
 # Add cmake package config  (@securitykernel)
 - pr: 3722  # https://github.com/randombit/botan/pull/3722
   merge_commit: a1d1b46502beab1160f6e27331674a4a1c945929
-  classification: unspecified
+  classification: info
 
-# Update BSI TLS Policy to 2023-1  (@securitykernel)
-- pr: 3809  # https://github.com/randombit/botan/pull/3809
-  merge_commit: dc4ac416125ad294e17cbe925363ec14844341f4
-  classification: unspecified

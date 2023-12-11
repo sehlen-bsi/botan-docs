@@ -10,24 +10,25 @@ patches:
 # CI: Test nightly Hybrid PQ/T TLS interoperability  (@reneme)
 - pr: 3740  # https://github.com/randombit/botan/pull/3740
   merge_commit: 520822ed860975ae165f40e41bf55bb4697dbbe8
-  classification: unspecified
+  classification: info
 
 # TLS-Anvil nightly CI fix  (@FAlbertDev)
 - pr: 3773  # https://github.com/randombit/botan/pull/3773
   merge_commit: 64e01549e5e46da00dc1993fa3796981bb108399
-  classification: unspecified
+  classification: info
 
 # FIX: explicitly specify the make tool in mingw build  (@reneme)
 - pr: 3781  # https://github.com/randombit/botan/pull/3781
   merge_commit: d547d2052323bd6063f819e191db78a2d7d479a1
-  classification: unspecified
+  classification: info
 
 # CI: ci_build.py selects sane defaults when run on Windows  (@reneme)
 - pr: 3779  # https://github.com/randombit/botan/pull/3779
   merge_commit: 60f0343f15cc4f1a90479fa15813788ff405ae4a
-  classification: unspecified
+  classification: info
 
 # Add hack to work around GH Actions bug breaking the Clang build  (@randombit)
 - pr: 3783  # https://github.com/randombit/botan/pull/3783
   merge_commit: 8c8613595b074a75cffec5205cc2b999df930561
-  classification: unspecified
+  classification: info
+  auditer: reneme
