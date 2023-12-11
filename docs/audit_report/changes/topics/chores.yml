@@ -1,66 +1,54 @@
 title: Code Cleanup and Future Proofing
 
-patches:
-# Move const time memory comparison utils to ct_utils.h  (@randombit)
-- pr: 3760  # https://github.com/randombit/botan/pull/3760
-  merge_commit: 4c6612c3a4179dad774afa85f04925703418563c
-  classification: unspecified
+description: |
+  Generic improvements and minor fixes on the overall code base. None of those
+  changes have a significant impact on the overall security of the library.
 
+patches:
 # Deprecate buffer_insert and remove final uses of it from the codebase  (@randombit)
 - pr: 3759  # https://github.com/randombit/botan/pull/3759
   merge_commit: 5073121a6af5777599c0042773d057ede43b647e
-  classification: unspecified
-
-# Remove use of buffer_insert from filters, MACs, stream ciphers  (@randombit)
-- pr: 3757  # https://github.com/randombit/botan/pull/3757
-  merge_commit: 380b3ca21b0d0f98f853993ade9d6c829156a54a
-  classification: unspecified
-
-# Use BufferStuffer in pk_pad  (@randombit)
-- pr: 3753  # https://github.com/randombit/botan/pull/3753
-  merge_commit: 4ea66d2c21793f6cbbefce6b8d633dc42272fc2c
-  classification: unspecified
-
-# Use concat in DLIES and ECIES  (@randombit)
-- pr: 3756  # https://github.com/randombit/botan/pull/3756
-  merge_commit: dce57381e0730aa2b902f0793ca4dc46e0add036
-  classification: unspecified
+  classification: info
 
 # OS::set_thread_name for Haiku using native BeOS api  (@devnexen)
 - pr: 3758  # https://github.com/randombit/botan/pull/3758
   merge_commit: ccb7ab55b6c3c874e0a17b1bd9cfa74f29b5c54b
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # updating further the sqlite3 wrapper avoiding data downcasting.  (@devnexen)
 - pr: 3793  # https://github.com/randombit/botan/pull/3793
   merge_commit: ffeb810db4ee8255ee65619a08c45a7ee98fa0b3
-  classification: unspecified
+  classification: info
 
 # sqlite3 engine update proposal.  (@devnexen)
 - pr: 3788  # https://github.com/randombit/botan/pull/3788
   merge_commit: 98dfdc1ed7be2c94397e291be898c0d8cbceaf8c
-  classification: unspecified
+  classification: info
 
 # OS::set_thread_name dragonflybsd support  (@devnexen)
 - pr: 3785  # https://github.com/randombit/botan/pull/3785
   merge_commit: 11c7217c0a4f4fc0072abe5f42e458c9cc8648e8
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Split out allocator helpers to allocator.h  (@randombit)
 - pr: 3752  # https://github.com/randombit/botan/pull/3752
   merge_commit: f071533a90c0e1223bbaaa23515b0f1216e8a53f
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Remove abort call accidentally left over from debugging  (Jack Lloyd)
 - commit: 6117553c9d7652aaa050ac931447ccdefa5f658f  # https://github.com/randombit/botan/commit/6117553c9d7652aaa050ac931447ccdefa5f658f
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Range-based mem_ops  (@reneme)
 - pr: 3715  # https://github.com/randombit/botan/pull/3715
   merge_commit: 3005ae6ef44105d6da261dbaed94abed67a3042e
-  classification: unspecified
+  classification: info
 
 # FIX: clang-tidy warnings  (@reneme)
 - pr: 3822  # https://github.com/randombit/botan/pull/3822
   merge_commit: 7bc2b1c9af79ca9fcaf08c578f2d84a2f54f569d
-  classification: unspecified
+  classification: info
