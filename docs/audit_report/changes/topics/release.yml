@@ -8,4 +8,4 @@ description: |
 patches:
 # Update news and bump version to 3.3.0  (Jack Lloyd)
 - commit: c2a2c0e6d8a1093493ec4931ffa09ba98ee66a12  # https://github.com/randombit/botan/commit/c2a2c0e6d8a1093493ec4931ffa09ba98ee66a12
-  classification: unspecified
+  classification: info
