@@ -19,3 +19,37 @@ patches:
 # Fix FFDHE selection in TLS to conform to RFC 7919 (#3743)  (Jack Lloyd)
 - commit: e27bf3f2bb85e40645b35650104601ead1ebf3cd  # https://github.com/randombit/botan/commit/e27bf3f2bb85e40645b35650104601ead1ebf3cd
   classification: unspecified
+
+# FIX: asio stream crashes after faulty initialization  (@reneme)
+- pr: 3766  # https://github.com/randombit/botan/pull/3766
+  merge_commit: a303f4af1504e7ac349dd798190924ea08ead9b7
+  classification: unspecified
+
+# FIX: Alert handling in ASIO stream and HTTP Server  (@reneme)
+- pr: 3795  # https://github.com/randombit/botan/pull/3795
+  merge_commit: 4fb6ec9cc7e362d9b7bd0696f49d9d21bbf6fd49
+  classification: unspecified
+
+# FIX: Some minor TLS bugs found along the way  (@reneme)
+- pr: 3792  # https://github.com/randombit/botan/pull/3792
+  merge_commit: 5ffd732eb00311d9274d62bc452604e32fd5defa
+  classification: unspecified
+
+# examples target should require boost  (@securitykernel)
+- pr: 3787  # https://github.com/randombit/botan/pull/3787
+  merge_commit: caff7e6b8e369df1660952a5d508bd00abbc85f9
+  classification: unspecified
+
+# Don't inline Null_RNG::fill_bytes_with_input  (Jack Lloyd)
+- commit: 723fa3a260b9be10a96223c71c2b8f44631a1c5e  # https://github.com/randombit/botan/commit/723fa3a260b9be10a96223c71c2b8f44631a1c5e
+  classification: unspecified
+
+# Add check to SM2_PrivateKey::check_key() that private key x is in ]0,q-1[  (@lieser)
+- pr: 3804  # https://github.com/randombit/botan/pull/3804
+  merge_commit: 40751c65d9051602b23dfa50ca7851986e7bf251
+  classification: unspecified
+
+# Fix: ASIO Stream handling of close_notify in handshake  (@FAlbertDev)
+- pr: 3801  # https://github.com/randombit/botan/pull/3801
+  merge_commit: 420ff86fe78f3c3c1577a43cc8f6dd901eb9fae1
+  classification: unspecified

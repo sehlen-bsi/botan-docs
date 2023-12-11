@@ -1,0 +1,37 @@
+title: documentation
+
+patches:
+# Add an example for X.509 path validation  (@securitykernel)
+- pr: 3777  # https://github.com/randombit/botan/pull/3777
+  merge_commit: 3f026576e737cf464c3da97046da3a9f59e23490
+  classification: unspecified
+
+# Link examples from getting started page  (@securitykernel)
+- pr: 3805  # https://github.com/randombit/botan/pull/3805
+  merge_commit: 17b7dfe1e0fddec223dc063f30f54bd735f053ce
+  classification: unspecified
+
+# Add algorithm specification names to documentation  (@lieser)
+- pr: 3802  # https://github.com/randombit/botan/pull/3802
+  merge_commit: 201cfe586e6d529360fbcde6f216f1da0c3db48f
+  classification: unspecified
+
+# Improve examples by e.g. using create_or_throw() and fix missing include in stream_cipher.cpp  (@lieser)
+- pr: 3794  # https://github.com/randombit/botan/pull/3794
+  merge_commit: d0ce04aec2087c1be4b6330f978c35338a818e09
+  classification: unspecified
+
+# Use furo Sphinx theme  (@securitykernel)
+- pr: 3819  # https://github.com/randombit/botan/pull/3819
+  merge_commit: cb1b4a974fd1a9f40c46f5dca51d12e07815e677
+  classification: unspecified
+
+# Add an OpenSSL 1.1 migration guide  (@securitykernel)
+- pr: 3815  # https://github.com/randombit/botan/pull/3815
+  merge_commit: ac0aab595057c3ef59a08a968365f46ee210204b
+  classification: unspecified
+
+# Extend documentation for encryption and signing parameters  (@lieser)
+- pr: 3823  # https://github.com/randombit/botan/pull/3823
+  merge_commit: e3b7dc3920f7b4d07320583ee7b3cf3b5891595d
+  classification: unspecified
