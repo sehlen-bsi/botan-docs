@@ -1,55 +1,89 @@
 title: Fixes
 
+description: |
+  Apart from several small fixes, this release contains improvements for
+  the Boost ASIO TLS stream shipped with the library. After we `introduced
+  automated tests using TLS Anvil <https://github.com/randombit/botan/pull/3651>`_
+  in the previous audit cycle; we now run it against a TLS HTTP server using
+  said ASIO stream. This brought several high level TLS state management issues
+  to light. Note however, that none of the detected issues was critical for the
+  actual security of the implementation.
+
 patches:
 # Fix build on NetBSD.  (@0-wiz-0)
 - pr: 3767  # https://github.com/randombit/botan/pull/3767
   merge_commit: 3a0201668e8df8066e509696c40d8aaba83fa371
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # FIX: TLS 1.3 server hit assertion if application did not provide a cert chain  (@reneme)
 - pr: 3754  # https://github.com/randombit/botan/pull/3754
   merge_commit: 2c5f009ede382d091a56979c5482d989723205d8
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Assertions should never be hit in production environments. Especially as a
+    side effect of a remote message in TLS. Nevertheless, the impact on a
+    typical application is small: it might experience failed TLS handshakes where
+    the peer receives an "Internal Error".
 
 # Fix: Unintended Kyber Warnings  (@atreiber94)
 - pr: 3745  # https://github.com/randombit/botan/pull/3745
   merge_commit: c47aac7e62a6f132b7a3179a086bee184f87cabd
-  classification: unspecified
+  classification: info
 
 # Fix FFDHE selection in TLS to conform to RFC 7919 (#3743)  (Jack Lloyd)
 - commit: e27bf3f2bb85e40645b35650104601ead1ebf3cd  # https://github.com/randombit/botan/commit/e27bf3f2bb85e40645b35650104601ead1ebf3cd
-  classification: unspecified
+  classification: relevant
+  auditer: reneme
+  comment: |
+    This was broken just before releasing Botan 3.2.0
+    (in `GH #3729 <https://github.com/randombit/botan/pull/3729>`_)
+    and found by automated tests provided by TLS Anvil.
+
+    Note that this change is mentioned as a bare commit, but it
+    was introduced (and reviewed) as `GH #3743 <https://github.com/randombit/botan/pull/3743>`_.
 
 # FIX: asio stream crashes after faulty initialization  (@reneme)
 - pr: 3766  # https://github.com/randombit/botan/pull/3766
   merge_commit: a303f4af1504e7ac349dd798190924ea08ead9b7
-  classification: unspecified
+  classification: info
+  comment: |
+    The crash happens when an application provides uninitialized dependency
+    objects. That indicates a bug in the application and shouldn't be exploitable
+    remotely. Now the library handles this situation more gracefully.
 
 # FIX: Alert handling in ASIO stream and HTTP Server  (@reneme)
 - pr: 3795  # https://github.com/randombit/botan/pull/3795
   merge_commit: 4fb6ec9cc7e362d9b7bd0696f49d9d21bbf6fd49
-  classification: unspecified
+  classification: info
+  comment: |
+    When using the Boost ASIO wrapper for TLS, both the application and the peer
+    did not receive a proper error code or TLS alert when Botan detected a
+    handshake failure. The TLS connection was reset regardless, therefore the
+    bug is not really harming security.
+    The problem was detected by the recent introduction of TLS Anvil in the CI.
 
 # FIX: Some minor TLS bugs found along the way  (@reneme)
 - pr: 3792  # https://github.com/randombit/botan/pull/3792
   merge_commit: 5ffd732eb00311d9274d62bc452604e32fd5defa
-  classification: unspecified
+  classification: info
 
 # examples target should require boost  (@securitykernel)
 - pr: 3787  # https://github.com/randombit/botan/pull/3787
   merge_commit: caff7e6b8e369df1660952a5d508bd00abbc85f9
-  classification: unspecified
-
-# Don't inline Null_RNG::fill_bytes_with_input  (Jack Lloyd)
-- commit: 723fa3a260b9be10a96223c71c2b8f44631a1c5e  # https://github.com/randombit/botan/commit/723fa3a260b9be10a96223c71c2b8f44631a1c5e
-  classification: unspecified
+  classification: info
 
 # Add check to SM2_PrivateKey::check_key() that private key x is in ]0,q-1[  (@lieser)
 - pr: 3804  # https://github.com/randombit/botan/pull/3804
   merge_commit: 40751c65d9051602b23dfa50ca7851986e7bf251
-  classification: unspecified
+  classification: out of scope
 
 # Fix: ASIO Stream handling of close_notify in handshake  (@FAlbertDev)
 - pr: 3801  # https://github.com/randombit/botan/pull/3801
   merge_commit: 420ff86fe78f3c3c1577a43cc8f6dd901eb9fae1
-  classification: unspecified
+  classification: info
+  comment: |
+    This is almost a full rewrite of the Boost ASIO stream wrapper for TLS
+    to better handle intermediate TLS states and communicate them to the
+    downstream application. This is mostly relevant for correct error state
+    checking, though.
