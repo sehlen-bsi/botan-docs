@@ -1,9 +1,9 @@
 title: Code Improvements on Sensitive Code
 
 description: |
-  Similarly to :ref:`chores`, this contains generic improvements to the code
-  base. However, these changes significantly modify code that is directly
-  relevant for the security of the library.
+  Similarly to :ref:`changes/chores`, this contains generic improvements to
+  the code base. However, these changes significantly modify code that is
+  directly relevant for the security of the library.
 
   Most notably, this replaces legacy buffer handling with more modern helper
   constructions to improve readability and general memory safety.
