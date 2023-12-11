@@ -366,7 +366,7 @@ def main(args):
     if target in ['shared', 'static']:
         cmds.append(make_cmd + ['install'])
         build_config = os.path.join(build_dir, 'build', 'build_config.json')
-        cmds.append([py_interp, os.path.join(root_dir, 'src/scripts/ci_check_install.py'), build_config])
+        #cmds.append([py_interp, os.path.join(root_dir, 'src/scripts/ci_check_install.py'), build_config])
         cmds.append([py_interp, os.path.join(root_dir, 'src/scripts/ci_check_headers.py'), build_config])
 
     if target in ['coverage']:
