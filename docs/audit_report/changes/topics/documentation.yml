@@ -41,3 +41,8 @@ patches:
 - pr: 3823  # https://github.com/randombit/botan/pull/3823
   merge_commit: e3b7dc3920f7b4d07320583ee7b3cf3b5891595d
   classification: info
+
+# Update Doxygen landing page  (@reneme)
+- pr: 3828  # https://github.com/randombit/botan/pull/3828
+  merge_commit: 79c8e235a6dce9d09df1cc605d283a4f735e0481
+  classification: unspecified
