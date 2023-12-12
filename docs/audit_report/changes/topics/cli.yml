@@ -4,19 +4,27 @@ patches:
 # Add a cli util for testing RSA using MARVIN  (@randombit)
 - pr: 3749  # https://github.com/randombit/botan/pull/3749
   merge_commit: 73088f7b2ffdbf068e3022746b1437a9fab76a42
-  classification: unspecified
+  classification: info
+  auditer: reneme
+  comment: |
+    A simple tool to generate timing information to validate Botan's
+    invulnerability against the recently published MARVIN attack.
 
 # Rewrite ./botan tls_http_server using Boost Beast  (@reneme)
 - pr: 3763  # https://github.com/randombit/botan/pull/3763
   merge_commit: 5f502c695ab0cd38cab519e9da663e453fdf14ef
-  classification: unspecified
+  classification: info
+  comment: |
+    This rewrite enabled the TLS-Anvil tests to discover several state
+    management issues in the Botan's Boost ASIO stream wrapper. See
+    also :ref:`changes/tls` and :ref:`changes/fixes`.
 
 # FIX: ./botan tls_http_server does not compile for --with-boost --disable-modules=asio  (@reneme)
 - pr: 3791  # https://github.com/randombit/botan/pull/3791
   merge_commit: 84a828af77a98f2d03144a0ebb0c6d0cff383bd9
-  classification: unspecified
+  classification: info
 
 # [TLS 1.3] CLI: ./botan tls_client_hello can deal with TLS 1.3  (@reneme)
 - pr: 3820  # https://github.com/randombit/botan/pull/3820
   merge_commit: 6a6ba96a6a5d2e112b53c9c9b9cf66d62cdf5fef
-  classification: unspecified
+  classification: info
