@@ -1,30 +1,45 @@
 title: TLS Improvements and Extensions
 
+description: |
+  Most notably, this introduces support for `RFC 7250 <https://www.rfc-editor.org/rfc/rfc7250>`_
+  "Raw Public Keys" to TLS 1.3, as an additional authentication method. By
+  default, raw public keys are not used to authenticate TLS connections;
+  applications have to enable it explicitly.
+
+  As a technical improvement, Botan's Boost ASIO wrapper is now compatible with
+  co-routines introduced in C++20. Additionally, Botan's TLS Anvil server tests
+  now target a TLS client implementation based on this ASIO wrapper. This
+  uncovered several issues with the pre-existing ASIO wrapper. For further
+  details, please consult :ref:`changes/fixes`.
+
 patches:
 # Refactor: Modernize asio TLS Stream  (@reneme)
 - pr: 3764  # https://github.com/randombit/botan/pull/3764
   merge_commit: 0981814435c005c02ebfdc312642c1414492efd1
-  classification: unspecified
+  classification: info
+  comment: |
+    High-level API adaptions to allow using the ASIO stream with C++20
+    co-routines. Does not touch the underlying TLS implementation.
 
 # Introduce TLS::Channel::is_handshake complete()  (@reneme)
 - pr: 3762  # https://github.com/randombit/botan/pull/3762
   merge_commit: 565774637336a120ab818161cdb7755c87fbd6d8
-  classification: unspecified
+  classification: info
 
 # Introduce <botan/boost_compat.h> as feature flag  (@reneme)
 - pr: 3765  # https://github.com/randombit/botan/pull/3765
   merge_commit: fa143ad1484cca9b234b4e4ed41d4fa8d31e4366
-  classification: unspecified
+  classification: info
 
 # Feature: RawPublicKey authentication in TLS 1.3 (RFC 7250)  (@reneme)
 - pr: 3771  # https://github.com/randombit/botan/pull/3771
   merge_commit: 20279c6b5115740b7987f9d5c6c29c311d093bae
-  classification: unspecified
+  classification: relevant
 
 # [TLS 1.3] CLI: ./botan tls_client_hello can deal with TLS 1.3  (@reneme)
 - pr: 3820  # https://github.com/randombit/botan/pull/3820
   merge_commit: 6a6ba96a6a5d2e112b53c9c9b9cf66d62cdf5fef
-  classification: unspecified
+  classification: info
 
 # Update BSI TLS Policy to 2023-1  (@securitykernel)
 - pr: 3809  # https://github.com/randombit/botan/pull/3809
