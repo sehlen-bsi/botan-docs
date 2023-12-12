@@ -4,8 +4,10 @@ Checks that all relevant patches are referenced in at least one topic
 
 import logging
 
-from genaudit import Audit, GitRepo
+from genaudit import Audit, GitRepo, Topic
 from genaudit.refs import *
+
+from auditinfo import authorative_auditors
 
 def find_unreferenced_patches(audit: Audit, repo: GitRepo) -> list[PullRequest|Commit]:
     def remove_from_list(list, value):
@@ -54,3 +56,39 @@ def find_misreferenced_pull_request_merges(audit: Audit, repo: GitRepo) -> list[
     logging.debug("Found %d pull request references with inconsistent merge commit hashes" % len(result))
 
     return result
+
+
+def find_insufficiently_audited_patches(audit: Audit, repo: GitRepo) -> list[tuple[PullRequest|Commit, Topic, str]]:
+    auditers = [auditor.github_handle for auditor in authorative_auditors()]
+
+    def extract_contributors(patch: PullRequest|Commit) -> set[str]:
+        result = set()
+
+        if patch.auditer:
+            result.add(patch.auditer)
+
+        if isinstance(patch, PullRequest):
+            pr_info = repo.pull_request_info(patch)
+            review_info = repo.review_info(patch)
+            result.add(pr_info.user.login)
+            result.update([review.user.login for review in review_info if review.state == "APPROVED"])
+
+        elif isinstance(patch, Commit):
+            commit_info = repo.commit_info(patch)
+            result.add(commit_info.author.login)
+
+        else:
+            raise LookupError("Unknown patch type encountered")
+
+        return result
+
+    def audit_status(patch: PullRequest|Commit) -> str:
+        contribs = extract_contributors(patch)
+        if patch.classification == Classification.UNSPECIFIED:
+            return "Not classified"
+        if not set(auditers) & contribs:
+            return "No registered authorative auditor was involved in this patch"
+        return None
+
+    evaluated_patches = [(patch, topic, audit_status(patch)) for topic in audit.topics for patch in topic.patches]
+    return [(patch, topic, error_message) for patch, topic, error_message in evaluated_patches if error_message]

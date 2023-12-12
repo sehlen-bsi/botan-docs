@@ -27,6 +27,9 @@ class Topic:
             logging.debug("Found %s topic '%s' with %d patch references",
                           self._classification, self.title, len(self.patches))
 
+    def __repr__(self):
+        return "%s" % self.title
+
     def _load_patches(self, cfg) -> list[refs.PullRequest|refs.Commit]:
         def load(patch):
             def get_ref():
