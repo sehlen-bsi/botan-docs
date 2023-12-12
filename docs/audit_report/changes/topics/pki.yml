@@ -4,24 +4,33 @@ patches:
 # Feature: `AsymmetricKey::generate_another()`  (@reneme)
 - pr: 3770  # https://github.com/randombit/botan/pull/3770
   merge_commit: 11b5d80790a65d6a7f8267a95224f9e8c5ac0080
-  classification: unspecified
+  classification: relevant
+  comment: |
+    This slightly simplifies the implementation of key exchange protocols that
+    depend on ephemeral keys (e.g. when using a DH-style algorithm as a KEM).
 
 # FIX: Non-KEX-algos may choose to not implement ::generate_another()  (@reneme)
 - pr: 3786  # https://github.com/randombit/botan/pull/3786
   merge_commit: 55b92d1af51591838273ad2877b3b2ab2d1d51dc
-  classification: unspecified
+  classification: info
 
 # Add EC_PrivateKey::check_key() to check private value of EC keys (#3648)  (@lieser)
 - pr: 3782  # https://github.com/randombit/botan/pull/3782
   merge_commit: 7713fa936f3903f4d5ba2fd6b83702b4e3804d01
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Previously, ``EC_PrivateKey::check_key()`` only checked that the associated
+    public point is on the respective curve. Now it additionally checks that the
+    private value is between 1 and the curve order.
 
 # Implement encoding CA Issuer information in X.509 AIA extension  (@martin-schiffner)
 - pr: 3784  # https://github.com/randombit/botan/pull/3784
   merge_commit: cef8f13347fe7f60b7e66519b0813e4c2c93d9af
-  classification: unspecified
+  classification: relevant
 
 # Add Private_Key::remaining_operations()  (@lieser)
 - pr: 3821  # https://github.com/randombit/botan/pull/3821
   merge_commit: b7c737ff816148fc05f634d2e3b25974bfd19452
-  classification: unspecified
+  classification: info
+  comment: |
+    ... useful for stateful signature algorithms like XMSS or LMS.
