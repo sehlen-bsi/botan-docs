@@ -261,10 +261,4 @@ in this document. The distinction between "approvers" (of pull requests on
 GitHub) and "auditors" (in retrospect, explicitly for this project) is visualized
 by setting the latter into parenthesis in the patch tables below.
 
-Auditing members of this project and their GitHub handles are:
-
-* Fabian Albert (@FAlbertDev)
-* René Fischer (@securitykernel)
-* Philippe Lieser (@lieser)
-* René Meusel (@reneme)
-* Amos Treiber (@atreiber94)
+Auditing members of this project and their GitHub handles are: |auditors_list|
