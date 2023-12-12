@@ -41,4 +41,4 @@ patches:
 # FIX: don't assume that 'tpm' is generally not available  (@reneme)
 - pr: 3830  # https://github.com/randombit/botan/pull/3830
   merge_commit: 92e5dd71e25f2121a22402e5ae590873d2ac0831
-  classification: unspecified
+  classification: info
