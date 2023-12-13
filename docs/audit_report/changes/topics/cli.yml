@@ -16,7 +16,7 @@ patches:
   classification: info
   comment: |
     This rewrite enabled the TLS-Anvil tests to discover several state
-    management issues in the Botan's Boost ASIO stream wrapper. See
+    management issues in Botan's Boost ASIO stream wrapper. See
     also :ref:`changes/tls` and :ref:`changes/fixes`.
 
 # FIX: ./botan tls_http_server does not compile for --with-boost --disable-modules=asio  (@reneme)
