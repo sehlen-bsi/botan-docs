@@ -20,7 +20,7 @@ patches:
   classification: relevant
   comment: |
     Previously, ``EC_PrivateKey::check_key()`` only checked that the associated
-    public point is on the respective curve. Now it additionally checks that the
+    public point was on the respective curve. Now, it additionally checks that the
     private value is between 1 and the curve order.
 
 # Implement encoding CA Issuer information in X.509 AIA extension  (@martin-schiffner)
