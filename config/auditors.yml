@@ -1,0 +1,15 @@
+# This file contains the list of auditors along with their GitHub handles.
+# Authorship, approval or auditor-annotation of patches in the Audit Report
+# document are considered to be authorative in the CI.
+
+auditors:
+  - name: Fabian Albert
+    github: FAlbertDev
+  - name: René Fischer
+    github: securitykernel
+  - name: Philippe Lieser
+    github: lieser
+  - name: René Meusel
+    github: reneme
+  - name: Amos Treiber
+    github: atreiber94

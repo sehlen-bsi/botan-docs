@@ -41,6 +41,7 @@ patches:
 # Don't inline Null_RNG::fill_bytes_with_input  (Jack Lloyd)
 - commit: 723fa3a260b9be10a96223c71c2b8f44631a1c5e  # https://github.com/randombit/botan/commit/723fa3a260b9be10a96223c71c2b8f44631a1c5e
   classification: info
+  auditer: reneme
 
 # Remove abort call accidentally left over from debugging  (Jack Lloyd)
 - commit: 6117553c9d7652aaa050ac931447ccdefa5f658f  # https://github.com/randombit/botan/commit/6117553c9d7652aaa050ac931447ccdefa5f658f

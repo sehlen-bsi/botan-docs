@@ -7,6 +7,9 @@ optional = false
 python-versions = "^3.10"
 develop = true
 
+[package.dependencies]
+pyyaml = "^6.0"
+
 [package.source]
 type = "directory"
 url = "../auditinfo"
@@ -53,7 +56,7 @@ python-versions = ">=3.7.0"
 
 [[package]]
 name = "cryptography"
-version = "41.0.5"
+version = "41.0.7"
 description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
 category = "main"
 optional = false
@@ -88,7 +91,7 @@ dev = ["tox", "pytest", "pytest-cov", "bump2version (<1)", "sphinx (<2)"]
 
 [[package]]
 name = "idna"
-version = "3.4"
+version = "3.6"
 description = "Internationalized Domain Names in Applications (IDNA)"
 category = "main"
 optional = false

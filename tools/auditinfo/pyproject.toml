@@ -6,6 +6,7 @@ authors = ["René Meusel <rene.meusel@rohde-schwarz.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pyyaml = "^6.0"
 
 [tool.poetry.dev-dependencies]
 

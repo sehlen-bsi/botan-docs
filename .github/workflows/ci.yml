@@ -130,6 +130,14 @@ jobs:
           AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
           BASIC_GH_TOKEN: ${{ github.token }}
 
+      - name: Check Patch Audit Status
+        working-directory: source/docs/audit_report
+        run: poetry run python3 -m genaudit.cli verify_audits changes
+        env:
+          AUDIT_CACHE_LOCATION: ${{ github.workspace }}/audit_generator_cache
+          AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
+          BASIC_GH_TOKEN: ${{ github.token }}
+
       - name: Build Document
         working-directory: source/docs/audit_report
         run: poetry run make latexpdf

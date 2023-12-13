@@ -6,6 +6,9 @@ from auditinfo.base import repository_root
 def config_file_path() -> str:
     return os.path.join(repository_root(), "config", "botan.env")
 
+def auditors_file_path() -> str:
+    return os.path.join(repository_root(), "config", "auditors.yml")
+
 def __conf_var_pattern():
     return re.compile(r"(^[a-zA-Z_0-9]+)=(.+)\n$")
 

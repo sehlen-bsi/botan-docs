@@ -44,6 +44,16 @@ def find_unrefed(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.N
         return 0
 
 
+def verify_audits(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.Namespace):
+    insufficiently_audited_patches = genaudit.find_insufficiently_audited_patches(audit, repo)
+    logging.info("Found %d insufficiently audited patches", len(insufficiently_audited_patches))
+
+    for patch in insufficiently_audited_patches:
+        print(f"In topic '{patch[1]}', the patch '{patch[0]}' is not sufficiently audited, because: {patch[2]}")
+
+    return 0 if not insufficiently_audited_patches else 1
+
+
 def verify_merge_commits(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.Namespace):
     inconsistent_prs = genaudit.find_misreferenced_pull_request_merges(audit, repo)
     logging.info("Found %d Pull Requests with misreferenced commits", len(inconsistent_prs))
@@ -100,6 +110,12 @@ def main():
     unrefed.add_argument('audit_config_dir',
                          help='the audit directory to be used')
     unrefed.set_defaults(func=find_unrefed)
+
+    audit_checks = subparsers.add_parser(
+        'verify_audits', help='Find patches that are not sufficiently audited.')
+    audit_checks.add_argument('audit_config_dir',
+                         help='the audit directory to be used')
+    audit_checks.set_defaults(func=verify_audits)
 
     merge_commits = subparsers.add_parser(
         'verify_merges', help='Find pull requests that are not referenced with their respective merge commit hash')

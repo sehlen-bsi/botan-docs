@@ -15,13 +15,16 @@ optional = false
 python-versions = "^3.10"
 develop = true
 
+[package.dependencies]
+pyyaml = "^6.0"
+
 [package.source]
 type = "directory"
 url = "../auditinfo"
 
 [[package]]
 name = "babel"
-version = "2.13.1"
+version = "2.14.0"
 description = "Internationalization utilities"
 category = "main"
 optional = false
@@ -64,7 +67,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "idna"
-version = "3.4"
+version = "3.6"
 description = "Internationalized Domain Names in Applications (IDNA)"
 category = "main"
 optional = false
@@ -110,7 +113,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "pygments"
-version = "2.17.1"
+version = "2.17.2"
 description = "Pygments is a syntax highlighting package written in Python."
 category = "main"
 optional = false
@@ -119,6 +122,14 @@ python-versions = ">=3.7"
 [package.extras]
 plugins = ["importlib-metadata"]
 windows-terminal = ["colorama (>=0.4.6)"]
+
+[[package]]
+name = "pyyaml"
+version = "6.0.1"
+description = "YAML parser and emitter for Python"
+category = "main"
+optional = false
+python-versions = ">=3.6"
 
 [[package]]
 name = "requests"
@@ -295,6 +306,7 @@ jinja2 = []
 markupsafe = []
 packaging = []
 pygments = []
+pyyaml = []
 requests = []
 snowballstemmer = []
 sphinx = []

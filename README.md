@@ -12,7 +12,7 @@ Weiterentwicklung der Kryptobibliothek Botan".
 
 This monorepo contains documents (in `/docs`) as well as auxiliary helper
 scripts (in `/tools`) and some common resources (in `/resources`). The monorepo
-is configured in a global configuration file (in `/config/botan.env`). Internal
+is configured in a global configuration directory (in `/config`). Internal
 documentation and checklists are located in `/internal`.
 
 Most documents come with a `Makefile` to build them as PDF, HTML or other
