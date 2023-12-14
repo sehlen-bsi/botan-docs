@@ -733,7 +733,7 @@ The tests are implemented in :srcref:`src/tests/test_tls.cpp`.
    -  TLS authentication methods
    -  TLS key exchange algorithms
 
-|  Apart from internal tests, Botan integrates with BoringSSL's system tests
+| Apart from internal tests, Botan integrates with BoringSSL's system tests
   [#boring_bogo]_. These tests utilize a heavily instrumented TLS implementation
   that can be configured to behave inconsistently with the TLS RFCs in a
   plethora of ways. Explicitly note that BoringSSL does also implement a hybrid
@@ -747,3 +747,14 @@ The tests are implemented in :srcref:`src/tests/test_tls.cpp`.
 
 .. [#boring_bogo] BoringSSL BoGo Test Suite:
                   https://github.com/google/boringssl/tree/master/ssl/test
+
+| Starting with 3.2.0, Botan runs the server test suite of TLS-Anvil
+  [#tls_anvil]_ as a nightly test. TLS-Anvil requires a simple TLS server as a
+  peer. We use Botan's ``./botan tls_http_server`` command to provide this
+  server, which allows for multiple concurrent connections. With Botan 3.3.0,
+  this HTTPS server is now based on Botan's Boost ASIO stream wrapper. This
+  provides a comprehensive validation of the whole TLS stack for the server
+  side.
+
+.. [#tls_anvil] TLS-Anvil: An automated test suite for TLS
+                https://tls-anvil.com
