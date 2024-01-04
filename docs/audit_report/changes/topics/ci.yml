@@ -42,3 +42,14 @@ patches:
 - pr: 3830  # https://github.com/randombit/botan/pull/3830
   merge_commit: 92e5dd71e25f2121a22402e5ae590873d2ac0831
   classification: info
+
+# Update GitHub Actions workaround / Fix emcc build  (@reneme)
+- pr: 3833  # https://github.com/randombit/botan/pull/3833
+  merge_commit: 858a3837ad50fca7f33721d9bc02f571c161fa82
+  classification: info
+
+# Build docs in CI and make it fail on warnings or errors  (@lieser)
+- pr: 3838  # https://github.com/randombit/botan/pull/3838
+  merge_commit: 3dcf8af5a77e9e7643cc58cd5498d3950c1470ef
+  classification: info
+

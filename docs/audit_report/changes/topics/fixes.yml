@@ -1,13 +1,17 @@
 title: Fixes
 
 description: |
-  Apart from several small fixes, this release contains improvements for
-  the Boost ASIO TLS stream shipped with the library. After we `introduced
-  automated tests using TLS Anvil <https://github.com/randombit/botan/pull/3651>`_
-  in the previous audit cycle; we now run it against a TLS HTTP server using
-  said ASIO stream. This brought several high level TLS state management issues
-  to light. Note however, that none of the detected issues was critical for the
-  actual security of the implementation.
+  Most notably, this release fixes a side channel vulnerability in the Kyber
+  implementation (known as `KyberSlash <https://kyberslash.cr.yp.to/>`_). See
+  Section :ref:`secinfo/kyberslash` for further details.
+
+  This release contains improvements for the Boost ASIO TLS stream shipped with
+  the library. After we `introduced automated tests using TLS Anvil
+  <https://github.com/randombit/botan/pull/3651>`_ in the previous audit cycle;
+  we now run it against a TLS HTTP server using said ASIO stream. This brought
+  several high-level TLS state management issues to light. Note however, that
+  none of the detected issues was critical for the actual security of the
+  implementation.
 
 patches:
 # Fix build on NetBSD.  (@0-wiz-0)
@@ -87,3 +91,36 @@ patches:
     to better handle intermediate TLS states and communicate them to the
     downstream application. This is mostly relevant for correct error state
     checking, though.
+
+# FIX: potential non-constant time division in Kyber  (@reneme)
+- pr: 3846  # https://github.com/randombit/botan/pull/3846
+  merge_commit: 1b6359beb89667c908d0a825b8d2b189355dd7fe
+  classification: critical
+  comment: |
+    This fixes the initial side channel vulnerability "KyberSlash", discovered
+    in December 2023. See Section :ref:`secinfo/kyberslash` for further details.
+
+# FIX: Access Violation due to stale reference in OCB  (@reneme)
+- pr: 3814  # https://github.com/randombit/botan/pull/3814
+  merge_commit: 297742687bfa5ac9da4bf412fe9f5d6f13acea57
+  classification: out of scope
+
+# FIX: flatten boost buffer sequence for TLS  (@reneme)
+- pr: 3839  # https://github.com/randombit/botan/pull/3839
+  merge_commit: c59f1bdbd7afc61820751985fe5cf8dd11a0b44d
+  classification: info
+
+# Account for a possible cofactor when performing scalar blinding  (@randombit)
+- pr: 3803  # https://github.com/randombit/botan/pull/3803
+  merge_commit: b77077c6c1d692c8048d8fdf6a483862b6bfa869
+  classification: relevant
+
+# Fix typo in PKCS#11 hash function mapping  (@securitykernel)
+- pr: 3868  # https://github.com/randombit/botan/pull/3868
+  merge_commit: 541a29f6f7e49a7eb2e84730471ef129b1347557
+  classification: info
+  comment: |
+    This issue would have resulted in an inconsistent return value if a user of
+    the library queried the utilized hash function of a signature or
+    verification operation when performing it on a PKCS#11 module using RSA-PSS
+    with SHA-384. The actual operation would have been performed correctly.

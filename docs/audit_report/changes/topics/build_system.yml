@@ -41,3 +41,19 @@ patches:
 - pr: 3827  # https://github.com/randombit/botan/pull/3827
   merge_commit: 2bcccc86fa7aa9f8bd8873869fa6f4028ab7c8b7
   classification: info
+
+# Fix building examples with Ninja  (@lieser)
+- pr: 3848  # https://github.com/randombit/botan/pull/3848
+  merge_commit: 0af90d74c2a3a2d0b8f3237402ca186e60d895a0
+  classification: info
+
+# Use variable to refer to Emscripten when linking  (@randombit)
+- pr: 3854  # https://github.com/randombit/botan/pull/3854
+  merge_commit: c314d7f277f90cc4ea061151433697aa571b6a97
+  classification: info
+
+# Optimize by using /Zc:throwingNew with MSVC  (@lanurmi)
+- pr: 3858  # https://github.com/randombit/botan/pull/3858
+  merge_commit: 99c03c171ac05f79c7716d0df236018e4efe431c
+  classification: info
+  auditer: reneme

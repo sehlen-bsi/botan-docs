@@ -46,3 +46,23 @@ patches:
 - pr: 3828  # https://github.com/randombit/botan/pull/3828
   merge_commit: 79c8e235a6dce9d09df1cc605d283a4f735e0481
   classification: info
+
+# Update docstring of draft-irtf-cfrg-hash-to-curve  (@securitykernel)
+- pr: 3831  # https://github.com/randombit/botan/pull/3831
+  merge_commit: 6641b5cc2ca865639f95076ce1b34de5d5c7b3d9
+  classification: info
+
+# Remove old release news from handbook  (@lieser)
+- pr: 3842  # https://github.com/randombit/botan/pull/3842
+  merge_commit: 3dbf4da8a03be2071b04acc1a1f27dd3a15b5ecd
+  classification: info
+
+# Fix some doxygen warnings  (@lieser)
+- pr: 3841  # https://github.com/randombit/botan/pull/3841
+  merge_commit: 649fbe224def062b25545314d2685f55a35c8953
+  classification: info
+
+# Add overview of supported hardware acceleration  (@securitykernel)
+- pr: 3849  # https://github.com/randombit/botan/pull/3849
+  merge_commit: a14b090c0acfaa0e13fbbc5f14c0cae643ca4546
+  classification: info

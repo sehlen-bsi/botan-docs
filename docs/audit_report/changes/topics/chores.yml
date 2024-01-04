@@ -57,3 +57,23 @@ patches:
 - pr: 3822  # https://github.com/randombit/botan/pull/3822
   merge_commit: 7bc2b1c9af79ca9fcaf08c578f2d84a2f54f569d
   classification: info
+
+# [std::span] {load,store}_{le,be}  (@reneme)
+- pr: 3707  # https://github.com/randombit/botan/pull/3707
+  merge_commit: 36c2e9ee97d6944b88d53a59a45121c3cd3c5af6
+  classification: info
+
+# Work around a warning in GCC 13  (@reneme)
+- pr: 3852  # https://github.com/randombit/botan/pull/3852
+  merge_commit: 3ff47531af68b78b256487f7b9f2cb23a3f4fa4a
+  classification: info
+
+# Generalize PQC KEM KAT Runner + Minor Adaptions in Kyber  (@reneme)
+- pr: 3807  # https://github.com/randombit/botan/pull/3807
+  merge_commit: ca992bd828b8a594dfd8c6bfa6c14d8d5b2eddbc
+  classification: info
+
+# BufferSlicer::take<count>() & BufferStuffer::next<bytes>()  (@reneme)
+- pr: 3856  # https://github.com/randombit/botan/pull/3856
+  merge_commit: ceace35c514087b9fc9b4785b5ec756b0666c75c
+  classification: info
