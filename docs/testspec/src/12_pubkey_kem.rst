@@ -34,12 +34,7 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Test Vectors with RNG seed inputs in:                                   |
    |                        |                                                                         |
-   |                        | * :srcref:`src/tests/data/pubkey/kyber_512_90s.vec`                     |
-   |                        | * :srcref:`src/tests/data/pubkey/kyber_768_90s.vec`                     |
-   |                        | * :srcref:`src/tests/data/pubkey/kyber_1024_90s.vec`                    |
-   |                        | * :srcref:`src/tests/data/pubkey/kyber_512.vec`                         |
-   |                        | * :srcref:`src/tests/data/pubkey/kyber_768.vec`                         |
-   |                        | * :srcref:`src/tests/data/pubkey/kyber_1024.vec`                        |
+   |                        | * :srcref:`src/tests/data/pubkey/kyber_kat.vec`                         |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Above described test vector files contain expected values for:          |
    |                        |                                                                         |
@@ -55,6 +50,13 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    |                        | #. Use the seeded RNG to generate a Kyber key pair and compare it to    |
    |                        |    the expected public and private key in the test vector. This uses    |
    |                        |    the key encoding as implemented in the reference implementation.     |
+   |                        |                                                                         |
+   |                        | #. Check that the expected algorithm properties of the generated key    |
+   |                        |    match the generic expectations for KEMs (supports key encapsulation, |
+   |                        |    reports a key strength in a reasonable interval, etc.).              |
+   |                        |                                                                         |
+   |                        | #. Extract the public key from the just generated key pair and compare  |
+   |                        |    it to the expected value in the test vector.                         |
    |                        |                                                                         |
    |                        | #. Encapsulate a secret with the just-generted public key (using the    |
    |                        |    same RNG) and compare the resulting shared secret and ciphertext to  |
