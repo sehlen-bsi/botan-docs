@@ -22,7 +22,5 @@ instruction, which leaks information.
 
 Affected are the compression of Kyber's shared secret value during
 decapsulation, as well as the compression of the ciphertext during
-encapsulation. The latter is relevant for the security of the scheme, because
-the encapsulation is used in the FO transformation for re-encryption.
-Under certain circumstances, an attacker might be able to extract information
-about the secret key from the timing of these operations.
+encapsulation. Both side channels may leak enough sensitive information to be
+exploitable by an attacker under certain circumstances.
