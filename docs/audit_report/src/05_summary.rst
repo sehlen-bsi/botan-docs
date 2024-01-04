@@ -7,7 +7,12 @@ the results of several analysis tools.
 
 The most significant changes are the following:
 
-.. todo:: Add a bullet-point list for the most significant changes in Botan 3.3.0
+* FrodoKEM, a post-quantum secure key encapsulation algorithm
+* Improvements to TLS
+  * Update of the BSI-specific policy
+  * Support for Raw Public Keys in TLS 1.3
+  * C++20 coroutines for the Boost ASIO wrapper
+* Fixes a potential side-channel in the Kyber implementation
 
 According to the observations of this audit, Botan version |botan_version| keeps the security level of
 the previously reviewed version and complements the old version with various sensible and

@@ -30,7 +30,17 @@
    Botan Test Report",
    Release TBD
 
-.. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria:
+.. [TR-02102-1] BSI Technical Guideline BSI TR-02102-2:
+   "Cryptographic Mechanisms: Recommendations and Key Lengths",
+   Version 2023-01, 09.01.2023
+   https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-1.html
+
+.. [TR-02102-2] BSI Technical Guideline BSI TR-02102-2:
+   "Cryptographic Mechanisms: Recommendations and Key Lengths - Use of Transport Layer Security (TLS)",
+   Version 2023-01, 24.01.2023
+   https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-2.html
+
+.. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria Nikolaenko, Chris Peikert, Ananth Raghunathan, Douglas Stebila:
    "FrodoKEM: Learning With Errors Key Encapsulation Preliminary Standardization Proposal (2023-03-14)",
    Preliminary Standardization Proposal submitted to ISO, 2023,
    https://frodokem.org/files/FrodoKEM-standard_proposal-20230314.pdf
