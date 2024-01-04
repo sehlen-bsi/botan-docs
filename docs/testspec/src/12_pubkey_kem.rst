@@ -14,7 +14,7 @@ therefore not discussed in detail in this chapter.
 
 All FrodoKEM-specific test code can be found in
 :srcref:`src/tests/test_frodokem.cpp`. Relevant test data vectors for the KAT
-tests are in *src/tests/data/pubkey/frodokem_kat.vec.vec*.
+tests are in *src/tests/data/pubkey/frodokem_kat.vec*.
 
 .. table::
    :class: longtable
@@ -51,6 +51,13 @@ tests are in *src/tests/data/pubkey/frodokem_kat.vec.vec*.
    |                        |    hashes the result using SHAKE-256(128) to save disk space in the KAT |
    |                        |    vectors.                                                             |
    |                        |                                                                         |
+   |                        | #. Check that the expected algorithm properties of the generated key    |
+   |                        |    match the generic expectations for KEMs (supports key encapsulation, |
+   |                        |    reports a key strength in a reasonable interval, etc.).              |
+   |                        |                                                                         |
+   |                        | #. Extract the public key from the just generated key pair and compare  |
+   |                        |    it to the expected value in the test vector.                         |
+   |                        |                                                                         |
    |                        | #. Encode both public and private key, and decode them again.           |
    |                        |                                                                         |
    |                        | #. Encapsulate a secret with the just-generated public key after the    |
@@ -72,7 +79,7 @@ tests are in *src/tests/data/pubkey/frodokem_kat.vec.vec*.
    +========================+=========================================================================+
    | **Type:**              | Positive/Negative Test                                                  |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | For each implemented (and available) mode: generate a randome key pair  |
+   | **Description:**       | For each implemented (and available) mode: generate a random key pair   |
    |                        | encapsulate/decapsulate a shared secret. Try to decapsulate again, with |
    |                        | a different key pair, after a bit flip or a truncation in the           |
    |                        | ciphertext, and expect a decryption failure.                            |
