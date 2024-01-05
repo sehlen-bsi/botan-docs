@@ -86,6 +86,7 @@ latex_additional_files = [
 latex_elements = {
     'preamble': r'\usepackage{custom_coverpage}',
     'maketitle': r'\custommanualmaketitle',
+    'papersize': 'a4paper',
     **auditinfo.unicode_mappings(),
 }
 
