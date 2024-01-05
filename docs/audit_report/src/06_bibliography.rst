@@ -30,6 +30,11 @@
    Botan Test Report",
    Release TBD
 
+.. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria
+   "FrodoKEM: Learning With Errors Key Encapsulation Preliminary Standardization Proposal (2023-03-14)",
+   Preliminary Standardization Proposal submitted to ISO, 2023,
+   https://frodokem.org/files/FrodoKEM-standard_proposal-20230314.pdf
+
 .. [BOTAN_GIT] https://github.com/randombit/botan/tree/0676a3d0a2cc17975053f115da852578556bf50c
 
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser

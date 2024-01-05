@@ -124,3 +124,8 @@ patches:
     the library queried the utilized hash function of a signature or
     verification operation when performing it on a PKCS#11 module using RSA-PSS
     with SHA-384. The actual operation would have been performed correctly.
+
+# Fix CLI tests under windows and enabled them in the CI  (@lieser)
+- pr: 3845  # https://github.com/randombit/botan/pull/3845
+  merge_commit: fb4df9a1b05c9c519562916d4fad5c49e78c0d6a
+  classification: info
