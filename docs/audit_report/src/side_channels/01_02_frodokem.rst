@@ -18,7 +18,7 @@ Analysed variants:
 - eFrodoKEM 1344 AES
 
 For the analysis of FrodoKEM, a utility program has been written that calls the functions to be analysed in a similar way to the Botan CLI.
-The following call is used to create the signature:
+The following call is used to obtain the encapsulation and decapsulation outputs:
 
 .. code-block:: cpp
 
