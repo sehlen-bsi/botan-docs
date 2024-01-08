@@ -37,6 +37,7 @@ def platform_dependent_modules():
         'sha2_32_bmi2',
         'sha2_32_x86',
         'sha2_64_bmi2',
+        'sha2_64_armv8',
     ])
 
 def additional_modules():
@@ -51,6 +52,8 @@ def additional_modules():
         'dilithium_aes',
         'dilithium',
         'ffi',
+        'frodokem',
+        'frodokem_aes',
         'kyber_90s',
         'kyber',
         'pkcs11',
