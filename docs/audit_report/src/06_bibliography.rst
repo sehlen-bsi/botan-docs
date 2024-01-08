@@ -30,7 +30,7 @@
    Botan Test Report",
    Release TBD
 
-.. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria
+.. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria:
    "FrodoKEM: Learning With Errors Key Encapsulation Preliminary Standardization Proposal (2023-03-14)",
    Preliminary Standardization Proposal submitted to ISO, 2023,
    https://frodokem.org/files/FrodoKEM-standard_proposal-20230314.pdf
