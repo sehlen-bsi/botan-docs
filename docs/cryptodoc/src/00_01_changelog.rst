@@ -146,3 +146,12 @@ Changelog
    |         |          |   - Reflect Keccak permutation refactoring  |            |
    |         |          |   - Update source references                |            |
    +---------+----------+---------------------------------------------+------------+
+   | 3.3.0   | FA, RM,  | Update to 3.3.0:                            | 2024-02-20 |
+   |         | AT       |                                             |            |
+   |         |          | - New PQC algorithms                        |            |
+   |         |          |   - FrodoKEM                                |            |
+   |         |          | - New classical algorithms                  |            |
+   |         |          |   - Blake2s                                 |            |
+   |         |          | - SHA-512 based on dedicated instructions   |            |
+   |         |          |   on ARM v8.2                               |            |
+   +---------+----------+---------------------------------------------+------------+
