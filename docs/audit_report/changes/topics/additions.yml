@@ -3,6 +3,9 @@ title: Additions
 description: |
   This contains new features and algorithms added to the library.
 
+  Most notably, an implementation for FrodoKEM as specified in [FrodoKEM-ISO]_ was added.
+  Furthermore, Botan now offers hardware acceleration of SHA-512 on ARMv8.2 and newer.
+
 patches:
 # Added Blake2s hash function  (@huven)
 - pr: 3796  # https://github.com/randombit/botan/pull/3796
@@ -21,3 +24,7 @@ patches:
   comment: |
     This is merely a follow-up for GH #3860.
 
+# PQC: FrodoKEM  (@atreiber94)
+- pr: 3679  # https://github.com/randombit/botan/pull/3679
+  merge_commit: a2cb135325726306b87f0e5e3090b3049fb2597a
+  classification: critical

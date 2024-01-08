@@ -77,3 +77,13 @@ patches:
 - pr: 3856  # https://github.com/randombit/botan/pull/3856
   merge_commit: ceace35c514087b9fc9b4785b5ec756b0666c75c
   classification: info
+
+# Tidy up mutex.h  (@randombit)
+- pr: 3862  # https://github.com/randombit/botan/pull/3862
+  merge_commit: 700202b055052bb484059ecb98d7b3ca559deecf
+  classification: info
+
+# FIX: Code Indentation in bigint.h  (@reneme)
+- pr: 3865  # https://github.com/randombit/botan/pull/3865
+  merge_commit: 042af03f952afff968599d1640036e98bf08a6ad
+  classification: info
