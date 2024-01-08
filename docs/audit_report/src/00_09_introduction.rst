@@ -61,8 +61,6 @@ following modules and its dependencies: ``certstor_flatfile``,
 ``tls13_pqc``, ``tls13``, ``xts``. Patches that don't alter any of the
 above-mentioned components or relevant modules are considered out-of-scope.
 
-.. todo:: Update the module list below for the upcoming Botan 3.3.0 release
-
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
 
@@ -78,6 +76,8 @@ reviewed:
      5. Go through the `git diff` and sanity check
      6. Update the enumeration of "additional modules" above with the
         modules listed in the script.
+     7. Adapt the paragraph under the enumeration of audited modules
+        to reflect notable changes.
 
 .. list-table::
 
@@ -132,57 +132,61 @@ reviewed:
    * - emsa_pssr
      - entropy
      - ffi
+     - frodokem
+   * - frodokem_aes
+     - frodokem_common
      - gcm
-   * - getentropy
-     - ghash
+     - getentropy
+   * - ghash
      - ghash_cpu
      - ghash_vperm
-   * - gmac
-     - hash
+     - gmac
+   * - hash
      - hash_id
      - hex
-   * - hkdf
-     - hmac
+     - hkdf
+   * - hmac
      - hmac_drbg
      - http_util
-   * - iso9796
-     - kdf
+     - iso9796
+   * - kdf
      - kdf1_iso18033
      - keccak_perm
-   * - keccak_perm_bmi2
-     - keypair
+     - keccak_perm_bmi2
+   * - keypair
      - kyber
      - kyber_90s
-   * - kyber_common
-     - locking_allocator
+     - kyber_common
+   * - locking_allocator
      - mac
      - mdx_hash
-   * - mem_pool
-     - mgf1
+     - mem_pool
+   * - mgf1
      - mode_pad
      - modes
-   * - mp
-     - numbertheory
+     - mp
+   * - numbertheory
      - pbkdf
      - pem
-   * - pk_pad
-     - pkcs11
+     - pk_pad
+   * - pkcs11
      - poly_dbl
      - prf_tls
-   * - processor_rng
-     - pubkey
+     - processor_rng
+   * - pubkey
      - rdseed
      - rng
-   * - rsa
-     - sha1
+     - rsa
+   * - sha1
      - sha1_armv8
      - sha1_sse2
-   * - sha1_x86
-     - sha2_32
+     - sha1_x86
+   * - sha2_32
      - sha2_32_armv8
      - sha2_32_bmi2
-   * - sha2_32_x86
-     - sha2_64
+     - sha2_32_x86
+   * - sha2_64
+     - sha2_64_armv8
      - sha2_64_bmi2
      - sha3
    * - shake
@@ -212,9 +216,7 @@ reviewed:
 
 Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
 
-* ``shake_xof`` contains a proper interface to the SHAKE XOFs and replaces
-  ``shake_cipher`` that provisionally exposed the XOF as a stream cipher
-* ``tls13_pqc`` implements a hybrid key exchange for TLS 1.3 for post-quantum security
+* ``frodokem`` and ``frodokem_aes`` contain an implementation for FrodoKEM
 
 Patch Description Content
 -------------------------
