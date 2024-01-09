@@ -30,7 +30,7 @@
    Botan Test Report",
    Release TBD
 
-.. [TR-02102-1] BSI Technical Guideline BSI TR-02102-2:
+.. [TR-02102-1] BSI Technical Guideline BSI TR-02102-1:
    "Cryptographic Mechanisms: Recommendations and Key Lengths",
    Version 2023-01, 09.01.2023
    https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-1.html

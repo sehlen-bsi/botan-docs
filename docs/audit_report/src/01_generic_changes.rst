@@ -8,9 +8,9 @@ FrodoKEM
 --------
 
 FrodoKEM is a post-quantum key encapsulation algorithm based on unstructured
-lattices. In NIST's standardization process it is a "Round 3 alternate
-candidate", therefore it likely won't be standardized by NIST. However, it is
-recommended for usage by the BSI since 2020 [TR-02102-1]_.
+lattices. In NIST's standardization process, it is a "Round 3 alternate
+candidate"; therefore, it likely won't be standardized by NIST. However, it has
+been recommended for usage by the BSI since 2020 [TR-02102-1]_.
 
 Botan now includes a software implementation of FrodoKEM and eFrodoKEM as
 drafted in the proposed ISO standard [FrodoKEM-ISO]_ document from March 2023.
