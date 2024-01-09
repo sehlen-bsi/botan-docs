@@ -13,6 +13,11 @@
 .. [Blei] Daniel Bleichenbacher:
    "Chosen Ciphertext Attacks Against Protocols Based on the RSA Encryption Standard PKCS #1", Crypto,1998
 
+.. [BORSvV21] Joppe W. Bos, Maximilian Ofner, Joost Renes, Tobias Schneider, and Christine van Vredendaal:
+   "The Matrix Reloaded: Multiplication Strategies in FrodoKEM".
+   Proceedings of Cryptology and Network Security (CANS'21): 20th International Conference.
+   Springer International Publishing, 2021.
+
 .. [CBC] William F. Ehrsam, Carl H. W. Meyer, John L. Smith, Walter L. Tuchman,
    "Message verification and transmission error detection by block chaining",
    US Patent 4074066, 1976
@@ -41,6 +46,11 @@
 .. [FIPS-202] Federal Information Processing Standards Publication 202.
    SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions.
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
+
+.. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria Nikolaenko, Chris Peikert, Ananth Raghunathan, Douglas Stebila
+   "FrodoKEM: Learning With Errors Key Encapsulation Preliminary Standardization Proposal (2023-03-14)",
+   Preliminary Standardization Proposal submitted to ISO, 2023,
+   https://frodokem.org/files/FrodoKEM-standard_proposal-20230314.pdf
 
 .. [GCM] U.S. DEPARTMENT OF COMMERCE/National Institute of Standards and Technology:
    "Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC",
