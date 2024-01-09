@@ -55,11 +55,12 @@ that are *required* or *available* in the BSI build policy and their
 dependencies are in the scope of this document. Additionally, we review the
 following modules and its dependencies: ``certstor_flatfile``,
 ``certstor_sqlite3``, ``certstor_system_macos``, ``certstor_system_windows``,
-``certstor_system``, ``dilithium_aes``, ``dilithium``, ``ffi``, ``kyber_90s``,
-``kyber``, ``pkcs11``, ``sha1_armv8``, ``sha1_sse2``, ``sha1_x86``, ``shake``,
-``sphincsplus_sha2``, ``sphincsplus_shake``, ``tls_cbc``, ``tls12``,
-``tls13_pqc``, ``tls13``, ``xts``. Patches that don't alter any of the
-above-mentioned components or relevant modules are considered out-of-scope.
+``certstor_system``, ``dilithium_aes``, ``dilithium``, ``frodokem``,
+``frodokem_aes``, ``ffi``, ``kyber_90s``, ``kyber``, ``pkcs11``, ``sha1_armv8``,
+``sha1_sse2``, ``sha1_x86``, ``shake``, ``sphincsplus_sha2``,
+``sphincsplus_shake``, ``tls_cbc``, ``tls12``, ``tls13_pqc``, ``tls13``,
+``xts``. Patches that don't alter any of the above-mentioned components or
+relevant modules are considered out-of-scope.
 
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
