@@ -8,9 +8,9 @@ FrodoKEM
 --------
 
 FrodoKEM is a post-quantum key encapsulation algorithm based on unstructured
-lattices. In NIST's standardization process it is a "Round 3 alternate
-candidate", therefore it likely won't be standardized by NIST. However, it is
-recommended for usage by the BSI since 2020 [TR-02102-1]_.
+lattices. In NIST's standardization process, it is a "Round 3 alternate
+candidate"; therefore, it likely won't be standardized by NIST. However, it has
+been recommended for usage by the BSI since 2020 [TR-02102-1]_.
 
 Botan now includes a software implementation of FrodoKEM and eFrodoKEM as
 drafted in the proposed ISO standard [FrodoKEM-ISO]_ document from March 2023.
@@ -36,7 +36,7 @@ See :ref:`changes/tls` for more information.
 Fixes for Timing Side Channels in Kyber
 ---------------------------------------
 
-Shortly before the release of Botan |botan_version| potential timing side
+Shortly before the release of Botan |botan_version|, potential timing side
 channel vulnerabilities were discovered in several software implementations of
 Kyber. Botan prior to |botan_version| is also affected. This release contains
 countermeasures against these attacks.
