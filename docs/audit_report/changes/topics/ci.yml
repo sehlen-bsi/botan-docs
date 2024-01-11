@@ -53,3 +53,7 @@ patches:
   merge_commit: 3dcf8af5a77e9e7643cc58cd5498d3950c1470ef
   classification: info
 
+# CI: Update GitHub Actions Ubuntu workaround  (@reneme)
+- pr: 3888  # https://github.com/randombit/botan/pull/3888
+  merge_commit: b8afed87d5c13f8dbd1d7fca96180e6981783700
+  classification: info
