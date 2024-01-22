@@ -19,7 +19,7 @@ it uses a One-Time Signature (OTS) at its base, named Leighton-Micali OTS
 of a Merkle tree. This composition is the basis of the Leighton-Micali Signature (LMS)
 method. The root node of the LMS Merkle tree defines its public key. [RFC8554]_
 also provides HSS, a hypertree composition of multiple LMS trees, where the leaves
-of LMS trees sign the public keys of other LMS trees.
+of LMS trees sign the public keys of subsequent LMS trees.
 Table :ref:`HSS/LMS logical components <pubkey/hss_lms/comp_table>` shows an
 overview of these components and their Botan implementation.
 
@@ -52,8 +52,8 @@ time-signature-size-tradeoff of the LM-OTS instance.
 Those first two parameters implicitly define the hash function output size ``n``,
 the number of Winternitz chains ``p``, and the constant ``ls`` used for the
 checksum computation (see [RFC8554]_ Section 4.1.). Botan allows all combinations
-of hash function and ``w`` defined in [RFC8554]_ and [draft-fluhrer-11]_, which
-are listed in Table :ref:`Supported LM-OTS parameter sets <pubkey/hss_lms/lm-ots-params>`.
+of hash function and ``w`` that are defined in [RFC8554]_ and [draft-fluhrer-11]_ and
+listed here in Table :ref:`Supported LM-OTS parameter sets <pubkey/hss_lms/lm-ots-params>`.
 
 .. _pubkey/hss_lms/lm-ots-params:
 
@@ -118,7 +118,8 @@ For creating an LM-OTS signature of a message, Botan offers the method
 ``LMOTS_Private_Key::sign``. For that, it implements Algorithm 1 of [RFC8554]_.
 One important remark is the creation of the randomizer ``C``. To create this
 randomizer, Botan adapts the same approach as the Cisco reference implementation
-by computing ``C`` with the following pseudorandom key generation method:
+(see [RFC8554]_ Appendix E) by computing ``C`` with the following pseudorandom
+key generation method:
 
 .. math::
    \mathtt{C = Hash(I\ ||\ u32str(q)\ ||\ u16str(0xfffd)\ ||\ u8str(0xff)\ ||\ SEED)}
@@ -230,8 +231,8 @@ parameters define the HSS/LMS hypertree. The parameter ``L`` configures the heig
 of the HSS/LMS hypertree, i.e., the number of LMS tree levels in the hypertree.
 As specified in [RFC8554]_, Botan allows ``L`` to be within one and eight.
 An LMS and LM-OTS parameter set pair is defined for each level. Botan allows all
-parameter combinations as long as the hash function
-is always the same in every set at every level.
+parameter combinations as long as the hash function is always the
+same in every set at every level (recommended in [SP800-208]_).
 
 As defined in [RFC8554]_, the public key of an HSS/LMS instance is composed of
 ``L`` and the public key of the hypertree's root LMS tree. The
@@ -295,7 +296,19 @@ Key Generation
 
 HSS/LMS key generation follows Section 6.1. of [RFC8554]_ and is implemented
 within the ``HSS_LMS_PrivateKeyInternal`` constructor and
-``HSS_LMS_PublicKeyInternal::create``. It works as follows:
+``HSS_LMS_PublicKeyInternal::create``.
+
+Note that [RFC8554]_ and [SP800-208]_ require that all LMS instances' public/private key
+pairs must be created independently from each other. Since Botan applies the seed
+derivation logic of the reference implementation, multiple LMS instances are
+derived from the same parent seed. Therefore, the specification requirement
+is only fulfilled if the derivation method is strong enough to ensure that no
+dependency between the derived seeds can be observed without knowledge of the
+parent seed. Since it uses the same process as [RFC8554]_ Appendix A,
+the derivation method is built as strong as the other building blocks of the
+scheme. We therefore consider the requirement fulfilled.
+
+Botan's key generation algorithm works as follows:
 
 .. admonition:: HSS/LMS Key Generation
 
@@ -328,9 +341,11 @@ within the ``HSS_LMS_PrivateKeyInternal`` constructor and
    **Notes:**
 
    - A formatted string provides ``L`` and the LMS and OTS parameters.
-   - In contrast to [RFC8554]_ Algorithm 7. Step 2, the keys and signatures of
+   - In contrast to [RFC8554]_ Algorithm 7 Step 2, the keys and signatures of
      lower LMS trees are not computed during key generation but during signature
      creation.
+   - Additional checks ensure that the hash functions used for the LMS and LM-OTS
+     are the same for all instances. Otherwise, the key generation is aborted.
 
 
 .. _pubkey/hss_lms/sig_creation:
@@ -373,7 +388,7 @@ which follows Section 6.2. of [RFC8554]_. It works as follows:
 
    **Notes:**
 
-   - After signature creation, ``idx`` of ``SK`` increased by one.
+   - After signature creation, ``idx`` of ``SK`` is increased by one.
 
 .. _pubkey/hss_lms/sig_validation:
 
@@ -394,7 +409,7 @@ It does the following:
 
    **Output:**
 
-   -  ``true`` if the signature for message ``m`` is valid. ``false`` otherwise
+   -  ``true`` if the signature for message ``m`` is valid. ``false`` otherwise.
 
    **Steps:**
 
