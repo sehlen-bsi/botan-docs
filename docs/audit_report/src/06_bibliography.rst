@@ -40,3 +40,9 @@
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser
 
 .. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
+
+.. [FRODOKEM_SCA] https://link.springer.com/chapter/10.1007/978-3-030-56880-1_13
+
+.. [FRODOKEM_REF_IMPL_FIX_SCA] https://github.com/microsoft/PQCrypto-LWEKE/commit/155c24c3df47be6d5d9845fea37be110945e963c
+
+.. [FRODOKEM_BOTAN_FIX_SCA] https://github.com/randombit/botan/pull/3679/files#diff-7a018090ea82988e86e9f476200f6b9fad8782995bbd815adc30ec63bafb98f5R212
