@@ -68,6 +68,10 @@
    Nonce-Disrespecting Adversaries: Practical Forgery Attacks on GCM in TLS.
    WOOT'16
 
+.. [HD] H. S. Warren:
+   "Hacker's Delight",
+   July 2002
+
 .. [IEEE-1363-2000] IEEE Std 1363-2000:
    "IEEE Standard Specifications for Public-Key Cryptography",
    https://ieeexplore.ieee.org/document/891000,
