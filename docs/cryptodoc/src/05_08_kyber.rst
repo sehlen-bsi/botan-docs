@@ -38,18 +38,17 @@ The public member functions ``Ciphertext::from_bytes`` and ``Ciphertext::to_byte
 The compression and decompression with :math:`d=1` are performed simultaneously with :math:`\mathsf{Encode}_1` and :math:`\mathsf{Decode}_1` within the methods ``Polynomial::to_message`` and ``Polynomial::from_message``, respectively (used in **L. 4, Alg. 6** and **L. 20, Alg. 5** [Kyber-R3]_).
 
 Compression in Kyber requires division by the Kyber constant ``q``. However,
-this division may introduce side-channels on platforms where the division
-instruction is not constant time.
+this division may introduce timing side-channels on some platforms.
 Botan uses the ``ct_divide_by`` function to address this issue, which performs
 constant-time division by a value known at compile-time. This function leverages
 a technique described in [HD]_, where the fraction ``n/q`` is extended by a
-specific constant ``m`` to become ``(m*n)/(m*q)``. Here, ``(m*q)`` is chosen to
-be close to a power of two ``2^p``. For integer division, it holds that
+specific constant ``m`` to become ``(m*n)/(m*q)``. Here, ``m`` is chosen so that
+``(m*q)`` is reasonably close to a power of two ``2^p``. For integer division, it holds that
 ``n/q = (m*n)/(2^p)`` for all ``n`` is smaller than a boundary ``2^W``.
 The boundary constant ``W`` is chosen to encompass all possible numerators
 encountered in Kyber's compression functions. The values of ``m`` and ``p`` are
-derived using the algorithm outlined in Chapter 10.9 of [HD]_. This computation
-is performed at compile-time.
+derived using the algorithm outlined in Chapter 10.9 of [HD]_ at compile-time
+by means of a C++20 ``consteval`` function.
 To ensure the correctness of the algorithm and its implementation, we thoroughly
 test the division function with all possible numerators.
 
