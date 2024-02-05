@@ -5,7 +5,7 @@ FrodoKEM
 
 Botan's FrodoKEM implementation is found in
 :srcref:`src/lib/pubkey/frodokem/` and follows [FrodoKEM-ISO]_.
-The parameter sets shown in tables below are supported.
+The parameter sets shown in the tables below are supported.
 
 .. _pubkey/frodokem/parameter_table:
 
@@ -62,7 +62,7 @@ The parameter sets shown in tables below are supported.
    +----------------------+-------------------------+-------------------------+--------------------------+
 
 
-The implementation consists of several components, which are shown in the table below.
+The implementation consists of several components; these are shown in the table below.
 
 .. _pubkey/frodokem/component_table:
 
@@ -94,9 +94,9 @@ For similar reasons as for :ref:`SPHINCS+ strong types <signatures/sphincsplus/t
 Botan's FrodoKEM implementation relies on the use of strong types.
 As most data is just defined as byte sequences, the usage of strong types ensures that
 the correct data is used at each step of the computation.
-More concretely, strong types for the different kinds of seeds, random samples, matrix
-representations, and plaintexts are used in addition to types corresponding to the values
-:math:`salt`, :math:`k`, and :math:`pkh` of [FrodoKEM-ISO]_.
+More concretely, strong types are used for the different kinds of seeds, random samples, matrix
+representations, and plaintexts as well as for the values
+:math:`salt`, :math:`k`, and :math:`pkh` as found in [FrodoKEM-ISO]_.
 
 ..  _pubkey/frodokem/modes:
 
@@ -105,17 +105,17 @@ Modes and Constants
 
 The implementation realizes all parameter sets shown in Table
 :ref:`Supported FrodoKEM signature algorithms <pubkey/frodokem/parameter_table>`.
-Parameter sets are represented by an enum-like class ``FrodoKEMMode``.
-The parameters, including the function :math:`\text{SHAKE}` of [FrodoKEM-ISO]_, are instantiated
-via the ``FrodoKEMConstants`` class given a mode. Furthermore, this class also contains
-the distribution table entries (see Table A.4 of [FrodoKEM-ISO]_).
+Parameter sets are represented as instances of the enum-like class ``FrodoKEMMode``.
+When a mode has been selected, the parameters as well as the function :math:`\text{SHAKE}` of [FrodoKEM-ISO]_ are instantiated
+via the ``FrodoKEMConstants`` class. Furthermore, this class contains
+the distribution table entries required for sampling from the error distribution (see Table A.4 of [FrodoKEM-ISO]_).
 
 ..  _pubkey/frodokem/matrix_operations:
 
 Matrix Operations
 ^^^^^^^^^^^^^^^^^
 
-FrodoKEM heavily relies on matrix operations, which are implemented in Botan
+FrodoKEM heavily relies on matrix operations which are implemented in Botan
 within the ``FrodoMatrix`` class. Specifically, factory methods to create or store matrices
 according to the :math:`Encode` (Section 7.2 of [FrodoKEM-ISO]_),
 :math:`Decode` (Section 7.2), :math:`Pack` (Section 7.3), :math:`Unpack` (Section 7.3),
@@ -126,33 +126,33 @@ The implementation does not explicitly provide the :math:`Gen` function (Section
 of [FrodoKEM-ISO]_) to create the large public matrix :math:`A` from :math:`seed_A`.
 Instead, to avoid having the entire matrix :math:`A` in memory for just one use per operation,
 the desired elements of :math:`A` are derived from :math:`seed_A` on demand when matrix
-multiplication is performed. This is done with callable generator functions that generate
-the rows of :math:`A`, depending on whether AES-128 or SHAKE-128 is used, and correspond to
-Sections 7.6.1 and 7.6.2 of [FrodoKEM-ISO]_, respectively.
+multiplication is performed. This is done via callable generator functions which generate
+the required rows of :math:`A` and correspond to
+Section 7.6.1 or 7.6.2 of [FrodoKEM-ISO]_, depending on whether AES-128 or SHAKE-128 is used.
 
-Moreover, the implementation does not perform the transpose operations on the matrix
+Moreover, the implementation does not perform the transpose operation on the matrix
 :math:`S^T` to obtain :math:`S` as in the pseudocode of Section 8 of [FrodoKEM-ISO]_
-when computing :math:`B = AS + E` and :math:`B'S`. Instead, it performs
+when computing :math:`B = AS + E` and :math:`B'S` during key generation and decapsulation, respectively. Instead, it performs
 the matrix operations directly on input :math:`S^T` to obtain the desired result
 without an expensive transpose operation.
 
 Consequently, each unique combination of matrix operations used by FrodoKEM
 :ref:`Key Generation <pubkey/frodokem/key_generation>`,
-:ref:`Encapsulation <pubkey/frodokem/encapsulation>`, and
+:ref:`Encapsulation <pubkey/frodokem/encapsulation>` and
 :ref:`Decapsulation <pubkey/frodokem/decapsulation>` is implemented as a
 ``FrodoMatrix`` factory method. Hence, the operations :math:`AS + E`, :math:`S'A + E'`,
-:math:`S'B + E''`, and :math:`B'S` each have a corresponding method. Additionally, generic
+:math:`S'B + E''` and :math:`B'S` each have a corresponding method. Additionally, generic
 addition and subtraction methods are provided.
 The methods for :math:`AS + E` and :math:`S'A + E'` make use of manual loop unrolling
 to speed up performance according to [BORSvV21]_.
 
 Since the implementations of the underlying matrix operations
 do not perform the neccessary reduction :math:`\text{mod}\, q`, a ``FrodoMatrix``
-possesses a ``reduce`` method, reducing all elements :math:`\text{mod}\, q` and thereby
-realizing :math:`\mathbb{Z}_q` of [FrodoKEM-ISO]_.
+possesses a ``reduce`` method, reducing all elements modulo :math:`q` and thereby
+producing matrices with entries in :math:`\mathbb{Z}_q` as required by [FrodoKEM-ISO]_.
 
-Finally, the ``FrodoMatrix`` class contains a method ``constant_time_compare`` to check
-for equality to an input matrix in constant time, using Botan's constant time comparison.
+Finally, the ``FrodoMatrix`` class contains the method ``constant_time_compare`` which uses Botan's constant time comparison to check
+for equality to an input matrix in constant time.
 
 
 ..  _pubkey/frodokem/key_generation:
@@ -286,7 +286,7 @@ works as follows:
    - The computations of ``s_p*a + e_p`` and ``s_p*b + e_pp`` are done by specialised functions,
      as noted in :ref:`FrodoKEM Encapsulation <pubkey/frodokem/encapsulation>`.
    - ``b = unpack(packed_b)`` is already performed in the constructor of ``FrodoKEM_PrivateKey``.
-   - ``b_pp`` and ``c_p`` require manual reduction in step 13 because ``b_p`` and ``c`` are
+   - ``b_pp`` and ``c_p`` require manual reduction in Step 13 because ``b_p`` and ``c`` are
      already reduced due to the packing operations. This is the only time where a
      reduction needs to be implemented.
    - Comparisons and assignments of Step 14 are performed in constant time (CT) using Botan's CT
