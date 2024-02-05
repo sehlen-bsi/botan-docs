@@ -48,7 +48,10 @@ specific constant ``m`` to become ``(m*n)/(m*q)``. Here, ``m`` is chosen so that
 The boundary constant ``W`` is chosen to encompass all possible numerators
 encountered in Kyber's compression functions. The values of ``m`` and ``p`` are
 derived using the algorithm outlined in Chapter 10.9 of [HD]_ at compile-time
-by means of a C++20 ``consteval`` function.
+by means of a C++20 ``consteval`` function. Hence, instead of a potentially
+variable-time division, the compiled runtime code will always perform a
+multiplication (by ``m``) followed by a right-shift (by ``p`` bits), both of which are
+constant-time operations.
 To ensure the correctness of the algorithm and its implementation, we thoroughly
 test the division function with all possible numerators.
 
