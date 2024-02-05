@@ -104,7 +104,7 @@ Modes and Constants
 ^^^^^^^^^^^^^^^^^^^
 
 The implementation realizes all parameter sets shown in Table
-:ref:`Supported FrodoKEM signature algorithms <pubkey/frodokem/parameter_table>`.
+:ref:`Supported FrodoKEM parameters <pubkey/frodokem/parameter_table>`.
 Parameter sets are represented as instances of the enum-like class ``FrodoKEMMode``.
 When a mode has been selected, the parameters as well as the function :math:`\text{SHAKE}` of [FrodoKEM-ISO]_ are instantiated
 via the ``FrodoKEMConstants`` class. Furthermore, this class contains
@@ -151,9 +151,11 @@ do not perform the neccessary reduction :math:`\text{mod}\, q`, a ``FrodoMatrix`
 possesses a ``reduce`` method, reducing all elements modulo :math:`q` and thereby
 producing matrices with entries in :math:`\mathbb{Z}_q` as required by [FrodoKEM-ISO]_.
 
-Finally, the ``FrodoMatrix`` class contains the method ``constant_time_compare`` which uses Botan's constant time comparison to check
-for equality to an input matrix in constant time.
-
+Finally, the ``FrodoMatrix`` class contains the method ``constant_time_compare``
+which uses Botan's constant time comparison to check for equality to an input
+matrix in constant time. This is used during decapsulation, specifically in Step 14
+of :ref:`Key Decapsulation <pubkey/frodokem/decapsulation>`, to ensure that the
+re-encryption yields the same ciphertext as the presented encapsulation.
 
 ..  _pubkey/frodokem/key_generation:
 
