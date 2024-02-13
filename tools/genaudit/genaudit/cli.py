@@ -74,6 +74,16 @@ def verify_merge_commits(audit: genaudit.Audit, repo: genaudit.GitRepo, args: ar
     return 0 if not inconsistent_prs else 1
 
 
+def list_referenced_patches(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.Namespace):
+    output = io.StringIO()
+
+    for patch in [patch for topics in audit.topics for patch in topics.patches]:
+        print(patch.render_patch(repo, args.yaml))
+        print()
+
+    return 0
+
+
 def render_audit_report(audit: genaudit.Audit, repo: genaudit.GitRepo, args: argparse.Namespace):
     renderer = genaudit.Renderer(audit, repo)
     if args.out_dir:
@@ -124,6 +134,14 @@ def main():
     merge_commits.add_argument('audit_config_dir',
                                help='the audit directory to be used')
     merge_commits.set_defaults(func=verify_merge_commits)
+
+    list_patches = subparsers.add_parser(
+        'list_patches', help='List all patches that are referenced in the audit document.')
+    list_patches.add_argument('--yaml', action='store_true', default=False,
+                               help='list the patches as YAML document compatible with the topic.yml format')
+    list_patches.add_argument('audit_config_dir',
+                              help='the audit directory to be used')
+    list_patches.set_defaults(func=list_referenced_patches)
 
     renderer = subparsers.add_parser(
         'render', help='Render the audit document.')
