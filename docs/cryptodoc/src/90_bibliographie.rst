@@ -26,9 +26,22 @@
    "Message verification and transmission error detection by block chaining",
    US Patent 4074066, 1976
 
+.. [CBits] Daniel J. Bernstein:
+   "Verified fast formulas for control bits for permutation networks",
+   2020
+
 .. [CCM] U.S. DEPARTMENT OF COMMERCE/National Institute of Standards and Technology:
    "Recommendation for Block Cipher Modes of Operation: The CCM Mode for Authentication and Confidentiality",
    July 2007
+
+.. [CMCE-ISO] ISO Draft (2023):
+   Information security — Encryption algorithms — Part 1978:
+   Classic McEliece
+
+.. [CMCE-R4] Martin R. Albrecht, Daniel J. Bernstein, Tung Chou, Carlos Cid, Jan Gilcher, Tanja Lange, Varun Maram, Ingo von Maurich, Rafael Misoczki, Ruben Niederhagen, Kenneth G. Paterson, Edoardo Persichetti, Christiane Peters, Peter Schwabe, Nicolas Sendrier, Jakub Szefer, Cen Jung Tjhai, Martin Tomlinson, Wen Wang:
+   "Classic McEliece: Conservative Code-Based Cryptography: Cryptosystem Specification",
+   NIST PQC Challenge Round 4 Submission, 2022,
+   https://classic.mceliece.org/mceliece-spec-20221023.pdf
 
 .. [Dilithium-R3] S. Bai, L. Ducas, E. Kiltz, T. Lepoint, V. Lyubashevsky, P. Schwabe, G. Seiler, D. Stehlé:
    "CRYSTALS-Dilithium Algorithm Specifications and Supporting Documentation (Version 3.1)",
@@ -120,6 +133,10 @@
 .. [Man] James Manger.
    A Chosen Ciphertext Attack on RSA Optimal Asymmetric Encryption Padding (OAEP) as Standardized in PKCS#1 v2.0.
    Crypto 2001
+
+.. [McBits] Daniel J. Bernstein, Tung Chou, Peter Schwabe:
+   "McBits: fast constant-time code-based cryptography",
+   2015
 
 .. [NIST-OMAC] National Institute of Standards and Technology.
    OMAC: One-Key CBC MAC — Addendum.
