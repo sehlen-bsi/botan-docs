@@ -23,3 +23,4 @@ encapsulation and decapsulation or the key exchange mechanism.
    05_08_dilithium
    05_09_kyber
    05_10_frodokem
+   05_10_cmce
