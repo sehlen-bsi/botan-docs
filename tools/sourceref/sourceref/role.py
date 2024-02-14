@@ -1,4 +1,5 @@
 import requests
+import re
 from docutils import nodes
 from docutils.nodes import Node, system_message
 from sphinx.roles import ReferenceRole
@@ -11,6 +12,8 @@ class SourceReferenceRole(ReferenceRole):
     The text of the role will be the ``<target>``.
     The reference role can also accept ``link title <target>`` style as a text for
     the role.
+    Alternativeley, the target can be displayed truncated. For example:
+    ``[src/lib/hash]/sha1/sha1.cpp`` is displayed as ``.../sha1/sha1.cpp``.
 
     Options:
 
@@ -23,9 +26,13 @@ class SourceReferenceRole(ReferenceRole):
     - ``src/lib/hash/sha1/sha1.cpp``
     - ``src/lib/pubkey/xmss/``
     - ``XMSS <src/lib/pubkey/xmss/>``
+    - ``[src/lib/hash]/sha1/sha1.cpp``
     """
 
+    truncated_target_re = re.compile(r"\[(.*)(/\]|\]/)(.*)")
+
     def run(self) -> tuple[list[Node], list[system_message]]:
+        self.parse_target()
         ref_uri = self.build_uri()
 
         if self.env.app.config.src_ref_check_url:
@@ -39,6 +46,13 @@ class SourceReferenceRole(ReferenceRole):
             ref_node += nodes.literal(self.text, self.text)
 
         return [ref_node], []
+
+    def parse_target(self) -> None:
+        """ Check if the target is marked as truncated and adapt the target and text accordingly."""
+        match = self.truncated_target_re.match(self.target)
+        if match:
+            self.target = f"{match.group(1)}/{match.group(3)}"
+            self.text = f".../{match.group(3)}"
 
     def build_uri(self) -> str:
         return f'{self.env.app.config.src_ref_base_url}/{self.env.app.config.src_ref_reference}/{self.target}'
