@@ -250,7 +250,7 @@ works as follows:
 Key Decapsulation
 -----------------
 
-The FrodoKEM encapsulation procedure of Botan follows Section 8.3 of [FrodoKEM-ISO]_ and
+The FrodoKEM decapsulation procedure of Botan follows Section 8.3 of [FrodoKEM-ISO]_ and
 works as follows:
 
 .. admonition:: FrodoKEM Decapsulation
