@@ -1,6 +1,124 @@
 Public Key Encapsulation Mechanisms
 -----------------------------------
 
+Classic McEliece
+~~~~~~~~~~~~~~~~
+
+To ensure the correctness of the implementation, the Known Answer Test (KAT)
+vectors provided by the reference implementation are used. However, no
+KAT vectors are available for plaintext confirmation (pc) instances. To address
+this, the reference implementation was extended with pc logic independently of
+Botan for generating KAT vectors.
+
+In addition to the KAT tests, Botan includes
+implementation-independent test cases. These test cases guarantee the
+interoperability of the algorithm when using Botan's generic API for public key
+algorithms. These test cases are applicable to all public key schemes and are
+therefore not discussed in detail here.
+
+Also, the Classic McEliece implementation includes utility and unit tests that
+are useful for debugging purposes. However, these tests are not extensive and
+are already covered by the Known Answer Test (KAT) suite.
+
+Of particular importance are the tests that verify the correct revocation of
+invalid ciphertexts. For pc instances, it is crucial to confirm that the
+decryption of invalid ciphertexts produces the expected invalid result, even
+when only the second part of the ciphertext (referred to as :math:`C_1` in the
+Classic McEliece specification) is malformed. In this case, the rejection seed
+(:math:`s`) is utilized. These cases are tested using self-generated KAT tests.
+
+All the tests specific to Classic McEliece are found in
+:srcref:`src/tests/test_cmce.cpp`. The relevant test data vectors for the
+KAT tests are located in :srcref:`src/tests/data/pubkey/cmce_kat_hashed.vec`,
+while the negative test vectors are in
+:srcref:`src/tests/data/pubkey/cmce_negative.vec`. Note that, due to the large
+size of the other values, all values except the KAT seeds and the ciphertexts
+are hashed.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKENC-CMCE-1                                                            |
+   +========================+=========================================================================+
+   | **Type:**              | Known Answer Tests                                                      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Uses the KAT vectors of Classic McElieces's reference implementation as |
+   |                        | specified in the NIST submission                                        |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | Test Vectors with RNG seed inputs in:                                   |
+   |                        |                                                                         |
+   |                        | * :srcref:`src/tests/data/pubkey/cmce_kat_hashed.vec`                   |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | Above described test vector files contain expected values for:          |
+   |                        |                                                                         |
+   |                        | * Classic McEliece Public Key                                           |
+   |                        | * Classic McEliece Private Key                                          |
+   |                        | * Ciphertext                                                            |
+   |                        | * Shared Secret                                                         |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | For each KAT vector:                                                    |
+   |                        |                                                                         |
+   |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed                  |
+   |                        |                                                                         |
+   |                        | #. Use the seeded RNG to generate a Classic McEliece key pair and       |
+   |                        |    compare it to the expected public and private key in the test        |
+   |                        |    vector. This uses the key encoding as implemented in the reference   |
+   |                        |    implementation and hashes the result using SHAKE-256(512) to save    |
+   |                        |    disk space in the KAT vectors.                                       |
+   |                        |                                                                         |
+   |                        | #. Check that the expected algorithm properties of the generated key    |
+   |                        |    match the generic expectations for KEMs (supports key encapsulation, |
+   |                        |    reports a key strength in a reasonable interval, etc.).              |
+   |                        |                                                                         |
+   |                        | #. Extract the public key from the just generated key pair and compare  |
+   |                        |    it to the expected value in the test vector.                         |
+   |                        |                                                                         |
+   |                        | #. Encode both public and private key, and decode them again.           |
+   |                        |                                                                         |
+   |                        | #. Encapsulate a secret with the just-generated public key after the    |
+   |                        |    encode/decode roundtrip (using the same RNG) and compare the         |
+   |                        |    resulting shared secret and ciphertext to expected values in the     |
+   |                        |    test vector. Again, the ciphertext is hashed to save disk space.     |
+   |                        |                                                                         |
+   |                        | #. Decapsulate the just-calculated ciphertext with the private key from |
+   |                        |    the encode/decode roundtrip and ensure that the resulting shared     |
+   |                        |    secret is equal to the expected value from the test vector.          |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKENC-CMCE-2                                                            |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test/Known Answer Tests                                        |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | For a plaintext confirmation (pc) and a non-pc instance:                |
+   |                        | Generate a Classic McEliece keypair using a KAT seed, use the private   |
+   |                        | key to decapsulate an invalid ciphertext, and compare the resulting     |
+   |                        | value with the value generated using the reference implementation.      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | KAT seed, invalid ciphertext, corresponding invalid shared secret       |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | The correct invalid shared secret                                       |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | For each available algorithm parameterization:                          |
+   |                        |                                                                         |
+   |                        | #. Generate a key pair using the KAT seed with AES-256-CTR-DRBG         |
+   |                        |                                                                         |
+   |                        | #. Decapsulate the invalid ciphertext (input value).                    |
+   |                        |                                                                         |
+   |                        | #. Compare the resulting shared secret with the reference shared        |
+   |                        |    secret (input value).                                                |
+   +------------------------+-------------------------------------------------------------------------+
+
 FrodoKEM
 ~~~~~~~~
 
