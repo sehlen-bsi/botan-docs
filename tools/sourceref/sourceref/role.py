@@ -55,7 +55,7 @@ class SourceReferenceRole(ReferenceRole):
             self.text = f".../{match.group(3)}"
 
     def build_uri(self) -> str:
-        return f'{self.env.app.config.src_ref_base_url}/{self.env.app.config.src_ref_reference}/{self.target}'
+        return f'{self.env.app.config.src_ref_base_url}/blob/{self.env.app.config.src_ref_reference}/{self.target}'
 
     def check_url(self, url: str) -> tuple[list[Node], list[system_message]] | None:
         ret = requests.head(url)
