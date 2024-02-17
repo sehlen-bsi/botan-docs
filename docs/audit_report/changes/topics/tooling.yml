@@ -11,3 +11,9 @@ patches:
   merge_commit: 170a7350cebd4fc68ff404a4a85a090107776b74
   classification: out of scope
   auditer: reneme
+
+# Plot benchmark graphs and create HTML report  (@securitykernel)
+- pr: 3876  # https://github.com/randombit/botan/pull/3876
+  merge_commit: 96a60a66ed2b5dcadbfbbe9a90d7e47608593b16
+  classification: out of scope
+  auditer: reneme

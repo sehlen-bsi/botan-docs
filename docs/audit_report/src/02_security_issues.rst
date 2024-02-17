@@ -24,3 +24,7 @@ Affected are the compression of Kyber's shared secret value during
 decapsulation, as well as the compression of the ciphertext during
 encapsulation. Both side channels may leak enough sensitive information to be
 exploitable by an attacker under certain circumstances.
+
+These side channels are present in Botan 3.0.0 to 3.2.0, and was fixed in
+|botan_version|. The fix essentially hard-codes the division by `q` as a series
+of constant-time bit shift and multiplication operations. See also :ref:`changes/fixes`.

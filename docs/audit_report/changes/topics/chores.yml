@@ -97,3 +97,18 @@ patches:
 - pr: 3892  # https://github.com/randombit/botan/pull/3892
   merge_commit: 7f15ce7b39d6bd34dda9af4d2cb08a6e18c64c01
   classification: info
+
+# Remove workarounds for compilers that didn't implement C++20 concepts  (@randombit)
+- pr: 3908  # https://github.com/randombit/botan/pull/3908
+  merge_commit: 13c7e5f1d29455bde2865fd287abc06e747fe389
+  classification: info
+
+# Small cleanups for compiler.h  (@randombit)
+- pr: 3863  # https://github.com/randombit/botan/pull/3863
+  merge_commit: d0b2107b8f725041dc25e7a1878680c0ea9673a4
+  classification: info
+
+# FIX: False Positive for Compression Test   (@reneme)
+- pr: 3900  # https://github.com/randombit/botan/pull/3900
+  merge_commit: c788cceb2e3f17cc55f1192cd7637d93b3aaa820
+  classification: info
