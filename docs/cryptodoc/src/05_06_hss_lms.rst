@@ -27,17 +27,17 @@ overview of these components and their Botan implementation.
 
 .. table::  HSS/LMS logical components and file locations.
 
-   +---------------------------------------+--------------------------------------------+---------------------------+-----------------------+
-   |  Component                            | File                                       | Purpose                   | Section in [RFC8554]_ |
-   +=======================================+============================================+===========================+=======================+
-   | :ref:`LM-OTS <pubkey/hss_lms/lm_ots>` | :srcref:`src/lib/pubkey/hss_lms/lm_ots.h`  | LM-OTS                    | 4.                    |
-   +---------------------------------------+--------------------------------------------+---------------------------+-----------------------+
-   | :ref:`LMS <pubkey/hss_lms/lms>`       | :srcref:`src/lib/pubkey/hss_lms/lms.h`     | LMS                       | 5.                    |
-   +---------------------------------------+--------------------------------------------+---------------------------+-----------------------+
-   | :ref:`HSS <pubkey/hss_lms/hss>`       | :srcref:`src/lib/pubkey/hss_lms/hss.h`     | HSS with LMS              | 6.                    |
-   +---------------------------------------+--------------------------------------------+---------------------------+-----------------------+
-   | HSS/LMS                               | :srcref:`src/lib/pubkey/hss_lms/hss_lms.h` | Botan's HSS/LMS interface |                       |
-   +---------------------------------------+--------------------------------------------+---------------------------+-----------------------+
+   +---------------------------------------+----------------------------------------------+---------------------------+-----------------------+
+   |  Component                            | File                                         | Purpose                   | Section in [RFC8554]_ |
+   +=======================================+==============================================+===========================+=======================+
+   | :ref:`LM-OTS <pubkey/hss_lms/lm_ots>` | :srcref:`[src/lib/pubkey/hss_lms]/lm_ots.h`  | LM-OTS                    | 4.                    |
+   +---------------------------------------+----------------------------------------------+---------------------------+-----------------------+
+   | :ref:`LMS <pubkey/hss_lms/lms>`       | :srcref:`[src/lib/pubkey/hss_lms]/lms.h`     | LMS                       | 5.                    |
+   +---------------------------------------+----------------------------------------------+---------------------------+-----------------------+
+   | :ref:`HSS <pubkey/hss_lms/hss>`       | :srcref:`[src/lib/pubkey/hss_lms]/hss.h`     | HSS with LMS              | 6.                    |
+   +---------------------------------------+----------------------------------------------+---------------------------+-----------------------+
+   | HSS/LMS                               | :srcref:`[src/lib/pubkey/hss_lms]/hss_lms.h` | Botan's HSS/LMS interface |                       |
+   +---------------------------------------+----------------------------------------------+---------------------------+-----------------------+
 
 .. _pubkey/hss_lms/lm_ots:
 
@@ -217,7 +217,7 @@ of [RFC8554]_. For verification of a signature-message pair, Botan provides
 ``LMS_PublicKey::verify_signature``, implementing  Algorithm 5 of [RFC8554]_.
 The internal logic to create and reconstruct Merkle trees is implemented in the
 cross-algorithm helper module ``tree_hash``
-(:srcref:`src/lib/utils/tree_hash/tree_hash.h`). The tree's leaves are created using the
+(:srcref:`[src/lib]/utils/tree_hash/tree_hash.h`). The tree's leaves are created using the
 constructs introduced in :ref:`Section LM-OTS <pubkey/hss_lms/lm_ots>`.
 
 .. _pubkey/hss_lms/hss:
@@ -295,8 +295,8 @@ Key Generation
 --------------
 
 HSS/LMS key generation follows Section 6.1. of [RFC8554]_ and is implemented
-within the ``HSS_LMS_PrivateKeyInternal`` constructor and
-``HSS_LMS_PublicKeyInternal::create``.
+within the ``HSS_LMS_PrivateKeyInternal`` constructor (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:114|HSS_LMS_PrivateKeyInternal`)
+and ``HSS_LMS_PublicKeyInternal::create`` (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:296|HSS_LMS_PublicKeyInternal::create`).
 
 Note that [RFC8554]_ and [SP800-208]_ require that all LMS instances' public/private key
 pairs must be created independently from each other. Since Botan applies the seed
@@ -354,7 +354,8 @@ Signature Creation
 ------------------
 
 An HSS/LMS signature is created using ``HSS_LMS_Signature_Operation::sign``,
-which follows Section 6.2. of [RFC8554]_. It works as follows:
+which follows Section 6.2. of [RFC8554]_ (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:220|HSS_LMS_PublicKeyInternal::sign`).
+It works as follows:
 
 .. admonition:: HSS/LMS Signature Creation
 
@@ -396,7 +397,8 @@ Signature Validation
 --------------------
 
 Botan's method ``HSS_LMS_Verification_Operation::is_valid_signature`` verifies a
-signature-message pair by implementing the method of Section 6.3. of [RFC8554]_.
+signature-message pair by implementing the method of Section 6.3. of [RFC8554]_
+(see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:349|HSS_LMS_PublicKeyInternal::verify_signature`).
 It does the following:
 
 .. admonition:: HSS/LMS Signature Validation
