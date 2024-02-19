@@ -35,7 +35,7 @@ The parameter sets shown in the tables below are supported.
    | :math:`len_{salt}`   | 256                    | 384                    | 512                     |
    +----------------------+------------------------+------------------------+-------------------------+
 
-.. table::  Supported eFrodoKEM parameter sets (see Tables A.1 and A.2 of [FrodoKEM-ISO]_). ``<PRG>`` can either be ``AES`` or ``SHAKE``, depending on whether AES-128 or SHAKE-128 is used for expanding the seed for the matrix :math:`A`.
+.. table::  Supported eFrodoKEM parameter sets (see Tables A.1 and A.2 of [FrodoKEM-ISO]_). Note that these are ephemeral modes of the algorithm and the public key may not be used more than once. ``<PRG>`` can either be ``AES`` or ``SHAKE``, depending on whether AES-128 or SHAKE-128 is used for expanding the seed for the matrix :math:`A`.
 
    +----------------------+-------------------------+-------------------------+--------------------------+
    | ``FrodoKEMMode``     | ``eFrodoKEM-640-<PRG>`` | ``eFrodoKEM-976-<PRG>`` | ``eFrodoKEM-1344-<PRG>`` |
@@ -68,19 +68,19 @@ The implementation consists of several components; these are shown in the table 
 
 .. table::  FrodoKEM components and file locations.
 
-   +----------------------------------------------------------------+---------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Component                                                      | File                                                                | Purpose                                                                                                                                                                                |
-   +================================================================+=====================================================================+========================================================================================================================================================================================+
-   | :ref:`Types <pubkey/frodokem/types>`                           | :srcref:`src/lib/pubkey/frodokem/frodokem_common/frodo_types.h`     | Strong types                                                                                                                                                                           |
-   +----------------------------------------------------------------+---------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`Modes <pubkey/frodokem/modes>`                           | :srcref:`src/lib/pubkey/frodokem/frodokem_common/frodo_mode.h`      | Parameter set representation                                                                                                                                                           |
-   +----------------------------------------------------------------+---------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`Constants <pubkey/frodokem/modes>`                       | :srcref:`src/lib/pubkey/frodokem/frodokem_common/frodo_constants.h` | Parameter set instantiations                                                                                                                                                           |
-   +----------------------------------------------------------------+---------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`Matrix Operations <pubkey/frodokem/matrix_operations>`   | :srcref:`src/lib/pubkey/frodokem/frodokem_common/frodo_matrix.h`    | Matrices and operations on them                                                                                                                                                        |
-   +----------------------------------------------------------------+---------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | FrodoKEM                                                       | :srcref:`src/lib/pubkey/frodokem/frodokem_common/frodokem.h`        | FrodoKEM :ref:`Key Generation <pubkey/frodokem/key_generation>`, :ref:`Encapsulation <pubkey/frodokem/encapsulation>`, :ref:`Decapsulation <pubkey/frodokem/decapsulation>`            |
-   +----------------------------------------------------------------+---------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   +----------------------------------------------------------------+-----------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Component                                                      | File                                                                  | Purpose                                                                                                                                                                                |
+   +================================================================+=======================================================================+========================================================================================================================================================================================+
+   | :ref:`Types <pubkey/frodokem/types>`                           | :srcref:`[src/lib/pubkey/frodokem]/frodokem_common/frodo_types.h`     | Strong types                                                                                                                                                                           |
+   +----------------------------------------------------------------+-----------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Modes <pubkey/frodokem/modes>`                           | :srcref:`[src/lib/pubkey/frodokem]/frodokem_common/frodo_mode.h`      | Parameter set representation                                                                                                                                                           |
+   +----------------------------------------------------------------+-----------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Constants <pubkey/frodokem/modes>`                       | :srcref:`[src/lib/pubkey/frodokem]/frodokem_common/frodo_constants.h` | Parameter set instantiations                                                                                                                                                           |
+   +----------------------------------------------------------------+-----------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Matrix Operations <pubkey/frodokem/matrix_operations>`   | :srcref:`[src/lib/pubkey/frodokem]/frodokem_common/frodo_matrix.h`    | Matrices and operations on them                                                                                                                                                        |
+   +----------------------------------------------------------------+-----------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | FrodoKEM                                                       | :srcref:`[src/lib/pubkey/frodokem]/frodokem_common/frodokem.h`        | FrodoKEM :ref:`Key Generation <pubkey/frodokem/key_generation>`, :ref:`Encapsulation <pubkey/frodokem/encapsulation>`, :ref:`Decapsulation <pubkey/frodokem/decapsulation>`            |
+   +----------------------------------------------------------------+-----------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Algorithm Internals
 -------------------
@@ -152,10 +152,11 @@ possesses a ``reduce`` method, reducing all elements modulo :math:`q` and thereb
 producing matrices with entries in :math:`\mathbb{Z}_q` as required by [FrodoKEM-ISO]_.
 
 Finally, the ``FrodoMatrix`` class contains the method ``constant_time_compare``
-which uses Botan's constant time comparison to check for equality to an input
-matrix in constant time. This is used during decapsulation, specifically in Step 14
-of :ref:`Key Decapsulation <pubkey/frodokem/decapsulation>`, to ensure that the
-re-encryption yields the same ciphertext as the presented encapsulation.
+which uses Botan's constant time comparison to check for equality of the object
+matrix to another input matrix in constant time. This is used during
+decapsulation, specifically in Step 14 of :ref:`Key Decapsulation
+<pubkey/frodokem/decapsulation>`, to ensure that the re-encryption yields the
+same ciphertext as the presented encapsulation.
 
 ..  _pubkey/frodokem/key_generation:
 
@@ -163,7 +164,8 @@ Key Generation
 --------------
 
 FrodoKEM key generation follows Section 8.1 of [FrodoKEM-ISO]_ and is
-implemented within the ``FrodoKEM_PrivateKey`` constructor. It works as follows:
+implemented within ``FrodoKEM_PrivateKey`` constructor (see: :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:303|FrodoKEM_PrivateKey`).
+It works as follows:
 
 .. admonition:: FrodoKEM Key Generation
 
@@ -204,7 +206,7 @@ implemented within the ``FrodoKEM_PrivateKey`` constructor. It works as follows:
 Key Encapsulation
 -----------------
 
-The FrodoKEM encapsulation procedure of Botan follows Section 8.2 of [FrodoKEM-ISO]_ and
+The FrodoKEM encapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:89|raw_kem_encrypt`) follows Section 8.2 of [FrodoKEM-ISO]_ and
 works as follows:
 
 .. admonition:: FrodoKEM Encapsulation
@@ -250,7 +252,7 @@ works as follows:
 Key Decapsulation
 -----------------
 
-The FrodoKEM decapsulation procedure of Botan follows Section 8.3 of [FrodoKEM-ISO]_ and
+The FrodoKEM decapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:156|raw_kem_decrypt`) follows Section 8.3 of [FrodoKEM-ISO]_ and
 works as follows:
 
 .. admonition:: FrodoKEM Decapsulation
