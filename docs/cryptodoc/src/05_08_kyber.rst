@@ -11,7 +11,7 @@ Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table_pa
 **Structure**
 
 The IND-CCA2-secure KEM Kyber (Kyber.CCAKEM, Section 1.3, [Kyber-R3]_) is obtained from an IND-CPA-secure public-key encryption scheme (Kyber.CPAPKE, Section 1.2, [Kyber-R3]_) via a modified Fujisaki–Okamoto transform.
-The internal class ``Kyber_KEM_Cryptor`` found in :srcref:`src/lib/pubkey/kyber/kyber_common/kyber.cpp` implements the public-key encryption Kyber.CPAPKE.Enc.
+The internal class ``Kyber_KEM_Cryptor`` found in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1042|Kyber_KEM_Cryptor` implements the public-key encryption Kyber.CPAPKE.Enc.
 Its child classes ``Kyber_KEM_Encryptor`` and ``Kyber_KEM_Decryptor`` respectively implement the IND-CCA2-secure KEM Kyber.CCAKEM encapsulation/decapsulation [#kyber_cryptor_class]_.
 
 .. [#kyber_cryptor_class]
