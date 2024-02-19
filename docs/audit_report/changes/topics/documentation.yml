@@ -66,3 +66,8 @@ patches:
 - pr: 3849  # https://github.com/randombit/botan/pull/3849
   merge_commit: a14b090c0acfaa0e13fbbc5f14c0cae643ca4546
   classification: info
+
+# Add docs on providers  (@securitykernel)
+- pr: 3884  # https://github.com/randombit/botan/pull/3884
+  merge_commit: ddbadaf6fe48229a3dcd8b79436d5d55a2ca014f
+  classification: info

@@ -10,3 +10,8 @@ patches:
 - commit: c2a2c0e6d8a1093493ec4931ffa09ba98ee66a12  # https://github.com/randombit/botan/commit/c2a2c0e6d8a1093493ec4931ffa09ba98ee66a12
   classification: info
   auditer: reneme
+
+# Documentation: Update news.rst  (@reneme)
+- pr: 3906  # https://github.com/randombit/botan/pull/3906
+  merge_commit: cfc7f6424a53cc907bd7cd66a8d5ff940d423dd2
+  classification: info

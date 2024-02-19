@@ -100,6 +100,14 @@ patches:
     This fixes the initial side channel vulnerability "KyberSlash", discovered
     in December 2023. See Section :ref:`secinfo/kyberslash` for further details.
 
+# Fix: Potential side-channel in Kyber's Ciphertext::compress functions  (@FAlbertDev)
+- pr: 3874  # https://github.com/randombit/botan/pull/3874
+  merge_commit: cada0d75cdc317d53bb95f6e99ac5f54c4202f08
+  classification: critical
+  comment: |
+    This fixes the second side channel vulnerability "KyberSlash", discovered in
+    December 2023. See Section :ref:`secinfo/kyberslash` for further details.
+
 # FIX: Access Violation due to stale reference in OCB  (@reneme)
 - pr: 3814  # https://github.com/randombit/botan/pull/3814
   merge_commit: 297742687bfa5ac9da4bf412fe9f5d6f13acea57
@@ -128,4 +136,19 @@ patches:
 # Fix CLI tests under windows and enabled them in the CI  (@lieser)
 - pr: 3845  # https://github.com/randombit/botan/pull/3845
   merge_commit: fb4df9a1b05c9c519562916d4fad5c49e78c0d6a
+  classification: info
+
+# Add documented botan_cipher_is_authenticated() to FFI  (@reneme)
+- pr: 3905  # https://github.com/randombit/botan/pull/3905
+  merge_commit: a570dfdba75986f210dc4b25cec44b30f65fef76
+  classification: info
+
+# Don't fall back to base cipher mode implementation  (@securitykernel)
+- pr: 3881  # https://github.com/randombit/botan/pull/3881
+  merge_commit: 754bd0744a24d004507156a6234a4042b75d3f9c
+  classification: info
+
+# FIX: Bring pk_ops.h back as public header  (@reneme)
+- pr: 3879  # https://github.com/randombit/botan/pull/3879
+  merge_commit: 3dc59fcf3e2ba13b90b51c415ec9dc0b751a64c3
   classification: info
