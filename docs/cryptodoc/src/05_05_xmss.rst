@@ -75,7 +75,7 @@ Table :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/tabl
 XMSS and WOTS+ rely on the hash function address scheme (``ADRS``). This
 scheme consists of 256 bits and stores OTS hash addresses and hash tree
 addresses, see Section 2.5 in [XMSS]_. ``ADRS`` is implemented in
-:srcref:`src/lib/pubkey/xmss/xmss_address.h` and offers the following setter methods.
+:srcref:`[src/lib/pubkey/xmss]/xmss_address.h` and offers the following setter methods.
 The respective getter methods were left out for readability:
 
 -  ``set_key_mask_mode(Key_Mode=0 / Mask_Mode=1, Mask_LSB_Mode=1,
@@ -104,7 +104,7 @@ number of steps ``s``, combined with ``ADRS`` and a ``seed`` value. See
 Algorithm 2 in [XMSS]_ for more details.
 
 WOTS+ and in particular the ``chain`` function are implemented in
-:srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
+:srcref:`[src/lib/pubkey/xmss]/xmss_wots.cpp`.
 
 Botan's ``XMSS_WOTS_PrivateKey`` encapsulate a single WOTS+ leaf node and
 the associated key derivation from the ``private_seed`` and ``public_seed``.
@@ -144,12 +144,12 @@ contain this countermeasure.
 
    - All referenced methods above are implemented in the constructors of
      ``WOTS_Public_Key`` and ``WOTS_Private_Key`` in
-     :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
+     :srcref:`[src/lib/pubkey/xmss]/xmss_wots.cpp`.
 
 XMSS
 ^^^^
 
-XMSS functionality is implemented in :srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp`.
+XMSS functionality is implemented in :srcref:`[src/lib/pubkey/xmss]/xmss_privatekey.cpp`.
 
 The algorithm for key generation relies on the method ``treeHash`` from
 Algorithm 9 in [XMSS]_. The ``treeHash`` method takes as input secret key
@@ -192,7 +192,7 @@ Algorithm 10 in [XMSS]_ and it works as follows:
 
    **Notes:**
 
-   - The generation procedure is implemented in :srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp`
+   - The generation procedure is implemented in :srcref:`[src/lib/pubkey/xmss]/xmss_privatekey.cpp`
      in the ``XMSS_PrivateKey()`` constructor and ``XMSS_PrivateKey::tree_hash()``
      as well as ``XMSS_PrivateKey::tree_hash_subtree()``
 
@@ -234,7 +234,7 @@ WOTS+
 ^^^^^
 
 WOTS+ signing follows Algorithm 5 in [XMSS]_. It is implemented in
-:srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
+:srcref:`[src/lib/pubkey/xmss]/xmss_wots.cpp`.
 
 The signature generation process works as follows:
 
@@ -275,8 +275,8 @@ XMSS
 ^^^^
 
 XMSS signature generation functionality is implemented in
-:srcref:`src/lib/pubkey/xmss/xmss_privatekey.cpp` and
-:srcref:`src/lib/pubkey/xmss/xmss_signature_operation.cpp`
+:srcref:`[src/lib/pubkey/xmss]/xmss_privatekey.cpp` and
+:srcref:`[src/lib/pubkey/xmss]/xmss_signature_operation.cpp`
 
 The algorithm for signature generation follows methods ``treeSig`` and
 ``XMSS_sig`` from Algorithms 11 and 12 in [XMSS]_. The algorithm works as
@@ -321,7 +321,7 @@ WOTS+
 ^^^^^
 
 WOTS+ signature validation strictly follows Algorithm 6 in [XMSS]_. It is
-implemented in :srcref:`src/lib/pubkey/xmss/xmss_wots.cpp`.
+implemented in :srcref:`[src/lib/pubkey/xmss]/xmss_wots.cpp`.
 
 The signature validation process works as follows:
 
@@ -361,8 +361,8 @@ XMSS
 ^^^^
 
 XMSS signature validation functionality is implemented in
-:srcref:`src/lib/pubkey/xmss/xmss_publickey.cpp` and
-:srcref:`src/lib/pubkey/xmss/xmss_verification_operation.cpp`.
+:srcref:`[src/lib/pubkey/xmss]/xmss_publickey.cpp` and
+:srcref:`[src/lib/pubkey/xmss]/xmss_verification_operation.cpp`.
 
 The algorithm for signature verification follows methods
 ``XMSS_rootFromSig`` and ``XMSS_verify`` from Algorithms 13 and 14 in
