@@ -10,6 +10,10 @@
    Proceedings of the 2018 ACM SIGSAC Conference on Computer and Communications Security (CCS '18).
    ACM, New York, NY, 2018.
 
+.. [BINARYGCD] J Stein,
+   "Computational problems associated with Racah algebra,"
+   Journal of Computational Physics, Volume 1, Issue 3, 1967, Pages 397-405
+
 .. [Blei] Daniel Bleichenbacher:
    "Chosen Ciphertext Attacks Against Protocols Based on the RSA Encryption Standard PKCS #1", Crypto,1998
 
