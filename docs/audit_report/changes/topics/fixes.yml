@@ -152,3 +152,31 @@ patches:
 - pr: 3879  # https://github.com/randombit/botan/pull/3879
   merge_commit: 3dc59fcf3e2ba13b90b51c415ec9dc0b751a64c3
   classification: info
+
+# When decoding an arbitrary elliptic curve, set an upper bound on length  (@randombit)
+- pr: 3913  # https://github.com/randombit/botan/pull/3913
+  merge_commit: 08c404b23740babee1f6aa51b54e966029aadee4
+  classification: critical
+  comment: |
+    This fixes a potential DoS when decoding parameters of custom elliptic
+    curves with an oversized parameter ``p``. Botan would check ``p`` for
+    primality, potentially consuming excessive CPU time.
+    See :ref:`secinfo/oversized_ecc` for further details.
+
+# Use binary GCD  (@reneme)
+- pr: 3909  # https://github.com/randombit/botan/pull/3909
+  merge_commit: dc3a94e71cb977706df180fcaf913c09a344d1dc
+  classification: critical
+  comment: |
+    Previously, Botan used "safegcd" to compute the GCD of two integers.
+    Typically, this algorithm requires constant-time arithmetics on arbitrarily
+    sized signed integers. Botan implements these operations for unsigned
+    integers only and, therefore, adapted the "safegcd" slightly. This violated
+    the termination assumptions of the algorithm, resulting in an error for certain
+    inputs. The OSS-Fuzz project found one such input.
+
+    As a permanent fix, Botan now uses the binary GCD algorithm, which does not
+    require constant-time arithmetics on signed intgers and provides a
+    termination assumption that is much easier to reason about.
+
+    See :ref:`secinfo/binary_gcd` for further details.
