@@ -8,7 +8,8 @@ Dilithium
 Key Generation
 --------------
 
-Botan's implementation of the CRYSTALS-Dilithium signature algorithm is based on the NIST round 3 specification [Dilithium-R3]_.
+Botan's implementation of the CRYSTALS-Dilithium signature algorithm is based on the NIST round 3 specification [Dilithium-R3]_ and
+can be found in :srcref:`src/lib/pubkey/dilithium`.
 The parameter sets shown in Table :ref:`Supported Dilithium signature algorithms <pubkey_key_generation/dilithium/parameter_table>` are supported.
 
 .. _pubkey_key_generation/dilithium/parameter_table:

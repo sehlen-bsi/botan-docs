@@ -25,6 +25,7 @@ operations.
 .. _signatures/sphincsplus/table:
 
 .. table::  SPHINCS\ :sup:`+` logical components and file locations.
+   :widths: 15 25 45 15
 
    +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
    |  Component                                           | File                                                                      | Purpose                                    | Section in [SPX-R3]_         |
