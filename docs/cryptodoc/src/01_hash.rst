@@ -60,9 +60,10 @@ The BMI2 implementations are located in
 ``sha2_64_bmi2.cpp`` implements SHA-384 and SHA-512.
 
 The ARMv8 implementation is in
-:srcref:`src/lib/hash/sha2_32/sha2_32_armv8/sha2_32_armv8.cpp`. The x86
+:srcref:`src/lib/hash/sha2_32/sha2_32_armv8/sha2_32_armv8.cpp` and
+:srcref:`src/lib/hash/sha2_64/sha2_64_armv8/sha2_64_armv8.cpp`. The x86
 implementation is in :srcref:`src/lib/hash/sha2_32/sha2_32_x86/sha2_32_x86.cpp`.
-Both are based on the code by Jeffrey Walton [#sha_intrinsics]_.
+All are based on the code by Jeffrey Walton [#sha_intrinsics]_.
 
 SHA-3
 -----

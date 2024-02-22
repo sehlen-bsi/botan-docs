@@ -13,13 +13,6 @@ for Information Security (BSI) to evaluate these products.
 
 This document reports the test results of the Botan test suite.
 
-**Authors**
-
-| Daniel Neus (DN)
-| René Fischer (RK)
-| René Meusel (RM)
-| Philippe Lieser (PL)
-
 **Document Revision**
 
 This document was generated on |document_datestamp| based on the git revision |document_gitsha_short|.

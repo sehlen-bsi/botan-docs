@@ -39,5 +39,3 @@ Leaks found are described in separate sections.
 The descriptions usually also include the associated source code and, if applicable, the call hierarchy.
 
 .. toctree::
-
-   01_02_frodokem
