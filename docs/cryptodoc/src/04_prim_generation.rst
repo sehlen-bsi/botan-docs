@@ -375,7 +375,7 @@ The function ``generate_rsa_prime()`` operates as follows:
       -  Do a single Miller-Rabin iteration (for performance reasons)
          before checking if the equation
          :math:`\mathit{\gcd}{{({{p - 1},\mathit{coprime}})} = 1}`
-         holds  [#gcd_impl]_. This measure very likely aims at preventing cycle
+         holds [#gcd_impl]_. This measure very likely aims at preventing cycle
          attacks on RSA (which are not practical when long RSA primes are
          used) by limiting the number of fixpoints :math:`m^e=m\bmod{N}`, when passing the RSA
          exponent ``e`` as ``coprime``.

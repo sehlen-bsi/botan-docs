@@ -176,7 +176,7 @@ patches:
     inputs. The OSS-Fuzz project found one such input.
 
     As a permanent fix, Botan now uses the binary GCD algorithm, which does not
-    require constant-time arithmetics on signed intgers and provides a
+    require constant-time arithmetics on signed integers and provides a
     termination assumption that is much easier to reason about.
 
     See :ref:`secinfo/binary_gcd` for further details.
