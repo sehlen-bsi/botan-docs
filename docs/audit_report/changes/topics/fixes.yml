@@ -5,6 +5,11 @@ description: |
   implementation (known as `KyberSlash <https://kyberslash.cr.yp.to/>`_). See
   Section :ref:`secinfo/kyberslash` for further details.
 
+  It also addresses a potential DoS when decoding parameters of custom elliptic
+  curves with an oversized parameter ``p``. See :ref:`secinfo/oversized_ecc` for
+  further details. And replaces the GCD algorithm to fix an error for certain
+  inputs. See :ref:`secinfo/binary_gcd`.
+
   This release contains improvements for the Boost ASIO TLS stream shipped with
   the library. After we `introduced automated tests using TLS Anvil
   <https://github.com/randombit/botan/pull/3651>`_ in the previous audit cycle;
