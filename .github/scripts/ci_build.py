@@ -112,12 +112,13 @@ def determine_flags(target, target_os, target_cc, ccache,
     flags += ['--werror-mode']
 
     enable_modules = []
-    enable_modules += ['tls12','tls13','tls_cbc']
+    enable_modules += ['tls12','tls13','tls13_pqc','tls_cbc']
     enable_modules += ['pkcs11']
     enable_modules += ['xts']
     enable_modules += ['kyber','kyber_90s']
     enable_modules += ['dilithium','dilithium_aes']
     enable_modules += ['sphincsplus_sha2','sphincsplus_shake']
+    enable_modules += ['frodokem','frodokem_aes']
     flags += ['--module-policy=bsi', '--enable-modules=%s' % ','.join(enable_modules)]
 
     if target in ['pdf_docs']:
