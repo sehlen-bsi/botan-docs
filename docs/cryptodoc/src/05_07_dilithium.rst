@@ -8,7 +8,8 @@ Dilithium
 Key Generation
 --------------
 
-Botan's implementation of the CRYSTALS-Dilithium signature algorithm is based on the NIST round 3 specification [Dilithium-R3]_.
+Botan's implementation of the CRYSTALS-Dilithium signature algorithm is based on the NIST round 3 specification [Dilithium-R3]_ and
+can be found in :srcref:`src/lib/pubkey/dilithium`.
 The parameter sets shown in Table :ref:`Supported Dilithium signature algorithms <pubkey_key_generation/dilithium/parameter_table>` are supported.
 
 .. _pubkey_key_generation/dilithium/parameter_table:
@@ -50,21 +51,21 @@ An overview of the components is provided in Table :ref:`Dilithium components an
 
 .. table::  Dilithium components and file locations.
 
-   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Component                                                                         | File                                                                                 | Purpose                                                                                                                                                                                |
-   +===================================================================================+======================================================================================+========================================================================================================================================================================================+
-   | :ref:`Modes <pubkey_key_generation/dilithium/modes>`                              | :srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium.h`                      | Provide parameters and primitives                                                                                                                                                      |
-   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`Constants and Symmetric Primitives <pubkey_key_generation/dilithium/modes>` | :srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium_symmetric_primitives.h` | Constants and primitives interface                                                                                                                                                     |
-   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`Modern Variant <pubkey_key_generation/dilithium/modes>`                     | :srcref:`src/lib/pubkey/dilithium/dilithium`                                         | "Modern" instantiations of primitives                                                                                                                                                  |
-   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`AES Variant <pubkey_key_generation/dilithium/modes>`                        | :srcref:`src/lib/pubkey/dilithium/dilithium_aes`                                     | "AES" instantiations of primitives                                                                                                                                                     |
-   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`Polynomial Operations <pubkey_key_generation/dilithium/polynomials>`        | :srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium_polynomials.h`          | Polynomials and operations on them                                                                                                                                                     |
-   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Dilithium                                                                         | :srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium.h`                      | Dilithium :ref:`Keys <pubkey_key_generation/dilithium/keys>`, :ref:`Signature Creation <pubkey_signature/dilithium/sig>`, :ref:`Signature Validation <pubkey_signature/dilithium/val>` |
-   +-----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   +-----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Component                                                                         | File                                                                                   | Purpose                                                                                                                                                                                |
+   +===================================================================================+========================================================================================+========================================================================================================================================================================================+
+   | :ref:`Modes <pubkey_key_generation/dilithium/modes>`                              | :srcref:`[src/lib/pubkey/dilithium]/dilithium_common/dilithium.h`                      | Provide parameters and primitives                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Constants and Symmetric Primitives <pubkey_key_generation/dilithium/modes>` | :srcref:`[src/lib/pubkey/dilithium]/dilithium_common/dilithium_symmetric_primitives.h` | Constants and primitives interface                                                                                                                                                     |
+   +-----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Modern Variant <pubkey_key_generation/dilithium/modes>`                     | :srcref:`[src/lib/pubkey/dilithium]/dilithium`                                         | "Modern" instantiations of primitives                                                                                                                                                  |
+   +-----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`AES Variant <pubkey_key_generation/dilithium/modes>`                        | :srcref:`[src/lib/pubkey/dilithium]/dilithium_aes`                                     | "AES" instantiations of primitives                                                                                                                                                     |
+   +-----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Polynomial Operations <pubkey_key_generation/dilithium/polynomials>`        | :srcref:`[src/lib/pubkey/dilithium]/dilithium_common/dilithium_polynomials.h`          | Polynomials and operations on them                                                                                                                                                     |
+   +-----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Dilithium                                                                         | :srcref:`[src/lib/pubkey/dilithium]/dilithium_common/dilithium.h`                      | Dilithium :ref:`Keys <pubkey_key_generation/dilithium/keys>`, :ref:`Signature Creation <pubkey_signature/dilithium/sig>`, :ref:`Signature Validation <pubkey_signature/dilithium/val>` |
+   +-----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 .. _pubkey_key_generation/dilithium/modes:
 
@@ -110,7 +111,7 @@ It also contains the seed ``key``, the vectors ``s1`` and ``s2``, and the value 
 The keys use a helper function ``calculate_t0_and_t1`` to compute :math:`(\mathbf{t_1},\mathbf{t_0})` based on the public key seed ``rho`` and private vectors ``s1, s2``, i.e., realizing L. 3, L.5, and L. 6, Fig. 4, [Dilithium-R3]_.
 Furthermore, encoding and decoding of keys and signatures are provided via the key classes.
 
-The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of [Dilithium-R3]_ and works as follows:
+The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of [Dilithium-R3]_ and works as follows (see :srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium.cpp:567|Dilithium_PrivateKey`):
 
 .. admonition:: Dilithium_PrivateKey::Dilithium_PrivateKey()
 
@@ -147,7 +148,7 @@ Signature Creation
 ------------------
 
 CRYSTALS-Dilithium signing follows the :math:`\mathsf{Sign}` algorithm of Figure 4 of [Dilithium-R3]_. It uses some functions already documented in :ref:`Dilithium Key Generation <pubkey_key_generation/dilithium>`.
-It is implemented in the ``Dilithium_Signature_Operation`` class and receives the secret key via the constructor.
+It is implemented in the ``Dilithium_Signature_Operation`` (see :srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium.cpp:263|sign`) class and receives the secret key via the constructor.
 Message bytes are given to the object via consecutive calls of ``Dilithium_Signature_Operation::update``.
 
 The signature generation process works as follows:
@@ -205,7 +206,7 @@ Signature Validation
 --------------------
 
 The signature validation follows the :math:`\mathsf{Verify}` algorithm of Figure 4 of [Dilithium-R3]_. It is
-implemented in the ``Dilithium_Verification_Operation`` class, which receives the public key via the constructor.
+implemented in the ``Dilithium_Verification_Operation`` class (see :srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium.cpp:440|is_valid_signature`), which receives the public key via the constructor.
 Message bytes are given to the object via consecutive calls of ``Dilithium_Verification_Operation::update``.
 
 .. admonition:: Dilithium_Verification_Operation::is_valid_signature()

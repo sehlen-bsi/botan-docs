@@ -25,30 +25,31 @@ operations.
 .. _signatures/sphincsplus/table:
 
 .. table::  SPHINCS\ :sup:`+` logical components and file locations.
+   :widths: 15 25 45 15
 
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   |  Component                                           | File                                                                    | Purpose                                    | Section in [SPX-R3]_         |
-   +======================================================+=========================================================================+============================================+==============================+
-   | :ref:`Types <signatures/sphincsplus/types>`          | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_types.h`      | Strong types                               |                              |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Address <signatures/sphincsplus/address>`      | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_address.h`    | Address representation and manipulation    | 2.7.3                        |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Parameters <signatures/sphincsplus/parameters>`| :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_parameters.h` | Parameter set instantiations               | 7.1                          |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Hashes <signatures/sphincsplus/hashes>`        | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_hash.h`       | All hash functions                         | 7.2                          |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Treehash <signatures/sphincsplus/treehash>`    | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_treehash.h`   | Merkle tree hashing for FORS and hypertree | 4.1.3, 5.3                   |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`FORS <signatures/sphincsplus/fors>`            | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_fors.h`       | FORS signature                             | 5                            |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`WOTS+ <signatures/sphincsplus/wotsplus>`       | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.h`       | WOTS\ :sup:`+` signature                   | 3                            |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`XMSS <signatures/sphincsplus/xmss>`            | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_xmss.h`       | XMSS signature                             | 4.1                          |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Hypertree <signatures/sphincsplus/hypertree>`  | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sp_hypertree.h`  | Hypertree signature                        | 4.2                          |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`SPHINCS+ <signatures/sphincsplus/sphincsplus>` | :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sphincsplus.h`   | SPHINCS\ :sup:`+` signature                | 6                            |
-   +------------------------------------------------------+-------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   |  Component                                           | File                                                                      | Purpose                                    | Section in [SPX-R3]_         |
+   +======================================================+===========================================================================+============================================+==============================+
+   | :ref:`Types <signatures/sphincsplus/types>`          | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_types.h`      | Strong types                               |                              |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   | :ref:`Address <signatures/sphincsplus/address>`      | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_address.h`    | Address representation and manipulation    | 2.7.3                        |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   | :ref:`Parameters <signatures/sphincsplus/parameters>`| :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_parameters.h` | Parameter set instantiations               | 7.1                          |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   | :ref:`Hashes <signatures/sphincsplus/hashes>`        | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_hash.h`       | All hash functions                         | 7.2                          |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   | :ref:`Treehash <signatures/sphincsplus/treehash>`    | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.h`   | Merkle tree hashing for FORS and hypertree | 4.1.3, 5.3                   |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   | :ref:`FORS <signatures/sphincsplus/fors>`            | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_fors.h`       | FORS signature                             | 5                            |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   | :ref:`WOTS+ <signatures/sphincsplus/wotsplus>`       | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_wots.h`       | WOTS\ :sup:`+` signature                   | 3                            |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   | :ref:`XMSS <signatures/sphincsplus/xmss>`            | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_xmss.h`       | XMSS signature                             | 4.1                          |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   | :ref:`Hypertree <signatures/sphincsplus/hypertree>`  | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_hypertree.h`  | Hypertree signature                        | 4.2                          |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
+   | :ref:`SPHINCS+ <signatures/sphincsplus/sphincsplus>` | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.h`   | SPHINCS\ :sup:`+` signature                | 6                            |
+   +------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
 
 .. _signatures/sphincsplus/types:
 
@@ -104,8 +105,8 @@ creation because all calls to the ``T`` and ``PRF`` functions use the public
 seed as input. All underlying hash function members are instantiated in the
 constructor according to Section 7.2 of [SPX-R3]_. The specific child classes
 for the SHA2 and SHAKE modules are given in
-:srcref:`src/lib/pubkey/sphincsplus/sphincsplus_sha2/sp_hash_sha2.h` and
-:srcref:`src/lib/pubkey/sphincsplus/sphincsplus_shake/sp_hash_shake.h`,
+:srcref:`[src/lib/pubkey/sphincsplus]/sphincsplus_sha2/sp_hash_sha2.h` and
+:srcref:`[src/lib/pubkey/sphincsplus]/sphincsplus_shake/sp_hash_shake.h`,
 respectively.
 
 The specification defines three tweaked hash functions that share similarities.
@@ -289,7 +290,7 @@ SPHINCS+ parameter sets <pubkey_key_generation/sphincsplus/params_table>`.
    +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
 
 SPHINCS\ :sup:`+` key generation follows Section 6.2 of [SPX-R3]_ and is
-implemented in :srcref:`src/lib/pubkey/sphincsplus/sphincsplus_common/sphincsplus.cpp`
+implemented in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:248|SphincsPlus_PrivateKey`
 within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
 
 .. admonition:: SPHINCS+ Key Generation
@@ -319,7 +320,7 @@ Signature Creation
 ------------------
 
 A SPHINCS\ :sup:`+` signature is created in the following manner, following
-Algorithm 20 of [SPX-R3]_:
+Algorithm 20 of [SPX-R3]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:289|sign`):
 
 .. admonition:: SPHINCS+ Signature Creation
 
@@ -349,7 +350,7 @@ Signature Validation
 --------------------
 
 A SPHINCS\ :sup:`+` signature is verified in the following manner, following
-Algorithm 21 of [SPX-R3]_:
+Algorithm 21 of [SPX-R3]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:152|is_valid_signature`):
 
 .. admonition:: SPHINCS+ Signature Validation
 
