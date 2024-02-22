@@ -112,3 +112,8 @@ patches:
 - pr: 3900  # https://github.com/randombit/botan/pull/3900
   merge_commit: c788cceb2e3f17cc55f1192cd7637d93b3aaa820
   classification: info
+
+# Use _vartime suffix for bigint_modop and bigint_divop  (@randombit)
+- pr: 3911  # https://github.com/randombit/botan/pull/3911
+  merge_commit: 6e9fdf4a9e7b0627c22b91b2d6032ce90bdbd679
+  classification: info

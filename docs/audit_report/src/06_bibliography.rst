@@ -35,6 +35,14 @@
    Preliminary Standardization Proposal submitted to ISO, 2023,
    https://frodokem.org/files/FrodoKEM-standard_proposal-20230314.pdf
 
+.. [SAFEGCD] Bernstein, Daniel J. and Bo-Yin Yang.
+   “Fast constant-time gcd computation and modular inversion.”
+   IACR Trans. Cryptogr. Hardw. Embed. Syst. 2019 (2019): 340-398.
+
+.. [BINARYGCD] J Stein,
+   "Computational problems associated with Racah algebra,"
+   Journal of Computational Physics, Volume 1, Issue 3, 1967, Pages 397-405
+
 .. [BOTAN_GIT] https://github.com/randombit/botan/tree/0676a3d0a2cc17975053f115da852578556bf50c
 
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser

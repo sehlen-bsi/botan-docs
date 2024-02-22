@@ -269,7 +269,7 @@ The function ``random_prime()`` operates as follows:
          is not a Sophie Germain prime. [#random_prime_sophie_germain]_
       -  If ``coprime`` is bigger than one, do a single Miller-Rabin
          iteration (for performance reasons) before checking if
-         :math:`\mathit{\gcd}{{({{p - 1},\mathit{coprime}})} = 1}`.
+         :math:`\mathit{\gcd}{{({{p - 1},\mathit{coprime}})} = 1}` [#gcd_impl]_.
          As ``coprime`` defaults to 0, this condition is always fulfilled
          if ``coprime`` is not passed.
       -  Conducts Miller-Rabin primality test (function
@@ -375,7 +375,7 @@ The function ``generate_rsa_prime()`` operates as follows:
       -  Do a single Miller-Rabin iteration (for performance reasons)
          before checking if the equation
          :math:`\mathit{\gcd}{{({{p - 1},\mathit{coprime}})} = 1}`
-         holds. This measure very likely aims at preventing cycle
+         holds [#gcd_impl]_. This measure very likely aims at preventing cycle
          attacks on RSA (which are not practical when long RSA primes are
          used) by limiting the number of fixpoints :math:`m^e=m\bmod{N}`, when passing the RSA
          exponent ``e`` as ``coprime``.
@@ -403,3 +403,7 @@ long-term keys. As the default probability for generating keys is only
 128 in Botan, it is required to call the corresponding ``check_key()``
 functions described in section :ref:`pubkey/rsa` with the ``strong``
 parameter set to true on keys that are intended for long-term usage.
+
+.. [#gcd_impl]
+   Botan's GCD implementation uses the "binary GCD" or Stein's algorithm
+   [BINARYGCD]_, with an implementation that is resistant to timing attacks.
