@@ -99,10 +99,20 @@ BLAKE2b
 
 Botan implements the hash function BLAKE2b as defined in [RFC7693]_.
 The implementation is located in :srcref:`src/lib/hash/blake2/blake2b.cpp`.
-BLAKE2s is not supported by Botan.
 
 As defined in [RFC7693]_ Botan's BLAKE2b implementation allows for an arbitrary
 number of up to 64 output bytes with the respective security implications.
 Also, it contains an interface to initialize the hash function with a secret
 key. As described in [RFC7693]_, the key can have an arbitrary size of up to 64
 bytes. It is padded and set as the first input block of the hash function.
+
+BLAKE2s
+-------
+
+Botan implements the hash function BLAKE2s as defined in [RFC7693]_.
+The implementation is located in :srcref:`src/lib/hash/blake2s/blake2s.cpp`.
+
+As defined in [RFC7693]_ Botan's BLAKE2s implementation allows for an arbitrary
+number of up to 32 output bytes with the respective security implications.
+In contrast to BLAKE2b, it does not contain an interface to initialize the hash
+function with a secret key.
