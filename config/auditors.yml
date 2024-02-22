@@ -5,10 +5,6 @@
 auditors:
   - name: Fabian Albert
     github: FAlbertDev
-  - name: René Fischer
-    github: securitykernel
-  - name: Philippe Lieser
-    github: lieser
   - name: René Meusel
     github: reneme
   - name: Amos Treiber
