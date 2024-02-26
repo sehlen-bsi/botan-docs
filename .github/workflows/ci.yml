@@ -121,6 +121,7 @@ jobs:
           path: ./audit_generator_cache
           key: audit_3.1-${{ github.run_id }}
           restore-keys: audit_3.1
+          save-always: true
 
       - name: Verify Patch Coverage
         working-directory: source/docs/audit_report
@@ -151,13 +152,6 @@ jobs:
         if: always()
         env:
           GITHUB_TOKEN: ${{ github.token }}
-
-      - name: Store Audit Generator Cache on Rate Limit Exceeded
-        uses: actions/cache/save@v4
-        if: ${{ failure() && env.API_RATE_LIMIT_EXCEEDED == 'true' }}
-        with:
-          path: ./audit_generator_cache
-          key: audit_3.1-${{ github.run_id }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
