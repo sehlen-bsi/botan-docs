@@ -1,0 +1,13 @@
+title: Fixes
+
+patches:
+# FIX: arm64 amalgamations + better CI coverage  (@reneme)
+- pr: 3931  # https://github.com/randombit/botan/pull/3931
+  merge_commit: f03c6a945972cb9c7e6ced58d0be9cbdf1ba3d3e
+  classification: info
+
+# Fix build using clang/libc++/winpthread on Windows.  (@solemnwarning)
+- pr: 3934  # https://github.com/randombit/botan/pull/3934
+  merge_commit: 00a92b68587f3a83f88f821e805dab3c54610000
+  classification: info
+  auditer: reneme
