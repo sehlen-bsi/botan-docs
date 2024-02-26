@@ -5,7 +5,6 @@ import logging
 import os
 import sys
 import re
-import subprocess
 
 import github
 
@@ -36,7 +35,10 @@ def update_uncategorized_patches(audit: genaudit.Audit, repo: genaudit.GitRepo, 
     if not unrefed_patches:
         return False
 
-    with open(audit.get_topic_file_path(topic_file), 'a', encoding="utf-8") as unrefed_topic:
+    target_topic_file = audit.get_topic_file_path(topic_file)
+    os.makedirs(os.path.dirname(target_topic_file), exist_ok=True)
+
+    with open(target_topic_file, 'a', encoding="utf-8") as unrefed_topic:
         if unrefed_topic.tell() == 0:
             # if the file was just created, we have to add a preamble
             unrefed_topic.write('\n'.join([
