@@ -4,6 +4,7 @@ on:
   schedule:
     # runs every day at 3:23 AM UTC
     - cron:  '23 3 * * *'
+  workflow_dispatch:
 
 jobs:
   audit_update:
