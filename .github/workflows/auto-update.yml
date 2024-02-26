@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Fetch Audit Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./source
           fetch-depth: 0
@@ -32,14 +32,14 @@ jobs:
           env_file: ./source/config/botan.env
 
       - name: Fetch Botan Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./botan
           repository: ${{ env.BOTAN_REPO }}
           fetch-depth: 0
 
       - name: Handle the Audit Generator Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ./auditupdate_cache
           key: auditupdate_3.1-${{ github.run_id }}

@@ -30,7 +30,7 @@ jobs:
       run:
         working-directory: ${{matrix.element.dir }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Environment Configuration
         uses: ./.github/actions/setup-environment
@@ -47,7 +47,7 @@ jobs:
         run: poetry run make latexpdf
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.element.out_name }}
           path: ${{ matrix.element.dir }}/_build/latex/${{ matrix.element.out_name }}-*.pdf
@@ -67,7 +67,7 @@ jobs:
       run:
         working-directory: ${{matrix.element.dir }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Environment Configuration
         uses: ./.github/actions/setup-environment
@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Fetch Audit Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./source
 
@@ -99,7 +99,7 @@ jobs:
           env_file: ./source/config/botan.env
 
       - name: Fetch Botan Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./botan
           repository: ${{ env.BOTAN_REPO }}
@@ -116,7 +116,7 @@ jobs:
         run: gpg --trusted-key 4AEE18F83AFDEB23 --import source/.github/resources/web-flow.gpg
 
       - name: Handle the Audit Generator Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ./audit_generator_cache
           key: audit_3.1-${{ github.run_id }}
@@ -153,14 +153,14 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Store Audit Generator Cache on Rate Limit Exceeded
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         if: ${{ failure() && env.API_RATE_LIMIT_EXCEEDED == 'true' }}
         with:
           path: ./audit_generator_cache
           key: audit_3.1-${{ github.run_id }}
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: audit_report
           path: source/docs/audit_report/_build/latex/*.pdf
@@ -188,7 +188,7 @@ jobs:
     runs-on: ${{ matrix.host_os }}
     steps:
       - name: Fetch Audit Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./source
 
@@ -198,7 +198,7 @@ jobs:
           env_file: ./source/config/botan.env
 
       - name: Fetch Botan Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./botan
           repository: ${{ env.BOTAN_REPO }}
@@ -218,7 +218,7 @@ jobs:
           ${{ matrix.target }}
 
       - name: Archive Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
           path: ${{ matrix.artifacts }}
@@ -243,7 +243,7 @@ jobs:
 
     steps:
       - name: Fetch Audit Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./source
 
@@ -253,7 +253,7 @@ jobs:
           env_file: ./source/config/botan.env
 
       - name: Fetch Botan Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./botan
           repository: ${{ env.BOTAN_REPO }}
@@ -275,7 +275,7 @@ jobs:
           ${{ matrix.target }}
 
       - name: Store JUnit Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: junit
@@ -291,7 +291,7 @@ jobs:
       run:
         working-directory: docs/testreport
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Environment Configuration
         uses: ./.github/actions/setup-environment
@@ -299,7 +299,7 @@ jobs:
           env_file: ./config/botan.env
 
       - name: Fetch JUnit Reports
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: junit
           path: ${{ github.workspace }}/junit_reports
@@ -316,7 +316,7 @@ jobs:
           TEST_REPORT_JUNIT_INPUT_DIRECTORY: ${{ github.workspace }}/junit_reports
 
       - name: Store Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: testreport
           path: docs/testreport/_build/latex/testreport-*.pdf
@@ -327,7 +327,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch Audit Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./source
 
@@ -337,7 +337,7 @@ jobs:
           env_file: ./source/config/botan.env
 
       - name: Fetch Botan Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./botan
           repository: ${{ env.BOTAN_REPO }}
@@ -348,7 +348,7 @@ jobs:
         run: python3 ${{ github.workspace }}/source/.github/scripts/tarball.py --output-dir build --source-dir botan
 
       - name: Archive Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: source
           path: build/*.zip
@@ -365,7 +365,7 @@ jobs:
 
     steps:
       - name: Fetch Audit Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ./source
 
@@ -375,7 +375,7 @@ jobs:
           env_file: ./source/config/botan.env
 
       - name: Fetch Botan Documentation
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: documentation
           path: staging/botandocs
@@ -388,55 +388,55 @@ jobs:
           cp staging/botandocs/handbook/*.pdf 'final/Handbuch'
 
       - name: Fetch Architecture
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: architecture
           path: final/Architecture
 
       - name: Fetch Audit Method
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: audit_method
           path: final/Audit
 
       - name: Fetch Audit Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: audit_report
           path: final/Audit
 
       - name: Fetch Coverage Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: coverage
           path: final/Coverage Report
 
       - name: Fetch Cryptographic Documentation
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cryptodoc
           path: final/Kryptodoc
 
       - name: Fetch Source Code
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: source
           path: final/Source Code
 
       - name: Fetch Test Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: testreport
           path: final/Test Report
 
       - name: Fetch Testspezifikation
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: testspec
           path: final/Testspezifikation
 
       - name: Upload Bundled Submission Documents
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Submission Bundle for Botan ${{ env.BOTAN_VERSION }}
           path: final/*
