@@ -35,7 +35,7 @@ The parameter sets shown in the tables below are supported.
    | :math:`len_{salt}`   | 256                      | 384                     | 512                      |
    +----------------------+--------------------------+-------------------------+--------------------------+
 
-.. table::  Supported eFrodoKEM parameter sets (see Tables A.1 and A.2 of [FrodoKEM-ISO]_). Note that these are ephemeral modes of the algorithm and the public key may not be used more than once. ``<DRBG>`` can either be ``AES`` or ``SHAKE``, depending on whether AES-128 or SHAKE-128 is used for expanding the seed for the matrix :math:`A`.
+.. table::  Supported eFrodoKEM parameter sets (see Tables A.1 and A.2 of [FrodoKEM-ISO]_). Note that the eFrodoKEM variant should only be used in an ephemeral setting (where the public key is used only a few times). ``<DRBG>`` can either be ``AES`` or ``SHAKE``, depending on whether AES-128 or SHAKE-128 is used for expanding the seed for the matrix :math:`A`.
 
    +----------------------+--------------------------+--------------------------+---------------------------+
    | ``FrodoKEMMode``     | ``eFrodoKEM-640-<DRBG>`` | ``eFrodoKEM-976-<DRBG>`` | ``eFrodoKEM-1344-<DRBG>`` |
