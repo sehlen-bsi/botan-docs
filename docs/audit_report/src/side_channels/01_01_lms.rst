@@ -24,7 +24,7 @@ This function is part of the Winternitz One-Time Signature (WOTS) procedure.
 The WOTS procedure is based on the use of hash chains with a defined length.
 Using the private WOTS key, the initial values of the hash chain are calculated.
 These values are the private keys of the hash chains.
-The public keys of these hash chains are calculated by calculating the hash chain to the defined end.
+The public keys of these hash chains are obtained by computing the hash chain to the defined end.
 These public keys of the hash chains are used in a further calculation step to calculate the WOTS public key.
 To create a signature, the hash of a message and an additional checksum are split into individual parts, so-called chunks.
 Each chunk is signed by a hash chain.
