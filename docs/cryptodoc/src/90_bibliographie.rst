@@ -28,20 +28,27 @@
 
 .. [CBits] Daniel J. Bernstein:
    "Verified fast formulas for control bits for permutation networks",
+   Cryptology ePrint Archive, Paper 2020/1493,
    2020
 
 .. [CCM] U.S. DEPARTMENT OF COMMERCE/National Institute of Standards and Technology:
    "Recommendation for Block Cipher Modes of Operation: The CCM Mode for Authentication and Confidentiality",
    July 2007
 
-.. [CMCE-ISO] ISO Draft (2023):
-   Information security — Encryption algorithms — Part 1978:
-   Classic McEliece
+.. [CMCE-ISO] Martin R. Albrecht, Daniel J. Bernstein, Tung Chou, Carlos Cid, Jan Gilcher, Tanja Lange, Varun Maram, Ingo von Maurich, Rafael Misoczki, Ruben Niederhagen, Kenneth G. Paterson, Edoardo Persichetti, Christiane Peters, Peter Schwabe, Nicolas Sendrier, Jakub Szefer, Cen Jung Tjhai, Martin Tomlinson, Wen Wang:
+   Information security — Encryption algorithms — Part 1978",
+   Preliminary Standardization Proposal submitted to ISO, 2023,
+   https://classic.mceliece.org/iso-mceliece-20230419.pdf
 
 .. [CMCE-R4] Martin R. Albrecht, Daniel J. Bernstein, Tung Chou, Carlos Cid, Jan Gilcher, Tanja Lange, Varun Maram, Ingo von Maurich, Rafael Misoczki, Ruben Niederhagen, Kenneth G. Paterson, Edoardo Persichetti, Christiane Peters, Peter Schwabe, Nicolas Sendrier, Jakub Szefer, Cen Jung Tjhai, Martin Tomlinson, Wen Wang:
    "Classic McEliece: Conservative Code-Based Cryptography: Cryptosystem Specification",
    NIST PQC Challenge Round 4 Submission, 2022,
    https://classic.mceliece.org/mceliece-spec-20221023.pdf
+
+.. [CMCE-IMPL] Martin R. Albrecht, Daniel J. Bernstein, Tung Chou, Carlos Cid, Jan Gilcher, Tanja Lange, Varun Maram, Ingo von Maurich, Rafael Misoczki, Ruben Niederhagen, Kenneth G. Paterson, Edoardo Persichetti, Christiane Peters, Peter Schwabe, Nicolas Sendrier, Jakub Szefer, Cen Jung Tjhai, Martin Tomlinson, Wen Wang:
+   "Classic McEliece: Conservative Code-Based Cryptography: Guide for Implementors",
+   NIST PQC Challenge Round 4 Submission, 2022,
+   https://classic.mceliece.org/mceliece-impl-20221023.pdf
 
 .. [Dilithium-R3] S. Bai, L. Ducas, E. Kiltz, T. Lepoint, V. Lyubashevsky, P. Schwabe, G. Seiler, D. Stehlé:
    "CRYSTALS-Dilithium Algorithm Specifications and Supporting Documentation (Version 3.1)",
@@ -152,7 +159,8 @@
 
 .. [McBits] Daniel J. Bernstein, Tung Chou, Peter Schwabe:
    "McBits: fast constant-time code-based cryptography",
-   2015
+   Cryptology ePrint Archive, Paper 2015/610,
+   CHES 2013
 
 .. [NIST-OMAC] National Institute of Standards and Technology.
    OMAC: One-Key CBC MAC — Addendum.

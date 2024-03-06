@@ -6,7 +6,7 @@ Classic McEliece
 Botan implements the Classic McEliece Key Encapsulation Mechanism (KEM) as defined in the
 Round 4 NIST submission [CMCE-R4]_ and the ClassicMcEliece ISO Draft [CMCE-ISO]_. It
 supports all parameter sets defined in both documents, listed
-in Table :ref:`Supported Classic McEliece Parameter Sets <pubkey/cmce/parameter_table>`.
+in Table :ref:`Supported Classic McEliece parameter sets <pubkey/cmce/parameter_table>`.
 
 .. _pubkey/cmce/parameter_table:
 
@@ -65,11 +65,11 @@ in the following sections.
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
    | :ref:`Matrix Operations <pubkey/cmce/matrix>`          | :srcref:`[src/lib/pubkey/classic_mceliece]/cmce_matrix.h`        | Binary matrix data structure, creation, and systematic form transformation |
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
-   | :ref:`Key Pair <pubkey/cmce/keys_internal>`            | :srcref:`[src/lib/pubkey/classic_mceliece]/cmce_keys_internal.h` | Key pair container and key generation                                      |
+   | :ref:`Key Pair <pubkey/cmce/keys_internal>`            | :srcref:`[src/lib/pubkey/classic_mceliece]/cmce_keys_internal.h` | Internal key pair container and key generation                             |
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
    | :ref:`Key Encapsulation <pubkey/cmce/encaps_internal>` | :srcref:`[src/lib/pubkey/classic_mceliece]/cmce_encaps.h`        | Encapsulation logic                                                        |
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
-   | :ref:`Key Decapsulation <pubkey/cmce/decaps_internal>` | :srcref:`[src/lib/pubkey/classic_mceliece]/cmce_decaps.h`        | Decapsulation logic, including Berlekamp's algorithm                       |
+   | :ref:`Key Decapsulation <pubkey/cmce/decaps_internal>` | :srcref:`[src/lib/pubkey/classic_mceliece]/cmce_decaps.h`        | Decapsulation and decoding                                                 |
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
    | :ref:`Parameter Set <pubkey/cmce/params>`              | :srcref:`[src/lib/pubkey/classic_mceliece]/cmce_parameter_set.h` | Parameter set enum, parsing, and serialization                             |
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
@@ -91,7 +91,7 @@ Classic McEliece, such as multiple types of seeds, random byte sequences for dif
 algorithms, and bit-vectors with different semantic contexts. Specific integers,
 like raw Galois Field elements and their modulus, are
 also represented as strong types. This reliance on strong types is similar to using them
-in :ref:`SPHINCS+ <signatures/sphincsplus/types>` for
+in other PQC algorithms for
 similar reasons. The Classic McEliece implementation enhances readability,
 clarity, and reliability by employing strong types.
 
@@ -102,20 +102,22 @@ Galois Field Arithmetic
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 The Goppa code is based on the Galois field (GF) :math:`\mathbb{F}_{q}`, where :math:`q=2^m`.
-To represent GF elements, we utilize the class ``Classic_McEliece_GF``. Each
+Corresponding GF elements are represented by :math:`\mathbb{F}_{2}[z]/f(z)`,
+which in Botan's implementation is realized via the class ``Classic_McEliece_GF``. Each
 element is defined by two polynomials: one defines its value, and the other
-defines the modulus of the field. These values are represented as unsigned
-integers. For example, the element :math:`z^3+z+1` is represented by the unsigned
-integer ``0b1011``.
+defines the modulus of the field (:math:`f` in [CMCE-ISO]_). These values are
+represented as unsigned integers where the bit on position :math:`i` is set if the
+:math:`i`-th coefficient is 1. For example, the element :math:`z^3+z+1` is represented by
+the unsigned integer ``0b1011``.
 
 The GF elements support various operations such as addition, multiplication,
 and inversion. These operations are implemented in constant time for operands
 within the same field. Multiplication is performed using a constant-time
-schoolbook multiplication algorithm with a consecutive constant-time reduction.
-Inversion is achieved using Fermat's little theorem: :math:`a^{-1} = a^{q-2}`.
+long multiplication algorithm with a consecutive constant-time reduction.
+Inversion of an element :math:`a` is achieved using Fermat's little theorem:
+:math:`a^{-1} = a^{q-2}`.
 For that, exponentiation is implemented using a simple square-and-multiply
-algorithm. It is worth noting that square-and-multiply has no timing
-side-channel vulnerabilities since the exponent remains constant for each field.
+algorithm.
 
 .. _pubkey/cmce/field_ordering:
 
@@ -130,14 +132,18 @@ code. Botan's ``Classic_McEliece_Field_Ordering`` serves as a container for the
 field ordering and includes the algorithm to generate it. To sort the pairs
 :math:`(a_i, i)` (as described in Step 3 of Section 8.2 in [CMCE-ISO]_), a
 constant-time bitonic sort implementation is utilized. This sorting algorithm is
-particularly suitable for sets with a power of two elements.
+particularly suitable for sets with a power of two elements. The sorted
+:math:`a_i` are then transformed into elements from :math:`\mathbb{F}_{q}` as
+described in the final Steps 4-6 of Section 8.2 in [CMCE-ISO]_. The class
+stores the resulting elements :math:`\alpha_0,...,\alpha_{q-1}` and provides
+accessors.
 
 Another vital role of the field ordering class is managing the Beneš network.
 As Section 9.2.10 of [CMCE-ISO]_ outlines, the Beneš network stores the field
 ordering as control bits in a compact form. Botan employs
 a constant-time implementation of the ``controlbits`` algorithm presented in
-Fig. 7.1 of [CBits]_ to create control bits, and the ``permutation`` algorithm
-to reconstruct the field ordering from the control bits. The creation
+Fig. 7.1 of [CBits]_ to create control bits and the ``permutation`` algorithm
+to reconstruct the field ordering from given control bits. The creation
 algorithm also utilizes constant-time bitonic sorting.
 
 
@@ -146,29 +152,34 @@ algorithm also utilizes constant-time bitonic sorting.
 Polynomial Arithmetic
 ^^^^^^^^^^^^^^^^^^^^^
 
-The Classic McEliece algorithm uses elements in the polynomial ring
-:math:`\mathbb{F}_q [y]` in multiple places. The monic irreducible
-polynomial defines the Goppa code, and performing decapsulation requires an
-error locator polynomial. Botan's ``Classic_McEliece_Poly`` class is designed
-to represent these polynomials. It consists of a vector of GF elements, which
-serve as the polynomial coefficients. Additionally, this class provides
-the necessary logic to evaluate the polynomial at a given point in
-:math:`\mathbb{F}_q`.
+The Classic McEliece algorithm uses elements of the polynomial ring
+:math:`\mathbb{F}_q [y]` in multiple places, which are represented as
+elements in :math:`\mathbb{F}_q [y] / F(y)`. Botan's
+``Classic_McEliece_Polynomial`` class is used for this purpose.
+One key application of this class is creating and representing
+the irreducible polynomial :math:`g` for the Goppa code. Additionally, it is
+used to represent the error locator polynomial used in the decapsulation process.
+
+Internally, the polynomial class is composed of a vector of
+``Classic_McEliece_GF`` elements, which act as the polynomial coefficients.
+Also, the necessary functionality is provided to evaluate a
+polynomial at a given point in :math:`\mathbb{F}_q`.
 
 Polynomial arithmetic is required to obtain the monic irreducible polynomial
-:math:`g` from a random element :math:`\beta \in \mathbb{F}_{q} [y]/F(y)`, as
+:math:`g` from a random seed, as
 described in Step 3 of Section 8.1 in [CMCE-ISO]_. This arithmetic
 is implemented in the ``Classic_McEliece_Polynomial_Ring`` class, representing
 the polynomial ring :math:`\mathbb{F}_{q} [y]/F(y)` and supporting the
-multiplication of two polynomials.
+multiplication of two ``Classic_McEliece_Poly`` polynomials.
 
-Following the recommendation in the implementors' guide Section 6.1 that
-accompanies [CMCE-R4]_, the minimal polynomial is computed by finding a unique
+Following the recommendation of [CMCE-IMPL]_ Section 6.1,
+the minimal polynomial is computed by finding a unique
 solution to the equation :math:`g_0\beta^0 + ... + g_{t-1}\beta^{t-1} = \beta^t`.
-A constant-time Gauss elimination algorithm is used to solve this equation.
+A constant-time Gaussian elimination algorithm is used to solve this equation.
 The algorithm aborts if the solution is non-unique. The minimal polynomial
 is then represented as a ``Classic_McEliece_Minimal_Polynomial`` object, which
-includes logic for serialization and deserialization as described in
+is a corresponding `Classic_McEliece_Polynomial` with additional logic
+for serialization and deserialization as described in
 Section 9.2.9 of [CMCE-ISO]_.
 
 
@@ -178,9 +189,11 @@ Bit Vector Arithmetic
 ^^^^^^^^^^^^^^^^^^^^^
 
 Botan's ``bitvector`` class is a versatile tool for working with bits.
-One such application is the Classic McEliece algorithm, where it handles
-binary matrices, error vectors, code words, and the column selections in the private
-key. The ``bitvector`` class provides a range of useful methods for these tasks.
+It is intended to be a general component for handling bit vectors in various
+cryptographic contexts.
+In the context of Classic McEliece, it was introduced to handle
+binary matrices, error vectors, code words, and column selections.
+The ``bitvector`` class provides a range of useful methods for these tasks.
 
 A ``bitvector`` can be dynamically initialized with any length. It can be created
 from a vector of bytes and serialized back to it, as described in Section 9.2.1
@@ -193,12 +206,12 @@ Furthermore, the ``bitvector`` class supports binary operations between two vect
 of the same length, including AND, OR, and XOR. These operations are optimized
 for performance, especially in the context of Classic McEliece.
 
-The design of the ``bitvector`` class prioritizes constant times, particularly
-for Classic McEliece. The time taken for bit accesses and manipulations depends
+The design of the ``bitvector`` class supports many side-channel resistant
+operations. The time taken for bit accesses and manipulations depends
 only on the bit's position, not its value. Operations between two vectors
-are also constant-time when the operands have the same length. The timing of
-helper functions, such as the Hamming weight, is also implemented with
-constant time in mind.
+are also constant-time when the operands have the same length. Other helper
+functions used in Classic McEliece, such as Hamming weight computation, are
+also available with side-channel protection.
 
 
 .. _pubkey/cmce/matrix:
@@ -223,22 +236,22 @@ the public key specified in Section 9.2.7 of [CMCE-ISO]_.
 
 Classic McEliece instances with the suffix ``f`` employ a semi-systematic transformation
 strategy, utilizing the parameters :math:`(\mu, \nu) = (32, 64)`, as described
-in Section 7.2.3 of [CMCE-ISO]_. Following the recommendation in Section 6.1 of
-the implementation guide accompanying [CMCE-R4]_, a Gauss algorithm is executed
+in Section 7.2.3 of [CMCE-ISO]_. Following the recommendation of [CMCE-IMPL]_
+Section 6.1, a Gauss algorithm is executed
 to create an identity matrix for the first :math:`mt-\mu` rows. Subsequently, a
 modified Gauss algorithm achieves a reduced row-echelon form for
 the :math:`\mu \times \nu` submatrix at position :math:`(\mu, \mu)`.
 This process determines the column selection, i.e., the indices of the non-zero
-columns. As Section 7.2.3 Step 5 of [CMCE-ISO]_ outlines, the matrix's
+columns. As Section 7.2.3 Step 5 of [CMCE-ISO]_ outlines, the matrix
 columns and the field ordering are permuted according to the pivots. The main
 Gauss algorithm concludes at this point, leaving the matrix in its modified
 and systematic form.
 
-For encapsulation, the matrix :math:`H` is multiplied by an error vector
-:math:`e`. This multiplication is performed by computing the parity of the
-Hamming weight of :math:`e\ \textrm{XOR}\ r` for each row :math:`r` of :math:`H`.
-Matrix creation and multiplication are implemented in constant time for matrices
-with fixed dimensions.
+For encoding, the matrix :math:`H` is multiplied by an error vector
+:math:`e` as specified in Section 7.3 of [CMCE-ISO]_. This multiplication is
+performed by computing the parity of the
+Hamming weight of :math:`e\ \oplus\ r` for each row :math:`r` of :math:`H`.
+Matrix creation and multiplication are implemented in constant time.
 
 
 .. _pubkey/cmce/keys_internal:
@@ -250,12 +263,12 @@ Botan's key pair for Classic McEliece consists of two classes:
 ``Classic_McEliece_PrivateKeyInternal`` and ``Classic_McEliece_PublicKeyInternal``.
 As defined in Section 9.2.12, the private key stores the key generation seed,
 column selection, monic irreducible polynomial, field ordering control bits,
-and the seed for implicit rejection. On the other hand, the public key
+and the seed for implicit rejection. The public key
 contains the sub-matrix :math:`T` of the binary parity check matrix
 :math:`H = (I_{mt}|T)`.
 
 The class ``Classic_McEliece_KeyPair_Internal`` holds both the private and public
-keys and contains key generation method. Details are discussed in Section
+keys and contains the key generation method. Details are discussed in Section
 :ref:`Key Generation <pubkey/cmce/key_gen>`.
 
 
@@ -271,15 +284,11 @@ Fixed weight vector creation and error vector encoding.
 The algorithm described in Section 8.4 of [CMCE-ISO]_ is followed to create a
 fixed weight error vector. Random elements :math:`d_0,...,d_{\tau-1}` are
 generated, where the first :math:`t` elements smaller than :math:`n` are selected as
-:math:`a_0,...,a_{t-1}`. It is important to note that selecting
-:math:`d_i` elements for :math:`a_j` elements may leak through timing
-side-channels. However, the content of these elements remains undisclosed,
-preventing attackers from gaining helpful information from this side channel.
-
-Next, all possible pairs are compared to ensure that all elements of
-:math:`a_0,...,a_{t-1}` are distinct. Finally, a binary error vector :math:`e`
-is created with set bits at the locations of :math:`a_0,...,a_{t-1}`. This
-creation process also considers constant times.
+:math:`a_0,...,a_{t-1}`. Note that side-channels may leak the information about which
+:math:`d_i` element is assigned to which :math:`a_j` element. However, this information
+is insensitive since the contents of :math:`a_i` elements are not disclosed.
+The selected values are translated to an error vector :math:`e` in constant time,
+as described in Section 8.4 Step 5 of [CMCE-ISO]_.
 
 For encoding, the parity check matrix :math:`H` is multiplied with :math:`e` as
 Section :ref:`Matrix Operations <pubkey/cmce/matrix>` describes. The
@@ -296,34 +305,35 @@ The class ``Classic_McEliece_Decryptor`` in Botan is responsible for
 key decapsulation. One of the crucial steps in the decapsulation algorithm of
 Classic McEliece is the decoding subroutine described in Section 7.4 of
 [CMCE-ISO]_. This subroutine is implemented based on the recommendations
-provided in [McBits]_. The decoding process utilizes Berlekamp's algorithm for
-Goppa decoding.
+provided in Section 6 of [McBits]_. It utilizes Berlekamp's
+algorithm for Goppa decoding.
 
 To begin with, the code word :math:`C` that needs to be decoded is extended by
-appending zeros. This results in a binary vector :math:`\nu = (C,0,\dots,0) \in \mathbb{F}_2^{n}`,
-as Section 7.2 Step 1 of [CMCE-ISO]_ defines. Subsequently, the syndrome for
-Berlekamp's method is computed from :math:`\nu`. The syndrome is a vector given by
-:math:`\left( \sum\nolimits_{i} \frac{\nu_i\alpha_i^0}{g(\alpha_i)^2},\dots,\sum\nolimits_{i} \frac{\nu_i\alpha_i^{n-1}}{g(\alpha_i)^2} \right)`,
+appending zeros. This results in a binary vector :math:`v = (C,0,\dots,0) \in \mathbb{F}_2^{n}`,
+as Step 1 of Section 7.2 of [CMCE-ISO]_ defines. Subsequently, the syndrome for
+Berlekamp's method is computed from :math:`v`. The syndrome is a vector given by
+:math:`\left( \sum\nolimits_{i} \frac{v_i\alpha_i^0}{g(\alpha_i)^2},\dots,\sum\nolimits_{i} \frac{v_i\alpha_i^{n-1}}{g(\alpha_i)^2} \right)`,
 where :math:`\alpha_i` are the first :math:`n` field ordering elements and
 :math:`g` is the Goppa polynomial.
 
-Next, the error locator polynomial :math:`\sigma` is computed using the
+Next, an error locator polynomial :math:`\sigma` is computed using the
 Berlekamp-Massey algorithm on the syndrome. The resulting polynomial has a
-particular property concerning the error vector :math:`e` we search for.
+particular property that allows deriving the error vector :math:`e`.
 Specifically, :math:`\sigma(\alpha_i) = 0` if and only if
 :math:`e_i = 1`. By evaluating :math:`\sigma` at :math:`\alpha_0,\dots,\alpha_{n-1}`,
 we can reconstruct the error vector :math:`e`.
 
-To ensure accurate decoding, Botan follows the recommendation in Section 6.3 of
-the implementation guide of [CMCE-R4]_. It computes the syndrome for the error
-vector :math:`e` and compares it with the syndrome for :math:`\nu`. If the
+To ensure accurate decoding, Botan follows the recommendation of [CMCE-IMPL]_ Section 6.3.
+It computes the syndrome for the error
+vector :math:`e` and compares it with the syndrome for :math:`v`. If the
 comparison holds and the weight of :math:`e` is equal to :math:`t`, we consider
 the decoding successful. Otherwise, it is flagged as a failure.
 
 It is worth noting that the syndrome computation, Berlekamp-Massey algorithm, and
 locator polynomial evaluation are implemented in constant time. Additionally,
 the checks for the weight of :math:`e` and the syndrome comparison are designed
-to avoid early abortion if any check fails.
+to avoid early abortion if any check fails. This ensures that no information about
+the decoding success leaks.
 
 
 .. _pubkey/cmce/params:
@@ -371,7 +381,7 @@ follows:
    4. | Create a monic irreducible polynomial ``g`` using ``irreducible_bits``
       | On failure, set ``seed = next_seed`` and go to step 2
 
-   5. | Create a parity check matrix in systematic form ``H = (I_mt | T)`` using ``field_ordering`` and ``g``. Meanwhile, compute the column selection ``c``
+   5. | Create a parity check matrix in systematic form ``H = (I_mt | T)`` using ``field_ordering`` and ``g``. During this process, the column selection ``c`` is also computed.
       | On failure, set ``seed = next_seed`` and go to step 2
 
    6. ``SK = {seed, c, g, field_ordering, s}, PK = {T}``
@@ -413,7 +423,7 @@ The Classic McEliece encapsulation procedure of Botan follows Section 8.5 of
    **Steps:**
 
    1. Generate a random error vector ``e`` of weight ``t`` using ``rng``
-   2.  ``c0 = (I_mt | T) * e`` to encode ``e``
+   2.  ``c0 = H * e`` to encode ``e`` where ``H`` is a ``Classic_McEliece_Matrix`` object
    3. Depending on whether the parameter set includes plaintext confirmation (suffix ``pc``):
 
        a. **Without pc:** ``encap_key = c0``
@@ -425,6 +435,11 @@ The Classic McEliece encapsulation procedure of Botan follows Section 8.5 of
 
    - ``Hash`` is an application of ``SHAKE256`` with 32 output bytes as defined
      in Section 9.1 of [CMCE-ISO]_.
+   - The creation of error vectors is a rejection sampling algorithm. For each
+     iteration, the success probability is greater than 24%. To prevent a
+     broken RNG leading to an endless loop, the algorithm is aborted after 203
+     iterations. This value is chosen to ensure that the probability of
+     aborting with a correct RNG is less than :math:`2^{-80}`.
 
 
 .. _pubkey/cmce/decapsulation:
@@ -465,5 +480,5 @@ The Classic McEliece decapsulation procedure of Botan follows Section 8.6 of
 
    - ``Hash`` is an application of ``SHAKE256`` with 32 output bytes as defined
      in Section 9.1 of [CMCE-ISO]_.
-   - The assignments of ``e`` and ``b`` in steps 2 and 3 are implemented using
+   - The failure comparisons and assignments in steps 2 and 3 are implemented using
      Botan's constant-time helper functions to ensure constant-time execution.
