@@ -52,8 +52,6 @@ by means of a C++20 ``consteval`` function. Hence, instead of a potentially
 variable-time division, the compiled runtime code will always perform a
 multiplication (by ``m``) followed by a right-shift (by ``p`` bits), both of which are
 constant-time operations.
-To ensure the correctness of the algorithm and its implementation, we thoroughly
-test the division function with all possible numerators.
 
 .. [#kyber_du_dv]
    The values of :math:`d_u` and :math:`d_v` are not given as ``KyberConstants`` but are rather computed in place based on the value of `k`.
