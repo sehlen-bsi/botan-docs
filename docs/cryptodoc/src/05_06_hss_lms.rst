@@ -4,7 +4,7 @@ HSS/LMS
 =======
 
 Botan implements the Hierarchical Signature System (HSS) with Leighton-Micali
-Hash-Based Signatures (HSS/LMS) as defined in [RFC8554]_ under consideration of
+Hash-Based Signatures (LMS) as defined in [RFC8554]_ under consideration of
 the recommendations of [SP800-208]_. It supports the parameter sets defined in
 [RFC8554]_ and those in [draft-fluhrer-11]_.
 
@@ -12,12 +12,12 @@ Algorithm Internals
 -------------------
 
 The Hierarchical Signature System (HSS) with Leighton-Micali
-Hash-Based Signatures (HSS/LMS) consists of three building blocks.
+Hash-Based Signatures (LMS) consists of multiple components.
 Like most hash-based signature schemes,
 it uses a One-Time Signature (OTS) at its base, named Leighton-Micali OTS
 (LM-OTS). The public keys of multiple LM-OTS instances compose the leaves
-of a Merkle tree. This composition is the basis of the Leighton-Micali Signature (LMS)
-method. The root node of the LMS Merkle tree defines its public key. [RFC8554]_
+of a Merkle tree, called the Leighton-Micali Signature (LMS) tree. The root node of the LMS
+tree defines its public key. [RFC8554]_
 also provides HSS, a hypertree composition of multiple LMS trees, where the leaves
 of LMS trees sign the public keys of subsequent LMS trees.
 Table :ref:`HSS/LMS logical components <pubkey/hss_lms/comp_table>` shows an
@@ -44,15 +44,16 @@ overview of these components and their Botan implementation.
 LM-OTS
 ^^^^^^
 
-LM-OTS is configured with several parameters. The first parameter is the used hash
-function. Botan's implementation only allows one hash function for all
+LM-OTS is configured with several parameters displayed in Table :ref:`Supported LM-OTS parameter sets <pubkey/hss_lms/lm-ots-params>`.
+``Hash`` specifies the hash function used.
+Botan's implementation only allows one hash function for all
 LMS trees and their LM-OTS algorithm (recommended in [RFC8554]_ and [SP800-208]_).
-The width of the Winternitz coefficient ``w`` is the second parameter, defining the
+Another parameter, the width  ``w`` of the Winternitz coefficient, defines the
 time-signature-size-tradeoff of the LM-OTS instance.
-Those first two parameters implicitly define the hash function output size ``n``,
+Those two parameters implicitly define the hash function output size ``n``,
 the number of Winternitz chains ``p``, and the constant ``ls`` used for the
 checksum computation (see [RFC8554]_ Section 4.1.). Botan allows all combinations
-of hash function and ``w`` that are defined in [RFC8554]_ and [draft-fluhrer-11]_ and
+of hash function and ``w`` defined in [RFC8554]_ and [draft-fluhrer-11]_ and
 listed here in Table :ref:`Supported LM-OTS parameter sets <pubkey/hss_lms/lm-ots-params>`.
 
 .. _pubkey/hss_lms/lm-ots-params:
@@ -129,8 +130,8 @@ the computations of the secret chain inputs since the chain index ``i`` will
 never exceed ``0x0108``; in particular, it will not match ``0xfffd``.
 
 A deterministic approach for computing ``C`` is essential since Botan does not store
-the signatures created by upper HSS tree layers in the HSS/LMS private key. Instead,
-it recomputes the intermediate LMS signatures for each new HSS/LMS signature. If ``C``
+the signatures created by upper HSS tree layers in the HSS private key. Instead,
+it recomputes the intermediate LMS signatures for each new HSS signature. If ``C``
 were not deterministic, we would create two different signatures with the same
 (upper tree's) leaf. That would compromise the scheme's security.
 
@@ -143,11 +144,13 @@ a signature-message pair; it implements [RFC8554]_ Algorithm 4b.
 LMS
 ^^^
 
-An LMS tree is a Merkle tree, which is built up by the public keys of multiple
-LM-OTS instances. As with LM-OTS, one parameter for LMS is the hash algorithm.
+An LMS tree is a Merkle tree, which is generated from the public keys of multiple
+LM-OTS instances. The parameters for LMS instances are provided in
+:ref:`Supported LMS parameter sets <pubkey/hss_lms/lms-params>`.
+As with LM-OTS, the parameter ``Hash`` is the hash algorithm used.
 This one is used to compute the parent node using two adjacent child nodes. As
 described in :ref:`Section LM-OTS <pubkey/hss_lms/lm_ots>`, the hash functions
-of LMS and LM-OTS must match. The other
+of LMS and LM-OTS must match. Another
 parameter is the height ``h`` of the LMS tree. The remaining parameter ``m``,
 the associated byte size, is deduced by the used hash function. Botan allows the
 LMS parameter sets from [RFC8554]_ and [draft-fluhrer-11]_, collected in Table
@@ -207,7 +210,7 @@ contained LM-OTS instances.
 We can create a keypair with a secret key (class ``LMS_Private_Key``) and a
 public key (class ``LMS_Public_Key``) for each LMS instance. The secret
 key contains the value ``SEED`` used for LM-OTS secret key derivation, while the
-public key contains the LMS tree's root node. The public key is derived from the
+public key contains the root node of the LMS tree. The public key is derived from the
 secret key in the constructor of ``LMS_Public_Key``.
 
 For creating an LMS signature, Botan offers the method
@@ -217,7 +220,7 @@ of [RFC8554]_. For verification of a signature-message pair, Botan provides
 ``LMS_PublicKey::verify_signature``, implementing  Algorithm 5 of [RFC8554]_.
 The internal logic to create and reconstruct Merkle trees is implemented in the
 cross-algorithm helper module ``tree_hash``
-(:srcref:`[src/lib]/utils/tree_hash/tree_hash.h`). The tree's leaves are created using the
+(:srcref:`[src/lib]/utils/tree_hash/tree_hash.h`). The leaves are created using the
 constructs introduced in :ref:`Section LM-OTS <pubkey/hss_lms/lm_ots>`.
 
 .. _pubkey/hss_lms/hss:
@@ -225,18 +228,18 @@ constructs introduced in :ref:`Section LM-OTS <pubkey/hss_lms/lm_ots>`.
 HSS
 ^^^
 
-Multiple LMS trees build up an HSS/LMS hypertree, where leaf nodes of higher LMS
+An HSS hypertree consists of multiple LMS trees, where leaf nodes of higher LMS
 trees sign the public keys of lower LMS instances. The following
-parameters define the HSS/LMS hypertree. The parameter ``L`` configures the height
-of the HSS/LMS hypertree, i.e., the number of LMS tree levels in the hypertree.
-As specified in [RFC8554]_, Botan allows ``L`` to be within one and eight.
+parameters define the HSS hypertree. The parameter ``L`` configures the height
+of the HSS hypertree, i.e., the number of LMS tree levels in the hypertree.
+As specified in [RFC8554]_, Botan permits values :math:`1,2,\dots,8` for ``L``.
 An LMS and LM-OTS parameter set pair is defined for each level. Botan allows all
 parameter combinations as long as the hash function is always the
-same in every set at every level (recommended in [SP800-208]_).
+same at all levels (recommended in [SP800-208]_).
 
-As defined in [RFC8554]_, the public key of an HSS/LMS instance is composed of
+As defined in [RFC8554]_, the public key of an HSS instance is composed of
 ``L`` and the public key of the hypertree's root LMS tree. The
-HSS/LMS secret key format is not defined in [RFC8554]_. Botan defines its own
+HSS secret key format is not defined in [RFC8554]_. Botan defines its own
 secret key format under a private OID. The following describes its byte
 composition in the same syntax as [RFC8554]_:
 
@@ -259,10 +262,10 @@ for each level as defined in Tables :ref:`Supported LM-OTS parameter sets
 <pubkey/hss_lms/lm-ots-params>` and :ref:`Supported LMS parameter sets
 <pubkey/hss_lms/lms-params>`. Finally, ``SEED`` and ``I`` of the root LMS tree
 are given. The classes ``HSS_LMS_PublicKeyInternal`` and
-``HSS_LMS_PrivateKeyInternal`` realize the public and secret key, respectively.
+``HSS_LMS_PrivateKeyInternal`` realize the public and secret keys, respectively.
 
-Botan's HSS/LMS implementation derives LMS seeds and identifiers
-by the same method Cisco's reference implementation applies. This approach
+Botan's HSS implementation derives LMS seeds and identifiers
+using the same method Cisco's reference implementation applies. This approach
 is called ``SECRET_METHOD 2`` in the Cisco implementation's configuration.
 ``SEED`` and ``I`` of child LMS trees are derived from the values of their
 parents and their position in the hypertree. This operation is similar to the
@@ -294,7 +297,7 @@ verification, as in Section 6.3. of [RFC8554]_.
 Key Generation
 --------------
 
-HSS/LMS key generation follows Section 6.1. of [RFC8554]_ and is implemented
+HSS key generation follows Section 6.1. of [RFC8554]_ and is implemented
 within the ``HSS_LMS_PrivateKeyInternal`` constructor (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:114|HSS_LMS_PrivateKeyInternal`)
 and ``HSS_LMS_PublicKeyInternal::create`` (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:296|HSS_LMS_PublicKeyInternal::create`).
 
@@ -310,12 +313,12 @@ scheme. We therefore consider the requirement fulfilled.
 
 Botan's key generation algorithm works as follows:
 
-.. admonition:: HSS/LMS Key Generation
+.. admonition:: HSS Key Generation
 
    **Input:**
 
    -  ``rng``: random number generator
-   -  ``L``: The number of levels in the HSS/LMS hypertree
+   -  ``L``: The number of levels in the HSS hypertree
    -  ``lms-params[0], ..., lms-params[L-1]`` : LMS parameter sets at all
       ``L`` levels
    -  ``lm-ots-params[0], ..., lm-ots-params[L-1]``: LM-OTS parameter sets at all
@@ -353,21 +356,21 @@ Botan's key generation algorithm works as follows:
 Signature Creation
 ------------------
 
-An HSS/LMS signature is created using ``HSS_LMS_Signature_Operation::sign``,
+An HSS signature is created using ``HSS_LMS_Signature_Operation::sign``,
 which follows Section 6.2. of [RFC8554]_ (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:220|HSS_LMS_PublicKeyInternal::sign`).
 It works as follows:
 
-.. admonition:: HSS/LMS Signature Creation
+.. admonition:: HSS Signature Creation
 
    **Input:**
 
    -  ``m``: message to be signed
-   - | ``SK``: HSS/LMS secret key, ``SK = {L, idx, lms-params[0], lm-ots-params[0], ...,``
+   - | ``SK``: HSS secret key, ``SK = {L, idx, lms-params[0], lm-ots-params[0], ...,``
      |      ``lms-params[L-1], lm-ots-params[L-1], SEED, I}``
 
    **Output:**
 
-   -  ``sig``:  HSS/LMS signature
+   -  ``sig``:  HSS signature
 
    **Steps:**
 
@@ -375,7 +378,7 @@ It works as follows:
       aborted.
    2. Derive the LMS signing leaf indices ``q[0], ..., q[L-1]`` from ``idx`` and
       the LMS parameters.
-   3. Derive the LMS secret keys ``lms-sk[i]`` for HSS/LMS levels
+   3. Derive the LMS secret keys ``lms-sk[i]`` for HSS levels
       ``i = 1, ..., (L-1)`` using the seed and identifier derivation method
       described in :ref:`HSS <pubkey/hss_lms/hss>`.
    4. ``lms-sig[L-1], lms-pk[L-1] = lms-sk[L-1].sign_and_pk_gen(msg, q[L-1])``
@@ -401,13 +404,13 @@ signature-message pair by implementing the method of Section 6.3. of [RFC8554]_
 (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:349|HSS_LMS_PublicKeyInternal::verify_signature`).
 It does the following:
 
-.. admonition:: HSS/LMS Signature Validation
+.. admonition:: HSS Signature Validation
 
    **Input:**
 
    -  ``m``: message to be validated
    -  ``sig``: signature to be validated
-   -  ``PK``: HSS/LMS public key, ``PK = {L, lms-pk[0]}``
+   -  ``PK``: HSS public key, ``PK = {L, lms-pk[0]}``
 
    **Output:**
 
