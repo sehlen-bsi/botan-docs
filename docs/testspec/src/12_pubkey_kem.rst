@@ -62,27 +62,27 @@ are hashed.
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | For each KAT vector:                                                    |
    |                        |                                                                         |
-   |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed                  |
+   |                        | #. Seed an AES-256-CTR-DRBG with the specified RNG seed                 |
    |                        |                                                                         |
    |                        | #. Use the seeded RNG to generate a Classic McEliece key pair and       |
-   |                        |    compare it to the expected public and private key in the test        |
-   |                        |    vector. This uses the key encoding as implemented in the reference   |
-   |                        |    implementation and hashes the result using SHAKE-256(512) to save    |
+   |                        |    compare its private key to the expected one in the test              |
+   |                        |    vector. This vector contains the key encoding as implemented in the  |
+   |                        |    reference implementation hashed using SHAKE-256(512) to save         |
    |                        |    disk space in the KAT vectors.                                       |
    |                        |                                                                         |
-   |                        | #. Check that the expected algorithm properties of the generated key    |
+   |                        | #. Check that the expected algorithm properties of the generated keys   |
    |                        |    match the generic expectations for KEMs (supports key encapsulation, |
    |                        |    reports a key strength in a reasonable interval, etc.).              |
    |                        |                                                                         |
    |                        | #. Extract the public key from the just generated key pair and compare  |
-   |                        |    it to the expected value in the test vector.                         |
+   |                        |    it to the expected (hashed) value in the test vector.                |
    |                        |                                                                         |
    |                        | #. Encode both public and private key, and decode them again.           |
    |                        |                                                                         |
    |                        | #. Encapsulate a secret with the just-generated public key after the    |
    |                        |    encode/decode roundtrip (using the same RNG) and compare the         |
    |                        |    resulting shared secret and ciphertext to expected values in the     |
-   |                        |    test vector. Again, the ciphertext is hashed to save disk space.     |
+   |                        |    test vector.                                                         |
    |                        |                                                                         |
    |                        | #. Decapsulate the just-calculated ciphertext with the private key from |
    |                        |    the encode/decode roundtrip and ensure that the resulting shared     |
@@ -99,7 +99,7 @@ are hashed.
    | **Type:**              | Negative Test/Known Answer Tests                                        |
    +------------------------+-------------------------------------------------------------------------+
    | **Description:**       | For a plaintext confirmation (pc) and a non-pc instance:                |
-   |                        | Generate a Classic McEliece keypair using a KAT seed, use the private   |
+   |                        | Generate a Classic McEliece keypair using any KAT seed, use the private |
    |                        | key to decapsulate an invalid ciphertext, and compare the resulting     |
    |                        | value with the value generated using the reference implementation.      |
    +------------------------+-------------------------------------------------------------------------+
@@ -113,7 +113,10 @@ are hashed.
    |                        |                                                                         |
    |                        | #. Generate a key pair using the KAT seed with AES-256-CTR-DRBG         |
    |                        |                                                                         |
-   |                        | #. Decapsulate the invalid ciphertext (input value).                    |
+   |                        | #. Decapsulate the invalid ciphertext (input value). The invalid        |
+   |                        |    ciphertext is a valid one where a single bit is flipped.             |
+   |                        |    The bit flip position varies in different test vectors to also       |
+   |                        |    cover tests where only plaintext confirmation fails.                 |
    |                        |                                                                         |
    |                        | #. Compare the resulting shared secret with the reference shared        |
    |                        |    secret (input value).                                                |
@@ -161,15 +164,16 @@ tests are in *src/tests/data/pubkey/frodokem_kat.vec*.
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | For each KAT vector:                                                    |
    |                        |                                                                         |
-   |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed                  |
+   |                        | #. Seed an AES-256-CTR-DRBG with the specified RNG seed                 |
    |                        |                                                                         |
-   |                        | #. Use the seeded RNG to generate a FrodoKEM key pair and compare it to |
-   |                        |    the expected public and private key in the test vector. This uses    |
+   |                        | #. Use the seeded RNG to generate a FrodoKEM key pair and               |
+   |                        |    compare its private key to the expected one in the test vector.      |
+   |                        |    This vector contains                                                 |
    |                        |    the key encoding as implemented in the reference implementation and  |
-   |                        |    hashes the result using SHAKE-256(128) to save disk space in the KAT |
+   |                        |    hashed using SHAKE-256(128) to save disk space in the KAT            |
    |                        |    vectors.                                                             |
    |                        |                                                                         |
-   |                        | #. Check that the expected algorithm properties of the generated key    |
+   |                        | #. Check that the expected algorithm properties of the generated keys   |
    |                        |    match the generic expectations for KEMs (supports key encapsulation, |
    |                        |    reports a key strength in a reasonable interval, etc.).              |
    |                        |                                                                         |
@@ -277,13 +281,13 @@ instances are in :srcref:`[src/tests/data/pubkey]/kyber_kat.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | For each KAT vector:                                                    |
    |                        |                                                                         |
-   |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed                  |
+   |                        | #. Seed an AES-256-CTR-DRBG with the specified RNG seed                 |
    |                        |                                                                         |
    |                        | #. Use the seeded RNG to generate a ML-KEM key pair and compare it to   |
    |                        |    the expected public and private key in the test vector. This uses    |
    |                        |    the key encoding as implemented in the reference implementation.     |
    |                        |                                                                         |
-   |                        | #. Check that the expected algorithm properties of the generated key    |
+   |                        | #. Check that the expected algorithm properties of the generated keys   |
    |                        |    match the generic expectations for KEMs (supports key encapsulation, |
    |                        |    reports a key strength in a reasonable interval, etc.).              |
    |                        |                                                                         |
