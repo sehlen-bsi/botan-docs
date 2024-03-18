@@ -212,6 +212,7 @@ only on the bit's position, not its value. Operations between two vectors
 are also constant-time when the operands have the same length. Other helper
 functions used in Classic McEliece, such as Hamming weight computation, are
 also available with side-channel protection.
+Botan's Classic McEliece implementation only uses the constant-time functionalities of ``bitvector``.
 
 
 .. _pubkey/cmce/matrix:
