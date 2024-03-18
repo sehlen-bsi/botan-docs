@@ -192,7 +192,7 @@ Botan's ``bitvector`` class is a versatile tool for working with bits.
 It is intended to be a general component for handling bit vectors in various
 cryptographic contexts.
 In the context of Classic McEliece, it was introduced to handle
-binary matrices, error vectors, code words, and column selections.
+binary matrices, error vectors, code words, control bits, and column selections.
 The ``bitvector`` class provides a range of useful methods for these tasks.
 
 A ``bitvector`` can be dynamically initialized with any length. It can be created
