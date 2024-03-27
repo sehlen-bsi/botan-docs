@@ -109,6 +109,7 @@ restrictions on path validation, namely the following:
 -  Only allow specific hash functions used in all certificates in the
    chain
 -  Require a minimum key strength for all keys in the certificate chain
+-  Optionally ignore the validity period of the root certificate
 
 All variants of ``x509_path_validate()`` take an object of class
 ``Certificate_Store``. Such a ``Certificate_Store`` is used to store
@@ -454,10 +455,14 @@ validation of the CertificatePolicies extension.
           ``cert_status[i]``
 
       8.  If ``validation_time < cert_path[i].not_before()``, Append
-          CERT_NOT_YET_VALID to ``cert_status[i]``
+          CERT_NOT_YET_VALID to ``cert_status[i]``, or if we are checking
+          a self-signed root cert and the ``restrictions`` allow it, append
+          the warning TRUSTED_CERT_NOT_YET_VALID to ``cert_status[i]``
 
       9.  If ``validation_time > cert_path[i].not_after()``, Append
-          CERT_HAS_EXPIRED to ``cert_status[i]``
+          CERT_HAS_EXPIRED to ``cert_status[i]``, or if we are checking
+          a self-signed root cert and the ``restrictions`` allow it, append
+          the warning TRUSTED_CERT_HAS_EXPIRED to ``cert_status[i]``
 
       10. If ``issuer`` does not have the BasicConstraints.CA bit set AND
           ``cert_path`` contains more than one certificate, Append
