@@ -480,8 +480,7 @@ validation of the CertificatePolicies extension.
           ``cert_status[i]``
 
       14. If ``issuer``'s public key strength <
-          ``restrictions.minimum_key_strength()`` then do Append KEY_TOO_SMALL
-          to ``cert_status[i]`` then do Append SIGNATURE_METHOD_TOO_WEAK to
+          ``restrictions.minimum_key_strength()`` then do Append SIGNATURE_METHOD_TOO_WEAK to
           ``cert_status[i]``
 
       15. If (``restrictions.trusted_hashes()`` is not empty AND
