@@ -1,0 +1,7 @@
+title: Build System
+
+patches:
+# Feature: Module Lifecycle and Experimental/Deprecated Features  (@reneme)
+- pr: 3910  # https://github.com/randombit/botan/pull/3910
+  merge_commit: 66dc49e2e245eae128b4e6811215f3ca11a75e0c
+  classification: info

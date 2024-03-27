@@ -1,0 +1,23 @@
+title: Code Maintenance
+
+patches:
+# [std::span] BigInt Constructors  (@reneme)
+- pr: 3866  # https://github.com/randombit/botan/pull/3866
+  merge_commit: dcefe5e47e036de3ea6d9c6d49ca417feef84917
+  classification: info
+
+# Refactor: Final iteration on load/store  (@reneme)
+- pr: 3869  # https://github.com/randombit/botan/pull/3869
+  merge_commit: 94b1e77048a2e0e533cf5edbe2444b51f72658c0
+  classification: info
+
+# Chore: Modernize copy_out_be/le  (@reneme)
+- pr: 3885  # https://github.com/randombit/botan/pull/3885
+  merge_commit: 38a0b5692c2035c229e9b2f703bd58df9ba1a735
+  classification: info
+
+# Avoid including build.h into ffi.h  (@randombit)
+- pr: 3915  # https://github.com/randombit/botan/pull/3915
+  merge_commit: f95d888b8350bc0b2d5d930aaa3e40c0cc11a9d5
+  classification: info
+
