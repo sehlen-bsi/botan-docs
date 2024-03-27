@@ -183,9 +183,7 @@ be built manually using lower-level functions as needed.
    7. For each ``cert_path`` in ``cert_paths`` do:
 
       a) Set ``status = check_chain(cert_path, ref_time, hostname, usage,
-         restrictions.minimum_key_strength(),
-         restrictions.trusted_hashes())`` // check the certificate chain,
-         but not rev. data
+         restrictions)`` // check the certificate chain, but not rev. data
 
       b) Set ``crl_status = check_crl(cert_path, trusted_roots, ref_time)``
 
@@ -410,12 +408,7 @@ validation of the CertificatePolicies extension.
    -  ``ref_time``: The time to perform validation against.
    -  ``hostname``: The hostname to perform validation against.
    -  ``usage``: End entity certificate usage to perform validation against.
-   -  ``min_signature_algo_strength``: Minimum strength of signatures in the
-      certificate chain, given in symmetric key bits, e.g., 80 allows 1024
-      bit RSA and SHA-1, 110 allows 2048 bit RSA and SHA-2, using 128
-      requires ECC (P-256) or ~3000 bit RSA keys.
-   -  ``trusted_hashes``: a set of trusted hash functions in the certificate
-      chain, an empty list means any known hash function is accepted.
+   -  ``restrictions``: Path validation restrictions.
 
    Output:
 
@@ -481,14 +474,16 @@ validation of the CertificatePolicies extension.
           ``issuer``'s public key, Append the corresponding error to
           ``cert_status[i]``
 
-      14. If ``issuer``'s public key strength < ``min_signature_algo_strength``
-          then do Append SIGNATURE_METHOD_TOO_WEAK to ``cert_status[i]``
+      14. If ``issuer``'s public key strength <
+          ``restrictions.minimum_key_strength()`` then do Append KEY_TOO_SMALL
+          to ``cert_status[i]`` then do Append SIGNATURE_METHOD_TOO_WEAK to
+          ``cert_status[i]``
 
-      15. If (``trusted_hashes`` is not empty AND ``at_self_signed_root =
-          false`` AND the hash function used in ``subject`` IS NOT IN
-          ``trusted_hashes``) then do Append UNTRUSTED_HASH to
-          ``cert_status[i]`` // ignore untrusted hashes on self-signed root
-          certs
+      15. If (``restrictions.trusted_hashes()`` is not empty AND
+          ``at_self_signed_root = false`` AND the hash function used in
+          ``subject`` IS NOT IN ``restrictions.trusted_hashes()``) then do
+          Append UNTRUSTED_HASH to ``cert_status[i]`` // ignore untrusted hashes
+          on self-signed root certs
 
       16. If (``x509_version`` of ``subject`` is 1 AND
           ``subject`` contains ``v2_issuer_key_id`` OR ``v2_subject_key_id``)
