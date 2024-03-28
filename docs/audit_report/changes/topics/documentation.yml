@@ -21,11 +21,6 @@ patches:
   merge_commit: 8c5e9c3bb7b866f503bc1dfbf9f638a5b30cdc29
   classification: info
 
-# Fix GH's formatting of readme.rst  (@randombit)
-- pr: 3948  # https://github.com/randombit/botan/pull/3948
-  merge_commit: 55159663f9c8d69553eef3621cf8393f0690e32c
-  classification: info
-
 # FIX: wrong module name for AES ARM acceleration  (@reneme)
 - pr: 3944  # https://github.com/randombit/botan/pull/3944
   merge_commit: 85dbf6e0782d665d6976be00694a97430a86fff8

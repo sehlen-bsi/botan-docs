@@ -55,17 +55,15 @@ that are *required* or *available* in the BSI build policy and their
 dependencies are in the scope of this document. Additionally, we review the
 following modules and its dependencies: ``certstor_flatfile``,
 ``certstor_sqlite3``, ``certstor_system_macos``, ``certstor_system_windows``,
-``certstor_system``, ``dilithium_aes``, ``dilithium``, ``frodokem``,
-``frodokem_aes``, ``ffi``, ``kyber_90s``, ``kyber``, ``pkcs11``, ``sha1_armv8``,
-``sha1_sse2``, ``sha1_x86``, ``shake``, ``sphincsplus_sha2``,
+``certstor_system``, ``classic_mceliece``, ``dilithium_aes``, ``dilithium``,
+``frodokem``, ``frodokem_aes``, ``ffi``, ``kyber_90s``, ``kyber``, ``pkcs11``,
+``sha1_armv8``, ``sha1_sse2``, ``sha1_x86``, ``shake``, ``sphincsplus_sha2``,
 ``sphincsplus_shake``, ``tls_cbc``, ``tls12``, ``tls13_pqc``, ``tls13``,
 ``xts``. Patches that don't alter any of the above-mentioned components or
 relevant modules are considered out-of-scope.
 
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
-
-.. todo:: Update the module list below for the upcoming release
 
 .. For each new document version, the list below should be sanity checked
    and potentially adapted using the script in scripts/audited_modules_list.py
@@ -110,116 +108,117 @@ reviewed:
      - certstor_system
    * - certstor_system_macos
      - certstor_system_windows
+     - classic_mceliece
      - cmac
-     - cpuid
-   * - ctr
+   * - cpuid
+     - ctr
      - dh
      - dilithium
-     - dilithium_aes
-   * - dilithium_common
+   * - dilithium_aes
+     - dilithium_common
      - dl_algo
      - dl_group
-     - dlies
-   * - dsa
+   * - dlies
+     - dsa
      - dyn_load
      - ec_group
-     - ecc_key
-   * - ecdh
+   * - ecc_key
+     - ecdh
      - ecdsa
      - ecgdsa
-     - ecies
-   * - eckcdsa
+   * - ecies
+     - eckcdsa
      - eme_oaep
      - eme_pkcs1
-     - emsa_pkcs1
-   * - emsa_pssr
+   * - emsa_pkcs1
+     - emsa_pssr
      - entropy
      - ffi
-     - frodokem
-   * - frodokem_aes
+   * - frodokem
+     - frodokem_aes
      - frodokem_common
      - gcm
-     - getentropy
-   * - ghash
+   * - getentropy
+     - ghash
      - ghash_cpu
      - ghash_vperm
-     - gmac
-   * - hash
+   * - gmac
+     - hash
      - hash_id
      - hex
-     - hkdf
-   * - hmac
+   * - hkdf
+     - hmac
      - hmac_drbg
      - http_util
-     - iso9796
-   * - kdf
+   * - iso9796
+     - kdf
      - kdf1_iso18033
      - keccak_perm
-     - keccak_perm_bmi2
-   * - keypair
+   * - keccak_perm_bmi2
+     - keypair
      - kyber
      - kyber_90s
-     - kyber_common
-   * - locking_allocator
+   * - kyber_common
+     - locking_allocator
      - mac
      - mdx_hash
-     - mem_pool
-   * - mgf1
+   * - mem_pool
+     - mgf1
      - mode_pad
      - modes
-     - mp
-   * - numbertheory
+   * - mp
+     - numbertheory
      - pbkdf
      - pem
-     - pk_pad
-   * - pkcs11
+   * - pk_pad
+     - pkcs11
      - poly_dbl
      - prf_tls
-     - processor_rng
-   * - pubkey
+   * - processor_rng
+     - pubkey
      - rdseed
      - rng
-     - rsa
-   * - sha1
+   * - rsa
+     - sha1
      - sha1_armv8
      - sha1_sse2
-     - sha1_x86
-   * - sha2_32
+   * - sha1_x86
+     - sha2_32
      - sha2_32_armv8
      - sha2_32_bmi2
-     - sha2_32_x86
-   * - sha2_64
+   * - sha2_32_x86
+     - sha2_64
      - sha2_64_armv8
      - sha2_64_bmi2
-     - sha3
-   * - shake
+   * - sha3
+     - shake
      - shake_xof
      - simd
-     - socket
-   * - sp800_108
+   * - socket
+     - sp800_108
      - sp800_56c
      - sphincsplus_common
-     - sphincsplus_sha2
-   * - sphincsplus_shake
+   * - sphincsplus_sha2
+     - sphincsplus_shake
      - stateful_rng
      - stream
-     - system_rng
-   * - tls
+   * - system_rng
+     - tls
      - tls12
      - tls13
-     - tls13_pqc
-   * - tls_cbc
+   * - tls13_pqc
+     - tls_cbc
      - trunc_hash
      - utils
-     - x509
-   * - xmss
+   * - x509
+     - xmss
      - xof
      - xts
-     -
 
 Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
 
-.. todo:: Update this section for each new version of the document.
+The module ``classic_mceliece`` was added, containing an implementation of the
+equally named algorithm.
 
 Patch Description Content
 -------------------------

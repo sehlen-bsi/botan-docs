@@ -1,7 +1,0 @@
-title: Release
-
-patches:
-# Update news and the reported version  (@randombit)
-- pr: 3947  # https://github.com/randombit/botan/pull/3947
-  merge_commit: d955b20bbf1731545e2f49de7651902add0d78b4
-  classification: info
