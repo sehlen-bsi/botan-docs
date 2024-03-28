@@ -1,0 +1,7 @@
+title: Uncategorized Patches
+
+patches:
+# Fix GOST public key encoding  (@randombit)
+- pr: 3949  # https://github.com/randombit/botan/pull/3949
+  merge_commit: 3a0758681bbc3965b8b2d40aa50f9210dd1fb909
+  classification: unspecified
