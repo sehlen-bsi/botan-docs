@@ -5,10 +5,6 @@ This document contains the audit report for the changes between Botan version |b
 |botan_version|. The performed analysis includes a patch-based, manual audit of Botan's source code and
 the results of several analysis tools.
 
-The most significant changes are the following:
-
-.. todo:: Add a bullet-point list for the most significant changes in Botan 3.3.0
-
 According to the observations of this audit, Botan version |botan_version| keeps the security level of
 the previously reviewed version and complements the old version with various sensible and
 high-quality features.

@@ -49,6 +49,7 @@ def additional_modules():
     return set([
         'certstor_flatfile',
         'certstor_system',
+        'classic_mceliece',
         'dilithium_aes',
         'dilithium',
         'ffi',
