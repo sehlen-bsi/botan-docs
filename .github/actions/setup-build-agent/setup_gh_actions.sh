@@ -62,10 +62,16 @@ if type -p "apt-get"; then
     fi
 else
     export HOMEBREW_NO_AUTO_UPDATE=1
+    export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
     brew install ccache
 
     if [ "$TARGET" = "shared" ]; then
         brew install boost
+
+        # On Apple Silicon we need to specify the include directory
+        # so that the build can find the boost headers.
+        boostincdir=$(brew --prefix boost)/include
+        echo "BOOST_INCLUDEDIR=$boostincdir" >> "$GITHUB_ENV"
         setup_softhsm_macos
     fi
 

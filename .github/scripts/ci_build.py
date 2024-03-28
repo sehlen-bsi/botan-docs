@@ -143,10 +143,10 @@ def determine_flags(target, target_os, target_cc, ccache,
             # make sure clang ignores warnings in boost headers
             flags += ["--extra-cxxflags=--system-header-prefix=boost/"]
 
-        if target_os in ['windows']:
-            # ./configure.py needs boost's location on Windows
-            if 'BOOST_INCLUDEDIR' in os.environ:
-                flags += ['--with-external-includedir', os.environ.get('BOOST_INCLUDEDIR')]
+        if 'BOOST_INCLUDEDIR' in os.environ:
+            # ./configure.py needs boost's location on some platforms
+            # BOOST_INCLUDEDIR is set by the setup_gh_actions.* script
+            flags += ['--with-external-includedir', os.environ.get('BOOST_INCLUDEDIR')]
 
     if target_os == 'linux':
         flags += ['--with-tpm']
