@@ -35,7 +35,23 @@ Furthermore, the ``Ciphertext`` class provides ciphertext compression and encodi
 The implementation of the algorithms :math:`\mathsf{Compress}_q(x,d)` and :math:`\mathsf{Decompress}_q(x,d)` of [Kyber-R3]_ are optimized for all occurring values of :math:`d`.
 The compression with :math:`d=d_u` and :math:`d=d_v` [#kyber_du_dv]_ is implemented in two respective ``Ciphertext::compress`` methods, i.e., one for polynomial vectors and one for polynomials. The same holds for decompression via ``Ciphertext::decompress_polynomial_vector`` and ``Ciphertext::decompress_polynomial``.
 The public member functions ``Ciphertext::from_bytes`` and ``Ciphertext::to_bytes`` use this to realize **L. 1/L. 2 of Alg. 6** [Kyber-R3]_ and **L. 21/L. 22 of Alg. 5** [Kyber-R3]_, respectively.
-The compression and decompression with :math:`d=1` are performed simultaneously with :math:`\mathsf{Encode}_1` and :math:`\mathsf{Decode}_1` within the methods ``Polynomial::to_message`` and ``Polynomial::from_message``, respectively (used in **L. 4, Alg. 6** and **L. 20, Alg. 5** [Kyber-R3]_). All compressions and decompressions are constant time.
+The compression and decompression with :math:`d=1` are performed simultaneously with :math:`\mathsf{Encode}_1` and :math:`\mathsf{Decode}_1` within the methods ``Polynomial::to_message`` and ``Polynomial::from_message``, respectively (used in **L. 4, Alg. 6** and **L. 20, Alg. 5** [Kyber-R3]_).
+
+Compression in Kyber requires division by the Kyber constant ``q``. However,
+this division may introduce timing side-channels on some platforms.
+Botan uses the ``ct_divide_by`` function to address this issue, which performs
+constant-time division by a value known at compile-time. This function leverages
+a technique described in [HD]_, where the fraction ``n/q`` is extended by a
+specific constant ``m`` to become ``(m*n)/(m*q)``. Here, ``m`` is chosen so that
+``(m*q)`` is reasonably close to a power of two ``2^p``. For integer division, it holds that
+``n/q = (m*n)/(2^p)`` for all ``n`` is smaller than a boundary ``2^W``.
+The boundary constant ``W`` is chosen to encompass all possible numerators
+encountered in Kyber's compression functions. The values of ``m`` and ``p`` are
+derived using the algorithm outlined in Chapter 10.9 of [HD]_ at compile-time
+by means of a C++20 ``consteval`` function. Hence, instead of a potentially
+variable-time division, the compiled runtime code will always perform a
+multiplication (by ``m``) followed by a right-shift (by ``p`` bits), both of which are
+constant-time operations.
 
 .. [#kyber_du_dv]
    The values of :math:`d_u` and :math:`d_v` are not given as ``KyberConstants`` but are rather computed in place based on the value of `k`.
@@ -88,7 +104,6 @@ The matrix is already generated in the NTT domain via rejection sampling with ``
 **Algorithm 2** of [Kyber-R3]_ is implemented via the member function ``Polynomial::getnoise_cbd2`` for the case ``eta1=2`` (and a respective version for ``eta1=3``). It deterministically samples noise from a centered binomial distribution.
 
 Encoding/decoding of polynomials (**Algorithm 3** of [Kyber-R3]_) is realized via the ``Polynomial::to_bytes()``/ ``Polynomial::from_bytes()`` functions.
-
 
 .. _pubkey_key_generation/kyber:
 
