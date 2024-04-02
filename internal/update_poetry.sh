@@ -13,6 +13,7 @@ poetry_update tools/auditutils
 poetry_update tools/sourceref
 poetry_update tools/auditupdate
 poetry_update tools/genaudit
+poetry_update tools/tarball_checker
 
 poetry_update docs/architecture
 poetry_update docs/audit_method

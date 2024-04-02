@@ -1,0 +1,32 @@
+[[package]]
+name = "auditinfo"
+version = "0.1.0"
+description = "Central information retrieval of this audit project"
+category = "main"
+optional = false
+python-versions = "^3.10"
+develop = true
+
+[package.dependencies]
+pyyaml = "^6.0"
+
+[package.source]
+type = "directory"
+url = "../auditinfo"
+
+[[package]]
+name = "pyyaml"
+version = "6.0.1"
+description = "YAML parser and emitter for Python"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.10"
+content-hash = "7752d330903c898ca6f85af96f831b2eb9b0006a7a73c2f0d2402e42fff370e7"
+
+[metadata.files]
+auditinfo = []
+pyyaml = []
