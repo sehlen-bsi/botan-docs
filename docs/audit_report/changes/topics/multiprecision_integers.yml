@@ -1,0 +1,28 @@
+title: Multi-Precision Integers
+
+description: |
+  These changes extend Botan's multi-precision integer implementation to better
+  support compile-time evaluation.
+
+patches:
+# Simplify dword logic in mp layer  (@randombit)
+- pr: 3950  # https://github.com/randombit/botan/pull/3950
+  merge_commit: 928fde65459951b6d33dde9c3cb27f184e99f104
+  classification: info
+  auditer: reneme
+
+# Modify mp algos to be constexpr and templatized over the word type  (@randombit)
+- pr: 3954  # https://github.com/randombit/botan/pull/3954
+  merge_commit: 5f47e7bc207e6f6ecb7a26f676793a33e9017656
+  classification: info
+
+# Various word/mp related cleanup  (@randombit)
+- pr: 3961  # https://github.com/randombit/botan/pull/3961
+  merge_commit: aa12651ce27da6be7161b10640b91d6ea212ec68
+  classification: info
+  auditer: reneme
+
+# Add a generic Comba multiply/square function  (@randombit)
+- pr: 3956  # https://github.com/randombit/botan/pull/3956
+  merge_commit: 9da15b9f7060c32a42c8fb88e521fe8c94360ae4
+  classification: info

@@ -11,3 +11,14 @@ patches:
   merge_commit: 00a92b68587f3a83f88f821e805dab3c54610000
   classification: info
   auditer: reneme
+
+# Fix GOST public key encoding  (@randombit)
+- pr: 3949  # https://github.com/randombit/botan/pull/3949
+  merge_commit: 3a0758681bbc3965b8b2d40aa50f9210dd1fb909
+  classification: out of scope
+
+# Fix build for non-VSX altivec powerpc CPUs.  (@he32)
+- pr: 3960  # https://github.com/randombit/botan/pull/3960
+  merge_commit: 63e47f8b13ca20fd08574db137bd51aa4e81d2df
+  classification: info
+  auditer: reneme

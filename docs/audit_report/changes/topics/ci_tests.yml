@@ -36,3 +36,8 @@ patches:
 - pr: 3945  # https://github.com/randombit/botan/pull/3945
   merge_commit: 6c6fc090cc03645f8edfe34d6f2a7801eb86a30b
   classification: info
+
+# FFI: test macros print a source location  (@reneme)
+- pr: 3970  # https://github.com/randombit/botan/pull/3970
+  merge_commit: dcada9d7a5bd29989646119d61c10707f05e5f4a
+  classification: info

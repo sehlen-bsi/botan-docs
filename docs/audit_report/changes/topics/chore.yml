@@ -21,3 +21,35 @@ patches:
   merge_commit: f95d888b8350bc0b2d5d930aaa3e40c0cc11a9d5
   classification: info
 
+# Use more constexpr in utilities  (@randombit)
+- pr: 3964  # https://github.com/randombit/botan/pull/3964
+  merge_commit: 118f3c6d81c0e043bf5b52877d6d11da2dc934bd
+  classification: info
+  auditer: reneme
+
+# Add functionality for compile time decoding of word constants  (@randombit)
+- pr: 3962  # https://github.com/randombit/botan/pull/3962
+  merge_commit: 64676be1b006c6bfbd0ccb965fa6e070ef502d24
+  classification: info
+  auditer: reneme
+
+# Add scoped_cleanup helper  (@reneme)
+- pr: 3968  # https://github.com/randombit/botan/pull/3968
+  merge_commit: b05934758dd6cb072d58799cb61cd7528cb2627d
+  classification: info
+
+# Apply constexpr to BufferStuffer  (@randombit)
+- pr: 3966  # https://github.com/randombit/botan/pull/3966
+  merge_commit: e9c6c1662f98724eeb517187813f2789a8f600b9
+  classification: info
+
+# Use a simpler formula for Kyber division by q  (@randombit)
+- pr: 3959  # https://github.com/randombit/botan/pull/3959
+  merge_commit: 1e924598ae00b6461f23d44dcba861154dfb068b
+  classification: info
+
+# Use a better algorithm for mul64x64_128  (@randombit)
+- pr: 3957  # https://github.com/randombit/botan/pull/3957
+  merge_commit: b8d631770e9fd419cff3c187f4819887ee730332
+  classification: info
+  auditer: reneme
