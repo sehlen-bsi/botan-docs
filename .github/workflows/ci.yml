@@ -348,6 +348,56 @@ jobs:
           name: source
           path: build/*.zip
 
+  check_upstream_source_archive:
+    name: "Check Upstream Source Archive"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Audit Repository
+        uses: actions/checkout@v4
+        with:
+          path: ./source
+
+      - name: Setup Environment Configuration
+        uses: ./source/.github/actions/setup-environment
+        with:
+          env_file: ./source/config/botan.env
+
+      - name: Detect when a Release Version is being built
+        run: |
+          if [[ "${BOTAN_VERSION}" == "${BOTAN_REF}" ]]; then
+            echo "We seem to build a release version"
+            echo "BUILDING_RELEASE=true" >> $GITHUB_ENV
+          else
+            echo "We seem to build a development version"
+            echo "BUILDING_RELEASE=false" >> $GITHUB_ENV
+          fi
+
+      - name: Install Build Dependencies
+        if: ${{ env.BUILDING_RELEASE == 'true' }}
+        working-directory: source/tools/tarball_checker
+        run: |
+          sudo apt-get update
+          sudo apt-get -qq install python3-poetry
+          poetry install --no-dev
+
+      - name: Install Jack's Botan Distribution GPG public key
+        if: ${{ env.BUILDING_RELEASE == 'true' }}
+        run: gpg --trusted-key 6211EBF1EFBADFBC --import ${{ github.workspace }}/source/.github/resources/jack-botan-release-key.gpg
+
+      - name: Fetch Botan Repository
+        uses: actions/checkout@v4
+        if: ${{ env.BUILDING_RELEASE == 'true' }}
+        with:
+          path: ${{ github.workspace }}/botan
+          repository: ${{ env.BOTAN_REPO }}
+          fetch-depth: 0
+          ref: ${{ env.BOTAN_REF }}
+
+      - name: Check Upstream Release Tarball
+        if: ${{ env.BUILDING_RELEASE == 'true' }}
+        working-directory: source/tools/tarball_checker
+        run: poetry run python3 check.py --source-dir ${{ github.workspace }}/botan --tar-source-dir ${{ github.workspace }}/upstream_tar
+
   collect_artifacts:
     name: "Collect Submission Artifacts"
     runs-on: ubuntu-latest

@@ -62,6 +62,18 @@ def botan_git_base_ref() -> str:
     """ The git reference of the previously audited Botan source revision """
     return __get_from_config("BOTAN_BASE_REF")
 
+def botan_is_upstream_release() -> bool:
+    """ Whether the targeted Botan version is an upstream release """
+    return botan_version() == botan_git_ref()
+
+def botan_get_released_source_tarball_url() -> str:
+    """ The URL of the source tarball of the currently targeted Botan version """
+    return __get_from_config("BOTAN_SOURCE_ARCHIVE_TEMPLATE").replace("XXX", botan_version())
+
+def botan_get_released_source_tarball_signature() -> str:
+    """ The URL of the signature of the source tarball of the currently targeted Botan version """
+    return __get_from_config("BOTAN_SOURCE_ARCHIVE_TEMPLATE").replace("XXX", botan_version()) + ".asc"
+
 def auditdoc_github_handle() -> str:
     """ The repository handle  of the audit documentation on GitHub """
     return __get_from_config("AUDITDOC_REPO")
