@@ -39,16 +39,15 @@ The compression and decompression with :math:`d=1` are performed simultaneously 
 
 Compression in Kyber requires division by the Kyber constant ``q``. However,
 this division may introduce timing side-channels on some platforms.
-Botan uses the ``ct_divide_by`` function to address this issue, which performs
-constant-time division by a value known at compile-time. This function leverages
+Botan uses the ``ct_int_div_kyber_q`` function to address this issue, which performs
+constant-time division by ``q``. This function leverages
 a technique described in [HD]_, where the fraction ``n/q`` is extended by a
 specific constant ``m`` to become ``(m*n)/(m*q)``. Here, ``m`` is chosen so that
 ``(m*q)`` is reasonably close to a power of two ``2^p``. For integer division, it holds that
 ``n/q = (m*n)/(2^p)`` for all ``n`` is smaller than a boundary ``2^W``.
 The boundary constant ``W`` is chosen to encompass all possible numerators
-encountered in Kyber's compression functions. The values of ``m`` and ``p`` are
-derived using the algorithm outlined in Chapter 10.9 of [HD]_ at compile-time
-by means of a C++20 ``consteval`` function. Hence, instead of a potentially
+encountered in Kyber's compression functions. The constants ``m = 161271`` and ``p = 29`` are
+selected using the algorithm outlined in Chapter 10.9 of [HD]_. Hence, instead of a potentially
 variable-time division, the compiled runtime code will always perform a
 multiplication (by ``m``) followed by a right-shift (by ``p`` bits), both of which are
 constant-time operations.
