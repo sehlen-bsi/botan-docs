@@ -22,3 +22,14 @@ patches:
   merge_commit: 63e47f8b13ca20fd08574db137bd51aa4e81d2df
   classification: info
   auditer: reneme
+
+# FIX: FFI botan_cipher_update() for SIV and CCM  (@reneme)
+- pr: 3971  # https://github.com/randombit/botan/pull/3971
+  merge_commit: e07c6ca5a03f189cf592fd3995e60e41a7331e71
+  classification: relevant
+  comment: |
+    This fixes the handling of cipher modes that require the entire message to
+    be available before encryption/decryption can begin. Before, the input
+    buffer was inadvertently copied into the output buffer, which is generally
+    considered to contain encrypted data. Note that this is an issue when used
+    via the Foreign Function Interface, only.

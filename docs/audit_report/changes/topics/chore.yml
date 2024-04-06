@@ -46,10 +46,23 @@ patches:
 # Use a simpler formula for Kyber division by q  (@randombit)
 - pr: 3959  # https://github.com/randombit/botan/pull/3959
   merge_commit: 1e924598ae00b6461f23d44dcba861154dfb068b
-  classification: info
+  classification: relevant
 
 # Use a better algorithm for mul64x64_128  (@randombit)
 - pr: 3957  # https://github.com/randombit/botan/pull/3957
   merge_commit: b8d631770e9fd419cff3c187f4819887ee730332
   classification: info
   auditer: reneme
+
+# Split out XMD from hash2curve to its own module  (@randombit)
+- pr: 3973  # https://github.com/randombit/botan/pull/3973
+  merge_commit: cd25885685daef04663791eca847bf67850ef289
+  classification: info
+
+# Add FFI API botan_cipher_requires_entire_message()  (@reneme)
+- pr: 3969  # https://github.com/randombit/botan/pull/3969
+  merge_commit: 218678cd3d09433de33ddc44b7cd0eb4146bdb8b
+  classification: info
+  comment: |
+    This also extends the python bindings accordingly and bumps their version
+    requirements.

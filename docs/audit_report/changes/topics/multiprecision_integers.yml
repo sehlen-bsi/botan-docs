@@ -2,7 +2,9 @@ title: Multi-Precision Integers
 
 description: |
   These changes extend Botan's multi-precision integer implementation to better
-  support compile-time evaluation.
+  support compile-time evaluation. Some of the patches simply move code into
+  internal header files or perform simple cleanups. Those are not considered to
+  be relevant for security.
 
 patches:
 # Simplify dword logic in mp layer  (@randombit)
@@ -14,7 +16,7 @@ patches:
 # Modify mp algos to be constexpr and templatized over the word type  (@randombit)
 - pr: 3954  # https://github.com/randombit/botan/pull/3954
   merge_commit: 5f47e7bc207e6f6ecb7a26f676793a33e9017656
-  classification: info
+  classification: relevant
 
 # Various word/mp related cleanup  (@randombit)
 - pr: 3961  # https://github.com/randombit/botan/pull/3961
@@ -25,4 +27,21 @@ patches:
 # Add a generic Comba multiply/square function  (@randombit)
 - pr: 3956  # https://github.com/randombit/botan/pull/3956
   merge_commit: 9da15b9f7060c32a42c8fb88e521fe8c94360ae4
+  classification: relevant
+
+# Small MP cleanups  (@randombit)
+- pr: 3978  # https://github.com/randombit/botan/pull/3978
+  merge_commit: 540f716fc3ab65c9f7bee2a841f60619f8dc66b2
   classification: info
+
+# Add a specialized reduction function for Montgomery subtraction  (@randombit)
+- pr: 3967  # https://github.com/randombit/botan/pull/3967
+  merge_commit: 637c117cf0f76acb5b3f1de63b90d215825bd702
+  classification: relevant
+  auditer: reneme
+
+# Generalize monty_inverse by word type and make it constexpr  (@randombit)
+- pr: 3977  # https://github.com/randombit/botan/pull/3977
+  merge_commit: ccb767691547ef5f42dff390836dc5f2f13d5fcc
+  classification: info
+  auditer: reneme

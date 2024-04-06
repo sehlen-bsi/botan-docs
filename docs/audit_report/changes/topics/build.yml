@@ -10,3 +10,8 @@ patches:
 - pr: 3952  # https://github.com/randombit/botan/pull/3952
   merge_commit: 626dc641ac0eb90d89febbec207035855910b2d2
   classification: info
+
+# Add an option to run_clang_format to skip the version check  (@randombit)
+- pr: 3974  # https://github.com/randombit/botan/pull/3974
+  merge_commit: 76f78e108ac710822862203d879d825dbd805b1c
+  classification: info
