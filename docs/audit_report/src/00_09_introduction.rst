@@ -65,8 +65,6 @@ relevant modules are considered out-of-scope.
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
 
-.. todo:: Update the module list below for the upcoming release
-
 .. For each new document version, the list below should be sanity checked
    and potentially adapted using the script in scripts/audited_modules_list.py
    like so:
@@ -217,9 +215,7 @@ reviewed:
      - xts
      -
 
-Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
-
-.. todo:: Update this section for each new version of the document.
+There were no notable module changes compared to the last review (Botan |botan_git_base_ref|).
 
 Patch Description Content
 -------------------------

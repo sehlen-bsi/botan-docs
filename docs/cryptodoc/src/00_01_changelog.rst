@@ -155,3 +155,11 @@ Changelog
    |         |          | - SHA-512 based on dedicated instructions   |            |
    |         |          |   on ARM v8.2                               |            |
    +---------+----------+---------------------------------------------+------------+
+   | 3.4.0   | FA, RM   | Update to 3.4.0:                            | 2024-04-08 |
+   |         |          |                                             |            |
+   |         |          | - Detailed explaination of counter-measures |            |
+   |         |          |   against KyberSlash side-channel attack    |            |
+   |         |          | - X.509 path validation may optionally      |            |
+   |         |          |   ignore the validity interval of a trusted |            |
+   |         |          |   self-signed root certificate.             |            |
+   +---------+----------+---------------------------------------------+------------+

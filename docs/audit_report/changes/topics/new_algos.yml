@@ -1,7 +1,14 @@
 title: New Algorithms
 
+description: |
+  This release introduces support for the x448 and Ed448 elliptic curve
+  algorithms for key exchange and signatures.
+
 patches:
 # Feature: x448 and Ed448  (@FAlbertDev)
 - pr: 3933  # https://github.com/randombit/botan/pull/3933
   merge_commit: 850b2672973ed1739be33473c6aff84c75428eb2
   classification: critical
+  comment: |
+    Note that this implementation was not checked for side-channels
+    using the DATA suite.
