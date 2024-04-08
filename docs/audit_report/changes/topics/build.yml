@@ -1,7 +1,23 @@
 title: Build System
 
+description: |
+  Apart from minor changes to the library's build utilities, this introduces
+  a lifecycle notion for modules and experimental/deprecated features. With that,
+  modules may be marked as experimental or deprecated, communicating their level
+  of support to users.
+
 patches:
 # Feature: Module Lifecycle and Experimental/Deprecated Features  (@reneme)
 - pr: 3910  # https://github.com/randombit/botan/pull/3910
   merge_commit: 66dc49e2e245eae128b4e6811215f3ca11a75e0c
+  classification: info
+
+# Don't stop the ninja build if errors occur  (@randombit)
+- pr: 3952  # https://github.com/randombit/botan/pull/3952
+  merge_commit: 626dc641ac0eb90d89febbec207035855910b2d2
+  classification: info
+
+# Add an option to run_clang_format to skip the version check  (@randombit)
+- pr: 3974  # https://github.com/randombit/botan/pull/3974
+  merge_commit: 76f78e108ac710822862203d879d825dbd805b1c
   classification: info

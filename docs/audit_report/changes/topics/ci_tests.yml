@@ -1,5 +1,13 @@
 title: Continuous Integration and Tests
 
+description: |
+  This section includes changes that improve the library's testing infrastructure
+  or its continuous integration setup. These changes are not directly relevant
+  for the library's security.
+
+  Notably, GH #3920 improves the test suite's built-in random number generator,
+  resulting in reproducible test runs even in multi-threaded environments.
+
 patches:
 # FIX: Emscripten build on macOS  (@reneme)
 - pr: 3932  # https://github.com/randombit/botan/pull/3932
@@ -35,4 +43,9 @@ patches:
 # Add --no-stdout flag to botan-test  (@FAlbertDev)
 - pr: 3945  # https://github.com/randombit/botan/pull/3945
   merge_commit: 6c6fc090cc03645f8edfe34d6f2a7801eb86a30b
+  classification: info
+
+# FFI: test macros print a source location  (@reneme)
+- pr: 3970  # https://github.com/randombit/botan/pull/3970
+  merge_commit: dcada9d7a5bd29989646119d61c10707f05e5f4a
   classification: info

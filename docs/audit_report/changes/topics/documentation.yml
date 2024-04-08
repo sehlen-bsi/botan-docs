@@ -30,3 +30,8 @@ patches:
 - pr: 3944  # https://github.com/randombit/botan/pull/3944
   merge_commit: 85dbf6e0782d665d6976be00694a97430a86fff8
   classification: info
+
+# Update paper URL [ci skip]  (Jack Lloyd)
+- commit: 5629de749d5a1cbc1bcc92d90fe10686ebf62e26  # https://github.com/randombit/botan/commit/5629de749d5a1cbc1bcc92d90fe10686ebf62e26
+  classification: info
+  auditer: reneme
