@@ -3,7 +3,7 @@ title: Code Maintenance
 description: |
   This section includes changes that do not directly affect the library's
   functionality but improve its maintainability, readability, or performance.
-  Typically, these changes don't apply changes that are directly relevant for
+  Typically, these changes aren't directly relevant for
   the library's security.
 
   Two exceptions are GH #3959 and GH #3969 which respectively simplify the
