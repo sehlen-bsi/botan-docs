@@ -11,7 +11,7 @@ Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table_pa
 **Structure**
 
 The IND-CCA2-secure KEM Kyber (Kyber.CCAKEM, Section 1.3, [Kyber-R3]_) is obtained from an IND-CPA-secure public-key encryption scheme (Kyber.CPAPKE, Section 1.2, [Kyber-R3]_) via a modified Fujisaki–Okamoto transform.
-The internal class ``Kyber_KEM_Cryptor`` found in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1045|Kyber_KEM_Cryptor` implements the public-key encryption Kyber.CPAPKE.Enc.
+The internal class ``Kyber_KEM_Cryptor`` found in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1054|Kyber_KEM_Cryptor` implements the public-key encryption Kyber.CPAPKE.Enc.
 Its child classes ``Kyber_KEM_Encryptor`` and ``Kyber_KEM_Decryptor`` respectively implement the IND-CCA2-secure KEM Kyber.CCAKEM encapsulation/decapsulation [#kyber_cryptor_class]_.
 
 .. [#kyber_cryptor_class]
@@ -110,7 +110,7 @@ Encoding/decoding of polynomials (**Algorithm 3** of [Kyber-R3]_) is realized vi
 Key Generation
 --------------
 
-Based on these functions the key generation process follows **Algorithms 4 and 7** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1278|Kyber_PrivateKey`) and works as follows:
+Based on these functions the key generation process follows **Algorithms 4 and 7** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1287|Kyber_PrivateKey`) and works as follows:
 
 .. admonition:: Kyber_PrivateKey::Kyber_PrivateKey()
 
@@ -145,7 +145,7 @@ Key Encapsulation
 Kyber.CPAPKE
 ^^^^^^^^^^^^
 
-Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1052|indcpa_enc`):
+Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1061|indcpa_enc`):
 
 .. admonition:: Kyber_KEM_Cryptor::indcpa_enc()
 
@@ -179,7 +179,7 @@ Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_ (see :srcr
 Kyber.CCAKEM
 ^^^^^^^^^^^^
 
-Encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1114|raw_kem_encrypt`):
+Encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1123|raw_kem_encrypt`):
 
 .. admonition:: Kyber_KEM_Encryptor::raw_kem_encrypt()
 
@@ -213,7 +213,7 @@ Key Decapsulation
 Kyber.CPAPKE
 ^^^^^^^^^^^^
 
-IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:788|indcpa_decrypt`):
+IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:797|indcpa_decrypt`):
 
 .. |step_3_formular| replace:: :math:`\mathbf{\hat{s}}^T \circ \mathsf{NTT}(\mathbf{u})`
 .. |step_4_formular| replace:: :math:`\mathsf{NTT}^{-1}(\mathbf{\hat{s}}^T \circ \mathsf{NTT}(\mathbf{u}))`
@@ -245,7 +245,7 @@ IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_ (s
 Kyber.CCAKEM
 ^^^^^^^^^^^^
 
-Decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1162|raw_kem_decrypt`):
+Decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1171|raw_kem_decrypt`):
 
 .. admonition:: Kyber_KEM_Decryptor::raw_kem_decrypt()
 
