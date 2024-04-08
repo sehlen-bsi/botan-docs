@@ -27,12 +27,6 @@ patches:
   classification: info
   auditer: reneme
 
-# Add functionality for compile time decoding of word constants  (@randombit)
-- pr: 3962  # https://github.com/randombit/botan/pull/3962
-  merge_commit: 64676be1b006c6bfbd0ccb965fa6e070ef502d24
-  classification: info
-  auditer: reneme
-
 # Add scoped_cleanup helper  (@reneme)
 - pr: 3968  # https://github.com/randombit/botan/pull/3968
   merge_commit: b05934758dd6cb072d58799cb61cd7528cb2627d
@@ -47,12 +41,6 @@ patches:
 - pr: 3959  # https://github.com/randombit/botan/pull/3959
   merge_commit: 1e924598ae00b6461f23d44dcba861154dfb068b
   classification: relevant
-
-# Use a better algorithm for mul64x64_128  (@randombit)
-- pr: 3957  # https://github.com/randombit/botan/pull/3957
-  merge_commit: b8d631770e9fd419cff3c187f4819887ee730332
-  classification: info
-  auditer: reneme
 
 # Split out XMD from hash2curve to its own module  (@randombit)
 - pr: 3973  # https://github.com/randombit/botan/pull/3973
