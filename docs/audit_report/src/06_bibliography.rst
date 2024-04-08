@@ -29,9 +29,3 @@
 .. [TESTRP] "Pflege und Weiterentwicklung der Kryptobibliothek Botan (Weiterentwicklung Botan):
    Botan Test Report",
    Release TBD
-
-.. [BOTAN_GIT] https://github.com/randombit/botan/tree/0676a3d0a2cc17975053f115da852578556bf50c
-
-.. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser
-
-.. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
