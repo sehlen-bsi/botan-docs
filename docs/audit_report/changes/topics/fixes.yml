@@ -1,5 +1,11 @@
 title: Fixes
 
+description: |
+  Some minor bugs that are not directly affecting the library's security were
+  identified and fixed. GH #3971 fixes an issue where the Foreign Function
+  Interface wrapper inadvertently copied plaintext input data into an output
+  buffer meant for encrypted data without actually encrypting it.
+
 patches:
 # FIX: arm64 amalgamations + better CI coverage  (@reneme)
 - pr: 3931  # https://github.com/randombit/botan/pull/3931

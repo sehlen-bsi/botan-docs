@@ -1,5 +1,11 @@
 title: Build System
 
+description: |
+  Apart from minor changes to the library's build utilities, this introduces
+  a lifecycle notion for modules and experimental/deprecated features. With that,
+  modules may be marked as experimental or deprecated, communicating their level
+  of support to users.
+
 patches:
 # Feature: Module Lifecycle and Experimental/Deprecated Features  (@reneme)
 - pr: 3910  # https://github.com/randombit/botan/pull/3910

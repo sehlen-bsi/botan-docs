@@ -1,5 +1,13 @@
 title: Continuous Integration and Tests
 
+description: |
+  This section includes changes that improve the library's testing infrastructure
+  or its continuous integration setup. These changes are not directly relevant
+  for the library's security.
+
+  Notably, GH #3920 improves the test suite's built-in random number generator,
+  resulting in reproducible test runs even in multi-threaded environments.
+
 patches:
 # FIX: Emscripten build on macOS  (@reneme)
 - pr: 3932  # https://github.com/randombit/botan/pull/3932
