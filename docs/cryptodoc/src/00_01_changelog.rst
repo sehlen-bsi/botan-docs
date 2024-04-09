@@ -161,5 +161,5 @@ Changelog
    |         |          |   against KyberSlash side-channel attack    |            |
    |         |          | - X.509 path validation may optionally      |            |
    |         |          |   ignore the validity interval of a trusted |            |
-   |         |          |   self-signed root certificate.             |            |
+   |         |          |   self-signed root certificate              |            |
    +---------+----------+---------------------------------------------+------------+
