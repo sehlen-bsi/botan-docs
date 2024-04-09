@@ -50,6 +50,10 @@ patches:
 - pr: 3959  # https://github.com/randombit/botan/pull/3959
   merge_commit: 1e924598ae00b6461f23d44dcba861154dfb068b
   classification: relevant
+  comment: |
+    A detailed explanation of the KyberSlash counter-measure may be found in the
+    cryptographic documentation accompanying this report. In Section 8.8 , find
+    the paragraph detailing the implementation of ``ct_int_div_kyber_q``.
 
 # Split out XMD from hash2curve to its own module  (@randombit)
 - pr: 3973  # https://github.com/randombit/botan/pull/3973
