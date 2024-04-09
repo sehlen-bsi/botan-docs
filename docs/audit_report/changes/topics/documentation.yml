@@ -35,3 +35,19 @@ patches:
 - commit: 5629de749d5a1cbc1bcc92d90fe10686ebf62e26  # https://github.com/randombit/botan/commit/5629de749d5a1cbc1bcc92d90fe10686ebf62e26
   classification: info
   auditer: reneme
+
+# Deprecate creation of application specific groups over 521 bits  (@randombit)
+- pr: 3980  # https://github.com/randombit/botan/pull/3980
+  merge_commit: 18a775ee76601dd2fa1db88c813318b40fcb1415
+  classification: info
+  auditer: reneme
+
+# Deprecate support for hybrid elliptic curve point encoding  (@randombit)
+- pr: 3981  # https://github.com/randombit/botan/pull/3981
+  merge_commit: 61b0c7e7364df86d362a609ad1aac1ef8c9bba0a
+  classification: info
+
+# FIX: documentation of botan_cipher_get_ideal_update_granularity  (@reneme)
+- pr: 3983  # https://github.com/randombit/botan/pull/3983
+  merge_commit: 07ead9125c55eb48a29a491cb8135539d906a5b1
+  classification: info

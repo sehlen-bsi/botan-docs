@@ -5,3 +5,13 @@ patches:
 - pr: 3947  # https://github.com/randombit/botan/pull/3947
   merge_commit: d955b20bbf1731545e2f49de7651902add0d78b4
   classification: info
+
+# Update for 3.4.0 release  (Jack Lloyd)
+- commit: afd43c536ff96e85d45837caa6f99125483c160a  # https://github.com/randombit/botan/commit/afd43c536ff96e85d45837caa6f99125483c160a
+  classification: info
+  auditer: reneme
+
+# Update news [ci skip]  (Jack Lloyd)
+- commit: 4cc523a6d599355284d65c114e35b2b2bd4aa9ca  # https://github.com/randombit/botan/commit/4cc523a6d599355284d65c114e35b2b2bd4aa9ca
+  classification: info
+  auditer: reneme
