@@ -1,0 +1,28 @@
+title: Continuous Integration
+
+patches:
+# Update roughtime.cloudflare.com public key and port  (@lukevalenta)
+- pr: 4002  # https://github.com/randombit/botan/pull/4002
+  merge_commit: 3801b0af5d4414cc4bded25b8d7a09b3d4a0854e
+  classification: unspecified
+
+# Upgrade XCode in CI to 15.2 on MacOS 13 and 15.3 on MacOS 14  (@randombit)
+- pr: 4005  # https://github.com/randombit/botan/pull/4005
+  merge_commit: c428cbc070c0527fed6af196f19080b35a1470e2
+  classification: unspecified
+
+# Tweak XCode version detection, update CI to XCode 15.4  (@randombit)
+- pr: 4066  # https://github.com/randombit/botan/pull/4066
+  merge_commit: 8d0ab774b451e586da58111b6103e59134cc2bac
+  classification: unspecified
+
+# FIX: dynamically pull test.openquantumsafe.org root CA  (@reneme)
+- pr: 4071  # https://github.com/randombit/botan/pull/4071
+  merge_commit: 8af866b4a30f671e3b62fe986cf973ec23ba1edc
+  classification: unspecified
+
+# FIX: clang-tidy error in nightly build  (@reneme)
+- pr: 4075  # https://github.com/randombit/botan/pull/4075
+  merge_commit: 00e234d884a31e37b291df531fc12f5f1313da2f
+  classification: unspecified
+  comment: Also fixes a minor clang-tidy warning introduced in GH #4043.

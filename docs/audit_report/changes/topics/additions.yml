@@ -1,0 +1,34 @@
+title: Additions
+
+patches:
+# Introduce Public_Key::raw_public_key_bits()  (@reneme)
+- pr: 3985  # https://github.com/randombit/botan/pull/3985
+  merge_commit: 2d52a434a97aff21e865bd7d4487800232d85827
+  classification: unspecified
+
+# add callback to export secrets for SSLKEYLOGFILE  (@volok-aleksej)
+- pr: 4043  # https://github.com/randombit/botan/pull/4043
+  merge_commit: 9a5a367c82b8daba4a59861d23517e3a537eeb65
+  classification: unspecified
+
+# FIX: some code smells found by clang-tidy  (@reneme)
+- pr: 4070  # https://github.com/randombit/botan/pull/4070
+  merge_commit: bccd67b986374ecb573c1c933b2cfa36a602166d
+  classification: unspecified
+  comment: |
+    Relates to GH #4043
+
+# Use sysctlbyname on iOS as well  (@randombit)
+- pr: 4018  # https://github.com/randombit/botan/pull/4018
+  merge_commit: 19e9ada97714d9030941711976c2200948c5151d
+  classification: unspecified
+
+# Add a os_utils helper for locatime->put_time  (@randombit)
+- pr: 4011  # https://github.com/randombit/botan/pull/4011
+  merge_commit: 660dd6ed8945238dfae97ef5391217001a10204b
+  classification: unspecified
+
+# Optimize XTS tweak computation  (@randombit)
+- pr: 4057  # https://github.com/randombit/botan/pull/4057
+  merge_commit: 36bde7448b05dc555ef4bc0cb6adfbe697cb4870
+  classification: unspecified

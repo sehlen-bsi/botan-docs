@@ -1,0 +1,12 @@
+title: HSS/LMS
+
+patches:
+# HSS-LMS Signature Algorithm Implementation  (@FAlbertDev)
+- pr: 3716  # https://github.com/randombit/botan/pull/3716
+  merge_commit: 19567e328197294718f8393929a75387fbb159cb
+  classification: unspecified
+
+# Doc: Mention HSS/LMS in top-level docs  (@reneme)
+- pr: 4069  # https://github.com/randombit/botan/pull/4069
+  merge_commit: 3922eebc65971db50cd3e9842de523d34d77e9c8
+  classification: unspecified

@@ -1,0 +1,52 @@
+title: Fixes in X.509
+
+patches:
+# Fix a bug in SAN handling when creating certs and PKCS 10 requests  (@randombit)
+- pr: 4032  # https://github.com/randombit/botan/pull/4032
+  merge_commit: 4af65b1a4bf8ec1e366e90f95cc0b84fb9926ff4
+  classification: unspecified
+
+# Refactor AlternativeName internals  (@randombit)
+- pr: 4034  # https://github.com/randombit/botan/pull/4034
+  merge_commit: 7606d70d3a2ac7114476ec2651ca0243c4536fdf
+  classification: unspecified
+
+# Fix X509_CRL::crl_issuing_distribution_point  (@randombit)
+- pr: 4030  # https://github.com/randombit/botan/pull/4030
+  merge_commit: 44147d5f6d3cc8a56d040ad729fc7bf217a04019
+  classification: unspecified
+
+# During X509 path validation, return immediately if a signature is invalid  (@randombit)
+- pr: 4045  # https://github.com/randombit/botan/pull/4045
+  merge_commit: 39535f13c322f56aa3da2f44b2b6abb8619a82ac
+  classification: unspecified
+
+# Add a much faster IPv4 dotted quad parser  (@randombit)
+- pr: 4058  # https://github.com/randombit/botan/pull/4058
+  merge_commit: 36eb2ee914ceb0a437e98b1cd43380e36c8b1f96
+  classification: unspecified
+
+# Optimize name constraint matching  (@randombit)
+- pr: 4047  # https://github.com/randombit/botan/pull/4047
+  merge_commit: c3264821b9f6286ee4e6e3e06826f6b7177e6d41
+  classification: unspecified
+
+# In BER decoding do not allow leading 0s in multibyte tag encoding  (@randombit)
+- pr: 4064  # https://github.com/randombit/botan/pull/4064
+  merge_commit: 59e17501abaa7b545cd7d41ed4eec1c9052a6aa4
+  classification: unspecified
+
+# Fix various SNI related issues  (@randombit)
+- pr: 4059  # https://github.com/randombit/botan/pull/4059
+  merge_commit: 8a77f7387e2717e43aa3d129afc6ddd5f6ac5a48
+  classification: unspecified
+
+# Fix several bugs relating to OID encoding and decoding  (@randombit)
+- pr: 4063  # https://github.com/randombit/botan/pull/4063
+  merge_commit: 9e6c6da8b4041c99882858405dcaec3bf82cfa94
+  classification: unspecified
+
+# Fix Python wrapper when X509 cert or CRL parsing fails  (@randombit)
+- pr: 4072  # https://github.com/randombit/botan/pull/4072
+  merge_commit: 4f6b4babaeb9b4c2c9be45956bf2ffdabc42a218
+  classification: unspecified

@@ -1,0 +1,29 @@
+title: Fixes
+
+description: |
+  Note that there's a dedicated section for :ref:`fixes related to X.509 <changes/fixes_x509>`.
+
+patches:
+# Fix test_cli_crypt.py with --threads=1 [ci skip]  (Jack Lloyd)
+- commit: 187e3d8dc62e3d935cb480f8a6140abb9b3aaa7b  # https://github.com/randombit/botan/commit/187e3d8dc62e3d935cb480f8a6140abb9b3aaa7b
+  classification: unspecified
+
+# Fix curve448 compiler warning  (@FAlbertDev)
+- pr: 4025  # https://github.com/randombit/botan/pull/4025
+  merge_commit: bf86f1a9f99aa1fc62f9884d0bda8193fb1d57b7
+  classification: unspecified
+
+# Correct an error in RFC 6979 ECDSA  (@randombit)
+- pr: 4040  # https://github.com/randombit/botan/pull/4040
+  merge_commit: adda2dd9f7799d2c64a5541c3733e47213b57bd1
+  classification: unspecified
+
+# fixed retransmission handled ClientHello with another protocol version.  (@volok-aleksej)
+- pr: 4037  # https://github.com/randombit/botan/pull/4037
+  merge_commit: 8798305c102934c4c20d9e4f63b768ba7e74c6b9
+  classification: unspecified
+
+# Improve FFI's botan_cipher_update() performance for stream ciphers  (@reneme)
+- pr: 3951  # https://github.com/randombit/botan/pull/3951
+  merge_commit: 1644599e16f6b128c4caf32fb0eca6e67394bfe9
+  classification: unspecified
