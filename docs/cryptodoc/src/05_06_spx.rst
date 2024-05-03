@@ -298,6 +298,7 @@ within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
    **Input:**
 
    -  ``rng``: random number generator
+   -  ``params``: SPHINCS\ :sup:`+` parameters
 
    **Output:**
 

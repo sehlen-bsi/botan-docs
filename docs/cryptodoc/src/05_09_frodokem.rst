@@ -172,6 +172,7 @@ It works as follows:
    **Input:**
 
    -  ``rng``: random number generator
+   -  ``mode``: FrodoKEM mode
 
    **Output:**
 
