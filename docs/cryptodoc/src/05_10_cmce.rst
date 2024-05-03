@@ -366,6 +366,7 @@ follows:
    **Input:**
 
    -  ``rng``: random number generator
+   -  ``param_set``: Classic McEliece parameter set
 
    **Output:**
 
