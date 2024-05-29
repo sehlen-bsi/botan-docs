@@ -61,8 +61,8 @@ Algorithm Internals
 
 All possible modes are represented by the class ``KyberMode`` found in :srcref:`[src/lib/pubkey/kyber]/kyber_common`.
 The ``_90s`` suffix denotes different symmetric functions for Kyber's \"90s mode\", which uses SHA2 and AES instead of SHA3 and SHAKE as symmetric primitives.
-The abstract adapter class ``Kyber_Symmetric_Primitives`` is the interface for Kyber's five symmetric primitives, which are instantiated either as a ``Kyber_Modern_Symmetric_Primitives`` object (in :srcref:`[src/lib/pubkey/kyber]/kyber`) for modern Kyber
-or as a ``Kyber_90s_Symmetric_Primitives`` one (in :srcref:`[src/lib/pubkey/kyber]/kyber_90s`) for the 90s variant (see Table :ref:`Kyber's symmetric primitives <pubkey_key_generation/kyber/table_sym_primitives>`).
+The abstract adapter class ``Kyber_Symmetric_Primitives`` is the interface for Kyber's five symmetric primitives, which are instantiated either as a ``Kyber_Modern_Symmetric_Primitives`` object (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber`) for modern Kyber
+or as a ``Kyber_90s_Symmetric_Primitives`` one (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_90s`) for the 90s variant (see Table :ref:`Kyber's symmetric primitives <pubkey_key_generation/kyber/table_sym_primitives>`).
 For each mode, the ``KyberConstants`` class contains the corresponding set of parameters and symmetric functions (``Kyber_Symmetric_Primitives``).
 
 .. _pubkey_key_generation/kyber/table_params:

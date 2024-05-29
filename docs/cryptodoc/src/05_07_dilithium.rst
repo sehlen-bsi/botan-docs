@@ -111,7 +111,7 @@ It also contains the seed ``key``, the vectors ``s1`` and ``s2``, and the value 
 The keys use a helper function ``calculate_t0_and_t1`` to compute :math:`(\mathbf{t_1},\mathbf{t_0})` based on the public key seed ``rho`` and private vectors ``s1, s2``, i.e., realizing L. 3, L.5, and L. 6, Fig. 4, [Dilithium-R3]_.
 Furthermore, encoding and decoding of keys and signatures are provided via the key classes.
 
-The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of [Dilithium-R3]_ and works as follows (see :srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium.cpp:567|Dilithium_PrivateKey`):
+The Dilithium key generation process follows :math:`\mathsf{Gen}` of Figure 4 of [Dilithium-R3]_ and works as follows (see :srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium.cpp:573|Dilithium_PrivateKey`):
 
 .. admonition:: Dilithium_PrivateKey::Dilithium_PrivateKey()
 
