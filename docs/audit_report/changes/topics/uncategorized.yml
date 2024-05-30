@@ -1,0 +1,32 @@
+title: Uncategorized Patches
+
+patches:
+# HSS/LMS Verification Assert Regression Test  (@FAlbertDev)
+- pr: 4084  # https://github.com/randombit/botan/pull/4084
+  merge_commit: 36e0acd6ebc15859f10d0735b14df1771a56edca
+  classification: unspecified
+
+# Skip the Frodo KAT tests under valgrind and arm32-qemu  (@randombit)
+- pr: 4081  # https://github.com/randombit/botan/pull/4081
+  merge_commit: 35c8bd170f246767ce29a830b20b99cf7eb03ce6
+  classification: unspecified
+
+# Reject all HSS-LMS unknown parameter types  (@randombit)
+- pr: 4083  # https://github.com/randombit/botan/pull/4083
+  merge_commit: df4c265ac2c729c597b6bce7c2a461ebb2f85a17
+  classification: unspecified
+
+# Clean out the BigInt interface  (@randombit)
+- pr: 4056  # https://github.com/randombit/botan/pull/4056
+  merge_commit: e101afd63b121c43742d8340148f0c4c2c9f6ea9
+  classification: unspecified
+
+# Chore: Update BoGo test suite  (@reneme)
+- pr: 4078  # https://github.com/randombit/botan/pull/4078
+  merge_commit: 100a065bda4219d0cea220859681e65a2714019b
+  classification: unspecified
+
+# Fix various name constraint and path building bugs  (@randombit)
+- pr: 4074  # https://github.com/randombit/botan/pull/4074
+  merge_commit: 769983aad3966a250390827141d38b14f9f7e2a5
+  classification: unspecified
