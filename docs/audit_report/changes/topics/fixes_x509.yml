@@ -50,3 +50,8 @@ patches:
 - pr: 4072  # https://github.com/randombit/botan/pull/4072
   merge_commit: 4f6b4babaeb9b4c2c9be45956bf2ffdabc42a218
   classification: unspecified
+
+# Fix various name constraint and path building bugs  (@randombit)
+- pr: 4074  # https://github.com/randombit/botan/pull/4074
+  merge_commit: 769983aad3966a250390827141d38b14f9f7e2a5
+  classification: unspecified

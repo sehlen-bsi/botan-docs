@@ -31,3 +31,13 @@ patches:
   merge_commit: 00e234d884a31e37b291df531fc12f5f1313da2f
   classification: info
   comment: Also fixes a minor clang-tidy warning introduced in GH #4043.
+
+# Skip the Frodo KAT tests under valgrind and arm32-qemu  (@randombit)
+- pr: 4081  # https://github.com/randombit/botan/pull/4081
+  merge_commit: 35c8bd170f246767ce29a830b20b99cf7eb03ce6
+  classification: info
+
+# Chore: Update BoGo test suite  (@reneme)
+- pr: 4078  # https://github.com/randombit/botan/pull/4078
+  merge_commit: 100a065bda4219d0cea220859681e65a2714019b
+  classification: info
