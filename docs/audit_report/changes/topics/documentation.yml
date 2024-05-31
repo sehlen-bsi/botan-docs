@@ -1,43 +1,56 @@
 title: Documentation
 
+description: |
+  This section covers changes to the documentation and release notes. These
+  changes should not affect the functionality of the library.
+
 patches:
 # Update license year [ci skip]  (Jack Lloyd)
 - commit: 0baf3cb7ff7cad2a8daaf3f74882003c2db88115  # https://github.com/randombit/botan/commit/0baf3cb7ff7cad2a8daaf3f74882003c2db88115
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Clarify SemVer guarantees  (@randombit)
 - pr: 4015  # https://github.com/randombit/botan/pull/4015
   merge_commit: ce348dba379aafa4783cecec05b0560607ddaa94
-  classification: unspecified
+  classification: info
 
 # Bump version and add initial news items for 3.5.0 [ci skip]  (Jack Lloyd)
 - commit: 5e6f52cf3767d156dd8f323a8f74c29c6e166fb4  # https://github.com/randombit/botan/commit/5e6f52cf3767d156dd8f323a8f74c29c6e166fb4
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Minor update on roadmap and support lifetimes [ci skip]  (Jack Lloyd)
 - commit: 9c05fbecf4250cdfe442378e958250fa0b1922d4  # https://github.com/randombit/botan/commit/9c05fbecf4250cdfe442378e958250fa0b1922d4
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update info about OCSP responder vulnerability [ci skip]  (Jack Lloyd)
 - commit: efc4d24ec614814b2666c6bf28a123fcaefff4cf  # https://github.com/randombit/botan/commit/efc4d24ec614814b2666c6bf28a123fcaefff4cf
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update news with recent changes [ci skip]  (Jack Lloyd)
 - commit: dd24ef254b1a97da0ab6cdc4d3193f50fe992843  # https://github.com/randombit/botan/commit/dd24ef254b1a97da0ab6cdc4d3193f50fe992843
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update note regarding minimum XCode version [ci skip]  (Jack Lloyd)
 - commit: a265013b9e3e52e69a14cef4808bb74dfe6c0229  # https://github.com/randombit/botan/commit/a265013b9e3e52e69a14cef4808bb74dfe6c0229
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update news [ci skip]  (Jack Lloyd)
 - commit: d6b946da3160b07235fbd1a2044149daacb3b9e7  # https://github.com/randombit/botan/commit/d6b946da3160b07235fbd1a2044149daacb3b9e7
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update todo list [ci skip]  (Jack Lloyd)
 - commit: 36048811197c519cc66bbb245acf3b829dfe3107  # https://github.com/randombit/botan/commit/36048811197c519cc66bbb245acf3b829dfe3107
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Officially SemVer exclude functions starting with underscore [ci skip]  (Jack Lloyd)
 - commit: ddfd07547244e315c762442ac771d64830927ee7  # https://github.com/randombit/botan/commit/ddfd07547244e315c762442ac771d64830927ee7
-  classification: unspecified
+  classification: info
+  auditer: reneme

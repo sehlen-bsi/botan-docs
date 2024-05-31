@@ -1,62 +1,100 @@
 title: Code Chores
 
+description: |
+  This section covers changes to the code that focus on general maintenance.
+  None of these changes should affect the functionality of the library. However,
+  note that a number of obsolete features have been deprecated in this release.
+
 patches:
+# Improve notification and documentation of deprecated features  (@randombit)
+- pr: 4050  # https://github.com/randombit/botan/pull/4050
+  merge_commit: f7e4e9320a8d31e958f9c01c82ae884dec035e39
+  classification: info
+  comment: |
+    This deprecates a number of modules, namely:
+
+      * Symmetric ciphers
+
+        * GOST 28147
+        * Lion
+        * Noekeon
+        * SHAKE-based stream cipher
+
+      * Hash functions
+
+        * MD4
+        * Streebog
+
+      * Key derivation functions
+
+        * PRF X9.42
+
+      * Public key cryptography
+
+        * Dilithium in AES mode
+        * DLIES
+        * GOST 34.10
+        * Kyber in AES mode ("Kyber 90s")
+        * McEliece
+
 # [std::span] some pubkey things  (@reneme)
 - pr: 3993  # https://github.com/randombit/botan/pull/3993
   merge_commit: ad0aeedc33c74c81608adcbc751ad2c58503c007
-  classification: unspecified
+  classification: info
 
 # Remove some obsolete and/or rarely used STL utilities  (@randombit)
 - pr: 3988  # https://github.com/randombit/botan/pull/3988
   merge_commit: fea4cb983ff2e6acab6d9915b1f852a2662578a6
-  classification: unspecified
+  classification: info
 
 # Fix inclusion of bswap.h  (@randombit)
 - pr: 4000  # https://github.com/randombit/botan/pull/4000
   merge_commit: 4cfd407534a109767c15a0cf705689eb44379f5a
-  classification: unspecified
+  classification: info
 
 # Cleanup of rounding functionality  (@randombit)
 - pr: 3998  # https://github.com/randombit/botan/pull/3998
   merge_commit: 7987b8e006c52e671fb6dd0a08a10c65f2d25400
-  classification: unspecified
+  classification: info
 
 # Refactor: concat() is constexpr and can deal with std::array<>  (@reneme)
 - pr: 3994  # https://github.com/randombit/botan/pull/3994
   merge_commit: 06997284554155c8a051d05e68eebd28c84dfeb9
-  classification: unspecified
+  classification: info
 
 # Move checked integer arithmetic to int_utils.h  (@randombit)
 - pr: 3999  # https://github.com/randombit/botan/pull/3999
   merge_commit: 8d02e96ada344cb289dd060d76cc0c03240d2255
-  classification: unspecified
+  classification: info
 
 # Compute the Kuznyechik tables instead of hardcoding them  (@randombit)
 - pr: 4017  # https://github.com/randombit/botan/pull/4017
   merge_commit: 11b88e5899ca0a30036f35c57fa94b83d4de10cd
-  classification: unspecified
+  classification: out of scope
 
 # Rename Curve25519 to X25519  (@randombit)
 - pr: 4012  # https://github.com/randombit/botan/pull/4012
   merge_commit: d1ba2fd6e25e0884ca6fd12281db498386560b42
-  classification: unspecified
+  classification: info
 
 # Use copy_mem in Sphincs+  (@FAlbertDev)
 - pr: 4028  # https://github.com/randombit/botan/pull/4028
   merge_commit: e50f4f61b08115c4616136ec87df718b75284721
-  classification: unspecified
+  classification: info
 
 # Teach clang-format about our DEPRECATED macros  (@randombit)
 - pr: 4055  # https://github.com/randombit/botan/pull/4055
   merge_commit: 6bc081fb0d652c9c8fa5ec054c61745436be2f48
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Avoid various GCC 14 false positive issues  (@randombit)
 - pr: 4046  # https://github.com/randombit/botan/pull/4046
   merge_commit: 9ed7adbb599679c437f9bd8d7d4acf91471f78ef
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Small cleanup to the freestanding argon2 function  (@randombit)
 - pr: 4006  # https://github.com/randombit/botan/pull/4006
   merge_commit: c479ebbc9eefdaa722cb36761703e0c234e35d8d
-  classification: unspecified
+  classification: info
