@@ -1,0 +1,12 @@
+title: Uncategorized Patches
+
+patches:
+# Follow-up: Use load_be more efficiently  (@reneme)
+- pr: 4085  # https://github.com/randombit/botan/pull/4085
+  merge_commit: 5649a10ec3399d28c8b84ae18fd65fce57bd7bca
+  classification: unspecified
+
+# Doc: botan_cipher_update() byte generation behavior  (@reneme)
+- pr: 4088  # https://github.com/randombit/botan/pull/4088
+  merge_commit: 908dfde29b634a76119af43a08bb3c5354de6273
+  classification: unspecified
