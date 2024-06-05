@@ -3,6 +3,15 @@
 Kyber
 =====
 
+.. todo::
+
+   This documentation is outdated (and potentially too detailed).
+   It should be updated as soon as those pull requests are merged:
+
+     * https://github.com/randombit/botan/pull/4024
+
+   Until then, I've removed some of the source links to pass CI.
+
 Botan implements the CRYSTALS-Kyber KEM in
 :srcref:`src/lib/pubkey/kyber/`. The implementation is based on the NIST round 3 specification [Kyber-R3]_.
 The list of supported algorithms and their parameters is depicted in
@@ -11,7 +20,7 @@ Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table_pa
 **Structure**
 
 The IND-CCA2-secure KEM Kyber (Kyber.CCAKEM, Section 1.3, [Kyber-R3]_) is obtained from an IND-CPA-secure public-key encryption scheme (Kyber.CPAPKE, Section 1.2, [Kyber-R3]_) via a modified Fujisaki–Okamoto transform.
-The internal class ``Kyber_KEM_Cryptor`` found in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1054|Kyber_KEM_Cryptor` implements the public-key encryption Kyber.CPAPKE.Enc.
+The internal class ``Kyber_KEM_Cryptor`` implements the public-key encryption Kyber.CPAPKE.Enc.
 Its child classes ``Kyber_KEM_Encryptor`` and ``Kyber_KEM_Decryptor`` respectively implement the IND-CCA2-secure KEM Kyber.CCAKEM encapsulation/decapsulation [#kyber_cryptor_class]_.
 
 .. [#kyber_cryptor_class]
@@ -61,8 +70,8 @@ Algorithm Internals
 
 All possible modes are represented by the class ``KyberMode`` found in :srcref:`[src/lib/pubkey/kyber]/kyber_common`.
 The ``_90s`` suffix denotes different symmetric functions for Kyber's \"90s mode\", which uses SHA2 and AES instead of SHA3 and SHAKE as symmetric primitives.
-The abstract adapter class ``Kyber_Symmetric_Primitives`` is the interface for Kyber's five symmetric primitives, which are instantiated either as a ``Kyber_Modern_Symmetric_Primitives`` object (in :srcref:`[src/lib/pubkey/kyber]/kyber`) for modern Kyber
-or as a ``Kyber_90s_Symmetric_Primitives`` one (in :srcref:`[src/lib/pubkey/kyber]/kyber_90s`) for the 90s variant (see Table :ref:`Kyber's symmetric primitives <pubkey_key_generation/kyber/table_sym_primitives>`).
+The abstract adapter class ``Kyber_Symmetric_Primitives`` is the interface for Kyber's five symmetric primitives, which are instantiated either as a ``Kyber_Modern_Symmetric_Primitives`` object (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber`) for modern Kyber
+or as a ``Kyber_90s_Symmetric_Primitives`` one (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_90s`) for the 90s variant (see Table :ref:`Kyber's symmetric primitives <pubkey_key_generation/kyber/table_sym_primitives>`).
 For each mode, the ``KyberConstants`` class contains the corresponding set of parameters and symmetric functions (``Kyber_Symmetric_Primitives``).
 
 .. _pubkey_key_generation/kyber/table_params:
@@ -109,7 +118,7 @@ Encoding/decoding of polynomials (**Algorithm 3** of [Kyber-R3]_) is realized vi
 Key Generation
 --------------
 
-Based on these functions the key generation process follows **Algorithms 4 and 7** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1287|Kyber_PrivateKey`) and works as follows:
+Based on these functions the key generation process follows **Algorithms 4 and 7** of [Kyber-R3]_ and works as follows:
 
 .. admonition:: Kyber_PrivateKey::Kyber_PrivateKey()
 
@@ -144,7 +153,7 @@ Key Encapsulation
 Kyber.CPAPKE
 ^^^^^^^^^^^^
 
-Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1061|indcpa_enc`):
+Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_:
 
 .. admonition:: Kyber_KEM_Cryptor::indcpa_enc()
 
@@ -178,7 +187,7 @@ Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_ (see :srcr
 Kyber.CCAKEM
 ^^^^^^^^^^^^
 
-Encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1123|raw_kem_encrypt`):
+Encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]_:
 
 .. admonition:: Kyber_KEM_Encryptor::raw_kem_encrypt()
 
@@ -212,7 +221,7 @@ Key Decapsulation
 Kyber.CPAPKE
 ^^^^^^^^^^^^
 
-IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:797|indcpa_decrypt`):
+IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_:
 
 .. |step_3_formular| replace:: :math:`\mathbf{\hat{s}}^T \circ \mathsf{NTT}(\mathbf{u})`
 .. |step_4_formular| replace:: :math:`\mathsf{NTT}^{-1}(\mathbf{\hat{s}}^T \circ \mathsf{NTT}(\mathbf{u}))`
@@ -244,7 +253,7 @@ IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_ (s
 Kyber.CCAKEM
 ^^^^^^^^^^^^
 
-Decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]_ (see :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:1171|raw_kem_decrypt`):
+Decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]_:
 
 .. admonition:: Kyber_KEM_Decryptor::raw_kem_decrypt()
 

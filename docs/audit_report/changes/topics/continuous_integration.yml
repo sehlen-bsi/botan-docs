@@ -1,0 +1,43 @@
+title: Continuous Integration
+
+description: |
+  This section covers changes to the continuous integration system.
+  The functionality of the library should not be affected by these changes.
+
+patches:
+# Update roughtime.cloudflare.com public key and port  (@lukevalenta)
+- pr: 4002  # https://github.com/randombit/botan/pull/4002
+  merge_commit: 3801b0af5d4414cc4bded25b8d7a09b3d4a0854e
+  classification: info
+  auditer: reneme
+
+# Upgrade XCode in CI to 15.2 on MacOS 13 and 15.3 on MacOS 14  (@randombit)
+- pr: 4005  # https://github.com/randombit/botan/pull/4005
+  merge_commit: c428cbc070c0527fed6af196f19080b35a1470e2
+  classification: info
+
+# Tweak XCode version detection, update CI to XCode 15.4  (@randombit)
+- pr: 4066  # https://github.com/randombit/botan/pull/4066
+  merge_commit: 8d0ab774b451e586da58111b6103e59134cc2bac
+  classification: info
+
+# FIX: dynamically pull test.openquantumsafe.org root CA  (@reneme)
+- pr: 4071  # https://github.com/randombit/botan/pull/4071
+  merge_commit: 8af866b4a30f671e3b62fe986cf973ec23ba1edc
+  classification: info
+
+# FIX: clang-tidy error in nightly build  (@reneme)
+- pr: 4075  # https://github.com/randombit/botan/pull/4075
+  merge_commit: 00e234d884a31e37b291df531fc12f5f1313da2f
+  classification: info
+  comment: Also fixes a minor clang-tidy warning introduced in GH #4043.
+
+# Skip the Frodo KAT tests under valgrind and arm32-qemu  (@randombit)
+- pr: 4081  # https://github.com/randombit/botan/pull/4081
+  merge_commit: 35c8bd170f246767ce29a830b20b99cf7eb03ce6
+  classification: info
+
+# Chore: Update BoGo test suite  (@reneme)
+- pr: 4078  # https://github.com/randombit/botan/pull/4078
+  merge_commit: 100a065bda4219d0cea220859681e65a2714019b
+  classification: info

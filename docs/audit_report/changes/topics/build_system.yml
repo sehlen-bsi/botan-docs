@@ -1,0 +1,27 @@
+title: Build System
+
+description: |
+  This section covers changes to the build system. Most notably, Botan now  requires
+  at least XCode 15 to build on macOS.
+
+patches:
+# Add helper for defining binary option pairs  (@randombit)
+- pr: 3997  # https://github.com/randombit/botan/pull/3997
+  merge_commit: d9edacb2655162dd3b59a5be6a0a5a51809fe0d3
+  classification: info
+
+# Distinguish between LLVM Clang and XCode Clang  (@randombit)
+- pr: 4010  # https://github.com/randombit/botan/pull/4010
+  merge_commit: 3863af7ea0b7a74506979626abc876c4bd24122f
+  classification: info
+
+# Tweak XCode version detection, update CI to XCode 15.4  (@randombit)
+- pr: 4066  # https://github.com/randombit/botan/pull/4066
+  merge_commit: 8d0ab774b451e586da58111b6103e59134cc2bac
+  classification: info
+
+# Fix enabling stack protector  (@Kentzo)
+- pr: 3996  # https://github.com/randombit/botan/pull/3996
+  merge_commit: 846a6aedc9bdfbf1cff043f1cd32c3c261407669
+  classification: info
+  auditer: reneme
