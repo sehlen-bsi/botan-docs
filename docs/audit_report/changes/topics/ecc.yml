@@ -53,3 +53,8 @@ patches:
 - pr: 4056  # https://github.com/randombit/botan/pull/4056
   merge_commit: e101afd63b121c43742d8340148f0c4c2c9f6ea9
   classification: unspecified
+
+# Follow-up: Use load_be more efficiently  (@reneme)
+- pr: 4085  # https://github.com/randombit/botan/pull/4085
+  merge_commit: 5649a10ec3399d28c8b84ae18fd65fce57bd7bca
+  classification: unspecified

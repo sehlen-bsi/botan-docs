@@ -41,3 +41,8 @@ patches:
 - pr: 3951  # https://github.com/randombit/botan/pull/3951
   merge_commit: 1644599e16f6b128c4caf32fb0eca6e67394bfe9
   classification: relevant
+
+# Doc: botan_cipher_update() byte generation behavior  (@reneme)
+- pr: 4088  # https://github.com/randombit/botan/pull/4088
+  merge_commit: 908dfde29b634a76119af43a08bb3c5354de6273
+  classification: info
