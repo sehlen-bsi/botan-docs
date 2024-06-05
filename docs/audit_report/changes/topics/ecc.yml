@@ -4,57 +4,66 @@ patches:
 # Add word3 type and take advantage of Clang's _BitInt extension  (@randombit)
 - pr: 3989  # https://github.com/randombit/botan/pull/3989
   merge_commit: 0d32f989991bbc4fd057968c52a253e1dc3566a2
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Introduces a helper for a 3-word wide accumulator that is useful for
+    comba multiplication and big number montgomery reduction.
 
 # Remove all 32-bit x86 inline asm related to multiprecision math  (@randombit)
 - pr: 3987  # https://github.com/randombit/botan/pull/3987
   merge_commit: 1a814747a4637aadf0af45880ec98b80792339e1
-  classification: unspecified
+  classification: info
 
 # Add constexpr shift_right mp helper  (@randombit)
 - pr: 4008  # https://github.com/randombit/botan/pull/4008
   merge_commit: 7113fb440f176f985790f10fae3745b91a94c95d
-  classification: unspecified
+  classification: info
 
 # Redirect from the template Comba to the unrolled Combas where possible  (@randombit)
 - pr: 4007  # https://github.com/randombit/botan/pull/4007
   merge_commit: d184e7842fe7db26f8ab8368e92526574c8343fe
-  classification: unspecified
+  classification: info
 
 # Change ECC base multiply tests to consume fixed sized inputs  (@randombit)
 - pr: 4016  # https://github.com/randombit/botan/pull/4016
   merge_commit: 550f8e9ed40c388769d4a298dc23c96888638fc2
-  classification: unspecified
+  classification: info
 
 # Take advange of CT::Mask::select_n  (@randombit)
 - pr: 3990  # https://github.com/randombit/botan/pull/3990
   merge_commit: 8970266d1071a448f62b379d1ce65ac33539e78d
-  classification: unspecified
+  classification: info
 
 # Replace bogus custom curve in TLS example  (@randombit)
 - pr: 4039  # https://github.com/randombit/botan/pull/4039
   merge_commit: 7eb9dbbf56fc0fc8875be39e5cbae52766667555
-  classification: unspecified
+  classification: relevant
   comment: |
     Introduces a rough check for the Hasse bound to the curve verification.
+    The replaced bogus curve was just in some example code and not used in the library.
 
 # Account for the cofactor when checking Hasse bound  (Jack Lloyd)
 - commit: 2b8cf53ae0e835c3223461ce68af2ff9a656d5f2  # https://github.com/randombit/botan/commit/2b8cf53ae0e835c3223461ce68af2ff9a656d5f2
-  classification: unspecified
+  classification: relevant
+  auditer: reneme
   comment: |
-    Relates to GH #4039.
+    Follow-up fix for GH #4039.
 
 # Some EC_Group usage cleanups  (@randombit)
 - pr: 4038  # https://github.com/randombit/botan/pull/4038
   merge_commit: 9bca3f772b4f834afe443235897635ba91f30989
-  classification: unspecified
+  classification: info
 
 # Clean out the BigInt interface  (@randombit)
 - pr: 4056  # https://github.com/randombit/botan/pull/4056
   merge_commit: e101afd63b121c43742d8340148f0c4c2c9f6ea9
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Internal cleanups of Botan's big number implementation.
 
 # Follow-up: Use load_be more efficiently  (@reneme)
 - pr: 4085  # https://github.com/randombit/botan/pull/4085
   merge_commit: 5649a10ec3399d28c8b84ae18fd65fce57bd7bca
-  classification: unspecified
+  classification: info
+  comment: |
+    This is a follow-up to PR #4056.
