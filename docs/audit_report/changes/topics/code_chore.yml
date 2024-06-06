@@ -98,3 +98,23 @@ patches:
 - pr: 4006  # https://github.com/randombit/botan/pull/4006
   merge_commit: c479ebbc9eefdaa722cb36761703e0c234e35d8d
   classification: info
+
+# Ignore new warnings in clang-tidy from LLVM 17 [ci skip]  (Jack Lloyd)
+- commit: 2b7e2eea2d9ffb6437347cbbc7476609a9476380  # https://github.com/randombit/botan/commit/2b7e2eea2d9ffb6437347cbbc7476609a9476380
+  classification: info
+  auditer: reneme
+
+# Use clang-format 17  (@randombit)
+- pr: 4100  # https://github.com/randombit/botan/pull/4100
+  merge_commit: 19c62311243a6f66237bcc302a9c34bd8e5bef13
+  classification: info
+
+# Fix various issues flagged by clang-tidy 18  (@randombit)
+- pr: 4101  # https://github.com/randombit/botan/pull/4101
+  merge_commit: 1a5cf8729f42f55f5a9336a2fa389c4c0a2dfda3
+  classification: info
+
+# Extend KMAC maximal key length   (@FAlbertDev)
+- pr: 4109  # https://github.com/randombit/botan/pull/4109
+  merge_commit: 7be1498984319abd04d56081567a7dc132b01045
+  classification: info

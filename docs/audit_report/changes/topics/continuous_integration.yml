@@ -41,3 +41,20 @@ patches:
 - pr: 4078  # https://github.com/randombit/botan/pull/4078
   merge_commit: 100a065bda4219d0cea220859681e65a2714019b
   classification: info
+
+# Convert most Linux CI builds to use Ubuntu 24.04  (@randombit)
+- pr: 4098  # https://github.com/randombit/botan/pull/4098
+  merge_commit: 117f3b351a294c9c29982b11e52822faae47386d
+  classification: info
+
+# Add a workaround for MSVC/GH fuckup  (@randombit)
+- pr: 4105  # https://github.com/randombit/botan/pull/4105
+  merge_commit: 1c3890144aa3d0734dfa51c887b3d5dff542d0af
+  classification: info
+  auditer: reneme
+
+# Use 24.04 image for valgrind CI job  (@randombit)
+- pr: 4106  # https://github.com/randombit/botan/pull/4106
+  merge_commit: 759f12590b4bc14a18f0dec284cb79a8d598264f
+  classification: info
+  auditer: reneme

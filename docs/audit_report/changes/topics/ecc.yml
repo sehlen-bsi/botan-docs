@@ -67,3 +67,38 @@ patches:
   classification: info
   comment: |
     This is a follow-up to PR #4056.
+
+# Make application provided EC_Group restrictions a bit stricter  (@randombit)
+- pr: 4089  # https://github.com/randombit/botan/pull/4089
+  merge_commit: d215d2574712e1f4e1597f72ed41b0b540f20a4e
+  classification: info
+  comment: |
+    This restricts application-defined elliptic curves:
+
+    * must be prime order.
+    * must have a cofactor of 1.
+    * prime bitlength must be between 128 and 512 bits
+      (with special allowance for 521-bit Mersenne prime)
+    * prime must be congruent to 3 mod 4.
+
+# Add some further test cases of hash2curve  (@randombit)
+- pr: 4092  # https://github.com/randombit/botan/pull/4092
+  merge_commit: 709e26b86a19235715403401dbb5d492d168cedf
+  classification: info
+
+# Add library for compile time instantiation of elliptic curves  (@randombit)
+- pr: 3979  # https://github.com/randombit/botan/pull/3979
+  merge_commit: 856174ef1ecbbfbd9c4853bb4974f04d82d7f952
+  classification: critical
+  comment: |
+    This is a re-implementation of prime-order elliptic using modern
+    C++ features to allow significantly better compiler optimizations
+    and have a much better side-channel profile.
+
+# Fix: EC private key encoding  (@FAlbertDev)
+- pr: 4110  # https://github.com/randombit/botan/pull/4110
+  merge_commit: 3a87193718db9da4b75cc4faa470d855011558e3
+  classification: info
+  comment: |
+    This fixes an issue that was introduced recently and was never
+    part of an official release.
