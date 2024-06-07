@@ -59,13 +59,15 @@ The control flow leak indicates these differences in execution.
 
 The variables *start* and *end* specify the start and the end index in the hash chain calculation.
 Depending on the value of the message hash, the *process()* routine is executed differently.
-This is the basis of the observed control flow leak.
 The LMS algorithm calculates the hash of a message using *randomised hashing* [NIST_SP_800_208]_.
-This prevents generic collision attacks and thus considerably increases the security of the procedure.
-With *randomised hashing*, a random string, the randomizer *C*, is chosen for each message.
-This string is prefixed to the message together with the LMS key pair identifier.
-The hash of all data is then calculated and used in the further algorithm steps.
-The following code excerpt shows this procedure in the Botan implementation [BOTAN_LMS_Q_WITH_CKSM]_:
+Even with a constant message and a constant public key, different message hashes are computed.
+The following code excerpt shows this procedure in the Botan implementation [BOTAN_LMS_Q_WITH_CKSM]_.
+The different message hashes lead to different numbers of steps in the hash chains.
+This is observed by DATA.
+However, this leak only reveals information about the calculated hash.
+The hash value is generated using **only** public data.
+These are the LMS key pair identifier, the LMS tree node, the randomizer, and the message to be signed.
+For this reason, the control flow leak identified here can be classified as unproblematic.
 
 .. code-block:: cpp
 
@@ -89,13 +91,6 @@ The following code excerpt shows this procedure in the Botan implementation [BOT
 
        return Q_with_cksm;
     }
-
-Accordingly, even with a constant message and a constant public key, different hashes are signed.
-This leads to different numbers of steps in the hash chains, thus to different distributions of the observed addresses and consequently to the control flow leak that DATA identifies in phase 2.
-However, this leak only reveals information about the calculated hash.
-The hash value is generated using public data.
-These are the LMS key pair identifier, the LMS tree node, the randomizer, and the message to be signed.
-For this reason, the control flow leak identified here can be classified as unproblematic.
 
 No leaks were identified in the used hash function SHA-256.
 The private key is thus not affected by any leak during signature generation.
