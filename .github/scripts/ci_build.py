@@ -109,6 +109,10 @@ def determine_flags(target, target_os, target_cc, ccache,
     if ccache is not None:
         flags += ['--no-store-vc-rev', '--compiler-cache=%s' % (ccache)]
 
+    if target_os == 'windows':
+        # Workaround for https://github.com/actions/runner-images/issues/10004
+        flags += ['--extra-cxxflags=/D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR']
+
     flags += ['--werror-mode']
 
     enable_modules = []
