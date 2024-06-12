@@ -230,7 +230,8 @@ jobs:
           { host_os: windows-2022,  compiler: msvc,  make_tool: ninja },
           { host_os: ubuntu-latest, compiler: gcc,   make_tool: make },
           { host_os: ubuntu-latest, compiler: clang, make_tool: make },
-          { host_os: macos-13,  compiler: clang, make_tool: make }
+          { host_os: macos-13,  compiler: clang, make_tool: make }, # Intel
+          { host_os: macos-14,  compiler: clang, make_tool: make }  # Apple Silicon
         ]
 
     runs-on: ${{ matrix.platform.host_os }}
