@@ -361,7 +361,7 @@ The signature verification algorithm works as follows:
    3. Compute :math:`w=s^{-1}\bmod n`
    4. Compute :math:`v_1=m*w \bmod n` and :math:`v_2=r*w \bmod n`
    5. Compute the point :math:`v=(x_1, y_1)=v_1*G+v_2*Q` with Shamir's trick [DI08]_.
-   6. Return ``true`` if :math:`v \equiv r \bmod n` applies. ``false`` otherwise.
+   6. Return ``true`` if :math:`x_1 \equiv r \bmod n` applies. ``false`` otherwise.
 
 
 ECKCDSA
@@ -446,7 +446,7 @@ The signature verification algorithm works as follows:
    1. Perform preliminary parameter checks and verifies that :math:`0<s<n` applies.
       Terminates otherwise.
    2. Compute :math:`e=r \oplus m \bmod n`.
-   3. Compute point :math:`W=s*q+e*G` with Shamir's trick.
+   3. Compute point :math:`W=s*Q+e*G` with Shamir's trick.
    4. Recompute the witness :math:`r'=h(x_i)`,
       where :math:`h` is the hash function used in the current instance of the signature scheme.
    5. If the output length of the hash function :math:`h` exceeds the size of the group order,
