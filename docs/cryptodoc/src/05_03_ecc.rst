@@ -329,7 +329,7 @@ The signature generation algorithm works as follows:
       the algorithm terminates with an error.
 
 **Remark:** If Botan is built with the RFC6979 module, it implements
-deterministic ECDSA signatures, which are not covered by [TR-02102-1]_. In
+deterministic ECDSA signatures, which are not covered by [TR-03111]_. In
 this case the implemented ECDSA signature algorithm is not [FIPS-186-4]_
 conform. However, the RFC6979 module is prohibited in the BSI module
 policy.
