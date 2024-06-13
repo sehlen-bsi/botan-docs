@@ -1,6 +1,7 @@
 [tool.poetry]
 name = "test_report"
 version = "1.0.0"
+package-mode = false
 description = "Collects Botan's test outputs and renders them into a document"
 authors = ["Fabian Albert <fabian.albert@rohde-schwarz.com>", "René Meusel <rene.meusel@rohde-schwarz.com>", "Philippe Lieser <philippe.lieser@rohde-schwarz.com"]
 

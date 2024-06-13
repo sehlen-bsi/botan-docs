@@ -1,6 +1,7 @@
 [tool.poetry]
 name = "audit_report"
 version = "1.0.0"
+package-mode = false
 description = "Tracks the auditing results of the latest changes in the Botan library"
 authors = ["Fabian Albert <fabian.albert@rohde-schwarz.com>", "René Meusel <rene.meusel@rohde-schwarz.com>", "Philippe Lieser <philippe.lieser@rohde-schwarz.com"]
 
