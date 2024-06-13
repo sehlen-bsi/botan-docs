@@ -100,11 +100,11 @@ For efficiency purposes Botan uses Jacobian projective
 coordinates for all elliptic curve points and point operations as
 described in [ISO-15946-1]_ with the line at infinity defined as ``[0,Y,0]``.
 The affine coordinates can be obtained by using the conversion
-functions ``PointGFp::get_affine_x()`` and ``PointGFp::get_affine_y()``.
+functions ``EC_Point::get_affine_x()`` and ``EC_Point::get_affine_y()``.
 
-The function ``PointGFp::get_affine_x()`` operates as follows.
+The function ``EC_Point::get_affine_x()`` operates as follows.
 
-.. admonition:: ``PointGFp::get_affine_x()``
+.. admonition:: ``EC_Point::get_affine_x()``
 
    **Input:**
 
@@ -126,9 +126,9 @@ The function ``PointGFp::get_affine_x()`` operates as follows.
    3. Otherwise compute affine ``x`` coordinate as
       :math:`\frac{X}{Z^{2}}`.
 
-The conversion function ``PointGFp::get_affine_y()`` performs the following steps.
+The conversion function ``EC_Point::get_affine_y()`` performs the following steps.
 
-.. admonition:: ``PointGFp::get_affine_y()``
+.. admonition:: ``EC_Point::get_affine_y()``
 
    **Input:**
 
