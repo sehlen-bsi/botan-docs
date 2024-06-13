@@ -391,7 +391,7 @@ The signature generation algorithm works as follows:
 
    -  ``m``: raw bytes to sign (the hash-code ``H`` in  [ISO-14888-3]_,
       which is the truncated hash from the public key and message)
-   -  EC_Privatekey with invers: ``d``, ``Q``, domain (curve parameters (first coefficient
+   -  EC_Privatekey with inverse: ``d``, ``Q``, domain (curve parameters (first coefficient
       ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
       cofactor of the curve ``h``)
    -  ``rng``: random number generator
