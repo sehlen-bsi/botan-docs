@@ -25,7 +25,7 @@ jobs:
           - {name: Architecture Overview, dir: docs/architecture, out_name: architecture}
 
     name: Build PDF - ${{ matrix.element.name }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ${{matrix.element.dir }}
@@ -62,7 +62,7 @@ jobs:
           - {name: Architecture, dir: docs/architecture}
 
     name: Check source URLs - ${{ matrix.element.name }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ${{matrix.element.dir }}
@@ -86,7 +86,7 @@ jobs:
 
   audit_generation:
     name: Build PDF - Audit Report
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Fetch Audit Repository
         uses: actions/checkout@v4
@@ -281,7 +281,7 @@ jobs:
     name: "Generate Test Report"
     needs: bsi_tests
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: docs/testreport
@@ -351,7 +351,7 @@ jobs:
 
   check_upstream_source_archive:
     name: "Check Upstream Source Archive"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Fetch Audit Repository
         uses: actions/checkout@v4
