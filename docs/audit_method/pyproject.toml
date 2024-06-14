@@ -1,6 +1,7 @@
 [tool.poetry]
 name = "audit_method"
 version = "1.0.0"
+package-mode = false
 description = "Describes the process we use to audit changes in the Botan library"
 authors = ["Fabian Albert <fabian.albert@rohde-schwarz.com>","René Fischer <rene.fischer@rohde-schwarz.com>","Philippe Lieser <philippe.lieser@rohde-schwarz.com","René Meusel <rene.meusel@rohde-schwarz.com>","Amos Treiber <amos.treiber@rohde-schwarz.com>"]
 
