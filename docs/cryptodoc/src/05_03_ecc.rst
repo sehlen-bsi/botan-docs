@@ -100,11 +100,11 @@ For efficiency purposes Botan uses Jacobian projective
 coordinates for all elliptic curve points and point operations as
 described in [ISO-15946-1]_ with the line at infinity defined as ``[0,Y,0]``.
 The affine coordinates can be obtained by using the conversion
-functions ``PointGFp::get_affine_x()`` and ``PointGFp::get_affine_y()``.
+functions ``EC_Point::get_affine_x()`` and ``EC_Point::get_affine_y()``.
 
-The function ``PointGFp::get_affine_x()`` operates as follows.
+The function ``EC_Point::get_affine_x()`` operates as follows.
 
-.. admonition:: ``PointGFp::get_affine_x()``
+.. admonition:: ``EC_Point::get_affine_x()``
 
    **Input:**
 
@@ -126,9 +126,9 @@ The function ``PointGFp::get_affine_x()`` operates as follows.
    3. Otherwise compute affine ``x`` coordinate as
       :math:`\frac{X}{Z^{2}}`.
 
-The conversion function ``PointGFp::get_affine_y()`` performs the following steps.
+The conversion function ``EC_Point::get_affine_y()`` performs the following steps.
 
-.. admonition:: ``PointGFp::get_affine_y()``
+.. admonition:: ``EC_Point::get_affine_y()``
 
    **Input:**
 
@@ -329,7 +329,7 @@ The signature generation algorithm works as follows:
       the algorithm terminates with an error.
 
 **Remark:** If Botan is built with the RFC6979 module, it implements
-deterministic ECDSA signatures, which are not covered by [TR-02102-1]_. In
+deterministic ECDSA signatures, which are not covered by [TR-03111]_. In
 this case the implemented ECDSA signature algorithm is not [FIPS-186-4]_
 conform. However, the RFC6979 module is prohibited in the BSI module
 policy.
@@ -361,7 +361,7 @@ The signature verification algorithm works as follows:
    3. Compute :math:`w=s^{-1}\bmod n`
    4. Compute :math:`v_1=m*w \bmod n` and :math:`v_2=r*w \bmod n`
    5. Compute the point :math:`v=(x_1, y_1)=v_1*G+v_2*Q` with Shamir's trick [DI08]_.
-   6. Return ``true`` if :math:`v \equiv r \bmod n` applies. ``false`` otherwise.
+   6. Return ``true`` if :math:`x_1 \equiv r \bmod n` applies. ``false`` otherwise.
 
 
 ECKCDSA
@@ -391,7 +391,7 @@ The signature generation algorithm works as follows:
 
    -  ``m``: raw bytes to sign (the hash-code ``H`` in  [ISO-14888-3]_,
       which is the truncated hash from the public key and message)
-   -  EC_Privatekey with invers: ``d``, ``Q``, domain (curve parameters (first coefficient
+   -  EC_Privatekey with inverse: ``d``, ``Q``, domain (curve parameters (first coefficient
       ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
       cofactor of the curve ``h``)
    -  ``rng``: random number generator
@@ -446,7 +446,7 @@ The signature verification algorithm works as follows:
    1. Perform preliminary parameter checks and verifies that :math:`0<s<n` applies.
       Terminates otherwise.
    2. Compute :math:`e=r \oplus m \bmod n`.
-   3. Compute point :math:`W=s*q+e*G` with Shamir's trick.
+   3. Compute point :math:`W=s*Q+e*G` with Shamir's trick.
    4. Recompute the witness :math:`r'=h(x_i)`,
       where :math:`h` is the hash function used in the current instance of the signature scheme.
    5. If the output length of the hash function :math:`h` exceeds the size of the group order,
