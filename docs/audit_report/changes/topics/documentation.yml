@@ -54,3 +54,7 @@ patches:
 - commit: ddfd07547244e315c762442ac771d64830927ee7  # https://github.com/randombit/botan/commit/ddfd07547244e315c762442ac771d64830927ee7
   classification: info
   auditer: reneme
+
+# Update news with changes since last update [ci skip]  (Jack Lloyd)
+- commit: 75326382e054a1192534e0fca7f91dd344e50301  # https://github.com/randombit/botan/commit/75326382e054a1192534e0fca7f91dd344e50301
+  classification: unspecified

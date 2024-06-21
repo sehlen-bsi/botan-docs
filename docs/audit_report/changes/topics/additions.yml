@@ -37,3 +37,8 @@ patches:
   merge_commit: 36bde7448b05dc555ef4bc0cb6adfbe697cb4870
   classification: info
   auditer: reneme
+
+# One-Step Key Derivation Method with KMAC  (@FAlbertDev)
+- pr: 4121  # https://github.com/randombit/botan/pull/4121
+  merge_commit: a902bba0b99e336851c543f5e05bc5c64fab61a2
+  classification: unspecified

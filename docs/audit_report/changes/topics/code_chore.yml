@@ -118,3 +118,13 @@ patches:
 - pr: 4109  # https://github.com/randombit/botan/pull/4109
   merge_commit: 7be1498984319abd04d56081567a7dc132b01045
   classification: info
+
+# Add some more logging to test of tls_proxy cli util  (@randombit)
+- pr: 4129  # https://github.com/randombit/botan/pull/4129
+  merge_commit: 9acee33aa0e03451d6db8bb437d2b0d990f39905
+  classification: unspecified
+
+# clang-format-17 everything  (@reneme)
+- pr: 4123  # https://github.com/randombit/botan/pull/4123
+  merge_commit: 1a8fd4ff33530f07ac7dc3e1d3b6b642ff9e4a13
+  classification: unspecified

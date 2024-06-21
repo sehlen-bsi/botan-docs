@@ -58,3 +58,8 @@ patches:
   merge_commit: 759f12590b4bc14a18f0dec284cb79a8d598264f
   classification: info
   auditer: reneme
+
+# The entire directory was prevented from being displayed in doxy documents created using website.py.  (@KaganCanSit)
+- pr: 4093  # https://github.com/randombit/botan/pull/4093
+  merge_commit: 4c3e9dc58193404a00f3a426bf21ce17923ca74f
+  classification: unspecified
