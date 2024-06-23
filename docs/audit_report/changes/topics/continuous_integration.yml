@@ -63,3 +63,47 @@ patches:
 - pr: 4093  # https://github.com/randombit/botan/pull/4093
   merge_commit: 4c3e9dc58193404a00f3a426bf21ce17923ca74f
   classification: unspecified
+
+# Disable ccache in CodeQL build  (@randombit)
+- pr: 4164  # https://github.com/randombit/botan/pull/4164
+  merge_commit: c82ee4691833551d09193557e57bf82fe26acd89
+  classification: unspecified
+
+# Run X509 path validation test "Limbo" in CI  (@randombit)
+- pr: 4162  # https://github.com/randombit/botan/pull/4162
+  merge_commit: 34a1c714a03532bdc6881417d937c1b2f5e9324a
+  classification: unspecified
+
+# Use Ubuntu 24.04 CI image in nightly tests  (@randombit)
+- pr: 4160  # https://github.com/randombit/botan/pull/4160
+  merge_commit: 7e7cd0478c9b47810e3b674d76ba1f65c4bfe99c
+  classification: unspecified
+
+# Avoid setting an install prefix if we're not testing the install  (@randombit)
+- pr: 4161  # https://github.com/randombit/botan/pull/4161
+  merge_commit: e03b54bbe4cb03307392afe67fc0ccaa243d9d83
+  classification: unspecified
+
+# Use -nv option for wget [ci skip]  (Jack Lloyd)
+- commit: eadfdd11156462f06c6cf6002d3259172aae431c  # https://github.com/randombit/botan/commit/eadfdd11156462f06c6cf6002d3259172aae431c
+  classification: unspecified
+
+# Bump some of the more expensive or obscure cross builds to nightly  (@randombit)
+- pr: 4159  # https://github.com/randombit/botan/pull/4159
+  merge_commit: 3657a72dfe697b4e56f0f0192bbf62cc164be2d6
+  classification: unspecified
+
+# Add mips64 cross build to CI  (@randombit)
+- pr: 4167  # https://github.com/randombit/botan/pull/4167
+  merge_commit: bd2b5dbf226db5b28e9dbaa672b81352970ada6e
+  classification: unspecified
+
+# In the valgrind short run skip various expensive tests  (@randombit)
+- pr: 4168  # https://github.com/randombit/botan/pull/4168
+  merge_commit: 1f08a644be4ef31a810ef46f4c519355d3a011ff
+  classification: unspecified
+
+# Skip optimization in CodeQL build  (@randombit)
+- pr: 4165  # https://github.com/randombit/botan/pull/4165
+  merge_commit: 231f417a80fc610866037c5bc5f92dc63f4a7245
+  classification: unspecified

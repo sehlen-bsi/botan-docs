@@ -66,3 +66,13 @@ patches:
 - pr: 4118  # https://github.com/randombit/botan/pull/4118
   merge_commit: f02c6027b19f3e992796c157a474720ed3bcf82a
   classification: unspecified
+
+# Properly mask the carry bit in word_add  (@randombit)
+- pr: 4153  # https://github.com/randombit/botan/pull/4153
+  merge_commit: 92c2079134bc7af7c5ffd1f8b7a69afa45db14fc
+  classification: unspecified
+
+# Fix CodeQL multiplication overflow warnings  (@randombit)
+- pr: 4166  # https://github.com/randombit/botan/pull/4166
+  merge_commit: b8735b152ae7cf1379a661370854044c512d3dcd
+  classification: unspecified

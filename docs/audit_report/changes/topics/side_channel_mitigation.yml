@@ -27,3 +27,8 @@ patches:
 - pr: 4115  # https://github.com/randombit/botan/pull/4115
   merge_commit: 927aab815ff3ffec3ef011eaf4b35cc13c0ba295
   classification: relevant
+
+# Add CT::Choice::yes() and ::no()  (@reneme)
+- pr: 4154  # https://github.com/randombit/botan/pull/4154
+  merge_commit: 6aef983575a63d47cfdb6f1469aede3ad9035512
+  classification: unspecified
