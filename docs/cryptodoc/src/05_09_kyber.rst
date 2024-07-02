@@ -20,27 +20,37 @@ Table :ref:`Supported Kyber parameter sets <pubkey_key_generation/kyber/table_pa
 **Structure**
 
 The IND-CCA2-secure KEM Kyber (Kyber.CCAKEM, Section 1.3, [Kyber-R3]_) is obtained from an IND-CPA-secure public-key encryption scheme (Kyber.CPAPKE, Section 1.2, [Kyber-R3]_) via a modified Fujisaki–Okamoto transform.
-The internal class ``Kyber_KEM_Cryptor`` implements the public-key encryption Kyber.CPAPKE.Enc.
-Its child classes ``Kyber_KEM_Encryptor`` and ``Kyber_KEM_Decryptor`` respectively implement the IND-CCA2-secure KEM Kyber.CCAKEM encapsulation/decapsulation [#kyber_cryptor_class]_.
+The table below provides pointers to the implementation of Kyber's high-level algorithms in Botan.
 
-.. [#kyber_cryptor_class]
-   Botan's encryption function of Kyber.CPAPKE is a member of ``Kyber_KEM_Cryptor`` because both en- and decapsulation require it, whereas the decryption is only needed by the decapsulation and is, therefore, a member of ``Kyber_KEM_Decryptor``.
+.. table::  High-level algorithms of Kyber in Botan
+
+   +---------------------------------------------------------+----------------------------------------------------------------------------------+
+   | Algorithm                                               | Implementation in Botan                                                          |
+   +=========================================================+==================================================================================+
+   | :ref:`Key Generation <pubkey_key_generation/kyber>`     | :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:205|Kyber_PrivateKey`     |
+   +---------------------------------------------------------+----------------------------------------------------------------------------------+
+   | :ref:`CPAPKE Encryption <pubkey/kyber/cpapke_enc>`      | :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:29|indcpa_encrypt`   |
+   +---------------------------------------------------------+----------------------------------------------------------------------------------+
+   | :ref:`CPAPKE Decryption <pubkey/kyber/cpapke_dec>`      | :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:57|indcpa_decrypt`   |
+   +---------------------------------------------------------+----------------------------------------------------------------------------------+
+   | :ref:`CCAKEM Encapsulation <pubkey/kyber/ccakem_enc>`   | :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_encaps.cpp:23|encapsulate`    |
+   +---------------------------------------------------------+----------------------------------------------------------------------------------+
+   | :ref:`CCAKEM Decapsulation <pubkey/kyber/ccakem_dec>`   | :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_encaps.cpp:39|decapsulate`    |
+   +---------------------------------------------------------+----------------------------------------------------------------------------------+
 
 **Keys**
 
-The class ``Kyber_KEM_Cryptor`` has a member ``public_key`` used for encryption, supplying the values ``seed`` and ``pk_t`` (:math:`\mathbf{\hat{t}}` of L.2, Alg. 5 [Kyber-R3]_).
+The class ``Kyber_PublicKeyInternal`` (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_keys.h:21|Kyber_PublicKeyInternal`) supplies the values ``m_rho`` (the public seed) and ``m_t`` (:math:`\mathbf{\hat{t}}` of L.2, Alg. 5 [Kyber-R3]_).
 In the following, we denote the public key as ``pk = (pk_t, seed)``.
 
-The class ``Kyber_KEM_Decryptor`` has a ``Kyber_PrivateKey`` member ``key``.
-It supplies the hash value of the public key we call ``sk_h`` (:math:`h`, L.2, Alg. 9, [Kyber-R3]_).
-It also supplies the already decoded secret polynomial vector we call ``sk_s`` (:math:`\mathbf{\hat{s}}`, L.3, Alg. 6, [Kyber-R3]_).
-We, therefore, denote the secret key as ``sk = (sk_s, pk, sk_h, z)``, where ``z`` is the random value from the key generation.
+The class ``Kyber_PrivateKeyInternal`` (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_keys.h:50|Kyber_PrivateKeyInternal`) supplies the secret polynomial vector ``m_s`` (:math:`\mathbf{\hat{s}}`, L.3, Alg. 6, [Kyber-R3]_) and the implicit rejection value ``m_z``.
+We, therefore, denote the secret key as ``sk = (sk_s, z)``.
 
 **Ciphertexts**
 
 The ``Ciphertext`` class is given a ``PolynomialVector b``, a ``Polynomial v``, and a ``KyberMode mode``. A ciphertext instance is represented via the members ``b`` and ``v`` (corresponding to :math:`\textbf{u}` and :math:`v` of [Kyber-R3]_, respectively).
 
-Furthermore, the ``Ciphertext`` class provides ciphertext compression and encoding.
+Furthermore, the ``Ciphertext`` class (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_structures.h:554|Ciphertext`) provides ciphertext compression and encoding.
 The implementation of the algorithms :math:`\mathsf{Compress}_q(x,d)` and :math:`\mathsf{Decompress}_q(x,d)` of [Kyber-R3]_ are optimized for all occurring values of :math:`d`.
 The compression with :math:`d=d_u` and :math:`d=d_v` [#kyber_du_dv]_ is implemented in two respective ``Ciphertext::compress`` methods, i.e., one for polynomial vectors and one for polynomials. The same holds for decompression via ``Ciphertext::decompress_polynomial_vector`` and ``Ciphertext::decompress_polynomial``.
 The public member functions ``Ciphertext::from_bytes`` and ``Ciphertext::to_bytes`` use this to realize **L. 1/L. 2 of Alg. 6** [Kyber-R3]_ and **L. 21/L. 22 of Alg. 5** [Kyber-R3]_, respectively.
@@ -48,7 +58,7 @@ The compression and decompression with :math:`d=1` are performed simultaneously 
 
 Compression in Kyber requires division by the Kyber constant ``q``. However,
 this division may introduce timing side-channels on some platforms.
-Botan uses the ``ct_int_div_kyber_q`` function to address this issue, which performs
+Botan uses the ``ct_int_div_kyber_q`` (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_structures.h:45|ct_int_div_kyber_q`) function to address this issue, which performs
 constant-time division by ``q``. This function leverages
 a technique described in [HD]_, where the fraction ``n/q`` is extended by a
 specific constant ``m`` to become ``(m*n)/(m*q)``. Here, ``m`` is chosen so that
@@ -68,10 +78,10 @@ constant-time operations.
 Algorithm Internals
 -------------------
 
-All possible modes are represented by the class ``KyberMode`` found in :srcref:`[src/lib/pubkey/kyber]/kyber_common`.
+All possible modes are represented by the class ``KyberMode`` found in :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber.h:30|KyberMode`.
 The ``_90s`` suffix denotes different symmetric functions for Kyber's \"90s mode\", which uses SHA2 and AES instead of SHA3 and SHAKE as symmetric primitives.
-The abstract adapter class ``Kyber_Symmetric_Primitives`` is the interface for Kyber's five symmetric primitives, which are instantiated either as a ``Kyber_Modern_Symmetric_Primitives`` object (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber`) for modern Kyber
-or as a ``Kyber_90s_Symmetric_Primitives`` one (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_90s`) for the 90s variant (see Table :ref:`Kyber's symmetric primitives <pubkey_key_generation/kyber/table_sym_primitives>`).
+The abstract adapter class ``Kyber_Symmetric_Primitives`` is the interface for Kyber's five symmetric primitives, which are instantiated either as a ``Kyber_Modern_Symmetric_Primitives`` object (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber/kyber_modern.h:23|Kyber_Modern_Symmetric_Primitives`) for modern Kyber
+or as a ``Kyber_90s_Symmetric_Primitives`` one (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_90s/kyber_90s.h:23|Kyber_90s_Symmetric_Primitives`) for the 90s variant (see Table :ref:`Kyber's symmetric primitives <pubkey_key_generation/kyber/table_sym_primitives>`).
 For each mode, the ``KyberConstants`` class contains the corresponding set of parameters and symmetric functions (``Kyber_Symmetric_Primitives``).
 
 .. _pubkey_key_generation/kyber/table_params:
@@ -101,7 +111,7 @@ For each mode, the ``KyberConstants`` class contains the corresponding set of pa
    +-------------------+--------------+----------+-----------+--------------+------------+
 
 Kyber itself is implemented in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp`.
-Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes, respectively.
+Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_structures.h`), respectively.
 ``Polynomial`` and ``PolynomialVector`` support member functions ``.ntt()`` and ``.invntt()`` for the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_) and fast multiplication in the NTT domain.
 Multiplication of two polynomial vectors in NTT domain ``a*b`` is given via the function ``PolynomialVector::pointwise_acc_montgomery`` using Montgomery reduction.
 Note that the inverse NTT is called ``.invntt_tomont()`` in Botan's implementation as it directly multiplies by the Montgomery factor; however, for simplicity, we write ``.invntt()`` in this documentation.
@@ -134,12 +144,13 @@ Based on these functions the key generation process follows **Algorithms 4 and 7
 
    **Steps:**
 
-   1. ``(seed1 || seed2) = G(d)`` where d is generated using ``rng`` and each seed has the same length (L. 1-2, Alg. 4 [Kyber-R3]_)
-   2. ``a = PolynomialMatrix::generate(seed1, false, m)`` (L. 4-8, Alg. 4 [Kyber-R3]_)
-   3. ``s = PolynomialVector::getnoise_eta1(seed2, 0, m)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1``, one for each component of ``s``; L. 9-12, Alg. 4 [Kyber-R3]_)
-   4. ``e = PolynomialVector::getnoise_eta1(seed2, k, m)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1``, one for each component of ``e``; L. 13-16, Alg. 4 [Kyber-R3]_)
-   5. ``s.ntt()`` and ``e.ntt()`` (L. 17-18, Alg. 4 [Kyber-R3]_)
-   6. ``pk = (a*s + e, seed1)`` and ``sk = (s, pk, H(pk), z)`` where ``z`` is freshly generated with ``rng`` (L. 19-22, Alg. 4 [Kyber-R3]_ and L.1, 3, Alg. 7 [Kyber-R3]_)
+   1. Generate the random seed ``d`` and the implicit rejection value ``z`` at random using ``rng``
+   2. ``(rho || sigma) = G(d)`` (L. 1-2, Alg. 4 [Kyber-R3]_)
+   3. ``a = PolynomialMatrix::generate(rho, false, m)`` (``false`` means "not transposed") (L. 4-8, Alg. 4 [Kyber-R3]_)
+   4. ``s = PolynomialVector::getnoise_eta1(sigma, 0, m)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1``, one for each component of ``s``; L. 9-12, Alg. 4 [Kyber-R3]_)
+   5. ``e = PolynomialVector::getnoise_eta1(sigma, k, m)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1``, one for each component of ``e``; L. 13-16, Alg. 4 [Kyber-R3]_)
+   6. ``s.ntt()`` and ``e.ntt()`` (L. 17-18, Alg. 4 [Kyber-R3]_)
+   7. ``pk = (a*s + e, rho)`` and ``sk = (s, z)`` (L. 19-22, Alg. 4 [Kyber-R3]_ and L.1, 3, Alg. 7 [Kyber-R3]_)
 
    **Notes:**
 
@@ -149,6 +160,8 @@ Based on these functions the key generation process follows **Algorithms 4 and 7
 
 Key Encapsulation
 -----------------
+
+.. _pubkey/kyber/cpapke_enc:
 
 Kyber.CPAPKE
 ^^^^^^^^^^^^
@@ -169,7 +182,7 @@ Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_:
 
    **Steps:**
 
-   1. ``at = PolynomialMatrix::generate(seed, true, mode)`` (L. 3-8, Alg. 5 [Kyber-R3]_)
+   1. ``at = PolynomialMatrix::generate(seed, true, mode)`` (``true`` means "transposed") (L. 3-8, Alg. 5 [Kyber-R3]_)
    2. ``sp = PolynomialVector::getnoise_eta1(coins, 0, mode)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta1``, one for each component of ``sp``; L. 9-12, Alg. 5 [Kyber-R3]_)
    3. ``ep = PolynomialVector::getnoise_eta2(coins, k, mode)`` (performs ``k`` invocations of ``Polynomial::getnoise_eta2``, one for each component of ``ep``; L. 13-16, Alg. 5 [Kyber-R3]_)
    4. ``epp = Polynomial::getnoise_eta2(coins, 2*k, mode)`` (L. 17, Alg. 5 [Kyber-R3]_)
@@ -183,6 +196,7 @@ Encryption works as follows, realizing **Algorithm 5** of [Kyber-R3]_:
    - The member function ``Polynomial::getnoise_eta1(seed, nonce, mode)`` uses ``PRF`` on the seed with incremented nonce values to call ``Polynomial::getnoise_cbd2`` or ``Polynomial::getnoise_cbd3`` depending on ``eta1``.
    - The member function ``Polynomial::getnoise_eta2(seed, nonce, mode)`` uses ``PRF`` on the seed with incremented nonce values to call ``Polynomial::getnoise_cbd2`` (as for all parameter sets ``eta2 = 2``).
 
+.. _pubkey/kyber/ccakem_enc:
 
 Kyber.CCAKEM
 ^^^^^^^^^^^^
@@ -204,19 +218,22 @@ Encapsulation works as follows, realizing **Algorithm 8** of [Kyber-R3]_:
 
    **Steps:**
 
-   1. ``shared_secret = H(m)`` where ``m`` is generated using ``rng`` (L. 1-2, Alg. 8 [Kyber-R3]_)
+   1. Generate ``m`` at random using ``rng``
+   1. ``shared_secret = H(m)`` (L. 1-2, Alg. 8 [Kyber-R3]_)
    2. ``(shared_secret || coins) = G(shared_secret || H(pk))`` where ``coins`` is the second half of the output of ``G`` (L. 3, Alg. 8 [Kyber-R3]_)
    3. ``out_encapsulated_key = Kyber_KEM_Cryptor::indcpa_enc(pk, shared_secret, coins)`` (L. 4, Alg. 8 [Kyber-R3]_)
    4. ``out_shared_key = KDF(shared_secret || H(out_encapsulated_key))`` (L. 5, Alg. 8 [Kyber-R3]_)
 
    **Notes:**
 
-   - ``H(pk)`` is computed already in the constructor of the ``Kyber_PublicKeyInternal`` object and accessible via ``H_public_key_bits_raw()``.
+   - ``H(pk)`` is precomputed in ``Kyber_PublicKeyInternal`` and accessible via ``H_public_key_bits_raw()``.
    - The input/output structure corresponds to Botan's ``KEM_Encryption`` interface.
 
 
 Key Decapsulation
 -----------------
+
+.. _pubkey/kyber/cpapke_dec:
 
 Kyber.CPAPKE
 ^^^^^^^^^^^^
@@ -230,7 +247,7 @@ IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_:
 
    **Input:**
 
-   -  ``sk = (sk_s, pk, sk_h, z)``: secret key
+   -  ``sk = (sk_s, z)``: secret key
    -  ``c``: ciphertext bytes
 
    **Output:**
@@ -250,6 +267,8 @@ IND-CPA decryption works as follows, realizing **Algorithm 6** of [Kyber-R3]_:
 
    - The coefficients of ``mp`` are additively inverse to the specification. For the subsequent compression, however, only the distances of the coefficients to zero are relevant, which are the same in both cases.
 
+.. _pubkey/kyber/ccakem_dec:
+
 Kyber.CCAKEM
 ^^^^^^^^^^^^
 
@@ -259,7 +278,8 @@ Decapsulation works as follows, realizing **Algorithm 9** of [Kyber-R3]_:
 
    **Input:**
 
-   -  ``sk = (sk_s, pk, sk_h, z)``: secret key
+   -  ``pk = (pk_t, seed)``: public key (typically part of the secret key)
+   -  ``sk = (sk_s, z)``: secret key
    -  ``encap_key``: encapsulated key bytes
 
    **Output:**
