@@ -201,7 +201,7 @@
    https://csrc.nist.gov/publications/detail/sp/800-38e/final,
    January 2010
 
-.. [SP800-56C] NIST Special Publication SP 800-56C Rev. 2:
+.. [SP800-56Cr2] NIST Special Publication SP 800-56C Rev. 2:
    "Recommendation for Key-Derivation Methods in Key-Establishment Schemes",
    https://csrc.nist.gov/publications/detail/sp/800-56c/rev-2/final,
    August 2020

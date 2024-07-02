@@ -48,10 +48,18 @@ The implementation of KDF in Double-Pipeline Iteration Mode uses the
 optional counter *i* and fixes the length of :math:`[L]_2` and
 :math:`[i]_2` (the value ``r``) to 32 bits.
 
-NIST SP800-56C
---------------
+NIST SP800-56Cr2 One-Step KDM
+-----------------------------
 
-NIST [SP800-56C]_ defines a key derivation using extraction-then-expansion.
-The implementation can be found in
-:srcref:`src/lib/kdf/sp800_56c/sp800_56c.cpp`. The implementation fixes the
-context value for the expansion step to the empty string.
+NIST [SP800-56Cr2]_ defines a one-step key derivation method based on a hash
+function, HMAC, or KMAC. All three of these options are supported. The
+implementation can be found in
+:srcref:`src/lib/kdf/sp800_56a/sp800_56c_one_step.cpp`.
+
+NIST SP800-56Cr2 Two-Step KDM
+-----------------------------
+
+NIST [SP800-56Cr2]_ defines a two-step key derivation using
+extraction-then-expansion. The implementation can be found in
+:srcref:`src/lib/kdf/sp800_56a/sp800_56c_two_step.cpp`. The implementation
+fixes the context value for the expansion step to the empty string.
