@@ -42,6 +42,10 @@ patches:
 - pr: 4121  # https://github.com/randombit/botan/pull/4121
   merge_commit: a902bba0b99e336851c543f5e05bc5c64fab61a2
   classification: critical
+  comment: |
+    Adds the KMAC variant of the One-Step KDM defined in NIST.SP.800-56Cr2,
+    Section 4. Also, adds refactoring to reflect that the algorithm definition
+    was moved from NIST.SP.800-56Ar2 to NIST.SP.800-56Cr2.
 
 # HMAC and HMAC_DRBG microoptimizations  (@randombit)
 - pr: 4144  # https://github.com/randombit/botan/pull/4144
