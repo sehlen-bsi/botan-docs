@@ -29,4 +29,4 @@ patches:
 # Fix various module dependency bugs  (@randombit)
 - pr: 4155  # https://github.com/randombit/botan/pull/4155
   merge_commit: 0d12c7e99b770d8a4da8d60abe89461dad3dd53f
-  classification: unspecified
+  classification: info

@@ -57,25 +57,30 @@ patches:
 
 # Update news with changes since last update [ci skip]  (Jack Lloyd)
 - commit: 75326382e054a1192534e0fca7f91dd344e50301  # https://github.com/randombit/botan/commit/75326382e054a1192534e0fca7f91dd344e50301
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Reduce Example: Minimal HTTPS client  (@reneme)
 - pr: 3799  # https://github.com/randombit/botan/pull/3799
   merge_commit: e914169cd9a03a2a7eda77c1ab4d5dd8fb5c2ec0
-  classification: unspecified
+  classification: info
 
 # Add CVE info for overlarge EC params DoS [ci skip]  (Jack Lloyd)
 - commit: 4768492052341306b68198077b97d4716514af81  # https://github.com/randombit/botan/commit/4768492052341306b68198077b97d4716514af81
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update todo list [ci skip]  (Jack Lloyd)
 - commit: fbe41e3b84be4a34d203225102f195a003e4e702  # https://github.com/randombit/botan/commit/fbe41e3b84be4a34d203225102f195a003e4e702
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update release notes [ci skip]  (Jack Lloyd)
 - commit: 2dadfdb76a60caeb625ae7a49d278aca9b7e50a5  # https://github.com/randombit/botan/commit/2dadfdb76a60caeb625ae7a49d278aca9b7e50a5
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add GH ref to release notes [ci skip]  (Jack Lloyd)
 - commit: 2bc014e45fad6913de688552fc486f4a225c9b6d  # https://github.com/randombit/botan/commit/2bc014e45fad6913de688552fc486f4a225c9b6d
-  classification: unspecified
+  classification: info
+  auditer: reneme

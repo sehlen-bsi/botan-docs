@@ -1,12 +1,17 @@
 title: X.509 Improvements
 
 patches:
-# Avoid casting TNEntry type code to Type directly  (@randombit)
-- pr: 4138  # https://github.com/randombit/botan/pull/4138
-  merge_commit: a55851c67bf5371a97e5ab9f880e86ad7c0e05f8
-  classification: unspecified
-
 # x509: add TNAuthList extension  (@furmur)
 - pr: 4116  # https://github.com/randombit/botan/pull/4116
   merge_commit: 6ca2bc226e64d32fb41d15811459883c1f497edd
-  classification: unspecified
+  classification: info
+  comment: |
+    TNAuthList is an extension defined in `RFC 8226 <https://www.rfc-editor.org/rfc/rfc8226#section-9>`_
+    which is used to authenticate telephone numbers as "caller ID" in voice over
+    IP systems.
+
+# Avoid casting TNEntry type code to Type directly  (@randombit)
+- pr: 4138  # https://github.com/randombit/botan/pull/4138
+  merge_commit: a55851c67bf5371a97e5ab9f880e86ad7c0e05f8
+  classification: info
+  auditer: reneme

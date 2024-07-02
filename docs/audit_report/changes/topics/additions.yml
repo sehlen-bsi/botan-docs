@@ -41,4 +41,20 @@ patches:
 # One-Step Key Derivation Method with KMAC  (@FAlbertDev)
 - pr: 4121  # https://github.com/randombit/botan/pull/4121
   merge_commit: a902bba0b99e336851c543f5e05bc5c64fab61a2
-  classification: unspecified
+  classification: critical
+
+# HMAC and HMAC_DRBG microoptimizations  (@randombit)
+- pr: 4144  # https://github.com/randombit/botan/pull/4144
+  merge_commit: 18dbe56173ddc6dce36c741ad1072727e5984cad
+  classification: relevant
+  auditer: reneme
+
+# add RandomNumberGenerator::random_array<>()  (@reneme)
+- pr: 4152  # https://github.com/randombit/botan/pull/4152
+  merge_commit: 68cda4590ad7804762466a86701dcca710645eff
+  classification: info
+
+# Add unrolled 7-word Comba mul/sqr  (@randombit)
+- pr: 4156  # https://github.com/randombit/botan/pull/4156
+  merge_commit: dda0f95fe0645d93329ff3d102f7ae418696c181
+  classification: relevant

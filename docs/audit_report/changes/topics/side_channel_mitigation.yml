@@ -31,4 +31,4 @@ patches:
 # Add CT::Choice::yes() and ::no()  (@reneme)
 - pr: 4154  # https://github.com/randombit/botan/pull/4154
   merge_commit: 6aef983575a63d47cfdb6f1469aede3ad9035512
-  classification: unspecified
+  classification: info

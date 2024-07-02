@@ -122,49 +122,40 @@ patches:
 # Add some more logging to test of tls_proxy cli util  (@randombit)
 - pr: 4129  # https://github.com/randombit/botan/pull/4129
   merge_commit: 9acee33aa0e03451d6db8bb437d2b0d990f39905
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # clang-format-17 everything  (@reneme)
 - pr: 4123  # https://github.com/randombit/botan/pull/4123
   merge_commit: 1a8fd4ff33530f07ac7dc3e1d3b6b642ff9e4a13
-  classification: unspecified
-
-# HMAC and HMAC_DRBG microoptimizations  (@randombit)
-- pr: 4144  # https://github.com/randombit/botan/pull/4144
-  merge_commit: 18dbe56173ddc6dce36c741ad1072727e5984cad
-  classification: unspecified
+  classification: info
 
 # Remove fixed block size implementations of XEX encryption  (@randombit)
 - pr: 4145  # https://github.com/randombit/botan/pull/4145
   merge_commit: 747aa2b3005e165192b5c5040b74bba8bf72b8cd
-  classification: unspecified
+  classification: info
 
 # Make use of __builtin_addc/__builtin_subc where available  (@randombit)
 - pr: 4149  # https://github.com/randombit/botan/pull/4149
   merge_commit: 82bb91830eb4c780c8bea37f3a0b264af139c010
-  classification: unspecified
+  classification: info
 
 # Use std::lcm in Cascade_Cipher  (@randombit)
 - pr: 4150  # https://github.com/randombit/botan/pull/4150
   merge_commit: 66216e1c9604980267c4c1616000629fd6b1be43
-  classification: unspecified
-
-# add RandomNumberGenerator::random_array<>()  (@reneme)
-- pr: 4152  # https://github.com/randombit/botan/pull/4152
-  merge_commit: 68cda4590ad7804762466a86701dcca710645eff
-  classification: unspecified
+  classification: info
 
 # Address a GCC 14 Warning  (@reneme)
 - pr: 4157  # https://github.com/randombit/botan/pull/4157
   merge_commit: 12c1cbce39302814f9d4697dfab4536bd29a5b19
-  classification: unspecified
-
-# Add unrolled 7-word Comba mul/sqr  (@randombit)
-- pr: 4156  # https://github.com/randombit/botan/pull/4156
-  merge_commit: dda0f95fe0645d93329ff3d102f7ae418696c181
-  classification: unspecified
+  classification: info
 
 # Fix a Python SyntaxWarning regarding regex patterns  (@randombit)
 - pr: 4169  # https://github.com/randombit/botan/pull/4169
   merge_commit: eaf9fd69d8e01716a57236df28f4485a3557cb86
-  classification: unspecified
+  classification: info
+
+# FIX: regex literal  (@reneme)
+- pr: 4120  # https://github.com/randombit/botan/pull/4120
+  merge_commit: d0430cb1118d0291fa158b5d47add95f70e9e518
+  classification: info
