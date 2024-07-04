@@ -112,3 +112,13 @@ patches:
 - pr: 4165  # https://github.com/randombit/botan/pull/4165
   merge_commit: 231f417a80fc610866037c5bc5f92dc63f4a7245
   classification: info
+
+# Chore: Pylint in VS Code and Pull Requests  (@reneme)
+- pr: 4179  # https://github.com/randombit/botan/pull/4179
+  merge_commit: 4cc614282ce159bcf18d7712fd06ddc26072f285
+  classification: info
+
+# Disable tls_proxy cli test on Windows again  (@randombit)
+- pr: 4181  # https://github.com/randombit/botan/pull/4181
+  merge_commit: 8ef1077081875c64cfdc56f8fb13b3f27e8dfc6c
+  classification: info

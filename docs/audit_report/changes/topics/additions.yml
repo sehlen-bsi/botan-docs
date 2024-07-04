@@ -62,3 +62,11 @@ patches:
 - pr: 4156  # https://github.com/randombit/botan/pull/4156
   merge_commit: dda0f95fe0645d93329ff3d102f7ae418696c181
   classification: relevant
+
+# In FrodoKEM-AES, encrypt all of the rows at once instead of block at time  (@randombit)
+- pr: 4174  # https://github.com/randombit/botan/pull/4174
+  merge_commit: 7486228582e8c81872ce150e089a6106137045ad
+  classification: relevant
+  comment: |
+    Improves the performance of the FrodoKEM-AES especially on platforms that
+    don't have hardware AES acceleration.

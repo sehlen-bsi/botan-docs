@@ -76,3 +76,25 @@ patches:
   merge_commit: b8735b152ae7cf1379a661370854044c512d3dcd
   classification: info
   auditer: reneme
+
+# FIX: Better scaling for botan_cipher_get_update_granularity()  (@reneme)
+- pr: 4122  # https://github.com/randombit/botan/pull/4122
+  merge_commit: d9ea5a82b74c3f0f0440d39d14fe30b714c7e01c
+  classification: info
+
+# FIX: Race conditions in `test_cli.py` when spawning test server processes  (@reneme)
+- pr: 4178  # https://github.com/randombit/botan/pull/4178
+  merge_commit: 3e65302e8159fb7e4a835ef69bab9bddbaa7183c
+  classification: info
+  comment: |
+    Race conditions were in the steering of the test, not in the shipped code.
+
+# FIX: potential use-after-free in `./botan tls_proxy`  (@reneme)
+- pr: 4177  # https://github.com/randombit/botan/pull/4177
+  merge_commit: a75bb25ff7311a47202908ba3e165e19b460a431
+  classification: relevant
+  comment: |
+    The use-after-free was in the command line interface, specifically in the
+    ``./botan tls_proxy`` command. This command is shipped in Botan's CLI but
+    we don't expect that end-users will actually use it in production as it is
+    more of a testing tool.
