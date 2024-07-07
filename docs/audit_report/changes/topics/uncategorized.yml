@@ -1,0 +1,10 @@
+title: Uncategorized Patches
+
+patches:
+# Update feature list in the readme [ci skip]  (Jack Lloyd)
+- commit: 02fb6eae966e704fc22e74aa26c6d05c20a4cd61  # https://github.com/randombit/botan/commit/02fb6eae966e704fc22e74aa26c6d05c20a4cd61
+  classification: unspecified
+
+# Add a doc with notes/reminders for when Botan4 forks [ci skip]  (Jack Lloyd)
+- commit: bc6b677ef3e0fce4257c9dbeb6e3c6a46ad41a51  # https://github.com/randombit/botan/commit/bc6b677ef3e0fce4257c9dbeb6e3c6a46ad41a51
+  classification: unspecified
