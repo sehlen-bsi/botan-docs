@@ -8,3 +8,7 @@ patches:
 # Add a doc with notes/reminders for when Botan4 forks [ci skip]  (Jack Lloyd)
 - commit: bc6b677ef3e0fce4257c9dbeb6e3c6a46ad41a51  # https://github.com/randombit/botan/commit/bc6b677ef3e0fce4257c9dbeb6e3c6a46ad41a51
   classification: unspecified
+
+# Fix doc build [ci skip]  (Jack Lloyd)
+- commit: 76ba92aeb40f005476a3bf16fbe6812a238b8596  # https://github.com/randombit/botan/commit/76ba92aeb40f005476a3bf16fbe6812a238b8596
+  classification: unspecified
