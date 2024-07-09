@@ -25,3 +25,8 @@ patches:
   merge_commit: 846a6aedc9bdfbf1cff043f1cd32c3c261407669
   classification: info
   auditer: reneme
+
+# Fix various module dependency bugs  (@randombit)
+- pr: 4155  # https://github.com/randombit/botan/pull/4155
+  merge_commit: 0d12c7e99b770d8a4da8d60abe89461dad3dd53f
+  classification: info

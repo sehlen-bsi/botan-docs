@@ -54,3 +54,73 @@ patches:
 - commit: ddfd07547244e315c762442ac771d64830927ee7  # https://github.com/randombit/botan/commit/ddfd07547244e315c762442ac771d64830927ee7
   classification: info
   auditer: reneme
+
+# Update news with changes since last update [ci skip]  (Jack Lloyd)
+- commit: 75326382e054a1192534e0fca7f91dd344e50301  # https://github.com/randombit/botan/commit/75326382e054a1192534e0fca7f91dd344e50301
+  classification: info
+  auditer: reneme
+
+# Reduce Example: Minimal HTTPS client  (@reneme)
+- pr: 3799  # https://github.com/randombit/botan/pull/3799
+  merge_commit: e914169cd9a03a2a7eda77c1ab4d5dd8fb5c2ec0
+  classification: info
+
+# Add CVE info for overlarge EC params DoS [ci skip]  (Jack Lloyd)
+- commit: 4768492052341306b68198077b97d4716514af81  # https://github.com/randombit/botan/commit/4768492052341306b68198077b97d4716514af81
+  classification: info
+  auditer: reneme
+
+# Update todo list [ci skip]  (Jack Lloyd)
+- commit: fbe41e3b84be4a34d203225102f195a003e4e702  # https://github.com/randombit/botan/commit/fbe41e3b84be4a34d203225102f195a003e4e702
+  classification: info
+  auditer: reneme
+
+# Update release notes [ci skip]  (Jack Lloyd)
+- commit: 2dadfdb76a60caeb625ae7a49d278aca9b7e50a5  # https://github.com/randombit/botan/commit/2dadfdb76a60caeb625ae7a49d278aca9b7e50a5
+  classification: info
+  auditer: reneme
+
+# Add GH ref to release notes [ci skip]  (Jack Lloyd)
+- commit: 2bc014e45fad6913de688552fc486f4a225c9b6d  # https://github.com/randombit/botan/commit/2bc014e45fad6913de688552fc486f4a225c9b6d
+  classification: info
+  auditer: reneme
+
+# Update feature list in the readme [ci skip]  (Jack Lloyd)
+- commit: 02fb6eae966e704fc22e74aa26c6d05c20a4cd61  # https://github.com/randombit/botan/commit/02fb6eae966e704fc22e74aa26c6d05c20a4cd61
+  classification: info
+  auditer: FAlbertDev
+
+# Add a doc with notes/reminders for when Botan4 forks [ci skip]  (Jack Lloyd)
+- commit: bc6b677ef3e0fce4257c9dbeb6e3c6a46ad41a51  # https://github.com/randombit/botan/commit/bc6b677ef3e0fce4257c9dbeb6e3c6a46ad41a51
+  classification: info
+  auditer: FAlbertDev
+
+# Fix doc build [ci skip]  (Jack Lloyd)
+- commit: 76ba92aeb40f005476a3bf16fbe6812a238b8596  # https://github.com/randombit/botan/commit/76ba92aeb40f005476a3bf16fbe6812a238b8596
+  classification: info
+  auditer: FAlbertDev
+
+# Add an explicit warning about Botan2 reaching end of life to readme [ci skip]  (Jack Lloyd)
+- commit: 0417790d0794d2c4382f4cfe6f87a88e33f3d21d  # https://github.com/randombit/botan/commit/0417790d0794d2c4382f4cfe6f87a88e33f3d21d
+  classification: info
+  auditer: FAlbertDev
+
+# Fix some spelling and formatting errors in the release notes [ci skip]  (Jack Lloyd)
+- commit: 722dde9d63b1c4b0b3f5b2fcd5851f3a24937c1a  # https://github.com/randombit/botan/commit/722dde9d63b1c4b0b3f5b2fcd5851f3a24937c1a
+  classification: info
+  auditer: FAlbertDev
+
+# Describe affected versions of name constraint bugs [ci skip]  (Jack Lloyd)
+- commit: 82ad62fea5629c1952aa112e3016b61e2c2a56b4  # https://github.com/randombit/botan/commit/82ad62fea5629c1952aa112e3016b61e2c2a56b4
+  classification: info
+  auditer: FAlbertDev
+
+# Add 2.19.5 release notes [ci skip]  (Jack Lloyd)
+- commit: 939f200875f708f6b281b6aa3d38bc62a5b80355  # https://github.com/randombit/botan/commit/939f200875f708f6b281b6aa3d38bc62a5b80355
+  classification: info
+  auditer: FAlbertDev
+
+# Update with info for 3.5.0 release  (Jack Lloyd)
+- commit: 2e5c7d3eb0dcb63d087fc3e7c92010aa82509bbf  # https://github.com/randombit/botan/commit/2e5c7d3eb0dcb63d087fc3e7c92010aa82509bbf
+  classification: info
+  auditer: FAlbertDev

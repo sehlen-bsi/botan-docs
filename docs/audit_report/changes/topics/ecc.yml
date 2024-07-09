@@ -102,3 +102,43 @@ patches:
   comment: |
     This fixes an issue that was introduced recently and was never
     part of an official release.
+
+# In pcurves powmod_vartime use W=4 for curves <= 256 bits  (@randombit)
+- pr: 4140  # https://github.com/randombit/botan/pull/4140
+  merge_commit: f82dd53bc701d472ff5a02367fdc7ff6babf6676
+  classification: info
+  auditer: reneme
+
+# Some pcurves speed modifications  (@randombit)
+- pr: 4137  # https://github.com/randombit/botan/pull/4137
+  merge_commit: 5108b855a4a18b6172dabc8bd736e4ace43eb307
+  classification: info
+  auditer: reneme
+
+# Avoid duplicating basepoint multiplication tables  (@randombit)
+- pr: 4136  # https://github.com/randombit/botan/pull/4136
+  merge_commit: 8f43122d68108ab0c0b038319c22fa4c4f2e5eb9
+  classification: info
+
+# Fix a misnamed function in pcurves  (@randombit)
+- pr: 4133  # https://github.com/randombit/botan/pull/4133
+  merge_commit: a629e8ecf77d195211145eddcb10d6d69b4863ef
+  classification: info
+
+# Bump module versions for bigint and ec_group  (@randombit)
+- pr: 4128  # https://github.com/randombit/botan/pull/4128
+  merge_commit: 2fc362d99c39cc23681158958c5a72dd57030088
+  classification: info
+  auditer: reneme
+
+# Fix the pcurves point mul benchmark  (@randombit)
+- pr: 4127  # https://github.com/randombit/botan/pull/4127
+  merge_commit: 7d896adce093b3f9635e529dbd43c17a04fc4498
+  classification: info
+  auditer: reneme
+
+# Pcurves fixes and additions  (@randombit)
+- pr: 4142  # https://github.com/randombit/botan/pull/4142
+  merge_commit: d24c2c3b2e74c1de10b7bd47317eaf50cebf5fb4
+  classification: relevant
+  auditer: reneme
