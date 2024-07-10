@@ -95,3 +95,10 @@ patches:
 
     * Various tests were updated and fixed. Support for an external X.509 \
       test suite was included.
+
+# Address denial of service in name constraints processing  (@randombit)
+- pr: 4186  # https://github.com/randombit/botan/pull/4186
+  merge_commit: ff704b12e6fa351aaedd07bffdc91722e84586b8
+  classification: critical
+  comment: |
+    Fix for CVE-2024-34702.
