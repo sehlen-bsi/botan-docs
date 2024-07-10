@@ -159,4 +159,5 @@ Changelog
    |         |          |                                             |            |
    |         |          | - New PQC algorithms                        |            |
    |         |          |   - HSS/LMS                                 |            |
+   |         |          | - NIST SP800-56Cr2 One-Step KDM with KMAC   |            |
    +---------+----------+---------------------------------------------+------------+

@@ -222,10 +222,10 @@ test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_pipe.vec`.
    |                        |    result with the expected output value *Out*                          |
    +------------------------+-------------------------------------------------------------------------+
 
-SP 800-56C
-----------
+NIST SP 800-56Cr2 Two-Step KDM
+------------------------------
 
-The NIST SP 800-56C KDF is tested with the following constraints:
+The NIST SP 800-56Cr2 Two-Step KDM is tested with the following constraints:
 
 -  Number of test cases: 40
 -  Source: Generated with PyCryptodome
@@ -245,11 +245,11 @@ test vectors are listed in :srcref:`src/tests/data/kdf/sp800_56c.vec`.
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | KDF-NISTSP800-56C-1                                                     |
+   | **Test Case No.:**     | KDF-NISTSP800-56CR2-Two-Step-1                                          |
    +========================+=========================================================================+
    | **Type:**              | Positive Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Derives a key from the NIST SP 800-56C KDF                              |
+   | **Description:**       | Derives a key from the NIST SP 800-56C Two-Step KDM                     |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
