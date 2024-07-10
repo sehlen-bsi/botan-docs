@@ -61,5 +61,5 @@ NIST SP800-56Cr2 Two-Step KDM
 
 NIST [SP800-56Cr2]_ defines a two-step key derivation using
 extraction-then-expansion. The implementation can be found in
-:srcref:`src/lib/kdf/sp800_56a/sp800_56c_two_step.cpp`. The implementation
+:srcref:`src/lib/kdf/sp800_56c/sp800_56c_two_step.cpp`. The implementation
 fixes the context value for the expansion step to the empty string.
