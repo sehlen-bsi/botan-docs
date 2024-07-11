@@ -100,26 +100,6 @@ patches:
   classification: info
   auditer: FAlbertDev
 
-# Add an explicit warning about Botan2 reaching end of life to readme [ci skip]  (Jack Lloyd)
-- commit: 0417790d0794d2c4382f4cfe6f87a88e33f3d21d  # https://github.com/randombit/botan/commit/0417790d0794d2c4382f4cfe6f87a88e33f3d21d
-  classification: info
-  auditer: FAlbertDev
-
-# Fix some spelling and formatting errors in the release notes [ci skip]  (Jack Lloyd)
-- commit: 722dde9d63b1c4b0b3f5b2fcd5851f3a24937c1a  # https://github.com/randombit/botan/commit/722dde9d63b1c4b0b3f5b2fcd5851f3a24937c1a
-  classification: info
-  auditer: FAlbertDev
-
-# Describe affected versions of name constraint bugs [ci skip]  (Jack Lloyd)
-- commit: 82ad62fea5629c1952aa112e3016b61e2c2a56b4  # https://github.com/randombit/botan/commit/82ad62fea5629c1952aa112e3016b61e2c2a56b4
-  classification: info
-  auditer: FAlbertDev
-
-# Add 2.19.5 release notes [ci skip]  (Jack Lloyd)
-- commit: 939f200875f708f6b281b6aa3d38bc62a5b80355  # https://github.com/randombit/botan/commit/939f200875f708f6b281b6aa3d38bc62a5b80355
-  classification: info
-  auditer: FAlbertDev
-
 # Update with info for 3.5.0 release  (Jack Lloyd)
 - commit: 2e5c7d3eb0dcb63d087fc3e7c92010aa82509bbf  # https://github.com/randombit/botan/commit/2e5c7d3eb0dcb63d087fc3e7c92010aa82509bbf
   classification: info
