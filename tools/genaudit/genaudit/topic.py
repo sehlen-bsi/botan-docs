@@ -54,7 +54,7 @@ class Topic:
             else:
                 raise RuntimeError("Patch is neither a Pull Request nor a Commit: %s" % patch)
 
-        if 'patches' not in cfg:
+        if 'patches' not in cfg or cfg['patches'] is None:
             return []
 
         return [load(patch) for patch in cfg['patches']]
