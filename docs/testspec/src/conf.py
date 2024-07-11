@@ -22,8 +22,8 @@ import auditinfo
 # -- Project information -----------------------------------------------------
 
 project = 'Test Specification'
-# copyright = '???'
-author = 'Rohde & Schwarz'
+copyright = f'{auditinfo.document_copyright_year()}, {auditinfo.document_copyright_holder()}'
+author = f'{auditinfo.document_copyright_holder()}'
 
 # The full version, including alpha/beta/rc tags
 release = auditinfo.botan_version()

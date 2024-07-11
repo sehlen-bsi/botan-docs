@@ -232,13 +232,13 @@
    NIST PQC Challenge Round 3 Submission, 2021,
    https://sphincs.org/data/sphincs+-r3.1-specification.pdf
 
-.. [TR-02102-1] BSI Technische Richtlinie BSI TR-02102-1:
-   "Kryptographische Verfahren: Empfehlungen und Schlüssellängen",
-   Version 2022-01, 28.01.2022
+.. [TR-02102-1] BSI Technical Guideline BSI TR-02102-1:
+   "Cryptographic Mechanisms: Recommendations and Key Lengths",
+   Version 2024-01, 02.02.2024
 
-.. [TR-02102-2] BSI Technische Richtlinie BSI TR-02102-2:
-   "Verwendung von Transport Layer Security (TLS)",
-   Version 2022-01, 24.01.2022
+.. [TR-02102-2] BSI Technical Guideline BSI TR-02102-2:
+   "Cryptographic Mechanisms: Recommandations and Key Lengths: Use of Transport Layer Security (TLS)",
+   Version 2024-01, 29.02.2024
 
 .. [TR-02103] BSI Technische Richtlinie BSI TR-02103
    "X.509 Zertifikate und Zertifikatspfadvalidierung"
