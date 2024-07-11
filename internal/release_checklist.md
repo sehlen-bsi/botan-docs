@@ -41,6 +41,20 @@ on the document repo's main branch.
   their initials. The datestamp in the changelog should be the day of the final
   content update and reasonably close to the final release date of the document.
 
+* **Double-check References in the Documents**
+
+  * Architecture Overview
+
+    This document contains hard-coded section-specific references into Botan's
+    upstream handbook. Currently we have to manually check and update them for
+    each release.
+
+  * Cryptographic Documentation
+
+    We are referencing BSI's technical guidelines and they are updated regularly.
+    Make sure that the references are up-to-date and that any changes in the
+    guidelines do not affect Botan's conformance.
+
 * **Audit Report Summaries**
 
   * *Update the "audited modules list"*
