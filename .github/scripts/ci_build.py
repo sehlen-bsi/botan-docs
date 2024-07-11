@@ -143,7 +143,7 @@ def determine_flags(target, target_os, target_cc, ccache,
 
     if target in ['coverage', 'shared']:
         flags += ['--with-boost']
-        if target_cc == 'clang':
+        if target_cc in ['clang', 'xcode']:
             # make sure clang ignores warnings in boost headers
             flags += ["--extra-cxxflags=--system-header-prefix=boost/"]
 
