@@ -1,0 +1,239 @@
+title: Uncategorized Patches
+
+patches:
+# Add CT::Option  (@randombit)
+- pr: 4175  # https://github.com/randombit/botan/pull/4175
+  merge_commit: e280c77f7aaa0f363460464fcee194a99daa3f7c
+  classification: unspecified
+
+# Deprecate various functions related to explicit group encoding  (@randombit)
+- pr: 4193  # https://github.com/randombit/botan/pull/4193
+  merge_commit: 308630a8193d4af412b9dfebf96aa3ea626f9255
+  classification: unspecified
+
+# Don't swallow exceptions during ECDSA key recovery  (@randombit)
+- pr: 4201  # https://github.com/randombit/botan/pull/4201
+  merge_commit: f2d67b282db2b2ebd3273997f02f0e51b4501011
+  classification: unspecified
+
+# Clean up sqrt logic in pcurves  (@randombit)
+- pr: 4171  # https://github.com/randombit/botan/pull/4171
+  merge_commit: b2ff8e358f4d27ec95ee105b454bdd587fe17dcf
+  classification: unspecified
+
+# Chore: Centralize Strong<> type unwrapping  (@reneme)
+- pr: 4170  # https://github.com/randombit/botan/pull/4170
+  merge_commit: bb9c069a2688065bf354356190156a34cbce98d2
+  classification: unspecified
+
+# Add EC_Scalar and EC_AffinePoint types  (@randombit)
+- pr: 4042  # https://github.com/randombit/botan/pull/4042
+  merge_commit: 45be74e509f1cb42c79669b92501c5770e998457
+  classification: unspecified
+
+# Faster pcurves reductions for P-256 and P-384  (@randombit)
+- pr: 4147  # https://github.com/randombit/botan/pull/4147
+  merge_commit: 7fad1d22d223f3e92ecfa6f67954b5892b30ab8a
+  classification: unspecified
+
+# Avoid a potentially troublesome construct in pcurves is_even  (@randombit)
+- pr: 4191  # https://github.com/randombit/botan/pull/4191
+  merge_commit: 69a51e9899cbbcc76d1e55ed1f170bb7120167e4
+  classification: unspecified
+
+# Fix usage of Botan_Tests:: prefix within the tests  (@randombit)
+- pr: 4188  # https://github.com/randombit/botan/pull/4188
+  merge_commit: d14ca951180b7bb688a8e6f2ee752c0cc4388c94
+  classification: unspecified
+
+# Reflect CXXFLAGS into the linker invocation as well  (@randombit)
+- pr: 4206  # https://github.com/randombit/botan/pull/4206
+  merge_commit: f2bf049941f64535866610ee5570257f9acbfb7c
+  classification: unspecified
+
+# CT::poison() for Curve448  (@reneme)
+- pr: 4204  # https://github.com/randombit/botan/pull/4204
+  merge_commit: 6945e9042c110fb875a0cee558224b5ba7056181
+  classification: unspecified
+
+# FIX: move() of scoped_cleanup  (@reneme)
+- pr: 4202  # https://github.com/randombit/botan/pull/4202
+  merge_commit: d88042eaaaa752483f00ee4a4345b2bf75f26846
+  classification: unspecified
+
+# CT::poison() for FrodoKEM  (@reneme)
+- pr: 4198  # https://github.com/randombit/botan/pull/4198
+  merge_commit: 2bc1985a20d69b9ba389704bfedf01a14af3a876
+  classification: unspecified
+
+# Convenience overloads for CT::poison()  (@reneme)
+- pr: 4197  # https://github.com/randombit/botan/pull/4197
+  merge_commit: 6c92e4b9a3f8e2ddc802f117eb81984ba2e89987
+  classification: unspecified
+
+# Add faster reduction for secp256k1 pcurves  (@randombit)
+- pr: 4113  # https://github.com/randombit/botan/pull/4113
+  merge_commit: 1af5545ae66ab7c56c35780769722db85217e982
+  classification: unspecified
+
+# Address some thread pool issues  (@randombit)
+- pr: 4199  # https://github.com/randombit/botan/pull/4199
+  merge_commit: 75a638f53505438e61f4121747c4ce800b28bab6
+  classification: unspecified
+
+# Adopt new convention for CT poisoning in pcurves  (@randombit)
+- pr: 4207  # https://github.com/randombit/botan/pull/4207
+  merge_commit: 041ff245011287fb30597ba86f64020a3df61110
+  classification: unspecified
+
+# Add P-192 to pcurves  (@randombit)
+- pr: 4190  # https://github.com/randombit/botan/pull/4190
+  merge_commit: 5fd660bc489628eccde601672239ede5cc267776
+  classification: unspecified
+
+# Move the pcurves implementation headers into a submodule  (@randombit)
+- pr: 4212  # https://github.com/randombit/botan/pull/4212
+  merge_commit: 5d42faac7af18e258dad69c0891982d606b783dc
+  classification: unspecified
+
+# In pcurves point mul, handle a missing/unseeded RNG  (@randombit)
+- pr: 4205  # https://github.com/randombit/botan/pull/4205
+  merge_commit: 7fb7f2b2f3c473370125532dbb76dfe7f581030d
+  classification: unspecified
+
+# Fix two ways we could end up with null internal states in the new ECC layer  (@randombit)
+- pr: 4210  # https://github.com/randombit/botan/pull/4210
+  merge_commit: 106e25e0e0f51f471a4a38681d410a9006cd91e6
+  classification: unspecified
+
+# Bump version to 3.6.0-pre. Update with news so far.  (Jack Lloyd)
+- commit: 0c79081f46145ea9556ea29cc28023b23836f4b9  # https://github.com/randombit/botan/commit/0c79081f46145ea9556ea29cc28023b23836f4b9
+  classification: unspecified
+
+# Faster scalar inversions for P-384 and P-521  (@randombit)
+- pr: 4213  # https://github.com/randombit/botan/pull/4213
+  merge_commit: faec13a84752858e981a8432e598344727e1f8ac
+  classification: unspecified
+
+# Apply projection trick in pcurves as well  (@randombit)
+- pr: 4215  # https://github.com/randombit/botan/pull/4215
+  merge_commit: 4ef3b51c6a10500c20f1b63d95c145a703480559
+  classification: unspecified
+
+# Support fast field inversion for P-256, P-384, and P-521  (@randombit)
+- pr: 4209  # https://github.com/randombit/botan/pull/4209
+  merge_commit: 25356e178ce56962dfa145ec44a08c134afb9d45
+  classification: unspecified
+
+# Followup on #4206 for Ninja build  (@randombit)
+- pr: 4214  # https://github.com/randombit/botan/pull/4214
+  merge_commit: 85491b36a4cc6c746042f0b335ffbc32c755bdb1
+  classification: unspecified
+
+# Refactor: Have a common base for Kyber/Dilithium structures  (@reneme)
+- pr: 4024  # https://github.com/randombit/botan/pull/4024
+  merge_commit: 2fe687bf60b8eda1048cfe92f73ba2568cf53172
+  classification: unspecified
+
+# Avoid an inversion during ECDSA/SM2/etc signature verification  (@randombit)
+- pr: 4211  # https://github.com/randombit/botan/pull/4211
+  merge_commit: 55007af7dfed2ea1d6bc31a865f4fa5464a280b6
+  classification: unspecified
+
+# Skip xmss_unit_tests in the short valgrind run  (Jack Lloyd)
+- commit: d2bc62535e8b65c2c176801f64c397e5b2c3e47f  # https://github.com/randombit/botan/commit/d2bc62535e8b65c2c176801f64c397e5b2c3e47f
+  classification: unspecified
+
+# Close the multiprocessing ThreadPool  (@randombit)
+- pr: 4216  # https://github.com/randombit/botan/pull/4216
+  merge_commit: 5477167b16128ff57f96eb278abb490059ea9491
+  classification: unspecified
+
+# Fix ECDSA verification on curves with cofactors  (@randombit)
+- pr: 4222  # https://github.com/randombit/botan/pull/4222
+  merge_commit: 9287df0908edd44bae0781b67f19348faf008ee8
+  classification: unspecified
+
+# Add fast iterated point doubling  (@randombit)
+- pr: 4221  # https://github.com/randombit/botan/pull/4221
+  merge_commit: 50b368ac54ae81b949c431956333848bf5a780d7
+  classification: unspecified
+
+# Add more cross compilers to CI  (@randombit)
+- pr: 4220  # https://github.com/randombit/botan/pull/4220
+  merge_commit: 73851ff2b7bb5d1620cfb7023864df3101ae4ed9
+  classification: unspecified
+
+# Test: Run a self-test for our valgrind setup  (@reneme)
+- pr: 4182  # https://github.com/randombit/botan/pull/4182
+  merge_commit: 25541afe95b8154d2c96df7f15d46e656b217340
+  classification: unspecified
+
+# In pcurves reduce window size for 2-ary multiplication  (@randombit)
+- pr: 4235  # https://github.com/randombit/botan/pull/4235
+  merge_commit: 2b62712cb5e8bce0c490071193d59ee8b9443931
+  classification: unspecified
+
+# Fix BOTAN_DEPRECATED_API  (@randombit)
+- pr: 4234  # https://github.com/randombit/botan/pull/4234
+  merge_commit: 537f84d94c36c22921175cde1c5f7e44c1fc5b30
+  classification: unspecified
+
+# Use Solinas reduction for P-192 and P-256 on 64-bit systems as well  (@randombit)
+- pr: 4226  # https://github.com/randombit/botan/pull/4226
+  merge_commit: 15186a65ef59e3c78f41b806c4dda59e3ec0420e
+  classification: unspecified
+
+# Improve field element halving  (@randombit)
+- pr: 4225  # https://github.com/randombit/botan/pull/4225
+  merge_commit: 8322c791ef78e356c7e70d581ef882ee1e173229
+  classification: unspecified
+
+# Disable Emscripten build  (@randombit)
+- pr: 4229  # https://github.com/randombit/botan/pull/4229
+  merge_commit: b8af12b5cd515b133500ccdc1eb04c6cd341dea4
+  classification: unspecified
+
+# Doc: Example code how to load raw ECC keys  (@reneme)
+- pr: 4227  # https://github.com/randombit/botan/pull/4227
+  merge_commit: 681a035087bc608a34ae36cc3142495a13916627
+  classification: unspecified
+
+# CT::poison for CRYSTALS Kyber and Dilithium  (@reneme)
+- pr: 4223  # https://github.com/randombit/botan/pull/4223
+  merge_commit: 3fa77189c7cb1a1922c5c0ed73dd663fe6e8fbaf
+  classification: unspecified
+
+# Update various documentation comments  (@randombit)
+- pr: 4185  # https://github.com/randombit/botan/pull/4185
+  merge_commit: a46783c4dd411aa827e2983aa2f958a6407ff7bb
+  classification: unspecified
+
+# Workaround: Older version of Emscripten  (@reneme)
+- pr: 4230  # https://github.com/randombit/botan/pull/4230
+  merge_commit: c0b794a78287002e8fc9db00a422c5d442cb90ac
+  classification: unspecified
+
+# FIX: install location of pkgconfig and cmake configs  (@reneme)
+- pr: 4236  # https://github.com/randombit/botan/pull/4236
+  merge_commit: 7c07dbd5dd63382ee81fcc2e091db5723504457d
+  classification: unspecified
+
+# Add explicit addition chains for P-256 scalar and k1 field/scalar inversions  (@randombit)
+- pr: 4237  # https://github.com/randombit/botan/pull/4237
+  merge_commit: 1a8a90b765dc51d44218adbb9f55abb1bac11e91
+  classification: unspecified
+
+# Fix the nightly CI flow  (@randombit)
+- pr: 4241  # https://github.com/randombit/botan/pull/4241
+  merge_commit: 56debb283f6aab9adb3f87a7f9266b055b4325e4
+  classification: unspecified
+
+# Add sm2p256v1 pcurves optimizations  (@randombit)
+- pr: 4240  # https://github.com/randombit/botan/pull/4240
+  merge_commit: e08276214e6f23f78ca5cff6861ec8adba0c340f
+  classification: unspecified
+
+# Update with changes so far in 3.6.0 [ci skip]  (Jack Lloyd)
+- commit: 2a1fc9606c749c3ed5c1b5cbbc4af573ac37e40c  # https://github.com/randombit/botan/commit/2a1fc9606c749c3ed5c1b5cbbc4af573ac37e40c
+  classification: unspecified
