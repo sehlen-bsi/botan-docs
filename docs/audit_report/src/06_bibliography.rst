@@ -35,9 +35,3 @@
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser
 
 .. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
-
-.. [NIST_SP_800_208] https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-208.pdf
-
-.. [BOTAN_LMS_PROCESS] https://github.com/randombit/botan/blob/1900c9e1f021b395dce2baba868a6427c1690ff1/src/lib/pubkey/hss_lms/lm_ots.cpp#L31
-
-.. [BOTAN_LMS_Q_WITH_CKSM] https://github.com/randombit/botan/blob/1900c9e1f021b395dce2baba868a6427c1690ff1/src/lib/pubkey/hss_lms/lm_ots.cpp#L80
