@@ -66,3 +66,5 @@ standardization by NIST and will therefore be removed in a future release.
 Additionally, the now-deprecated module ``mce`` implements a variant of the
 McEliece cryptosystem that will be replaced by an implementation of "Classic
 McEliece" in a future release of the library.
+
+The hybrid encryption scheme ``dlies`` is also deprecated as of this release.

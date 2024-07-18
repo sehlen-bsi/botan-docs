@@ -11,6 +11,11 @@ and standardized by the IEEE, ANSI and ISO.
 DLIES
 -----
 
+.. warning::
+
+   As of Botan 3.5.0 the DLIES implementation is considered deprecated and
+   will be removed in a future release.
+
 The Discrete Logarithm Integrated Encryption Scheme (DLIES) utilizes the
 Diffie-Hellman key exchange as the asymmetric component of the scheme.
 The symmetric cipher and MAC can be chosen. Botan implements the DLIES
