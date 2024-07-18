@@ -169,5 +169,6 @@ Changelog
    |         |          |   - HSS/LMS                                 |            |
    |         |          | - NIST SP800-56Cr2 One-Step KDM with KMAC   |            |
    |         |          | - Mention the existing KMAC implementation  |            |
+   |         |          | - Adaptions of X.509 path validation        |            |
    |         |          | - Minor updates on ECC details              |            |
    +---------+----------+---------------------------------------------+------------+
