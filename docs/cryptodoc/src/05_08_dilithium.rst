@@ -77,6 +77,11 @@ Also like Kyber, Dilithium additionally supports different instantiations of sym
 These are also provided by the mode and result in the "modern" and "AES" versions.
 An "AES" version is identified via the ``_aes`` suffix in the mode string.
 
+.. warning::
+
+   The AES-based variants of Dilithium are deprecated and will be removed in a future release.
+   NIST decided not to standardize those variants in their final ML-DSA standard.
+
 .. _pubkey_key_generation/dilithium/polynomials:
 
 **Polynomial Operations**

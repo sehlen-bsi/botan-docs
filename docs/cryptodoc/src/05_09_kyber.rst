@@ -3,14 +3,6 @@
 Kyber
 =====
 
-.. todo::
-
-   This documentation is outdated (and potentially too detailed).
-   It should be updated as soon as those pull requests are merged:
-
-     * https://github.com/randombit/botan/pull/4024
-
-   Until then, I've removed some of the source links to pass CI.
 
 Botan implements the CRYSTALS-Kyber KEM in
 :srcref:`src/lib/pubkey/kyber/`. The implementation is based on the NIST round 3 specification [Kyber-R3]_.
@@ -109,6 +101,11 @@ For each mode, the ``KyberConstants`` class contains the corresponding set of pa
    +-------------------+--------------+----------+-----------+--------------+------------+
    | Kyber 90s         | AES-256-CTR  | SHA-256  | SHA512    | AES-256-CTR  | SHA-256    |
    +-------------------+--------------+----------+-----------+--------------+------------+
+
+.. warning::
+
+   The 90s-variants of Kyber that are using AES and SHA-2 are deprecated and will be removed in a future release.
+   NIST decided not to standardize those variants in their final ML-KEM standard.
 
 Kyber itself is implemented in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp`.
 Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_structures.h`), respectively.
