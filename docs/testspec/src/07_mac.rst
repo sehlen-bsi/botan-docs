@@ -331,3 +331,79 @@ The test vectors were generated with Bouncy Castle Crypto 1.54.
    |                      |    functions on the GMAC with these arrays. Calculate the tag and        |
    |                      |    compare it with the expected output value *Out*                       |
    +----------------------+--------------------------------------------------------------------------+
+
+KMAC
+----
+
+KMAC is tested with the following constraints:
+
+-  Number of test cases: 6
+
+-  Key: 256 bits
+
+-  Nonce: varying length
+
+   - Range: None - 168 bits
+
+-  In: varying length
+
+   -  Range: 32 bits – 1600 bits
+   -  Extreme values: 896 bits
+
+-  Out: varying length
+
+   - 256 bits for KMAC-128
+   - 512 bits for KMAC-256
+
+The following table shows an example test case with one test vector. All
+test vectors are listed in :srcref:`src/tests/data/mac/kmac.vec`.
+
+The tests are taken from NIST's `KMAC_samples.pdf <https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/KMAC_samples.pdf>`_.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +----------------------+--------------------------------------------------------------------------+
+   | **Test Case No.:**   | MAC-KMAC-1                                                               |
+   +======================+==========================================================================+
+   | **Type:**            | Positive Test                                                            |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Description:**     | Combined unit and known answer test that checks that reset works         |
+   |                      | correctly and calculates the GMAC tag on a test message                  |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Preconditions:**   | None                                                                     |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Input Values:**    | Algorithm = KMAC-128                                                     |
+   |                      |                                                                          |
+   |                      | Nonce = 0x4D7920546167676564204170706C69636174696F6E (168 bits)          |
+   |                      |                                                                          |
+   |                      | Key = 0x404142434445464748494A4B4C4D4E4F505152535455565758595A5B5C5D5E5F |
+   |                      |      (128 bits)                                                          |
+   |                      |                                                                          |
+   |                      | In = 0x0001020...C4C5C6C7 (1600 bits)                                    |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Expected Output:** | Out = 0x1F5B4E6CCA02209E0DCB5CA635B89A15E271ECC760071DFD805FAA38F9729230 |
+   |                      |       (256 bits)                                                         |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Steps:**           | #. Create the KMAC object                                                |
+   |                      |                                                                          |
+   |                      | #. Test the name of the KMAC                                             |
+   |                      |                                                                          |
+   |                      | #. Set the key *Key*                                                     |
+   |                      |                                                                          |
+   |                      | #. Set the nonce *Nonce*                                                 |
+   |                      |                                                                          |
+   |                      | #. Input *In* into the KMAC, calculate the tag and compare it with the   |
+   |                      |    expected output value *Out*                                           |
+   |                      |                                                                          |
+   |                      | #. Reset the KMAC                                                        |
+   |                      |                                                                          |
+   |                      | #. Set the key *Key*                                                     |
+   |                      |                                                                          |
+   |                      | #. Set the nonce *Nonce*                                                 |
+   |                      |                                                                          |
+   |                      | #. Split the input string *IN* into three arrays and invoke three update |
+   |                      |    functions on the KMAC with these arrays. Calculate the tag and        |
+   |                      |    compare it with the expected output value *Out*                       |
+   +----------------------+--------------------------------------------------------------------------+

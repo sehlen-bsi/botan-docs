@@ -227,6 +227,11 @@
    https://csrc.nist.gov/publications/detail/sp/800-208/final,
    October 2020
 
+.. [SP800-185] NIST Special Publication 800-185:
+   "SHA-3 Derived Functions: cSHAKE, KMAC, TupleHash, and ParallelHash"
+   https://csrc.nist.gov/publications/detail/sp/800-185/final,
+   December 2016
+
 .. [SPX-R3] J.-P. Aumasson, D. J. Bernstein, W. Beullens, C. Dobraunig, M. Eichlseder, S. Fluhrer, S.-L. Gazdag, A. Hülsing, P. Kampanakis, S. Kölbl, T. Lange, M. M. Lauridsen, F. Mendel, R. Niederhagen, C. Rechberger, J. Rijneveld, P. Schwabe, B. Westerbaan:
    "SPHINCS+ Submission to the NIST post-quantum project, v.3.1",
    NIST PQC Challenge Round 3 Submission, 2021,
