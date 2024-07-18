@@ -78,10 +78,6 @@ recommendations of [TR-02103]_. Some extended validation recommendations are not
 implemented in the library but can be manually added at application level, if
 needed.
 
-.. warning:: OCSP responses are currently vulnerable to spoofing and must not be
-   used for certificate revocation status checks. See :ref:`x509/check_ocsp` for
-   further details on this vulnerability.
-
 Detailed Description of Path Validation Algorithms
 --------------------------------------------------
 
@@ -741,28 +737,14 @@ certificate chain. It returns a list of sets of certificate status
 codes, each entry in the list contains the status codes for each
 certificate in the chain.
 
-**Vulnerability:** Botan 3.0.0-alpha1 and previous versions contained a bug in
-the OCSP response validation where the authenticity of a spoofed response was not
-properly checked. That allowed an attacker to forge OCSP responses for arbitrary
-CAs that were considered authentic. That alone had the potential for DOS
-attacks. Provided the attacker was in possession of a compromised subject
-certificate, they would have been able to circumvent revocation checks and (keep)
-impersonating the legitimate certificate owner (if no additional CRL-based
-checks are performed).
-
-This vulnerability was assigned CVE-2022-43705. For further details, please refer
-to the `associated security advisory in Botan's GitHub repository
-<https://github.com/randombit/botan/security/advisories/GHSA-4v9w-qvcq-6q7w>`_ or
-the vulnerability description document provided along with this report.
-
-**Conclusion:** With `the given patch <https://github.com/randombit/botan/pull/3067>`_
-applied, Botan is no longer vulnerable to the described issue.
-
 Full compliance with the extended OCSP validation rules layed out in [TR-02103]_
 requires that authorized OCSP responder certificates that in-turn contain an OCSP
 responder in its AuthorityInformationAccess extension to be "recursively" checked
 for their revocation status. This functionality is currently not implemented in
-Botan.
+Botan [#ocsp_extension]_.
+
+.. [#ocsp_extension] See `GitHub #3124 <https://github.com/randombit/botan/issues/3124>`_
+   where any potential improvement to this functionality is discussed.
 
 .. admonition:: ``check_ocsp()``
 
