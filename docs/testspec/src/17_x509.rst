@@ -438,3 +438,18 @@ signature validation) and also using online tests for randombit.net.
 Online tests are only executed if BOTAN_HAS_ONLINE_REVOCATION_CHECKS is
 set. The tests are implemented in :srcref:`src/tests/test_ocsp.cpp`. All
 test data can be found in :srcref:`src/tests/data/x509/ocsp`.
+
+Limbo X.509 Tests
+-----------------
+
+Limbo [#limbo_url]_ is a testsuite for evaluating X.509 path validation
+implementations that is maintained by "Trail of Bits". It contains several
+thousand certificate validation test cases.
+
+Botan's CI is running the entire Limbo test harness via the library's python
+binding to verify proper path building and validation. Less than 1% of the
+tests are either ignored, disabled or produce a different result than expected.
+See :srcref:`src/scripts/run_limbo_tests.py:18|tests_that_succeed_unexpectedly`
+for the full details of the irregular test results.
+
+.. [#limbo_url] Limbo X.509 test suite: https://x509-limbo.com/
