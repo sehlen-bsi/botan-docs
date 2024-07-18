@@ -33,6 +33,11 @@ It's worth mentioning that TLS is also affected by this vulnerability. Although
 the record limit of 2^14 bytes for a TLS record can mitigate the attack to some
 extent, it doesn't entirely prevent it.
 
+See also:
+
+ * `CVE-2024-34702 <https://www.cve.org/CVERecord?id=CVE-2024-34702>`_
+ * `Botan Security Advisory: Denial of Service Due to Excessive Name Constraints <https://github.com/randombit/botan/security/advisories/GHSA-5gg9-hqpr-r58j>`_
+
 X.509 Authorization Error due to Name Constraint Decoding Bug (CVE-2024-39312)
 ----------------------------------------------------------------------------------
 
@@ -66,3 +71,8 @@ therefore affected by this vulnerability include:
 - ``PKIX::check_ocsp``
 
 Furthermore, certificate chains in TLS are also affected by this vulnerability.
+
+See also:
+
+ * `CVE-2024-39312 <https://www.cve.org/CVERecord?id=CVE-2024-39312>`_
+ * `Botan Security Advisory: Authorization Error due to Name Constraint Decoding Bug <https://github.com/randombit/botan/security/advisories/GHSA-jp24-56jm-gg86>`_
