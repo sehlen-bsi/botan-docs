@@ -1,8 +1,9 @@
 title: Build System
 
 description: |
-  This section covers changes to the build system. Most notably, Botan now  requires
-  at least XCode 15 to build on macOS.
+  This section covers changes to the build system. Most notably, Botan now
+  requires at least XCode 15 to build on macOS and distinguishes between clang
+  fork of xcode and vanilla clang.
 
 patches:
 # Add helper for defining binary option pairs  (@randombit)

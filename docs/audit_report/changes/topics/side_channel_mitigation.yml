@@ -1,5 +1,16 @@
 title: Side Channel Mitigations
 
+description: |
+  Most notably, this introduces a dedicated "value barrier" in Botan's
+  constant-time helper functions to prevent the compiler from reasoning about
+  possible value ranges of variables. Some compilers may introduce
+  secret-dependent branches based on such reasonings as an optimization.
+
+  On one hand, this mitigates a potential side-channel in the Kyber
+  implementation that was originally reported by PQShield. On the other hand, it
+  aims to prevent such compiler-introduced side channels in the rest of the code
+  base.
+
 patches:
 # Add CT::value_barrier  (@randombit)
 - pr: 4096  # https://github.com/randombit/botan/pull/4096

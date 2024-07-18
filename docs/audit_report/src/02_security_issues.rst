@@ -1,3 +1,5 @@
+.. _chapter/vulnerabilities:
+
 Security and Vulnerabilities
 ============================
 
@@ -31,7 +33,7 @@ It's worth mentioning that TLS is also affected by this vulnerability. Although
 the record limit of 2^14 bytes for a TLS record can mitigate the attack to some
 extent, it doesn't entirely prevent it.
 
-X.509 Authorization Error due to Name Constraint Decoding Bug (CVE-CVE-2024-39312)
+X.509 Authorization Error due to Name Constraint Decoding Bug (CVE-2024-39312)
 ----------------------------------------------------------------------------------
 
 Botan has a flaw in processing X.509 name constraints when both permitted and

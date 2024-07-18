@@ -4,6 +4,10 @@ description: |
   This section lists fixes on various topics.
   Note that there's a dedicated section for :ref:`fixes related to X.509 <changes/fixes_x509>`.
 
+  Notable fixes are a missing reduction in the ECDSA signature computation, an
+  unexpected result of the auto-tuning of scrypt2 parameters, and a potential
+  use-after-free in the command line interface.
+
 patches:
 # Fix test_cli_crypt.py with --threads=1 [ci skip]  (Jack Lloyd)
 - commit: 187e3d8dc62e3d935cb480f8a6140abb9b3aaa7b  # https://github.com/randombit/botan/commit/187e3d8dc62e3d935cb480f8a6140abb9b3aaa7b

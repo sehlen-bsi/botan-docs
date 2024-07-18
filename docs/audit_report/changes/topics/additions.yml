@@ -5,6 +5,9 @@ description: |
   debugging of TLS connections by exporting the secrets used to encrypt and
   decrypt traffic. See also `draft-ietf-tls-keylogfile <https://datatracker.ietf.org/doc/draft-ietf-tls-keylogfile/02/>`_.
 
+  Additionally, a new key derivation method based on KMAC has been added. This
+  method is defined in NIST.SP.800-56Cr2, Section 4.
+
 patches:
 # Introduce Public_Key::raw_public_key_bits()  (@reneme)
 - pr: 3985  # https://github.com/randombit/botan/pull/3985

@@ -1,5 +1,10 @@
 title: Refactoring of CRYSTALS (Kyber and Dilithium)
 
+description: |
+  This is a preparatory refactoring to introduce ML-KEM and ML-DSA in a future
+  release. Note that Botan is planning to continue the support of the round 3
+  submissions of Kyber and Dilithium for the foreseeable future.
+
 patches:
 # Refactor: Kyber internals  (@reneme)
 - pr: 3887  # https://github.com/randombit/botan/pull/3887

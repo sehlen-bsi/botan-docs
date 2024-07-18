@@ -2,7 +2,8 @@ title: Continuous Integration
 
 description: |
   This section covers changes to the continuous integration system.
-  The functionality of the library should not be affected by these changes.
+  The functionality of the library should not be affected by these changes
+  but the test coverage of some components was improved.
 
 patches:
 # Update roughtime.cloudflare.com public key and port  (@lukevalenta)

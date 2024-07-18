@@ -1,5 +1,15 @@
 title: New implementation of Elliptic Curve Cryptography
 
+description: |
+  Botan |botan_version| introduces an entirely new implementation of elliptic
+  curve cryptography for prime-order curves. In this release, the new
+  implementation is included but *not yet used by ECDSA or ECDH*.
+
+  The new implementation is much more friendly for modern compiler optimizations
+  by making the parameter data lengths fixed at compile time. Also, it provides
+  substantial flexibility to customize specific aspects of the elliptic-curve
+  math implementations for specific curves at compile-time.
+
 patches:
 # Add word3 type and take advantage of Clang's _BitInt extension  (@randombit)
 - pr: 3989  # https://github.com/randombit/botan/pull/3989

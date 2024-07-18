@@ -1,5 +1,8 @@
 title: HSS/LMS
 
+description: |
+  Those patches introduce the HSS/LMS hash-based signature algorithm to Botan.
+
 patches:
 # HSS-LMS Signature Algorithm Implementation  (@FAlbertDev)
 - pr: 3716  # https://github.com/randombit/botan/pull/3716

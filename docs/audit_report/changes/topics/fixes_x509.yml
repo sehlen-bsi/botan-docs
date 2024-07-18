@@ -4,6 +4,9 @@ description: |
   Due to some discovered issues with X.509 certificate handling, several fixes
   and refactorings were applied to the X.509 module.
 
+  Please see :ref:`chapter/vulnerabilities` for more details on the fixed
+  vulnerabilities.
+
 patches:
 # Fix a bug in SAN handling when creating certs and PKCS 10 requests  (@randombit)
 - pr: 4032  # https://github.com/randombit/botan/pull/4032
