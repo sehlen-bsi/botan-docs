@@ -56,31 +56,14 @@ dependencies are in the scope of this document. Additionally, we review the
 following modules and its dependencies: ``certstor_flatfile``,
 ``certstor_sqlite3``, ``certstor_system_macos``, ``certstor_system_windows``,
 ``certstor_system``, ``dilithium_aes``, ``dilithium``, ``frodokem``,
-``frodokem_aes``, ``ffi``, ``kyber_90s``, ``kyber``, ``pkcs11``, ``sha1_armv8``,
-``sha1_sse2``, ``sha1_x86``, ``shake``, ``sphincsplus_sha2``,
+``frodokem_aes``, ``hss_lms``, ``ffi``, ``kyber_90s``, ``kyber``, ``pkcs11``,
+``sha1_armv8``, ``sha1_sse2``, ``sha1_x86``, ``shake``, ``sphincsplus_sha2``,
 ``sphincsplus_shake``, ``tls_cbc``, ``tls12``, ``tls13_pqc``, ``tls13``,
 ``xts``. Patches that don't alter any of the above-mentioned components or
 relevant modules are considered out-of-scope.
 
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
-
-.. todo:: Update the module list below for the upcoming release
-
-.. For each new document version, the list below should be sanity checked
-   and potentially adapted using the script in scripts/audited_modules_list.py
-   like so:
-
-     1. Update the list of additional and platform dependent modules in
-        the audited_modules_list.py script
-     2. Check out the to-be-audited version of Botan "somewhere"
-     3. poetry run python audited_modules_list.py --repo-location="somewhere"
-     4. Copy the script's output over the list below
-     5. Go through the `git diff` and sanity check
-     6. Update the enumeration of "additional modules" above with the
-        modules listed in the script.
-     7. Adapt the paragraph under the enumeration of audited modules
-        to reflect notable changes.
 
 .. list-table::
 
@@ -150,76 +133,80 @@ reviewed:
      - hkdf
    * - hmac
      - hmac_drbg
+     - hss_lms
      - http_util
-     - iso9796
-   * - kdf
+   * - iso9796
+     - kdf
      - kdf1_iso18033
      - keccak_perm
-     - keccak_perm_bmi2
-   * - keypair
+   * - keccak_perm_bmi2
+     - keypair
      - kyber
      - kyber_90s
-     - kyber_common
-   * - locking_allocator
+   * - kyber_common
+     - kyber_round3
+     - locking_allocator
      - mac
-     - mdx_hash
+   * - mdx_hash
      - mem_pool
-   * - mgf1
+     - mgf1
      - mode_pad
-     - modes
+   * - modes
      - mp
-   * - numbertheory
+     - numbertheory
      - pbkdf
-     - pem
+   * - pem
      - pk_pad
-   * - pkcs11
+     - pkcs11
      - poly_dbl
-     - prf_tls
+   * - prf_tls
      - processor_rng
-   * - pubkey
+     - pubkey
      - rdseed
-     - rng
+   * - rng
      - rsa
-   * - sha1
+     - sha1
      - sha1_armv8
-     - sha1_sse2
+   * - sha1_sse2
      - sha1_x86
-   * - sha2_32
+     - sha2_32
      - sha2_32_armv8
-     - sha2_32_bmi2
+   * - sha2_32_bmi2
      - sha2_32_x86
-   * - sha2_64
+     - sha2_64
      - sha2_64_armv8
-     - sha2_64_bmi2
+   * - sha2_64_bmi2
      - sha3
-   * - shake
+     - shake
      - shake_xof
-     - simd
+   * - simd
      - socket
-   * - sp800_108
+     - sp800_108
      - sp800_56c
-     - sphincsplus_common
+   * - sphincsplus_common
      - sphincsplus_sha2
-   * - sphincsplus_shake
+     - sphincsplus_shake
      - stateful_rng
-     - stream
+   * - stream
      - system_rng
-   * - tls
+     - tls
      - tls12
-     - tls13
+   * - tls13
      - tls13_pqc
-   * - tls_cbc
-     - trunc_hash
+     - tls_cbc
+     - tree_hash
+   * - trunc_hash
      - utils
      - x509
-   * - xmss
-     - xof
+     - xmss
+   * - xof
      - xts
      -
+     -
 
-Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
-
-.. todo:: Update this section for each new version of the document.
+Most notably, the module ``hss_lms`` was added in Botan |botan_version|.
+The module ``kyber_round3`` was introduced in a refactoring in preparation of an upcoming
+ML-KEM implementation in a future release of the library.
 
 Patch Description Content
 -------------------------

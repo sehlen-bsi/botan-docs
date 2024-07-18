@@ -54,6 +54,7 @@ def additional_modules():
         'ffi',
         'frodokem',
         'frodokem_aes',
+        'hss_lms',
         'kyber_90s',
         'kyber',
         'pkcs11',
