@@ -22,8 +22,8 @@ import auditinfo
 # -- Project information -----------------------------------------------------
 
 project = 'Prüfmethodik für die Freigabe neuer Botan-Versionen'
-# copyright = '???'
-author = 'Rohde & Schwarz'
+copyright = f'{auditinfo.document_copyright_year()}, {auditinfo.document_copyright_holder()}'
+author = f'{auditinfo.document_copyright_holder()}'
 
 # The full version, including alpha/beta/rc tags
 release = auditinfo.botan_version()

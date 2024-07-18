@@ -6,21 +6,22 @@
 .. [TESTRP]
    Daniel Neus, René Fischer, René Meusel:
    "Pflege und Weiterentwicklung der Kryptobibliothek Botan (Weiterentwicklung Botan): Test Report",
-   Version 1.5.0, 21.11.2022.
+   Release |botan_version|
 
 .. [TESTSP]
    René Fischer, Juraj Somorovsky, Sergii Cherkavskyi, René Meusel, Fabian Albert:
    "Pflege und Weiterentwicklung der Kryptobibliothek Botan (Weiterentwicklung Botan): Test Specification",
-   Version 1.5.1, 01.04.2023.
+   Release |botan_version|
 
 .. [ARCH]
    Rohde & Schwarz Cybersecurity
-   "Pflege und Weiterentwicklung der Kryptobibliothek Botan (Weiterentwicklung Botan): Library Architecture Overview"
+   "Pflege und Weiterentwicklung der Kryptobibliothek Botan (Weiterentwicklung Botan): Library Architecture Overview",
+   Release |botan_version|
 
 .. [CRYPD]
-   René Fischer, Juraj Somorovsky, Tobias Niemann, Fabian Weißberg, Sergii Cherkavskyi, Philippe Lieser, René Meusel:
-   "Pflege und Weiterentwicklung der Kryptobibliothek Botan (Weiterentwicklung Botan): Cryptogrphic Documentation"
-   Version 1.5.0, 03.11.2022.
+   René Fischer, Juraj Somorovsky, Tobias Niemann, Fabian Weißberg, Sergii Cherkavskyi, Philippe Lieser, René Meusel, Fabian Albert, Amos Treiber:
+   "Pflege und Weiterentwicklung der Kryptobibliothek Botan (Weiterentwicklung Botan): Cryptographic Documentation"
+   Release |botan_version|
 
 .. [SHATRD]
    Stevens, M., Bursztein, E., Karpman, P., Albertini, A., Markov, Y. (2017).

@@ -10,7 +10,7 @@ def auditors_file_path() -> str:
     return os.path.join(repository_root(), "config", "auditors.yml")
 
 def __conf_var_pattern():
-    return re.compile(r"(^[a-zA-Z_0-9]+)=(.+)\n$")
+    return re.compile(r"(^[a-zA-Z_0-9]+)=\"?([^\"]+)\"?\n$")
 
 def __get_from_config(env_var: str) -> str:
     cfgpattern = __conf_var_pattern()
@@ -73,6 +73,14 @@ def botan_get_released_source_tarball_url() -> str:
 def botan_get_released_source_tarball_signature() -> str:
     """ The URL of the signature of the source tarball of the currently targeted Botan version """
     return __get_from_config("BOTAN_SOURCE_ARCHIVE_TEMPLATE").replace("XXX", botan_version()) + ".asc"
+
+def document_copyright_year() -> int:
+    """ The year of the original document release and copyright notice """
+    return __get_from_config("DOCUMENT_COPYRIGHT_YEAR")
+
+def document_copyright_holder() -> str:
+    """ The year of the original document release and copyright notice """
+    return __get_from_config("DOCUMENT_COPYRIGHT_HOLDER")
 
 def auditdoc_github_handle() -> str:
     """ The repository handle  of the audit documentation on GitHub """
