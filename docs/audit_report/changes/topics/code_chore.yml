@@ -75,7 +75,7 @@ patches:
 # Rename Curve25519 to X25519  (@randombit)
 - pr: 4012  # https://github.com/randombit/botan/pull/4012
   merge_commit: d1ba2fd6e25e0884ca6fd12281db498386560b42
-  classification: info
+  classification: out of scope
 
 # Use copy_mem in Sphincs+  (@FAlbertDev)
 - pr: 4028  # https://github.com/randombit/botan/pull/4028
