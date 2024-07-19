@@ -104,7 +104,7 @@ For each mode, the ``KyberConstants`` class contains the corresponding set of pa
 
 .. warning::
 
-   The 90s-variants of Kyber that are using AES and SHA-2 are deprecated and will be removed in a future release.
+   The 90s-variants of Kyber that use AES and SHA-2 are deprecated and will be removed in a future release.
    NIST decided not to standardize those variants in their final ML-KEM standard.
 
 Kyber itself is implemented in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp`.

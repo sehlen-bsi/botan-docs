@@ -9,7 +9,7 @@ HSS/LMS
 
 An implementation of Hierarchical Signature System (HSS) with Leighton-Micali
 Hash-Based Signatures (LMS) was introduced in Botan |botan_version|. This
-algorithms is similar to the already-implemented XMSS signatures and resists
+algorithm is similar to the already-implemented XMSS signatures and resists
 quantum attacks by nature. The algorithm is stateful and it is therefore not
 recommendable to create signatures in a software implementation.
 

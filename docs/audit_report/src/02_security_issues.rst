@@ -30,7 +30,7 @@ vulnerable. Important Botan functions that call this method are:
 - ``PKIX::check_ocsp``
 
 It's worth mentioning that TLS is also affected by this vulnerability. Although
-the record limit of 2^14 bytes for a TLS record can mitigate the attack to some
+the record limit of :math:`2^{14}` bytes for a TLS record can mitigate the attack to some
 extent, it doesn't entirely prevent it.
 
 See also:
@@ -48,9 +48,9 @@ match only if it falls within the permitted name subtrees and is not within the
 excluded name subtrees. This vulnerability allows a malicious intermediate CA to
 sign an invalid certificate in a setting like the following:
 
-Permitted name subtrees: .example.com
-Excluded name subtrees: .super-secret.example.com
-Malicious certificate possible for name: evil.super-secret.example.com
+ * Permitted name subtrees: .example.com
+ * Excluded name subtrees: .super-secret.example.com
+ * Malicious certificate possible for name: evil.super-secret.example.com
 
 If the list of permitted name subtrees is empty, the verification works as intended.
 
