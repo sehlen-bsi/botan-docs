@@ -48,7 +48,7 @@ def update_uncategorized_patches(audit: genaudit.Audit, repo: genaudit.GitRepo, 
             ]))
 
         # render all found unreferenced patches
-        rendered_unrefed_patches = ''.join([f"\n{patch.render_patch(repo, True)}\n" for patch in unrefed_patches])
+        rendered_unrefed_patches = ''.join([f"\n{patch.render_patch(repo, yaml=True, approvers=True)}\n" for patch in unrefed_patches])
         unrefed_topic.write(rendered_unrefed_patches)
 
     return True
