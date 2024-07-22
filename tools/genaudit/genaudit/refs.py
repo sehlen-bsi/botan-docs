@@ -5,6 +5,8 @@ References to specific Git(Hub) objects like Pull Requests and Commits
 from enum import IntEnum
 from functools import total_ordering
 
+import auditinfo
+
 from github.PullRequest import PullRequest as GithubPullRequest
 from github.Commit import Commit as GithubCommit
 
@@ -58,9 +60,9 @@ class Patch:
         self.auditer = auditer
         self.comment = comment
 
-    def render_patch(self, repo, yaml: bool = False):
+    def render_patch(self, repo, yaml: bool = False, approvers: bool = False):
         if isinstance(self, PullRequest):
-            return self.render(repo.pull_request_info(self), yaml)
+            return self.render(repo.pull_request_info(self), yaml, approvers)
         elif isinstance(self, Commit):
             return self.render(repo.commit_info(self), yaml)
         else:
@@ -86,10 +88,25 @@ class PullRequest(Patch):
     def merge_commit(self):
         return Commit(self.ref) if self.ref else None
 
-    def render(self, pr_info: GithubPullRequest, yaml: bool = False) -> str:
+    def render(self, pr_info: GithubPullRequest, yaml: bool = False, render_approvers: bool = False) -> str:
+        if render_approvers:
+            all_approvers = list(set([auditinfo.Auditor(review.user.name, review.user.login) for review in pr_info.get_reviews() if review.state == "APPROVED"]))
+            authorative_auditors = [auditor for auditor in all_approvers if auditor in auditinfo.authorative_auditors()]
+            other_approvers = [approver for approver in all_approvers if approver not in auditinfo.authorative_auditors()]
+
         if yaml:
             out = [
-                f"# {pr_info.title}  (@{pr_info.user.login})",
+                f"# {pr_info.title}",
+                f"#   Author:    @{pr_info.user.login}"
+            ]
+            if render_approvers:
+                approvers = [f'@{auditor.github_handle}' for auditor in authorative_auditors]
+                approvers += [f'(@{approver.github_handle})' for approver in other_approvers]
+                if approvers:
+                    out += [
+                        f"#   Approvals: {', '.join(approvers)}",
+                    ]
+            out += [
                 f"- pr: {pr_info.number}  # {pr_info.html_url}",
                 f"  merge_commit: {self.ref}",
                 f"  classification: {self.classification.to_string()}",
@@ -127,7 +144,8 @@ class Commit(Patch):
         author = co_info.commit.author.name
         if yaml:
             out = [
-                f"# {msg}  ({author})",
+                f"# {msg}",
+                f"#   Author: {author}",
                 f"- commit: {co_info.sha}  # {co_info.html_url}",
                 f"  classification: {self.classification.to_string()}",
             ]

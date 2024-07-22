@@ -48,7 +48,7 @@ def update_uncategorized_patches(audit: genaudit.Audit, repo: genaudit.GitRepo, 
             ]))
 
         # render all found unreferenced patches
-        rendered_unrefed_patches = ''.join([f"\n{patch.render_patch(repo, True)}\n" for patch in unrefed_patches])
+        rendered_unrefed_patches = ''.join([f"\n{patch.render_patch(repo, yaml=True, approvers=True)}\n" for patch in unrefed_patches])
         unrefed_topic.write(rendered_unrefed_patches)
 
     return True
@@ -83,6 +83,9 @@ def main():
     parser.add_argument('-n', '--output-topic-title',
                         help='Title of the topic to append unreferenced patches to',
                         default='Uncategorized Patches')
+    parser.add_argument('-d', '--dry-run',
+                        help='Do not commit or push changes to the repository',
+                        default=False, action='store_true')
     parser.add_argument('audit_config_dir',
                          help='the audit directory to be updated')
 
@@ -129,6 +132,10 @@ def main():
     if not found_patches:
         logging.critical(f"Upstream repo was updated (from {old_target[0:7]} to {new_target[0:7]}) but didn't find new patches. Something is wrong here!")
         return 1
+
+    if args.dry_run:
+        logging.info(f"DRY-RUN: Not committing or pushing changes to the repository.")
+        return 0
 
     # Commit and push the new (uncategorized) patch references.
     run_git(["add", audit.get_topic_file_path(args.output_topic)])
