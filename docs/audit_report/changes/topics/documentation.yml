@@ -23,10 +23,10 @@ patches:
 # Doc: Example code how to load raw ECC keys  (@reneme)
 - pr: 4227  # https://github.com/randombit/botan/pull/4227
   merge_commit: 681a035087bc608a34ae36cc3142495a13916627
-  classification: unspecified
+  classification: info
 
 # Update various documentation comments  (@randombit)
 - pr: 4185  # https://github.com/randombit/botan/pull/4185
   merge_commit: a46783c4dd411aa827e2983aa2f958a6407ff7bb
-  classification: unspecified
+  classification: info
 

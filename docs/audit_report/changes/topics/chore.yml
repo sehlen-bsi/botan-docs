@@ -4,9 +4,10 @@ patches:
 # Chore: Centralize Strong<> type unwrapping  (@reneme)
 - pr: 4170  # https://github.com/randombit/botan/pull/4170
   merge_commit: bb9c069a2688065bf354356190156a34cbce98d2
-  classification: unspecified
+  classification: info
 
 # Fix usage of Botan_Tests:: prefix within the tests  (@randombit)
 - pr: 4188  # https://github.com/randombit/botan/pull/4188
   merge_commit: d14ca951180b7bb688a8e6f2ee752c0cc4388c94
-  classification: unspecified
+  classification: info
+  auditer: reneme

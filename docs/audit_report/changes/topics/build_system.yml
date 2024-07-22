@@ -4,14 +4,15 @@ patches:
 # Reflect CXXFLAGS into the linker invocation as well  (@randombit)
 - pr: 4206  # https://github.com/randombit/botan/pull/4206
   merge_commit: f2bf049941f64535866610ee5570257f9acbfb7c
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Followup on #4206 for Ninja build  (@randombit)
 - pr: 4214  # https://github.com/randombit/botan/pull/4214
   merge_commit: 85491b36a4cc6c746042f0b335ffbc32c755bdb1
-  classification: unspecified
+  classification: info
 
 # FIX: install location of pkgconfig and cmake configs  (@reneme)
 - pr: 4236  # https://github.com/randombit/botan/pull/4236
   merge_commit: 7c07dbd5dd63382ee81fcc2e091db5723504457d
-  classification: unspecified
+  classification: info
