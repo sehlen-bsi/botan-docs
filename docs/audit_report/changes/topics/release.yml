@@ -1,0 +1,15 @@
+title: Release Preparation
+
+patches:
+# Add 2.19.5 release notes [ci skip]  (Jack Lloyd)
+- commit: 939f200875f708f6b281b6aa3d38bc62a5b80355  # https://github.com/randombit/botan/commit/939f200875f708f6b281b6aa3d38bc62a5b80355
+  classification: info
+  auditer: FAlbertDev
+
+# Bump version to 3.6.0-pre. Update with news so far.  (Jack Lloyd)
+- commit: 0c79081f46145ea9556ea29cc28023b23836f4b9  # https://github.com/randombit/botan/commit/0c79081f46145ea9556ea29cc28023b23836f4b9
+  classification: unspecified
+
+# Update with changes so far in 3.6.0 [ci skip]  (Jack Lloyd)
+- commit: 2a1fc9606c749c3ed5c1b5cbbc4af573ac37e40c  # https://github.com/randombit/botan/commit/2a1fc9606c749c3ed5c1b5cbbc4af573ac37e40c
+  classification: unspecified
