@@ -105,3 +105,8 @@ patches:
 - pr: 4240  # https://github.com/randombit/botan/pull/4240
   merge_commit: e08276214e6f23f78ca5cff6861ec8adba0c340f
   classification: unspecified
+
+# Avoid an inversion during ECDSA/SM2/etc signature verification  (@randombit)
+- pr: 4211  # https://github.com/randombit/botan/pull/4211
+  merge_commit: 55007af7dfed2ea1d6bc31a865f4fa5464a280b6
+  classification: unspecified
