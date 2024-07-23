@@ -21,7 +21,7 @@ versions prior to 2.19.5. The fix contained in 3.5.0/2.19.5 limits the number
 of alternative names and name constraints, optimizes the processing runtime,
 and implements early abortion for invalid certificate chains.
 
-If an application in a previous directly or indirectly calls the method
+If an application in a previous version directly or indirectly calls the method
 ``Name_Constraints::validate`` with an untrusted certificate chain, it becomes
 vulnerable. Important Botan functions that call this method are:
 
