@@ -1,0 +1,18 @@
+title: Encoding
+
+description: |
+  TODO: Maybe we could merge this with 'chore'
+
+patches:
+# Improve base64 encoding and decoding performance
+#   Author:    @randombit
+- pr: 4271  # https://github.com/randombit/botan/pull/4271
+  merge_commit: efad31087c3fba7d86df98b805c381c1826161e3
+  classification: unspecified
+
+# Add SWAR based hex encoding/decoding
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4275  # https://github.com/randombit/botan/pull/4275
+  merge_commit: 65db8e32c39d00fbfa5d97859625e0a48e2aa59d
+  classification: unspecified

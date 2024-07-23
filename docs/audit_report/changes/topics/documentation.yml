@@ -30,3 +30,15 @@ patches:
   merge_commit: a46783c4dd411aa827e2983aa2f958a6407ff7bb
   classification: info
 
+# Doc: clarify definition of 'Internal' modules
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4281  # https://github.com/randombit/botan/pull/4281
+  merge_commit: a660b8451437448dd86701db44bd30d6257bcfd1
+  classification: unspecified
+
+# Update ECC documentation for EC_Scalar / EC_AffinePoint
+#   Author:    @randombit
+- pr: 4284  # https://github.com/randombit/botan/pull/4284
+  merge_commit: d5062e515910a978c8157b936e6ef2f4f8b3003e
+  classification: unspecified

@@ -110,3 +110,84 @@ patches:
 - pr: 4211  # https://github.com/randombit/botan/pull/4211
   merge_commit: 55007af7dfed2ea1d6bc31a865f4fa5464a280b6
   classification: unspecified
+
+# Microoptimize P-521 reduction
+#   Author:    @randombit
+- pr: 4242  # https://github.com/randombit/botan/pull/4242
+  merge_commit: 23eb2cabfd8be354ae1d048243b9460e54419d72
+  classification: unspecified
+
+# In EC keys store the data as EC_Scalar / EC_AffinePoint
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4203  # https://github.com/randombit/botan/pull/4203
+  merge_commit: 14ddd8d237cf6f168014cfed3bef8bdb6b2b7ec6
+  classification: unspecified
+
+# Fix missing include [ci skip]
+#   Author: Jack Lloyd
+- commit: db4f8e0ac9cc5bc7224a0e220eee4ea3b4d4ef26  # https://github.com/randombit/botan/commit/db4f8e0ac9cc5bc7224a0e220eee4ea3b4d4ef26
+  classification: info
+  auditer: reneme
+
+# Faster iterated point doubling for generic A and A == 0 cases
+#   Author:    @randombit
+- pr: 4257  # https://github.com/randombit/botan/pull/4257
+  merge_commit: 2a5a9306e1e97420d2629aad89130d61b43db3dc
+  classification: unspecified
+
+# In ECDSA blind the inversion of k
+#   Author:    @randombit
+- pr: 4259  # https://github.com/randombit/botan/pull/4259
+  merge_commit: 5a3e97f75e0a26562cdcd52dff21efe82e9784a2
+  classification: unspecified
+
+# Refactor hash2curve
+#   Author:    @randombit
+- pr: 4263  # https://github.com/randombit/botan/pull/4263
+  merge_commit: 44897ad6067f7978507235a5b5abcea0cb709799
+  classification: unspecified
+
+# Optimize pcurves bytes_to_words function
+#   Author:    @randombit
+- pr: 4261  # https://github.com/randombit/botan/pull/4261
+  merge_commit: fe81d65297f13b696ac27d47025c901d33dcfdd4
+  classification: unspecified
+
+# Define some deprecated EC_Group functions in terms of the new APIs
+#   Author:    @randombit
+- pr: 4256  # https://github.com/randombit/botan/pull/4256
+  merge_commit: 76dd84fe0bbef1f504ae639ad594db46971bc5c2
+  classification: unspecified
+
+# Improve addition chain for P-256 inversion
+#   Author:    @randombit
+- pr: 4264  # https://github.com/randombit/botan/pull/4264
+  merge_commit: e8bf7b5406ce2776979badd1dbb766b4a5588628
+  classification: unspecified
+
+# Remove internal annotation from pcurves modules
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4279  # https://github.com/randombit/botan/pull/4279
+  merge_commit: 80f238914ff4ce1c85f0dd42ca23003c6a86c9b3
+  classification: unspecified
+
+# Agressively inline conditional assignment selection in pcurves
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4276  # https://github.com/randombit/botan/pull/4276
+  merge_commit: 40cf78055997a2ffc9f20b8ae15becf0bff14e64
+  classification: unspecified
+
+# Add NUMS curve numsp512d1
+#   Author:    @randombit
+- pr: 4251  # https://github.com/randombit/botan/pull/4251
+  merge_commit: 2c3fabb7ab7ae7a01f75f16d0709481efc39ddc8
+  classification: unspecified
+
+# Remove some obsolete or redundant tests
+#   Author:    @randombit
+- pr: 4282  # https://github.com/randombit/botan/pull/4282
+  merge_commit: 04da8f98fc9c62b28b7a1850eebd963b7b950344
+  classification: unspecified

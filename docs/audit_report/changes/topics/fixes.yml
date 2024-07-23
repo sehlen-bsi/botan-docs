@@ -21,3 +21,16 @@ patches:
   merge_commit: 537f84d94c36c22921175cde1c5f7e44c1fc5b30
   classification: info
   auditer: reneme
+
+# Add RSA/MD2 OID back to the OID table
+#   Author:    @randombit
+- pr: 4248  # https://github.com/randombit/botan/pull/4248
+  merge_commit: ddcf530d9485236693647f75a100874bfb8546bf
+  classification: unspecified
+
+# Explicitly enable rdrand intrinsics for processor_rng.
+#   Author:    @solemnwarning
+#   Approvals: (@randombit)
+- pr: 4246  # https://github.com/randombit/botan/pull/4246
+  merge_commit: 3e2a7ce142bcbd6c32cad7cb6f38399bc9dcb3a4
+  classification: unspecified

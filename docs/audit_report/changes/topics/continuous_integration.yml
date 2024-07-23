@@ -35,3 +35,16 @@ patches:
 - pr: 4241  # https://github.com/randombit/botan/pull/4241
   merge_commit: 56debb283f6aab9adb3f87a7f9266b055b4325e4
   classification: info
+
+# Fix the lcov path rewriter
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4253  # https://github.com/randombit/botan/pull/4253
+  merge_commit: f2abbaf5d09f2a36fe83406a9f28748814c64dc7
+  classification: unspecified
+
+# Add a CI job that builds with all pcurves disabled
+#   Author:    @randombit
+- pr: 4285  # https://github.com/randombit/botan/pull/4285
+  merge_commit: 26296f14e8638a420c87c3720593e4c575a47100
+  classification: unspecified
