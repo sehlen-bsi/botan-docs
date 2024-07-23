@@ -80,3 +80,33 @@ that the developer sets the nonce before each new GMAC computation.
 
 **Remark:** GMAC is generally used in AES-GCM. For different
 encryption mechanisms HMAC and CMAC should be used in favor of GMAC.
+
+KMAC
+----
+
+KMAC is a message authentication code based on the Keccak sponge construction,
+and more specifically, on the cSHAKE function. Both are defined in [SP800-185]_.
+
+Botan implements both KMAC-128 and KMAC-256 with a variable (user-defined)
+output length. Note that the output length must be defined at the beginning,
+Botan currently does not implement the XOF variants of KMAC.
+
+KMAC is implemented in :srcref:`src/lib/mac/kmac/kmac.cpp`, and cSHAKE can be
+found in :srcref:`src/lib/xof/cshake_xof/cshake_xof.cpp`. Note that cSHAKE is
+an implementation detail that is not exposed to the library user.
+
+-  ``KMAC128(output_bits)`` / ``KMAC256(output_bits)``: Constructs a KMAC object
+   that will produce a MAC tag of ``output_bits`` length (divisible by 8).
+-  ``set_key(key)``: It initializes KMAC computation with a symmetric key.
+   The key length is not fixed. Botan supports a maximum key length of 192 bytes.
+-  ``start_msg(nonce)``: It initializes the KMAC computation with an optional
+   nonce that is absorbed into the Keccak sponge with a padding first.
+-  ``add_data(buffer)``: It takes the buffer value and updates KMAC's Internal
+   Keccak sponge state.
+-  ``final_result(mac)``: It finalizes the KMAC computation and creates
+   an authentication tag of length ``output_bits``. It fills the provided mac
+   parameter array with the authentication tag data.
+
+**Remark:** Botan does not prevent the user from using short keys and/or MAC
+tags. It is the responsibility of the library user to select appropriate key
+lengths and MAC tag lengths.

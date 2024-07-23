@@ -78,10 +78,6 @@ recommendations of [TR-02103]_. Some extended validation recommendations are not
 implemented in the library but can be manually added at application level, if
 needed.
 
-.. warning:: OCSP responses are currently vulnerable to spoofing and must not be
-   used for certificate revocation status checks. See :ref:`x509/check_ocsp` for
-   further details on this vulnerability.
-
 Detailed Description of Path Validation Algorithms
 --------------------------------------------------
 
@@ -383,6 +379,10 @@ period, signatures and extensions, e.g., key usage. It returns a list of
 sets of certificate status codes, each entry in the list contains the
 status codes for each certificate in the chain.
 
+First and foremost this function checks all signatures in the certificate
+chain. If any signature cannot be verified, no further checks are made,
+as no guarantees can be given about the validity of the certificates anyway.
+
 Note that this function does not validate any revocation information. See
 :ref:`x509/check_crl`, :ref: `x509/check_ocsp` and
 :ref:`x509/merge_revocation_status` for details on revocation checks.
@@ -417,20 +417,43 @@ validation of the CertificatePolicies extension.
 
    Steps:
 
-   a) If ``hostname`` is given and ``cert_path[0]`` does not contain a match
+   a) For ``i = 0...n-1`` in ``cert_path`` do:
+
+      1. If ``subject.signature_algorithm().oid`` is unknown then do Append
+         SIGNATURE_ALGORITHM_UNKNOWN to ``cert_status[i]``
+
+      2. If the ``issuer`` public key cannot be loaded from the ``issuer``
+         certificate, then do Append CERT_PUBKEY_INVALID to
+         ``cert_status[i]`` and continue with step l)
+
+      3. If ``issuer``'s public key strength <
+         ``restrictions.minimum_key_strength()`` then do Append SIGNATURE_METHOD_TOO_WEAK to
+         ``cert_status[i]``
+
+      4. If the signature on ``subject`` can not be verified using
+         ``issuer``'s public key, Append the corresponding error to
+         ``cert_status[i]``
+
+      5. If (``restrictions.trusted_hashes()`` is not empty AND
+         ``at_self_signed_root = false`` AND the hash function used in
+         ``subject`` IS NOT IN ``restrictions.trusted_hashes()``) then do
+         Append UNTRUSTED_HASH to ``cert_status[i]`` // ignore untrusted hashes
+         on self-signed root certs
+
+   b) If ``hostname`` is given and ``cert_path[0]`` does not contain a match
       for ``hostname`` according to [RFC6125]_, Append
       Certificate_Status_Codes::CERT_NAME_NOMATCH to ``cert_status[0]`` //
       see function ``matches_dns_name()`` below
 
-   b) If ``usage`` is given and ``cert_path[0]`` does not contain key usage and
+   c) If ``usage`` is given and ``cert_path[0]`` does not contain key usage and
       extended key usage bits according to [RFC5280]_, sec. 4.2.1.12, Append
       INVALID_USAGE to ``cert_status[0]``
 
-   c) If ``cert_path[0]`` has basic constraints with a set cA bit, and
+   d) If ``cert_path[0]`` has basic constraints with a set cA bit, and
       keyCertSign is not set, then, according to [RFC5280]_, sec. 4.2.1.9,
       Append INVALID_USAGE to ``cert_status[0]``
 
-   d) For ``i = 0...n-1`` in ``cert_path`` do:
+   e) For ``i = 0...n-1`` in ``cert_path`` do:
 
       1.  Set ``at_self_signed_root = (i == cert_path.size() - 1)`` // last
           certificate in the chain?
@@ -468,46 +491,25 @@ validation of the CertificatePolicies extension.
           ``cert_path`` contains more than one certificate, Append
           CA_CERT_NOT_FOR_CERT_ISSUER to ``cert_status[i]``
 
-      11. If ``subject.signature_algorithm().oid`` is unknown then do Append
-          SIGNATURE_ALGORITHM_UNKNOWN to ``cert_status[i]``
-
-      12. If the ``issuer`` public key cannot be loaded from the ``issuer``
-          certificate, then do Append CERT_PUBKEY_INVALID to
-          ``cert_status[i]`` and continue with step l)
-
-      13. If the signature on ``subject`` can not be verified using
-          ``issuer``'s public key, Append the corresponding error to
-          ``cert_status[i]``
-
-      14. If ``issuer``'s public key strength <
-          ``restrictions.minimum_key_strength()`` then do Append SIGNATURE_METHOD_TOO_WEAK to
-          ``cert_status[i]``
-
-      15. If (``restrictions.trusted_hashes()`` is not empty AND
-          ``at_self_signed_root = false`` AND the hash function used in
-          ``subject`` IS NOT IN ``restrictions.trusted_hashes()``) then do
-          Append UNTRUSTED_HASH to ``cert_status[i]`` // ignore untrusted hashes
-          on self-signed root certs
-
-      16. If (``x509_version`` of ``subject`` is 1 AND
+      11. If (``x509_version`` of ``subject`` is 1 AND
           ``subject`` contains ``v2_issuer_key_id`` OR ``v2_subject_key_id``)
           then do Append V2_IDENTIFIERS_IN_V1_CERT to ``cert_status[i]``.
 
-      17. If ``subjet.cert_version() < 3`` and ``subject.v3_extensions()`` is
+      12. If ``subjet.cert_version() < 3`` and ``subject.v3_extensions()`` is
           not empty then do Append EXT_IN_V1_V2_CERT to ``cert_status[i]``
 
-      18. Check all other certificate extensions ``ext`` in ``subject``:
+      13. Check all other certificate extensions ``ext`` in ``subject``:
 
           i. ``ext.validate(subject, issuer, cert_path, cert_status, i)`` //
              ``ext`` tries validating itself and modifies ``cert_status`` as
              appropriate
 
-      19. If there ``subject.extensions()`` contains two extensions with
+      14. If there ``subject.extensions()`` contains two extensions with
           identical OIDs then do Append DUPLICATE_CERT_EXTENSION
 
-   e) set ``max_path_length = n`` // path length check
+   f) set ``max_path_length = n`` // path length check
 
-   f) From ``i := n - 1`` downto ``1``
+   g) From ``i := n - 1`` downto ``1``
 
       1. If ``cert_path[i].subject_dn() != cert_path[i].issuer_dn()``
          then do
@@ -518,7 +520,7 @@ validation of the CertificatePolicies extension.
       2. If ``cert_path[i]`` has a path limit then do Set ``max_path_len
          = min(max_path_len, cert_path[i].path_limit())``
 
-   e) Return ``cert_status``
+   h) Return ``cert_status``
 
 Function host_wildcard_match()
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -627,9 +629,9 @@ name, according to [RFC6125]_.
    2. Set ``issued_names`` = all entries in the *DNS* field of the
       SubjectAlternativeName extension or subject DN
 
-   3. If (``issued_names`` is empty) then do set ``issued_names`` = all entries
-      in the *CN* field of subject DN // fall back to CN only if no DNS
-      names are set, RFC 6125 sec. 6.4.4
+   3. If no subject alternative names extension is available then do set
+      ``issued_names`` = all entries in the *CN* field of subject DN // fall
+      back to CN only if no DNS names are set, RFC 6125 sec. 6.4.4
 
    4. For ``i=0..n`` do:
 
@@ -720,8 +722,8 @@ of [TR-02103]_ for handling certificate revocation checks using CRLs.
       h) Append VALID_CRL_CHECKED to ``cert_status[i]``
       i) If crls[i] lists subject as REVOKED, Append CERT_IS_REVOKED to
          ``cert_status[i]``
-      j) If ``subject.crl_distribution_point !=
-         crls[i].crl_issuing_distribution_point()`` then do Append
+      j) If ``subject.crl_distribution_point`` not in
+         ``crls[i].issuing_distribution_points()`` then do Append
          NO_MATCHING_CRLDP to ``cert_status[i]``
       k) If ``crls[i]`` contains an unknown critical extension then do Append
          CERT_IS_REVOKED to ``cert_status[i]`` // according
@@ -741,28 +743,14 @@ certificate chain. It returns a list of sets of certificate status
 codes, each entry in the list contains the status codes for each
 certificate in the chain.
 
-**Vulnerability:** Botan 3.0.0-alpha1 and previous versions contained a bug in
-the OCSP response validation where the authenticity of a spoofed response was not
-properly checked. That allowed an attacker to forge OCSP responses for arbitrary
-CAs that were considered authentic. That alone had the potential for DOS
-attacks. Provided the attacker was in possession of a compromised subject
-certificate, they would have been able to circumvent revocation checks and (keep)
-impersonating the legitimate certificate owner (if no additional CRL-based
-checks are performed).
-
-This vulnerability was assigned CVE-2022-43705. For further details, please refer
-to the `associated security advisory in Botan's GitHub repository
-<https://github.com/randombit/botan/security/advisories/GHSA-4v9w-qvcq-6q7w>`_ or
-the vulnerability description document provided along with this report.
-
-**Conclusion:** With `the given patch <https://github.com/randombit/botan/pull/3067>`_
-applied, Botan is no longer vulnerable to the described issue.
-
 Full compliance with the extended OCSP validation rules layed out in [TR-02103]_
 requires that authorized OCSP responder certificates that in-turn contain an OCSP
 responder in its AuthorityInformationAccess extension to be "recursively" checked
 for their revocation status. This functionality is currently not implemented in
-Botan.
+Botan [#ocsp_extension]_.
+
+.. [#ocsp_extension] See `GitHub #3124 <https://github.com/randombit/botan/issues/3124>`_
+   where any potential improvement to this functionality is discussed.
 
 .. admonition:: ``check_ocsp()``
 
