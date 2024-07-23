@@ -11,3 +11,44 @@ patches:
   merge_commit: d14ca951180b7bb688a8e6f2ee752c0cc4388c94
   classification: info
   auditer: reneme
+
+# Use span in PK operations and avoid needless secure_vector
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4239  # https://github.com/randombit/botan/pull/4239
+  merge_commit: a66e2520739f1988f3d7291432e24e3ff59a8552
+  classification: unspecified
+
+# FIX: Test a list of UTF-8 encoded root certs
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4280  # https://github.com/randombit/botan/pull/4280
+  merge_commit: 0d4969aedde1716f5254e20cd9a35ad42939495a
+  classification: unspecified
+
+# FIX: allow multiple BOTAN_REGISTER_TEST_FN()
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4277  # https://github.com/randombit/botan/pull/4277
+  merge_commit: 03d8b16bbe4c007e879f2061938d2466247e18ed
+  classification: unspecified
+
+# Refactor internal usage of PK encryption padding
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4238  # https://github.com/randombit/botan/pull/4238
+  merge_commit: ba02fa071fdf22ac7b3843856af4c5202a43936f
+  classification: unspecified
+
+# Use array-based load_be/le in MD hashes
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4244  # https://github.com/randombit/botan/pull/4244
+  merge_commit: e1fc592917ae0b31b7364cd9b13aae8acf81030e
+  classification: unspecified
+
+# Add CPUID enablement for x86 VAES, GFNI, SHA-512, SM3, and SM4
+#   Author:    @randombit
+- pr: 4286  # https://github.com/randombit/botan/pull/4286
+  merge_commit: 954a758e6ffda30ff2b851eb2ebaacde133bc44b
+  classification: unspecified

@@ -16,3 +16,31 @@ patches:
 - pr: 4236  # https://github.com/randombit/botan/pull/4236
   merge_commit: 7c07dbd5dd63382ee81fcc2e091db5723504457d
   classification: info
+
+# Disable the value barrier if MSan is enabled
+#   Author:    @randombit
+- pr: 4267  # https://github.com/randombit/botan/pull/4267
+  merge_commit: f1a91e752e7de034423343e6544afd94da636e38
+  classification: unspecified
+
+# Add configure.py option --disable-asm
+#   Author:    @randombit
+- pr: 4273  # https://github.com/randombit/botan/pull/4273
+  merge_commit: b647e85dc033f92829ba6f32a3c44bdc89778821
+  classification: unspecified
+
+# Add a script for configuring our build for OSS-Fuzz [ci skip]
+#   Author: Jack Lloyd
+- commit: 99f620410c99d83b197743dcd4a24701b10e66fa  # https://github.com/randombit/botan/commit/99f620410c99d83b197743dcd4a24701b10e66fa
+  classification: unspecified
+
+# Fix an error and some warnings with --disable-asm
+#   Author:    @randombit
+- pr: 4274  # https://github.com/randombit/botan/pull/4274
+  merge_commit: 39dcfa0fc212a99c5cdf8310b24e8ec7a950af4a
+  classification: unspecified
+
+# Fix config_for_oss_fuzz.py script to work even if . isn't in PATH [ci skip]
+#   Author: Jack Lloyd
+- commit: ba957b95eaabb9cf0c7033c784b27081a7e60e2f  # https://github.com/randombit/botan/commit/ba957b95eaabb9cf0c7033c784b27081a7e60e2f
+  classification: unspecified
