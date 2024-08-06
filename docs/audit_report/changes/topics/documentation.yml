@@ -42,3 +42,23 @@ patches:
 - pr: 4284  # https://github.com/randombit/botan/pull/4284
   merge_commit: d5062e515910a978c8157b936e6ef2f4f8b3003e
   classification: unspecified
+
+# Update todos [ci skip]
+#   Author: Jack Lloyd
+- commit: f3e5744c10a23bc65a291e2544a161ee9393ed5d  # https://github.com/randombit/botan/commit/f3e5744c10a23bc65a291e2544a161ee9393ed5d
+  classification: info
+  auditer: reneme
+
+# Mention Editor Integration for new contributors
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4310  # https://github.com/randombit/botan/pull/4310
+  merge_commit: c2491c7808e92527146c3dbe88608b664804549a
+  classification: unspecified
+
+# Display the module name in the doxygen modules
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4333  # https://github.com/randombit/botan/pull/4333
+  merge_commit: 33c953a108d93c6a569a59bfebfafd0efd103db4
+  classification: unspecified

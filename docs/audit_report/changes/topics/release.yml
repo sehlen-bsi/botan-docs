@@ -15,3 +15,14 @@ patches:
 - commit: 2a1fc9606c749c3ed5c1b5cbbc4af573ac37e40c  # https://github.com/randombit/botan/commit/2a1fc9606c749c3ed5c1b5cbbc4af573ac37e40c
   classification: info
   auditer: reneme
+
+# Update changelog [ci skip]
+#   Author: Jack Lloyd
+- commit: 8683eaa136e3e884c71546df0d2dcf149384cb07  # https://github.com/randombit/botan/commit/8683eaa136e3e884c71546df0d2dcf149384cb07
+  classification: info
+  auditer: reneme
+
+# Update changelog [ci skip]
+#   Author: Jack Lloyd
+- commit: cf1b2bc0b0db6346a072a9094b1ed5a6d36baa4e  # https://github.com/randombit/botan/commit/cf1b2bc0b0db6346a072a9094b1ed5a6d36baa4e
+  classification: unspecified

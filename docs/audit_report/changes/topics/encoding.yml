@@ -16,3 +16,10 @@ patches:
 - pr: 4275  # https://github.com/randombit/botan/pull/4275
   merge_commit: 65db8e32c39d00fbfa5d97859625e0a48e2aa59d
   classification: unspecified
+
+# Load/Store for SIMD type wrappers
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4288  # https://github.com/randombit/botan/pull/4288
+  merge_commit: 5f4c2c3e427fde525377e23cdaeee845d534e757
+  classification: unspecified

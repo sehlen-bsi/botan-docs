@@ -52,3 +52,70 @@ patches:
 - pr: 4286  # https://github.com/randombit/botan/pull/4286
   merge_commit: 954a758e6ffda30ff2b851eb2ebaacde133bc44b
   classification: unspecified
+
+# Fix: Deprecated Module in BSI Policy
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4293  # https://github.com/randombit/botan/pull/4293
+  merge_commit: e0a3ed6b92117e85128b97af9e7e4069c41ced17
+  classification: relevant
+  auditer: reneme
+
+# Avoid testing multiple bits in CPUID feature checks
+#   Author:    @randombit
+- pr: 4290  # https://github.com/randombit/botan/pull/4290
+  merge_commit: 6a88af1d6e5be1ce415a5df6f44c727bc3460645
+  classification: unspecified
+
+# Fix: MSVC Unreachable Code Debug Warnings
+#   Author:    @FAlbertDev
+#   Approvals: @reneme
+- pr: 4297  # https://github.com/randombit/botan/pull/4297
+  merge_commit: d0f11a6a0f3ab7b0b13510a34682d6e3aa7b72bd
+  classification: unspecified
+
+# Fix artifact of applying clang-format
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4306  # https://github.com/randombit/botan/pull/4306
+  merge_commit: 06061a9e773712d421007e91114681abd4289be4
+  classification: unspecified
+
+# Fix timer usage in benchmarks
+#   Author:    @randombit
+- pr: 4311  # https://github.com/randombit/botan/pull/4311
+  merge_commit: d463bc0187fc30cd1630191b39d1238601533591
+  classification: unspecified
+
+# Provides auxiliary vector support for OpenBSD
+#   Author:    @brad0
+#   Approvals: (@randombit)
+- pr: 4312  # https://github.com/randombit/botan/pull/4312
+  merge_commit: 69ad604ff8ba35860cfb22be3ed4e763ea07ba2c
+  classification: unspecified
+
+# Fix ppc64 CPUID
+#   Author:    @randombit
+- pr: 4316  # https://github.com/randombit/botan/pull/4316
+  merge_commit: 90c5665c0f4c4bfa835e41b3d2f32d7bea1a151d
+  classification: unspecified
+
+# Fix header include in a test
+#   Author:    @randombit
+- pr: 4319  # https://github.com/randombit/botan/pull/4319
+  merge_commit: 197979994b17a3adc2ec944db2119a4a9abbca11
+  classification: unspecified
+
+# Remove obsolete hack for Android getauxval
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4317  # https://github.com/randombit/botan/pull/4317
+  merge_commit: 917857c74b2c4334b1e8b6427753bf5c9718e884
+  classification: unspecified
+
+# Clean up CPU extension flags
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4331  # https://github.com/randombit/botan/pull/4331
+  merge_commit: a7f2305ae71c1c7e877f1663becfe9f980614751
+  classification: unspecified
