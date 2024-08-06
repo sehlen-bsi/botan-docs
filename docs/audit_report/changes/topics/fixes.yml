@@ -34,3 +34,42 @@ patches:
 - pr: 4246  # https://github.com/randombit/botan/pull/4246
   merge_commit: 3e2a7ce142bcbd6c32cad7cb6f38399bc9dcb3a4
   classification: unspecified
+
+# Fix: Deprecated BigInt::Base Enum Warnings
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4303  # https://github.com/randombit/botan/pull/4303
+  merge_commit: 244c0cb35c7efd75bd994bea6749d0fac6245a01
+  classification: unspecified
+
+# Fix aarch64/armv7/ppc64 feature detection for systems with AT_HWCAP != 16
+#   Author:    @randombit
+- pr: 4315  # https://github.com/randombit/botan/pull/4315
+  merge_commit: 56f732fe45ef47b75515e43ec39a240fd63ba09a
+  classification: unspecified
+
+# FIX: X.509 key usage for KEMs
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4322  # https://github.com/randombit/botan/pull/4322
+  merge_commit: 96a3109904bb43f21112a2402c994ae76da7f031
+  classification: unspecified
+
+# Fix x86 SM3 CPUID detection
+#   Author: Jack Lloyd
+- commit: 97e03cea85ec344d5e395865fd6590a753881fc0  # https://github.com/randombit/botan/commit/97e03cea85ec344d5e395865fd6590a753881fc0
+  classification: unspecified
+
+# FIX: `ninja tests` fails to build with shared library
+#   Author:    @reneme
+#   Approvals: (@securitykernel)
+- pr: 4336  # https://github.com/randombit/botan/pull/4336
+  merge_commit: 89c74e95e68dd1ea754fdad602c5011744c0a8c3
+  classification: unspecified
+
+# Fix TLS::Context Visibility
+#   Author:    @atreiber94
+#   Approvals: @reneme
+- pr: 4335  # https://github.com/randombit/botan/pull/4335
+  merge_commit: 0639e821247e61b186c52fbe315dbb0fa5dd4fa6
+  classification: unspecified

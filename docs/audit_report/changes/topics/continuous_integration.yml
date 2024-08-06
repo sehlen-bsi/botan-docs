@@ -48,3 +48,9 @@ patches:
 - pr: 4285  # https://github.com/randombit/botan/pull/4285
   merge_commit: 26296f14e8638a420c87c3720593e4c575a47100
   classification: unspecified
+
+# Update apt db before install
+#   Author:    @randombit
+- pr: 4324  # https://github.com/randombit/botan/pull/4324
+  merge_commit: 3bee7a12a750c50a90d8147fa2d38c707b032592
+  classification: unspecified

@@ -148,6 +148,12 @@ patches:
   merge_commit: 44897ad6067f7978507235a5b5abcea0cb709799
   classification: unspecified
 
+# Remove ec_h2c.cpp (again)
+#   Author:    @randombit
+- pr: 4299  # https://github.com/randombit/botan/pull/4299
+  merge_commit: 0c8741a9e7e460283042fb3fe0041da30e23979f
+  classification: unspecified
+
 # Optimize pcurves bytes_to_words function
 #   Author:    @randombit
 - pr: 4261  # https://github.com/randombit/botan/pull/4261
@@ -190,4 +196,29 @@ patches:
 #   Author:    @randombit
 - pr: 4282  # https://github.com/randombit/botan/pull/4282
   merge_commit: 04da8f98fc9c62b28b7a1850eebd963b7b950344
+  classification: unspecified
+
+# Add pcurves P-224
+#   Author:    @randombit
+- pr: 4218  # https://github.com/randombit/botan/pull/4218
+  merge_commit: 8b4905eaa566f74490ed866b45a9b96d5bd1d724
+  classification: unspecified
+
+# Refactor pcurves affine conversions and inversion usage
+#   Author:    @randombit
+- pr: 4217  # https://github.com/randombit/botan/pull/4217
+  merge_commit: c319901d34701d28faa093343c8d157068c04c99
+  classification: unspecified
+
+# Bridge pcurves into the main elliptic curve arithmetic
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4143  # https://github.com/randombit/botan/pull/4143
+  merge_commit: a27f5a28634ec032c5dfcced7bec8ead73f19652
+  classification: unspecified
+
+# Define more deprecated EC_Group functions in terms of new interfaces
+#   Author:    @randombit
+- pr: 4300  # https://github.com/randombit/botan/pull/4300
+  merge_commit: 14992741b1b9e65f621fbf91d0726d80e1be2bad
   classification: unspecified

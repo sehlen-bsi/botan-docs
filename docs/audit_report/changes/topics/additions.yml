@@ -1,0 +1,30 @@
+title: Additions
+
+patches:
+# Add support for AVX2-VAES
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4287  # https://github.com/randombit/botan/pull/4287
+  merge_commit: 13edb926d2b9f493d062677406738966eed6748b
+  classification: unspecified
+
+# Add Intel SDE to nightly CI
+#   Author:    @randombit
+- pr: 4296  # https://github.com/randombit/botan/pull/4296
+  merge_commit: 49ec8e035daf2e7c5ec6841eceab00ead6f06070
+  classification: info
+  auditer: reneme
+
+# Add GFNI-AVX2 SM4
+#   Author:    @randombit
+- pr: 4289  # https://github.com/randombit/botan/pull/4289
+  merge_commit: 35573b38503b5e73caf30e9dec217bbea2a92725
+  classification: out of scope
+  auditer: reneme
+
+# Add a compile time version declaration in ffi.h
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4326  # https://github.com/randombit/botan/pull/4326
+  merge_commit: dc34d6750c21d3e7c53bcdf2c451fa29b7efba98
+  classification: unspecified

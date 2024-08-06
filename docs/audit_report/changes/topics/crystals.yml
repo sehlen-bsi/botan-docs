@@ -5,3 +5,16 @@ patches:
 - pr: 4024  # https://github.com/randombit/botan/pull/4024
   merge_commit: 2fe687bf60b8eda1048cfe92f73ba2568cf53172
   classification: unspecified
+
+# Fix: Kyber MSVC Warnings
+#   Author:    @FAlbertDev
+#   Approvals: @reneme
+- pr: 4294  # https://github.com/randombit/botan/pull/4294
+  merge_commit: b227a5db61faa5b4fec6bc58f7c412f7497e0b94
+  classification: unspecified
+
+# Fix GCC warning
+#   Author:    @randombit
+- pr: 4301  # https://github.com/randombit/botan/pull/4301
+  merge_commit: b4681247060096f08cb62fb966c51d259526474f
+  classification: unspecified
