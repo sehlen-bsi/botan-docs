@@ -17,3 +17,22 @@ patches:
 #   Author: Jack Lloyd
 - commit: 8683eaa136e3e884c71546df0d2dcf149384cb07  # https://github.com/randombit/botan/commit/8683eaa136e3e884c71546df0d2dcf149384cb07
   classification: unspecified
+
+# Add GFNI-AVX2 SM4
+#   Author:    @randombit
+- pr: 4289  # https://github.com/randombit/botan/pull/4289
+  merge_commit: 35573b38503b5e73caf30e9dec217bbea2a92725
+  classification: unspecified
+
+# Add Intel SDE to nightly CI
+#   Author:    @randombit
+- pr: 4296  # https://github.com/randombit/botan/pull/4296
+  merge_commit: 49ec8e035daf2e7c5ec6841eceab00ead6f06070
+  classification: unspecified
+
+# Fix: Deprecated Module in BSI Policy
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4293  # https://github.com/randombit/botan/pull/4293
+  merge_commit: e0a3ed6b92117e85128b97af9e7e4069c41ced17
+  classification: unspecified
