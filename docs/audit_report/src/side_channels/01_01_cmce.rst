@@ -180,3 +180,6 @@ When compiled, this results in the following instructions - without any conditio
   41d3b4: 44 09 e0                   or %r12d,%eax
   41d3b7: 21 c8                      and %ecx,%eax
   [ ... ]
+
+Note that in the final version of the CMCE implementation in Botan, the constant time helper class CT::MASK is used as a side-channel countermeasure.
+Therefore, the identified side-channel does not exist in the CMCE implementation in Botan.
