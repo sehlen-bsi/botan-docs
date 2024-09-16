@@ -1,5 +1,5 @@
 """"
-CMCE
+Classic McEliece
 """"
 
 Analysed variants:
@@ -7,7 +7,7 @@ Analysed variants:
 - 348864
 - 348864f
 
-For the analysis of CMCE, a utility program has been written that calls the functions to be analysed in a similar way to the Botan CLI.
+For the analysis of Classic McEliece (CMCE), a utility program has been written that calls the functions to be analyzed in a similar way to the Botan CLI.
 The following call is used to obtain the encapsulation and decapsulation outputs:
 
 .. code-block:: cpp
@@ -56,7 +56,7 @@ In contrast, the key-unique seed resulted in a clear distinction of the executio
 
 The leakage occurs at the same lines of code for all three routines (key pair generation, encryption, decryption) within the CMCE Botan implementation.
 In the following we describe the cause of the leakage and the criticality in relation to the decryption routine.
-Please note that this also applies to the key pair generation and encryption routine, but is omitted here as the information would be redundant.
+Please note that this also applies to the key pair generation and encryption routine but is omitted here as the information would be redundant.
 
 The leakage was observed in the `decode()` routine which is part of the `Classic_McEliece_Decryptor`.
 The function definition is in the file `cmce_decaps.cpp` in file 84 to 119.
