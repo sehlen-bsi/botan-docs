@@ -18,3 +18,10 @@ patches:
 - pr: 4301  # https://github.com/randombit/botan/pull/4301
   merge_commit: b4681247060096f08cb62fb966c51d259526474f
   classification: unspecified
+
+# FIX: Assertion may be false for untrusted data
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4391  # https://github.com/randombit/botan/pull/4391
+  merge_commit: 3a62c9ab5fc082578a9a1483b15ff7a3d0a4474b
+  classification: unspecified

@@ -1,0 +1,16 @@
+title: Transport Layer Security (TLS)
+
+patches:
+# Deprecate 0xFE30 X25519/Kyber512 code point
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 4347  # https://github.com/randombit/botan/pull/4347
+  merge_commit: 7f256a0afe514aa15fee594e0d5e30d2f3f74536
+  classification: unspecified
+
+# Refactor: Centralize X25519/X448 all-zero result rejection
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4384  # https://github.com/randombit/botan/pull/4384
+  merge_commit: b33eaefd5de865295f802702b4795f09618ecf37
+  classification: unspecified

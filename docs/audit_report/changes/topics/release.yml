@@ -26,3 +26,13 @@ patches:
 #   Author: Jack Lloyd
 - commit: cf1b2bc0b0db6346a072a9094b1ed5a6d36baa4e  # https://github.com/randombit/botan/commit/cf1b2bc0b0db6346a072a9094b1ed5a6d36baa4e
   classification: unspecified
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: cac271618b6fbb12275e06b07b66843be3d5b72e  # https://github.com/randombit/botan/commit/cac271618b6fbb12275e06b07b66843be3d5b72e
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 1f3976185575d8e58cb74ab9ecb7ce61209228f8  # https://github.com/randombit/botan/commit/1f3976185575d8e58cb74ab9ecb7ce61209228f8
+  classification: unspecified

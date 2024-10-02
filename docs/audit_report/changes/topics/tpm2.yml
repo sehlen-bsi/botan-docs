@@ -1,0 +1,23 @@
+title: Trusted Platform Module 2 (TPM2)
+
+patches:
+# Feature: TPM2 Support
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 4337  # https://github.com/randombit/botan/pull/4337
+  merge_commit: 7624371f517563c4133b36b1e66a1ba76fea2a7f
+  classification: unspecified
+
+# Feature: ECC Support in TPM2
+#   Author:    @atreiber94
+#   Approvals: @reneme, (@randombit)
+- pr: 4357  # https://github.com/randombit/botan/pull/4357
+  merge_commit: 45aba2c4f66b7a1afa100296f68a21eec9f2cb7e
+  classification: unspecified
+
+# TPM2: Basic bindings in FFI & Python
+#   Author:    @reneme
+#   Approvals: @atreiber94, (@randombit)
+- pr: 4361  # https://github.com/randombit/botan/pull/4361
+  merge_commit: 4c292002ed674e8d8e22acd819fb41c1d866998b
+  classification: unspecified

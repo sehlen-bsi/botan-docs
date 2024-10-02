@@ -54,3 +54,24 @@ patches:
 - pr: 4324  # https://github.com/randombit/botan/pull/4324
   merge_commit: 3bee7a12a750c50a90d8147fa2d38c707b032592
   classification: unspecified
+
+# Move the GCC and MSVC sanitizer builds to nightly
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4359  # https://github.com/randombit/botan/pull/4359
+  merge_commit: 457f3edf1899f12fa2f97997ef9d0fa87a07b36c
+  classification: unspecified
+
+# CI: Amalgamation Linkage Test and Fixes
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 4307  # https://github.com/randombit/botan/pull/4307
+  merge_commit: 7e02c5c7bfae04f5c3764f1301945e9aef32d9f0
+  classification: unspecified
+
+# TLS: BoGo tests update
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4389  # https://github.com/randombit/botan/pull/4389
+  merge_commit: 2849ec74e772ffdceb18740fed27df9fe3689431
+  classification: unspecified

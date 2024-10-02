@@ -62,3 +62,27 @@ patches:
 - pr: 4333  # https://github.com/randombit/botan/pull/4333
   merge_commit: 33c953a108d93c6a569a59bfebfafd0efd103db4
   classification: unspecified
+
+# Example fix: Use more secure KEM combination in example
+#   Author:    @FAlbertDev
+#   Approvals: @reneme
+- pr: 4344  # https://github.com/randombit/botan/pull/4344
+  merge_commit: 7e28dda59a89c5d261c12603b4287224483e2595
+  classification: unspecified
+
+# Shift the release schedule over by one month, and to Tuesdays.
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4370  # https://github.com/randombit/botan/pull/4370
+  merge_commit: 05f4053c779cdf98310a1698e958d12dfdf68689
+  classification: unspecified
+
+# Update block cipher docs a bit [ci skip]
+#   Author: Jack Lloyd
+- commit: 7b80f600a328b90d54023c5c55f23747df516fda  # https://github.com/randombit/botan/commit/7b80f600a328b90d54023c5c55f23747df516fda
+  classification: unspecified
+
+# Add a todo [ci skip]
+#   Author: Jack Lloyd
+- commit: 04653933c6885d3104c47712dd9b9f2e1a8fca0c  # https://github.com/randombit/botan/commit/04653933c6885d3104c47712dd9b9f2e1a8fca0c
+  classification: unspecified

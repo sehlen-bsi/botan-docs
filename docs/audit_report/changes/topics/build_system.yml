@@ -44,3 +44,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: ba957b95eaabb9cf0c7033c784b27081a7e60e2f  # https://github.com/randombit/botan/commit/ba957b95eaabb9cf0c7033c784b27081a7e60e2f
   classification: unspecified
+
+# Use @response_files.txt for linking in Ninja
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4350  # https://github.com/randombit/botan/pull/4350
+  merge_commit: 4e2e9d59f65bbb597ff3d4e890eb8cfe6890ab89
+  classification: unspecified

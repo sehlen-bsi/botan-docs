@@ -119,3 +119,81 @@ patches:
 - pr: 4331  # https://github.com/randombit/botan/pull/4331
   merge_commit: a7f2305ae71c1c7e877f1663becfe9f980614751
   classification: unspecified
+
+# Update Fuzzer documentation and Configuration
+#   Author:    @Logix64
+#   Approvals: (@randombit)
+- pr: 4114  # https://github.com/randombit/botan/pull/4114
+  merge_commit: 00eb2d290189340500a8096e1817ad53a1340170
+  classification: unspecified
+
+# Fix mp_redc_crandall fuzzer
+#   Author:    @randombit
+- pr: 4358  # https://github.com/randombit/botan/pull/4358
+  merge_commit: 1fe3150f597053313ecd2b22127ddd9a097c81ca
+  classification: unspecified
+
+# Deprecate various aliases for the public key padding code
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4355  # https://github.com/randombit/botan/pull/4355
+  merge_commit: bd89aa31452ac3d17774f1df7329471512c6e7e5
+  classification: unspecified
+
+# Reorder/rephrase output from X509_Certificate::to_string
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4330  # https://github.com/randombit/botan/pull/4330
+  merge_commit: 175b1f2a8df2cf8003880ec1c79bcf9d25c09918
+  classification: unspecified
+
+# Allow using `secure_allocator` for enum types, like `std::byte`
+#   Author:    @Delta-dev-99
+#   Approvals: @reneme
+- pr: 4353  # https://github.com/randombit/botan/pull/4353
+  merge_commit: 278dc55870ae482ebe6628a818d104b94894e7af
+  classification: unspecified
+
+# Better abstraction to test view-style FFI APIs
+#   Author:    @reneme
+#   Approvals: @FAlbertDev
+- pr: 4372  # https://github.com/randombit/botan/pull/4372
+  merge_commit: ed74c9542241f47c2e3c6ff68cbf6731de643b73
+  classification: unspecified
+
+# Initial refactoring of speed cmdlet
+#   Author:    @randombit
+- pr: 4364  # https://github.com/randombit/botan/pull/4364
+  merge_commit: c2a759b8ce51203ffe07cd016aa718176f54fc75
+  classification: unspecified
+
+# In speed cmdlet handle MACs which require a fresh key or nonce
+#   Author:    @randombit
+- pr: 4363  # https://github.com/randombit/botan/pull/4363
+  merge_commit: 924060344d0ce0b6b3736a37fb779e9f70250b4e
+  classification: unspecified
+
+# Refactor public key related performance test code
+#   Author:    @randombit
+- pr: 4367  # https://github.com/randombit/botan/pull/4367
+  merge_commit: 2cc573c31ceaa71d04adbd201a7105abd61d3cee
+  classification: unspecified
+
+# Refactor performance testing of symmetric algorithms
+#   Author:    @randombit
+- pr: 4369  # https://github.com/randombit/botan/pull/4369
+  merge_commit: 0cbc2fe3f76feb2e34ccf1d6904f5e3b1b00bb06
+  classification: unspecified
+
+# Cleanups after refactoring of speed cli
+#   Author:    @randombit
+- pr: 4378  # https://github.com/randombit/botan/pull/4378
+  merge_commit: 76e11d7bf488ad499477573828c318756c86a718
+  classification: unspecified
+
+# test_pk_pad.cpp #ifdef fix
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4380  # https://github.com/randombit/botan/pull/4380
+  merge_commit: c2c8f16d32b3c3bd7e77f1fb9b16be046001fab0
+  classification: unspecified
