@@ -7,3 +7,52 @@ patches:
 - pr: 4347  # https://github.com/randombit/botan/pull/4347
   merge_commit: 7f256a0afe514aa15fee594e0d5e30d2f3f74536
   classification: unspecified
+
+# Update Fuzzer documentation and Configuration
+#   Author:    @Logix64
+#   Approvals: (@randombit)
+- pr: 4114  # https://github.com/randombit/botan/pull/4114
+  merge_commit: 00eb2d290189340500a8096e1817ad53a1340170
+  classification: unspecified
+
+# Feature: TPM2 Support
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 4337  # https://github.com/randombit/botan/pull/4337
+  merge_commit: 7624371f517563c4133b36b1e66a1ba76fea2a7f
+  classification: unspecified
+
+# Deprecate various aliases for the public key padding code
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4355  # https://github.com/randombit/botan/pull/4355
+  merge_commit: bd89aa31452ac3d17774f1df7329471512c6e7e5
+  classification: unspecified
+
+# Reorder/rephrase output from X509_Certificate::to_string
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4330  # https://github.com/randombit/botan/pull/4330
+  merge_commit: 175b1f2a8df2cf8003880ec1c79bcf9d25c09918
+  classification: unspecified
+
+# Example fix: Use more secure KEM combination in example
+#   Author:    @FAlbertDev
+#   Approvals: @reneme
+- pr: 4344  # https://github.com/randombit/botan/pull/4344
+  merge_commit: 7e28dda59a89c5d261c12603b4287224483e2595
+  classification: unspecified
+
+# Allow using `secure_allocator` for enum types, like `std::byte`
+#   Author:    @Delta-dev-99
+#   Approvals: @reneme
+- pr: 4353  # https://github.com/randombit/botan/pull/4353
+  merge_commit: 278dc55870ae482ebe6628a818d104b94894e7af
+  classification: unspecified
+
+# Use @response_files.txt for linking in Ninja
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4350  # https://github.com/randombit/botan/pull/4350
+  merge_commit: 4e2e9d59f65bbb597ff3d4e890eb8cfe6890ab89
+  classification: unspecified
