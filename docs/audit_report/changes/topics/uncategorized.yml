@@ -56,3 +56,9 @@ patches:
 - pr: 4350  # https://github.com/randombit/botan/pull/4350
   merge_commit: 4e2e9d59f65bbb597ff3d4e890eb8cfe6890ab89
   classification: unspecified
+
+# Fix mp_redc_crandall fuzzer
+#   Author:    @randombit
+- pr: 4358  # https://github.com/randombit/botan/pull/4358
+  merge_commit: 1fe3150f597053313ecd2b22127ddd9a097c81ca
+  classification: unspecified
