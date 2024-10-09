@@ -1,4 +1,4 @@
-.. _pubkey/sphincsplus:
+.. _pubkey/slh_dsa:
 
 SLH-DSA
 =======
@@ -20,13 +20,13 @@ hypertree signatures (a variant of XMSS\ :sup:`MT`). In short, messages
 are signed via FORS. The FORS public key is signed via XMSS with WOTS\ :sup:`+`
 as part of the hypertree. The root of the top-level tree in the hypertree
 structure then essentially represents the SLH-DSA root.
-Table :ref:`SLH-DSA logical components <signatures/sphincsplus/table>`
+Table :ref:`SLH-DSA logical components <signatures/slh_dsa/table>`
 provides an overview of these components and their Botan implementations. The
-:ref:`SLH-DSA <signatures/sphincsplus/sphincsplus>` component, by making use of
+:ref:`SLH-DSA <signatures/slh_dsa/slh_dsa>` component, by making use of
 the other components, provides the overall signature generation and verification
 operations.
 
-.. _signatures/sphincsplus/table:
+.. _signatures/slh_dsa/table:
 
 .. table::  SLH-DSA logical components and file locations.
    :widths: 15 25 45 15
@@ -34,30 +34,30 @@ operations.
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
    |  Component                                                 | File                                                                      | Purpose                                    | Section in [FIPS-205]_       |
    +============================================================+===========================================================================+============================================+==============================+
-   | :ref:`Types <signatures/sphincsplus/types>`                | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_types.h`      | Strong types                               |                              |
+   | :ref:`Types <signatures/slh_dsa/types>`                    | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_types.h`      | Strong types                               |                              |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Address <signatures/sphincsplus/address>`            | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_address.h`    | Address representation and manipulation    | 4.2, 4.3                     |
+   | :ref:`Address <signatures/slh_dsa/address>`                | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_address.h`    | Address representation and manipulation    | 4.2, 4.3                     |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Parameters <signatures/sphincsplus/parameters>`      | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_parameters.h` | Parameter set instantiations               | 11                           |
+   | :ref:`Parameters <signatures/slh_dsa/parameters>`          | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_parameters.h` | Parameter set instantiations               | 11                           |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Hashes <signatures/sphincsplus/hashes>`              | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_hash.h`       | All hash functions                         | 11.1, 11.2                   |
+   | :ref:`Hashes <signatures/slh_dsa/hashes>`                  | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_hash.h`       | All hash functions                         | 11.1, 11.2                   |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Treehash <signatures/sphincsplus/treehash>`          | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.h`   | Merkle tree hashing for FORS and XMSS      | 6.1, 8.2                     |
+   | :ref:`Treehash <signatures/slh_dsa/treehash>`              | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.h`   | Merkle tree hashing for FORS and XMSS      | 6.1, 8.2                     |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`FORS <signatures/sphincsplus/fors>`                  | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_fors.h`       | FORS signature                             | 8                            |
+   | :ref:`FORS <signatures/slh_dsa/fors>`                      | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_fors.h`       | FORS signature                             | 8                            |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`WOTS+ <signatures/sphincsplus/wotsplus>`             | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_wots.h`       | WOTS\ :sup:`+` signature                   | 5                            |
+   | :ref:`WOTS+ <signatures/slh_dsa/wotsplus>`                 | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_wots.h`       | WOTS\ :sup:`+` signature                   | 5                            |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`XMSS <signatures/sphincsplus/xmss>`                  | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_xmss.h`       | XMSS signature                             | 6                            |
+   | :ref:`XMSS <signatures/slh_dsa/xmss>`                      | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_xmss.h`       | XMSS signature                             | 6                            |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Hypertree <signatures/sphincsplus/hypertree>`        | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_hypertree.h`  | Hypertree signature                        | 7                            |
+   | :ref:`Hypertree <signatures/slh_dsa/hypertree>`            | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_hypertree.h`  | Hypertree signature                        | 7                            |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`SLH-DSA Internal <signatures/sphincsplus/internal>`  | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.h`   | SLH-DSA internal functions                 | 9                            |
+   | :ref:`SLH-DSA Internal <signatures/slh_dsa/internal>`      | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.h`   | SLH-DSA internal functions                 | 9                            |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`SLH-DSA <signatures/sphincsplus/sphincsplus>`        | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.h`   | SLH-DSA signature                          | 10                           |
+   | :ref:`SLH-DSA <signatures/slh_dsa/slh_dsa>`                | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.h`   | SLH-DSA signature                          | 10                           |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
 
-.. _signatures/sphincsplus/types:
+.. _signatures/slh_dsa/types:
 
 Types
 ^^^^^
@@ -74,7 +74,7 @@ self-documenting interface, which also guarantees that no data is misused in the
 wrong context. More details on all defined strong types and their interpretation
 are documented in the respective header file.
 
-.. _signatures/sphincsplus/address:
+.. _signatures/slh_dsa/address:
 
 Address
 ^^^^^^^
@@ -84,7 +84,7 @@ into a class ``Sphincs_Address``. Methods for getting, copying, and setting
 specified fields of an address are provided as well as constants. All constants,
 fields, and representations are set as specified in Section 4.2 of [FIPS-205]_.
 
-.. _signatures/sphincsplus/parameters:
+.. _signatures/slh_dsa/parameters:
 
 Parameters
 ^^^^^^^^^^
@@ -92,11 +92,11 @@ Parameters
 The class ``Sphincs_Parameters`` represents all parameters of SLH-DSA.
 It checks whether provided parameters are valid and can be created from a given
 ``Sphincs_Parameter_Set``, representing each set of Table :ref:`Supported
-SLH-DSA parameter sets <pubkey_key_generation/sphincsplus/params_table>`.
+SLH-DSA parameter sets <pubkey_key_generation/slh_dsa/params_table>`.
 Parameters that can be computed directly from the parameter set are calculated
 in the constructor and stored as members instead of being calculated on demand.
 
-.. _signatures/sphincsplus/hashes:
+.. _signatures/slh_dsa/hashes:
 
 Hashes
 ^^^^^^
@@ -120,7 +120,7 @@ defined as :math:`\mathbf{T_1}` and :math:`\mathbf{T_2}`. For clarity and
 convenience, Botan omits the additional definitions by only implementing and
 calling the method ``T``, which allows for arbitrary input lengths.
 
-.. _signatures/sphincsplus/treehash:
+.. _signatures/slh_dsa/treehash:
 
 Merkle Tree Computation
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -137,8 +137,8 @@ of FORS and XMSS is the creation of leaf nodes. Therefore, ``treehash``
 takes a callback function for the leaf creation logic as an additional argument.
 This callback function also handles the hash function addresses according to its
 purpose. The used callback functions are ``xmss_gen_leaf`` (for XMSS; see
-:ref:`SLH-DSA XMSS <signatures/sphincsplus/xmss>`) and ``fors_gen_leaf``
-(for FORS; see :ref:`SLH-DSA FORS <signatures/sphincsplus/fors>`).
+:ref:`SLH-DSA XMSS <signatures/slh_dsa/xmss>`) and ``fors_gen_leaf``
+(for FORS; see :ref:`SLH-DSA FORS <signatures/slh_dsa/fors>`).
 
 Another generalization of the specification that is also adapted from the
 reference implementation is the integration of authentication path computations
@@ -158,7 +158,7 @@ authentication path. For both XMSS and FORS, the logic is the same, with the
 only condition being that correctly preconfigured hash function addresses must
 be passed to the function.
 
-.. _signatures/sphincsplus/fors:
+.. _signatures/slh_dsa/fors:
 
 FORS
 ^^^^
@@ -172,16 +172,16 @@ both methods are combined into Botan's ``fors_sign_and_pkgen``, which computes
 both the signature and the FORS public key. The authentication path computation
 therein and :math:`\mathtt{fors\_node}` of [FIPS-205]_ (Algorithm 15) are
 implemented in the generalized ``treehash`` (see
-:ref:`Merkle Tree Computation <signatures/sphincsplus/treehash>`), whereby
+:ref:`Merkle Tree Computation <signatures/slh_dsa/treehash>`), whereby
 :math:`\mathtt{fors\_skGen}` of [FIPS-205]_ (Algorithm 14) is implemented
 within the callback function ``fors_gen_leaf`` supplied to ``treehash``.
 Similarly, the computation of the root and authentication path in the
 implementation of :math:`\mathtt{fors\_pkFromSig}` utilizes the generalized
 ``compute_root`` method (see :ref:`Merkle Tree Computation
-<signatures/sphincsplus/treehash>`), resulting in the method
+<signatures/slh_dsa/treehash>`), resulting in the method
 ``fors_public_key_from_signature``.
 
-.. _signatures/sphincsplus/wotsplus:
+.. _signatures/slh_dsa/wotsplus:
 
 WOTS\ :sup:`+`
 ^^^^^^^^^^^^^^
@@ -202,7 +202,7 @@ WOTS\ :sup:`+` chains are computed for the public key while the WOTS\ :sup:`+`
 signature values are extracted at the same time if the current leaf is the
 signing one.
 
-.. _signatures/sphincsplus/XMSS:
+.. _signatures/slh_dsa/XMSS:
 
 XMSS
 ^^^^
@@ -217,11 +217,11 @@ Also, it is in accordance with the implementation considerations given by
 
 To create a single XMSS signature, the building blocks of the preceding sections
 are composed into the function ``xmss_sign_and_pkgen``. The generic ``treehash``
-function (see :ref:`Merkle Tree Computation <signatures/sphincsplus/treehash>`)
+function (see :ref:`Merkle Tree Computation <signatures/slh_dsa/treehash>`)
 is the
 core logic of XMSS. For generating leaves, it uses the provided callback
 function ``xmss_gen_leaf``, which calls ``wots_sign_and_pkgen`` (see :ref:`WOTS+
-<signatures/sphincsplus/wotsplus>`) since XMSS leaves are hashed WOTS\ :sup:`+`
+<signatures/slh_dsa/wotsplus>`) since XMSS leaves are hashed WOTS\ :sup:`+`
 public keys. This callback function contains all necessary parameters including
 the index of the leaf to sign, the message to sign (already divided into
 :math:`lg_w` sized chunks), and the required hash function addresses.
@@ -236,12 +236,12 @@ Algorithm 10 (:math:`\mathtt{xmss\_sign}`) and Algorithm 11
 For public key creation, i.e., the creation of :math:`\mathbf{PK}.\mathsf{root}`,
 the function ``xmss_gen_root`` is used. It uses ``xmss_sign_and_pkgen`` with an
 empty leaf index to only create the root node (see :ref:`Merkle Tree Computation
-<signatures/sphincsplus/treehash>` invoked by ``xmss_sign_and_pkgen``).
+<signatures/slh_dsa/treehash>` invoked by ``xmss_sign_and_pkgen``).
 Algorithm 11 (:math:`\mathtt{xmss\_pkFromSig}`), i.e., the reconstruction of an
 XMSS root node using an XMSS signature, is achieved by calling the function
-``compute_root`` (see :ref:`Merkle Tree Computation <signatures/sphincsplus/treehash>`).
+``compute_root`` (see :ref:`Merkle Tree Computation <signatures/slh_dsa/treehash>`).
 
-.. _signatures/sphincsplus/hypertree:
+.. _signatures/slh_dsa/hypertree:
 
 Hypertree
 ^^^^^^^^^
@@ -249,10 +249,10 @@ Hypertree
 The XMSS hypertree signature creation according to Algorithm 12 of [FIPS-205]_
 (:math:`\mathtt{ht\_sign}`) is implemented by the method ``ht_sign``. Beginning
 at the hypertree's leaves, the hypertree is built up using subsecutive calls of
-``xmss_sign_and_pkgen`` (see :ref:`XMSS <signatures/sphincsplus/XMSS>`)
+``xmss_sign_and_pkgen`` (see :ref:`XMSS <signatures/slh_dsa/XMSS>`)
 with each call signing the root of the previous XMSS tree or the hypertree
 signature's message for the first call. As described in :ref:`XMSS
-<signatures/sphincsplus/XMSS>`, this also creates the XMSS root node used in the
+<signatures/slh_dsa/XMSS>`, this also creates the XMSS root node used in the
 next iteration. The leaf indices selected to sign the hypertree signature's
 message or roots are computed according to the specification.
 
@@ -262,7 +262,7 @@ The hypertree verification, Algorithm 13  of [FIPS-205]_
 concatenated XMSS signatures. For verification, the final root, which is the
 root of the hypertree, is compared with :math:`\mathbf{PK}.\mathsf{root}`.
 
-.. _signatures/sphincsplus/internal:
+.. _signatures/slh_dsa/internal:
 
 SLH-DSA Internal Functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -275,7 +275,7 @@ signatures. The function :math:`\mathtt{slh\_keygen\_internal}` (Algorithm 18)
 is implemented by the SLH-DSA private key's constructor, which also implements
 the logic specified in :math:`\mathtt{slh\_keygen}`.
 
-.. _signatures/sphincsplus/sphincsplus:
+.. _signatures/slh_dsa/slh_dsa:
 
 SLH-DSA
 ^^^^^^^
@@ -283,7 +283,7 @@ SLH-DSA
 All the above components are combined to constitute Botan's SLH-DSA
 component used for creating or verifying SLH-DSA signatures.
 
-.. _pubkey_key_generation/sphincsplus:
+.. _pubkey_key_generation/slh_dsa:
 
 Key Generation
 --------------
@@ -291,9 +291,9 @@ Key Generation
 Botan supports the parameter sets provided in Table 2 of [FIPS-205]_ for the
 SHA2 and SHAKE instantiations of hash functions.
 An overview is provided in Table
-:ref:`Supported SLH-DSA parameter sets <pubkey_key_generation/sphincsplus/params_table>`.
+:ref:`Supported SLH-DSA parameter sets <pubkey_key_generation/slh_dsa/params_table>`.
 
-.. _pubkey_key_generation/sphincsplus/params_table:
+.. _pubkey_key_generation/slh_dsa/params_table:
 
 .. table::  Supported SLH-DSA parameter sets (see Table 2 of [FIPS-205]_). <hash> can either be ``SHA2`` or ``SHAKE``.
 
@@ -332,7 +332,7 @@ within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
 
    1. Generate new values ``sk_seed``, ``sk_prf``, and ``pub_seed`` using ``rng``.
    2. ``root = xmss_gen_root(secret_seed)``
-      (see :ref:`XMSS <signatures/sphincsplus/XMSS>`).
+      (see :ref:`XMSS <signatures/slh_dsa/XMSS>`).
    3. | ``SK = {sk_seed, sk_prf, pub_seed, root}``
       | ``PK = {pub_seed, root}``
 
