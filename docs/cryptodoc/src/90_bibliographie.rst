@@ -59,6 +59,10 @@
    Module-Lattice-Based Digital Signature Standard.
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf
 
+.. [FIPS-205] Federal Information Processing Standards Publication 205.
+   Stateless Hash-Based Digital Signature Standard
+   http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf
+
 .. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria Nikolaenko, Chris Peikert, Ananth Raghunathan, Douglas Stebila
    "FrodoKEM: Learning With Errors Key Encapsulation Preliminary Standardization Proposal (2023-03-14)",
    Preliminary Standardization Proposal submitted to ISO, 2023,
@@ -89,11 +93,6 @@
    "IEEE Standard for Cryptographic Protection of Data on Block-Oriented Storage Devices",
    https://ieeexplore.ieee.org/document/8637988,
    25 January 2019
-
-.. [IR-8413] NIST Interagency or Internal Report 8413 Upd. 1:
-   "Status Report on the Third Round of the NIST Post-Quantum Cryptography Standardization Process",
-   https://nvlpubs.nist.gov/nistpubs/ir/2022/NIST.IR.8413-upd1.pdf,
-   September 2022
 
 .. [ISO-9594-8] ISO/IEC 9594-8:2017:
    Information technology -- Open Systems Interconnection -- The Directory -- Part 8:

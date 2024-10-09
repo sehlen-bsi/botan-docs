@@ -90,7 +90,7 @@ Algorithm Internals
 Types
 ^^^^^
 
-For similar reasons as for :ref:`SPHINCS+ strong types <signatures/sphincsplus/types>`,
+For similar reasons as for :ref:`SPHINCS+ strong types <signatures/slh_dsa/types>`,
 Botan's FrodoKEM implementation relies on the use of strong types.
 As most data is just defined as byte sequences, the usage of strong types ensures that
 the correct data is used at each step of the computation.
