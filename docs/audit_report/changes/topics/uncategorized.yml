@@ -62,3 +62,10 @@ patches:
 - pr: 4358  # https://github.com/randombit/botan/pull/4358
   merge_commit: 1fe3150f597053313ecd2b22127ddd9a097c81ca
   classification: unspecified
+
+# Move the GCC and MSVC sanitizer builds to nightly
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4359  # https://github.com/randombit/botan/pull/4359
+  merge_commit: 457f3edf1899f12fa2f97997ef9d0fa87a07b36c
+  classification: unspecified
