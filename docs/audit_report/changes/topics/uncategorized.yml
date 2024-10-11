@@ -69,3 +69,34 @@ patches:
 - pr: 4359  # https://github.com/randombit/botan/pull/4359
   merge_commit: 457f3edf1899f12fa2f97997ef9d0fa87a07b36c
   classification: unspecified
+
+# Initial refactoring of speed cmdlet
+#   Author:    @randombit
+- pr: 4364  # https://github.com/randombit/botan/pull/4364
+  merge_commit: c2a759b8ce51203ffe07cd016aa718176f54fc75
+  classification: unspecified
+
+# In speed cmdlet handle MACs which require a fresh key or nonce
+#   Author:    @randombit
+- pr: 4363  # https://github.com/randombit/botan/pull/4363
+  merge_commit: 924060344d0ce0b6b3736a37fb779e9f70250b4e
+  classification: unspecified
+
+# Feature: ECC Support in TPM2
+#   Author:    @atreiber94
+#   Approvals: @reneme, (@randombit)
+- pr: 4357  # https://github.com/randombit/botan/pull/4357
+  merge_commit: 45aba2c4f66b7a1afa100296f68a21eec9f2cb7e
+  classification: unspecified
+
+# Add jitterentropy as RNG
+#   Author:    @ghost
+#   Approvals: @reneme, (@randombit)
+- pr: 4325  # https://github.com/randombit/botan/pull/4325
+  merge_commit: 0d8c1ddab4e22933973883f1b876f717635c5036
+  classification: unspecified
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: cac271618b6fbb12275e06b07b66843be3d5b72e  # https://github.com/randombit/botan/commit/cac271618b6fbb12275e06b07b66843be3d5b72e
+  classification: unspecified
