@@ -35,3 +35,15 @@
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser
 
 .. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
+
+.. [NIST_SP_800_208] https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-208.pdf
+
+.. [BOTAN_LMS_PROCESS] https://github.com/randombit/botan/blob/1900c9e1f021b395dce2baba868a6427c1690ff1/src/lib/pubkey/hss_lms/lm_ots.cpp#L31
+
+.. [BOTAN_LMS_Q_WITH_CKSM] https://github.com/randombit/botan/blob/1900c9e1f021b395dce2baba868a6427c1690ff1/src/lib/pubkey/hss_lms/lm_ots.cpp#L80
+
+.. [BOTAN_SLH_DSA_TREEHASH] https://github.com/randombit/botan/blob/7353a40e7ee1a0b845a798d94f8d88110e79347a/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_treehash.cpp#L64
+
+.. [BOTAN_SLH_DSA_WOTS_SIGN_AND_PKGEN_SIG_NODE] https://github.com/randombit/botan/blob/7353a40e7ee1a0b845a798d94f8d88110e79347a/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.cpp#L159
+
+.. [BOTAN_SLH_DSA_WOTS_SIGN_AND_PKGEN_SIG_NODE_HC] https://github.com/randombit/botan/blob/7353a40e7ee1a0b845a798d94f8d88110e79347a/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.cpp#L180
