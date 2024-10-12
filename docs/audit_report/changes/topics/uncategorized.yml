@@ -100,3 +100,16 @@ patches:
 #   Author: Jack Lloyd
 - commit: cac271618b6fbb12275e06b07b66843be3d5b72e  # https://github.com/randombit/botan/commit/cac271618b6fbb12275e06b07b66843be3d5b72e
   classification: unspecified
+
+# Refactor public key related performance test code
+#   Author:    @randombit
+- pr: 4367  # https://github.com/randombit/botan/pull/4367
+  merge_commit: 2cc573c31ceaa71d04adbd201a7105abd61d3cee
+  classification: unspecified
+
+# TPM2: Basic bindings in FFI & Python
+#   Author:    @reneme
+#   Approvals: @atreiber94, (@randombit)
+- pr: 4361  # https://github.com/randombit/botan/pull/4361
+  merge_commit: 4c292002ed674e8d8e22acd819fb41c1d866998b
+  classification: unspecified
