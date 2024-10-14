@@ -120,3 +120,10 @@ patches:
 - pr: 4368  # https://github.com/randombit/botan/pull/4368
   merge_commit: 909840c0b5b89fafa3fc1bfdd370722765aa7ffb
   classification: unspecified
+
+# Shift the release schedule over by one month, and to Tuesdays.
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4370  # https://github.com/randombit/botan/pull/4370
+  merge_commit: 05f4053c779cdf98310a1698e958d12dfdf68689
+  classification: unspecified
