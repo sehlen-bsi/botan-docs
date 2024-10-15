@@ -313,7 +313,7 @@ An overview is provided in Table
    | ``SLH-DSA-<hash>-256f`` | 32        | 68        | 17        | 4          | 9         | 35        | 4            | 49        |
    +-------------------------+-----------+-----------+-----------+------------+-----------+-----------+--------------+-----------+
 
-SLH-DSA key generation follows Section 10.1 of [FIPS-205]_ and is
+SLH-DSA key generation follows Sections 9.1 and 10.1 of [FIPS-205]_ and is
 implemented in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:306|SphincsPlus_PrivateKey`
 within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
 
@@ -331,7 +331,7 @@ within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
    **Steps:**
 
    1. Generate new values ``sk_seed``, ``sk_prf``, and ``pub_seed`` using ``rng``.
-   2. ``root = xmss_gen_root(secret_seed)``
+   2. ``root = xmss_gen_root(sk_seed)``
       (see :ref:`XMSS <signatures/slh_dsa/XMSS>`).
    3. | ``SK = {sk_seed, sk_prf, pub_seed, root}``
       | ``PK = {pub_seed, root}``
@@ -347,8 +347,10 @@ SPHINCS\ :sup:`+`
 
 Botan supports the SPHINCS\ :sup:`+` Round 3.1 NIST submission [SPX-R3]_. The
 SPHINCS\ :sup:`+` instances are activated using the ``sphincsplus_sha2`` and
-``sphincsplus_shake`` modules, enabling their selection for key creation. These
-instances are maintained solely for version compatibility. It is strongly
+``sphincsplus_shake`` modules, enabling their selection for key creation.
+As with the SLH-DSA instances, they are provided to the constructors of the
+SLH-DSA keys.
+These instances are maintained solely for version compatibility. It is strongly
 recommended to use the SLH-DSA instances instead.
 
 Signature Creation
