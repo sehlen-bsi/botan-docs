@@ -127,3 +127,33 @@ patches:
 - pr: 4370  # https://github.com/randombit/botan/pull/4370
   merge_commit: 05f4053c779cdf98310a1698e958d12dfdf68689
   classification: unspecified
+
+# Refactor performance testing of symmetric algorithms
+#   Author:    @randombit
+- pr: 4369  # https://github.com/randombit/botan/pull/4369
+  merge_commit: 0cbc2fe3f76feb2e34ccf1d6904f5e3b1b00bb06
+  classification: unspecified
+
+# Better abstraction to test view-style FFI APIs
+#   Author:    @reneme
+#   Approvals: @FAlbertDev
+- pr: 4372  # https://github.com/randombit/botan/pull/4372
+  merge_commit: ed74c9542241f47c2e3c6ff68cbf6731de643b73
+  classification: unspecified
+
+# CI: Amalgamation Linkage Test and Fixes
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 4307  # https://github.com/randombit/botan/pull/4307
+  merge_commit: 7e02c5c7bfae04f5c3764f1301945e9aef32d9f0
+  classification: unspecified
+
+# Update block cipher docs a bit [ci skip]
+#   Author: Jack Lloyd
+- commit: 7b80f600a328b90d54023c5c55f23747df516fda  # https://github.com/randombit/botan/commit/7b80f600a328b90d54023c5c55f23747df516fda
+  classification: unspecified
+
+# Add a todo [ci skip]
+#   Author: Jack Lloyd
+- commit: 04653933c6885d3104c47712dd9b9f2e1a8fca0c  # https://github.com/randombit/botan/commit/04653933c6885d3104c47712dd9b9f2e1a8fca0c
+  classification: unspecified
