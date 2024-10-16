@@ -157,3 +157,36 @@ patches:
 #   Author: Jack Lloyd
 - commit: 04653933c6885d3104c47712dd9b9f2e1a8fca0c  # https://github.com/randombit/botan/commit/04653933c6885d3104c47712dd9b9f2e1a8fca0c
   classification: unspecified
+
+# PQC: SLH-DSA
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 4291  # https://github.com/randombit/botan/pull/4291
+  merge_commit: 7d6c23951d73a2aa48a93d13a2ed8accd235d466
+  classification: unspecified
+
+# PQC: ML-DSA
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 4270  # https://github.com/randombit/botan/pull/4270
+  merge_commit: 41619a28675abf82a5a0126c21ba4c57e0588952
+  classification: unspecified
+
+# PQC: ML-KEM
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 3893  # https://github.com/randombit/botan/pull/3893
+  merge_commit: 7dd5905985702a09d5443fbb52b58f4758480400
+  classification: unspecified
+
+# FFI: Loading of raw FrodoKEM keys & FIX: "insufficient buffer handling" in FFI's decapsulate
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4373  # https://github.com/randombit/botan/pull/4373
+  merge_commit: 4996790e966ea538defbe441470b5bcf892c1ddd
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 1f3976185575d8e58cb74ab9ecb7ce61209228f8  # https://github.com/randombit/botan/commit/1f3976185575d8e58cb74ab9ecb7ce61209228f8
+  classification: unspecified
