@@ -190,3 +190,30 @@ patches:
 #   Author: Jack Lloyd
 - commit: 1f3976185575d8e58cb74ab9ecb7ce61209228f8  # https://github.com/randombit/botan/commit/1f3976185575d8e58cb74ab9ecb7ce61209228f8
   classification: unspecified
+
+# Cleanups after refactoring of speed cli
+#   Author:    @randombit
+- pr: 4378  # https://github.com/randombit/botan/pull/4378
+  merge_commit: 76e11d7bf488ad499477573828c318756c86a718
+  classification: unspecified
+
+# Fix pk_api_sign Test for SHAKE-only SLH-DSA 
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4383  # https://github.com/randombit/botan/pull/4383
+  merge_commit: 102c9d75c2cdd8c858543291cc677609247f9dfa
+  classification: unspecified
+
+# test_pk_pad.cpp #ifdef fix
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4380  # https://github.com/randombit/botan/pull/4380
+  merge_commit: c2c8f16d32b3c3bd7e77f1fb9b16be046001fab0
+  classification: unspecified
+
+# ML-KEM: Provide type aliases
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4374  # https://github.com/randombit/botan/pull/4374
+  merge_commit: e60ef2fbb98b691b08515cf48ad5a0624b003dfa
+  classification: unspecified
