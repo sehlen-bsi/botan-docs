@@ -1,0 +1,219 @@
+title: Uncategorized Patches
+
+patches:
+# Deprecate 0xFE30 X25519/Kyber512 code point
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 4347  # https://github.com/randombit/botan/pull/4347
+  merge_commit: 7f256a0afe514aa15fee594e0d5e30d2f3f74536
+  classification: unspecified
+
+# Update Fuzzer documentation and Configuration
+#   Author:    @Logix64
+#   Approvals: (@randombit)
+- pr: 4114  # https://github.com/randombit/botan/pull/4114
+  merge_commit: 00eb2d290189340500a8096e1817ad53a1340170
+  classification: unspecified
+
+# Feature: TPM2 Support
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 4337  # https://github.com/randombit/botan/pull/4337
+  merge_commit: 7624371f517563c4133b36b1e66a1ba76fea2a7f
+  classification: unspecified
+
+# Deprecate various aliases for the public key padding code
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4355  # https://github.com/randombit/botan/pull/4355
+  merge_commit: bd89aa31452ac3d17774f1df7329471512c6e7e5
+  classification: unspecified
+
+# Reorder/rephrase output from X509_Certificate::to_string
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4330  # https://github.com/randombit/botan/pull/4330
+  merge_commit: 175b1f2a8df2cf8003880ec1c79bcf9d25c09918
+  classification: unspecified
+
+# Example fix: Use more secure KEM combination in example
+#   Author:    @FAlbertDev
+#   Approvals: @reneme
+- pr: 4344  # https://github.com/randombit/botan/pull/4344
+  merge_commit: 7e28dda59a89c5d261c12603b4287224483e2595
+  classification: unspecified
+
+# Allow using `secure_allocator` for enum types, like `std::byte`
+#   Author:    @Delta-dev-99
+#   Approvals: @reneme
+- pr: 4353  # https://github.com/randombit/botan/pull/4353
+  merge_commit: 278dc55870ae482ebe6628a818d104b94894e7af
+  classification: unspecified
+
+# Use @response_files.txt for linking in Ninja
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4350  # https://github.com/randombit/botan/pull/4350
+  merge_commit: 4e2e9d59f65bbb597ff3d4e890eb8cfe6890ab89
+  classification: unspecified
+
+# Fix mp_redc_crandall fuzzer
+#   Author:    @randombit
+- pr: 4358  # https://github.com/randombit/botan/pull/4358
+  merge_commit: 1fe3150f597053313ecd2b22127ddd9a097c81ca
+  classification: unspecified
+
+# Move the GCC and MSVC sanitizer builds to nightly
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4359  # https://github.com/randombit/botan/pull/4359
+  merge_commit: 457f3edf1899f12fa2f97997ef9d0fa87a07b36c
+  classification: unspecified
+
+# Initial refactoring of speed cmdlet
+#   Author:    @randombit
+- pr: 4364  # https://github.com/randombit/botan/pull/4364
+  merge_commit: c2a759b8ce51203ffe07cd016aa718176f54fc75
+  classification: unspecified
+
+# In speed cmdlet handle MACs which require a fresh key or nonce
+#   Author:    @randombit
+- pr: 4363  # https://github.com/randombit/botan/pull/4363
+  merge_commit: 924060344d0ce0b6b3736a37fb779e9f70250b4e
+  classification: unspecified
+
+# Feature: ECC Support in TPM2
+#   Author:    @atreiber94
+#   Approvals: @reneme, (@randombit)
+- pr: 4357  # https://github.com/randombit/botan/pull/4357
+  merge_commit: 45aba2c4f66b7a1afa100296f68a21eec9f2cb7e
+  classification: unspecified
+
+# Add jitterentropy as RNG
+#   Author:    @ghost
+#   Approvals: @reneme, (@randombit)
+- pr: 4325  # https://github.com/randombit/botan/pull/4325
+  merge_commit: 0d8c1ddab4e22933973883f1b876f717635c5036
+  classification: unspecified
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: cac271618b6fbb12275e06b07b66843be3d5b72e  # https://github.com/randombit/botan/commit/cac271618b6fbb12275e06b07b66843be3d5b72e
+  classification: unspecified
+
+# Refactor public key related performance test code
+#   Author:    @randombit
+- pr: 4367  # https://github.com/randombit/botan/pull/4367
+  merge_commit: 2cc573c31ceaa71d04adbd201a7105abd61d3cee
+  classification: unspecified
+
+# TPM2: Basic bindings in FFI & Python
+#   Author:    @reneme
+#   Approvals: @atreiber94, (@randombit)
+- pr: 4361  # https://github.com/randombit/botan/pull/4361
+  merge_commit: 4c292002ed674e8d8e22acd819fb41c1d866998b
+  classification: unspecified
+
+# FFI/Python: Expose raw public/private key encoding functions
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4368  # https://github.com/randombit/botan/pull/4368
+  merge_commit: 909840c0b5b89fafa3fc1bfdd370722765aa7ffb
+  classification: unspecified
+
+# Shift the release schedule over by one month, and to Tuesdays.
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4370  # https://github.com/randombit/botan/pull/4370
+  merge_commit: 05f4053c779cdf98310a1698e958d12dfdf68689
+  classification: unspecified
+
+# Refactor performance testing of symmetric algorithms
+#   Author:    @randombit
+- pr: 4369  # https://github.com/randombit/botan/pull/4369
+  merge_commit: 0cbc2fe3f76feb2e34ccf1d6904f5e3b1b00bb06
+  classification: unspecified
+
+# Better abstraction to test view-style FFI APIs
+#   Author:    @reneme
+#   Approvals: @FAlbertDev
+- pr: 4372  # https://github.com/randombit/botan/pull/4372
+  merge_commit: ed74c9542241f47c2e3c6ff68cbf6731de643b73
+  classification: unspecified
+
+# CI: Amalgamation Linkage Test and Fixes
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 4307  # https://github.com/randombit/botan/pull/4307
+  merge_commit: 7e02c5c7bfae04f5c3764f1301945e9aef32d9f0
+  classification: unspecified
+
+# Update block cipher docs a bit [ci skip]
+#   Author: Jack Lloyd
+- commit: 7b80f600a328b90d54023c5c55f23747df516fda  # https://github.com/randombit/botan/commit/7b80f600a328b90d54023c5c55f23747df516fda
+  classification: unspecified
+
+# Add a todo [ci skip]
+#   Author: Jack Lloyd
+- commit: 04653933c6885d3104c47712dd9b9f2e1a8fca0c  # https://github.com/randombit/botan/commit/04653933c6885d3104c47712dd9b9f2e1a8fca0c
+  classification: unspecified
+
+# PQC: SLH-DSA
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 4291  # https://github.com/randombit/botan/pull/4291
+  merge_commit: 7d6c23951d73a2aa48a93d13a2ed8accd235d466
+  classification: unspecified
+
+# PQC: ML-DSA
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 4270  # https://github.com/randombit/botan/pull/4270
+  merge_commit: 41619a28675abf82a5a0126c21ba4c57e0588952
+  classification: unspecified
+
+# PQC: ML-KEM
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 3893  # https://github.com/randombit/botan/pull/3893
+  merge_commit: 7dd5905985702a09d5443fbb52b58f4758480400
+  classification: unspecified
+
+# FFI: Loading of raw FrodoKEM keys & FIX: "insufficient buffer handling" in FFI's decapsulate
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4373  # https://github.com/randombit/botan/pull/4373
+  merge_commit: 4996790e966ea538defbe441470b5bcf892c1ddd
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 1f3976185575d8e58cb74ab9ecb7ce61209228f8  # https://github.com/randombit/botan/commit/1f3976185575d8e58cb74ab9ecb7ce61209228f8
+  classification: unspecified
+
+# Cleanups after refactoring of speed cli
+#   Author:    @randombit
+- pr: 4378  # https://github.com/randombit/botan/pull/4378
+  merge_commit: 76e11d7bf488ad499477573828c318756c86a718
+  classification: unspecified
+
+# Fix pk_api_sign Test for SHAKE-only SLH-DSA 
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4383  # https://github.com/randombit/botan/pull/4383
+  merge_commit: 102c9d75c2cdd8c858543291cc677609247f9dfa
+  classification: unspecified
+
+# test_pk_pad.cpp #ifdef fix
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4380  # https://github.com/randombit/botan/pull/4380
+  merge_commit: c2c8f16d32b3c3bd7e77f1fb9b16be046001fab0
+  classification: unspecified
+
+# ML-KEM: Provide type aliases
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4374  # https://github.com/randombit/botan/pull/4374
+  merge_commit: e60ef2fbb98b691b08515cf48ad5a0624b003dfa
+  classification: unspecified
