@@ -17,5 +17,5 @@ auditinfo = { path = "../../tools/auditinfo", develop = true }
 esbonio = "^0.16.1"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.8.0"]
 build-backend = "poetry.core.masonry.api"
