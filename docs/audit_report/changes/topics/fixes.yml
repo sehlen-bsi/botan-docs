@@ -73,3 +73,17 @@ patches:
 - pr: 4335  # https://github.com/randombit/botan/pull/4335
   merge_commit: 0639e821247e61b186c52fbe315dbb0fa5dd4fa6
   classification: unspecified
+
+# Reduce risk of compiler value range propogation in FrodoKEM sampling
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4397  # https://github.com/randombit/botan/pull/4397
+  merge_commit: 4ea579a93f03193677a63d2452136599cec66f20
+  classification: unspecified
+
+# Add more value barriers to avoid compiler induced side channels
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4395  # https://github.com/randombit/botan/pull/4395
+  merge_commit: b9f712741791bff3dcc2303c3202037555f64f0a
+  classification: unspecified

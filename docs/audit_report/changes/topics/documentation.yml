@@ -86,3 +86,17 @@ patches:
 #   Author: Jack Lloyd
 - commit: 04653933c6885d3104c47712dd9b9f2e1a8fca0c  # https://github.com/randombit/botan/commit/04653933c6885d3104c47712dd9b9f2e1a8fca0c
   classification: unspecified
+
+# Doc: Minor Cleanups and TODO updates
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4392  # https://github.com/randombit/botan/pull/4392
+  merge_commit: 087f6ca2fbf8ad4267e60bf2ae65a9319619d130
+  classification: unspecified
+
+# Update credits.rst and authors.txt
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4387  # https://github.com/randombit/botan/pull/4387
+  merge_commit: e24dd8aa34db77587a178f47271bd3fdcbbffc63
+  classification: unspecified
