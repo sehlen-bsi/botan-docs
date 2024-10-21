@@ -87,3 +87,10 @@ patches:
 - pr: 4395  # https://github.com/randombit/botan/pull/4395
   merge_commit: b9f712741791bff3dcc2303c3202037555f64f0a
   classification: unspecified
+
+# Fix an error and some warnings with --disable-asm
+#   Author:    @randombit
+- pr: 4274  # https://github.com/randombit/botan/pull/4274
+  merge_commit: 39dcfa0fc212a99c5cdf8310b24e8ec7a950af4a
+  classification: info
+  auditer: reneme

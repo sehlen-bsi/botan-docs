@@ -75,3 +75,15 @@ patches:
 - pr: 4389  # https://github.com/randombit/botan/pull/4389
   merge_commit: 2849ec74e772ffdceb18740fed27df9fe3689431
   classification: unspecified
+
+# Add a script for configuring our build for OSS-Fuzz [ci skip]
+#   Author: Jack Lloyd
+- commit: 99f620410c99d83b197743dcd4a24701b10e66fa  # https://github.com/randombit/botan/commit/99f620410c99d83b197743dcd4a24701b10e66fa
+  classification: info
+  auditer: reneme
+
+# Fix config_for_oss_fuzz.py script to work even if . isn't in PATH [ci skip]
+#   Author: Jack Lloyd
+- commit: ba957b95eaabb9cf0c7033c784b27081a7e60e2f  # https://github.com/randombit/botan/commit/ba957b95eaabb9cf0c7033c784b27081a7e60e2f
+  classification: info
+  auditer: reneme
