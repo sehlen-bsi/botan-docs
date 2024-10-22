@@ -44,3 +44,9 @@ patches:
 - commit: 1f3976185575d8e58cb74ab9ecb7ce61209228f8  # https://github.com/randombit/botan/commit/1f3976185575d8e58cb74ab9ecb7ce61209228f8
   classification: info
   auditer: reneme
+
+# Update for 3.6.0 release
+#   Author: Jack Lloyd
+- commit: 76a8996c624624f5bb68fe224554cb58ad860371  # https://github.com/randombit/botan/commit/76a8996c624624f5bb68fe224554cb58ad860371
+  classification: info
+  auditer: reneme
