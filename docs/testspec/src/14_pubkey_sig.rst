@@ -395,59 +395,59 @@ described here in the following.
    |                        | #. Check that the key is valid (see PKSIG-KEY-1)                        |
    +------------------------+-------------------------------------------------------------------------+
 
-Dilithium
----------
+ML-DSA
+------
 
-The implementation is tested for correctness using the Known Answer Test vectors
-demanded by the NIST submission and provided by the reference implementation.
+The implementation is tested for correctness using Known Answer Test vectors
+generated using an implementation associated with the ACVP project.
 
 Additionally, Botan has implementation-specific test cases. Those ensure the
 interoperability of the algorithm when using Botan's generic API for public key
 algorithms. These test cases are equal for all public key schemes and are
 therefore not discussed in detail in this chapter.
 
-All Dilithium-specific test code can be found in
+All ML-DSA-specific test code can be found in
 :srcref:`src/tests/test_dilithium.cpp`. Relevant test data vectors for the KAT tests
-are in *src/tests/data/pubkey/dilithium\_\*.vec* where *\** is a placeholder for
-the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
-*8x7\_Deterministic*, *4x4\_Randomized*, *6x5\_Randomized*, *8x7\_Randomized*,
-*4x4\_AES\_Deterministic*, *6x5\_AES\_Deterministic*, *8x7\_AES\_Deterministic*,
-*4x4\_AES\_Randomized*, *6x5\_AES\_Randomized* and *8x7\_AES\_Randomized*.
+are in
+:srcref:`[src/tests/data/pubkey]/ml-dsa-4x4_Deterministic.vec`,
+:srcref:`[src/tests/data/pubkey]/ml-dsa-4x4_Randomized.vec`,
+:srcref:`[src/tests/data/pubkey]/ml-dsa-6x5_Deterministic.vec`,
+:srcref:`[src/tests/data/pubkey]/ml-dsa-6x5_Randomized.vec`,
+:srcref:`[src/tests/data/pubkey]/ml-dsa-8x7_Deterministic.vec`, and
+:srcref:`[src/tests/data/pubkey]/ml-dsa-8x7_Randomized.vec`.
+Additionally, the vectors for testing the still supported Dilithium
+(NIST Round 3 submission) instances are in :srcref:`src/tests/data/pubkey/`
+with prefix ``dilithium`` and the same naming scheme.
+
 
 .. table::
    :class: longtable
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-DILITHIUM-1                                                       |
+   | **Test Case No.:**     | PKSIG-ML-DSA-1                                                          |
    +========================+=========================================================================+
    | **Type:**              | Known Answer Tests                                                      |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Uses the KAT vectors of Dilithium's reference implementation as         |
-   |                        | specified in the NIST submission. Also implements a negative test by    |
+   | **Description:**       | Uses KAT vectors for ML-DSA. Also implements a negative test by         |
    |                        | randomly pertubing the generated signatures before validation.          |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Test Vectors with RNG seed and test messages inputs in:                 |
    |                        |                                                                         |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_Deterministic.vec`       |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_Deterministic.vec`       |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_Deterministic.vec`       |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_Randomized.vec`          |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_Randomized.vec`          |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_Randomized.vec`          |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_AES_Deterministic.vec`   |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_AES_Deterministic.vec`   |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_AES_Deterministic.vec`   |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_AES_Randomized.vec`      |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_AES_Randomized.vec`      |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_AES_Randomized.vec`      |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-4x4_Deterministic.vec`        |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-6x5_Deterministic.vec`        |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-8x7_Deterministic.vec`        |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-4x4_Randomized.vec`           |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-6x5_Randomized.vec`           |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-8x7_Randomized.vec`           |
+   |                        | * Dilithium test vectors in :srcref:`src/tests/data/pubkey/`            |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Above described test vector files contain expected values for:          |
    |                        |                                                                         |
-   |                        | * Dilithium Public Key                                                  |
-   |                        | * Dilithium Private Key                                                 |
+   |                        | * ML-DSA Public Key                                                     |
+   |                        | * ML-DSA Private Key                                                    |
    |                        | * Signature                                                             |
    |                        |                                                                         |
    |                        | to save disk space, these are stored as their SHA-3 digests only.       |
@@ -456,7 +456,7 @@ the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
    |                        |                                                                         |
    |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed                  |
    |                        |                                                                         |
-   |                        | #. Use the seeded RNG to generate a Dilithium key pair and compare it   |
+   |                        | #. Use the seeded RNG to generate a ML-DSA key pair and compare it      |
    |                        |    to the expected public and private key in the test vector. This uses |
    |                        |    the key encoding as implemented in the reference implementation and  |
    |                        |    first hashes the keys with SHA-3 to save space in the test data.     |
@@ -480,7 +480,7 @@ the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-DILITHIUM-2                                                       |
+   | **Test Case No.:**     | PKSIG-ML-DSA-2                                                          |
    +========================+=========================================================================+
    | **Type:**              | Positive and Negative Tests                                             |
    +------------------------+-------------------------------------------------------------------------+
@@ -493,8 +493,7 @@ the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | For each combination of the algorithm parameters [4x4, 6x5, 8x7],       |
-   |                        | [Randomized, Determinstic] and [AES, modern]:                           |
+   | **Steps:**             | For each ML-DSA (and Dilithium) algorithm instance:                     |
    |                        |                                                                         |
    |                        | #. Generate a random key pair                                           |
    |                        |                                                                         |
@@ -518,6 +517,37 @@ the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
    |                        | #. Decode the keypair again (via Botan's generic interface)             |
    |                        |                                                                         |
    |                        | #. Ensure that these decoded keys work for signing and verifying.       |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKENC-ML-DSA-2                                                          |
+   +========================+=========================================================================+
+   | **Type:**              | Positive Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Generate random key pairs, serialize and deserialize them, use the      |
+   |                        | deserialized keys to encapsulate and decapsulate secrets.               |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Generate an ML-DSA key pair                                          |
+   |                        |    (one for each ML-DSA or Dilithium instance).                         |
+   |                        |                                                                         |
+   |                        | #. Encode both the public and private key using the default encoding.   |
+   |                        |                                                                         |
+   |                        | #. Decode the public key and encapsulate a secret with the decoded key. |
+   |                        |                                                                         |
+   |                        | #. Decode the private key and decapsulate the above-generated           |
+   |                        |    ciphertext.                                                          |
+   |                        |                                                                         |
+   |                        | #. Check that both resulting shared secrets are equal.                  |
    +------------------------+-------------------------------------------------------------------------+
 
 DSA
