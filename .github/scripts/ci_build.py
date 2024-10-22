@@ -119,12 +119,13 @@ def determine_flags(target, target_os, target_cc, ccache,
     enable_modules += ['tls12','tls13','tls13_pqc','tls_cbc']
     enable_modules += ['pkcs11']
     enable_modules += ['xts']
-    enable_modules += ['kyber','kyber_90s']
-    enable_modules += ['dilithium','dilithium_aes']
-    enable_modules += ['sphincsplus_sha2','sphincsplus_shake']
+    enable_modules += ['kyber','kyber_90s', 'ml_kem']
+    enable_modules += ['dilithium','dilithium_aes', 'ml_dsa']
+    enable_modules += ['sphincsplus_sha2','sphincsplus_shake', 'slh_dsa_sha2','slh_dsa_shake']
     enable_modules += ['frodokem','frodokem_aes']
     enable_modules += ['hss_lms']
     enable_modules += ['kmac']
+    enable_modules += ['pcurves_brainpool256r1', 'pcurves_brainpool384r1', 'pcurves_brainpool512r1', 'pcurves_secp256r1', 'pcurves_secp256k1', 'pcurves_secp384r1', 'pcurves_secp521r1']
     flags += ['--module-policy=bsi', '--enable-modules=%s' % ','.join(enable_modules)]
 
     if target in ['pdf_docs']:
