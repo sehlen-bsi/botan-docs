@@ -1553,17 +1553,17 @@ constraints for this test case are:
    |                        |    #. E >= 2                                                            |
    +------------------------+-------------------------------------------------------------------------+
 
-SPHINCS+
---------
+SLH-DSA
+-------
 
-The implementation is tested for correctness using the Known Answer Test vectors
-demanded by the NIST submission and provided by the reference implementation.
-Given SPHINCS+' performance characteristics, each supported algorithm
+The implementation is tested for correctness using Known Answer Test vectors
+generated using an implementation associated with the ACVP project.
+Given SLH-DSA's performance characteristics, each supported algorithm
 parameterization gets just a single KAT test.
 
 Along with those integration tests Botan comes with a number of unit tests whose
 vectors were also extracted from intermediate results of the reference
-implementation. Particularly, the SPHINCS+-specific implementation of WOTS+ and
+implementation. Particularly, the SLH-DSA-specific implementation of WOTS+ and
 FORS is covered by those unit tests.
 
 Additionally, Botan has implementation-specific test cases. Those ensure the
@@ -1576,35 +1576,35 @@ therefore not discussed in detail in this chapter.
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-SPHINCS+-1                                                        |
+   | **Test Case No.:**     | PKSIG-SLH-DSA-1                                                         |
    +========================+=========================================================================+
    | **Type:**              | Known Answer Tests                                                      |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Uses the KAT vectors as specified in the API specification of the NIST  |
-   |                        | competition [#NISTAPI]_  and generated using the reference              |
-   |                        | implementation revision 06f42f47 [#SPXrefimpl]_                         |
+   | **Description:**       | Uses the KAT vectors for SLH-DSA                                        |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Test Vectors with RNG seed and test messages inputs in:                 |
    |                        |                                                                         |
+   |                        | * :srcref:`src/tests/data/pubkey/slh_dsa.vec`                           |
    |                        | * :srcref:`src/tests/data/pubkey/sphincsplus.vec`                       |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Above described test vector files contain expected values for:          |
    |                        |                                                                         |
-   |                        | * SPHINCS+ Public Key                                                   |
-   |                        | * SPHINCS+ Private Key                                                  |
+   |                        | * SLH-DSA Public Key                                                    |
+   |                        | * SLH-DSA Private Key                                                   |
+   |                        | * Signature (Deterministic)                                             |
    |                        | * Signature                                                             |
    |                        |                                                                         |
    |                        | to save disk space, the expected signature is stored as a digest only.  |
-   |                        | We use the same hash function of the respective SPHINCS+ instantiation. |
+   |                        | We use the same hash function of the respective SLH-DSA instantiation.  |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | For each KAT vector:                                                    |
    |                        |                                                                         |
    |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed and pull the     |
-   |                        |    entropy bits needed for generating a SPHINCS+ keypair from it.       |
+   |                        |    entropy bits needed for generating a SLH-DSA keypair from it.        |
    |                        |                                                                         |
-   |                        | #. Generate a SPHINCS+ key pair and validate that it corresponds to the |
+   |                        | #. Generate a SLH-DSA key pair and validate that it corresponds to the  |
    |                        |    expected key pair in the test vector.                                |
    |                        |                                                                         |
    |                        | #. Sign the message provided in the test vector with the just-generated |
@@ -1625,28 +1625,16 @@ therefore not discussed in detail in this chapter.
    |                        |    signature.                                                           |
    +------------------------+-------------------------------------------------------------------------+
 
-.. [#NISTAPI]
-
-   API description for NIST submissions. See section "Additional functions" for
-   a description how Known Answer Tests are to be structured
-   https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/example-files/api-notes.pdf
-
-.. [#SPXrefimpl]
-
-   Revision of the SPHINCS+ reference implementation used as the basis for the
-   implementation in Botan
-   https://github.com/sphincs/sphincsplus/commit/06f42f47491085ac879a72b486ca8edb10891963
-
 .. table::
    :class: longtable
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-SPHINCS+-2                                                        |
+   | **Test Case No.:**     | PKSIG-SLH-DSA-2                                                         |
    +========================+=========================================================================+
    | **Type:**              | Known Answer Test                                                       |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Ensures that the WOTS+ sub-component of SPHINCS+ works as expected.     |
+   | **Description:**       | Ensures that the WOTS+ sub-component of SLH-DSA works as expected.      |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
@@ -1677,11 +1665,11 @@ therefore not discussed in detail in this chapter.
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-SPHINCS+-3                                                        |
+   | **Test Case No.:**     | PKSIG-SLH-DSA-3                                                         |
    +========================+=========================================================================+
    | **Type:**              | Known Answer Test                                                       |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Ensures that the FORS sub-component of SPHINCS+ works as expected.      |
+   | **Description:**       | Ensures that the FORS sub-component of SLH-DSA works as expected.       |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
