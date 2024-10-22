@@ -109,53 +109,59 @@ tests are in *src/tests/data/pubkey/frodokem_kat.vec*.
    |                        |    with the original private key. Expect a decryption failure.          |
    +------------------------+-------------------------------------------------------------------------+
 
-Kyber
-~~~~~
+ML-KEM
+~~~~~~
 
-The implementation is tested for correctness using the Known Answer Test vectors
-demanded by the NIST submission and provided by the reference implementation.
+The implementation is tested for correctness using Known Answer Test vectors
+generated using an implementation associated with the ACVP project.
 
 Additionally, Botan has implementation-specific test cases. Those ensure the
 interoperability of the algorithm when using Botan's generic API for public key
 algorithms. These test cases are equal for all public key schemes and are
 therefore not discussed in detail in this chapter.
 
-All kyber-specific test code can be found in :srcref:`src/tests/test_kyber.cpp`.
-Relevant test data vectors for the KAT tests are in
-*src/tests/data/pubkey/kyber\_\*.vec* where *\** is a placeholder for the
-algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
-*1024_90s*.
+All ML-KEM-specific test code can be found in
+:srcref:`src/tests/test_kyber.cpp`.
+Relevant test data vectors for the ML-KEM KAT tests are in
+:srcref:`[src/tests/data/pubkey]/kyber_encodings.vec`,
+:srcref:`[src/tests/data/pubkey]/ml_kem.vec`,
+:srcref:`[src/tests/data/pubkey]/ml_kem_acvp_keygen.vec`, and
+:srcref:`[src/tests/data/pubkey]/ml_kem_acvp_encap.vec`. Additionally, the
+vectors for testing the still supported Kyber (NIST Round 3 submission)
+instances are in :srcref:`[src/tests/data/pubkey]/kyber_kat.vec`.
 
 .. table::
    :class: longtable
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKENC-KYBER-1                                                           |
+   | **Test Case No.:**     | PKENC-ML-KEM-1                                                          |
    +========================+=========================================================================+
    | **Type:**              | Known Answer Tests                                                      |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Uses the KAT vectors of Kyber's reference implementation as specified   |
-   |                        | in the NIST submission                                                  |
+   | **Description:**       | Uses the KAT vectors for ML-KEM.                                        |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Test Vectors with RNG seed inputs in:                                   |
    |                        |                                                                         |
+   |                        | * :srcref:`src/tests/data/pubkey/ml_kem.vec`                            |
    |                        | * :srcref:`src/tests/data/pubkey/kyber_kat.vec`                         |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Above described test vector files contain expected values for:          |
    |                        |                                                                         |
-   |                        | * Kyber Public Key                                                      |
-   |                        | * Kyber Private Key                                                     |
+   |                        | * ML-KEM Public Key                                                     |
+   |                        | * ML-KEM Private Key                                                    |
    |                        | * Ciphertext                                                            |
    |                        | * Shared Secret                                                         |
+   |                        | * Invalid Ciphertext                                                    |
+   |                        | * Shared Secret for Invalid Ciphertext                                  |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | For each KAT vector:                                                    |
    |                        |                                                                         |
    |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed                  |
    |                        |                                                                         |
-   |                        | #. Use the seeded RNG to generate a Kyber key pair and compare it to    |
+   |                        | #. Use the seeded RNG to generate a ML-KEM key pair and compare it to   |
    |                        |    the expected public and private key in the test vector. This uses    |
    |                        |    the key encoding as implemented in the reference implementation.     |
    |                        |                                                                         |
@@ -173,6 +179,10 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    |                        | #. Decapsulate the just-calculated ciphertext with the private key from |
    |                        |    the test vector and ensure that the resulting shared secret is equal |
    |                        |    to the expected value from the test vector                           |
+   |                        |                                                                         |
+   |                        | #. Decapsulate the invalid ciphertext with the private key from the     |
+   |                        |    test vector and ensure that the resulting shared secret is equal to  |
+   |                        |    the expected value from the test vector.                             |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -180,7 +190,7 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKENC-KYBER-2                                                           |
+   | **Test Case No.:**     | PKENC-ML-KEM-2                                                          |
    +========================+=========================================================================+
    | **Type:**              | Positive Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
@@ -193,8 +203,7 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Generate a kyber key pair (one for each algorithm parameter          |
-   |                        |    combination: [512, 768, 1024] and [90s, modern]).                    |
+   | **Steps:**             | #. Generate an ML-KEM key pair (one for each ML-KEM or Kyber instance). |
    |                        |                                                                         |
    |                        | #. Encode both the public and private key using the default encoding.   |
    |                        |                                                                         |
@@ -203,7 +212,7 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    |                        | #. Decode the private key and decapsulate the above-generated           |
    |                        |    ciphertext.                                                          |
    |                        |                                                                         |
-   |                        | #. Check that both resulting shared secrets are equal                   |
+   |                        | #. Check that both resulting shared secrets are equal.                  |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -211,7 +220,7 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKENC-KYBER-3                                                           |
+   | **Test Case No.:**     | PKENC-ML-KEM-3                                                          |
    +========================+=========================================================================+
    | **Type:**              | Negative Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
@@ -225,8 +234,7 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Generate a kyber key pair (one for each algorithm parameter          |
-   |                        |    combination: [512, 768, 1024] and [90s, modern]).                    |
+   | **Steps:**             | #. Generate a kyber key pair (one for each ML-KEM or Kyber instance).   |
    |                        |                                                                         |
    |                        | #. Encode both the public and private key using the default encoding.   |
    |                        |                                                                         |
@@ -248,7 +256,7 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKENC-KYBER-4                                                           |
+   | **Test Case No.:**     | PKENC-ML-KEM-4                                                          |
    +========================+=========================================================================+
    | **Type:**              | Encoding Tests                                                          |
    +------------------------+-------------------------------------------------------------------------+
@@ -269,6 +277,70 @@ algorithm parameters, namely *512*, *512_90s*, *768*, *768_90s*, *1024* and
    |                        | #. Otherwise re-encode the public and private keys and validate that    |
    |                        |    the result is byte-compatible with the input values.                 |
    +------------------------+-------------------------------------------------------------------------+
+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKENC-ML-KEM-5                                                          |
+   +========================+=========================================================================+
+   | **Type:**              | Known Answer Tests                                                      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | ACVP Encapsulation Test                                                 |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | File :srcref:`[src/tests/data/pubkey]/ml_kem_acvp_encap.vec`            |
+   |                        | with values:                                                            |
+   |                        |                                                                         |
+   |                        | * ML-KEM Public Key                                                     |
+   |                        | * Encapsulation Message                                                 |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | The above described test vector file contains expected values for:      |
+   |                        |                                                                         |
+   |                        | * Ciphertext                                                            |
+   |                        | * Shared Secret                                                         |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Insert the encapsulation message into a test RNG so that             |
+   |                        |    the RNG selects it when selecting a random message                   |
+   |                        |                                                                         |
+   |                        | #. Perform an encapsulation and compare the results with the KAT values |
+   +------------------------+-------------------------------------------------------------------------+
+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKENC-ML-KEM-6                                                          |
+   +========================+=========================================================================+
+   | **Type:**              | Known Answer Tests                                                      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | ACVP Key Generation Test                                                |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | File :srcref:`[src/tests/data/pubkey]/ml_kem_acvp_keygen.vec`           |
+   |                        | with values:                                                            |
+   |                        |                                                                         |
+   |                        | * Key Generation Seed ``d``                                             |
+   |                        | * Implicit Rejection Seed ``z``                                         |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | The above described test vector file contains expected values for:      |
+   |                        |                                                                         |
+   |                        | * Public Key                                                            |
+   |                        | * Private Key                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Insert ``d`` and ``z`` into a test RNG so that                       |
+   |                        |    the RNG selects it when selecting the seeds for key generation       |
+   |                        |                                                                         |
+   |                        | #. Perform a key generation and compare the result with the KAT values. |
+   |                        |    Also check generic algorithm properties of the resulting keys        |
+   +------------------------+-------------------------------------------------------------------------+
+
 
 RSA-KEM
 ~~~~~~~
