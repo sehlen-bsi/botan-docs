@@ -1,0 +1,224 @@
+title: Rewrite of Elliptic Curve Support
+
+patches:
+# Deprecate various functions related to explicit group encoding  (@randombit)
+- pr: 4193  # https://github.com/randombit/botan/pull/4193
+  merge_commit: 308630a8193d4af412b9dfebf96aa3ea626f9255
+  classification: unspecified
+
+# Don't swallow exceptions during ECDSA key recovery  (@randombit)
+- pr: 4201  # https://github.com/randombit/botan/pull/4201
+  merge_commit: f2d67b282db2b2ebd3273997f02f0e51b4501011
+  classification: unspecified
+
+# Clean up sqrt logic in pcurves  (@randombit)
+- pr: 4171  # https://github.com/randombit/botan/pull/4171
+  merge_commit: b2ff8e358f4d27ec95ee105b454bdd587fe17dcf
+  classification: unspecified
+
+# Add EC_Scalar and EC_AffinePoint types  (@randombit)
+- pr: 4042  # https://github.com/randombit/botan/pull/4042
+  merge_commit: 45be74e509f1cb42c79669b92501c5770e998457
+  classification: unspecified
+
+# Faster pcurves reductions for P-256 and P-384  (@randombit)
+- pr: 4147  # https://github.com/randombit/botan/pull/4147
+  merge_commit: 7fad1d22d223f3e92ecfa6f67954b5892b30ab8a
+  classification: unspecified
+
+# Avoid a potentially troublesome construct in pcurves is_even  (@randombit)
+- pr: 4191  # https://github.com/randombit/botan/pull/4191
+  merge_commit: 69a51e9899cbbcc76d1e55ed1f170bb7120167e4
+  classification: unspecified
+
+# Add faster reduction for secp256k1 pcurves  (@randombit)
+- pr: 4113  # https://github.com/randombit/botan/pull/4113
+  merge_commit: 1af5545ae66ab7c56c35780769722db85217e982
+  classification: unspecified
+
+# Add P-192 to pcurves  (@randombit)
+- pr: 4190  # https://github.com/randombit/botan/pull/4190
+  merge_commit: 5fd660bc489628eccde601672239ede5cc267776
+  classification: unspecified
+
+# Move the pcurves implementation headers into a submodule  (@randombit)
+- pr: 4212  # https://github.com/randombit/botan/pull/4212
+  merge_commit: 5d42faac7af18e258dad69c0891982d606b783dc
+  classification: unspecified
+
+# In pcurves point mul, handle a missing/unseeded RNG  (@randombit)
+- pr: 4205  # https://github.com/randombit/botan/pull/4205
+  merge_commit: 7fb7f2b2f3c473370125532dbb76dfe7f581030d
+  classification: unspecified
+
+# Fix two ways we could end up with null internal states in the new ECC layer  (@randombit)
+- pr: 4210  # https://github.com/randombit/botan/pull/4210
+  merge_commit: 106e25e0e0f51f471a4a38681d410a9006cd91e6
+  classification: unspecified
+
+# Faster scalar inversions for P-384 and P-521  (@randombit)
+- pr: 4213  # https://github.com/randombit/botan/pull/4213
+  merge_commit: faec13a84752858e981a8432e598344727e1f8ac
+  classification: unspecified
+
+# Apply projection trick in pcurves as well  (@randombit)
+- pr: 4215  # https://github.com/randombit/botan/pull/4215
+  merge_commit: 4ef3b51c6a10500c20f1b63d95c145a703480559
+  classification: unspecified
+
+# Support fast field inversion for P-256, P-384, and P-521  (@randombit)
+- pr: 4209  # https://github.com/randombit/botan/pull/4209
+  merge_commit: 25356e178ce56962dfa145ec44a08c134afb9d45
+  classification: unspecified
+
+# Fix ECDSA verification on curves with cofactors  (@randombit)
+- pr: 4222  # https://github.com/randombit/botan/pull/4222
+  merge_commit: 9287df0908edd44bae0781b67f19348faf008ee8
+  classification: unspecified
+
+# Add fast iterated point doubling  (@randombit)
+- pr: 4221  # https://github.com/randombit/botan/pull/4221
+  merge_commit: 50b368ac54ae81b949c431956333848bf5a780d7
+  classification: unspecified
+
+# In pcurves reduce window size for 2-ary multiplication  (@randombit)
+- pr: 4235  # https://github.com/randombit/botan/pull/4235
+  merge_commit: 2b62712cb5e8bce0c490071193d59ee8b9443931
+  classification: unspecified
+
+# Use Solinas reduction for P-192 and P-256 on 64-bit systems as well  (@randombit)
+- pr: 4226  # https://github.com/randombit/botan/pull/4226
+  merge_commit: 15186a65ef59e3c78f41b806c4dda59e3ec0420e
+  classification: unspecified
+
+# Improve field element halving  (@randombit)
+- pr: 4225  # https://github.com/randombit/botan/pull/4225
+  merge_commit: 8322c791ef78e356c7e70d581ef882ee1e173229
+  classification: unspecified
+
+# Add explicit addition chains for P-256 scalar and k1 field/scalar inversions  (@randombit)
+- pr: 4237  # https://github.com/randombit/botan/pull/4237
+  merge_commit: 1a8a90b765dc51d44218adbb9f55abb1bac11e91
+  classification: unspecified
+
+# Add sm2p256v1 pcurves optimizations  (@randombit)
+- pr: 4240  # https://github.com/randombit/botan/pull/4240
+  merge_commit: e08276214e6f23f78ca5cff6861ec8adba0c340f
+  classification: unspecified
+
+# Avoid an inversion during ECDSA/SM2/etc signature verification  (@randombit)
+- pr: 4211  # https://github.com/randombit/botan/pull/4211
+  merge_commit: 55007af7dfed2ea1d6bc31a865f4fa5464a280b6
+  classification: unspecified
+
+# Microoptimize P-521 reduction
+#   Author:    @randombit
+- pr: 4242  # https://github.com/randombit/botan/pull/4242
+  merge_commit: 23eb2cabfd8be354ae1d048243b9460e54419d72
+  classification: unspecified
+
+# In EC keys store the data as EC_Scalar / EC_AffinePoint
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4203  # https://github.com/randombit/botan/pull/4203
+  merge_commit: 14ddd8d237cf6f168014cfed3bef8bdb6b2b7ec6
+  classification: unspecified
+
+# Fix missing include [ci skip]
+#   Author: Jack Lloyd
+- commit: db4f8e0ac9cc5bc7224a0e220eee4ea3b4d4ef26  # https://github.com/randombit/botan/commit/db4f8e0ac9cc5bc7224a0e220eee4ea3b4d4ef26
+  classification: info
+  auditer: reneme
+
+# Faster iterated point doubling for generic A and A == 0 cases
+#   Author:    @randombit
+- pr: 4257  # https://github.com/randombit/botan/pull/4257
+  merge_commit: 2a5a9306e1e97420d2629aad89130d61b43db3dc
+  classification: unspecified
+
+# In ECDSA blind the inversion of k
+#   Author:    @randombit
+- pr: 4259  # https://github.com/randombit/botan/pull/4259
+  merge_commit: 5a3e97f75e0a26562cdcd52dff21efe82e9784a2
+  classification: unspecified
+
+# Refactor hash2curve
+#   Author:    @randombit
+- pr: 4263  # https://github.com/randombit/botan/pull/4263
+  merge_commit: 44897ad6067f7978507235a5b5abcea0cb709799
+  classification: unspecified
+
+# Remove ec_h2c.cpp (again)
+#   Author:    @randombit
+- pr: 4299  # https://github.com/randombit/botan/pull/4299
+  merge_commit: 0c8741a9e7e460283042fb3fe0041da30e23979f
+  classification: unspecified
+
+# Optimize pcurves bytes_to_words function
+#   Author:    @randombit
+- pr: 4261  # https://github.com/randombit/botan/pull/4261
+  merge_commit: fe81d65297f13b696ac27d47025c901d33dcfdd4
+  classification: unspecified
+
+# Define some deprecated EC_Group functions in terms of the new APIs
+#   Author:    @randombit
+- pr: 4256  # https://github.com/randombit/botan/pull/4256
+  merge_commit: 76dd84fe0bbef1f504ae639ad594db46971bc5c2
+  classification: unspecified
+
+# Improve addition chain for P-256 inversion
+#   Author:    @randombit
+- pr: 4264  # https://github.com/randombit/botan/pull/4264
+  merge_commit: e8bf7b5406ce2776979badd1dbb766b4a5588628
+  classification: unspecified
+
+# Remove internal annotation from pcurves modules
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4279  # https://github.com/randombit/botan/pull/4279
+  merge_commit: 80f238914ff4ce1c85f0dd42ca23003c6a86c9b3
+  classification: unspecified
+
+# Agressively inline conditional assignment selection in pcurves
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4276  # https://github.com/randombit/botan/pull/4276
+  merge_commit: 40cf78055997a2ffc9f20b8ae15becf0bff14e64
+  classification: unspecified
+
+# Add NUMS curve numsp512d1
+#   Author:    @randombit
+- pr: 4251  # https://github.com/randombit/botan/pull/4251
+  merge_commit: 2c3fabb7ab7ae7a01f75f16d0709481efc39ddc8
+  classification: unspecified
+
+# Remove some obsolete or redundant tests
+#   Author:    @randombit
+- pr: 4282  # https://github.com/randombit/botan/pull/4282
+  merge_commit: 04da8f98fc9c62b28b7a1850eebd963b7b950344
+  classification: unspecified
+
+# Add pcurves P-224
+#   Author:    @randombit
+- pr: 4218  # https://github.com/randombit/botan/pull/4218
+  merge_commit: 8b4905eaa566f74490ed866b45a9b96d5bd1d724
+  classification: unspecified
+
+# Refactor pcurves affine conversions and inversion usage
+#   Author:    @randombit
+- pr: 4217  # https://github.com/randombit/botan/pull/4217
+  merge_commit: c319901d34701d28faa093343c8d157068c04c99
+  classification: unspecified
+
+# Bridge pcurves into the main elliptic curve arithmetic
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4143  # https://github.com/randombit/botan/pull/4143
+  merge_commit: a27f5a28634ec032c5dfcced7bec8ead73f19652
+  classification: unspecified
+
+# Define more deprecated EC_Group functions in terms of new interfaces
+#   Author:    @randombit
+- pr: 4300  # https://github.com/randombit/botan/pull/4300
+  merge_commit: 14992741b1b9e65f621fbf91d0726d80e1be2bad
+  classification: unspecified

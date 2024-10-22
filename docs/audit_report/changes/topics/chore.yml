@@ -1,0 +1,224 @@
+title: Code Maintenance
+
+description: |
+  Patches in this section improve parts of the code base which typically does not
+  affect the functionality of the library. If the changes directly and substantially
+  affect code relevant for security, they are classified as "relevant".
+
+patches:
+# Chore: Centralize Strong<> type unwrapping  (@reneme)
+- pr: 4170  # https://github.com/randombit/botan/pull/4170
+  merge_commit: bb9c069a2688065bf354356190156a34cbce98d2
+  classification: info
+
+# Fix usage of Botan_Tests:: prefix within the tests  (@randombit)
+- pr: 4188  # https://github.com/randombit/botan/pull/4188
+  merge_commit: d14ca951180b7bb688a8e6f2ee752c0cc4388c94
+  classification: info
+  auditer: reneme
+
+# Use span in PK operations and avoid needless secure_vector
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4239  # https://github.com/randombit/botan/pull/4239
+  merge_commit: a66e2520739f1988f3d7291432e24e3ff59a8552
+  classification: info
+
+# FIX: Test a list of UTF-8 encoded root certs
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4280  # https://github.com/randombit/botan/pull/4280
+  merge_commit: 0d4969aedde1716f5254e20cd9a35ad42939495a
+  classification: info
+
+# FIX: allow multiple BOTAN_REGISTER_TEST_FN()
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4277  # https://github.com/randombit/botan/pull/4277
+  merge_commit: 03d8b16bbe4c007e879f2061938d2466247e18ed
+  classification: info
+
+# Refactor internal usage of PK encryption padding
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4238  # https://github.com/randombit/botan/pull/4238
+  merge_commit: ba02fa071fdf22ac7b3843856af4c5202a43936f
+  classification: relevant
+  comment: |
+    This refactors the handling of RSA paddings for encryption for
+    better memory safety and code clarity.
+
+# Use array-based load_be/le in MD hashes
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4244  # https://github.com/randombit/botan/pull/4244
+  merge_commit: e1fc592917ae0b31b7364cd9b13aae8acf81030e
+  classification: relevant
+  comment: |
+    Simplifies the code of the inner hash loops by using better abstractions.
+
+# Add CPUID enablement for x86 VAES, GFNI, SHA-512, SM3, and SM4
+#   Author:    @randombit
+- pr: 4286  # https://github.com/randombit/botan/pull/4286
+  merge_commit: 954a758e6ffda30ff2b851eb2ebaacde133bc44b
+  classification: info
+  auditer: reneme
+
+# Fix: Deprecated Module in BSI Policy
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4293  # https://github.com/randombit/botan/pull/4293
+  merge_commit: e0a3ed6b92117e85128b97af9e7e4069c41ced17
+  classification: relevant
+  auditer: reneme
+  comment: |
+    Fixes a compile error when building with the BSI policy and disabling
+    deprecated modules.
+
+# Avoid testing multiple bits in CPUID feature checks
+#   Author:    @randombit
+- pr: 4290  # https://github.com/randombit/botan/pull/4290
+  merge_commit: 6a88af1d6e5be1ce415a5df6f44c727bc3460645
+  classification: info
+  auditer: reneme
+
+# Fix: MSVC Unreachable Code Debug Warnings
+#   Author:    @FAlbertDev
+#   Approvals: @reneme
+- pr: 4297  # https://github.com/randombit/botan/pull/4297
+  merge_commit: d0f11a6a0f3ab7b0b13510a34682d6e3aa7b72bd
+  classification: info
+
+# Fix artifact of applying clang-format
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4306  # https://github.com/randombit/botan/pull/4306
+  merge_commit: 06061a9e773712d421007e91114681abd4289be4
+  classification: info
+
+# Fix timer usage in benchmarks
+#   Author:    @randombit
+- pr: 4311  # https://github.com/randombit/botan/pull/4311
+  merge_commit: d463bc0187fc30cd1630191b39d1238601533591
+  classification: info
+  auditer: reneme
+
+# Provides auxiliary vector support for OpenBSD
+#   Author:    @brad0
+#   Approvals: (@randombit)
+- pr: 4312  # https://github.com/randombit/botan/pull/4312
+  merge_commit: 69ad604ff8ba35860cfb22be3ed4e763ea07ba2c
+  classification: info
+  auditer: reneme
+
+# Fix ppc64 CPUID
+#   Author:    @randombit
+- pr: 4316  # https://github.com/randombit/botan/pull/4316
+  merge_commit: 90c5665c0f4c4bfa835e41b3d2f32d7bea1a151d
+  classification: info
+  auditer: reneme
+
+# Fix header include in a test
+#   Author:    @randombit
+- pr: 4319  # https://github.com/randombit/botan/pull/4319
+  merge_commit: 197979994b17a3adc2ec944db2119a4a9abbca11
+  classification: info
+  auditer: reneme
+
+# Remove obsolete hack for Android getauxval
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4317  # https://github.com/randombit/botan/pull/4317
+  merge_commit: 917857c74b2c4334b1e8b6427753bf5c9718e884
+  classification: info
+
+# Clean up CPU extension flags
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4331  # https://github.com/randombit/botan/pull/4331
+  merge_commit: a7f2305ae71c1c7e877f1663becfe9f980614751
+  classification: info
+
+# Update Fuzzer documentation and Configuration
+#   Author:    @Logix64
+#   Approvals: (@randombit)
+- pr: 4114  # https://github.com/randombit/botan/pull/4114
+  merge_commit: 00eb2d290189340500a8096e1817ad53a1340170
+  classification: out of scope
+  auditer: reneme
+
+# Fix mp_redc_crandall fuzzer
+#   Author:    @randombit
+- pr: 4358  # https://github.com/randombit/botan/pull/4358
+  merge_commit: 1fe3150f597053313ecd2b22127ddd9a097c81ca
+  classification: out of scope
+  auditer: reneme
+
+# Deprecate various aliases for the public key padding code
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4355  # https://github.com/randombit/botan/pull/4355
+  merge_commit: bd89aa31452ac3d17774f1df7329471512c6e7e5
+  classification: info
+
+# Reorder/rephrase output from X509_Certificate::to_string
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4330  # https://github.com/randombit/botan/pull/4330
+  merge_commit: 175b1f2a8df2cf8003880ec1c79bcf9d25c09918
+  classification: info
+
+# Allow using `secure_allocator` for enum types, like `std::byte`
+#   Author:    @Delta-dev-99
+#   Approvals: @reneme
+- pr: 4353  # https://github.com/randombit/botan/pull/4353
+  merge_commit: 278dc55870ae482ebe6628a818d104b94894e7af
+  classification: unspecified
+
+# Better abstraction to test view-style FFI APIs
+#   Author:    @reneme
+#   Approvals: @FAlbertDev
+- pr: 4372  # https://github.com/randombit/botan/pull/4372
+  merge_commit: ed74c9542241f47c2e3c6ff68cbf6731de643b73
+  classification: unspecified
+
+# Initial refactoring of speed cmdlet
+#   Author:    @randombit
+- pr: 4364  # https://github.com/randombit/botan/pull/4364
+  merge_commit: c2a759b8ce51203ffe07cd016aa718176f54fc75
+  classification: unspecified
+
+# In speed cmdlet handle MACs which require a fresh key or nonce
+#   Author:    @randombit
+- pr: 4363  # https://github.com/randombit/botan/pull/4363
+  merge_commit: 924060344d0ce0b6b3736a37fb779e9f70250b4e
+  classification: info
+  auditer: reneme
+
+# Refactor public key related performance test code
+#   Author:    @randombit
+- pr: 4367  # https://github.com/randombit/botan/pull/4367
+  merge_commit: 2cc573c31ceaa71d04adbd201a7105abd61d3cee
+  classification: info
+  auditer: reneme
+
+# Refactor performance testing of symmetric algorithms
+#   Author:    @randombit
+- pr: 4369  # https://github.com/randombit/botan/pull/4369
+  merge_commit: 0cbc2fe3f76feb2e34ccf1d6904f5e3b1b00bb06
+  classification: info
+  auditer: reneme
+
+# Cleanups after refactoring of speed cli
+#   Author:    @randombit
+- pr: 4378  # https://github.com/randombit/botan/pull/4378
+  merge_commit: 76e11d7bf488ad499477573828c318756c86a718
+  classification: info
+  auditer: reneme
+
+# test_pk_pad.cpp #ifdef fix
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4380  # https://github.com/randombit/botan/pull/4380
+  merge_commit: c2c8f16d32b3c3bd7e77f1fb9b16be046001fab0
+  classification: info

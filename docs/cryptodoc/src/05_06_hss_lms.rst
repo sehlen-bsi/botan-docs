@@ -299,7 +299,7 @@ Key Generation
 
 HSS key generation follows Section 6.1. of [RFC8554]_ and is implemented
 within the ``HSS_LMS_PrivateKeyInternal`` constructor (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:114|HSS_LMS_PrivateKeyInternal`)
-and ``HSS_LMS_PublicKeyInternal::create`` (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:297|HSS_LMS_PublicKeyInternal::create`).
+and ``HSS_LMS_PublicKeyInternal::create`` (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:298|HSS_LMS_PublicKeyInternal::create`).
 
 Note that [RFC8554]_ and [SP800-208]_ require that all LMS instances' public/private key
 pairs must be created independently from each other. Since Botan applies the seed
@@ -401,7 +401,7 @@ Signature Validation
 
 Botan's method ``HSS_LMS_Verification_Operation::is_valid_signature`` verifies a
 signature-message pair by implementing the method of Section 6.3. of [RFC8554]_
-(see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:342|HSS_LMS_PublicKeyInternal::verify_signature`).
+(see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:343|HSS_LMS_PublicKeyInternal::verify_signature`).
 It does the following:
 
 .. admonition:: HSS Signature Validation

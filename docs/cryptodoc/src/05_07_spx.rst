@@ -105,8 +105,8 @@ creation because all calls to the ``T`` and ``PRF`` functions use the public
 seed as input. All underlying hash function members are instantiated in the
 constructor according to Section 7.2 of [SPX-R3]_. The specific child classes
 for the SHA2 and SHAKE modules are given in
-:srcref:`[src/lib/pubkey/sphincsplus]/sphincsplus_sha2/sp_hash_sha2.h` and
-:srcref:`[src/lib/pubkey/sphincsplus]/sphincsplus_shake/sp_hash_shake.h`,
+:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus_sha2_base/sp_hash_sha2.h` and
+:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus_shake_base/sp_hash_shake.h`,
 respectively.
 
 The specification defines three tweaked hash functions that share similarities.
@@ -290,7 +290,7 @@ SPHINCS+ parameter sets <pubkey_key_generation/sphincsplus/params_table>`.
    +----------------------------------+-------------+-------------+-----------+-----------------+-----------+-----------+
 
 SPHINCS\ :sup:`+` key generation follows Section 6.2 of [SPX-R3]_ and is
-implemented in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:254|SphincsPlus_PrivateKey`
+implemented in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp`
 within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
 
 .. admonition:: SPHINCS+ Key Generation
@@ -321,7 +321,7 @@ Signature Creation
 ------------------
 
 A SPHINCS\ :sup:`+` signature is created in the following manner, following
-Algorithm 20 of [SPX-R3]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:295|sign`):
+Algorithm 20 of [SPX-R3]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp`):
 
 .. admonition:: SPHINCS+ Signature Creation
 
@@ -351,7 +351,7 @@ Signature Validation
 --------------------
 
 A SPHINCS\ :sup:`+` signature is verified in the following manner, following
-Algorithm 21 of [SPX-R3]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:158|is_valid_signature`):
+Algorithm 21 of [SPX-R3]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp`):
 
 .. admonition:: SPHINCS+ Signature Validation
 

@@ -19,30 +19,30 @@ The table below provides pointers to the implementation of Kyber's high-level al
    +---------------------------------------------------------+----------------------------------------------------------------------------------+
    | Algorithm                                               | Implementation in Botan                                                          |
    +=========================================================+==================================================================================+
-   | :ref:`Key Generation <pubkey_key_generation/kyber>`     | :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:205|Kyber_PrivateKey`     |
+   | :ref:`Key Generation <pubkey_key_generation/kyber>`     | :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp`                          |
    +---------------------------------------------------------+----------------------------------------------------------------------------------+
-   | :ref:`CPAPKE Encryption <pubkey/kyber/cpapke_enc>`      | :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:29|indcpa_encrypt`   |
+   | :ref:`CPAPKE Encryption <pubkey/kyber/cpapke_enc>`      | :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp`                     |
    +---------------------------------------------------------+----------------------------------------------------------------------------------+
-   | :ref:`CPAPKE Decryption <pubkey/kyber/cpapke_dec>`      | :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:57|indcpa_decrypt`   |
+   | :ref:`CPAPKE Decryption <pubkey/kyber/cpapke_dec>`      | :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp`                     |
    +---------------------------------------------------------+----------------------------------------------------------------------------------+
-   | :ref:`CCAKEM Encapsulation <pubkey/kyber/ccakem_enc>`   | :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_encaps.cpp:23|encapsulate`    |
+   | :ref:`CCAKEM Encapsulation <pubkey/kyber/ccakem_enc>`   | :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_round3_impl.cpp`              |
    +---------------------------------------------------------+----------------------------------------------------------------------------------+
-   | :ref:`CCAKEM Decapsulation <pubkey/kyber/ccakem_dec>`   | :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_encaps.cpp:39|decapsulate`    |
+   | :ref:`CCAKEM Decapsulation <pubkey/kyber/ccakem_dec>`   | :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_round3_impl.cpp`              |
    +---------------------------------------------------------+----------------------------------------------------------------------------------+
 
 **Keys**
 
-The class ``Kyber_PublicKeyInternal`` (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_keys.h:21|Kyber_PublicKeyInternal`) supplies the values ``m_rho`` (the public seed) and ``m_t`` (:math:`\mathbf{\hat{t}}` of L.2, Alg. 5 [Kyber-R3]_).
+The class ``Kyber_PublicKeyInternal`` (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_keys.h`) supplies the values ``m_rho`` (the public seed) and ``m_t`` (:math:`\mathbf{\hat{t}}` of L.2, Alg. 5 [Kyber-R3]_).
 In the following, we denote the public key as ``pk = (pk_t, seed)``.
 
-The class ``Kyber_PrivateKeyInternal`` (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_keys.h:50|Kyber_PrivateKeyInternal`) supplies the secret polynomial vector ``m_s`` (:math:`\mathbf{\hat{s}}`, L.3, Alg. 6, [Kyber-R3]_) and the implicit rejection value ``m_z``.
+The class ``Kyber_PrivateKeyInternal`` (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_keys.h`) supplies the secret polynomial vector ``m_s`` (:math:`\mathbf{\hat{s}}`, L.3, Alg. 6, [Kyber-R3]_) and the implicit rejection value ``m_z``.
 We, therefore, denote the secret key as ``sk = (sk_s, z)``.
 
 **Ciphertexts**
 
 The ``Ciphertext`` class is given a ``PolynomialVector b``, a ``Polynomial v``, and a ``KyberMode mode``. A ciphertext instance is represented via the members ``b`` and ``v`` (corresponding to :math:`\textbf{u}` and :math:`v` of [Kyber-R3]_, respectively).
 
-Furthermore, the ``Ciphertext`` class (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_structures.h:554|Ciphertext`) provides ciphertext compression and encoding.
+Furthermore, the ``Ciphertext`` class provides ciphertext compression and encoding.
 The implementation of the algorithms :math:`\mathsf{Compress}_q(x,d)` and :math:`\mathsf{Decompress}_q(x,d)` of [Kyber-R3]_ are optimized for all occurring values of :math:`d`.
 The compression with :math:`d=d_u` and :math:`d=d_v` [#kyber_du_dv]_ is implemented in two respective ``Ciphertext::compress`` methods, i.e., one for polynomial vectors and one for polynomials. The same holds for decompression via ``Ciphertext::decompress_polynomial_vector`` and ``Ciphertext::decompress_polynomial``.
 The public member functions ``Ciphertext::from_bytes`` and ``Ciphertext::to_bytes`` use this to realize **L. 1/L. 2 of Alg. 6** [Kyber-R3]_ and **L. 21/L. 22 of Alg. 5** [Kyber-R3]_, respectively.
@@ -50,7 +50,7 @@ The compression and decompression with :math:`d=1` are performed simultaneously 
 
 Compression in Kyber requires division by the Kyber constant ``q``. However,
 this division may introduce timing side-channels on some platforms.
-Botan uses the ``ct_int_div_kyber_q`` (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_structures.h:45|ct_int_div_kyber_q`) function to address this issue, which performs
+Botan uses the ``ct_int_div_kyber_q`` function to address this issue, which performs
 constant-time division by ``q``. This function leverages
 a technique described in [HD]_, where the fraction ``n/q`` is extended by a
 specific constant ``m`` to become ``(m*n)/(m*q)``. Here, ``m`` is chosen so that
@@ -70,7 +70,7 @@ constant-time operations.
 Algorithm Internals
 -------------------
 
-All possible modes are represented by the class ``KyberMode`` found in :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber.h:30|KyberMode`.
+All possible modes are represented by the class ``KyberMode`` found in :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber.h`.
 The ``_90s`` suffix denotes different symmetric functions for Kyber's \"90s mode\", which uses SHA2 and AES instead of SHA3 and SHAKE as symmetric primitives.
 The abstract adapter class ``Kyber_Symmetric_Primitives`` is the interface for Kyber's five symmetric primitives, which are instantiated either as a ``Kyber_Modern_Symmetric_Primitives`` object (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber/kyber_modern.h:23|Kyber_Modern_Symmetric_Primitives`) for modern Kyber
 or as a ``Kyber_90s_Symmetric_Primitives`` one (in :srcref:`[src/lib/pubkey/kyber]/kyber_round3/kyber_90s/kyber_90s.h:23|Kyber_90s_Symmetric_Primitives`) for the 90s variant (see Table :ref:`Kyber's symmetric primitives <pubkey_key_generation/kyber/table_sym_primitives>`).
@@ -108,7 +108,7 @@ For each mode, the ``KyberConstants`` class contains the corresponding set of pa
    NIST decided not to standardize those variants in their final ML-KEM standard.
 
 Kyber itself is implemented in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp`.
-Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes (see :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_structures.h`), respectively.
+Basic representations and operations on polynomials, polynomial vectors, and polynomial matrices are given via the ``Polynomial``, ``PolynomialVector``, and ``PolynomialMatrix`` classes, respectively.
 ``Polynomial`` and ``PolynomialVector`` support member functions ``.ntt()`` and ``.invntt()`` for the number-theoretic transform (NTT; see more details in Section 1.1 of [Kyber-R3]_) and fast multiplication in the NTT domain.
 Multiplication of two polynomial vectors in NTT domain ``a*b`` is given via the function ``PolynomialVector::pointwise_acc_montgomery`` using Montgomery reduction.
 Note that the inverse NTT is called ``.invntt_tomont()`` in Botan's implementation as it directly multiplies by the Montgomery factor; however, for simplicity, we write ``.invntt()`` in this documentation.

@@ -20,8 +20,86 @@ patches:
   classification: info
   auditer: FAlbertDev
 
-# Add 2.19.5 release notes [ci skip]  (Jack Lloyd)
-- commit: 939f200875f708f6b281b6aa3d38bc62a5b80355  # https://github.com/randombit/botan/commit/939f200875f708f6b281b6aa3d38bc62a5b80355
+# Doc: Example code how to load raw ECC keys  (@reneme)
+- pr: 4227  # https://github.com/randombit/botan/pull/4227
+  merge_commit: 681a035087bc608a34ae36cc3142495a13916627
   classification: info
-  auditer: FAlbertDev
 
+# Update various documentation comments  (@randombit)
+- pr: 4185  # https://github.com/randombit/botan/pull/4185
+  merge_commit: a46783c4dd411aa827e2983aa2f958a6407ff7bb
+  classification: info
+
+# Doc: clarify definition of 'Internal' modules
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4281  # https://github.com/randombit/botan/pull/4281
+  merge_commit: a660b8451437448dd86701db44bd30d6257bcfd1
+  classification: info
+
+# Update ECC documentation for EC_Scalar / EC_AffinePoint
+#   Author:    @randombit
+- pr: 4284  # https://github.com/randombit/botan/pull/4284
+  merge_commit: d5062e515910a978c8157b936e6ef2f4f8b3003e
+  classification: info
+  auditer: reneme
+
+# Update todos [ci skip]
+#   Author: Jack Lloyd
+- commit: f3e5744c10a23bc65a291e2544a161ee9393ed5d  # https://github.com/randombit/botan/commit/f3e5744c10a23bc65a291e2544a161ee9393ed5d
+  classification: info
+  auditer: reneme
+
+# Mention Editor Integration for new contributors
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4310  # https://github.com/randombit/botan/pull/4310
+  merge_commit: c2491c7808e92527146c3dbe88608b664804549a
+  classification: info
+
+# Display the module name in the doxygen modules
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4333  # https://github.com/randombit/botan/pull/4333
+  merge_commit: 33c953a108d93c6a569a59bfebfafd0efd103db4
+  classification: info
+
+# Example fix: Use more secure KEM combination in example
+#   Author:    @FAlbertDev
+#   Approvals: @reneme
+- pr: 4344  # https://github.com/randombit/botan/pull/4344
+  merge_commit: 7e28dda59a89c5d261c12603b4287224483e2595
+  classification: info
+
+# Shift the release schedule over by one month, and to Tuesdays.
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4370  # https://github.com/randombit/botan/pull/4370
+  merge_commit: 05f4053c779cdf98310a1698e958d12dfdf68689
+  classification: info
+
+# Update block cipher docs a bit [ci skip]
+#   Author: Jack Lloyd
+- commit: 7b80f600a328b90d54023c5c55f23747df516fda  # https://github.com/randombit/botan/commit/7b80f600a328b90d54023c5c55f23747df516fda
+  classification: info
+  auditer: reneme
+
+# Add a todo [ci skip]
+#   Author: Jack Lloyd
+- commit: 04653933c6885d3104c47712dd9b9f2e1a8fca0c  # https://github.com/randombit/botan/commit/04653933c6885d3104c47712dd9b9f2e1a8fca0c
+  classification: info
+  auditer: reneme
+
+# Doc: Minor Cleanups and TODO updates
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4392  # https://github.com/randombit/botan/pull/4392
+  merge_commit: 087f6ca2fbf8ad4267e60bf2ae65a9319619d130
+  classification: info
+
+# Update credits.rst and authors.txt
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4387  # https://github.com/randombit/botan/pull/4387
+  merge_commit: e24dd8aa34db77587a178f47271bd3fdcbbffc63
+  classification: info
