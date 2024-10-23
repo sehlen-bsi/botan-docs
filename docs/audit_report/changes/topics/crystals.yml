@@ -1,27 +1,40 @@
 title: Kyber/Dilithium Overhaul
 
+description: |
+  The changes of this section are related to the refactoring of Kyber and Dilithium
+  prior to the ML-KEM and ML-DSA integration.
 patches:
 # Refactor: Have a common base for Kyber/Dilithium structures  (@reneme)
 - pr: 4024  # https://github.com/randombit/botan/pull/4024
   merge_commit: 2fe687bf60b8eda1048cfe92f73ba2568cf53172
-  classification: unspecified
+  classification: critical
+  comment: |
+    This PR refactors the Kyber and Dilithium implementation to have a common base.
+    Especially regarding polynomials, both schemes share common structures that
+    are unified with this PR.
 
 # Fix: Kyber MSVC Warnings
 #   Author:    @FAlbertDev
 #   Approvals: @reneme
 - pr: 4294  # https://github.com/randombit/botan/pull/4294
   merge_commit: b227a5db61faa5b4fec6bc58f7c412f7497e0b94
-  classification: unspecified
+  classification: info
 
 # Fix GCC warning
 #   Author:    @randombit
 - pr: 4301  # https://github.com/randombit/botan/pull/4301
   merge_commit: b4681247060096f08cb62fb966c51d259526474f
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # FIX: Assertion may be false for untrusted data
 #   Author:    @reneme
 #   Approvals: (@randombit)
 - pr: 4391  # https://github.com/randombit/botan/pull/4391
   merge_commit: 3a62c9ab5fc082578a9a1483b15ff7a3d0a4474b
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Prevents that an unintended debug assertion exception is thrown
+    when a decoding exception is expected. Only relevant for
+    builds with enabled debug assertions.
+
