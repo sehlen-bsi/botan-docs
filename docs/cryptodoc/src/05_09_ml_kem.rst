@@ -56,7 +56,7 @@ shows an overview of all ML-KEM components and their file locations.
    +-----------------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------+------------------------+
    | :ref:`Compression Helpers <pubkey/kyber/compr_helpers>`   | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_helpers.h`              | Specific bit operations, compression and decompression             | 4.2.1                  |
    +-----------------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------+------------------------+
-   | :ref:`Polynomials <pubkey/kyber/polynomials>`             | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_polynomials.h`          | Polynomials and polynomial vectors, matrices, and operations       | 4.3                    |
+   | :ref:`Polynomials <pubkey/kyber/polynomials>`             | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_polynomial.h`           | Polynomials and polynomial vectors, matrices, and operations       | 4.3                    |
    +-----------------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------+------------------------+
    | :ref:`Supporting Algorithms <pubkey/kyber/sup_algos>`     | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.h`                | Byte encoding, sampling, polynomial encoding, keypair expansion    | 4.2.1, 4.2.2, 5.1, 6.1 |
    +-----------------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------+------------------------+
@@ -138,7 +138,7 @@ polynomial logic between the two algorithms. This shared logic is located in
 :srcref:`[src/lib/pubkey]/pqcrystals/pqcrystals.h`, encompassing common
 operations on vectors and matrices, as well as algorithm-independent operations
 like polynomial addition and subtraction. The ML-KEM specific logic implemented
-in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_polynomials.h` supplements
+in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_polynomial.h` supplements
 this construction by including the NTT (Algorithm 9 of [FIPS-203]_) and inverse
 NTT (Algorithm 10 of [FIPS-203]_) operations, along with NTT polynomial
 multiplication (Algorithms 11 and 12 of [FIPS-203]_).
@@ -282,11 +282,11 @@ Key Generation
 --------------
 
 The high-level ML-KEM key generation (Algorithm 19) is implemented in
-:srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber.cpp:232|Kyber_PrivateKey::Kyber_PrivateKey`
+:srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:232|Kyber_PrivateKey::Kyber_PrivateKey`
 within the ``Kyber_PrivateKey`` constructor. It delegates to the
 internal and K-PKE key generation algorithms (Algorithms 16 and 13 of
 [FIPS-203]_) implemented in
-:srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber_algos.cpp:321|expand_keypair`.
+:srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_algos.cpp:321|expand_keypair`.
 In combination, Botan does the following:
 
 .. admonition:: Kyber_PrivateKey::Kyber_PrivateKey
@@ -315,9 +315,9 @@ In combination, Botan does the following:
    **Notes:**
 
    - Step 1 corresponds to Algorithm 19 of [FIPS-203]_ and is performed in
-     :srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber.cpp:232|Kyber_PrivateKey::Kyber_PrivateKey`.
+     :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:232|Kyber_PrivateKey::Kyber_PrivateKey`.
    - Steps 2-7 correspond to Algorithms 16 and 13 of [FIPS-203]_ and are
-     performed in :srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber_algos.cpp:321|expand_keypair`.
+     performed in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_algos.cpp:321|expand_keypair`.
    - Botan follows the consensus [#seed_keys]_ that only the seeds are
      stored in the private key. The required values for
      decapsulation are recomputed on demand. Loading or storing the partially
@@ -335,7 +335,7 @@ The algorithms for high-level ML-KEM encapsulation and internal encapsulation
 :srcref:`[src/lib/pubkey/kyber]/ml_kem/ml_kem_impl.cpp:25|ML_KEM_Encryptor::encapsulate`.
 They use the K-PKE encapsulation algorithm (Algorithm 14 of [FIPS-203]_)
 implemented in
-:srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber_keys.cpp:55|Kyber_PublicKeyInternal::indcpa_encrypt`.
+:srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:55|Kyber_PublicKeyInternal::indcpa_encrypt`.
 In combination, Botan does the following:
 
 .. admonition:: ML_KEM_Encryptor::encapsulate
@@ -373,7 +373,7 @@ In combination, Botan does the following:
    - Steps 1-3 correspond to Algorithms 20 and 17 of [FIPS-203]_ and are
      performed in :srcref:`[src/lib/pubkey/kyber]/ml_kem/ml_kem_impl.cpp:25|ML_KEM_Encryptor::encapsulate`.
    - Steps 1.1-1.9 correspond to Algorithms 14 of [FIPS-203]_ and are performed
-     in :srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber_keys.cpp:55|indcpa_encrypt`.
+     in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:55|indcpa_encrypt`.
    - The transposed matrix ``At`` is precomputed and stored in the public key
      object. This way, consecutive encapsulations for the same public key do not
      have to re-generate ``At`` from ``rho``.
@@ -389,9 +389,9 @@ The algorithms for high-level ML-KEM decapsulation and internal decapsulation
 :srcref:`[src/lib/pubkey/kyber]/ml_kem/ml_kem_impl.cpp:48|ML_KEM_Decryptor::decapsulate`.
 They use the K-PKE encapsulation and decapsulation algorithms (Algorithm 14
 and 15 of [FIPS-203]_) implemented in
-:srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber_keys.cpp:55|Kyber_PublicKeyInternal::indcpa_encrypt`
+:srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:55|Kyber_PublicKeyInternal::indcpa_encrypt`
 and
-:srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber_keys.cpp:84|Kyber_PrivateKeyInternal::indcpa_decrypt`.
+:srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:84|Kyber_PrivateKeyInternal::indcpa_decrypt`.
 In combination, Botan does the following:
 
 .. admonition:: ML_KEM_Decryptor::decapsulate
@@ -425,5 +425,5 @@ In combination, Botan does the following:
    - Steps 1,2 and 6-9 correspond to Algorithm 18 of [FIPS-203]_ and are
      performed in :srcref:`[src/lib/pubkey/kyber]/ml_kem/ml_kem_impl.cpp:48|ML_KEM_Decryptor::decapsulate`.
    - Steps 2.1-2.3 correspond to Algorithm 15 of [FIPS-203]_ and are performed
-     in :srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber_keys.cpp:84|Kyber_PrivateKeyInternal::indcpa_decrypt`.
+     in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:84|Kyber_PrivateKeyInternal::indcpa_decrypt`.
    - Step 6 uses a constant time check and memory assignment function.
