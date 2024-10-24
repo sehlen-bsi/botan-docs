@@ -106,8 +106,9 @@ creation because all calls to the ``T`` and ``PRF`` functions use the public
 seed as input. All underlying hash function members are instantiated in the
 constructor according to Sections 11.1 and 11.2 of [FIPS-205]_. The specific
 child classes for the SHA2 and SHAKE modules are given in
-:srcref:`[src/lib/pubkey/sphincsplus]/sphincsplus_sha2/sp_hash_sha2.h` and
-:srcref:`[src/lib/pubkey/sphincsplus]/sphincsplus_shake/sp_hash_shake.h`,
+:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus_sha2_base/sp_hash_sha2.h` and
+:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus_shake_base/sp_hash_shake.h`.
+
 respectively.
 
 The specification defines three tweaked hash functions that share similarities.
