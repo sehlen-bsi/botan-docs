@@ -112,6 +112,7 @@ may produce non-constant-time instructions.
 
 To mitigate this risk, Botan employs an alternative division algorithm commonly
 used by many compilers for optimization. Based on a technique described in
+Section 10-9 of
 [HD]_, this algorithm replaces division with multiplication followed
 by a right-shift operation. [HD]_ provides a method for selecting constants for
 multiplication and shifting to ensure consistent results across all inputs
@@ -142,7 +143,7 @@ this construction by including the NTT (Algorithm 9 of [FIPS-203]_) and inverse
 NTT (Algorithm 10 of [FIPS-203]_) operations, along with NTT polynomial
 multiplication (Algorithms 11 and 12 of [FIPS-203]_).
 
-Due to this type-based construction, the C++ compiler can detect specific
+Due to this type-based construction, the C++ compiler can detect domain-specific
 implementation issues statically. For instance, the polynomial
 multiplication operation is only defined for the ``PolyVecNTT`` type. Misuse
 would result in a compile-time error.
@@ -183,7 +184,7 @@ summary of these functions and their specific purposes.
    | ``compress_ciphertext``      | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:352|compress_ciphertext`       | Compress, byte encode, and concatenate polynomial vector             | 5, Formula 4.7            |
    |                              |                                                                                             | :math:`\mathbf{u}` and polynomial :math:`\mathbf{v}`                 |                           |
    +------------------------------+---------------------------------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
-   | ``decompress_ciphertext``    | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:362|decompress_ciphertext`     | Split, byte decode, and decompress bytes to polynomial vector        | 6, Formula4.8             |
+   | ``decompress_ciphertext``    | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:362|decompress_ciphertext`     | Split, byte decode, and decompress bytes to polynomial vector        | 6, Formula 4.8            |
    |                              |                                                                                             | :math:`\mathbf{u'}` and polynomial :math:`\mathbf{v'}`               |                           |
    +------------------------------+---------------------------------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
    | ``sample_matrix``            | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:380|sample_matrix`             | Samples a matrix from a secret seed                                  | 7, 13                     |
@@ -265,8 +266,8 @@ Kyber
 ^^^^^
 
 For compatibility reasons, Botan continues to support the Kyber Round 3.1 NIST
-submission [Kyber-R3]_, which was implemented and released before the release of
-the final standard. The Kyber and Kyber 90s instances can be activated by
+implementation [Kyber-R3]_, which was implemented and released before the completion
+of the final standard. The Kyber and Kyber 90s instances can be activated by
 enabling the ``kyber`` or ``kyber_90s`` module, respectively.
 
 Note that the Kyber 90s is already marked as deprecated, and both Kyber and
@@ -293,7 +294,7 @@ In combination, Botan does the following:
    **Input:**
 
    -  ``rng``: random number generator
-   -  ``mode``: ML-KEM mode
+   -  ``mode``: ML-KEM mode (containing matrix dimension ``k``)
 
    **Output:**
 
@@ -303,7 +304,7 @@ In combination, Botan does the following:
    **Steps:**
 
    1. Generate the random seed ``seed.d`` and the implicit rejection value ``seed.z`` at random using ``rng``
-   2. ``(rho, sigma) = G(d)``
+   2. ``(rho, sigma) = G(seed.d || k)``
    3. Sample matrix ``A`` from ``rho`` using ``sample_matrix``
    4. Initialize a ``PolynomialSampler`` ``ps`` with ``sigma``
    5. ``s = ntt(ps.sample_polynomial_vector_cbd_eta1())``
@@ -317,10 +318,12 @@ In combination, Botan does the following:
      :srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber.cpp:232|Kyber_PrivateKey::Kyber_PrivateKey`.
    - Steps 2-7 correspond to Algorithms 16 and 13 of [FIPS-203]_ and are
      performed in :srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber_algos.cpp:321|expand_keypair`.
-   - Botan only stores the seeds as the secret key. The required values for
+   - Botan follows the consensus [#seed_keys]_ that only the seeds are
+     stored in the private key. The required values for
      decapsulation are recomputed on demand. Loading or storing the partially
      expanded key format specified in [FIPS-203]_ is explicitly not supported.
 
+.. [#seed_keys] See `<https://mailarchive.ietf.org/arch/msg/spasm/KPg3lbPeNms2H5PNDBt0iJByuE0/>`_
 
 .. _pubkey/kyber/encaps:
 
@@ -354,7 +357,7 @@ In combination, Botan does the following:
    3. K-PKE encrypt ``m`` using ``r`` to obtain ciphertext ``c``
 
       1. Sample transposed matrix ``At`` from ``rho`` using ``sample_matrix``
-      2. Initialize a ``PolynomialSampler`` ``ps`` with ``sigma``
+      2. Initialize a ``PolynomialSampler`` ``ps`` with ``r``
       3. ``y = ntt(ps.sample_polynomial_vector_cbd_eta1())``
       4. ``e1 = ps.sample_polynomial_vector_cbd_eta2()``
       5. ``e2 = ps.sample_polynomial_cbd_eta2()``
@@ -384,7 +387,7 @@ Key Decapsulation
 The algorithms for high-level ML-KEM decapsulation and internal decapsulation
 (Algorithms 21 and 18 of [FIPS-203]_) are implemented in
 :srcref:`[src/lib/pubkey/kyber]/ml_kem/ml_kem_impl.cpp:48|ML_KEM_Decryptor::decapsulate`.
-They uses the K-PKE encapsulation and decapsulation algorithms (Algorithm 14
+They use the K-PKE encapsulation and decapsulation algorithms (Algorithm 14
 and 15 of [FIPS-203]_) implemented in
 :srcref:`[src/lib/pubkey/kyber]/kyber/kyber_common/kyber_keys.cpp:55|Kyber_PublicKeyInternal::indcpa_encrypt`
 and
