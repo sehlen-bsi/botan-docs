@@ -1,25 +1,36 @@
 title: Encoding
-
 description: |
-  TODO: Maybe we could merge this with 'chore'
+  Most notably, the encoding and decoding functions for base64 and hex
+  encoding and decoding have been rewritten using a constant time SWAR
+  (SIMD within a register) implementation.
 
 patches:
 # Improve base64 encoding and decoding performance
 #   Author:    @randombit
 - pr: 4271  # https://github.com/randombit/botan/pull/4271
   merge_commit: efad31087c3fba7d86df98b805c381c1826161e3
-  classification: unspecified
+  classification: critical
+  auditer: FAlbertDev
+  comment: |
+    Rewrite the base64 encoding and decoding functions for performance
+    optimization. The new implementation uses a constant time SWAR
+    approach.
 
 # Add SWAR based hex encoding/decoding
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4275  # https://github.com/randombit/botan/pull/4275
   merge_commit: 65db8e32c39d00fbfa5d97859625e0a48e2aa59d
-  classification: unspecified
+  classification: critical
+  comment: |
+    Rewrite the hex encoding and decoding functions for performance
+    optimization. The new implementation uses a constant time SWAR
+    approach. Also, some new convenience functions are added for SWAR and
+    integrated into the new hex and base64 implementation.
 
 # Load/Store for SIMD type wrappers
 #   Author:    @reneme
 #   Approvals: (@randombit)
 - pr: 4288  # https://github.com/randombit/botan/pull/4288
   merge_commit: 5f4c2c3e427fde525377e23cdaeee845d534e757
-  classification: unspecified
+  classification: relevant
