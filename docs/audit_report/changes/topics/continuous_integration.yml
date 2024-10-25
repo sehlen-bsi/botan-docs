@@ -1,5 +1,10 @@
 title: Continuous Integration
 
+desciption: |
+  This section lists patches to Botan's continuous integration system.
+  None of these changes are directly relevant to security. Notable is
+  the addition of a self-test for the valgrind-based side channel tests.
+
 patches:
 # Skip xmss_unit_tests in the short valgrind run  (Jack Lloyd)
 - commit: d2bc62535e8b65c2c176801f64c397e5b2c3e47f  # https://github.com/randombit/botan/commit/d2bc62535e8b65c2c176801f64c397e5b2c3e47f
@@ -20,6 +25,10 @@ patches:
 - pr: 4182  # https://github.com/randombit/botan/pull/4182
   merge_commit: 25541afe95b8154d2c96df7f15d46e656b217340
   classification: info
+  comment: |
+    This self-test checks whether the automated valgrind-based side channel
+    avoidance tests are working correctly for the typical secret-dependent
+    execution issues found in cryptographic code.
 
 # Disable Emscripten build  (@randombit)
 - pr: 4229  # https://github.com/randombit/botan/pull/4229
@@ -41,40 +50,45 @@ patches:
 #   Approvals: @reneme
 - pr: 4253  # https://github.com/randombit/botan/pull/4253
   merge_commit: f2abbaf5d09f2a36fe83406a9f28748814c64dc7
-  classification: unspecified
+  classification: info
 
 # Add a CI job that builds with all pcurves disabled
 #   Author:    @randombit
 - pr: 4285  # https://github.com/randombit/botan/pull/4285
   merge_commit: 26296f14e8638a420c87c3720593e4c575a47100
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Update apt db before install
 #   Author:    @randombit
 - pr: 4324  # https://github.com/randombit/botan/pull/4324
   merge_commit: 3bee7a12a750c50a90d8147fa2d38c707b032592
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Move the GCC and MSVC sanitizer builds to nightly
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4359  # https://github.com/randombit/botan/pull/4359
   merge_commit: 457f3edf1899f12fa2f97997ef9d0fa87a07b36c
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # CI: Amalgamation Linkage Test and Fixes
 #   Author:    @FAlbertDev
 #   Approvals: @reneme, (@randombit)
 - pr: 4307  # https://github.com/randombit/botan/pull/4307
   merge_commit: 7e02c5c7bfae04f5c3764f1301945e9aef32d9f0
-  classification: unspecified
+  classification: info
 
 # TLS: BoGo tests update
 #   Author:    @reneme
 #   Approvals: (@randombit)
 - pr: 4389  # https://github.com/randombit/botan/pull/4389
   merge_commit: 2849ec74e772ffdceb18740fed27df9fe3689431
-  classification: unspecified
+  classification: info
+  comment: |
+    Now contains tests for key establishment based on x25519/ML-KEM-768.
 
 # Add a script for configuring our build for OSS-Fuzz [ci skip]
 #   Author: Jack Lloyd
