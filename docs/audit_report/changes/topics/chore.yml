@@ -222,3 +222,10 @@ patches:
 - pr: 4380  # https://github.com/randombit/botan/pull/4380
   merge_commit: c2c8f16d32b3c3bd7e77f1fb9b16be046001fab0
   classification: info
+
+# Cleanup test path generation
+#   Author:    @randombit
+- pr: 4283  # https://github.com/randombit/botan/pull/4283
+  merge_commit: 06139a41e0d2d517458d8221d2e8857358f3c01c
+  classification: info
+  auditer: reneme
