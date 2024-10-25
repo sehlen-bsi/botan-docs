@@ -1,12 +1,17 @@
 title: Additions
 
+description: |
+  Most notable are the additions of the new random number generator based on
+  the jitterentropy library as well as a new implementation of the AES using
+  the VAES vector instructions.
+
 patches:
 # Add support for AVX2-VAES
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4287  # https://github.com/randombit/botan/pull/4287
   merge_commit: 13edb926d2b9f493d062677406738966eed6748b
-  classification: unspecified
+  classification: relevant
 
 # Add Intel SDE to nightly CI
 #   Author:    @randombit
@@ -27,25 +32,31 @@ patches:
 #   Approvals: @reneme
 - pr: 4326  # https://github.com/randombit/botan/pull/4326
   merge_commit: dc34d6750c21d3e7c53bcdf2c451fa29b7efba98
-  classification: unspecified
+  classification: info
 
 # Add jitterentropy as RNG
 #   Author:    @ghost
 #   Approvals: @reneme, (@randombit)
 - pr: 4325  # https://github.com/randombit/botan/pull/4325
   merge_commit: 0d8c1ddab4e22933973883f1b876f717635c5036
-  classification: unspecified
+  classification: critial
+  auditer: reneme
+  comment: |
+    This is an integration of the jitterentropy library both as a free-standing
+    RNG and an entropy source for other stateful RNGs. Jitterentropy uses CPU
+    scheduling jitter as a source of entropy and relies on the system's
+    high-resolution timer and was originally authored by Stephan Müller.
 
 # FFI/Python: Expose raw public/private key encoding functions
 #   Author:    @reneme
 #   Approvals: (@randombit)
 - pr: 4368  # https://github.com/randombit/botan/pull/4368
   merge_commit: 909840c0b5b89fafa3fc1bfdd370722765aa7ffb
-  classification: unspecified
+  classification: info
 
 # FFI: Loading of raw FrodoKEM keys & FIX: "insufficient buffer handling" in FFI's decapsulate
 #   Author:    @reneme
 #   Approvals: (@randombit)
 - pr: 4373  # https://github.com/randombit/botan/pull/4373
   merge_commit: 4996790e966ea538defbe441470b5bcf892c1ddd
-  classification: unspecified
+  classification: info

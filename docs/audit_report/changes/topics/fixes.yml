@@ -98,3 +98,14 @@ patches:
   merge_commit: 39dcfa0fc212a99c5cdf8310b24e8ec7a950af4a
   classification: info
   auditer: reneme
+
+# FFI: Loading of raw FrodoKEM keys & FIX: "insufficient buffer handling" in FFI's decapsulate
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4373  # https://github.com/randombit/botan/pull/4373
+  merge_commit: 4996790e966ea538defbe441470b5bcf892c1ddd
+  classification: info
+  comment: |
+    When passing an insufficiently sized buffer into the FFI's decapsulate function,
+    the function would return a 'success' code instead of a 'buffer too small' error
+    code. The actual buffer handling was correct, just the return code was wrong.
