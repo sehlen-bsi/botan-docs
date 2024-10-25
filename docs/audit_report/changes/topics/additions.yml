@@ -1,7 +1,7 @@
 title: Additions
 
 description: |
-  Most notably are the additons of the new random number generator based on
+  Most notable are the additions of the new random number generator based on
   the jitterentropy library as well as a new implementation of the AES using
   the VAES vector instructions.
 
