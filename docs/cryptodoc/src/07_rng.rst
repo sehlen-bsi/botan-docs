@@ -849,6 +849,48 @@ getrandom
       4. ``buf += got``
       5. ``len = len - got``
 
+External RNG Providers
+----------------------
+
+.. _rng/jitter_rng:
+
+JitterEntropy Library
+---------------------
+
+JitterEntropy is a library that provides a random number generator based on the
+jitter of a CPU's execution time. For a detailed explanation of the RNG, its
+claimed security strength and assumptions, see the JitterEntropy documentation
+[JitterEntropy]_.
+
+Botan provides a convenient wrapper that exposes the JitterEntropy library as
+both a ``Botan::RandomNumberGenerator`` and a ``Botan::EntropySource``.
+
+.. admonition:: Construction
+
+   **Steps:**
+
+   1. Initialize the JitterEntropy library via ``jent_entropy_init()``
+   2. Instantiate a ``rand_data`` structure via ``jent_entropy_collector_alloc()``
+      with default flags and a default oversampling rate
+
+.. admonition:: Randomize
+
+   **Input:**
+
+   1. ``output``: The buffer receiving the true random bytes.
+
+   **Output:**
+
+   1. ``output``: The true random bytes to be returned
+
+   **Steps:**
+
+   1. ``jent_read_entropy_safe(rand_data, output.data(), output.size())``
+   2. If the call to ``jent_read_entropy_safe()`` fails, throw an ``Internal_Error``
+      exception, containing an error message derived from the JitterEntropy-library's
+      error code.
+
+
 Hardware Generators
 -------------------
 
