@@ -18,6 +18,7 @@ Contents
    07_rng
    08_entropy
    09_x509
-   10_kdf
-   11_pbkdf
+   10_tpm
+   11_kdf
+   12_pbkdf
    90_bibliographie

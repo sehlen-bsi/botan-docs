@@ -937,6 +937,61 @@ the PKCS#11 standard, e.g., a smartcard. The PKCS11_RNG is provided in
 
    1. **C\_GenerateRandom**\ (``m_session.get().handle()``, ``output``, ``output.size()``)
 
+.. _rng/tpm2:
+
+TPM2::RandomNumberGenerator
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This class provides a wrapper around the TPM 2.0 RNG interface that is part of
+the :ref:`TPM 2.0 <tpm/main>` module. No further processing of the random bytes
+is done by this class.
+
+.. admonition:: Construction
+
+   **Input:**
+
+   - ``ctx``: A TPM2::Context object.
+   - ``sessions``: A bundle of TPM::Session objects
+
+   **Output:**
+
+   - A ready-to-use TPM2::RandomNumberGenerator instance
+
+   **Steps:**
+
+   1. ``Esys_GetCapability(ctx, sessions, TPM2_PT_MAX_DIGEST, ...)`` to obtain
+      the maximum number of bytes ``m_max`` consumable from a single RNG invocation
+
+.. admonition:: Reseeding
+
+   **Input:**
+
+   - ``in``: Additional input received from the consuming application.
+
+   **Steps:**
+
+   1. ``Esys_StirRandom(ctx, sessions, in)``
+
+.. admonition:: Randomize
+
+   **Input:**
+
+   - ``bytes``: Number of random bytes to be generated.
+
+   **Output:**
+
+   - ``output``: The pseudorandom bits to be returned to the consuming application.
+
+   **Steps:**
+
+   1. Allocate an ``output`` buffer with capacity of ``bytes``
+   2. As long as ``output`` is not fully filled:
+
+      1. ``output_slice = get_next_slice(output, m_max)``
+      2. ``Esys_GetRandom(ctx, sessions, bytes, &output_slice)``
+
+   3. Return ``output``
+
 .. _rng/processor_generators:
 
 Processor_RNG
