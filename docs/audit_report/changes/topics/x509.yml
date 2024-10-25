@@ -1,8 +1,0 @@
-title: X.509 improvements
-
-patches:
-# Cleanup test path generation
-#   Author:    @randombit
-- pr: 4283  # https://github.com/randombit/botan/pull/4283
-  merge_commit: 06139a41e0d2d517458d8221d2e8857358f3c01c
-  classification: unspecified
