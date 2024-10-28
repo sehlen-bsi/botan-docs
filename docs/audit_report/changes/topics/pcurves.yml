@@ -30,6 +30,7 @@ patches:
 - pr: 4042  # https://github.com/randombit/botan/pull/4042
   merge_commit: 45be74e509f1cb42c79669b92501c5770e998457
   classification: critical
+  auditer: FAlbertDev
   comment: |
     This PR introduces new classes for EC scalars and affine points. Also, the
     EC arithmetic for these types is generalized in these classes. The new
