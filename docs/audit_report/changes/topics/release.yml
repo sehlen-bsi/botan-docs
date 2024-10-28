@@ -7,7 +7,7 @@ description: |
 
   Note that the patches between Botan 3.5.0 and 3.6.0 are also part of this
   audit summary document. Shortly after the release of 3.6.0, a patch release
-  was necessary due to a bug in the CPUID detection code that led to crashed on
+  was necessary due to a bug in the CPUID detection code that led to crashes on
   systems that provide the BMI1 but not BMI2 instruction set.
 
 patches:
