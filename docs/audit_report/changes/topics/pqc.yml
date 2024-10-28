@@ -1,4 +1,9 @@
-title: Uncategorized Patches
+title: NIST PQC Algorithms
+
+description: |
+  With the NIST's final standardization of the post-quantum secure algorithms,
+  the existing algorithms are adapted accordingly to match the differences
+  between the submitted and the final versions.
 
 patches:
 # PQC: SLH-DSA
@@ -6,39 +11,39 @@ patches:
 #   Approvals: @reneme, (@randombit)
 - pr: 4291  # https://github.com/randombit/botan/pull/4291
   merge_commit: 7d6c23951d73a2aa48a93d13a2ed8accd235d466
-  classification: unspecified
+  classification: critical
 
 # Fix pk_api_sign Test for SHAKE-only SLH-DSA
 #   Author:    @FAlbertDev
 #   Approvals: (@randombit)
 - pr: 4383  # https://github.com/randombit/botan/pull/4383
   merge_commit: 102c9d75c2cdd8c858543291cc677609247f9dfa
-  classification: unspecified
+  classification: info
 
 # PQC: ML-DSA
 #   Author:    @FAlbertDev
 #   Approvals: @reneme, (@randombit)
 - pr: 4270  # https://github.com/randombit/botan/pull/4270
   merge_commit: 41619a28675abf82a5a0126c21ba4c57e0588952
-  classification: unspecified
+  classification: critical
 
 # PQC: ML-KEM
 #   Author:    @reneme
 #   Approvals: @FAlbertDev, (@randombit)
 - pr: 3893  # https://github.com/randombit/botan/pull/3893
   merge_commit: 7dd5905985702a09d5443fbb52b58f4758480400
-  classification: unspecified
+  classification: critical
 
 # ML-KEM: Provide type aliases
 #   Author:    @reneme
 #   Approvals: (@randombit)
 - pr: 4374  # https://github.com/randombit/botan/pull/4374
   merge_commit: e60ef2fbb98b691b08515cf48ad5a0624b003dfa
-  classification: unspecified
+  classification: info
 
 # ML-DSA, SLH-DSA: Provide Type Aliases (+ Small Test Fixes)
 #   Author:    @FAlbertDev
 #   Approvals: (@randombit)
 - pr: 4382  # https://github.com/randombit/botan/pull/4382
   merge_commit: e70e1bfe2e21d3845c3611c88dab1d18a15f86e3
-  classification: unspecified
+  classification: info
