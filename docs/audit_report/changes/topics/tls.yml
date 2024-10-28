@@ -32,3 +32,18 @@ patches:
   comment: |
     Those groups are emerging to be the default choice for hybrid key exchange
     on the web and are registered in the IANA TLS parameters registry.
+
+# Deprecate all Kyber r3 TLS ciphersuites with intent to remove in 3.7.0
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4407  # https://github.com/randombit/botan/pull/4407
+  merge_commit: 0a16e2cd04d65d093186094c215f0567afdc7bf1
+  classification: info
+  comment: |
+    TLS key exchange groups based on pre-standard Kyber-r3 will be removed soon,
+    given that the web community plans to move on to the ML-KEM variants as
+    quickly as possible.
+
+    Note that this will be an exception from Botan's usual semver guarantees
+    where functionality or API contracts are not broken outside of a major
+    version update.

@@ -109,3 +109,25 @@ patches:
     When passing an insufficiently sized buffer into the FFI's decapsulate function,
     the function would return a 'success' code instead of a 'buffer too small' error
     code. The actual buffer handling was correct, just the return code was wrong.
+
+# cli speed: also measure keygen for specified duration
+#   Author:    @cr-marcstevens
+#   Approvals: (@randombit)
+- pr: 4381  # https://github.com/randombit/botan/pull/4381
+  merge_commit: 264f91df81f78031ce765fdbe9fe5b87daf0bb69
+  classification: info
+  auditer: reneme
+
+# Fix CPUID detection when looking at multiple bits
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4402  # https://github.com/randombit/botan/pull/4402
+  merge_commit: 0c36074203858c7577813d3519832f8412b98898
+  classification: info
+
+# Fix write_keystream benchmark
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4405  # https://github.com/randombit/botan/pull/4405
+  merge_commit: 2257b20b721022f6546e17124d0494f232fe762b
+  classification: info

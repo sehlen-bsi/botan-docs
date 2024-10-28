@@ -259,3 +259,14 @@ patches:
   merge_commit: 14992741b1b9e65f621fbf91d0726d80e1be2bad
   classification: relevant
   auditer: FAlbertDev
+
+# When scalar blinding use an odd blinding factor
+#   Author:    @randombit
+#   Approvals: @FAlbertDev
+- pr: 4408  # https://github.com/randombit/botan/pull/4408
+  merge_commit: dfad46ea26f224ce2473fdfa85854b82c1d19881
+  classification: relevant
+  comment: |
+    Empirical testing suggests that this reduces the probability of additions
+    where both summands are the same point, requiring point doubling instead
+    of point addition. This is a side-channel mitigation.
