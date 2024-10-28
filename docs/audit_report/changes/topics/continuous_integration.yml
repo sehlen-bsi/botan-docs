@@ -1,6 +1,6 @@
 title: Continuous Integration
 
-desciption: |
+description: |
   This section lists patches to Botan's continuous integration system.
   None of these changes are directly relevant to security. Notable is
   the addition of a self-test for the valgrind-based side channel tests.
