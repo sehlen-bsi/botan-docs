@@ -13,9 +13,14 @@ curve, a base point of the curve, the order of the base point and the cofactor.
 Theoretically, it is possible to generate a new elliptic curve suitable for
 ECDH. As this process is very costly and comes with many pitfalls, only
 precomputed standardized curves are used in Botan. Thus the feature of
-elliptic curve parameter generation is not implemented. 27 standardized
+elliptic curve parameter generation is not implemented. Various standardized
 curves are provided in :srcref:`src/lib/pubkey/ec_group/ec_named.cpp`. All curves
 recommended in [TR-02102-1]_ are included.
+
+Internal elliptic curve structures, including points and scalars, as well as
+operations like scalar multiplication, are implemented across various files
+and classes in :srcref:`src/lib/pubkey/ec_group/`. Optimized implementations
+for numerous named curves are available in :srcref:`src/lib/math/pcurves/`.
 
 It is possible to import custom elliptic curves at run time. However, it is the
 application developer's responsibility to ensure that such custom curves are
