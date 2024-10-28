@@ -39,7 +39,7 @@ patches:
 #   Approvals: @reneme, (@randombit)
 - pr: 4325  # https://github.com/randombit/botan/pull/4325
   merge_commit: 0d8c1ddab4e22933973883f1b876f717635c5036
-  classification: critial
+  classification: critical
   auditer: reneme
   comment: |
     This is an integration of the jitterentropy library both as a free-standing

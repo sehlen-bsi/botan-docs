@@ -174,7 +174,7 @@ patches:
 - pr: 4263  # https://github.com/randombit/botan/pull/4263
   merge_commit: 44897ad6067f7978507235a5b5abcea0cb709799
   classification: relevant
-  auditier: FAlbertDev
+  auditer: FAlbertDev
 
 # Remove ec_h2c.cpp (again)
 #   Author:    @randombit
