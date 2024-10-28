@@ -5,14 +5,14 @@ Trusted Platform Module
 
 Botan provides a helper to use asymmetric key material hosted by a TPM. Once
 initialized, such keys can be used in the same way as any other key in Botan.
-This wrapper relies on `the TPM2-TSS library
+There are independent wrappers for TPM 1.2 and TPM 2.0. The TPM 1.2 wrapper is
+deprecated and will be removed in a future release. This chapter only covers
+the TPM 2.0 wrapper and specifies the calls made to the ESAPI by Botan.
+
+The TPM 2.0 support in Botan relies on `the TPM2-TSS library
 <https://github.com/tpm2-software/tpm2-tss>` as specified by the Trusted
 Computing Group. More specifically, it uses the Enhanced System API (ESAPI) of
 the TPM2-TSS library.
-
-There are independent wrappers for TPM 1.2 and TPM 2.0. The TPM 1.2 wrapper is
-deprecated and will be removed in a future release. This chapter only covers
-the TPM 2.0 wrapper.
 
 Currently, this TPM wrapper is limited to basic functionality. Particularly,
 it does not support:
@@ -51,6 +51,7 @@ capabilities and fundamental key management operations.
 
    **Input:**
 
+   - ctx: The TPM context
    - key: The (currently transient) TPM private key to persist
    - sessions: The TPM session bundle
    - auth_value: The TPM authorization value for the key
@@ -65,18 +66,20 @@ capabilities and fundamental key management operations.
    - If no handle was provided, ``handle = next_free_handle()`` (via ``Esys_GetCapability``)
    - ``Esys_EvictControl(ctx, key.transient_handle(), sessions, out(handle))``
    - ``Esys_TR_SetAuth(ctx, key.transient_handle(), auth_value)``
+   - ``key.persistent_handle() = Esys_TR_GetTpmHandle(ctx, key.transient_handle())``
    - Return ``handle``
 
 .. admonition:: TPM2::Context::evict()
 
    **Input:**
 
+   - ctx: The TPM context
    - key: The (currently persistent) TPM private key to be evicted
    - sessions: The TPM session bundle
 
    **Steps:**
 
-   - ``Esys_EvictControl(ctx, handle, sessions)``
+   - ``Esys_EvictControl(ctx, key.transient_handle(), sessions)``
 
 
 .. _tpm/session:
@@ -111,6 +114,11 @@ Botan's TPM session wrapper is implemented in :srcref:`[src/lib/prov]/tpm2/tpm2_
 
    1. ``m_session_handle = Esys_StartAuthSession(ctx, TPM2_SE_HMAC, sym_algo, hash_algo)``
 
+   **Notes:**
+
+   - This does not provide confidentiality against an attacker with access to the
+     communication channel between the application and the TPM.
+
 .. admonition:: TPM2::Session::authenticated_session()
 
    **Input:**
@@ -128,6 +136,12 @@ Botan's TPM session wrapper is implemented in :srcref:`[src/lib/prov]/tpm2/tpm2_
 
    - ``m_session_handle = Esys_StartAuthSession(ctx, TPM2_SE_HMAC, key, sym_algo, hash_algo)``
 
+   **Notes:**
+
+   - Assuming the public part of ``key`` is trustworthy due to external or
+     organizational means, this provides confidentiality against an attacker
+     with access to the communication channel between the application and the
+     TPM.
 
 .. _tpm/crypto_backend:
 
@@ -135,11 +149,11 @@ Crypto Backend
 --------------
 
 The communication between the application and the TPM can (and should be)
-encrypted. The protocol used for this communication is specified by the Trusted
-Computing Group and implemented by the TPM2-TSS library. Starting with version
-4.0 the TPM2-TSS library provides ``Esys_SetCryptoCallbacks``, that allows
-overriding the cryptographic primitives used for this encryption by the
-application at runtime.
+encrypted using :ref:`TPM2 Sessions <tpm/session>`. The protocol used for this
+communication is specified by the Trusted Computing Group and implemented by the
+TPM2-TSS library. Starting with version 4.0 the TPM2-TSS library provides
+``Esys_SetCryptoCallbacks``, that allows overriding the cryptographic primitives
+used for this encryption by the application at runtime.
 
 Botan provides such a "crypto backend" to form a self-contained TPM wrapper that
 does not depend on any other cryptographic library.
@@ -197,8 +211,8 @@ overview of the functionality without distinguishing between RSA and ECC keys.
 
    **Steps:**
 
-   1. Create a ``TPM2B_SENSITIVE_CREATE`` structure with ``auth_value``
-   2. Create a ``TPMT_PUBLIC`` key template that does not restrict the key for any specific use case
+   1. Create a ``TPM2B_SENSITIVE_CREATE`` structure ``sensitive_data`` with ``auth_value``
+   2. Create a ``TPMT_PUBLIC`` key template ``template`` with ``key_spec`` that does not restrict the key for any specific use case
    3. ``pub_info, priv_bytes = Esys_CreateLoaded(ctx, parent_key, sessions, sensitive_data, template)``
    4. Return a ``TPM2::PrivateKey`` as a wrapper object
 
@@ -214,7 +228,7 @@ overview of the functionality without distinguishing between RSA and ECC keys.
    - auth_value: The TPM authorization value for the key
    - parent_key: The parent key under which the new key shall be created
    - public_blob: The public part of the key
-   - private_blob: The private part of the key
+   - private_blob: The private part of the key (previously encrypted by the TPM)
    - sessions: The TPM session bundle
 
    **Output:**
@@ -276,14 +290,14 @@ here.
 
    1. Calculate the digest of ``data``:
 
-      1. If ``key`` is *not marked* as "restricted", use Botan's software implementation of ``hash_name``
+      1. If ``key`` is *not marked* as "restricted", use Botan's software implementation of ``hash_name`` and create a dummy ``validation_ticket``
       2. Otherwise, use the TPM to calculate the digest (see :srcref:`[src/lib/prov/tpm2]/tpm2_hash.cpp`):
 
-         1. ``hash_obj = Esys_HashSequenceStart(ctx, sessions, hash_type)``
+         1. ``hash_obj = Esys_HashSequenceStart(ctx, sessions, hash_name)``
          2. ``Esys_SequenceUpdate(ctx, hash_obj, sessions, data)``
          3. ``(digest, validation_ticket) = Esys_SequenceComplete(ctx, hash_obj, sessions)``
 
-   2. ``sig = Esys_Sign(ctx, key, sessions, digest, validation_ticket?)`` (see :srcref:`[src/lib/prov/tpm2]/tpm2_pkops.cpp:51|sign`)
+   2. ``sig = Esys_Sign(ctx, key, sessions, digest, validation_ticket)`` (see :srcref:`[src/lib/prov/tpm2]/tpm2_pkops.cpp:51|sign`)
    3. Marshal the signature into its canonical byte encoding
    4. Return the signature
 
