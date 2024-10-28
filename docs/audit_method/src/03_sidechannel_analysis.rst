@@ -37,6 +37,7 @@ durchzuführen. Bei der ersten Variante wird Valgrind genutzt. Hierzu reicht es
 Botan mit ``--with-valgrind`` zu konfigurieren, die Bibliothek anschließend zu
 kompilieren und im Anschluss die Testsuite auszuführen. Gefundene Fehler werden
 während der Ausführung der Tests von Valgrind auf die Konsole ausgegeben.
+Weitere Details zu Valgrind finden sich in der Test Spezifikation [TESTSP]_.
 
 Bei der zweiten Variante werden die in AP2 des Projekt 197 entwickelten
 erweiterten Tests genutzt. Diese wurden in das CLI-Tool mit dem Kommando
