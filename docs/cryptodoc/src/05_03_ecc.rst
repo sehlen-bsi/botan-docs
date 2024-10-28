@@ -17,10 +17,14 @@ elliptic curve parameter generation is not implemented. Various standardized
 curves are provided in :srcref:`src/lib/pubkey/ec_group/ec_named.cpp`. All curves
 recommended in [TR-02102-1]_ are included.
 
-Internal elliptic curve structures, including points and scalars, as well as
-operations like scalar multiplication, are implemented across various files
-and classes in :srcref:`src/lib/pubkey/ec_group/`. Optimized implementations
-for numerous named curves are available in :srcref:`src/lib/math/pcurves/`.
+Elliptic curve structures, including points and scalars, as well as operations
+like scalar multiplication, are implemented across various files and classes.
+Currently, there are two distinct implementations for elliptic curve
+mathematics. The first implementation, designed for numerous named curves, is
+located in :srcref:`src/lib/math/pcurves/`. This implementation utilizes
+curve-specific optimized operations to enhance performance. For curves not yet
+supported by the optimized implementation or for custom curves, a generic
+implementation is available in :srcref:`src/lib/pubkey/ec_group/`.
 
 It is possible to import custom elliptic curves at run time. However, it is the
 application developer's responsibility to ensure that such custom curves are
