@@ -83,6 +83,9 @@ def main():
     parser.add_argument('-n', '--output-topic-title',
                         help='Title of the topic to append unreferenced patches to',
                         default='Uncategorized Patches')
+    parser.add_argument('-u', '--manual-update',
+                        help='Update the audit report with the latest patches using the supplied git reference (implies dry-run)',
+                        default=None)
     parser.add_argument('-d', '--dry-run',
                         help='Do not commit or push changes to the repository',
                         default=False, action='store_true')
@@ -96,7 +99,7 @@ def main():
 
     # Auto-updater is disabled if $BOTAN_REF is set to something that does not
     # resemble a git SHA (e.g. a git tag like 3.2.0).
-    if target_git_ref_is_pinned():
+    if target_git_ref_is_pinned() and not args.manual_update:
         logging.info(f"No update necessary, target is pinned to: {auditinfo.botan_git_ref()}")
         return 0
 
@@ -105,24 +108,25 @@ def main():
     old_target = auditinfo.botan_git_ref()
     gh = github.Github(auth=github.Auth.Token(args.token))
     docrepo = gh.get_repo(auditinfo.auditdoc_github_handle())
-    pr = get_autoupdate_pull_request(docrepo)
-    if pr:
-        logging.info(f"Found open auto-update Pull Request (#{pr.number}), switching branch...")
-        run_git(["checkout", auditinfo.auditdoc_autoupdate_branch()])
-    else:
-        logging.info(f"Did not find an open auto-update Pull Request, creating a branch...")
-        run_git(["checkout", "-B", auditinfo.auditdoc_autoupdate_branch()])
+    if not args.manual_update:
+        pr = get_autoupdate_pull_request(docrepo)
+        if pr:
+            logging.info(f"Found open auto-update Pull Request (#{pr.number}), switching branch...")
+            run_git(["checkout", auditinfo.auditdoc_autoupdate_branch()])
+        else:
+            logging.info(f"Did not find an open auto-update Pull Request, creating a branch...")
+            run_git(["checkout", "-B", auditinfo.auditdoc_autoupdate_branch()])
 
     # Check whether new patches have landed in Botan upstream
     # (potentially compared to a currently-open Auto-update pull request)
     _, repo = genaudit.init_from_command_line_arguments(args)
-    new_target = repo.tip_of_main_branch().sha
+    new_target = repo.tip_of_main_branch().sha if not args.manual_update else repo.resolve_reference(args.manual_update).sha
     if new_target == auditinfo.botan_git_ref():
         logging.info(f"No update necessary, target is pointing to latest commit: {auditinfo.botan_git_ref()}")
         return 0
 
     # Update the botan.env configuration file with the new upstream target revision.
-    auditinfo.update_botan_git_ref(new_target)
+    auditinfo.update_botan_git_ref(new_target if not args.manual_update else args.manual_update)
     run_git(["add", auditinfo.config_file_path()])
 
     # Re-initialize the Audit Generator scripts with the just-updated target revision
@@ -133,7 +137,7 @@ def main():
         logging.critical(f"Upstream repo was updated (from {old_target[0:7]} to {new_target[0:7]}) but didn't find new patches. Something is wrong here!")
         return 1
 
-    if args.dry_run:
+    if args.dry_run or args.manual_update:
         logging.info(f"DRY-RUN: Not committing or pushing changes to the repository.")
         return 0
 

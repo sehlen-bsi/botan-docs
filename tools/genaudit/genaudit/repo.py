@@ -163,6 +163,9 @@ class GitRepo:
     def tip_of_main_branch(self) -> Commit:
         return self.repo.get_branch(self.main_branch).commit
 
+    def resolve_reference(self, gitref) -> Commit:
+        return self.repo.get_commit(gitref)
+
     def pull_request_info(self, pr_number: refs.PullRequest) -> PullRequest:
         return self.repo.get_pull(pr_number.github_ref)
 
