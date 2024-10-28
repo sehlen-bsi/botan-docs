@@ -190,7 +190,7 @@ Random Number Generator
    |                        |                                                                         |
    |                        | #. Create a ``TPM2::RandomNumberGenerator`` object                      |
    |                        |                                                                         |
-   |                        | #. Create a random buffer of 8 bytes and pass 30 bytes of entropy       |
+   |                        | #. Create a random buffer of 9 bytes and pass 30 bytes of entropy       |
    |                        |                                                                         |
    |                        | #. Create a random buffer of 66 bytes and pass 64 bytes of entropy      |
    |                        |                                                                         |
@@ -258,7 +258,7 @@ RSA
    |                        | #. Instantiate the passed persistent RSA key pair using an incorrect    |
    |                        |    authentication value                                                 |
    |                        |                                                                         |
-   |                        | #. Check that the signature creatino fail with a "TPM2 Error"           |
+   |                        | #. Check that the signature creation fails with a "TPM2 Error"          |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -281,7 +281,7 @@ RSA
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | #. Create a TPM2 context and an unauthenticated session                 |
    |                        |                                                                         |
-   |                        | #. Instantiate the passed persistent RSA key pair using an incorrect    |
+   |                        | #. Instantiate the passed persistent RSA key pair using the correct     |
    |                        |    authentication value                                                 |
    |                        |                                                                         |
    |                        | #. Encrypt the plaintext message "feedc0debaadcafe" using RSA-OAEP      |
@@ -416,7 +416,7 @@ ECDSA
    |                        | #. Instantiate the passed persistent ECDSA key pair using an incorrect  |
    |                        |    authentication value                                                 |
    |                        |                                                                         |
-   |                        | #. Check that the signature creatino fail with a "TPM2 Error"           |
+   |                        | #. Check that the signature creation fails with a "TPM2 Error"          |
    +------------------------+-------------------------------------------------------------------------+
 
 
@@ -440,8 +440,7 @@ ECDSA
    | **Steps:**             | #. Create a TPM2 context and an authenticated session via the Storage   |
    |                        |    Root Key                                                             |
    |                        |                                                                         |
-   |                        | #. Create a transient unrestricted key with the auth_value "secret" and |
-   |                        |    the elliptic curve "secp521r1"                                       |
+   |                        | #. Create a transient unrestricted key with the auth_value "secret"     |
    |                        |                                                                         |
    |                        | #. Sign a random message using the new private key on the TPM           |
    |                        |                                                                         |
