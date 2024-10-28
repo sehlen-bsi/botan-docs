@@ -51,6 +51,10 @@
    SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions.
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
 
+.. [FIPS-203] Federal Information Processing Standards Publication 203.
+   Module-Lattice-Based Key-Encapsulation Mechanism Standard.
+   http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf
+
 .. [FIPS-204] Federal Information Processing Standards Publication 204.
    Module-Lattice-Based Digital Signature Standard.
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf

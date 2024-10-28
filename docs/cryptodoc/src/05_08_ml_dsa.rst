@@ -5,22 +5,22 @@ ML-DSA
 
 Botan implements the Module-Lattice-based Digital Signature Algorithm (ML-DSA)
 in :srcref:`src/lib/pubkey/dilithium`. The implementation is based on
-[FIPS-204]_. The list of supported algorithm parametres is listed in the table
+[FIPS-204]_. The list of supported algorithm parameters is shown in the table
 :ref:`pubkey/ml_dsa/params`.
 
 .. _pubkey/ml_dsa/params:
 
 .. table:: Supported ML-DSA Parameter Sets (see Table 1 of [FIPS-204]_)
 
-   +------------+-----------+-----------+---------------+-----------+--------------+-----------------+------------------+------------------+---------------+--------------+---------------+----------------+
-   | Mode       | :math:`q` | :math:`n` | :math:`\zeta` | :math:`d` | :math:`\tau` | :math:`\lambda` | :math:`\gamma_1` | :math:`\gamma_2` | :math:`(k,l)` | :math:`\eta` | :math:`\beta` | :math:`\omega` |
-   +============+===========+===========+===============+===========+==============+=================+==================+==================+===============+==============+===============+================+
-   | ML-DSA-4x4 | 8380417   | 256       | 1753          | 13        | 39           | 128             | 2\ :sup:`17`     | :math:`(q-1)/88` | (4,4)         | 2            | 78            | 80             |
-   +------------+-----------+-----------+---------------+-----------+--------------+-----------------+------------------+------------------+---------------+--------------+---------------+----------------+
-   | ML-DSA-6x5 | 8380417   | 256       | 1753          | 13        | 49           | 192             | 2\ :sup:`19`     | :math:`(q-1)/32` | (6,5)         | 4            | 196           | 55             |
-   +------------+-----------+-----------+---------------+-----------+--------------+-----------------+------------------+------------------+---------------+--------------+---------------+----------------+
-   | ML-DSA-8x7 | 8380417   | 256       | 1753          | 13        | 60           | 256             | 2\ :sup:`19`     | :math:`(q-1)/32` | (8,7)         | 2            | 120           | 75             |
-   +------------+-----------+-----------+---------------+-----------+--------------+-----------------+------------------+------------------+---------------+--------------+---------------+----------------+
+   +------------+-----------+---------------+-----------+--------------+-----------------+------------------+------------------+---------------+--------------+---------------+----------------+
+   | Mode       | :math:`q` | :math:`\zeta` | :math:`d` | :math:`\tau` | :math:`\lambda` | :math:`\gamma_1` | :math:`\gamma_2` | :math:`(k,l)` | :math:`\eta` | :math:`\beta` | :math:`\omega` |
+   +============+===========+===============+===========+==============+=================+==================+==================+===============+==============+===============+================+
+   | ML-DSA-4x4 | 8380417   | 1753          | 13        | 39           | 128             | 2\ :sup:`17`     | :math:`(q-1)/88` | (4,4)         | 2            | 78            | 80             |
+   +------------+-----------+---------------+-----------+--------------+-----------------+------------------+------------------+---------------+--------------+---------------+----------------+
+   | ML-DSA-6x5 | 8380417   | 1753          | 13        | 49           | 192             | 2\ :sup:`19`     | :math:`(q-1)/32` | (6,5)         | 4            | 196           | 55             |
+   +------------+-----------+---------------+-----------+--------------+-----------------+------------------+------------------+---------------+--------------+---------------+----------------+
+   | ML-DSA-8x7 | 8380417   | 1753          | 13        | 60           | 256             | 2\ :sup:`19`     | :math:`(q-1)/32` | (8,7)         | 2            | 120           | 75             |
+   +------------+-----------+---------------+-----------+--------------+-----------------+------------------+------------------+---------------+--------------+---------------+----------------+
 
 The parameter sets claim a NIST security level of 2, 3, and 5 respectively.
 
@@ -42,29 +42,33 @@ ML-DSA is a Schnorr-like signature where the typically interactive protocol is
 made non-interactive by pseudorandomly deriving the verifier's challenge from
 the commitment and the message to be signed.
 
+The :ref:`following table <pubkey/ml_dsa/components>` provides an overview of
+the implementation's components and their locations within the Botan source code
+as well as a mapping to the relevant sections of [FIPS-204]_.
+
 .. _pubkey/ml_dsa/components:
 
 .. table:: ML-DSA Components and File Locations
 
-   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+--------------------+
-   | Component                                                                                                                                             | Purpose                                                        | [FIPS-204]_        |
-   +=======================================================================================================================================================+================================================================+====================+
-   | :ref:`Types <pubkey/ml_dsa/types>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_types.h>`)                                    | Strong Types                                                   | n/a                |
-   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+--------------------+
-   | :ref:`Constants <pubkey/ml_dsa/constants>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_constants.h>`)                        | Parameter set instantiation                                    | 4                  |
-   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+--------------------+
-   | :ref:`Polynomials <pubkey/ml_dsa/polynomials>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_polynomial.h>`)                   | Polynomials, Structures on Polynomials and Operations          | 7.5, 7.6           |
-   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+--------------------+
-   | :ref:`Algorithms <pubkey/ml_dsa/algorithms>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.h>`)                          | Encoding, Sampling, Key Expansion, Hint Generation, Rounding   | 7.1, 7.2, 7.3, 7.4 |
-   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+--------------------+
-   | :ref:`Symmetric Primitives <pubkey/ml_dsa/primitives>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_symmetric_primitives.h>`) | ML-DSA abstractions for PRFs, XOFs, Hashes, and KDFs           | 3.7                |
-   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+--------------------+
-   | :ref:`Internal Keys <pubkey/ml_dsa/keys>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_keys.h>`)                              | Internal key representation and serialization                  | n/a                |
-   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+--------------------+
-   | :ref:`ML-DSA Implementation <pubkey/ml_dsa/ml_dsa_impl>` (:srcref:`src <[src/lib/pubkey/dilithium/ml_dsa]/ml_dsa_impl.h>`)                            | Functional disambiguation to (also provided) Dilithium         | 3.7, 6.2, 6.3, 7.2 |
-   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+--------------------+
-   | :ref:`ML-DSA <pubkey/ml_dsa/ml_dsa_api>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium.h>`)                                    | Public ML-DSA API                                              | 5                  |
-   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+--------------------+
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+-------------------------+
+   | Component                                                                                                                                             | Purpose                                                        | [FIPS-204]_             |
+   +=======================================================================================================================================================+================================================================+=========================+
+   | :ref:`Types <pubkey/ml_dsa/types>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_types.h>`)                                    | Strong Types                                                   | n/a                     |
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+-------------------------+
+   | :ref:`Constants <pubkey/ml_dsa/constants>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_constants.h>`)                        | Parameter Set Instantiation                                    | 4                       |
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+-------------------------+
+   | :ref:`Polynomials <pubkey/ml_dsa/polynomials>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_polynomial.h>`)                   | Polynomials, Structures on Polynomials and Operations          | 7.5, 7.6                |
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+-------------------------+
+   | :ref:`Algorithms <pubkey/ml_dsa/algorithms>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.h>`)                          | Encoding, Sampling, Key Expansion, Hint Generation, Rounding   | 7.1, 7.2, 7.3, 7.4      |
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+-------------------------+
+   | :ref:`Symmetric Primitives <pubkey/ml_dsa/primitives>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_symmetric_primitives.h>`) | ML-DSA Abstractions for PRFs, XOFs, Hashes, and KDFs           | 3.7                     |
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+-------------------------+
+   | :ref:`Internal Keys <pubkey/ml_dsa/keys>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_keys.h>`)                              | Internal Key Representation and Serialization                  | n/a                     |
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+-------------------------+
+   | :ref:`ML-DSA Implementation <pubkey/ml_dsa/ml_dsa_impl>` (:srcref:`src <[src/lib/pubkey/dilithium/ml_dsa]/ml_dsa_impl.h>`)                            | Functional Disambiguation to (also provided) Dilithium         | 3.7, 6.1, 6.2, 6.3, 7.2 |
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+-------------------------+
+   | :ref:`ML-DSA <pubkey/ml_dsa/ml_dsa_api>` (:srcref:`src <[src/lib/pubkey/dilithium/dilithium_common]/dilithium.h>`)                                    | Public ML-DSA API                                              | 5                       |
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------+-------------------------+
 
 .. _pubkey/ml_dsa/types:
 
@@ -81,18 +85,20 @@ strong types.
 
 .. _pubkey/ml_dsa/constants:
 
-Paramter Instantiations
-^^^^^^^^^^^^^^^^^^^^^^^
+Parameter Instantiations
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Botan's ``DilithiumConstants`` class contains all parameters and constants
-outlined in Section 4 of [FIPS-204]_ (see :ref:`pubkey/ml_dsa/params`).
+outlined in Section 4 of [FIPS-204]_ (see :ref:`Supported ML-DSA Parameter Sets
+<pubkey/ml_dsa/params>`).
 Additionally, the class contains parameters implicitly derived from these
 constants, such as key and ciphertext sizes, along with various intermediate
 value sizes required within internal algorithms.
 
-Also, this class contains the theoretical XOF-bounds outlined in Appendix C of
-[FIPS-204]_ used as a guard rail for the various rejection sampling operations
-within the ML-DSA implementation.
+Appendix C of [FIPS-204]_ outlines theoretical XOF-bounds used as a guardrail
+for the various rejection sampling operations within the ML-DSA implementation,
+these bounds are also included in the ``DilithiumConstants`` class and used
+throughout the implementation.
 
 .. _pubkey/ml_dsa/polynomials:
 
@@ -107,7 +113,7 @@ polynomials and polynomial vectors as ``DilithiumPoly`` and
 ``DilithiumPolyVecNTT``. Matrices only appear in the NTT domain and are
 represented by the class ``DilithiumPolyMatNTT``.
 
-ML-KEM, as defined in [FIPS-202]_, also employs polynomials, leading to shared
+ML-KEM, as defined in [FIPS-203]_, also employs polynomials, leading to shared
 polynomial logic between the two algorithms. This shared logic is located in
 :srcref:`[src/lib/pubkey]/pqcrystals/pqcrystals.h`, encompassing common
 operations on vectors and matrices, as well as algorithm-independent operations
@@ -146,42 +152,42 @@ encoding functionality from [FIPS-204]_ Section 7.1.
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
    | Function                                                                                                                              | Description                                                                                | [FIPS-204]_ |
    +=======================================================================================================================================+============================================================================================+=============+
-   | :srcref:`encode_public_key <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:327|encode_public_key>`                   | Byte encoding of a public key                                                              | 7.2 A. 22   |
+   | :srcref:`encode_public_key <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:327|encode_public_key>`                   | Byte encoding of a public key                                                              | Alg. 22     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`decode_public_key <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:345|decode_public_key>`                   | Decoding a public key from bytes                                                           | 7.2 A. 23   |
+   | :srcref:`decode_public_key <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:345|decode_public_key>`                   | Decoding a public key from bytes                                                           | Alg. 23     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`encode_keypair <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:368|encode_keypair>` [#dilithium_comp]_      | Byte encoding of a private key                                                             | 7.2 A. 24   |
+   | :srcref:`encode_keypair <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:368|encode_keypair>` [#dilithium_comp]_      | Byte encoding of a private key                                                             | Alg. 24     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`decode_keypair <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:409|decode_keypair>` [#dilithium_comp]_      | Decoding a private key from bytes                                                          | 7.2 A. 25   |
+   | :srcref:`decode_keypair <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:409|decode_keypair>` [#dilithium_comp]_      | Decoding a private key from bytes                                                          | Alg. 25     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`encode_signature <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:474|encode_signature>`                     | Byte encoding of a signature                                                               | 7.2 A. 26   |
+   | :srcref:`encode_signature <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:474|encode_signature>`                     | Byte encoding of a signature                                                               | Alg. 26     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`decode_signature <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:493|decode_signature>`                     | Decoding a signature from bytes                                                            | 7.2 A. 27   |
+   | :srcref:`decode_signature <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:493|decode_signature>`                     | Decoding a signature from bytes                                                            | Alg. 27     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`encode_commitment <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:518|encode_commitment>`                   | Byte encoding of a commitment                                                              | 7.2 A. 28   |
+   | :srcref:`encode_commitment <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:518|encode_commitment>`                   | Byte encoding of a commitment                                                              | Alg. 28     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`sample_in_ball <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:532|sample_in_ball>`                         | Sample a challenge from the commitment hash                                                | 7.3 A. 29   |
+   | :srcref:`sample_in_ball <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:532|sample_in_ball>`                         | Sample a challenge from the commitment hash                                                | Alg. 29     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`expand_keypair <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:665|expand_keypair>`                         | Expand a private key from a seed :math:`\xi`                                               | 6.1 A. 6    |
+   | :srcref:`expand_keypair <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:665|expand_keypair>`                         | Expand a private key from a seed :math:`\xi`                                               | Alg. 6      |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`expand_A <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:695|expand_A>`                                     | Expand matrix :math:`A` from a seed :math:`\rho`                                           | 7.3 A. 32   |
+   | :srcref:`expand_A <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:695|expand_A>`                                     | Expand matrix :math:`A` from a seed :math:`\rho`                                           | Alg. 32     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`expand_s <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:708|expand_s>`                                     | Expand vectors :math:`s1` and :math:`s2` from a seed :math:`\rho`                          | 7.3 A. 33   |
+   | :srcref:`expand_s <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:708|expand_s>`                                     | Expand vectors :math:`s_1` and :math:`s_2` from a seed :math:`\rho`                        | Alg. 33     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`expand_mask <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:728|expand_mask>`                               | Samples a vector :math:`y` from a seed :math:`\rho'` and a nonce :math:`\kappa`            | 7.3 A. 34   |
+   | :srcref:`expand_mask <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:728|expand_mask>`                               | Samples a vector :math:`y` from a seed :math:`\rho'` and a nonce :math:`\kappa`            | Alg. 34     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`decompose <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:819|decompose>`                                   | Decompose coefficients in a vector :math:`w` into high and low bits                        | 7.4 A. 36   |
+   | :srcref:`decompose <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:819|decompose>`                                   | Decompose coefficients in a vector :math:`w` into high and low bits                        | Alg. 36     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`make_hint <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:843|make_hint>`                                   | Allows the signer to compress the signature                                                | 7.4 A. 39   |
+   | :srcref:`make_hint <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:843|make_hint>`                                   | Allows the signer to compress the signature                                                | Alg. 39     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`use_hint <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:918|use_hint>`                                     | Lets the verifier decompress the signature                                                 | 7.4 A. 40   |
+   | :srcref:`use_hint <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:918|use_hint>`                                     | Lets the verifier decompress the signature                                                 | Alg. 40     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
    | :srcref:`infinity_norm_within_bound <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:936|infinity_norm_within_bound>` | Given vector :math:`v` and :math:`bound`, validates that :math:`\|v\|_{\infty} \geq bound` | n/a         |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
 
 .. [#dilithium_comp] The private key encoding and decoding functions are used
    for the legacy support of Dilithium (round 3) only. Botan's ML-DSA
-   implementation exclusively store its private keys as the secret seed
+   implementation exclusively stores its private keys as the secret seed
    :math:`\xi`.
 
 .. _pubkey/ml_dsa/primitives:
@@ -215,36 +221,39 @@ The :srcref:`Dilithium_PublicKeyInternal
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_keys.h:33|Dilithium_PublicKeyInternal>`
 and :srcref:`Dilithium_PrivateKeyInternal
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_keys.h:68|Dilithium_PrivateKeyInternal>`
-classes are the internal representation of the ML-DSA key pair in expandedd form.
+classes are the internal representation of the ML-DSA key pair in expanded form.
 
 Additionally, the :srcref:`Dilithium_Keypair_Codec
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_keys.h:23|Dilithium_Keypair_Codec>`
 serves as a customization point for the key encoding and decoding functions that
-differ between ML-DSA (:math:`\xi` only) and Dilithium (round 3) (partially
-expanded key format as specified in [FIPS-204]_). By *always* expanding the
-private key from the secret seed :math:`\xi`, sanity checks during decoding of
-the key pair can be omitted.
+differ between ML-DSA ([FIPS-204]_; :math:`\xi` only) and Dilithium (round 3;
+partially expanded key format as specified in [FIPS-204]_). By *always*
+expanding the private key from the secret seed :math:`\xi`, sanity checks during
+decoding of the key pair can be omitted.
+
+Explicitly note that Botan's ML-DSA implementation does not support encoding or
+decoding the private key in the partially expanded format.
 
 .. _pubkey/ml_dsa/ml_dsa_impl:
 
 ML-DSA Specifics
 ^^^^^^^^^^^^^^^^
 
-This module provides concrete ML-DSA specific implementations for the
+This module provides concrete ML-DSA-specific implementations for the
 customization points outlined in :ref:`pubkey/ml_dsa/primitives` and
 :ref:`pubkey/ml_dsa/keys`. Namely:
 
   * :srcref:`ML_DSA_Expanding_Keypair_Codec <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:21|ML_DSA_Expanding_Keypair_Codec>`
-    Implements encoding and decoding of ML-DSA private keys by serializing the
+    implements encoding and decoding of ML-DSA private keys by serializing the
     private seed :math:`\xi` and/or expanding the deserialized seed into the
     private key representation outlined in :ref:`pubkey/ml_dsa/keys`.
   * :srcref:`ML_DSA_MessageHash <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:28|ML_DSA_MessageHash>`
-    Implements the transformation of the user-provided message :math:`M` into
+    implements the transformation of the user-provided message :math:`M` into
     the message representation :math:`\mu`. This includes the incorporation of
-    the domain separations outlined in [FIPS-204]_ Sectoin 5.2 Algorithm 2.
+    the domain separations outlined in [FIPS-204]_ Section 5.2 Algorithm 2.
   * :srcref:`ML_DSA_Symmetric_Primitives
     <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:54|ML_DSA_Symmetric_Primitives>`
-    Implements the ML-DSA specific symmetric primitives based on the specified
+    implements the ML-DSA specific symmetric primitives based on the specified
     SHAKE-based XOFs, the optional hedged randomization of :math:`H(K \| rnd \| \mu)`,
     and the domain separator for expanding :math:`\rho`, :math:`\rho'`, and
     :math:`K` from the private seed :math:`\xi`.
@@ -274,11 +283,12 @@ Dilithium Compatibility
 -----------------------
 
 The final ML-DSA standard is not compatible with the round 3 submission of
-Dilithium. Botan did provide support for Dilithium and Dilithium-AES as
-specified in [Dilithium-R3]_ since April 2023. This support is still available
-and can be activated by enabling the ``dilithium`` or ``dilithium_aes`` modules.
+Dilithium. Botan has provided support for Dilithium and Dilithium-AES as
+specified in [Dilithium-R3]_ since April 2023. This support is still available,
+can be activated by enabling the ``dilithium`` or ``dilithium_aes`` modules,
+and can be used via a ``DilithiumMode`` parameter set.
 
-Note that Dilithium-AES is already deprecated, and both Dilithium and
+Note that Dilithium-AES has already been deprecated, and both Dilithium and
 Dilithium-AES may be removed as early as the next major release of the library.
 It is not advisable to use any other variant than the ones specified in
 [FIPS-204]_.
@@ -300,13 +310,13 @@ that follows [FIPS-204]_ Section 6.1 Algorithm 6.
 
    **Input:**
 
-   - ``rng``: random number generator
-   - ``mode``: ML-DSA parameter set descriptor
+   - :math:``rng``: random number generator
+   - :math:``mode``: ML-DSA parameter set descriptor
 
    **Output:**
 
-   - ``sk``: private signing key
-   - ``pk``: public verification key
+   - :math:``sk``: private signing key
+   - :math:``pk``: public verification key
 
    **Steps:**
 
@@ -316,7 +326,7 @@ that follows [FIPS-204]_ Section 6.1 Algorithm 6.
    4. Sample vectors :math:`s_1` and :math:`s_2` from :math:`\rho'` using ``expand_s``
    5. Calculate :math:`(t_1, t_0)` from :math:`\hat{A}`, :math:`s_1`, and :math:`s_2` using ``compute_t1_and_t0`` (see :srcref:`here <src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:310|compute_t1_and_t0>`)
 
-      1. :math:`t = NTT^{-1}(\hat{A} \cdot NTT(s_1)) + s_2`
+      1. :math:`t = NTT^{-1}(\hat{A} \circ NTT(s_1)) + s_2`
       2. :math:`(t_1, t_0) = power2round(t)` (see :srcref:`here <src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:746|power2round>`)
 
    6. :math:`pk = (\rho, t_1)` and :math:`sk = (\xi, K, s_1, s_2, t_0)`
@@ -346,33 +356,33 @@ preparation of the message representative :math:`\mu` being done in
 
    **Input:**
 
-   - ``sk``: private signing key, with :math:`\hat{A}` and :math:`\hat{s_1}`, :math:`\hat{s_2}`, and :math:`\hat{t_0}` in NTT domain
-   - ``M``: message to be signed
+   - :math:``sk``: private signing key, with :math:`\hat{A}` and :math:`\hat{s_1}`, :math:`\hat{s_2}`, :math:`\hat{t_0}` in NTT domain, :math:`tr = H(pk)`, and :math:`K`
+   - :math:``M``: message to be signed
 
    **Output:**
 
-   - ``signature``: the valid signature
+   - :math:``signature``: the valid signature
 
    **Steps:**
 
-   1. Calculate the message representative :math:`\mu = H(sk.tr \| 0x00 \| 0x00 \| M)` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
-   2. :math:`\rho' = H(sk.K \| rnd \| \mu)` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:68|H_maybe_randomized>`)
+   1. Calculate the message representative :math:`\mu = H(sk.tr \| 00 \| 00 \| M)` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
+   2. :math:`\rho'' = H(sk.K \| rnd \| \mu)` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:68|H_maybe_randomized>`)
    3. Run the rejection sampling loop (incrementing the nonce :math:`\kappa` by :math:`l` in each iteration)
 
-      1. Expand :math:`y` from :math:`\rho'` and :math:`\kappa` using ``expand_mask``
-      2. :math:`\hat{w} = \hat{A} \cdot NTT(y)`
+      1. Expand :math:`y` from :math:`\rho''` and :math:`\kappa` using ``expand_mask``
+      2. :math:`\hat{w} = sk.\hat{A} \circ NTT(y)`
       3. :math:`w = NTT^{-1}(\hat{w})`
       4. :math:`(w_1, w_0) = decompose(w)`
       5. :math:`\tilde{c} = H(\mu \| w_1)` (:math:`w_1` is encoded using ``encode_commitment``)
       6. :math:`\hat{c} = NTT(sample\_in\_ball(\tilde{c}))`
-      7. :math:`cs_1 = NTT^{-1}(\hat{c} \cdot sk.\hat{s_1})`
+      7. :math:`cs_1 = NTT^{-1}(\hat{c} \circ sk.\hat{s_1})`
       8. :math:`z = y + cs_1`
-      9. *Retry* iff :math:`\|z\|_{\infty} \geq \gamma_1 - \beta` (see ``infinity_norm_within_bound``)
-      10. :math:`cs_2 = NTT^{-1}(\hat{c} \cdot sk.\hat{s_2})`
+      9. *Retry* if :math:`\|z\|_{\infty} \geq \gamma_1 - \beta` (see ``infinity_norm_within_bound``)
+      10. :math:`cs_2 = NTT^{-1}(\hat{c} \circ sk.\hat{s_2})`
       11. :math:`r_0 = w_0 - cs_2`
-      12. *Retry* iff :math:`\|r_0\|_{\infty} \geq \gamma_2 - \beta` (see ``infinity_norm_within_bound``))
-      13. :math:`ct_0 = NTT^{-1}(\hat{c} \cdot sk.\hat{t_0})`
-      14. *Retry* iff :math:`\|c\|_{\infty} \geq \gamma_2` (see ``infinity_norm_within_bound``)
+      12. *Retry* if :math:`\|r_0\|_{\infty} \geq \gamma_2 - \beta` (see ``infinity_norm_within_bound``))
+      13. :math:`ct_0 = NTT^{-1}(\hat{c} \circ sk.\hat{t_0})`
+      14. *Retry* if :math:`\|ct_0\|_{\infty} \geq \gamma_2` (see ``infinity_norm_within_bound``)
       15. :math:`h = make\_hint(r_0 + ct_0, w_1)`
       16. *Retry* if the Hamming weight of :math:`h > \omega`
 
@@ -380,27 +390,28 @@ preparation of the message representative :math:`\mu` being done in
 
    **Notes:**
 
-   - This algorithm description assumes that the private signing key is expanded
-     into the internal representation already. Additionally, the expansion of
-     :math:`\hat{A}`, as well as the NTT for :math:`s_1`, :math:`s_2`, and
-     :math:`t_0` are done :srcref:`prior to the actual signing operation
+   - This algorithm description assumes that the private signing key has already
+     been expanded into the internal representation already. Additionally, the
+     expansion of :math:`\hat{A}`, as well as the NTT for :math:`s_1`,
+     :math:`s_2`, and :math:`t_0` are done :srcref:`prior to the actual signing
+     operation
      <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:131|Dilithium_Signature_Operation>`
-     to armortize the complexity of these operations across multiple consecutive
+     to amortize the complexity of these operations across multiple consecutive
      signature generations.
    - Step 1: Botan 3.6.0 does not yet support the application-defined context
      string as specified in [FIPS-204]_ Algorithm 2. See `GitHub #4376
      <https://github.com/randombit/botan/issues/4376>`_.
-   - Step 3.12: We calculate :math:`r_0 = w_0 - cs_2`, this is equivalent to
-     :math:`r_0 = LowBits(w - cs_2)` as specified in [FIPS-204]_ Algorithm 7.
-   - Step 3.15: We generate the hint from :math:`w_0 - cs_2 + ct_0` this is equivalent
-     to the specification's :math:`w - cs_2 + ct_0`.
+   - Steps 3.12, 3.15: Botan uses an optimization for hint generation as
+     provided by the reference implementation. Instead of computing the hint
+     based on :math:`(w - cs_2 + ct_0, -ct_0)`, Botan computes it using the
+     inputs :math:`(w_0 - cs_2 + ct_0, w_1)`. Both computations are equivalent.
 
 .. _pubkey/ml_dsa/verification:
 
 Signature Verification
 ----------------------
 
-Signature verification as specified in [FIPS-204]_ Algorithms 3 and 8 are
+Signature verification as specified in [FIPS-204]_ Algorithms 3 and 8 is
 implemented in :srcref:`Dilithium_Verification_Operation::is_valid_signature
 <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:269|is_valid_signature>`
 with the preparation of the message representative :math:`\mu` being done in
@@ -411,13 +422,13 @@ with the preparation of the message representative :math:`\mu` being done in
 
    **Input:**
 
-   - ``pk``: public verification key, with :math:`\hat{A}` and :math:`\hat{t_1'} = NTT(t_1 \cdot 2^{d})` in NTT domain
-   - ``M``: message to be verified
-   - ``signature``: the signature to be verified
+   - :math:``pk``: public verification key, with :math:`\hat{A}` and :math:`\hat{t_1'} = NTT(t_1 \circ 2^{d})` in NTT domain
+   - :math:``M``: message to be verified
+   - :math:``signature``: the signature to be verified
 
    **Output:**
 
-   - ``ok``: boolean value whether or not the signature is valid
+   - :math:``ok``: boolean value whether or not the signature is valid
 
    **Steps:**
 
@@ -426,18 +437,26 @@ with the preparation of the message representative :math:`\mu` being done in
    3. *Abort with "not valid"* if the Hamming weight of :math:`h > \omega`
    4. *Abort with "not valid"* if :math:`\|z\|_{\infty} \geq \gamma_1 - \beta` (see ``infinity_norm_within_bound``)
    5. :math:`\hat{c} = NTT(sample\_in\_ball(\tilde{c}))`
-   6. :math:`w'_{approx} = \hat{A} \cdot NTT(z) - \hat{c} \cdot \hat{t_1'}`
-   7. :math:`w_1' = use\_hint(w'_{approx}, h)`
-   8. :math:`\tilde{c'} = H(\mu, w_1')` (:math:`w_1'` is encoded using ``encode_commitment``)
-   9. Iff :math:`\tilde{c} = \tilde{c'}` *return "valid"*, else *"not valid"*
+   6. :math:`w'_{Approx} = \hat{A} \circ NTT(z) - \hat{c} \circ \hat{t_1'}`
+   7. :math:`w_1' = use\_hint(w'_{Approx}, h)`
+   8. :math:`\tilde{c}' = H(\mu, w_1')` (:math:`w_1'` is encoded using ``encode_commitment``)
+   9. If :math:`\tilde{c} = \tilde{c}'` *return "valid"*, else *"not valid"*
 
    **Notes:**
 
    - This algorithm description assumes that the public verification key is
      deserialized into the internal representation already. Additionally, the
-     expansion of :math:`\hat{A}`, as well as the prepartion of
-     :math:`\hat{t_1'} = NTT(t_1 \cdot 2^{d})` are done :srcref:`prior to the actual
+     expansion of :math:`\hat{A}`, as well as the preparation of
+     :math:`\hat{t_1'} = NTT(t_1 \circ 2^{d})` are done :srcref:`prior to the actual
      verification operation
      <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:251|Dilithium_Verification_Operation>`
-     to armortize the complexity of these operations across multiple consecutive
+     to amortize the complexity of these operations across multiple consecutive
      signature verification.
+   - The check in Step 3 is redundant, because it is not possible to encode a
+     "valid" signature that contains a hint :math:`h` with hamming weight
+     greater than :math:`omega`. [FIPS-204]_ is unclear about this, as the
+     pseudocode in Algorithm 8 *does not include* the check. However, the last
+     paragraph of the textual description of the algorithm states that "the
+     verifier checks that [...] :math:`h` contains no more than :math:`\omega`
+     nonzero coefficients". This is a remnant from the [Dilithium-R3]_
+     specification that contained the check in Figure 4, line 31.
