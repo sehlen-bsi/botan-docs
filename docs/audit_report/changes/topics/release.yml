@@ -5,6 +5,11 @@ description: |
   minting a release. None of these changes have an impact on the functionality
   of the library.
 
+  Note that the patches between Botan 3.5.0 and 3.6.0 are also part of this
+  audit summary document. Shortly after the release of 3.6.0, a patch release
+  was necessary due to a bug in the CPUID detection code that led to crashed on
+  systems that provide the BMI1 but not BMI2 instruction set.
+
 patches:
 # Add 2.19.5 release notes [ci skip]  (Jack Lloyd)
 - commit: 939f200875f708f6b281b6aa3d38bc62a5b80355  # https://github.com/randombit/botan/commit/939f200875f708f6b281b6aa3d38bc62a5b80355
