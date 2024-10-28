@@ -173,20 +173,21 @@ patches:
 #   Approvals: @reneme
 - pr: 4353  # https://github.com/randombit/botan/pull/4353
   merge_commit: 278dc55870ae482ebe6628a818d104b94894e7af
-  classification: unspecified
+  classification: info
 
 # Better abstraction to test view-style FFI APIs
 #   Author:    @reneme
 #   Approvals: @FAlbertDev
 - pr: 4372  # https://github.com/randombit/botan/pull/4372
   merge_commit: ed74c9542241f47c2e3c6ff68cbf6731de643b73
-  classification: unspecified
+  classification: info
 
 # Initial refactoring of speed cmdlet
 #   Author:    @randombit
 - pr: 4364  # https://github.com/randombit/botan/pull/4364
   merge_commit: c2a759b8ce51203ffe07cd016aa718176f54fc75
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # In speed cmdlet handle MACs which require a fresh key or nonce
 #   Author:    @randombit

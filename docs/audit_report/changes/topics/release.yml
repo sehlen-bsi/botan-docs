@@ -5,6 +5,11 @@ description: |
   minting a release. None of these changes have an impact on the functionality
   of the library.
 
+  Note that the patches between Botan 3.5.0 and 3.6.0 are also part of this
+  audit summary document. Shortly after the release of 3.6.0, a patch release
+  was necessary due to a bug in the CPUID detection code that led to crashes on
+  systems that provide the BMI1 but not BMI2 instruction set.
+
 patches:
 # Add 2.19.5 release notes [ci skip]  (Jack Lloyd)
 - commit: 939f200875f708f6b281b6aa3d38bc62a5b80355  # https://github.com/randombit/botan/commit/939f200875f708f6b281b6aa3d38bc62a5b80355
@@ -48,5 +53,24 @@ patches:
 # Update for 3.6.0 release
 #   Author: Jack Lloyd
 - commit: 76a8996c624624f5bb68fe224554cb58ad860371  # https://github.com/randombit/botan/commit/76a8996c624624f5bb68fe224554cb58ad860371
+  classification: info
+  auditer: reneme
+
+# Bump news and version to 3.6.1
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4404  # https://github.com/randombit/botan/pull/4404
+  merge_commit: 932a3dc6eb0512966ad6edbfc4ecbe24efbe6b21
+  classification: info
+
+# Update for 3.6.1 release
+#   Author: Jack Lloyd
+- commit: d1ad41eef0d7039f79ac89d180f0d697936b09f1  # https://github.com/randombit/botan/commit/d1ad41eef0d7039f79ac89d180f0d697936b09f1
+  classification: info
+  auditer: reneme
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: fcc51a2062a98356bb6318373395c10918a1b36c  # https://github.com/randombit/botan/commit/fcc51a2062a98356bb6318373395c10918a1b36c
   classification: info
   auditer: reneme
