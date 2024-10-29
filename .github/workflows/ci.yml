@@ -147,6 +147,14 @@ jobs:
           AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
           BASIC_GH_TOKEN: ${{ github.token }}
 
+      - name: Check Source Links
+        working-directory: source/docs/audit_report
+        run: poetry run make SPHINXOPTS="-D src_ref_check_url=True -W --keep-going" html
+        env:
+          AUDIT_CACHE_LOCATION: ${{ github.workspace }}/audit_generator_cache
+          AUDIT_REPO_LOCATION: ${{ github.workspace }}/botan
+          BASIC_GH_TOKEN: ${{ github.token }}
+
       - name: Query the API Rate Limit
         run: ${{ github.workspace }}/source/.github/scripts/query_rate_limit.sh
         if: always()
