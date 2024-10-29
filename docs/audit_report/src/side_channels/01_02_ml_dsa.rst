@@ -1,6 +1,6 @@
-"""""
+""""""
 ML DSA
-"""""
+""""""
 
 Analysed variants:
 
@@ -22,6 +22,7 @@ The following call is used to create the signature:
 The Botan library is configured using the following console prompt:
 
 .. code-block::
+
     ./configure.py --prefix=~/workspace/bsi/DATA/cryptolib/botan/build --cc=gcc \
     --cc-bin=g++-12 --cc-abi=-fno-plt --disable-modules sm4 --disable-sse2      \
     --disable-ssse3 --disable-sse4.1 --disable-sse4.2 --disable-avx2            \
@@ -32,6 +33,7 @@ The Botan library is configured using the following console prompt:
 The binary is compiled with the `gcc` compiler with the following version:
 
 .. code-block::
+
     $ g++-12 --version
     g++-12 (Debian 12.2.0-14) 12.2.0
 

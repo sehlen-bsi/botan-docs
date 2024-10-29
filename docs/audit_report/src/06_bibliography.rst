@@ -36,12 +36,6 @@
 
 .. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
 
-.. [NIST_SP_800_208] https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-208.pdf
-
-.. [BOTAN_LMS_PROCESS] https://github.com/randombit/botan/blob/1900c9e1f021b395dce2baba868a6427c1690ff1/src/lib/pubkey/hss_lms/lm_ots.cpp#L31
-
-.. [BOTAN_LMS_Q_WITH_CKSM] https://github.com/randombit/botan/blob/1900c9e1f021b395dce2baba868a6427c1690ff1/src/lib/pubkey/hss_lms/lm_ots.cpp#L80
-
 .. [BOTAN_ML_DSA_MAKE_HINT] https://github.com/randombit/botan/blob/2b270d971073a988da9d9dc1a18e1c056babfa50/src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp#L836
 
 .. [BOTAN_ML_DSA_HINT_PACK] https://github.com/randombit/botan/blob/2b270d971073a988da9d9dc1a18e1c056babfa50/src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp#L232
