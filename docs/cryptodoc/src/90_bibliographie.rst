@@ -51,6 +51,18 @@
    SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions.
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
 
+.. [FIPS-203] Federal Information Processing Standards Publication 203.
+   Module-Lattice-Based Key-Encapsulation Mechanism Standard.
+   http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf
+
+.. [FIPS-204] Federal Information Processing Standards Publication 204.
+   Module-Lattice-Based Digital Signature Standard.
+   http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf
+
+.. [FIPS-205] Federal Information Processing Standards Publication 205.
+   Stateless Hash-Based Digital Signature Standard
+   http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf
+
 .. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria Nikolaenko, Chris Peikert, Ananth Raghunathan, Douglas Stebila
    "FrodoKEM: Learning With Errors Key Encapsulation Preliminary Standardization Proposal (2023-03-14)",
    Preliminary Standardization Proposal submitted to ISO, 2023,
@@ -82,11 +94,6 @@
    https://ieeexplore.ieee.org/document/8637988,
    25 January 2019
 
-.. [IR-8413] NIST Interagency or Internal Report 8413 Upd. 1:
-   "Status Report on the Third Round of the NIST Post-Quantum Cryptography Standardization Process",
-   https://nvlpubs.nist.gov/nistpubs/ir/2022/NIST.IR.8413-upd1.pdf,
-   September 2022
-
 .. [ISO-9594-8] ISO/IEC 9594-8:2017:
    Information technology -- Open Systems Interconnection -- The Directory -- Part 8:
    Public-key and attribute certificate frameworks
@@ -105,6 +112,11 @@
 .. [ISO-18033-2] ISO/IEC 18033-2:2006:
    Information technology -- Security techniques -- Encryption algorithms -- Part 2:
    Asymmetric ciphers (2006)
+
+.. [JitterEntropy] Stephan Müller:
+   CPU Time Jitter Based Non-Physical True Random Number Generator
+   July 2022
+   https://www.chronox.de/jent/CPU-Jitter-NPTRNG.pdf
 
 .. [KaesperSchwabe09] Käsper, E., Schwabe, P.
    Faster and Timing-Attack Resistant AES-GCM.

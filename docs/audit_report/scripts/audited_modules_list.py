@@ -21,6 +21,7 @@ def platform_dependent_modules():
         'aes_ni',
         'aes_power8',
         'aes_vperm',
+        'aes_vaes',
         'argon2_avx2',
         'argon2_ssse3',
         'certstor_sql',
@@ -55,6 +56,8 @@ def additional_modules():
         'frodokem',
         'frodokem_aes',
         'hss_lms',
+        'jitter_rng',
+        'kmac',
         'ml_kem',
         'pcurves_brainpool256r1',
         'pcurves_brainpool384r1',
@@ -62,7 +65,7 @@ def additional_modules():
         'pcurves_secp256r1',
         'pcurves_secp256k1',
         'pcurves_secp384r1',
-        'pcurves_secp521r1'
+        'pcurves_secp521r1',
         'pkcs11',
         'shake',
         'slh_dsa_sha2',
@@ -71,6 +74,10 @@ def additional_modules():
         'tls12',
         'tls13_pqc',
         'tls13',
+        'tpm2',
+        'tpm2_crypto_backend',
+        'tpm2_rsa',
+        'tpm2_ecc',
         'xts',
     ])
 
