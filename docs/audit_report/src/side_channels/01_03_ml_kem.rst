@@ -2,6 +2,13 @@
 ML KEM
 """"""
 
+.. warning::
+
+   The content of this chapter is currently a work-in-progress and might change
+   in the final release.
+
+   See: https://github.com/sehlen-bsi/botan-docs/pull/237
+
 Analysed variants:
 
 - ML-KEM-512
