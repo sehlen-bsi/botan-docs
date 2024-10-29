@@ -21,5 +21,5 @@ encapsulation and decapsulation or the key exchange mechanism.
    05_06_hss_lms
    05_07_spx
    05_08_ml_dsa
-   05_09_kyber
+   05_09_ml_kem
    05_10_frodokem
