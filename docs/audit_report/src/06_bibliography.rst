@@ -35,9 +35,3 @@
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser
 
 .. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
-
-.. [BOTAN_SLH_DSA_TREEHASH] https://github.com/randombit/botan/blob/7353a40e7ee1a0b845a798d94f8d88110e79347a/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_treehash.cpp#L64
-
-.. [BOTAN_SLH_DSA_WOTS_SIGN_AND_PKGEN_SIG_NODE] https://github.com/randombit/botan/blob/7353a40e7ee1a0b845a798d94f8d88110e79347a/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.cpp#L159
-
-.. [BOTAN_SLH_DSA_WOTS_SIGN_AND_PKGEN_SIG_NODE_HC] https://github.com/randombit/botan/blob/7353a40e7ee1a0b845a798d94f8d88110e79347a/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_wots.cpp#L180

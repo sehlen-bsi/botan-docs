@@ -85,7 +85,7 @@ Components of a FORS signature are the so-called authentication data.
 These are nodes that are generated during signature generation and are required for verification in order to calculate the respective root of the Merkle tree.During verification, parts of the leaves are calculated depending on the message and the signature.
 The remaining nodes required to calculate the root are the so-called authentication data, which are also contained in the signature.
 
-The `treehash` routine detects during execution whether the currently calculated node must be added to the authentication data [BOTAN_SLH_DSA_TREEHASH]_.
+The `treehash` routine detects during execution whether the currently calculated node must be added to the authentication data (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
 If this is the case, a condition in the programme flow is fulfilled and the programme execution is changed.
 This control flow difference is indicated by DATA.
 The difference is not critical because the values of the nodes within these Merkle trees are public.
@@ -119,7 +119,7 @@ This knowledge can also be derived from a message and the associated signature.
 
 The XMSS method is based on the WOTS method and the use of Merkle trees.
 Similar to the FORS method, the XMSS method also uses the `treehash` routine.
-Here too, there is a similar difference in programme execution when adding individual nodes to the authentication data of a signature [BOTAN_SLH_DSA_TREEHASH]_.
+Here too, there is a similar difference in programme execution when adding individual nodes to the authentication data of a signature (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
 As with the FORS method, this difference is also uncritical with the XMSS method.
 
 .. code-block:: cpp
@@ -151,7 +151,7 @@ In addition to the differences in the `treehash` routine, three differences are 
 This function generates the signature data for the WOTS procedure and the public WOTS keys for the other leaves in the Merkle tree.
 
 The first difference is a control flow difference.
-The implementation distinguishes whether signature data must be created for the WOTS procedure or whether only the public WOTS key is required [BOTAN_SLH_DSA_WOTS_SIGN_AND_PKGEN_SIG_NODE]_.
+The implementation distinguishes whether signature data must be created for the WOTS procedure or whether only the public WOTS key is required (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_wots.cpp:159|sign_leaf_idx`).
 This information can also be calculated using the message and the associated signature, which classifies the difference as non-critical.
 
 .. code-block:: cpp
@@ -182,7 +182,7 @@ This information can also be calculated using the message and the associated sig
         [...]
     }
 
-The other two differences in execution relate to the addition of an intermediate value of a hash chain to the WOTS signature data [BOTAN_SLH_DSA_WOTS_SIGN_AND_PKGEN_SIG_NODE_HC]_.
+The other two differences in execution relate to the addition of an intermediate value of a hash chain to the WOTS signature data (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_wots.cpp:180|wots_k.has_value`).
 When creating a WOTS signature, the hash chains are only partially run through.
 The result is added to the WOTS signature.
 This shows the number of steps performed in a hash chain.
