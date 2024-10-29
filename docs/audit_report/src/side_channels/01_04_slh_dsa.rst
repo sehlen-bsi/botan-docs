@@ -1,6 +1,6 @@
-"""""
+"""""""
 SLH DSA
-"""""
+"""""""
 
 Analysed variants:
 
@@ -22,6 +22,7 @@ The following call is used to generate a signature:
 The Botan library is configured using the following console prompt:
 
 .. code-block::
+
     ./configure.py --prefix=~/workspace/bsi/DATA/cryptolib/botan/build --cc=gcc \
     --cc-bin=g++-12 --cc-abi=-fno-plt --disable-modules sm4 --disable-sse2      \
     --disable-ssse3 --disable-sse4.1 --disable-sse4.2 --disable-avx2            \
@@ -32,6 +33,7 @@ The Botan library is configured using the following console prompt:
 The binary is compiled with the `gcc` compiler with the following version:
 
 .. code-block::
+
     $ g++-12 --version
     g++-12 (Debian 12.2.0-14) 12.2.0
 
@@ -47,6 +49,7 @@ To reduce the runtime, the total height is limited to four and two Merkle trees 
 This change has no influence on the code coverage of the side channel analysis performed.
 
 .. code-block::
+
     --- a/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_parameters.cpp
     +++ b/src/lib/pubkey/sphincsplus/sphincsplus_common/sp_parameters.cpp
     @@ -230,7 +230,7 @@ Sphincs_Parameters Sphincs_Parameters::create(Sphincs_Parameter_Set set, Sphincs
@@ -90,6 +93,7 @@ Consequently, it is also uncritical if the differences indicate which nodes belo
 This knowledge can also be derived from a message and the associated signature.
 
 .. code-block:: cpp
+
     void treehash(StrongSpan<SphincsTreeNode> out_root,
             StrongSpan<SphincsAuthenticationPath> out_auth_path,
             const Sphincs_Parameters& params,
@@ -119,6 +123,7 @@ Here too, there is a similar difference in programme execution when adding indiv
 As with the FORS method, this difference is also uncritical with the XMSS method.
 
 .. code-block:: cpp
+
     void treehash(StrongSpan<SphincsTreeNode> out_root,
             StrongSpan<SphincsAuthenticationPath> out_auth_path,
             const Sphincs_Parameters& params,
@@ -150,6 +155,7 @@ The implementation distinguishes whether signature data must be created for the 
 This information can also be calculated using the message and the associated signature, which classifies the difference as non-critical.
 
 .. code-block:: cpp
+
     void wots_sign_and_pkgen(StrongSpan<WotsSignature> sig_out,
         StrongSpan<SphincsTreeNode> leaf_out,
         const SphincsSecretSeed& secret_seed,
@@ -183,6 +189,7 @@ This shows the number of steps performed in a hash chain.
 This is not critical because this information is also calculated during verification using the message and signature.
 
 .. code-block:: cpp
+
     void wots_sign_and_pkgen(StrongSpan<WotsSignature> sig_out,
         StrongSpan<SphincsTreeNode> leaf_out,
         const SphincsSecretSeed& secret_seed,
