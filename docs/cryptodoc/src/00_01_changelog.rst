@@ -172,3 +172,15 @@ Changelog
    |         |          | - Adaptions of X.509 path validation        |            |
    |         |          | - Minor updates on ECC details              |            |
    +---------+----------+---------------------------------------------+------------+
+   | 3.6.1   | FA, AT,  | Update to 3.6.1:                            | 2025-02-27 |
+   |         | RM       |                                             |            |
+   |         |          | - Add Standardized PQC Algorithms           |            |
+   |         |          |   - ML-KEM (replacing Kyber)                |            |
+   |         |          |   - ML-DSA (replacing Dilithium)            |            |
+   |         |          |   - SLH-DSA (replacing SPHINCS+)            |            |
+   |         |          | - New implementation of internal ECC math   |            |
+   |         |          | - Support for TPM 2.0                       |            |
+   |         |          |   - Random number generation                |            |
+   |         |          |   - Hosted RSA/ECC private keys             |            |
+   |         |          | - Wrapper for "jitterentropy-library"       |            |
+   +---------+----------+---------------------------------------------+------------+

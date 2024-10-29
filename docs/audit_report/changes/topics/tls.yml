@@ -1,5 +1,10 @@
 title: Transport Layer Security (TLS)
 
+description: |
+  Most notably, the experimental TLS key exchange groups based on Kyber
+  are now deprecated and replaced by two groups based on the ML-KEM-768
+  and ECDH over secp256r1 or Curve25519.
+
 patches:
 # Deprecate 0xFE30 X25519/Kyber512 code point
 #   Author:    @reneme

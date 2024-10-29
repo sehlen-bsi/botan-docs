@@ -3,6 +3,7 @@ title: Kyber/Dilithium Overhaul
 description: |
   The changes of this section are related to the refactoring of Kyber and Dilithium
   prior to the ML-KEM and ML-DSA integration.
+
 patches:
 # Refactor: Have a common base for Kyber/Dilithium structures  (@reneme)
 - pr: 4024  # https://github.com/randombit/botan/pull/4024
