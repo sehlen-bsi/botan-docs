@@ -2,6 +2,14 @@
 ML DSA
 """"""
 
+.. warning::
+
+   The content of this chapter is currently a work-in-progress and might change
+   in the final release.
+
+   See: https://github.com/sehlen-bsi/botan-docs/pull/236
+
+
 Analysed variants:
 
 - ML-DSA-44

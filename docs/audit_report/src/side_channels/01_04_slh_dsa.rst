@@ -2,6 +2,13 @@
 SLH DSA
 """""""
 
+.. warning::
+
+   The content of this chapter is currently a work-in-progress and might change
+   in the final release.
+
+   See: https://github.com/sehlen-bsi/botan-docs/pull/238
+
 Analysed variants:
 
 - SphincsPlus-sha2-128s-r3.1, deterministic
