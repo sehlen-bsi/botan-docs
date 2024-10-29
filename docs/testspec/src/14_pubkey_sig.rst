@@ -395,59 +395,60 @@ described here in the following.
    |                        | #. Check that the key is valid (see PKSIG-KEY-1)                        |
    +------------------------+-------------------------------------------------------------------------+
 
-Dilithium
----------
+ML-DSA
+------
 
-The implementation is tested for correctness using the Known Answer Test vectors
-demanded by the NIST submission and provided by the reference implementation.
+The implementation is tested for correctness using Known Answer Test vectors
+generated using an ACVP tested
+`python implementation <https://github.com/mjosaarinen/py-acvp-pqc/tree/e37f6ffcd5a6a3f5ac718e853daf3aaeeb07995d>`_.
 
 Additionally, Botan has implementation-specific test cases. Those ensure the
 interoperability of the algorithm when using Botan's generic API for public key
 algorithms. These test cases are equal for all public key schemes and are
 therefore not discussed in detail in this chapter.
 
-All Dilithium-specific test code can be found in
+All ML-DSA-specific test code can be found in
 :srcref:`src/tests/test_dilithium.cpp`. Relevant test data vectors for the KAT tests
-are in *src/tests/data/pubkey/dilithium\_\*.vec* where *\** is a placeholder for
-the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
-*8x7\_Deterministic*, *4x4\_Randomized*, *6x5\_Randomized*, *8x7\_Randomized*,
-*4x4\_AES\_Deterministic*, *6x5\_AES\_Deterministic*, *8x7\_AES\_Deterministic*,
-*4x4\_AES\_Randomized*, *6x5\_AES\_Randomized* and *8x7\_AES\_Randomized*.
+are in
+:srcref:`[src/tests/data/pubkey]/ml-dsa-4x4_Deterministic.vec`,
+:srcref:`[src/tests/data/pubkey]/ml-dsa-4x4_Randomized.vec`,
+:srcref:`[src/tests/data/pubkey]/ml-dsa-6x5_Deterministic.vec`,
+:srcref:`[src/tests/data/pubkey]/ml-dsa-6x5_Randomized.vec`,
+:srcref:`[src/tests/data/pubkey]/ml-dsa-8x7_Deterministic.vec`, and
+:srcref:`[src/tests/data/pubkey]/ml-dsa-8x7_Randomized.vec`.
+Additionally, the vectors for testing the still supported Dilithium
+(NIST Round 3 submission) instances are in :srcref:`src/tests/data/pubkey/`
+with prefix ``dilithium`` and the same naming scheme.
+
 
 .. table::
    :class: longtable
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-DILITHIUM-1                                                       |
+   | **Test Case No.:**     | PKSIG-ML-DSA-1                                                          |
    +========================+=========================================================================+
    | **Type:**              | Known Answer Tests                                                      |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Uses the KAT vectors of Dilithium's reference implementation as         |
-   |                        | specified in the NIST submission. Also implements a negative test by    |
+   | **Description:**       | Uses KAT vectors for ML-DSA. Also implements a negative test by         |
    |                        | randomly pertubing the generated signatures before validation.          |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Test Vectors with RNG seed and test messages inputs in:                 |
    |                        |                                                                         |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_Deterministic.vec`       |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_Deterministic.vec`       |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_Deterministic.vec`       |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_Randomized.vec`          |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_Randomized.vec`          |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_Randomized.vec`          |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_AES_Deterministic.vec`   |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_AES_Deterministic.vec`   |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_AES_Deterministic.vec`   |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_4x4_AES_Randomized.vec`      |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_6x5_AES_Randomized.vec`      |
-   |                        | * :srcref:`src/tests/data/pubkey/dilithium_8x7_AES_Randomized.vec`      |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-4x4_Deterministic.vec`        |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-6x5_Deterministic.vec`        |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-8x7_Deterministic.vec`        |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-4x4_Randomized.vec`           |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-6x5_Randomized.vec`           |
+   |                        | * :srcref:`[src/tests/data/pubkey]/ml-dsa-8x7_Randomized.vec`           |
+   |                        | * Dilithium test vectors in :srcref:`src/tests/data/pubkey/`            |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Above described test vector files contain expected values for:          |
    |                        |                                                                         |
-   |                        | * Dilithium Public Key                                                  |
-   |                        | * Dilithium Private Key                                                 |
+   |                        | * ML-DSA Public Key                                                     |
+   |                        | * ML-DSA Private Key                                                    |
    |                        | * Signature                                                             |
    |                        |                                                                         |
    |                        | to save disk space, these are stored as their SHA-3 digests only.       |
@@ -456,7 +457,7 @@ the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
    |                        |                                                                         |
    |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed                  |
    |                        |                                                                         |
-   |                        | #. Use the seeded RNG to generate a Dilithium key pair and compare it   |
+   |                        | #. Use the seeded RNG to generate a ML-DSA key pair and compare it      |
    |                        |    to the expected public and private key in the test vector. This uses |
    |                        |    the key encoding as implemented in the reference implementation and  |
    |                        |    first hashes the keys with SHA-3 to save space in the test data.     |
@@ -480,7 +481,7 @@ the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-DILITHIUM-2                                                       |
+   | **Test Case No.:**     | PKSIG-ML-DSA-2                                                          |
    +========================+=========================================================================+
    | **Type:**              | Positive and Negative Tests                                             |
    +------------------------+-------------------------------------------------------------------------+
@@ -493,8 +494,7 @@ the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | For each combination of the algorithm parameters [4x4, 6x5, 8x7],       |
-   |                        | [Randomized, Determinstic] and [AES, modern]:                           |
+   | **Steps:**             | For each ML-DSA (and Dilithium) algorithm instance:                     |
    |                        |                                                                         |
    |                        | #. Generate a random key pair                                           |
    |                        |                                                                         |
@@ -518,6 +518,35 @@ the algorithm parameters, namely *4x4\_Deterministic*, *6x5\_Deterministic*,
    |                        | #. Decode the keypair again (via Botan's generic interface)             |
    |                        |                                                                         |
    |                        | #. Ensure that these decoded keys work for signing and verifying.       |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-ML-DSA-3                                                          |
+   +========================+=========================================================================+
+   | **Type:**              | Positive Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Generate random key pairs, serialize and deserialize them, use the      |
+   |                        | deserialized keys to sign messages and verify signatures.               |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Generate an ML-DSA key pair                                          |
+   |                        |    (one for each ML-DSA or Dilithium instance).                         |
+   |                        |                                                                         |
+   |                        | #. Encode both the public and private key using the default encoding.   |
+   |                        |                                                                         |
+   |                        | #. Decode the private key and sign a message with the decoded key.      |
+   |                        |                                                                         |
+   |                        | #. Decode the public key and verify the above-generated                 |
+   |                        |    signature.                                                           |
    +------------------------+-------------------------------------------------------------------------+
 
 DSA
@@ -1523,17 +1552,18 @@ constraints for this test case are:
    |                        |    #. E >= 2                                                            |
    +------------------------+-------------------------------------------------------------------------+
 
-SPHINCS+
---------
+SLH-DSA
+-------
 
-The implementation is tested for correctness using the Known Answer Test vectors
-demanded by the NIST submission and provided by the reference implementation.
-Given SPHINCS+' performance characteristics, each supported algorithm
+The implementation is tested for correctness using Known Answer Test vectors
+generated using an ACVP tested
+`python implementation <https://github.com/mjosaarinen/py-acvp-pqc/tree/e37f6ffcd5a6a3f5ac718e853daf3aaeeb07995d>`_.
+Given SLH-DSA's performance characteristics, each supported algorithm
 parameterization gets just a single KAT test.
 
 Along with those integration tests Botan comes with a number of unit tests whose
 vectors were also extracted from intermediate results of the reference
-implementation. Particularly, the SPHINCS+-specific implementation of WOTS+ and
+implementation. Particularly, the SLH-DSA-specific implementation of WOTS+ and
 FORS is covered by those unit tests.
 
 Additionally, Botan has implementation-specific test cases. Those ensure the
@@ -1546,35 +1576,35 @@ therefore not discussed in detail in this chapter.
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-SPHINCS+-1                                                        |
+   | **Test Case No.:**     | PKSIG-SLH-DSA-1                                                         |
    +========================+=========================================================================+
    | **Type:**              | Known Answer Tests                                                      |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Uses the KAT vectors as specified in the API specification of the NIST  |
-   |                        | competition [#NISTAPI]_  and generated using the reference              |
-   |                        | implementation revision 06f42f47 [#SPXrefimpl]_                         |
+   | **Description:**       | Uses the KAT vectors for SLH-DSA                                        |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Test Vectors with RNG seed and test messages inputs in:                 |
    |                        |                                                                         |
+   |                        | * :srcref:`src/tests/data/pubkey/slh_dsa.vec`                           |
    |                        | * :srcref:`src/tests/data/pubkey/sphincsplus.vec`                       |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Above described test vector files contain expected values for:          |
    |                        |                                                                         |
-   |                        | * SPHINCS+ Public Key                                                   |
-   |                        | * SPHINCS+ Private Key                                                  |
+   |                        | * SLH-DSA Public Key                                                    |
+   |                        | * SLH-DSA Private Key                                                   |
+   |                        | * Signature (Deterministic)                                             |
    |                        | * Signature                                                             |
    |                        |                                                                         |
    |                        | to save disk space, the expected signature is stored as a digest only.  |
-   |                        | We use the same hash function of the respective SPHINCS+ instantiation. |
+   |                        | We use the same hash function of the respective SLH-DSA instantiation.  |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | For each KAT vector:                                                    |
    |                        |                                                                         |
    |                        | #. Seed a AES-256-CTR-DRBG with the specified RNG seed and pull the     |
-   |                        |    entropy bits needed for generating a SPHINCS+ keypair from it.       |
+   |                        |    entropy bits needed for generating a SLH-DSA keypair from it.        |
    |                        |                                                                         |
-   |                        | #. Generate a SPHINCS+ key pair and validate that it corresponds to the |
+   |                        | #. Generate a SLH-DSA key pair and validate that it corresponds to the  |
    |                        |    expected key pair in the test vector.                                |
    |                        |                                                                         |
    |                        | #. Sign the message provided in the test vector with the just-generated |
@@ -1595,28 +1625,16 @@ therefore not discussed in detail in this chapter.
    |                        |    signature.                                                           |
    +------------------------+-------------------------------------------------------------------------+
 
-.. [#NISTAPI]
-
-   API description for NIST submissions. See section "Additional functions" for
-   a description how Known Answer Tests are to be structured
-   https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/example-files/api-notes.pdf
-
-.. [#SPXrefimpl]
-
-   Revision of the SPHINCS+ reference implementation used as the basis for the
-   implementation in Botan
-   https://github.com/sphincs/sphincsplus/commit/06f42f47491085ac879a72b486ca8edb10891963
-
 .. table::
    :class: longtable
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-SPHINCS+-2                                                        |
+   | **Test Case No.:**     | PKSIG-SLH-DSA-2                                                         |
    +========================+=========================================================================+
    | **Type:**              | Known Answer Test                                                       |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Ensures that the WOTS+ sub-component of SPHINCS+ works as expected.     |
+   | **Description:**       | Ensures that the WOTS+ sub-component of SLH-DSA works as expected.      |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
@@ -1647,11 +1665,11 @@ therefore not discussed in detail in this chapter.
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-SPHINCS+-3                                                        |
+   | **Test Case No.:**     | PKSIG-SLH-DSA-3                                                         |
    +========================+=========================================================================+
    | **Type:**              | Known Answer Test                                                       |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Ensures that the FORS sub-component of SPHINCS+ works as expected.      |
+   | **Description:**       | Ensures that the FORS sub-component of SLH-DSA works as expected.       |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
