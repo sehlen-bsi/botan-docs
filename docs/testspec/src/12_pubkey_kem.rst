@@ -113,7 +113,7 @@ ML-KEM
 ~~~~~~
 
 The implementation is tested for correctness using Known Answer Test vectors
-generated using an implementation associated with the ACVP project.
+of the ACVP project and of `Kris Kwiatkowski <https://github.com/post-quantum-cryptography/KAT>`_.
 
 Additionally, Botan has implementation-specific test cases. Those ensure the
 interoperability of the algorithm when using Botan's generic API for public key
@@ -139,7 +139,7 @@ instances are in :srcref:`[src/tests/data/pubkey]/kyber_kat.vec`.
    +========================+=========================================================================+
    | **Type:**              | Known Answer Tests                                                      |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Uses the KAT vectors for ML-KEM.                                        |
+   | **Description:**       | Uses the KAT vectors for ML-KEM/Kyber.                                  |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+

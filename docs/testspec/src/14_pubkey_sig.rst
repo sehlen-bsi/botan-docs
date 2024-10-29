@@ -399,7 +399,8 @@ ML-DSA
 ------
 
 The implementation is tested for correctness using Known Answer Test vectors
-generated using an implementation associated with the ACVP project.
+generated using an ACVP tested
+`python implementation <https://github.com/mjosaarinen/py-acvp-pqc/tree/e37f6ffcd5a6a3f5ac718e853daf3aaeeb07995d>`_.
 
 Additionally, Botan has implementation-specific test cases. Those ensure the
 interoperability of the algorithm when using Botan's generic API for public key
@@ -524,12 +525,12 @@ with prefix ``dilithium`` and the same naming scheme.
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKENC-ML-DSA-2                                                          |
+   | **Test Case No.:**     | PKSIG-ML-DSA-3                                                          |
    +========================+=========================================================================+
    | **Type:**              | Positive Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
    | **Description:**       | Generate random key pairs, serialize and deserialize them, use the      |
-   |                        | deserialized keys to encapsulate and decapsulate secrets.               |
+   |                        | deserialized keys to sign messages and verify signatures.               |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
@@ -542,12 +543,10 @@ with prefix ``dilithium`` and the same naming scheme.
    |                        |                                                                         |
    |                        | #. Encode both the public and private key using the default encoding.   |
    |                        |                                                                         |
-   |                        | #. Decode the public key and encapsulate a secret with the decoded key. |
+   |                        | #. Decode the private key and sign a message with the decoded key.      |
    |                        |                                                                         |
-   |                        | #. Decode the private key and decapsulate the above-generated           |
-   |                        |    ciphertext.                                                          |
-   |                        |                                                                         |
-   |                        | #. Check that both resulting shared secrets are equal.                  |
+   |                        | #. Decode the public key and verify the above-generated                 |
+   |                        |    signature.                                                           |
    +------------------------+-------------------------------------------------------------------------+
 
 DSA
@@ -1557,7 +1556,8 @@ SLH-DSA
 -------
 
 The implementation is tested for correctness using Known Answer Test vectors
-generated using an implementation associated with the ACVP project.
+generated using an ACVP tested
+`python implementation <https://github.com/mjosaarinen/py-acvp-pqc/tree/e37f6ffcd5a6a3f5ac718e853daf3aaeeb07995d>`_.
 Given SLH-DSA's performance characteristics, each supported algorithm
 parameterization gets just a single KAT test.
 
