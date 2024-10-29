@@ -49,7 +49,8 @@ The reasoning for each identified leak is explained below.
 
 **Leak: Hints**
 
-In the analysis with DATA, leaks were detected in the functions `make_hint()` [BOTAN_ML_DSA_MAKE_HINT]_, and `hint_pack()` [BOTAN_ML_DSA_HINT_PACK]_.
+In the analysis with DATA, leaks were detected in the functions `make_hint()` (:srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:843|make_hint`),
+and `hint_pack()` (:srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:232|hint_pack`).
 The function `make_hint()` generates hints to verify the signature.
 The `hint_pack()` function adds these hints to the signature.
 In the pseudocode, this corresponds to the function `MakeHint()` in line 23.
@@ -60,7 +61,7 @@ For these reasons, the leaks of the hints are not considered problematic.
 
 **Leak: SampleInBall**
 
-Leaks were identified in the function `sample_in_ball()` during the generation of *c_tilde* [BOTAN_ML_DSA_SAMPLE_IN_BALL]_.
+Leaks were identified in the function `sample_in_ball()` during the generation of *c_tilde* (:srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:532|sample_in_ball`).
 The function corresponds in the pseudocode to the function `SampleInBall()` in line 18.
 *c_tilde* is added to the signature, is therefore publicly known and allows the `SampleInBall()` function to be executed during verification.
 For this reason, the leaks found during the generation of *c_tilde* can be classified as unproblematic.
@@ -68,7 +69,7 @@ For this reason, the leaks found during the generation of *c_tilde* can be class
 
 **Leak: Infinity norm within bound**
 
-Leaks were identified for the function `infinity_norm_within_bound()` [BOTAN_ML_DSA_INF_NORM]_.
+Leaks were identified for the function `infinity_norm_within_bound()` (:srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:936|infinity_norm_within_bound`).
 The function `infinity_norm_within_bound()` iterates over each polynomial and checks whether the infinity norm of the given polynomial is strictly smaller than the specified limit value.
 DATA has detected a control flow leak for the following condition:
 
@@ -79,7 +80,7 @@ DATA has detected a control flow leak for the following condition:
   }
 
 
-This condition can be found in line 21 of the pseudo code and is part of the `sign()` function in Botan [BOTAN_ML_DSA_INF_NORM]_.
+This condition can be found in line 21 of the pseudo code and is part of the `sign()` function in Botan (:srcref:`src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:936|infinity_norm_within_bound`).
 If the condition is met, the generated signature is discarded and the process starts again.
 The leaks found can make it possible for attackers to gain knowledge of which of the polynomials will cause the signature to be discarded.
 According to the state-of-the-art, this knowledge does not enable an attack on the private key or the message to be signed.

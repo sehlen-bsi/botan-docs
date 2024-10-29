@@ -36,12 +36,4 @@
 
 .. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
 
-.. [BOTAN_ML_DSA_MAKE_HINT] https://github.com/randombit/botan/blob/2b270d971073a988da9d9dc1a18e1c056babfa50/src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp#L836
-
-.. [BOTAN_ML_DSA_HINT_PACK] https://github.com/randombit/botan/blob/2b270d971073a988da9d9dc1a18e1c056babfa50/src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp#L232
-
-.. [BOTAN_ML_DSA_SAMPLE_IN_BALL] https://github.com/randombit/botan/blob/2b270d971073a988da9d9dc1a18e1c056babfa50/src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp#L525
-
-.. [BOTAN_ML_DSA_INF_NORM] https://github.com/randombit/botan/blob/2b270d971073a988da9d9dc1a18e1c056babfa50/src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp#L929
-
-.. [DILITHIUM_REFERENCE_IMPLEMENTATION] https://github.com/pq-crystals/dilithium/blob/v3.1/ref/poly.c#L277-L279
+.. [DILITHIUM_REFERENCE_IMPLEMENTATION] https://github.com/pq-crystals/dilithium/blob/cbcd8753a43402885c90343cd6335fb54712cda1/ref/poly.c#L277-L279
