@@ -106,6 +106,11 @@
    Information technology -- Security techniques -- Encryption algorithms -- Part 2:
    Asymmetric ciphers (2006)
 
+.. [JitterEntropy] Stephan Müller:
+   CPU Time Jitter Based Non-Physical True Random Number Generator
+   July 2022
+   https://www.chronox.de/jent/CPU-Jitter-NPTRNG.pdf
+
 .. [KaesperSchwabe09] Käsper, E., Schwabe, P.
    Faster and Timing-Attack Resistant AES-GCM.
    Cryptographic Hardware and Embedded Systems - CHES 2009
