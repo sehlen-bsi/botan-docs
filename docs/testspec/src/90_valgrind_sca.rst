@@ -7,8 +7,8 @@ Overview
 --------
 
 Originally, Valgrind was designed to be a memory error detector. As such it is a
-dynamic analysis tool and analyzes program behaviour during execution. However,
-it can also be used to detect side channel vulnerabilities in cryptographic
+dynamic analysis tool and analyzes program behavior during execution. However,
+it can also be used to detect side-channel vulnerabilities in cryptographic
 implementations. This approach was first used in `"ctgrind"
 <https://github.com/agl/ctgrind>`_, but the basic idea works with a vanilla
 Valgrind as well.
@@ -16,12 +16,13 @@ Valgrind as well.
 The implementer adds annotations to mark specific memory regions as explicitly
 secret or explicitly public. Valgrind then tracks runtime data dependencies of
 these regions and warns whenever a control flow decision or indexed memory
-access depend on the annotated secret data or any data that was derived from it.
+access depends on the annotated secret data or any data that was derived from it.
 
-This is a powerful technique to detect side channel vulnerabilities, but requires
-careful code annotation and a good understanding of the cryptographic algorithm.
+This is a powerful technique to detect side-channel vulnerabilities, but it
+requires careful code annotation and a good understanding of the cryptographic
+algorithm.
 
-Using Valgrind to Detect Side Channels
+Using Valgrind to Detect Side-Channels
 --------------------------------------
 
 Secret data regions are marked using ``VALGRIND_MAKE_MEM_UNDEFINED()``, telling
@@ -31,7 +32,7 @@ it is legal to read from such regions and even to perform operations on the
 data, as long as no assumption on the result of these operations is made. Hence,
 Valgrind will only emit a warning if such a result is used to create side
 effects that might lead to program bugs. Coincidentally, this is exactly what
-causes certain side channel vulnerabilities based on secret-dependent execution
+causes certain side-channel vulnerabilities based on secret-dependent execution
 patterns.
 
 Explicitly note that the "undefined" state of memory regions is propagated by
@@ -89,12 +90,12 @@ Limitations
       Valgrind detects secret-dependent execution patterns in a specific binary
       that was generated with certain compiler flags and for a concrete hardware
       platform. This does not guarantee that the implementation is free of such
-      side channels in any other configuration of compiler, flags, and target.
+      side-channels in any other configuration of compiler, flags, and target.
 
  * **Limited scope of detection**
 
-      Valgrind can detect side channels that are based on secret-dependent
-      control flow or memory access patterns. Timing side channels that are
+      Valgrind can detect side-channels that are based on secret-dependent
+      control flow or memory access patterns. Timing side-channels that are
       based on cache access patterns or other micro-architectural features, such
       as operand-dependent execution times of certain machine instructions, are
       not detected.
