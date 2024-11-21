@@ -1,12 +1,13 @@
 """""""
-SLH DSA
+SLH-DSA
 """""""
 
-Analysed variants:
+Analyzed variants:
 
 - SphincsPlus-sha2-128s-r3.1, deterministic
+- SLH-DSA-SHA2-128s, deterministic
 
-For the analysis of SLH DSA, a utility was written that calls the functions to be analysed in a similar way to the Botan CLI.
+For the analysis of SLH-DSA, a utility was written that calls the functions to be analyzed in a similar way to the Botan CLI.
 The following call is used to generate a signature:
 
 .. code-block:: cpp
@@ -39,7 +40,7 @@ The binary is compiled with the `gcc` compiler with the following version:
 
 The host operating system is `Debian GNU/Linux 12 (bookworm)`.
 
-The SLH DSA standard uses a variant of XMSS within the hypertree and refers to it as XMSS for short.
+The SLH-DSA standard uses a variant of XMSS within the hypertree and refers to it as XMSS for short.
 In line with the standard, this procedure is also referred to as XMSS in this section.
 
 **Modification of the hypertree**
@@ -65,11 +66,11 @@ This change has no influence on the code coverage of the side channel analysis p
 
 **Summary**
 
-DATA did not detect any leaks in the analysed SPHINCS+ implementation.
-In phase one DATA only identified differences in programme execution.
+DATA did not detect any leaks in the analyzed SPHINCS+ implementation.
+In phase one, DATA only identified differences in program execution.
 In phase two, however, no statistical dependency on the secret cryptographic keys used and the difference of execution can be detected.
 
-The cause for the differences in execution are explained in the following sections.
+The causes for the differences in execution are explained in the following sections.
 Overall, the analysis shows five differences during the execution.
 One difference was found within the FORS method, the remaining four differences concern the XMSS method.
 
@@ -82,13 +83,13 @@ The children of this node are root nodes of individual Merkle trees that are use
 
 The `treehash` routine uses the leaves of a Merkle tree to calculate the nodes above it.
 Components of a FORS signature are the so-called authentication data.
-These are nodes that are generated during signature generation and are required for verification in order to calculate the respective root of the Merkle tree.During verification, parts of the leaves are calculated depending on the message and the signature.
+These are nodes that are generated during signature generation and are required for verification in order to calculate the respective root of the Merkle tree. During verification, parts of the leaves are calculated depending on the message and the signature.
 The remaining nodes required to calculate the root are the so-called authentication data, which are also contained in the signature.
 
 The `treehash` routine detects during execution whether the currently calculated node must be added to the authentication data (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
-If this is the case, a condition in the programme flow is fulfilled and the programme execution is changed.
-This control flow difference is indicated by DATA.
-The difference is not critical because the values of the nodes within these Merkle trees are public.
+If this is the case, a condition in the program flow is fulfilled and the program execution is changed.
+This control flow difference is indicated by DATA and allows to observe which nodes are added to the authentication data.
+The difference is not critical because both (i) which nodes are used and (ii) the values itself within these Merkle trees are public.
 Consequently, it is also uncritical if the differences indicate which nodes belong to the authentication data.
 This knowledge can also be derived from a message and the associated signature.
 
@@ -119,7 +120,7 @@ This knowledge can also be derived from a message and the associated signature.
 
 The XMSS method is based on the WOTS method and the use of Merkle trees.
 Similar to the FORS method, the XMSS method also uses the `treehash` routine.
-Here too, there is a similar difference in programme execution when adding individual nodes to the authentication data of a signature (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
+Here too, there is a similar difference in program execution when adding individual nodes to the authentication data of a signature (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
 As with the FORS method, this difference is also uncritical with the XMSS method.
 
 .. code-block:: cpp
