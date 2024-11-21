@@ -82,7 +82,7 @@ The children of this node are root nodes of individual Merkle trees that are use
 
 The `treehash` routine uses the leaves of a Merkle tree to calculate the nodes above it.
 Components of a FORS signature are the so-called authentication data.
-These are nodes that are generated during signature generation and are required for verification in order to calculate the respective root of the Merkle tree.During verification, parts of the leaves are calculated depending on the message and the signature.
+These are nodes that are generated during signature generation and are required for verification in order to calculate the respective root of the Merkle tree. During verification, parts of the leaves are calculated depending on the message and the signature.
 The remaining nodes required to calculate the root are the so-called authentication data, which are also contained in the signature.
 
 The `treehash` routine detects during execution whether the currently calculated node must be added to the authentication data (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
