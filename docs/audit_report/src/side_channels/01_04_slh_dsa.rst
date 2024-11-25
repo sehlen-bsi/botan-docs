@@ -6,7 +6,7 @@ Analyzed variants:
 
 - SphincsPlus-sha2-128s-r3.1, deterministic
 
-For the analysis of SLH DSA, a utility was written that calls the functions to be analysed in a similar way to the Botan CLI.
+For the analysis of SLH DSA, a utility was written that calls the functions to be analyzed in a similar way to the Botan CLI.
 The following call is used to generate a signature:
 
 .. code-block:: cpp
