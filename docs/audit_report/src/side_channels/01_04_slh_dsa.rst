@@ -119,7 +119,7 @@ This knowledge can also be derived from a message and the associated signature.
 
 The XMSS method is based on the WOTS method and the use of Merkle trees.
 Similar to the FORS method, the XMSS method also uses the `treehash` routine.
-Here too, there is a similar difference in programme execution when adding individual nodes to the authentication data of a signature (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
+Here too, there is a similar difference in program execution when adding individual nodes to the authentication data of a signature (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
 As with the FORS method, this difference is also uncritical with the XMSS method.
 
 .. code-block:: cpp
