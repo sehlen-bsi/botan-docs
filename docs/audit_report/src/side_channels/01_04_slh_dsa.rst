@@ -69,7 +69,7 @@ DATA did not detect any leaks in the analyzed SPHINCS+ implementation.
 In phase one, DATA only identified differences in program execution.
 In phase two, however, no statistical dependency on the secret cryptographic keys used and the difference of execution can be detected.
 
-The cause for the differences in execution are explained in the following sections.
+The causes for the differences in execution are explained in the following sections.
 Overall, the analysis shows five differences during the execution.
 One difference was found within the FORS method, the remaining four differences concern the XMSS method.
 
