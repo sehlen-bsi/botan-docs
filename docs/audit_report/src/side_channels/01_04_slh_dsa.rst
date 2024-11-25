@@ -86,7 +86,7 @@ These are nodes that are generated during signature generation and are required 
 The remaining nodes required to calculate the root are the so-called authentication data, which are also contained in the signature.
 
 The `treehash` routine detects during execution whether the currently calculated node must be added to the authentication data (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
-If this is the case, a condition in the programme flow is fulfilled and the programme execution is changed.
+If this is the case, a condition in the program flow is fulfilled and the program execution is changed.
 This control flow difference is indicated by DATA.
 The difference is not critical because the values of the nodes within these Merkle trees are public.
 Consequently, it is also uncritical if the differences indicate which nodes belong to the authentication data.
