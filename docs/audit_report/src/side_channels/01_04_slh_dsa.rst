@@ -2,7 +2,7 @@
 SLH DSA
 """""""
 
-Analysed variants:
+Analyzed variants:
 
 - SphincsPlus-sha2-128s-r3.1, deterministic
 
