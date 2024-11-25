@@ -65,7 +65,7 @@ This change has no influence on the code coverage of the side channel analysis p
 
 **Summary**
 
-DATA did not detect any leaks in the analysed SPHINCS+ implementation.
+DATA did not detect any leaks in the analyzed SPHINCS+ implementation.
 In phase one DATA only identified differences in programme execution.
 In phase two, however, no statistical dependency on the secret cryptographic keys used and the difference of execution can be detected.
 
