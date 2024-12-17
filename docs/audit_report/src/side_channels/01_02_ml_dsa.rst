@@ -1,5 +1,5 @@
 """"""
-ML DSA
+ML-DSA
 """"""
 
 Analysed variants:
@@ -8,7 +8,7 @@ Analysed variants:
 - ML-DSA-65
 - ML-DSA-87
 
-For the analysis of ML DSA, a utility was written that calls the functions to be analysed in a similar way to the Botan CLI.
+For the analysis of ML-DSA, a utility was written that calls the functions to be analyzed in a similar way to the Botan CLI.
 The following call is used to create the signature:
 
 .. code-block:: cpp
@@ -51,13 +51,9 @@ The reasoning for each identified leak is explained below.
 
 In the analysis with DATA, leaks were detected in the functions `make_hint()` (:srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:843|make_hint`),
 and `hint_pack()` (:srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:232|hint_pack`).
-The function `make_hint()` generates hints to verify the signature.
-The `hint_pack()` function adds these hints to the signature.
-In the pseudocode, this corresponds to the function `MakeHint()` in line 23.
-If the signature is not discarded, these hints become part of the signature and are therefore publicly known.
-In the case of signatures that are discarded, knowledge of the hints does not enable an attack on the private key or the message to be signed as far as we know at present.
-For these reasons, the leaks of the hints are not considered problematic.
-
+The leakage observation is due to a combination of the measurement method of DATA and the rejection method of ML-DSA.
+The rejection method leads to a changed pointer base address which is detected by DATA.
+Hence, the leaks of the hints are not considered problematic.
 
 **Leak: SampleInBall**
 
@@ -86,7 +82,7 @@ The leaks found can make it possible for attackers to gain knowledge of which of
 According to the state-of-the-art, this knowledge does not enable an attack on the private key or the message to be signed.
 
 To check the infinity norm, the absolute value of each term is compared with the bound value in the implementation.
-The reference implementation of CRYSTALS-Dilithium [DILITHIUM_REFERENCE_IMPLEMENTATION]_ states that the element that fulfils this condition and thus leads to the rejection of a signature can leak, but not the sign of the element:
+The reference implementation of CRYSTALS-Dilithium [DILITHIUM_REFERENCE_IMPLEMENTATION]_ states that the element that fulfills this condition and thus leads to the rejection of a signature can leak, but not the sign of the element:
 
 .. code-block:: c
 
@@ -98,7 +94,7 @@ The reference implementation of CRYSTALS-Dilithium [DILITHIUM_REFERENCE_IMPLEMEN
     t = a->coeffs[i] >> 31;
     t = a->coeffs[i] - (t & 2*a->coeffs[i]);
 
-The current implementation in the function `infinity_norm_within_bound()` in Botan fulfils this requirement.
+The current implementation in the function `infinity_norm_within_bound()` in Botan fulfills this requirement.
 The sign is not leaked, as the following code snippet shows.
 
 .. code-block:: cpp
@@ -121,4 +117,4 @@ The sign is not leaked, as the following code snippet shows.
     return true;
   }
 
-For these reasons, the leaks can be categorised as unproblematic.
+For these reasons, the leaks can be categorized as unproblematic.
