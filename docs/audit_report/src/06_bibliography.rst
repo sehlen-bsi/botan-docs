@@ -35,3 +35,5 @@
 .. [DATA] https://www.usenix.org/conference/usenixsecurity18/presentation/weiser
 
 .. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
+
+.. [DILITHIUM_REFERENCE_IMPLEMENTATION] https://github.com/pq-crystals/dilithium/blob/cbcd8753a43402885c90343cd6335fb54712cda1/ref/poly.c#L277-L279
