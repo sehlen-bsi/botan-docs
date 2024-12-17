@@ -1,5 +1,5 @@
 """"""
-ML KEM
+ML-KEM
 """"""
 
 Analysed variants:
@@ -8,7 +8,7 @@ Analysed variants:
 - ML-KEM-768
 - ML-KEM-1024
 
-For the analysis of ML KEM, a utility was written that calls the functions to be analyzed in a similar way to the Botan CLI.
+For the analysis of ML-KEM, a utility was written that calls the functions to be analyzed in a similar way to the Botan CLI.
 The following call is used to perform the key encapsulation method:
 
 .. code-block:: cpp
