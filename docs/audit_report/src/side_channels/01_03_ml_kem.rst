@@ -61,5 +61,5 @@ The reasoning for each identified leak is explained below.
 
 A data leak was found in the ``sample_matrix()`` function (:srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:380|sample_matrix`) which generates the Kyber polynomial matrix.
 The polynomial matrix is generated using the public key.
-This is therefore merely a leak of the public key, which is not considered problematic.
+This is, therefore, merely a leak of the public key, which is not considered problematic.
 No leaks were found during decryption with the private key.
