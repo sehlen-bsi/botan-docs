@@ -86,7 +86,7 @@ The leaks found can make it possible for attackers to gain knowledge of which of
 According to the state-of-the-art, this knowledge does not enable an attack on the private key or the message to be signed.
 
 To check the infinity norm, the absolute value of each term is compared with the bound value in the implementation.
-The reference implementation of CRYSTALS-Dilithium [DILITHIUM_REFERENCE_IMPLEMENTATION]_ states that the element that fulfils this condition and thus leads to the rejection of a signature can leak, but not the sign of the element:
+The reference implementation of CRYSTALS-Dilithium [DILITHIUM_REFERENCE_IMPLEMENTATION]_ states that the element that fulfills this condition and thus leads to the rejection of a signature can leak, but not the sign of the element:
 
 .. code-block:: c
 
