@@ -121,4 +121,4 @@ The sign is not leaked, as the following code snippet shows.
     return true;
   }
 
-For these reasons, the leaks can be categorised as unproblematic.
+For these reasons, the leaks can be categorized as unproblematic.
