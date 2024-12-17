@@ -98,7 +98,7 @@ The reference implementation of CRYSTALS-Dilithium [DILITHIUM_REFERENCE_IMPLEMEN
     t = a->coeffs[i] >> 31;
     t = a->coeffs[i] - (t & 2*a->coeffs[i]);
 
-The current implementation in the function `infinity_norm_within_bound()` in Botan fulfils this requirement.
+The current implementation in the function `infinity_norm_within_bound()` in Botan fulfills this requirement.
 The sign is not leaked, as the following code snippet shows.
 
 .. code-block:: cpp
