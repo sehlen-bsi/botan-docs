@@ -54,13 +54,6 @@ and `hint_pack()` (:srcref:`[src/lib/pubkey/dilithium/dilithium_common]/dilithiu
 The leakage observation is due to a combination of the measurement method of DATA and the rejection method of ML-DSA.
 The rejection method leads to a changed pointer base address which is detected by DATA.
 Hence, the leaks of the hints are not considered problematic.
-The function `make_hint()` generates hints to verify the signature.
-The `hint_pack()` function adds these hints to the signature.
-In the pseudocode, this corresponds to the function `MakeHint()` in line 23.
-If the signature is not discarded, these hints become part of the signature and are therefore publicly known.
-In the case of signatures that are discarded, knowledge of the hints does not enable an attack on the private key or the message to be signed as far as we know at present.
-For these reasons, the leaks of the hints are not considered problematic.
-
 
 **Leak: SampleInBall**
 
