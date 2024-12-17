@@ -1,5 +1,5 @@
 """""""
-SLH DSA
+SLH-DSA
 """""""
 
 Analyzed variants:
