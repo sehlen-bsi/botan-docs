@@ -1,5 +1,5 @@
 """"""
-ML DSA
+ML-DSA
 """"""
 
 Analysed variants:
