@@ -88,8 +88,8 @@ The remaining nodes required to calculate the root are the so-called authenticat
 
 The `treehash` routine detects during execution whether the currently calculated node must be added to the authentication data (:srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_treehash.cpp:64|internal_leaf`).
 If this is the case, a condition in the program flow is fulfilled and the program execution is changed.
-This control flow difference is indicated by DATA.
-The difference is not critical because the values of the nodes within these Merkle trees are public.
+This control flow difference is indicated by DATA and allows to observe which nodes are added to the authentication data.
+The difference is not critical because both (i) which nodes are used and (ii) the values itself within these Merkle trees are public.
 Consequently, it is also uncritical if the differences indicate which nodes belong to the authentication data.
 This knowledge can also be derived from a message and the associated signature.
 
