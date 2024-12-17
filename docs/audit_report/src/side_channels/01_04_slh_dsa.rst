@@ -5,6 +5,7 @@ SLH DSA
 Analyzed variants:
 
 - SphincsPlus-sha2-128s-r3.1, deterministic
+- SLH-DSA-SHA2-128s, deterministic
 
 For the analysis of SLH DSA, a utility was written that calls the functions to be analyzed in a similar way to the Botan CLI.
 The following call is used to generate a signature:
