@@ -8,7 +8,7 @@ Analysed variants:
 - ML-DSA-65
 - ML-DSA-87
 
-For the analysis of ML DSA, a utility was written that calls the functions to be analysed in a similar way to the Botan CLI.
+For the analysis of ML DSA, a utility was written that calls the functions to be analyzed in a similar way to the Botan CLI.
 The following call is used to create the signature:
 
 .. code-block:: cpp
