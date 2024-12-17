@@ -40,7 +40,7 @@ The binary is compiled with the `gcc` compiler with the following version:
 
 The host operating system is `Debian GNU/Linux 12 (bookworm)`.
 
-The SLH DSA standard uses a variant of XMSS within the hypertree and refers to it as XMSS for short.
+The SLH-DSA standard uses a variant of XMSS within the hypertree and refers to it as XMSS for short.
 In line with the standard, this procedure is also referred to as XMSS in this section.
 
 **Modification of the hypertree**
