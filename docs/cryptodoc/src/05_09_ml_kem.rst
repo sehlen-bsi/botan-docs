@@ -198,7 +198,7 @@ This capability is essential for the processes of key generation and
 encapsulation in ML-KEM. Table
 :ref:`Polynomial Sampling Methods <pubkey/kyber/poly_sample>` lists the
 supported methods. The sampling counter :math:`N` is managed by the sampler
-object and increments with each method call accordingly.
+object and is incremented with each method call accordingly.
 
 .. _pubkey/kyber/poly_sample:
 
@@ -372,7 +372,7 @@ In combination, Botan does the following:
 
    - Steps 1-3 correspond to Algorithms 20 and 17 of [FIPS-203]_ and are
      performed in :srcref:`[src/lib/pubkey/kyber]/ml_kem/ml_kem_impl.cpp:25|ML_KEM_Encryptor::encapsulate`.
-   - Steps 1.1-1.9 correspond to Algorithms 14 of [FIPS-203]_ and are performed
+   - Steps 3.1-3.9 correspond to Algorithms 14 of [FIPS-203]_ and are performed
      in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:55|indcpa_encrypt`.
    - The transposed matrix ``At`` is precomputed and stored in the public key
      object. This way, consecutive encapsulations for the same public key do not
@@ -422,7 +422,7 @@ In combination, Botan does the following:
 
    **Notes:**
 
-   - Steps 1,2 and 6-9 correspond to Algorithm 18 of [FIPS-203]_ and are
+   - Steps 1-6 correspond to Algorithm 18 of [FIPS-203]_ and are
      performed in :srcref:`[src/lib/pubkey/kyber]/ml_kem/ml_kem_impl.cpp:48|ML_KEM_Decryptor::decapsulate`.
    - Steps 2.1-2.3 correspond to Algorithm 15 of [FIPS-203]_ and are performed
      in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_keys.cpp:84|Kyber_PrivateKeyInternal::indcpa_decrypt`.
