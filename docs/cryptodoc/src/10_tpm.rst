@@ -64,10 +64,14 @@ capabilities and fundamental key management operations.
    **Steps:**
 
    - If no handle was provided, ``handle = next_free_handle()`` (via ``Esys_GetCapability``)
-   - ``Esys_EvictControl(ctx, key.transient_handle(), sessions, out(handle))``
+   - ``Esys_EvictControl(ctx, key.transient_handle(), sessions, handle, out(handle))``
    - ``Esys_TR_SetAuth(ctx, key.transient_handle(), auth_value)``
    - ``key.persistent_handle() = Esys_TR_GetTpmHandle(ctx, key.transient_handle())``
    - Return ``handle``
+
+   **Notes:**
+
+   - ``out(handle)`` indicates that ``handle`` is the output parameter to be written to.
 
 .. admonition:: TPM2::Context::evict()
 
