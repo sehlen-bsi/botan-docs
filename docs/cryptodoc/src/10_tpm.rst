@@ -9,7 +9,7 @@ There are independent wrappers for TPM 1.2 and TPM 2.0. The TPM 1.2 wrapper is
 deprecated and will be removed in a future release. This chapter only covers
 the TPM 2.0 wrapper and specifies the calls made to the ESAPI by Botan.
 
-The TPM 2.0 support in Botan relies on `the TPM2-TSS library
+The TPM 2.0 support in Botan relies on the `TPM2-TSS library
 <https://github.com/tpm2-software/tpm2-tss>` as specified by the Trusted
 Computing Group. More specifically, it uses the Enhanced System API (ESAPI) of
 the TPM2-TSS library.
@@ -39,27 +39,27 @@ capabilities and fundamental key management operations.
 
    **Input:**
 
-   - tcti_name: (optional) The name of the TPM Command Transmission Interface (TCTI) to use.
-   - tcti_conf: (optional) The configuration string for the TCTI.
+   - ``tcti_name``: (optional) The name of the TPM Command Transmission Interface (TCTI) to use.
+   - ``tcti_conf``: (optional) The configuration string for the TCTI.
 
    **Steps:**
 
-   - ``m_tcti_ctx = Tss2_TctiLdr_Initialize_Ex(tcti_name, tcti_conf)```
+   - ``m_tcti_ctx = Tss2_TctiLdr_Initialize_Ex(tcti_name, tcti_conf)``
    - ``m_esys_ctx = Esys_Initialize(m_tcti_ctx)``
 
 .. admonition:: TPM2::Context::persist()
 
    **Input:**
 
-   - ctx: The TPM context
-   - key: The (currently transient) TPM private key to persist
-   - sessions: The TPM session bundle
-   - auth_value: The TPM authorization value for the key
-   - handle: (Optional) The handle the key shall be persisted under
+   - ``ctx``: The TPM context
+   - ``key``: The (currently transient) TPM private key to persist
+   - ``sessions``: The TPM session bundle
+   - ``auth_value``: The TPM authorization value for the key
+   - ``handle``: (Optional) The handle the key shall be persisted under
 
    **Output:**
 
-   - handle: The handle the key was persisted under
+   - ``handle``: The handle the key was persisted under
 
    **Steps:**
 
@@ -73,9 +73,9 @@ capabilities and fundamental key management operations.
 
    **Input:**
 
-   - ctx: The TPM context
-   - key: The (currently persistent) TPM private key to be evicted
-   - sessions: The TPM session bundle
+   - ``ctx``: The TPM context
+   - ``key``: The (currently persistent) TPM private key to be evicted
+   - ``sessions``: The TPM session bundle
 
    **Steps:**
 
@@ -102,17 +102,17 @@ Botan's TPM session wrapper is implemented in :srcref:`[src/lib/prov]/tpm2/tpm2_
 
    **Input:**
 
-   - ctx: The TPM context
-   - sym_algo: The symmetric algorithm to use for the session (default: ``CFB(AES-256)``)
-   - hash_algo: The hash algorithm to use for the session (default: ``SHA-256``)
+   - ``ctx``: The TPM context
+   - ``sym_algo``: The symmetric algorithm to use for the session (default: ``CFB(AES-256)`` (Cipher Feedback Mode))
+   - ``hash_algo``: The hash algorithm to use for the session (default: ``SHA-256``)
 
    **Output:**
 
-   - session: A session object that supports unauthenticated but encrypted communication with the TPM
+   - ``session``: A session object that supports unauthenticated but encrypted communication with the TPM
 
    **Steps:**
 
-   1. ``m_session_handle = Esys_StartAuthSession(ctx, TPM2_SE_HMAC, sym_algo, hash_algo)``
+   - ``m_session_handle = Esys_StartAuthSession(ctx, TPM2_SE_HMAC, sym_algo, hash_algo)``
 
    **Notes:**
 
@@ -123,14 +123,14 @@ Botan's TPM session wrapper is implemented in :srcref:`[src/lib/prov]/tpm2/tpm2_
 
    **Input:**
 
-   - ctx: The TPM context
-   - key: A TPM-hosted key to use for the key exchange
-   - sym_algo: The symmetric algorithm to use for the session (default: ``CFB(AES-256)``)
-   - hash_algo: The hash algorithm to use for the session (default: ``SHA-256``)
+   - ``ctx``: The TPM context
+   - ``key``: A TPM-hosted key to use for the key exchange
+   - ``sym_algo``: The symmetric algorithm to use for the session (default: ``CFB(AES-256)`` (Cipher Feedback Mode))
+   - ``hash_algo``: The hash algorithm to use for the session (default: ``SHA-256``)
 
    **Output:**
 
-   - session: A session object that supports encrypted communication with the TPM using a secret established using ``key``
+   - ``session``: A session object that supports encrypted communication with the TPM using a secret established using ``key``
 
    **Steps:**
 
@@ -148,7 +148,7 @@ Botan's TPM session wrapper is implemented in :srcref:`[src/lib/prov]/tpm2/tpm2_
 Crypto Backend
 --------------
 
-The communication between the application and the TPM can (and should be)
+The communication between the application and the TPM can (and should) be
 encrypted using :ref:`TPM2 Sessions <tpm/session>`. The protocol used for this
 communication is specified by the Trusted Computing Group and implemented by the
 TPM2-TSS library. Starting with version 4.0 the TPM2-TSS library provides
@@ -187,7 +187,7 @@ by the TPM, or by transforming the public key to a Botan key and performing the
 operation in software using Botan's implementations. Private key operations
 (decryption and signing) are always performed by the TPM.
 
-Since the usage of RSA and ECC keys is very similar, this Section provides an
+Since the usage of RSA and ECC keys is very similar, this section provides an
 overview of the functionality without distinguishing between RSA and ECC keys.
 
 .. admonition:: Key pair generation
@@ -199,15 +199,15 @@ overview of the functionality without distinguishing between RSA and ECC keys.
 
    **Input:**
 
-   - ctx: The TPM context
-   - sessions: The TPM session bundle
-   - auth_value: The TPM authorization value for the key
-   - parent_key: The parent key under which the new key shall be created
-   - key_spec: RSA keylength and exponent or ECC curve spec
+   - ``ctx``: The TPM context
+   - ``sessions``: The TPM session bundle
+   - ``auth_value``: The TPM authorization value for the key
+   - ``parent_key``: The parent key under which the new key shall be created
+   - ``key_spec``: RSA keylength and exponent or ECC curve spec
 
    **Output:**
 
-   - key: A transient private key object
+   - ``key``: A transient private key object
 
    **Steps:**
 
@@ -224,16 +224,16 @@ overview of the functionality without distinguishing between RSA and ECC keys.
 
    **Input:**
 
-   - ctx: The TPM context
-   - auth_value: The TPM authorization value for the key
-   - parent_key: The parent key under which the new key shall be created
-   - public_blob: The public part of the key
-   - private_blob: The private part of the key (previously encrypted by the TPM)
-   - sessions: The TPM session bundle
+   - `ctx`: The TPM context
+   - `auth_value`: The TPM authorization value for the key
+   - `parent_key`: The parent key under which the new key shall be created
+   - `public_blob`: The public part of the key
+   - `private_blob`: The private part of the key (previously encrypted by the TPM)
+   - `sessions`: The TPM session bundle
 
    **Output:**
 
-   - key: A transient private key object
+   - ``key``: A transient private key object
 
    **Steps:**
 
@@ -249,14 +249,14 @@ overview of the functionality without distinguishing between RSA and ECC keys.
 
    **Input:**
 
-   - ctx: The TPM context
-   - persistent_handle: The handle of the persistent key to load
-   - auth_value: The TPM authorization value for the key
-   - sessions: The TPM session bundle
+   - ``ctx``: The TPM context
+   - ``persistent_handle``: The handle of the persistent key to load
+   - ``auth_value``: The TPM authorization value for the key
+   - ``sessions``: The TPM session bundle
 
    **Output:**
 
-   - key: A persistent private key object
+   - ``key``: A persistent private key object
 
    **Steps:**
 
@@ -276,15 +276,15 @@ here.
 
    **Input:**
 
-   - ctx: The TPM context
-   - key: The TPM private key
-   - sessions: The TPM session bundle
-   - hash_name: The hash algorithm to use for the signature
-   - data: The data to sign
+   - ``ctx``: The TPM context
+   - ``key``: The TPM private key
+   - ``sessions``: The TPM session bundle
+   - ``hash_name``: The hash algorithm to use for the signature
+   - ``data``: The data to sign
 
    **Output:**
 
-   - signature: The signature of the data
+   - ``signature``: The signature of the data
 
    **Steps:**
 
@@ -305,16 +305,16 @@ here.
 
    **Input:**
 
-   - ctx: The TPM context
-   - key: The TPM public key
-   - sessions: The TPM session bundle
-   - hash_name: The hash algorithm to use for the signature
-   - data: The data to verify
-   - signature: The signature to verify
+   - ``ctx``: The TPM context
+   - ``key``: The TPM public key
+   - ``sessions``: The TPM session bundle
+   - ``hash_name``: The hash algorithm to use for the signature
+   - ``data``: The data to verify
+   - ``signature``: The signature to verify
 
    **Output:**
 
-   - valid: Whether the signature is valid
+   - ``valid``: Whether the signature is valid
 
    **Steps:**
 
@@ -334,15 +334,15 @@ supported at the moment.
 
    **Input:**
 
-   - ctx: The TPM context
-   - key: The TPM public key
-   - sessions: The TPM session bundle
-   - padding: The RSA padding to be used
-   - plaintext: The data to encrypt
+   - ``ctx``: The TPM context
+   - ``key``: The TPM public key
+   - ``sessions``: The TPM session bundle
+   - ``padding``: The RSA padding to be used
+   - ``plaintext``: The data to encrypt
 
    **Output:**
 
-   - ciphertext: The encrypted data
+   - ``ciphertext``: The encrypted data
 
    **Steps:**
 
@@ -353,15 +353,15 @@ supported at the moment.
 
    **Input:**
 
-   - ctx: The TPM context
-   - key: The TPM private key
-   - sessions: The TPM session bundle
-   - padding: The RSA padding to be used
-   - ciphertext: The data to decrypt
+   - ``ctx``: The TPM context
+   - ``key``: The TPM private key
+   - ``sessions``: The TPM session bundle
+   - ``padding``: The RSA padding to be used
+   - ``ciphertext``: The data to decrypt
 
    **Output:**
 
-   - plaintext: The decrypted data
+   - ``plaintext``: The decrypted data
 
    **Steps:**
 
