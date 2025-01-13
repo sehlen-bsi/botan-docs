@@ -48,6 +48,8 @@ The host operating system is `Ubuntu 20.04.6 LTS`.
 
 **Analysis with DATA**
 
+The following leakages were fixed before an integration into Botan's master branch.
+Therefore, the released version 3.7.0 does not contain the identified side-channels.
 In the first evaluation runs DATA identified leakage points within the routines used for key pair generation, encryption and decryption.
 Based on these results, the PRNG instantiated in the utility program was modified to isolate the cause of the observed leakage points.
 The modifications comprised seeding the PRNG with a constant and a key-unique seed.
