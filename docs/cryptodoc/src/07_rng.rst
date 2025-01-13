@@ -855,7 +855,7 @@ External RNG Providers
 .. _rng/jitter_rng:
 
 JitterEntropy Library
----------------------
+^^^^^^^^^^^^^^^^^^^^^
 
 JitterEntropy is a library that provides a random number generator based on the
 jitter of a CPU's execution time. For a detailed explanation of the RNG, its
