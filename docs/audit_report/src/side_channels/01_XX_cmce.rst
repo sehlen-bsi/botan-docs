@@ -1,6 +1,6 @@
-""""
+""""""""""""""""
 Classic McEliece
-""""
+""""""""""""""""
 
 Analysed variants:
 
