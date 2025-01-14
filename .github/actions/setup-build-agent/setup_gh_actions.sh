@@ -32,7 +32,7 @@ setup_softhsm_macos() {
 
 if type -p "apt-get"; then
     sudo apt-get -qq update
-    sudo apt-get -qq install ccache
+    sudo apt-get -qq install ccache libbz2-dev liblzma-dev libsqlite3-dev
 
     setup_softhsm_and_tpm_linux
 
