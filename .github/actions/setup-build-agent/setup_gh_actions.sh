@@ -31,14 +31,8 @@ setup_softhsm_macos() {
 }
 
 if type -p "apt-get"; then
-    # Hack to deal with https://github.com/actions/runner-images/issues/8659
-    sudo rm -f /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
-    sudo apt-get update
-    sudo apt-get install -y --allow-downgrades libc6=2.35-* libc6-dev=2.35-* libstdc++6=12.3.0-* libgcc-s1=12.3.0-*
-
-    # Normal workflow follows
-    #sudo apt-get -qq update
-    sudo apt-get -qq install ccache
+    sudo apt-get -qq update
+    sudo apt-get -qq install ccache libbz2-dev liblzma-dev libsqlite3-dev
 
     setup_softhsm_and_tpm_linux
 
@@ -66,12 +60,28 @@ else
     brew install ccache
 
     if [ "$TARGET" = "shared" ]; then
-        brew install boost
+        # Boost 1.87 removes certain deprecated APIs that we used to depend on.
+        # A patch is provided in Botan 3.7.0, in order to allow building 3.6.1,
+        # we explicitly install a previous version of boost.
+        #
+        # See also: https://github.com/randombit/botan/pull/4477
+        #           https://github.com/randombit/botan/pull/4484
+        #
+        # TODO: Remove this as soon as we are done with Botan 3.6.1 and replace
+        #       it with the commented-out code below.
+        brew search boost # for debugging
+        brew install boost@1.85
+        brew link --force --overwrite boost@1.85
 
-        # On Apple Silicon we need to specify the include directory
-        # so that the build can find the boost headers.
-        boostincdir=$(brew --prefix boost)/include
+        boostincdir=$(brew --prefix boost@1.85)/include
         echo "BOOST_INCLUDEDIR=$boostincdir" >> "$GITHUB_ENV"
+
+        # brew install boost
+        # # On Apple Silicon we need to specify the include directory
+        # # so that the build can find the boost headers.
+        # boostincdir=$(brew --prefix boost)/include
+        # echo "BOOST_INCLUDEDIR=$boostincdir" >> "$GITHUB_ENV"
+
         setup_softhsm_macos
     fi
 
