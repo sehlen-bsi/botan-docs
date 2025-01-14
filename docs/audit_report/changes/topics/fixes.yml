@@ -1,5 +1,11 @@
 title: Fixes
 
+description: |
+  This section covers patches that address bugs, performance regressions, or
+  other issues that have been identified in the library. Most relevant are
+  patches that reduce the likelihood of compiler optimizations that would
+  potentially cause side channel vulnerabilities in FrodoKEM and Curve25519.
+
 patches:
 # FIX: move() of scoped_cleanup  (@reneme)
 - pr: 4202  # https://github.com/randombit/botan/pull/4202

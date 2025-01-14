@@ -7,7 +7,9 @@ the results of several analysis tools.
 
 The most significant changes are the following:
 
-.. todo:: Add a bullet-point list for the most significant changes in Botan 3.3.0
+* Implementations for the post-quantum standards FIPS 203, 204, and 205
+* A basic TPM 2.0 wrapper
+* A new elliptic curve math library with much better performance
 
 According to the observations of this audit, Botan version |botan_version| keeps the security level of
 the previously reviewed version and complements the old version with various sensible and
