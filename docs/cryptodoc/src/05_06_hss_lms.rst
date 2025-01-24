@@ -394,22 +394,22 @@ It works as follows:
 
    - After signature creation, ``idx`` of ``SK`` is increased by one.
 
-.. _pubkey/hss_lms/sig_validation:
+.. _pubkey/hss_lms/sig_verification:
 
-Signature Validation
---------------------
+Signature Verification
+----------------------
 
 Botan's method ``HSS_LMS_Verification_Operation::is_valid_signature`` verifies a
 signature-message pair by implementing the method of Section 6.3. of [RFC8554]_
 (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:343|HSS_LMS_PublicKeyInternal::verify_signature`).
 It does the following:
 
-.. admonition:: HSS Signature Validation
+.. admonition:: HSS Signature Verification
 
    **Input:**
 
-   -  ``m``: message to be validated
-   -  ``sig``: signature to be validated
+   -  ``m``: message to be verified
+   -  ``sig``: signature to be verified
    -  ``PK``: HSS public key, ``PK = {L, lms-pk[0]}``
 
    **Output:**
