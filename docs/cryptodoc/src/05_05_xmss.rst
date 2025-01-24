@@ -320,16 +320,16 @@ Signature Verification
 WOTS+
 ^^^^^
 
-WOTS+ signature validation strictly follows Algorithm 6 in [XMSS]_. It is
+WOTS+ signature verification strictly follows Algorithm 6 in [XMSS]_. It is
 implemented in :srcref:`[src/lib/pubkey/xmss]/xmss_wots.cpp`.
 
-The signature validation process works as follows:
+The signature verification process works as follows:
 
 .. admonition:: ``XMSS_WOTS_PublicKey()`` constructor
 
    **Input:**
 
-   -  ``m``: message to be validated
+   -  ``m``: message to be verified
    -  ``oid``: XMSS WOTS+ parameters (``n``, ``w``, ``len``, ``PRF``), which are chosen
       automatically based on the XMSS parameters from Table
       :ref:`Supported XMSS Signature algorithms <pubkey_key_generation/xmss/table>`, see [XMSS]_
@@ -360,7 +360,7 @@ The signature validation process works as follows:
 XMSS
 ^^^^
 
-XMSS signature validation functionality is implemented in
+XMSS signature verification functionality is implemented in
 :srcref:`[src/lib/pubkey/xmss]/xmss_publickey.cpp` and
 :srcref:`[src/lib/pubkey/xmss]/xmss_verification_operation.cpp`.
 
@@ -368,11 +368,11 @@ The algorithm for signature verification follows methods
 ``XMSS_rootFromSig`` and ``XMSS_verify`` from Algorithms 13 and 14 in
 [XMSS]_. The algorithm works as follows:
 
-.. admonition:: XMSS Signature Validation
+.. admonition:: XMSS Signature Verification
 
    **Input:**
 
-   -  ``m``: message to be validated
+   -  ``m``: message to be verified
    -  ``Sig``: XMSS signature
    -  ``PK``: XMSS public key, ``PK = {root, public_seed}``
 
@@ -428,5 +428,5 @@ Botan's XMSS signing implementation in production applications**. Similarly,
 [SP800-208]_ demands the usage of dedicated hardware for XMSS private key
 operations.
 
-Note that validating XMSS signatures does not depend on this state management
+Note that verifying XMSS signatures does not depend on this state management
 and its usability is therefore *not affected* by this disclaimer.
