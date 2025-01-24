@@ -33,7 +33,7 @@ operations.
    +============================================================+===========================================================================+============================================+==============================+
    | :ref:`Types <signatures/slh_dsa/types>`                    | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_types.h`      | Strong types                               |                              |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
-   | :ref:`Address <signatures/slh_dsa/address>`                | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_address.h`    | Address representation and manipulation    | 4.2, 4.3                     |
+   | :ref:`Addresses <signatures/slh_dsa/address>`              | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_address.h`    | Address representation and manipulation    | 4.2, 4.3                     |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
    | :ref:`Parameters <signatures/slh_dsa/parameters>`          | :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sp_parameters.h` | Parameter set instantiations               | 11                           |
    +------------------------------------------------------------+---------------------------------------------------------------------------+--------------------------------------------+------------------------------+
@@ -73,10 +73,12 @@ are documented in the respective header file.
 
 .. _signatures/slh_dsa/address:
 
-Address
-^^^^^^^
+Addresses
+^^^^^^^^^
 
-Botan's SLH-DSA addresses wrap the address specification of [FIPS-205]_
+Section 4.2 of [FIPS-205]_ defines a 32-byte address as an additional
+domain separating input to SLH-DSA's hash and pseudorandom functions.
+Botan wraps this address specification
 into a class ``Sphincs_Address``. Methods for getting, copying, and setting
 specified fields of an address are provided as well as constants. All constants,
 fields, and representations are set as specified in Section 4.2 of [FIPS-205]_.
@@ -349,14 +351,14 @@ SPHINCS\ :sup:`+` instances are activated using the ``sphincsplus_sha2`` and
 ``sphincsplus_shake`` modules, enabling their selection for key creation.
 As with the SLH-DSA instances, they are provided to the constructors of the
 SLH-DSA keys.
-These instances are maintained solely for version compatibility. It is strongly
+These instances are maintained solely for backwards compatibility. It is strongly
 recommended to use the SLH-DSA instances instead.
 
 Signature Creation
 ------------------
 
 **Remark:** Signature creation with non-empty contexts is currently not
-supported in Botan. Support for the pre-hash variant of SLH-DSA is also not yet
+supported in Botan. Support for the pre-hash variant (HashSLH-DSA) of SLH-DSA is also not yet
 available.
 
 An SLH-DSA signature is created in the following manner, following
@@ -395,8 +397,8 @@ Algorithm 22 of [FIPS-205]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplu
    - Steps 3.3, 3.5, 3.6: ``SK.pub_seed`` is omitted as an input because the hash functions are already instantiated with a corresponding member variable.
    - ``SK`` is passed to ``slh_sign_internal`` via member variables.
 
-Signature Validation
---------------------
+Signature Verification
+----------------------
 
 **Remark:** Signature verification with non-empty contexts is currently not
 supported in Botan. Support for the pre-hash variant of SLH-DSA is also not yet
@@ -405,12 +407,12 @@ available.
 An SLH-DSA signature is verified in the following manner, following
 Algorithm 24 of [FIPS-205]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:203|is_valid_signature`):
 
-.. admonition:: SLH-DSA Signature Validation
+.. admonition:: SLH-DSA Signature Verification
 
    **Input:**
 
-   -  ``m``: message to be validated
-   -  ``sig``: signature to be validated
+   -  ``m``: message to be verified
+   -  ``sig``: signature to be verified
    -  ``PK``: SLH-DSA public key, ``PK = {pub_seed, root}``
 
    **Output:**
