@@ -76,6 +76,9 @@
    timings in Kyber implementations”. In: Cryptology ePrint Archive,
    Paper 2024/1049 URL: https://eprint.iacr.org/2024/1049.
 
+.. [BCM+23] Marcus Brinkmann, Chitchanok Chuengsatiansup, Alexander May, Julian Nowakowski and Yuval Yarom.
+   "Leaky McEliece: Secret Key Recovery From Highly Erroneous Side-Channel Information". In: Cryptology ePrint Archive, Paper 2023/1536 URL: https://eprint.iacr.org/2023/1536.
+
 .. [BCD+16] Dominic Bucerzan, Pierre-Louis Cayrel, Vlad Dragoi, and Tania Rich-
    mond. “Improved Timing Attacks against the Secret Permutation
    in the McEliece PKC”. en. In: International Journal of Computers
