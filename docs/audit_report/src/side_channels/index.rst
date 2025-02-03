@@ -10,3 +10,4 @@ The following chapters describe the methodology of DATA, the application in Bota
 
    00_data
    01_00_results
+   02_00_literature
