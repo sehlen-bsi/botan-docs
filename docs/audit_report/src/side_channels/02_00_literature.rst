@@ -52,7 +52,7 @@ by transforming them into much faster multiplication operations. The KyberSlash
 attacks use the fact that the division by the ML-KEM-constant KYBER_Q uses the
 C-language division operator. This division is compiled into an instruction that
 is not constant-time and is used to recover the secret key. This attack is
-mitigated in Botan version 3.3 and is done by manually changing the critical
+addressed in Botan version 3.3 by manually changing the critical
 division into multiple, smaller operations that are constant-time. The new set
 of operations is constructed so that a compiler will not create code with
 variable execution time.
@@ -67,7 +67,7 @@ FrodoKEM [ABD20a]_ is a key encapsulation mechanism (KEM) whose security is
 based on the learning with errors problem (LWE). Unlike ML-KEM and ML-DSA, the
 underlying LWE problem of FrodoKEM is based on generic, algebraically
 unstructured lattices. The structured variants of the LWE problem are more
-compact and computationally efficient, but can also lead to additional attacks
+compact and computationally efficient, but may also lead to additional attacks
 exploiting the extra structure. In general FrodoKEM is designed to be easy to
 implement and yields implementations that are compact and execute in constant
 time.
