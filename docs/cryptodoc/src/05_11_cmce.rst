@@ -11,7 +11,7 @@ in Table :ref:`Supported Classic McEliece parameter sets <pubkey/cmce/parameter_
 .. _pubkey/cmce/parameter_table:
 
 
-.. table:: Supported Classic McEliece parameter sets (see [CMCE-ISO]_ Section 10 and [CMCE-R4]_ Section 7). ``<f>`` and ``<pc>`` indicate that sets of the "fast" variant (f) and with or without plaintext confirmation (pc) are supported.
+.. table:: Supported Classic McEliece parameter sets (see [CMCE-ISO]_ Section 10 and [CMCE-R4]_ Section 7). ``<f>`` and ``<pc>`` indicate that sets of the "fast" variant (f) and with or without plaintext confirmation (pc) are supported. Therefore, each row represents two or four supported instances.
 
    +----------------------------+-----------+-----------+-----------+----------------------------+---------------------------------+
    | Parameter Set              | :math:`m` | :math:`n` | :math:`t` | :math:`f(z)`               | :math:`F(y)`                    |
@@ -26,6 +26,9 @@ in Table :ref:`Supported Classic McEliece parameter sets <pubkey/cmce/parameter_
    +----------------------------+-----------+-----------+-----------+----------------------------+---------------------------------+
    | ``mceliece8192128<pc><f>`` | 13        | 8192      | 128       | :math:`z^{13}+z^4+z^3+z+1` | :math:`y^{128}+y^7+y^2+y+1`     |
    +----------------------------+-----------+-----------+-----------+----------------------------+---------------------------------+
+
+All "fast" instances use the constants :math:`\mu = 32` and :math:`\nu = 64` for
+semi-systematic transformation.
 
 .. _pubkey/cmce/key_generation:
 
@@ -131,7 +134,7 @@ required for generating a random sequence :math:`\alpha_0,...,\alpha_{n-1}` of d
 code. Botan's ``Classic_McEliece_Field_Ordering`` serves as a container for the
 field ordering and includes the algorithm to generate it. To sort the pairs
 :math:`(a_i, i)` (as described in Step 3 of Section 8.2 in [CMCE-ISO]_), a
-constant-time bitonic sort implementation is utilized. This sorting algorithm is
+constant-time bitonic sort [BitonicSort]_ implementation is utilized. This sorting algorithm is
 particularly suitable for sets of cardinality a power of two. The sorted
 :math:`a_i` are then transformed into elements of :math:`\mathbb{F}_{q}` as
 described in Steps 4-6 of Section 8.2 in [CMCE-ISO]_. The class
@@ -172,7 +175,7 @@ the polynomial ring :math:`\mathbb{F}_{q} [y]/F(y)` and the
 multiplication of two ``Classic_McEliece_Poly`` polynomials, is implemented in the ``Classic_McEliece_Polynomial_Ring`` class.
 
 Following the recommendation of [CMCE-IMPL]_ Section 6.1,
-the minimal polynomial is computed by finding a unique
+the minimal polynomial is computed by finding the unique
 solution to the equation :math:`g_0\beta^0 + ... + g_{t-1}\beta^{t-1} = \beta^t`.
 A constant-time Gaussian elimination algorithm is used to solve this equation.
 The algorithm aborts if the solution is non-unique. The minimal polynomial
@@ -237,14 +240,14 @@ the public key specified in Section 9.2.7 of [CMCE-ISO]_.
 Classic McEliece instances with the suffix ``f`` employ a semi-systematic transformation
 strategy, utilizing the parameters :math:`(\mu, \nu) = (32, 64)`, as described
 in Section 7.2.3 of [CMCE-ISO]_. Following the recommendation of [CMCE-IMPL]_
-Section 6.1, a Gauss algorithm is executed
+Section 6.1, Gaussian elimination is executed
 to create an identity matrix for the first :math:`mt-\mu` rows. Subsequently, a
-modified Gauss algorithm achieves a reduced row-echelon form for
+modified Gaussian elimination algorithm achieves a reduced row-echelon form for
 the :math:`\mu \times \nu` submatrix beginning at position :math:`(\mu, \mu)`.
 This process determines the column selection, i.e., the indices of the non-zero
 columns. As Section 7.2.3 Step 5 of [CMCE-ISO]_ outlines, the matrix
 columns and the field ordering are permuted according to the pivots. The main
-Gauss algorithm concludes at this point, leaving the matrix in its modified
+Gaussian elimination algorithm concludes at this point, leaving the matrix in its modified
 and systematic form.
 
 For encoding, the matrix :math:`H` is multiplied by an error vector
@@ -285,7 +288,10 @@ An error vector of fixed weight is created following the algorithm described in 
 Random elements :math:`d_0,...,d_{\tau-1}` are
 generated, where the first :math:`t` elements smaller than :math:`n` are selected as
 :math:`a_0,...,a_{t-1}`. Note that side-channels may leak the information about which
-:math:`d_i` element is assigned to which :math:`a_j` element. However, this information
+:math:`d_i` element is assigned to which :math:`a_j` element. As recommended in
+Section 6.2 of [CMCE-IMPL]_, Botan uses constant time arithmetic for
+this assignment.
+However, this information
 is insensitive since the values of the :math:`a_i` cannot be extracted.
 The selected values are translated to an error vector :math:`e` in constant time,
 as described in Section 8.4, Step 5 of [CMCE-ISO]_.
@@ -437,7 +443,8 @@ The Classic McEliece encapsulation procedure of Botan follows Section 8.5 of
    - ``Hash`` is an application of ``SHAKE256`` with 32 output bytes as defined
      in Section 9.1 of [CMCE-ISO]_.
    - The creation of error vectors is a rejection sampling algorithm. For each
-     iteration, the success probability is greater than 24%. To prevent a
+     iteration, the success probability is greater than 24% (see Section 4.5 of
+     [CMCE-DESIGN]_). To prevent a
      broken RNG leading to an endless loop, the algorithm is aborted after 203
      iterations. This value is chosen to ensure that the probability of
      aborting with a correct RNG is less than :math:`2^{-80}`.

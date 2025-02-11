@@ -14,6 +14,10 @@
    "Computational problems associated with Racah algebra,"
    Journal of Computational Physics, Volume 1, Issue 3, 1967, Pages 397-405
 
+.. [BitonicSort] Kenneth E. Batcher:
+   "Sorting networks and their applications".
+   AFIPS conference proceedings, volume 32: 1968 Spring Joint Computer Conference
+
 .. [Blei] Daniel Bleichenbacher:
    "Chosen Ciphertext Attacks Against Protocols Based on the RSA Encryption Standard PKCS #1", Crypto,1998
 
@@ -49,6 +53,11 @@
    "Classic McEliece: Conservative Code-Based Cryptography: Guide for Implementors",
    NIST PQC Challenge Round 4 Submission, 2022,
    https://classic.mceliece.org/mceliece-impl-20221023.pdf
+
+.. [CMCE-DESIGN] Martin R. Albrecht, Daniel J. Bernstein, Tung Chou, Carlos Cid, Jan Gilcher, Tanja Lange, Varun Maram, Ingo von Maurich, Rafael Misoczki, Ruben Niederhagen, Kenneth G. Paterson, Edoardo Persichetti, Christiane Peters, Peter Schwabe, Nicolas Sendrier, Jakub Szefer, Cen Jung Tjhai, Martin Tomlinson, Wen Wang:
+   "Classic McEliece: Conservative Code-Based Cryptography: Design Rationale",
+   NIST PQC Challenge Round 4 Submission, 2022,
+   https://classic.mceliece.org/mceliece-rationale-20221023.pdf
 
 .. [Dilithium-R3] S. Bai, L. Ducas, E. Kiltz, T. Lepoint, V. Lyubashevsky, P. Schwabe, G. Seiler, D. Stehlé:
    "CRYSTALS-Dilithium Algorithm Specifications and Supporting Documentation (Version 3.1)",
