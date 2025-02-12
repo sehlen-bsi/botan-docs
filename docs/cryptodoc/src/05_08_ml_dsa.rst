@@ -310,26 +310,26 @@ that follows [FIPS-204]_ Section 6.1 Algorithm 6.
 
    **Input:**
 
-   - :math:``rng``: random number generator
-   - :math:``mode``: ML-DSA parameter set descriptor
+   - ``rng``: random number generator
+   - ``mode``: ML-DSA parameter set descriptor
 
    **Output:**
 
-   - :math:``sk``: private signing key
-   - :math:``pk``: public verification key
+   - ``sk``: private signing key
+   - ``pk``: public verification key
 
    **Steps:**
 
-   1. Generate a random 32-byte seed :math:`\xi` using ``rng``
-   2. :math:`(\rho, \rho', K) = H(\xi)` (32, 64, and 32 bytes respectively)
-   3. Sample matrix :math:`\hat{A}` from :math:`\rho` using ``expand_A``
-   4. Sample vectors :math:`s_1` and :math:`s_2` from :math:`\rho'` using ``expand_s``
-   5. Calculate :math:`(t_1, t_0)` from :math:`\hat{A}`, :math:`s_1`, and :math:`s_2` using ``compute_t1_and_t0`` (see :srcref:`here <src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:310|compute_t1_and_t0>`)
+   1. Generate a random 32-byte seed ``xi`` using ``rng``
+   2. ``(rho, rho', K) = H(xi)`` (32, 64, and 32 bytes respectively)
+   3. Sample matrix ``A_hat`` from ``rho`` using ``expand_A``
+   4. Sample vectors ``s_1`` and ``s_2`` from ``rho'`` using ``expand_s``
+   5. Calculate ``(t_1, t_0)`` from ``A_hat``, ``s_1``, and ``s_2`` using ``compute_t1_and_t0`` (see :srcref:`here <src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:310|compute_t1_and_t0>`)
 
-      1. :math:`t = NTT^{-1}(\hat{A} \circ NTT(s_1)) + s_2`
-      2. :math:`(t_1, t_0) = power2round(t)` (see :srcref:`here <src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:746|power2round>`)
+      1. ``t = ntt_inverse(A_hat * ntt(s_1)) + s_2``
+      2. ``(t_1, t_0) = power2round(t)`` (see :srcref:`here <src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:746|power2round>`)
 
-   6. :math:`pk = (\rho, t_1)` and :math:`sk = (\xi, K, s_1, s_2, t_0)`
+   6. ``pk = (rho, t_1)`` and ``sk = (xi, K, s_1, s_2, t_0)``
 
    **Notes:**
 
@@ -348,7 +348,7 @@ Signing
 Signature generation as specified in [FIPS-204]_ Algorithms 2 and 7 are
 implemented in :srcref:`Dilithium_Signature_Operation::sign
 <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:153|sign>` with the
-preparation of the message representative :math:`\mu` being done in
+preparation of the message representative ``mu`` being done in
 :srcref:`DilithiumMessageHash
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_symmetric_primitives.h:31|DilithiumMessageHash>`.
 
@@ -356,44 +356,44 @@ preparation of the message representative :math:`\mu` being done in
 
    **Input:**
 
-   - :math:``sk``: private signing key, with :math:`\hat{A}` and :math:`\hat{s_1}`, :math:`\hat{s_2}`, :math:`\hat{t_0}` in NTT domain, :math:`tr = H(pk)`, and :math:`K`
-   - :math:``M``: message to be signed
+   - ``sk``: private signing key, with ``A_hat`` and ``s_1_hat``, ``s_2_hat``, ``t_0_hat`` in NTT domain, ``tr = H(pk)``, and ``K``
+   - ``M``: message to be signed
 
    **Output:**
 
-   - :math:``signature``: the valid signature
+   - ``signature``: the valid signature
 
    **Steps:**
 
-   1. Calculate the message representative :math:`\mu = H(sk.tr \| 00 \| 00 \| M)` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
-   2. :math:`\rho'' = H(sk.K \| rnd \| \mu)` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:68|H_maybe_randomized>`)
-   3. Run the rejection sampling loop (incrementing the nonce :math:`\kappa` by :math:`l` in each iteration)
+   1. Calculate the message representative ``mu = H(sk.tr | 00 | 00 | M)`` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
+   2. ``rho'' = H(sk.K | rnd | mu)`` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:68|H_maybe_randomized>`)
+   3. Run the rejection sampling loop (incrementing the nonce ``kappa`` by :math:`l` in each iteration)
 
-      1. Expand :math:`y` from :math:`\rho''` and :math:`\kappa` using ``expand_mask``
-      2. :math:`\hat{w} = sk.\hat{A} \circ NTT(y)`
-      3. :math:`w = NTT^{-1}(\hat{w})`
-      4. :math:`(w_1, w_0) = decompose(w)`
-      5. :math:`\tilde{c} = H(\mu \| w_1)` (:math:`w_1` is encoded using ``encode_commitment``)
-      6. :math:`\hat{c} = NTT(sample\_in\_ball(\tilde{c}))`
-      7. :math:`cs_1 = NTT^{-1}(\hat{c} \circ sk.\hat{s_1})`
-      8. :math:`z = y + cs_1`
-      9. *Retry* if :math:`\|z\|_{\infty} \geq \gamma_1 - \beta` (see ``infinity_norm_within_bound``)
-      10. :math:`cs_2 = NTT^{-1}(\hat{c} \circ sk.\hat{s_2})`
-      11. :math:`r_0 = w_0 - cs_2`
-      12. *Retry* if :math:`\|r_0\|_{\infty} \geq \gamma_2 - \beta` (see ``infinity_norm_within_bound``))
-      13. :math:`ct_0 = NTT^{-1}(\hat{c} \circ sk.\hat{t_0})`
-      14. *Retry* if :math:`\|ct_0\|_{\infty} \geq \gamma_2` (see ``infinity_norm_within_bound``)
-      15. :math:`h = make\_hint(r_0 + ct_0, w_1)`
-      16. *Retry* if the Hamming weight of :math:`h > \omega`
+      1. Expand ``y`` from ``rho''`` and ``kappa`` using ``expand_mask``
+      2. ``w_hat = sk.A_hat * ntt(y)``
+      3. ``w = ntt_inverse(w_hat)``
+      4. ``(w_1, w_0) = decompose(w)``
+      5. ``c_tilde = H(mu | w_1)`` (``w_1`` is encoded using ``encode_commitment``)
+      6. ``c_hat = ntt(sample_in_ball(c_tilde))``
+      7. ``cs_1 = ntt_inverse(c_hat * sk.s_1_hat)``
+      8. ``z = y + cs_1``
+      9. *Retry* if :math:`\|` ``z`` :math:`\|_{\infty} \geq \gamma_1 - \beta` (see ``infinity_norm_within_bound``)
+      10. ``cs_2 = ntt_inverse(c_hat * sk.s_2_hat)``
+      11. ``r_0 = w_0 - cs_2``
+      12. *Retry* if :math:`\|` ``r_0`` :math:`\|_{\infty} \geq \gamma_2 - \beta` (see ``infinity_norm_within_bound``)
+      13. ``ct_0 = ntt_inverse(c_hat * sk.t_0_hat)``
+      14. *Retry* if :math:`\|` ``ct_0`` :math:`\|_{\infty} \geq \gamma_2` (see ``infinity_norm_within_bound``)
+      15. ``h = make_hint(r_0 + ct_0, w_1)``
+      16. *Retry* if the Hamming weight of ``h`` is greater than :math:`\omega`
 
-   4. :math:`\sigma = (\tilde{c}, z, h)` encoded using ``encode_signature``
+   4. ``sigma = (c_tilde, z, h)`` encoded using ``encode_signature``
 
    **Notes:**
 
    - This algorithm description assumes that the private signing key has already
-     been expanded into the internal representation already. Additionally, the
-     expansion of :math:`\hat{A}`, as well as the NTT for :math:`s_1`,
-     :math:`s_2`, and :math:`t_0` are done :srcref:`prior to the actual signing
+     been expanded into the internal representation. Additionally, the
+     expansion of ``A_hat``, as well as the NTT for ``s_1``,
+     ``s_2``, and ``t_0`` are done :srcref:`prior to the actual signing
      operation
      <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:131|Dilithium_Signature_Operation>`
      to amortize the complexity of these operations across multiple consecutive
@@ -403,8 +403,8 @@ preparation of the message representative :math:`\mu` being done in
      <https://github.com/randombit/botan/issues/4376>`_.
    - Steps 3.12, 3.15: Botan uses an optimization for hint generation as
      provided by the reference implementation. Instead of computing the hint
-     based on :math:`(w - cs_2 + ct_0, -ct_0)`, Botan computes it using the
-     inputs :math:`(w_0 - cs_2 + ct_0, w_1)`. Both computations are equivalent.
+     based on ``(w - cs_2 + ct_0, -ct_0)``, Botan computes it using the
+     inputs ``(w_0 - cs_2 + ct_0, w_1)``. Both computations are equivalent.
 
 .. _pubkey/ml_dsa/verification:
 
@@ -414,7 +414,7 @@ Signature Verification
 Signature verification as specified in [FIPS-204]_ Algorithms 3 and 8 is
 implemented in :srcref:`Dilithium_Verification_Operation::is_valid_signature
 <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:269|is_valid_signature>`
-with the preparation of the message representative :math:`\mu` being done in
+with the preparation of the message representative ``mu`` being done in
 :srcref:`DilithiumMessageHash
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_symmetric_primitives.h:31|DilithiumMessageHash>`.
 
@@ -422,38 +422,38 @@ with the preparation of the message representative :math:`\mu` being done in
 
    **Input:**
 
-   - :math:``pk``: public verification key, with :math:`\hat{A}` and :math:`\hat{t_1'} = NTT(t_1 \circ 2^{d})` in NTT domain
-   - :math:``M``: message to be verified
-   - :math:``signature``: the signature to be verified
+   - ``pk``: public verification key, with ``A_hat`` and ``t_1'_hat = ntt(t_1 * 2^d)`` in NTT domain
+   - ``M``: message to be verified
+   - ``signature``: the signature to be verified
 
    **Output:**
 
-   - :math:``ok``: boolean value whether or not the signature is valid
+   - ``ok``: Boolean value whether or not the signature is valid
 
    **Steps:**
 
-   1. Calculate the message representative :math:`\mu = H(H(pk) \| 0x00 \| 0x00 \| M)` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
-   2. Decode the signature into :math:`(\tilde{c}, z, h)` using ``decode_signature``
-   3. *Abort with "not valid"* if the Hamming weight of :math:`h > \omega`
-   4. *Abort with "not valid"* if :math:`\|z\|_{\infty} \geq \gamma_1 - \beta` (see ``infinity_norm_within_bound``)
-   5. :math:`\hat{c} = NTT(sample\_in\_ball(\tilde{c}))`
-   6. :math:`w'_{Approx} = \hat{A} \circ NTT(z) - \hat{c} \circ \hat{t_1'}`
-   7. :math:`w_1' = use\_hint(w'_{Approx}, h)`
-   8. :math:`\tilde{c}' = H(\mu, w_1')` (:math:`w_1'` is encoded using ``encode_commitment``)
-   9. If :math:`\tilde{c} = \tilde{c}'` *return "valid"*, else *"not valid"*
+   1. Calculate the message representative ``mu = H(H(pk) | 0x00 | 0x00 | M)`` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
+   2. Decode the signature into ``(c_tilde, z, h)`` using ``decode_signature``
+   3. *Abort with "not valid"* if the Hamming weight of ``h`` is greater than :math:`\omega`
+   4. *Abort with "not valid"* if :math:`\|` ``z`` :math:`\|_{\infty} \geq \gamma_1 - \beta` (see ``infinity_norm_within_bound``)
+   5. ``c_hat = ntt(sample_in_ball(c_tilde))``
+   6. ``w'_approx = A_hat * ntt(z) - c_hat * t_1'_hat``
+   7. ``w_1' = use_hint(w'_approx, h)``
+   8. ``c_tilde' = H(mu, w_1')`` (``w_1'`` is encoded using ``encode_commitment``)
+   9. If ``c_tilde = c_tilde'`` *return "valid"*, else *"not valid"*
 
    **Notes:**
 
    - This algorithm description assumes that the public verification key is
      deserialized into the internal representation already. Additionally, the
-     expansion of :math:`\hat{A}`, as well as the preparation of
-     :math:`\hat{t_1'} = NTT(t_1 \circ 2^{d})` are done :srcref:`prior to the actual
+     expansion of ``A_hat``, as well as the preparation of
+     ``t_1'_hat = ntt(t_1 * 2^d)`` are done :srcref:`prior to the actual
      verification operation
      <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:251|Dilithium_Verification_Operation>`
      to amortize the complexity of these operations across multiple consecutive
      signature verification.
    - The check in Step 3 is redundant, because it is not possible to encode a
-     "valid" signature that contains a hint :math:`h` with hamming weight
+     "valid" signature that contains a hint ``h`` with hamming weight
      greater than :math:`omega`. [FIPS-204]_ is unclear about this, as the
      pseudocode in Algorithm 8 *does not include* the check. However, the last
      paragraph of the textual description of the algorithm states that "the
