@@ -238,7 +238,7 @@ submatrix `T` is stored as a matrix object, analogous to its representation in
 the public key specified in Section 9.2.7 of [CMCE-ISO]_.
 
 Classic McEliece instances with the suffix ``f`` employ a semi-systematic transformation
-strategy, utilizing the parameters :math:`(\mu, \nu) = (32, 64)`, as described
+algorithm, specifically tailored to the parameters :math:`(\mu, \nu) = (32, 64)`, as described
 in Section 7.2.3 of [CMCE-ISO]_. Following the recommendation of [CMCE-IMPL]_
 Section 6.1, Gaussian elimination is executed
 to create an identity matrix for the first :math:`mt-\mu` rows. Subsequently, a
@@ -288,13 +288,13 @@ An error vector of fixed weight is created following the algorithm described in 
 Random elements :math:`d_0,...,d_{\tau-1}` are
 generated, where the first :math:`t` elements smaller than :math:`n` are selected as
 :math:`a_0,...,a_{t-1}`. Note that side-channels may leak the information about which
-:math:`d_i` element is assigned to which :math:`a_j` element. As recommended in
-Section 6.2 of [CMCE-IMPL]_, Botan uses constant time arithmetic for
-this assignment.
+:math:`d_i` element is assigned to which :math:`a_j` element.
 However, this information
 is insensitive since the values of the :math:`a_i` cannot be extracted.
-The selected values are translated to an error vector :math:`e` in constant time,
-as described in Section 8.4, Step 5 of [CMCE-ISO]_.
+The selected values are translated to an error vector :math:`e`,
+as described in Section 8.4, Step 5 of [CMCE-ISO]_. As recommended in
+Section 6.2 of [CMCE-IMPL]_, Botan uses constant time arithmetic for
+this translation.
 
 For encoding, the parity check matrix :math:`H` is multiplied with :math:`e` as
 Section :ref:`Matrix Operations <pubkey/cmce/matrix>` describes. The
