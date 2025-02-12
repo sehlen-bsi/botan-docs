@@ -225,7 +225,7 @@ In Botan, the symmetric primitives of ML-KEM are represented by the
 ``KyberSymmetricPrimitives`` class
 (:srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_symmetric_primitives.h:30|Kyber_Symmetric_Primitives`).
 This class provides an interface for the primitives, which are defined as
-:math:`PRF`, :math:`H`, :math:`J`, :math:`G`, and :math:`XOF` in Section 4.1 of
+``PRF``, ``H``, ``J``, ``G``, and ``XOF`` in Section 4.1 of
 [FIPS-203]_.
 
 
