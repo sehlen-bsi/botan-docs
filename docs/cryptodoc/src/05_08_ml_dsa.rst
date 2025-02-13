@@ -365,15 +365,15 @@ preparation of the message representative ``mu`` being done in
 
    **Steps:**
 
-   1. Calculate the message representative ``mu = H(sk.tr | 00 | 00 | M)`` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
-   2. ``rho'' = H(sk.K | rnd | mu)`` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:68|H_maybe_randomized>`)
+   1. Calculate the message representative ``mu = H(sk.tr || 00 || 00 || M)`` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
+   2. ``rho'' = H(sk.K || rnd || mu)`` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:68|H_maybe_randomized>`)
    3. Run the rejection sampling loop (incrementing the nonce ``kappa`` by :math:`l` in each iteration)
 
       1. Expand ``y`` from ``rho''`` and ``kappa`` using ``expand_mask``
       2. ``w_hat = sk.A_hat * ntt(y)``
       3. ``w = ntt_inverse(w_hat)``
       4. ``(w_1, w_0) = decompose(w)``
-      5. ``c_tilde = H(mu | w_1)`` (``w_1`` is encoded using ``encode_commitment``)
+      5. ``c_tilde = H(mu || w_1)`` (``w_1`` is encoded using ``encode_commitment``)
       6. ``c_hat = ntt(sample_in_ball(c_tilde))``
       7. ``cs_1 = ntt_inverse(c_hat * sk.s_1_hat)``
       8. ``z = y + cs_1``
@@ -422,23 +422,23 @@ with the preparation of the message representative ``mu`` being done in
 
    **Input:**
 
-   - ``pk``: public verification key, with ``A_hat`` and ``t_1'_hat = ntt(t_1 * 2^d)`` in NTT domain
+   - ``pk``: public verification key, with ``A_hat`` and ``t_1_hat' = ntt(t_1 * 2^d)`` in NTT domain
    - ``M``: message to be verified
    - ``signature``: the signature to be verified
 
    **Output:**
 
-   - ``ok``: Boolean value whether or not the signature is valid
+   - ``ok``: boolean value whether or not the signature is valid
 
    **Steps:**
 
-   1. Calculate the message representative ``mu = H(H(pk) | 0x00 | 0x00 | M)`` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
+   1. Calculate the message representative ``mu = H(H(pk) || 0x00 || 0x00 || M)`` (see :srcref:`here <src/lib/pubkey/dilithium/ml_dsa/ml_dsa_impl.h:36|start>`)
    2. Decode the signature into ``(c_tilde, z, h)`` using ``decode_signature``
    3. *Abort with "not valid"* if the Hamming weight of ``h`` is greater than :math:`\omega`
    4. *Abort with "not valid"* if :math:`\|` ``z`` :math:`\|_{\infty} \geq \gamma_1 - \beta` (see ``infinity_norm_within_bound``)
    5. ``c_hat = ntt(sample_in_ball(c_tilde))``
-   6. ``w'_approx = A_hat * ntt(z) - c_hat * t_1'_hat``
-   7. ``w_1' = use_hint(w'_approx, h)``
+   6. ``w_approx' = A_hat * ntt(z) - c_hat * t_1_hat'``
+   7. ``w_1' = use_hint(w_approx', h)``
    8. ``c_tilde' = H(mu, w_1')`` (``w_1'`` is encoded using ``encode_commitment``)
    9. If ``c_tilde = c_tilde'`` *return "valid"*, else *"not valid"*
 
