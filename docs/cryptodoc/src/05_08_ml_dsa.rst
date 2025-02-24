@@ -397,7 +397,7 @@ preparation of the message representative ``mu`` being done in
      operation
      <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:131|Dilithium_Signature_Operation>`
      to amortize the complexity of these operations across multiple consecutive
-     signature generations.
+     signature generations. The same applies to calculation of ``tr``.
    - Step 1: Botan 3.6.0 does not yet support the application-defined context
      string as specified in [FIPS-204]_ Algorithm 2. See `GitHub #4376
      <https://github.com/randombit/botan/issues/4376>`_.
