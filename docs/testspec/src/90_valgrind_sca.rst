@@ -15,7 +15,7 @@ Valgrind as well.
 
 The implementer adds annotations to mark specific memory regions as explicitly
 secret or explicitly public. Valgrind then tracks runtime data dependencies of
-these regions and warns whenever a control flow decision or indexed memory
+these regions and issues a warning whenever a control flow decision or indexed memory
 access depends on the annotated secret data or any data that was derived from it.
 
 This is a powerful technique to detect side-channel vulnerabilities, but it
