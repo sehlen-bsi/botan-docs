@@ -13,9 +13,19 @@ curve, a base point of the curve, the order of the base point and the cofactor.
 Theoretically, it is possible to generate a new elliptic curve suitable for
 ECDH. As this process is very costly and comes with many pitfalls, only
 precomputed standardized curves are used in Botan. Thus the feature of
-elliptic curve parameter generation is not implemented. 27 standardized
+elliptic curve parameter generation is not implemented. Various standardized
 curves are provided in :srcref:`src/lib/pubkey/ec_group/ec_named.cpp`. All curves
 recommended in [TR-02102-1]_ are included.
+
+Elliptic curve structures, including points and scalars, as well as operations
+like scalar multiplication, are implemented across various files and classes.
+Currently, there are two distinct implementations for elliptic curve
+mathematics. The first implementation, designed for several labeled curves
+[#supported_curves]_, is
+located in :srcref:`src/lib/math/pcurves/`. This implementation utilizes
+curve-specific optimized operations to enhance performance. For curves not yet
+supported by the optimized implementation or for custom curves, a generic
+implementation is available in :srcref:`src/lib/pubkey/ec_group/`.
 
 It is possible to import custom elliptic curves at run time. However, it is the
 application developer's responsibility to ensure that such custom curves are
@@ -37,6 +47,10 @@ The verification function operates as follows.
    - :math:`G_{x,y}` on :math:`E_{a,b}(\mathbb{F}_p)`: the base point of the curve :math:`E_{a,b}`
    - :math:`n = ord(G_{x,y})`: the order of the base point :math:`G_{x,y}`
    - :math:`h = \#E_{a,b}(\mathbb{F}_p)/n`: the cofactor of the curve
+
+.. [#supported_curves]
+   Botan's :srcref:`src/lib/math/pcurves/` directory contains a subdirectory for
+   each supported curve.
 
 .. admonition:: ``EC_Group::verify_group()``
 
