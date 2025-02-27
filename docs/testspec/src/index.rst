@@ -26,3 +26,4 @@ Contents
    15_rng
    16_tls
    17_x509
+   90_valgrind_sca
