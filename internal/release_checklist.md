@@ -28,6 +28,9 @@ on the document repo's main branch.
   * *Ensure that `BOTAN_VERSION` contains the same semver string*
   * *`BOTAN_BASE_REF` should be the semver string of the previous audit target*
 
+  Also check that the `DOCUMENT_COPYRIGHT_YEAR` corresponds to the year the
+  resulting documents are to be published.
+
 * **Update Changelogs**
 
   Not all documents contain changelogs. Here's a list of
