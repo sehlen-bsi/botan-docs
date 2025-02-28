@@ -1,0 +1,14 @@
+title: Optimizations
+
+patches:
+# Modify Montgomery exponentiation to return results in Montgomery form
+#   Author:    @randombit
+- pr: 4558  # https://github.com/randombit/botan/pull/4558
+  merge_commit: 5826859893e7aa1131ea44c56df0031a872d7128
+  classification: unspecified
+
+# Use relevant DL_Group inversion helpers in DH and DSA
+#   Author:    @randombit
+- pr: 4559  # https://github.com/randombit/botan/pull/4559
+  merge_commit: d5d1a3896638b11bc232ce3706e9eee9fce09fdf
+  classification: unspecified

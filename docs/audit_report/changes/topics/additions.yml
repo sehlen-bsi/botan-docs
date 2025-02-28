@@ -1,0 +1,105 @@
+title: New Features and Additions
+
+patches:
+# Add EC_Group::engine
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4630  # https://github.com/randombit/botan/pull/4630
+  merge_commit: 1f4e5fcd77d9cd9093db6d38f15b9a94e8c6106c
+  classification: unspecified
+
+# Allow using SHA-3 with RSASSA-PSS
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4610  # https://github.com/randombit/botan/pull/4610
+  merge_commit: ab7b5dcd0f9c8b3798ce494ed79aead22b3beae6
+  classification: unspecified
+
+# Add DL_Group::from_name
+#   Author:    @randombit
+- pr: 4580  # https://github.com/randombit/botan/pull/4580
+  merge_commit: 525a35d622c067aa69b296edd52ac56652fd4f17
+  classification: unspecified
+
+# SP.800-108 may handle different counter and L encoding widths
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4551  # https://github.com/randombit/botan/pull/4551
+  merge_commit: bc9b530474b769f75eda4a4102bbc92b5ef650f0
+  classification: unspecified
+
+# Add support for systems without a clock
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4531  # https://github.com/randombit/botan/pull/4531
+  merge_commit: 440b6459be326302f3963178f8f2480990164750
+  classification: unspecified
+
+# Add blinding to the DSA inversion of k
+#   Author:    @randombit
+- pr: 4534  # https://github.com/randombit/botan/pull/4534
+  merge_commit: ac23bcb4e3f783e860daf85df0ff874843526e34
+  classification: unspecified
+
+# Use of none botan private keys for signing certificates.
+#   Author:    @larssilven
+#   Approvals: @reneme, (@randombit)
+- pr: 3867  # https://github.com/randombit/botan/pull/3867
+  merge_commit: 17140fe4858a4b044e68996b821f6519d81b4546
+  classification: unspecified
+
+# Enable the post-quantum x25519+ML-KEM-768 TLS 1.3 ciphersuite by default
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4305  # https://github.com/randombit/botan/pull/4305
+  merge_commit: 1995ee59793b0afadfdb6890c84264dd6ce8ae1e
+  classification: unspecified
+
+# PQC: Add TLS 1.3 groups for (pure) ML-KEM-512, -768 and -1024
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4393  # https://github.com/randombit/botan/pull/4393
+  merge_commit: 960fdcf7906a501fe0e732a14df1660315036908
+  classification: unspecified
+
+# Modernize GHASH: allowing GCM to accept input that is not block-aligned
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4469  # https://github.com/randombit/botan/pull/4469
+  merge_commit: c795370ee8c2d8172ce0d71df0bb2b60165ab657
+  classification: unspecified
+
+# Add X509_CRL::x509_version() accessor
+#   Author:    @reneme
+#   Approvals: @atreiber94, (@randombit)
+- pr: 4488  # https://github.com/randombit/botan/pull/4488
+  merge_commit: b2b18285d4bb0822a291c1fca6e42ac60c016c0f
+  classification: unspecified
+
+# Split loading and generating ECC private key c'tors
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4437  # https://github.com/randombit/botan/pull/4437
+  merge_commit: e5ec40828c2113d4b4f1dbe52bc8f363ec478a20
+  classification: unspecified
+
+# EC_AffinePoint API improvements
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4446  # https://github.com/randombit/botan/pull/4446
+  merge_commit: 09a7a98ec8be4678af4fc54b5b4b12c9f1c2dac7
+  classification: unspecified
+
+# Feature: Support external ESYS_CONTEXT in TPM2
+#   Author:    @atreiber94
+#   Approvals: @reneme, (@randombit)
+- pr: 4430  # https://github.com/randombit/botan/pull/4430
+  merge_commit: 6f26bcdf1f64aee89881ada4036b44c458424dcc
+  classification: unspecified
+
+# Add Entropy Source and DRNG Manager (ESDM) RNG support
+#   Author:    @thillux
+#   Approvals: @reneme, (@randombit)
+- pr: 4309  # https://github.com/randombit/botan/pull/4309
+  merge_commit: 7e47d95127112800656826818b0e1a8388f7f7f8
+  classification: unspecified
