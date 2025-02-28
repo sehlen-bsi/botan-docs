@@ -113,6 +113,14 @@ def determine_flags(target, target_os, target_cc, ccache,
         # Workaround for https://github.com/actions/runner-images/issues/10004
         flags += ['--extra-cxxflags=/D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR']
 
+        # 3.7.1 would otherwise fail to build due to MSVC being overly eager with unreachable code warnings
+        # See also:
+        #  * https://github.com/randombit/botan/pull/4648
+        #  * https://github.com/randombit/botan/pull/4646
+        #
+        # TODO: remove after 3.7.1 review is done
+        flags += ['--extra-cxxflags=/wd4702']
+
     flags += ['--werror-mode']
 
     enable_modules = []
