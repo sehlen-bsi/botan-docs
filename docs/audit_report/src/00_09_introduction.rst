@@ -54,13 +54,14 @@ components. For the library implementation itself (``src/lib``), all modules
 that are *required* or *available* in the BSI build policy and their
 dependencies are in the scope of this document. Additionally, we review the
 following modules and its dependencies: ``certstor_flatfile``,
-``certstor_sqlite3``, ``certstor_system_macos``, ``certstor_system_windows``,
-``certstor_system``, ``dilithium_aes``, ``dilithium``, ``frodokem``,
-``frodokem_aes``, ``hss_lms``, ``ffi``, ``kmac``, ``kyber_90s``, ``kyber``,
-``pkcs11``, ``sha1_armv8``, ``sha1_sse2``, ``sha1_x86``, ``shake``,
-``sphincsplus_sha2``, ``sphincsplus_shake``, ``tls_cbc``, ``tls12``,
-``tls13_pqc``, ``tls13``, ``xts``. Patches that don't alter any of the
-above-mentioned components or relevant modules are considered out-of-scope.
+``certstor_system``, ``ml_dsa``, ``ffi``, ``frodokem``, ``frodokem_aes``,
+``hss_lms``, ``jitter_rng``, ``kmac``, ``ml_kem``, ``pcurves_brainpool256r1``,
+``pcurves_brainpool384r1``, ``pcurves_brainpool512r1``, ``pcurves_secp256r1``,
+``pcurves_secp256k1``, ``pcurves_secp384r1``, ``pcurves_secp521r1``, ``pkcs11``,
+``shake``, ``slh_dsa_sha2``, ``slh_dsa_shake``, ``tls_cbc``, ``tls12``,
+``tls13_pqc``, ``tls13``, ``tpm2``, ``tpm2_crypto_backend``, ``tpm2_rsa``,
+``tpm2_ecc``, ``xts``. Patches that don't alter any of the above-mentioned
+components or relevant modules are considered out-of-scope.
 
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
@@ -87,9 +88,9 @@ reviewed:
    * - aead
      - aes
      - aes_armv8
-     - aes_crystals_xof
-   * - aes_ni
-     - aes_power8
+     - aes_ni
+   * - aes_power8
+     - aes_vaes
      - aes_vperm
      - argon2
    * - argon2_avx2
@@ -112,25 +113,25 @@ reviewed:
      - certstor_system_windows
      - cmac
      - cpuid
-   * - ctr
+   * - cshake_xof
+     - ctr
      - dh
-     - dilithium
-     - dilithium_aes
-   * - dilithium_common
+     - dilithium_common
+   * - dilithium_shake
      - dl_algo
      - dl_group
-     - dlies
-   * - dsa
-     - dyn_load
+     - dsa
+   * - dyn_load
      - ec_group
      - ecc_key
-   * - ecdh
-     - ecdsa
+     - ecdh
+   * - ecdsa
      - ecgdsa
      - ecies
-   * - eckcdsa
-     - eme_oaep
+     - eckcdsa
+   * - eme_oaep
      - eme_pkcs1
+     - eme_raw
      - emsa_pkcs1
    * - emsa_pssr
      - entropy
@@ -153,57 +154,61 @@ reviewed:
      - hss_lms
      - http_util
    * - iso9796
+     - jitter_rng
      - kdf
      - kdf1_iso18033
-     - keccak_perm
-   * - keccak_perm_bmi2
+   * - keccak_perm
+     - keccak_perm_bmi2
      - keypair
      - kmac
-     - kyber
-   * - kyber_90s
-     - kyber_common
-     - kyber_round3
+   * - kyber_common
      - locking_allocator
-   * - mac
+     - mac
      - mdx_hash
-     - mem_pool
+   * - mem_pool
      - mgf1
+     - ml_dsa
+     - ml_kem
    * - mode_pad
      - modes
      - mp
      - numbertheory
    * - pbkdf
+     - pcurves
      - pem
      - pk_pad
-     - pkcs11
-   * - poly_dbl
+   * - pkcs11
+     - poly_dbl
+     - pqcrystals
      - prf_tls
-     - processor_rng
+   * - processor_rng
      - pubkey
-   * - rdseed
+     - rdseed
      - rng
-     - rsa
+   * - rsa
      - sha1
-   * - sha1_armv8
+     - sha1_armv8
      - sha1_sse2
-     - sha1_x86
+   * - sha1_x86
      - sha2_32
-   * - sha2_32_armv8
+     - sha2_32_armv8
      - sha2_32_bmi2
-     - sha2_32_x86
+   * - sha2_32_x86
      - sha2_64
-   * - sha2_64_armv8
+     - sha2_64_armv8
      - sha2_64_bmi2
-     - sha3
+   * - sha3
      - shake
-   * - shake_xof
+     - shake_xof
      - simd
+   * - slh_dsa_sha2
+     - slh_dsa_shake
      - socket
      - sp800_108
    * - sp800_56c
      - sphincsplus_common
-     - sphincsplus_sha2
-     - sphincsplus_shake
+     - sphincsplus_sha2_base
+     - sphincsplus_shake_base
    * - stateful_rng
      - stream
      - system_rng
@@ -212,6 +217,10 @@ reviewed:
      - tls13
      - tls13_pqc
      - tls_cbc
+   * - tpm2
+     - tpm2_crypto_backend
+     - tpm2_ecc
+     - tpm2_rsa
    * - tree_hash
      - trunc_hash
      - utils

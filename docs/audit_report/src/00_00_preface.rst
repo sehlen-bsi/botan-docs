@@ -22,6 +22,8 @@ audit target revision to establish a new audited revision.
 
 | Fabian Albert (FA), Rohde & Schwarz Cybersecurity
 | René Meusel (RM), Rohde & Schwarz Cybersecurity
+| Tudor Soroceanu (TS), Fraunhofer AISEC
+| Amos Treiber (AT), Rohde & Schwarz Cybersecurity
 | Andreas Seelos-Zankl (ASZ), Fraunhofer AISEC
 | Alexander Wagner (AW), Fraunhofer AISEC
 
