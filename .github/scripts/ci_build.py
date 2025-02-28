@@ -119,6 +119,7 @@ def determine_flags(target, target_os, target_cc, ccache,
     enable_modules += ['tls12','tls13','tls13_pqc','tls_cbc']
     enable_modules += ['pkcs11']
     enable_modules += ['xts']
+    enable_modules += ['classic_mceliece']
     enable_modules += ['kyber','kyber_90s', 'ml_kem']
     enable_modules += ['dilithium','dilithium_aes', 'ml_dsa']
     enable_modules += ['sphincsplus_sha2','sphincsplus_shake', 'slh_dsa_sha2','slh_dsa_shake']

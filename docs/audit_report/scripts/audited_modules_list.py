@@ -51,6 +51,7 @@ def additional_modules():
     return set([
         'certstor_flatfile',
         'certstor_system',
+        'classic_mceliece',
         'ml_dsa',
         'ffi',
         'frodokem',
