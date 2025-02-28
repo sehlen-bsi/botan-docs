@@ -64,7 +64,7 @@ in the following sections.
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
    | :ref:`Polynomial Arithmetic <pubkey/cmce/poly>`        | :srcref:`[src/lib/pubkey/classic_mceliece]/cmce_poly.h`          | Polynomial data structure, logic, and minimal polynomial creation          |
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
-   | :ref:`Bit Vector Arithmetic <pubkey/cmce/bitvector>`   | :srcref:`src/lib/utils/bitvector.h`                              | Representation of bit vectors and bit vector arithmetic                    |
+   | :ref:`Bit Vector Arithmetic <pubkey/cmce/bitvector>`   | :srcref:`src/lib/utils/bitvector/bitvector.h`                    | Representation of bit vectors and bit vector arithmetic                    |
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
    | :ref:`Matrix Operations <pubkey/cmce/matrix>`          | :srcref:`[src/lib/pubkey/classic_mceliece]/cmce_matrix.h`        | Binary matrix data structure, creation, and systematic form transformation |
    +--------------------------------------------------------+------------------------------------------------------------------+----------------------------------------------------------------------------+
@@ -364,8 +364,9 @@ Key Generation
 --------------
 
 Classic McEliece key generation follows Section 8.3 of [CMCE-ISO]_ and is
-implemented within the ``Classic_McEliece_KeyPair_Internal`` class. It works as
-follows:
+implemented within the ``Classic_McEliece_KeyPair_Internal`` class (see
+:srcref:`[src/lib/pubkey/classic_mceliece]/cmce_keys_internal.cpp:149|generate`).
+It works as follows:
 
 .. admonition:: Classic McEliece Key Generation
 
@@ -412,8 +413,8 @@ follows:
 Key Encapsulation
 -----------------
 
-The Classic McEliece encapsulation procedure of Botan follows Section 8.5 of
-[CMCE-ISO]_ and works as follows:
+The Classic McEliece encapsulation procedure (:srcref:`[src/lib/pubkey/classic_mceliece]/cmce_encaps.cpp:84|raw_kem_encrypt`)
+of Botan follows Section 8.5 of [CMCE-ISO]_ and works as follows:
 
 .. admonition:: Classic McEliece Encapsulation
 
@@ -455,8 +456,8 @@ The Classic McEliece encapsulation procedure of Botan follows Section 8.5 of
 Key Decapsulation
 -----------------
 
-The Classic McEliece decapsulation procedure of Botan follows Section 8.6 of
-[CMCE-ISO]_ and works as follows:
+The Classic McEliece decapsulation procedure (:srcref:`[src/lib/pubkey/classic_mceliece]/cmce_decaps.cpp:125|raw_kem_decrypt`)
+of Botan follows Section 8.6 of [CMCE-ISO]_ and works as follows:
 
 .. admonition:: Classic McEliece Decapsulation
 
