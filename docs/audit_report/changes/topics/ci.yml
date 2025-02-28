@@ -1,0 +1,49 @@
+title: Continuous Integration
+
+patches:
+# Update Limbo tests
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4609  # https://github.com/randombit/botan/pull/4609
+  merge_commit: 1df758d149fd576658bca2d1e3cde8002bc611f3
+  classification: unspecified
+
+# Enable ccache for jitterentropy build
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4547  # https://github.com/randombit/botan/pull/4547
+  merge_commit: 9b798efbb528106bdb79c75995fe3a912188ed05
+  classification: unspecified
+
+# Nightly CI: remove emscripten version workaround
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4546  # https://github.com/randombit/botan/pull/4546
+  merge_commit: 88c33405780a2cb28a2b2ba0b63bd9d0b088bf1b
+  classification: unspecified
+
+# Switch to XCode 16 for GH Actions macos-14 build
+#   Author:    @randombit
+- pr: 4524  # https://github.com/randombit/botan/pull/4524
+  merge_commit: d5948a5d30b9ceb07c65cf0e31d45ad528c7dcbc
+  classification: unspecified
+
+# Bring back baremetal CI build
+#   Author:    @randombit
+- pr: 4521  # https://github.com/randombit/botan/pull/4521
+  merge_commit: 7adcffaf8f17060dad46b232dbd7b98176e1b463
+  classification: unspecified
+
+# Add iterator debugging to CI
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4413  # https://github.com/randombit/botan/pull/4413
+  merge_commit: 3b8a73d22cf4c820a68342b081478d1449084cc1
+  classification: unspecified
+
+# Nightly Valgrind Matrix
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4421  # https://github.com/randombit/botan/pull/4421
+  merge_commit: 9917532000fafdcf00869bbba365d68bffb20034
+  classification: unspecified

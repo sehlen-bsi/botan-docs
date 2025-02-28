@@ -1,0 +1,131 @@
+title: ECC Optimizations
+
+patches:
+# Add volatile to word8_add2 inline asm block
+#   Author:    @randombit
+- pr: 4621  # https://github.com/randombit/botan/pull/4621
+  merge_commit: ea1783b87962a9b1298eb7cff80ef37957ca3326
+  classification: unspecified
+
+# Add support for constexpr field inversions
+#   Author:    @randombit
+- pr: 4619  # https://github.com/randombit/botan/pull/4619
+  merge_commit: 6d07fd0626fcc7bd2e84a31e0b36b4acc39e4b74
+  classification: unspecified
+
+# Add EC_Scalar::invert_vartime
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4618  # https://github.com/randombit/botan/pull/4618
+  merge_commit: 8170122f8ad98b5d63a9c2a7e2519d73f7cf502f
+  classification: unspecified
+
+# Add PrimeOrderCurve::mul2_setup_g
+#   Author:    @randombit
+- pr: 4611  # https://github.com/randombit/botan/pull/4611
+  merge_commit: a214c2148472dba184e156dcc8327521bd81ef28
+  classification: unspecified
+
+# Faster bigint_cnd_add and bigint_cnd_sub
+#   Author:    @randombit
+- pr: 4608  # https://github.com/randombit/botan/pull/4608
+  merge_commit: e61d4e96ea2449af28a04e05c933af14166edffa
+  classification: unspecified
+
+# Reduce overhead from computing modular reduction parameters
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4588  # https://github.com/randombit/botan/pull/4588
+  merge_commit: af6045088ac530830a544a2d2699fe187b201497
+  classification: unspecified
+
+# Centralize the pcurves reduction correction step
+#   Author:    @randombit
+- pr: 4601  # https://github.com/randombit/botan/pull/4601
+  merge_commit: ee2df254f307224bafda9a4c816f11fa9e650ca2
+  classification: unspecified
+
+# When computing modular inverses distingush which case we are in
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4569  # https://github.com/randombit/botan/pull/4569
+  merge_commit: 9eae7c12d6c80397480c4a02c0c9e81832074147
+  classification: unspecified
+
+# Gate creation of Barrett params for reduction mod order by legacy_ec_point
+#   Author:    @randombit
+- pr: 4570  # https://github.com/randombit/botan/pull/4570
+  merge_commit: 5e2bd0320afef8fc177791881eb39effa975070c
+  classification: unspecified
+
+# Add named constants for the EC scalar multiplication algorithm window sizes
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4564  # https://github.com/randombit/botan/pull/4564
+  merge_commit: 91a2620c61c9bfe2af58e0b7a5dcabe7558df123
+  classification: unspecified
+
+# Correct EC_Scalar::from_bytes_mod_order
+#   Author:    @randombit
+- pr: 4550  # https://github.com/randombit/botan/pull/4550
+  merge_commit: d88a2a39e9db82b4b81bfa435279d24cf6a06f1b
+  classification: unspecified
+
+# Fix decoding short EC private keys
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4541  # https://github.com/randombit/botan/pull/4541
+  merge_commit: 11f6f62649cbe568ccfe23fd316a3f683c81cbc4
+  classification: unspecified
+
+# Modify restrictions on application specific EC groups
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4533  # https://github.com/randombit/botan/pull/4533
+  merge_commit: 22bdaa95b089e799d2804ca63bfa15676b5662c2
+  classification: unspecified
+
+# During batch affine conversion avoid leaking which point was the identity
+#   Author:    @randombit
+- pr: 4512  # https://github.com/randombit/botan/pull/4512
+  merge_commit: 27697fde9115a4f063573bf967ffed809811ea70
+  classification: unspecified
+
+# Take advantage of mixed addition when setting up mul2 table
+#   Author:    @randombit
+- pr: 4511  # https://github.com/randombit/botan/pull/4511
+  merge_commit: 7e6f6ea343fd9087fee019e3f38be9342c41c744
+  classification: unspecified
+
+# Tweak pcurves blinding to avoid penalizing P-521
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4510  # https://github.com/randombit/botan/pull/4510
+  merge_commit: 9b8f3cc8042f374537df4c74a2b9201ca87fb13d
+  classification: unspecified
+
+# Add support for x-only EC point multiplication
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4503  # https://github.com/randombit/botan/pull/4503
+  merge_commit: 28692ee3e308466423485946a5e64d332d5a2db5
+  classification: unspecified
+
+# Use mixed addition during windows mul table setup
+#   Author:    @randombit
+- pr: 4492  # https://github.com/randombit/botan/pull/4492
+  merge_commit: 902fbb275268aa3fe4f39a31eeeac67f9bf05677
+  classification: unspecified
+
+# Use a better approach for modular subtraction
+#   Author:    @randombit
+- pr: 4479  # https://github.com/randombit/botan/pull/4479
+  merge_commit: c8ffa1f1e909e55e113eb91d911a34c992380bae
+  classification: unspecified
+
+# Add a constant time p*x + q*y ECC operation
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4433  # https://github.com/randombit/botan/pull/4433
+  merge_commit: 162a3890fb0bcad46adb72a37ea30bfab81331d2
+  classification: unspecified

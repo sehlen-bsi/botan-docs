@@ -1,0 +1,30 @@
+title: Classic McEliece
+
+patches:
+# PQC: Classic McEliece
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 3883  # https://github.com/randombit/botan/pull/3883
+  merge_commit: c5ca29998b47071c8ef047c329a4b0f3514e2ab8
+  classification: unspecified
+
+# Fix Classic McEliece unpoison issue
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4605  # https://github.com/randombit/botan/pull/4605
+  merge_commit: 076c8396c50ea058d92d050f737dac14cf9c641d
+  classification: unspecified
+
+# Split out bitvector.h to a submodule
+#   Author:    @randombit
+#   Approvals: @FAlbertDev, @reneme
+- pr: 4458  # https://github.com/randombit/botan/pull/4458
+  merge_commit: f6d1b7602ff7e16f6daa2a1bf04398935c0b9c80
+  classification: unspecified
+
+# Refactor: Some minor things in the CMCE code
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 4448  # https://github.com/randombit/botan/pull/4448
+  merge_commit: be6b77223a8961c4205feae89022eff9a893c60e
+  classification: unspecified

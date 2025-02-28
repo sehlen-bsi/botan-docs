@@ -1,0 +1,52 @@
+title: Release Documentation
+
+patches:
+# Update for 3.7.1
+#   Author: Jack Lloyd
+- commit: 09cc7f97ceb828c19461b2a63f820d3226bb921b  # https://github.com/randombit/botan/commit/09cc7f97ceb828c19461b2a63f820d3226bb921b
+  classification: unspecified
+
+# Update for 3.7.0 release
+#   Author: Jack Lloyd
+- commit: 623aacddb21735f756bab0fdec044b822ee63260  # https://github.com/randombit/botan/commit/623aacddb21735f756bab0fdec044b822ee63260
+  classification: unspecified
+
+# Update news
+#   Author: Jack Lloyd
+- commit: 75e5d0626766a969b94f6b06420d19337ec980eb  # https://github.com/randombit/botan/commit/75e5d0626766a969b94f6b06420d19337ec980eb
+  classification: unspecified
+
+# Update release notes
+#   Author: Jack Lloyd
+- commit: 32e91f9f498907ec6e9837248da50c6eb5b6072d  # https://github.com/randombit/botan/commit/32e91f9f498907ec6e9837248da50c6eb5b6072d
+  classification: unspecified
+
+# Update release notes
+#   Author: Jack Lloyd
+- commit: c56c81b0763d005f50f65837b7568c2c5a28f1e5  # https://github.com/randombit/botan/commit/c56c81b0763d005f50f65837b7568c2c5a28f1e5
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 163ea01667df6de9d2c6d3b527173748d8f3453c  # https://github.com/randombit/botan/commit/163ea01667df6de9d2c6d3b527173748d8f3453c
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 9b927f5a48de38071e01bab3f7121ef0e5b3efe2  # https://github.com/randombit/botan/commit/9b927f5a48de38071e01bab3f7121ef0e5b3efe2
+  classification: unspecified
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: 1984ea3075f989987bd9fbbd200d8b5b11d01abf  # https://github.com/randombit/botan/commit/1984ea3075f989987bd9fbbd200d8b5b11d01abf
+  classification: unspecified
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: f91f829e9814a057eab88d9af7f571aed98fa2b9  # https://github.com/randombit/botan/commit/f91f829e9814a057eab88d9af7f571aed98fa2b9
+  classification: unspecified
+
+# Bump version to 3.7.0
+#   Author: Jack Lloyd
+- commit: fb436e739eed9ef86682497a68140093aeb405a6  # https://github.com/randombit/botan/commit/fb436e739eed9ef86682497a68140093aeb405a6
+  classification: unspecified

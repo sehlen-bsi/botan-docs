@@ -1,0 +1,63 @@
+title: Removals
+
+patches:
+# Deprecate the crc32 and adler32 checksums
+#   Author:    @randombit
+- pr: 4594  # https://github.com/randombit/botan/pull/4594
+  merge_commit: 373fcb730affe95275525dc21b98ee4725231941
+  classification: unspecified
+
+# Deprecate a couple of functions in DL_Group
+#   Author:    @randombit
+- pr: 4579  # https://github.com/randombit/botan/pull/4579
+  merge_commit: 6a1aa9df80234eb9ee48c1bfaa271541b1597ce8
+  classification: unspecified
+
+# Further deprecations
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4560  # https://github.com/randombit/botan/pull/4560
+  merge_commit: 6a97b80e934bb3903d4ce363db0adadc06e22270
+  classification: unspecified
+
+# Move EC_Point and related code to deprecated submodule
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4518  # https://github.com/randombit/botan/pull/4518
+  merge_commit: 3588075d5d48c608d5a067e33a1033fd72767076
+  classification: unspecified
+
+# Remove support for Kyber r3 key exchange in TLS
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4507  # https://github.com/randombit/botan/pull/4507
+  merge_commit: b58cab2c2a8393ffe871a755740faf866fc18917
+  classification: unspecified
+
+# Deprecate a few more obscure and/or obsolete algorithms [ci skip]
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4501  # https://github.com/randombit/botan/pull/4501
+  merge_commit: 5a61f028b19bad5122d73ff78efc511614ec54f1
+  classification: unspecified
+
+# Cleanups relating to CurveGFp
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4436  # https://github.com/randombit/botan/pull/4436
+  merge_commit: d62fc66ca648d3542d92608aca97ff1d643d5263
+  classification: unspecified
+
+# Fix annotations of various types
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4419  # https://github.com/randombit/botan/pull/4419
+  merge_commit: bd045b1a02002b9a2f3f314da0ee55912aebb23f
+  classification: unspecified
+
+# Remove the BigInt based NIST reduction functions
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4385  # https://github.com/randombit/botan/pull/4385
+  merge_commit: 0c673f6f58d040b9e0649628d91e68350a84ace8
+  classification: unspecified
