@@ -53,7 +53,7 @@ tests            Test suite and test data
 
 
 The ``lib`` directory has a fine-grained structure into modules and sub-modules.
-Botan's `online documentation <https://botan.randombit.net/doxygen/modules.html>`_ provides a comprehensive overview of those modules and their inter-dependency.
+Botan's `online documentation <https://botan.randombit.net/doxygen/topics.html>`_ provides a comprehensive overview of those modules and their inter-dependency.
 For further details, please see the Handbook section 18.1 or the online documentation:
 `Notes for New Contributers <https://botan.randombit.net/handbook/dev_ref/contributing.html#library-layout>`_
 

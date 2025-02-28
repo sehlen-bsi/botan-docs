@@ -36,8 +36,6 @@
 
 .. [DATA_GIT] https://github.com/Fraunhofer-AISEC/DATA
 
-.. [DILITHIUM_REFERENCE_IMPLEMENTATION] https://github.com/pq-crystals/dilithium/blob/cbcd8753a43402885c90343cd6335fb54712cda1/ref/poly.c#L277-L279
-
 .. [ABB20] Jean-Philippe Aumasson, Daniel J. Bernstein, Ward Beullens, Christoph
    Dobraunig, Maria Eichlseder, Scott Fluhrer, Stefan-Lukas Gazdag,
    Andreas Hülsing, Panos Kampanakis, Stefan Kölbl, Tanja Lange, Martin M. Lauridsen,

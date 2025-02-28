@@ -113,12 +113,21 @@ def determine_flags(target, target_os, target_cc, ccache,
         # Workaround for https://github.com/actions/runner-images/issues/10004
         flags += ['--extra-cxxflags=/D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR']
 
+        # 3.7.1 would otherwise fail to build due to MSVC being overly eager with unreachable code warnings
+        # See also:
+        #  * https://github.com/randombit/botan/pull/4648
+        #  * https://github.com/randombit/botan/pull/4646
+        #
+        # TODO: remove after 3.7.1 review is done
+        flags += ['--extra-cxxflags=/wd4702']
+
     flags += ['--werror-mode']
 
     enable_modules = []
     enable_modules += ['tls12','tls13','tls13_pqc','tls_cbc']
     enable_modules += ['pkcs11']
     enable_modules += ['xts']
+    enable_modules += ['classic_mceliece']
     enable_modules += ['kyber','kyber_90s', 'ml_kem']
     enable_modules += ['dilithium','dilithium_aes', 'ml_dsa']
     enable_modules += ['sphincsplus_sha2','sphincsplus_shake', 'slh_dsa_sha2','slh_dsa_shake']

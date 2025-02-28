@@ -300,7 +300,7 @@ Key Generation
 
 Generating a fresh ML-DSA key pair as specified in [FIPS-204]_ Section 5.1
 Algorithm 1, is available in the constructor of :srcref:`Dilithium_PrivateKey
-<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:403|Dilithium_PrivateKey>`.
+<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:406|Dilithium_PrivateKey>`.
 This mostly delegates the actual key generation to the internal function
 :srcref:`expand_keypair
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:665|expand_keypair>`
