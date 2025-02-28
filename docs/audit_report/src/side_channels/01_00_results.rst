@@ -39,6 +39,3 @@ The descriptions usually also include the associated source code and, if applica
 
 .. toctree::
 
-   01_02_ml_dsa
-   01_03_ml_kem
-   01_04_slh_dsa
