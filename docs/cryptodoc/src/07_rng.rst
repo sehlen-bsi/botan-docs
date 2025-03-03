@@ -908,8 +908,7 @@ wrapper.
    **Input:**
 
    1. ``prediction_resistance``: Whether or not the ESDM should reseed after
-                                 each invocation (slower but more secure).
-                                 Disabled by default.
+      each invocation (slower but more secure). Disabled by default.
 
    **Steps:**
 
@@ -929,7 +928,7 @@ wrapper.
 
    **Output:**
 
-   1. ``output``: The true random bytes to be returned
+   1. ``output``: The random bytes to be returned
 
    **Steps:**
 

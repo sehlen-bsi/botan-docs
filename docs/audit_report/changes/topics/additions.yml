@@ -1,5 +1,12 @@
 title: New Features and Additions
 
+description: |
+  The library gained a number of new features in this revision.
+
+  Most notably, usage of x25519+ML-KEM-768 in TLS 1.3 is now enabled by default.
+  Additionally, a wrapper for the ESDM random number generator daemon and the
+  byte-wise usage of the Galois-Counter-Mode-of-operation were added.
+
 patches:
 # Add EC_Group::engine
 #   Author:    @randombit
@@ -46,7 +53,7 @@ patches:
   comment: |
     The utilized inversion algorithm is (and was) implemented in constant-time,
     so blinding shouldn't be strictly necessary to begin with. This is just an
-    additional counter measure because a random blinding value is available
+    additional countermeasure because a random blinding value is available
     and applying it is cheap.
 
 # Use of none botan private keys for signing certificates.
