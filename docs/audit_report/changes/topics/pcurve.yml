@@ -188,3 +188,9 @@ patches:
   merge_commit: 162a3890fb0bcad46adb72a37ea30bfab81331d2
   classification: info
   comment: This is currently not used for any relevant algorithm
+
+# Documentation and cleanups for pcurves
+#   Author:    @randombit
+- pr: 4517  # https://github.com/randombit/botan/pull/4517
+  merge_commit: 65cd55237ee0c2a8ddd433bc0bf5912a06c1e0d8
+  classification: info
