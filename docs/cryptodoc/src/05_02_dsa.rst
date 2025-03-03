@@ -89,10 +89,12 @@ following algorithm.
       HMAC_DRBG is used, otherwise ``k`` is sampled from the passed random
       number generator ``rng``. HMAC_DRBG is deterministic and k thus depends
       on the HMAC_DRBG inputs ``m`` and ``x``.
-   3. Compute :math:`r=(g^k \bmod p) \bmod q` and :math:`k^{-1} \bmod q`.
-   4. Compute :math:`s=k^{-1}*(x*r+m)\bmod q`. Computation of :math:`x*r+m` is blinded by computing it as
+   3. Compute the inverse of :math:`k`, using a random blinding value :math:`b` as:
+      :math:`k^{-1} = (b * k)^{-1} * b \bmod q`
+   4. Compute :math:`r=(g^k \bmod p) \bmod q` and :math:`k^{-1} \bmod q`.
+   5. Compute :math:`s=k^{-1}*(x*r+m)\bmod q`. Computation of :math:`x*r+m` is blinded by computing it as
       :math:`(x*r*b+m*b)/b`.
-   5. If :math:`s=0 \lor r=0` applies, the algorithm terminates with an error.
+   6. If :math:`s=0 \lor r=0` applies, the algorithm terminates with an error.
 
 **Remark:** If Botan is built with the RFC6979 module, it implements
 deterministic DSA signatures, which are not covered by [TR-02102-1]_. In
