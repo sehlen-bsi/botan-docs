@@ -891,6 +891,55 @@ both a ``Botan::RandomNumberGenerator`` and a ``Botan::EntropySource``.
       error code.
 
 
+.. _rng/esdm_rng:
+
+Entropy Source and DRNG Manager (ESDM)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ESDM is a user-space RNG daemon that allows fine-grained configurability of
+entropy sources [ESDM]_. Botan provides a wrapper that allows easy interaction
+with this daemon via the ``esdm_rpc_client`` library.
+
+See :srcref:`src/lib/rng/esdm_rng/esdm_rng.cpp` for the implementation of this
+wrapper.
+
+.. admonition:: Construction and Release
+
+   **Input:**
+
+   1. ``prediction_resistance``: Whether or not the ESDM should reseed after
+                                 each invocation (slower but more secure).
+                                 Disabled by default.
+
+   **Steps:**
+
+   1. Lazy-initialize a singleton instance of the ESDM RPC client using
+      ``esdm_rpcc_init_unpriv_service()`` and reference-count additional
+      instantiations.
+   2. Create a ``Botan::RandomNumberGenerator`` subclass wrapping the
+      singleton ESDM RPC client instance
+   3. Once the application released all references of ESDM-based RNGs, clean up
+      the ESDM RPC client using ``esdm_rpcc_fini_unpriv_service()``
+
+.. admonition:: Randomize
+
+   **Input:**
+
+   2. ``input``: An optional buffer containing application-provided entropy
+
+   **Output:**
+
+   1. ``output``: The true random bytes to be returned
+
+   **Steps:**
+
+   1. If provided, send the ``input`` entropy to the ESDM using
+      ``esdm_rpcc_write_data()``
+   2. Pull entropy from the ESDM using either ``esdm_rpcc_get_random_bytes_pr()``
+      or ``esdm_rpcc_get_random_bytes_full()`` depending on whether or not the
+      wrapper RNG instance was created with ``prediction_resistence``.
+   3. If any of the above calls fail, throw a ``Botan::System_Error``.
+
 Hardware Generators
 -------------------
 
