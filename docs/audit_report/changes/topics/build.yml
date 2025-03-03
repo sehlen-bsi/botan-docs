@@ -6,76 +6,86 @@ patches:
 #   Approvals: @reneme
 - pr: 4617  # https://github.com/randombit/botan/pull/4617
   merge_commit: 52c9a2a475427a9268418da2f775ae261e2c2e64
-  classification: unspecified
+  classification: info
 
 # Rename `nist` policy to `fips140`
 #   Author:    @randombit
 - pr: 4614  # https://github.com/randombit/botan/pull/4614
   merge_commit: 63746e757fe1892311e802c370790b889c5059c3
-  classification: unspecified
+  classification: out of scope
 
 # Split compiler.h into two headers
 #   Author:    @randombit
 - pr: 4599  # https://github.com/randombit/botan/pull/4599
   merge_commit: 20d7412c6665b92b5a25738b98cb990d60464cdd
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Clean up build dependencies related to PK padding schemes
 #   Author:    @randombit
 - pr: 4590  # https://github.com/randombit/botan/pull/4590
   merge_commit: 770eadb51c3c2714b4746872302a3a91ee9f5b36
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add warning that minimum version of Clang will change to Clang 17
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4530  # https://github.com/randombit/botan/pull/4530
   merge_commit: c8d557d45fa4f22b4c08ec74afb1cd34500d8622
-  classification: unspecified
+  classification: info
+  comment: |
+    This decision got reverted and never materialized. Botan 4 will likely
+    increase the required compiler versions to unlock newer C++ and STL features
+    as well as shed some compiler-specific workarounds.
 
 # Revert warnings about increasing minimum Clang to 17
 #   Author:    @randombit
 - pr: 4585  # https://github.com/randombit/botan/pull/4585
   merge_commit: e929c8d5afd18cfb19759734bdea7cd73bdd7761
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Address various warnings new in clang-tidy 19
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4548  # https://github.com/randombit/botan/pull/4548
   merge_commit: db6565e0489d174be0d1351f434197850cd621f5
-  classification: unspecified
+  classification: info
 
 # Fix some more Clang 19 warnings
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4545  # https://github.com/randombit/botan/pull/4545
   merge_commit: 8a93d909a7f42a41f7841885cabf722f3649ab7a
-  classification: unspecified
+  classification: info
 
 # Fix a new warning in Clang 19
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4544  # https://github.com/randombit/botan/pull/4544
   merge_commit: b6b38efd263d1a65ac364248ca5555d40b1d16a5
-  classification: unspecified
+  classification: info
 
 # Update NIST policy
 #   Author:    @randombit
 - pr: 4513  # https://github.com/randombit/botan/pull/4513
   merge_commit: 366727a307b916aa733d38ec11db8073b0c841b7
-  classification: unspecified
+  classification: out of scope
 
 # Update and comment BSI policy (Version 2024-01)
 #   Author:    @FAlbertDev
 #   Approvals: @reneme, (@randombit)
 - pr: 4461  # https://github.com/randombit/botan/pull/4461
   merge_commit: f073e6031ffa46c64ae9019c4f72734144760b76
-  classification: unspecified
+  classification: info
+  comment: |
+    Updates the BSI module build policy to align with the "Technische
+    Richtlinien" released in January 2024 as much as feasible.
 
 # Add configure logic for choosing how to perform CT value barriers
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4447  # https://github.com/randombit/botan/pull/4447
   merge_commit: 04b5a8ddcc8f3a5427d1d000f1565f4ef49e6b40
-  classification: unspecified
+  classification: info
