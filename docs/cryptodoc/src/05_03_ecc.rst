@@ -174,11 +174,11 @@ Key Generation
 --------------
 
 Botan provides the elliptic curve private key class ``EC_PrivateKey``, the
-respective public key class ``EC_PublicKey``, and the key generation
-algorithm in :srcref:`src/lib/pubkey/ecc_key/ecc_key.cpp`. To generate a private
-key the constructor ``EC_PrivateKey(RandomNumberGenerator& rng, const
-EC_Group& ec_group, const BigInt& x, bool with_modular_inverse)`` is
-called. The constructor operates as follows:
+respective public key class ``EC_PublicKey``, and the key generation algorithm
+in :srcref:`src/lib/pubkey/ecc_key/ecc_key.cpp:140|EC_PrivateKey`. To generate a
+private key the constructor ``EC_PrivateKey(RandomNumberGenerator& rng, const
+EC_Group& ec_group, bool with_modular_inverse)`` is called. The constructor
+operates as follows:
 
 .. admonition:: ``EC_PrivateKey()``
 
@@ -191,25 +191,19 @@ called. The constructor operates as follows:
 
    **Output:**
 
-   -  EC_Privatekey: ``d``, ``Q``, domain(curve parameters(first coefficient a,
-      second coefficient b, prime p), base point G, ord(G) n, cofactor of
-      the curve h)
+   -  EC_PrivateKey: ``d``
+   -  EC_PublicKey: ``Q``
 
    **Steps:**
 
    1. Sample private value ``d`` as a random number :math:`1 \leq d < n` using the algorithm
       described in Section :ref:`pubkey_param/rng`, where :math:`n` is the order of the
-      base point G on the curve taken from the domain parameters. It is
-      also possible to pass ``d`` as ``x`` to the constructor. In this case ``d``
-      is not sampled.
+      base point G on the curve taken from the domain parameters.
    2. Compute public point ``Q`` as point multiplication :math:`d*G`, where ``G`` is the
       base point defined in the domain. Note that if the passed parameter
       ``with_modular_inverse`` is set to ``true``, the public point ``Q`` is
       instead computed as :math:`d^{-1}*G`. This is required for ECKDSA and ECGDSA key
       generation, but results in an invalid ECDH/ECDSA key.
-   3. Verify that the computed public point ``Q`` is on the curve (function
-      ``on_the_curve()``). As a consequence, the key generation algorithm
-      resists fault attacks and computational errors.
 
 Optionally ``EC_PublicKeys`` can be extensively checked with a call to
 ``check_key``. The extensive check performs the following steps. Note that
@@ -217,19 +211,13 @@ Optionally ``EC_PublicKeys`` can be extensively checked with a call to
 
 .. admonition:: ``EC_PublicKeys::check_key()``
 
-   1. Verify the ``ec_group`` by calling ``EC_Group::verify_group``. If the
+   1. Check that the public point ``Q`` is on the curve (function
+      ``on_the_curve()``). This is done when deserializing a public point
+      into the library's internal structures. If the point does not satisfy
+      the curve equation, an error is raised already then.
+   2. Verify the ``ec_group`` by calling ``EC_Group::verify_group``. If the
       domain does not pass the verification, return false.
-   2. Assure that the public point ``Q`` is not the point at infinity.
-   3. Check that the public point ``Q`` is on the curve (function
-      ``on_the_curve()``). If the point does not satisfy the curve equation,
-      return false.
-   4. If :math:`h>1` applies perform the following additional steps. Else return true.
-
-      1. Verify that the public point has the correct order ``n``. This is
-         the case if :math:`h*Q \neq_\infty P` and apply :math:`n*Q =_\infty P`.
-         If one of the equations does not apply,
-         return false.
-      2. Return true.
+   3. Assure that the public point ``Q`` is not the point at infinity.
 
 **Conclusion:** The algorithm fulfills all requirements of [TR-03111]_.
 The public key validation follows the requirements described in [ReqEC]_.
