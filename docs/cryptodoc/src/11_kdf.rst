@@ -37,16 +37,12 @@ implementations can be found in :srcref:`src/lib/kdf/sp800_108/sp800_108.cpp`.
 They can all be instantiated with any message authentication code as a
 PRF.
 
-The implementation of KDF in Counter Mode fixes the length of
-:math:`[L]_2` and :math:`[i]_2` (the value ``r``) to 32 bits.
+The implementations of KDF in Feedback Mode as well as Double-Pipeline Iteration
+Mode always use the optional counter *i*.
 
-The implementation of KDF in Feedback Mode uses the optional counter *i*
-and fixes the length of :math:`[L]_2` and :math:`[i]_2` (the value
-``r``) to 32 bits.
-
-The implementation of KDF in Double-Pipeline Iteration Mode uses the
-optional counter *i* and fixes the length of :math:`[L]_2` and
-:math:`[i]_2` (the value ``r``) to 32 bits.
+The encoding bit widths of the desired output length :math:`[L]_2` and counter
+value :math:`[i]_2` (the value ``r``) can be configured to be 8, 16, 24, or 32
+bits in all implemented modes.
 
 NIST SP800-56Cr2 One-Step KDM
 -----------------------------
