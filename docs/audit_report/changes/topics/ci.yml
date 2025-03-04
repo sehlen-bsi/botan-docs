@@ -53,4 +53,10 @@ patches:
 #   Approvals: (@randombit)
 - pr: 4422  # https://github.com/randombit/botan/pull/4422
   merge_commit: 74d3993a5d63ecb688b61f875612275233852028
+
+# FIX: sde utility not in $PATH
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4423  # https://github.com/randombit/botan/pull/4423
+  merge_commit: 1cdf903eff7e90fe87ed09943e14b65441cfd69d
   classification: info
