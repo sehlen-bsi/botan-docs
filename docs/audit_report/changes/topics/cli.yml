@@ -18,3 +18,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: 4a71bb71cb9a030eb8b07e0cae081c3db7434863  # https://github.com/randombit/botan/commit/4a71bb71cb9a030eb8b07e0cae081c3db7434863
   classification: unspecified
+
+# In public key perf tests exit early if keygen fails
+#   Author:    @randombit
+- pr: 4622  # https://github.com/randombit/botan/pull/4622
+  merge_commit: 8faef679abdfd6df4ac5c4fd445a3f2af89964bf
+  classification: info
+  auditer: reneme
