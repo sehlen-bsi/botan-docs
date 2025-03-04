@@ -88,3 +88,10 @@ patches:
   merge_commit: e430f157a008f0513d1a5875addeab7e36e4ecfe
   classification: info
   auditer: reneme
+
+# Update Limbo tests
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4609  # https://github.com/randombit/botan/pull/4609
+  merge_commit: 1df758d149fd576658bca2d1e3cde8002bc611f3
+  classification: info
