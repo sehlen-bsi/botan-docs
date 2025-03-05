@@ -47,3 +47,10 @@ patches:
 - pr: 4421  # https://github.com/randombit/botan/pull/4421
   merge_commit: 9917532000fafdcf00869bbba365d68bffb20034
   classification: unspecified
+
+# Chore: Centralize some Repository Config
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4422  # https://github.com/randombit/botan/pull/4422
+  merge_commit: 74d3993a5d63ecb688b61f875612275233852028
+  classification: info
