@@ -1,23 +1,30 @@
 title: Command Line Interface
 
+description: |
+  Some minor improvements were made to Botan's CLI timing test and
+  performance measurement tools.
+
 patches:
 # Cleanup of timer usage in the cli
 #   Author:    @randombit
 - pr: 4553  # https://github.com/randombit/botan/pull/4553
   merge_commit: f9b28adf09d7424bf82b1f9d2bfc198fadff585c
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # Add option to quote performance in microseconds or nanoseconds
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4490  # https://github.com/randombit/botan/pull/4490
   merge_commit: 6471abdd1960ee55c1c99c9b86544bfa28dc060d
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # In speed cli flush output after each report
 #   Author: Jack Lloyd
 - commit: 4a71bb71cb9a030eb8b07e0cae081c3db7434863  # https://github.com/randombit/botan/commit/4a71bb71cb9a030eb8b07e0cae081c3db7434863
-  classification: unspecified
+  classification: info
+  auditer: FAlbertDev
 
 # In public key perf tests exit early if keygen fails
 #   Author:    @randombit
