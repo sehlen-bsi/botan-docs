@@ -167,3 +167,15 @@ patches:
 - pr: 4416  # https://github.com/randombit/botan/pull/4416
   merge_commit: 07699f2fbebafc6d1165fa47582a12a0965ca380
   classification: unspecified
+
+# Update Limbo test suite and fix relevant bugs
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4406  # https://github.com/randombit/botan/pull/4406
+  merge_commit: dc326edf1204ec0875f807ffc475717d4c96410f
+  classification: info
+  comment: |
+    This now validates and canonicalizes URIs noted in "alternative name"
+    extensions. Also, certificates with an empty "extended key usage" extension
+    are rejected as their key wouldn't be allowed to be used for anything, as
+    per RFC 5280 Section 4.2.1.12.
