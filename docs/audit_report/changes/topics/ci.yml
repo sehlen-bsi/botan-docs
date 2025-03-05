@@ -45,7 +45,7 @@ patches:
   comment: |
     Runs the valgrind side-channel analysis on a number of compilers and
     optimization configurations. Also contains a minor fix discovered by this
-    multi-configuration exercise. Given that it only occured on a completely
+    multi-configuration exercise. Given that it only occurred on a completely
     unoptimized build, it is not relevant in production.
 
 # Chore: Centralize some Repository Config

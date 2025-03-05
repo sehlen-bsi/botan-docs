@@ -176,6 +176,6 @@ patches:
   classification: info
   comment: |
     This now validates and canonicalizes URIs noted in "alternative name"
-    extension. Also, certificates with an empty "extended key usage" extension
+    extensions. Also, certificates with an empty "extended key usage" extension
     are rejected as their key wouldn't be allowed to be used for anything, as
     per RFC 5280 Section 4.2.1.12.
