@@ -2,7 +2,7 @@ title: Fixes
 
 description: |
   This contains various fixes to the library itself or auxiliary infrastructure.
-  Some are relevant to security, but none are critical enough to constituate a
+  Some are relevant to security, but none are critical enough to constitute a
   vulnerability. Explicitly note the two fixes related to potential side-channel
   mitigations in the handling of PKCS #1 v1.5 RSA paddings.
 
@@ -57,7 +57,7 @@ patches:
   classification: relevant
   comment: |
     Applications using this function to avoid oracles against PKCS #1 v1.5 could
-    inadvertantly create an oracle themselves if they re-checked the content of
+    inadvertently create an oracle themselves if they re-checked the content of
     the decryption result, because the random buffer returned for a decryption
     failure didn't adhere to the content specifications provided by the
     application. Note that usage of PKCS #1 v1.5 is strongly discouraged anyway.
@@ -172,8 +172,8 @@ patches:
   merge_commit: d35b793df317051c5f317e52fa59eb8ca5e0c681
   classification: relevant
   comment: |
-    The underlying side channel is introduced by the TPM 2.0 specification
-    unfortunately. This merely tries to avoid amplifying the signal produced by
+    Unfortunately, the TPM 2.0 specification introduced the underlying 
+    side channel. This merely tries to avoid amplifying the signal produced by
     it. Note that usage of PKCS #1 v1.5 is strongly discouraged anyway.
 
 # Refactor and fixes for URI type
