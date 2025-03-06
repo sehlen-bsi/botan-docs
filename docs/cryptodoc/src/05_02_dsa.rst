@@ -87,19 +87,23 @@ following algorithm.
       the algorithm described in Section :ref:`pubkey_param/rng` or as HMAC_DRBG
       output [RFC6979]_. If Botan is compiled with the module ``rfc6979`` the
       HMAC_DRBG is used, otherwise ``k`` is sampled from the passed random
-      number generator ``rng``. HMAC_DRBG is deterministic and k thus depends
+      number generator ``rng``. HMAC_DRBG is deterministic and ``k`` thus depends
       on the HMAC_DRBG inputs ``m`` and ``x``.
-   3. Compute :math:`r=(g^k \bmod p) \bmod q` and :math:`k^{-1} \bmod q`.
-   4. Compute :math:`s=k^{-1}*(x*r+m)\bmod q`. Computation of :math:`x*r+m` is blinded by computing it as
-      :math:`(x*r*b+m*b)/b`.
-   5. If :math:`s=0 \lor r=0` applies, the algorithm terminates with an error.
+   3. Compute the inverse of :math:`k`, using a random blinding value :math:`b_1` with
+      :math:`1<b_1<q` as:
+      :math:`k^{-1} = (b_1 * k)^{-1} * b_1 \bmod q`
+   4. Compute :math:`r=(g^k \bmod p) \bmod q`
+   5. Compute :math:`s=k^{-1}*(x*r+m)\bmod q`. Computation of :math:`x*r+m` is blinded by
+      computing it as :math:`(x*r*b_2+m*b_2)/b_2` with :math:`b_2 = {b_1}^2 \bmod q`
+   6. If :math:`s=0 \lor r=0` applies, the algorithm terminates with an error.
 
 **Remark:** If Botan is built with the RFC6979 module, it implements
 deterministic DSA signatures, which are not covered by [TR-02102-1]_. In
 this case the implemented DSA signature algorithm is not [FIPS-186-4]_
-conform. This cryptographic construct does not need a random number
-generator during signature computation. However, the RFC6979 module is
-prohibited in the BSI module policy.
+conform. This cryptographic construct does not need a viable random number
+generator during signature computation. Therefore, the blinding value
+:math:`b_2` is always deterministically derived from :math:`b_1`. However,
+the RFC6979 module is prohibited in the BSI module policy.
 
 Signature Verification
 ----------------------
