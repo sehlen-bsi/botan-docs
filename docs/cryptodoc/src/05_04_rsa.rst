@@ -159,11 +159,23 @@ The RSA decryption operation is implemented as follows:
 
    3. Unblind message ::math:`m = m' * m_d \bmod N`
 
-**Remark:** After each blinding step, the blinding values change:
-:math:`m_e = m_e * m_e \bmod N`, :math:`m_d = m_d * m_d \bmod N`.
-This is performed at most 64 times (defined in
-``BOTAN_BLINDING_REINIT_INTERVAL``). Afterwards, ``rng`` is used to
-generate new blinding values.
+**Remarks:**
+ - After each blinding step, the blinding values change:
+   :math:`m_e = m_e * m_e \bmod N`, :math:`m_d = m_d * m_d \bmod N`.
+   This is performed at most 64 times (defined in
+   ``BOTAN_BLINDING_REINIT_INTERVAL``). Afterwards, ``rng`` is used to
+   generate new blinding values.
+ - For reduction during exponentiation in combination with the CRT-based
+   exponentiation approach, the constant-time Smooth CRT-RSA algorithm
+   [SmoothCrtRsa]_ is used.
+ - For internal reasons, the CRT-based algorithm is only used for RSA keys where
+   p and q have the same bit length, i.e., they are balanced. For unbalanced
+   primes, the CRT optimization is omitted, and the blinded message is directly
+   computed via the less efficient calculation of :math:`m' = {ct'}^d \bmod N`.
+   Unbalanced RSA primes are rare since most crypto implementations only
+   generate balanced primes. Note that this distinction leaks whether the
+   primes are balanced as a static timing side-channel. Otherwise, both
+   paths are designed to be constant-time.
 
 **Conclusion:** The algorithm complies with [TR-02102-1]_
 as long as a suitable padding function was applied to the message input.
