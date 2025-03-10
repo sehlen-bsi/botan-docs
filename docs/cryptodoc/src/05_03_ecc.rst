@@ -27,6 +27,10 @@ For less commonly used or user-defined curves, a legacy implementation is availa
 deprecated and replaced by a new generic variant based on the 'pcurves' implementation
 mentioned above.
 
+Note that the detailed algorithm descriptions in the rest of this chapter always
+refer to the optimized implementation. The legacy implementation that is used for
+custom curve parameters was the basis for previous revisions of this document.
+
 User-defined elliptic curve parameters can be imported at run time. However, it
 is the application developer's responsibility to ensure that such custom curves
 are trustworthy and cryptographically strong. Botan *does not* contain means to
@@ -47,7 +51,7 @@ parameters:
  - The group order :math:`n` must have the same bit length as the prime :math:`p`
    and must itself be prime
 
- - :math:`(4*a^3 + 27*b^2) \bmod p \neq 0`. Otherwise the curve is invalid.
+ - :math:`(4a^3 + 27b^2) \bmod p \neq 0`. Otherwise the curve is invalid.
 
  - The cofactor of the group must be :math:`h = 1`
 
@@ -69,7 +73,7 @@ digital signatures and key exchange that are detailed in this document.
 
    - :math:`p`: prime size of the underlying field :math:`\mathbb{F}_p`
    - :math:`a, b \in \mathbb{F}_p`: curve coefficients in short Weierstrass form:
-     :math:`E_{a,b}: y^2 = x^3 + a*x + b`
+     :math:`E_{a,b}: y^2 = x^3 + a \cdot x + b`
    - :math:`G_{x,y}` on :math:`E_{a,b}(\mathbb{F}_p)`: the base point of the curve :math:`E_{a,b}`
    - :math:`n = ord(G_{x,y})`: the order of the base point :math:`G_{x,y}`
    - :math:`h = \#E_{a,b}(\mathbb{F}_p)/n`: the cofactor of the curve
@@ -107,10 +111,10 @@ operates as follows:
    1. Sample private value ``d`` as a random number :math:`1 \leq d < n` using the algorithm
       described in Section :ref:`pubkey_param/rng`, where :math:`n` is the order of the
       base point G on the curve taken from the domain parameters.
-   2. Compute public point ``Q`` as point multiplication :math:`d*G`, where ``G`` is the
+   2. Compute public point ``Q`` as point multiplication :math:`d \cdot G`, where ``G`` is the
       base point defined in the domain. Note that if the passed parameter
       ``with_modular_inverse`` is set to ``true``, the public point ``Q`` is
-      instead computed as :math:`d^{-1}*G`. This is required for ECKDSA and ECGDSA key
+      instead computed as :math:`d^{-1} \cdot G`. This is required for ECKDSA and ECGDSA key
       generation, but results in an invalid ECDH/ECDSA key.
 
 Optionally ``EC_PublicKeys`` can be explicitly checked with a call to
@@ -125,7 +129,7 @@ Optionally ``EC_PublicKeys`` can be explicitly checked with a call to
       satisfy the curve equation, an error is raised already then.
    2. Verify the ``ec_group`` by calling ``EC_Group::verify_group``. If the
       domain does not pass the verification, return false.
-   2. Assure that the public point ``Q`` is not the point at infinity.
+   3. Assure that the public point ``Q`` is not the point at infinity.
 
 **Conclusion:** The algorithm fulfills all requirements of [TR-03111]_.
 The public key validation follows the requirements described in [ReqEC]_.
@@ -161,7 +165,7 @@ the public point of the other party and computes the shared secret as follows:
 
       1. Deserialize :math:`Q_b` from bytes. Note that this validates that the point is
          on the curve specified by the group parameters.
-      2. Calculate the shared secret point :math:`S = d*Q_b` using a constant-time
+      2. Calculate the shared secret point :math:`S = d \cdot Q_b` using a constant-time
          windowed multiplication table with blinding
          (see :srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1727|mul`).
       3. Return the shared secret as :math:`S_x` serialized to bytes.
@@ -189,7 +193,8 @@ compute a representative of the message to be signed.
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
-The signature generation algorithm works as follows:
+The signature generation algorithm works as follows (see
+:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:162|raw_sign`):
 
 .. admonition:: ``ECDSA_Signature_Operation::raw_sign()``
 
@@ -198,7 +203,7 @@ The signature generation algorithm works as follows:
    -  ``rng``: random number generator
    -  :math:`H` the hash value of the message to sign hashed via the hash function
       passed to the signature operation's constructor.
-   -  EC_Privatekey: :math:`d`, :math:`Q`, domain (curve parameters, base point :math:`G`, :math:`n = ord(G)`)
+   -  EC_Privatekey: ``d``, ``Q``, curve group parameters (``a``, ``b``, ``p``, ``G``, ``n``, ``h = 1``)
 
    **Output:**
 
@@ -217,7 +222,7 @@ The signature generation algorithm works as follows:
    3. :math:`r = x_R \bmod n` where :math:`x_R` is the x-coordinate of the point
       :math:`(x_R, y_R) = k \cdot G`.
 
-   4. Sample a :math:`\lceil \frac{length(n)}{2} \rceil` bit long random blinding
+   4. Sample a :math:`\lceil \frac{length(n)}{4} \rceil` bit long random blinding
       mask :math:`b_1` from ``rng`` and compute :math:`k^{-1}=(b_1 \cdot k)^{-1} \cdot b_1`.
 
    5. Square the blinding mask :math:`b_1` to obtain a new blinding mask
@@ -236,15 +241,16 @@ policy.
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The signature verification algorithm works as follows:
+The signature verification algorithm works as follows (see
+:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:214|verify`):
 
 .. admonition:: ``ECDSA_Verification_Operation::verify()``
 
    **Input:**
 
-   -  :math:`H` the hash value of the message to sign hashed via the hash function
+   -  :math:`H` the hash value of the signed message hashed via the hash function
       passed to the verification operation's constructor
-   -  EC_Publickey: :math:`Q`, domain (curve parameters, base point :math:`G`, :math:`n = ord(G)`)
+   -  EC_Publickey: ``Q``, curve group parameters (``a``, ``b``, ``p``, ``G``, ``n``, ``h = 1``)
    -  :math:`(r, s)`: ECDSA signature
 
    **Output:**
@@ -281,7 +287,8 @@ it also includes the public key in the representative.
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
-The signature generation algorithm works as follows:
+The signature generation algorithm works as follows (see
+:srcref:`[src/lib/pubkey]/eckcdsa.cpp:163|raw_sign`):
 
 .. admonition:: ``ECKCDSA_Signature_Operation::raw_sign()``
 
@@ -289,9 +296,7 @@ The signature generation algorithm works as follows:
 
    -  ``m``: raw bytes to sign (the hash-code ``H`` in  [ISO-14888-3]_,
       which is the truncated hash from the public key and message)
-   -  EC_Privatekey with inverse: ``d``, ``Q``, domain (curve parameters (first coefficient
-      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
+   -  EC_Privatekey: ``d``, ``Q``, curve group parameters (``a``, ``b``, ``p``, ``G``, ``n``, ``h = 1``)
    -  ``rng``: random number generator
 
    **Output:**
@@ -304,9 +309,9 @@ The signature generation algorithm works as follows:
       :math:`0 < k < n`
       from ``rng`` using the algorithm described in Section
       :ref:`pubkey_param/rng`.
-   2. Sample a :math:`\lceil \frac{lenth(n)}{2} \rceil` bit long random blinding
-      ``mask`` from ``rng`` and compute :math:`k'=k+n*mask`.
-   3. Compute point :math:`W=(x_1,y_1)=k'*G`.
+   2. Sample a :math:`\lceil \frac{length(n)}{4} \rceil` bit long random blinding
+      ``mask`` from ``rng`` and compute :math:`k'=k+n \cdot mask`.
+   3. Compute point :math:`W=(x_1,y_1)=k' \cdot G`.
    4. Compute the witness
       :math:`{r = h}{(x_{1})}`
       , where :math:`h`
@@ -322,7 +327,8 @@ The signature generation algorithm works as follows:
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The signature verification algorithm works as follows:
+The signature verification algorithm works as follows (see
+:srcref:`[src/lib/pubkey]/eckcdsa.cpp:235|verify`):
 
 .. admonition:: ``ECKCDSA_Verification_Operation::verify()``
 
@@ -330,9 +336,7 @@ The signature verification algorithm works as follows:
 
    -  ``m``: raw bytes to verify (the hash-code ``H`` in  [ISO-14888-3]_,
       which is the truncated hash from the public key and message)
-   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
-      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
+   -  EC_Publickey: ``Q``, curve group parameters (``a``, ``b``, ``p``, ``G``, ``n``, ``h = 1``)
    -  (``r``, ``s``): ECKCDSA signature
 
    **Output:**
@@ -344,7 +348,7 @@ The signature verification algorithm works as follows:
    1. Perform preliminary parameter checks and verifies that :math:`0<s<n` applies.
       Terminates otherwise.
    2. Compute :math:`e=r \oplus m \bmod n`.
-   3. Compute point :math:`W=s*Q+e*G` with Shamir's trick.
+   3. Compute point :math:`W=s \cdot Q+e \cdot G`
    4. Recompute the witness :math:`r'=h(x_i)`,
       where :math:`h` is the hash function used in the current instance of the signature scheme.
    5. If the output length of the hash function :math:`h` exceeds the size of the group order,
@@ -368,16 +372,16 @@ follows [ISO-14888-3]_.
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
-The signature generation algorithm works as follows:
+The signature generation algorithm works as follows (see
+:srcref:`[src/lib/pubkey/ecgdsa]/ecgdsa.cpp:60|raw_sign`):
 
 .. admonition:: ``ECGDSA_Signature_Operation::raw_sign()``
 
    **Input:**
 
-   -  ``m``: raw bytes to sign (EMSA1 encoded data)
-   -  EC_Privatekey with invers: ``d``, ``Q``, domain (curve parameters (first coefficient
-      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
+   -  ``m``: raw bytes to sign (digest of the data hashed with a user-defined
+      hash function)
+   -  EC_Privatekey: ``d``, ``Q``, curve group parameters (``a``, ``b``, ``p``, ``G``, ``n``, ``h = 1``)
    -  ``rng``: random number generator
 
    **Output:**
@@ -386,34 +390,32 @@ The signature generation algorithm works as follows:
 
    **Steps:**
 
-   1. Sample parameter ``k`` as a random number
+   1. Truncate ``m`` to be at most :math:`\lceil log_2(n) \rceil` bits long.
+   2. Sample parameter ``k`` as a random number
       :math:`0 < k < n`
       from ``rng`` using the algorithm described in Section
       :ref:`pubkey_param/rng` .
-   2. Sample a :math:`\lceil \frac{lenth(n)}{2} \rceil` bit long random blinding
-      ``mask`` from ``rng`` and compute :math:`k'=k+n*mask`.
-   3. Compute point :math:`W=(x_1,y_1)=k'*G`. This computation utilizes randomized Jacobian point
-      coordinates with a blinding masks that is equal in size to the
-      underlying field.
-   4. Set :math:`{r = x_{1}}\bmod n`
-   5. Compute :math:`{s = {d \ast {({{k \ast r} - m})}}}\bmod n`.
-   6. If :math:`s = {0 \vee r} = 0`
+   3. Sample a :math:`\lceil \frac{length(n)}{4} \rceil` bit long random blinding
+      ``mask`` from ``rng`` and compute :math:`k'=k+n \cdot mask`.
+   4. Compute point :math:`W=(x_1,y_1)=k' \cdot G`
+   5. Set :math:`{r = x_{1}}\bmod n`
+   6. Compute :math:`{s = {d \cdot {({{k \cdot r} - m})}}}\bmod n`.
+   7. If :math:`s = {0 \vee r} = 0`
       applies, the algorithm terminates with an error.
-   7. Return ECGDSA signature (r,s).
+   8. Return ECGDSA signature (r,s).
 
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The signature verification algorithm works as follows:
+The signature verification algorithm works as follows (see
+:srcref:`[src/lib/pubkey/ecgdsa]/ecgdsa.cpp:97|verify`):
 
 .. admonition:: ``ECGDSA_Verification_Operation::verify()``
 
    **Input:**
 
-   -  ``m``: message bytes
-   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
-      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
+   -  ``m``: digest of message bytes (using a user-defined hash function)
+   -  EC_Publickey: ``Q``, curve group parameters (``a``, ``b``, ``p``, ``G``, ``n``, ``h = 1``)
    -  (``r``, ``s``): ECGDSA signature
 
    **Output:**
@@ -425,10 +427,11 @@ The signature verification algorithm works as follows:
    1. Perform preliminary parameter checks and verify that
       :math:`0 < r < {n \land 0} < s < n`
       applies.
-   2. Compute :math:`r^{- 1}\bmod n`
-   3. Compute :math:`{v_{1} = {r^{- 1} \ast m}}\bmod n`
-      and :math:`{v_{2} = {r^{- 1} \ast s}}\bmod n`.
-   4. Compute point
-      :math:`W = {{v_{1} \ast G} + {v_{2} \ast Q}}`
-   5. Return ``true`` if :math:`r \equiv x_1 \bmod q` applies. Otherwise it returns ``false``.
+   2. Compute :math:`r^{-1}\bmod n`
+   3. Truncate ``m`` to be at most :math:`\lceil log_2(n) \rceil` bits long.
+   4. Compute :math:`{v_{1} = {r^{- 1} \cdot m}}\bmod n`
+      and :math:`{v_{2} = {r^{- 1} \cdot s}}\bmod n`.
+   5. Compute point
+      :math:`W = (x_1, y_1) = {{v_{1} \cdot G} + {v_{2} \cdot Q}}`
+   6. Return ``true`` if :math:`r \equiv x_1 \bmod q` applies. Otherwise it returns ``false``.
 
