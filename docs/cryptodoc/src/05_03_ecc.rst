@@ -303,32 +303,36 @@ The signature generation algorithm works as follows:
    **Input:**
 
    -  ``rng``: random number generator
-   -  ``m``: raw bytes to sign (EMSA1 encoded data)
-   -  EC_Privatekey: ``d``, ``Q``, domain (curve parameters (first coefficient
-      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
+   -  :math:`H` the hash value of the message to sign hashed via the hash function
+      passed to the signature operation's constructor.
+   -  EC_Privatekey: :math:`d`, :math:`Q`, domain (curve parameters, base point :math:`G`, :math:`n = ord(G)`)
 
    **Output:**
 
-   -  (``r``, ``s``): ECDSA signature
+   -  (:math:`r`, :math:`s`): ECDSA signature
 
    **Steps:**
 
-   1. Generate parameter ``k`` as a random number :math:`0<k< \lvert E \rvert` using the algorithm
+   1. :math:`e = H` and truncate :math:`e` to be at most :math:`\lceil log_2(n) \rceil` bits long.
+
+   2. Generate parameter :math:`k` as a random number :math:`0 < k < n` using the algorithm
       described in Section :ref:`pubkey_param/rng` or as HMAC_DRBG output
       [RFC6979]_. If Botan is compiled with the module RFC6979 the HMAC_DRBG
-      is used, otherwise ``k`` is sampled from the passed random number
-      generator ``rng``. HMAC_DRBG is deterministic and k thus depends on the
-      HMAC_DRBG inputs ``m``, ``n`` and ``d``.
-   2. Sample a :math:`\lceil \frac{lenth(n)}{2} \rceil` bit long random blinding
-      ``mask`` from ``rng`` and compute :math:`k'=k+n*mask`.
-      Compute the point multiplication :math:`k_p=(x_1,y_1)=k'*G`, where G is the base point of the
-      domain. This computation utilizes randomized Jacobian point
-      coordinates with a blinding masks that is equal in size to the
-      underlying field. Compute :math:`r=x_1 \bmod n` and :math:`s=k^{-1}*(r*d+m)\bmod n`.
-      Computation of :math:`r*d+m` is blinded by
-      computing it as :math:`(r*d*b+m*b)/b`. If :math:`s=0 \lor r=0` applies,
-      the algorithm terminates with an error.
+      is used, otherwise :math:`k` is sampled from the passed random number
+      generator ``rng``.
+
+   3. :math:`r = x_R \bmod n` where :math:`x_R` is the x-coordinate of the point
+      :math:`(x_R, y_R) = k \cdot G`.
+
+   4. Sample a :math:`\lceil \frac{length(n)}{2} \rceil` bit long random blinding
+      mask :math:`b_1` from ``rng`` and compute :math:`k^{-1}=(b_1 \cdot k)^{-1} \cdot b_1`.
+
+   5. Square the blinding mask :math:`b_1` to obtain a new blinding mask
+      :math:`b_2`.
+
+   6. Compute :math:`s = k^{-1} \cdot {b_2}^{-1} \cdot (d \cdot b_2 \cdot r + e \cdot b_2)`
+
+   7. Return :math:`(r, s)` if :math:`r \neq 0` and :math:`s \neq 0`. Otherwise throw an exception.
 
 **Remark:** If Botan is built with the RFC6979 module, it implements
 deterministic ECDSA signatures, which are not covered by [TR-03111]_. In
@@ -345,25 +349,24 @@ The signature verification algorithm works as follows:
 
    **Input:**
 
-   -  ``m``: message bytes
-   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
-      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
-   -  (``r``, ``s``): ECDSA signature
+   -  :math:`H` the hash value of the message to sign hashed via the hash function
+      passed to the verification operation's constructor
+   -  EC_Publickey: :math:`Q`, domain (curve parameters, base point :math:`G`, :math:`n = ord(G)`)
+   -  :math:`(r, s)`: ECDSA signature
 
    **Output:**
 
-   -  ``true``, if the signature for message ``m`` is valid. ``false`` otherwise.
+   -  ``true``, if the signature for digest :math:`H` is valid. ``false`` otherwise.
 
    **Steps:**
 
-   1. Verify the passed signature has length :math:`2*qbits`. If that is not the case
-      ``false`` is returned.
-   2. Assure that :math:`0<r<n \land 0<s<n`. Otherwise the signature is invalid.
-   3. Compute :math:`w=s^{-1}\bmod n`
-   4. Compute :math:`v_1=m*w \bmod n` and :math:`v_2=r*w \bmod n`
-   5. Compute the point :math:`v=(x_1, y_1)=v_1*G+v_2*Q` with Shamir's trick [DI08]_.
-   6. Return ``true`` if :math:`x_1 \equiv r \bmod n` applies. ``false`` otherwise.
+   1. Verify the passed signature has a valid length. Otherwise, return ``false``.
+   2. Verify that :math:`0<r<n \land 0<s<n`. Otherwise, return ``false``.
+   3. :math:`e = H` and truncate :math:`e` to be at most :math:`\lceil log_2(n) \rceil` bits long.
+   4. Precompute :math:`w=s^{-1}\bmod n`
+   5. Check if :math:`r = x_R \bmod n` with :math:`(x_R, y_R) = (e \cdot s^{-1} \bmod n) \cdot G + (r \cdot s^{-1} \bmod n) \cdot Q`.
+      If the equation holds and :math:`(x_R, y_R)` is not the point at infinity, return
+      ``true``. Otherwise, return ``false``.
 
 
 ECKCDSA

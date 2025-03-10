@@ -64,10 +64,6 @@
    NIST PQC Challenge Round 3 Submission, 2021,
    https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210208.pdf
 
-.. [DI08] Christophe Doche, Laurent Imbert.
-   The Double-Base Number System in Elliptic Curve Cryptograhy.
-   http://www.lirmm.fr/~imbert/talks/laurent_Asilomar_08.pdf
-
 .. [FIPS-186-4] Federal Information Processing Standards Publication 186-4.
    Digital Signature Standard (DSS).
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf
