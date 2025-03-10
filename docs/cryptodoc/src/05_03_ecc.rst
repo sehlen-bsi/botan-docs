@@ -3,172 +3,222 @@
 Elliptic Curve Cryptography
 ===========================
 
-Parameter Generation
---------------------
+Elliptic Curve Groups
+---------------------
 
-In order to compute a shared secret with ECDH, it is required that both
+Botan implements the elliptic curve standard [ISO-15946-1]_ for elliptic curves
+over :math:`\mathbb{F}_p`. The standard additionally defines curves over
+:math:`\mathbb{F}_{2^m}` and :math:`\mathbb{F}_{3^m}` that are not implemented.
+See :srcref:`src/build-data/ec_groups.txt` for a list of supported curves and
+their parameters. All curves recommended in [TR-02102-1]_ are included.
+
+In order to use any elliptic curve algorithm, it is required that both
 participating parties agree on a domain, which consists of an elliptic
 curve, a base point of the curve, the order of the base point and the cofactor.
-[#ecc_domain_parameters]_
-Theoretically, it is possible to generate a new elliptic curve suitable for
-ECDH. As this process is very costly and comes with many pitfalls, only
-precomputed standardized curves are used in Botan. Thus the feature of
-elliptic curve parameter generation is not implemented. Various standardized
-curves are provided in :srcref:`src/lib/pubkey/ec_group/ec_named.cpp`. All curves
-recommended in [TR-02102-1]_ are included.
 
-Elliptic curve structures, including points and scalars, as well as operations
-like scalar multiplication, are implemented across various files and classes.
-Currently, there are two distinct implementations for elliptic curve
-mathematics. The first implementation, designed for several labeled curves
-[#supported_curves]_, is
-located in :srcref:`src/lib/math/pcurves/`. This implementation utilizes
-curve-specific optimized operations to enhance performance. For curves not yet
-supported by the optimized implementation or for custom curves, a generic
-implementation is available in :srcref:`src/lib/pubkey/ec_group/`.
+.. table:: Elliptic Curve Group Parameters
 
-It is possible to import custom elliptic curves at run time. However, it is the
-application developer's responsibility to ensure that such custom curves are
-trustworthy and cryptographically strong. Botan *does not* contain means to
-ensure that automatically.
+   +--------------------------------------------------+---------------------------------------------------------+
+   | Parameter                                        | Description                                             |
+   +==================================================+=========================================================+
+   | :math:`p`                                        | the prime of the underlying field :math:`\mathbb{F}_p`  |
+   +--------------------------------------------------+---------------------------------------------------------+
+   | :math:`a, b \in \mathbb{F}_p`                    | curve coefficients in short Weierstrass form            |
+   +--------------------------------------------------+---------------------------------------------------------+
+   | :math:`E_{a,b}: y^2 = x^3 + a \cdot x + b`       | the curve equation                                      |
+   +--------------------------------------------------+---------------------------------------------------------+
+   | :math:`G_{x,y}` on :math:`E_{a,b}(\mathbb{F}_p)` | the base point of the curve :math:`E_{a,b}`             |
+   +--------------------------------------------------+---------------------------------------------------------+
+   | :math:`n = ord(G_{x,y})`                         | the order of the base point :math:`G_{x,y}`             |
+   +--------------------------------------------------+---------------------------------------------------------+
+   | :math:`h = \#E_{a,b}(\mathbb{F}_p)/n`            | the cofactor of the curve (always :math:`1` in Botan)   |
+   +--------------------------------------------------+---------------------------------------------------------+
 
-Nevertheless, custom elliptic curve domains can and should be validated with
-the provided ``EC_Group::verify_group()`` function. It provides basic sanity
-checks but does not check the curve's cryptographic strength.
-The verification function operates as follows.
+For the most common named curves [#supported_curves]_, Botan provides optimized
+implementations in its internal :srcref:`"pcurves" library
+<src/lib/math/pcurves>`. Those utilize optimizations that leverage
+curve-specific mathematical features for efficient modular reduction and field
+inversions where possible.
 
-.. [#ecc_domain_parameters]
-   Elliptic curve domain parameters, their typical symbols and their inter-
-   dependence:
+For less commonly used or user-defined curves, a legacy implementation is
+available in :srcref:`src/lib/pubkey/ec_group/`. Since Botan 3.7.1, this
+implementation is deprecated.
 
-   - :math:`p`: prime size of the underlying field :math:`\mathbb{F}_p`
-   - :math:`a, b \in \mathbb{F}_p`: curve coefficients in short Weierstrass form:
-     :math:`E_{a,b}: y^2 = x^3 + a*x + b`
-   - :math:`G_{x,y}` on :math:`E_{a,b}(\mathbb{F}_p)`: the base point of the curve :math:`E_{a,b}`
-   - :math:`n = ord(G_{x,y})`: the order of the base point :math:`G_{x,y}`
-   - :math:`h = \#E_{a,b}(\mathbb{F}_p)/n`: the cofactor of the curve
+Note that the detailed algorithm descriptions in the rest of this chapter always
+refer to the optimized "pcurves" implementation. The previous implementation that
+is used for custom curve parameters was the basis for previous revisions of this
+document and was not changed significantly.
+
+User-defined elliptic curve parameters can be imported at run time. However, it
+is the application developer's responsibility to ensure that such custom curves
+are trustworthy and cryptographically strong. Botan *does not* contain means to
+ensure that automatically. It does however pose restrictions on the custom curve
+parameters:
+
+ - The modulus :math:`p` is prime and must be at least 192 bits (128 bits is
+   allowed, but deprecated) and at most 512 bits. The bit length must be a
+   multiple of 32 bits.
+
+ - As an extension of the above restriction, the prime :math:`p` can also be exactly
+   the 521-bit Mersenne prime (:math:`2^{521}-1`) or exactly the 239-bit prime used in
+   X9.62 239-bit groups (:math:`2^{239} - 2^{143} - 2^{95} + 2^{47} - 1`).
+
+ - The prime :math:`p` must be congruent to :math:`3 \bmod 4` to allow the efficient
+   calculation of square roots.
+
+ - The group order :math:`n` must have the same bit length as the prime :math:`p`
+   and must itself be prime.
+
+ - :math:`(4a^3 + 27b^2) \bmod p \neq 0` must hold.
+
+ - The cofactor of the group must be :math:`h = 1`.
+
+These restrictions are compatible with the main recommendations from [ReqEC]_
+and checked during the construction of any custom `EC_Group` (see
+:srcref:`[src/lib/pubkey/ec_group]/ec_group.cpp:414|EC_Group`). Previous
+versions of the library had more liberal restrictions on the custom group
+parameters, but those are now deprecated.
 
 .. [#supported_curves]
    Botan's :srcref:`src/lib/math/pcurves/` directory contains a subdirectory for
    each supported curve.
 
-.. admonition:: ``EC_Group::verify_group()``
+Essential Elliptic Curve Algorithms and Structures
+--------------------------------------------------
 
-   **Input:**
+Public Data Structures
+^^^^^^^^^^^^^^^^^^^^^^
 
-   -  ``EC_Group (curve parameters (first coefficient a, second coefficient
-      b, prime p), base point G, ord(G) n, cofactor of the curve h)``
-   -  ``rng``: random number generator
-   -  ``source``: builtin or external source
-   -  ``strong``: strong verification (default false)
+These classes may be used for low-level access to elliptic curve operations by
+applications that wish to implement their custom elliptic curve protocols. Note
+that, with the exception of ``EC_Group``, the API of those classes is public but
+not considered stable.
 
-   **Ouput:**
+.. table:: Public Elliptic Curve Data Structures
+   :widths: 30 70
 
-   -  ``true`` if group ``EC_Group`` is valid. ``false`` otherwise
+   +----------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+   | Type/Location                                            | Purpose                                                                                                             |
+   +==========================================================+=====================================================================================================================+
+   | ``EC_Group``                                             |                                                                                                                     |
+   | (:srcref:`code <[src/lib/pubkey/ec_group]/ec_group.h>`)  | An instance of elliptic curve group parameters specifying a group domain.                                           |
+   +----------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+   | ``EC_Scalar``                                            |                                                                                                                     |
+   | (:srcref:`code <[src/lib/pubkey/ec_group]/ec_scalar.h>`) | An arbitrary precision integer in the context of an ``EC_Group``, i.e., modulo the group's prime order ``n``.       |
+   +----------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+   | ``EC_AffinePoint``                                       |                                                                                                                     |
+   | (:srcref:`code <[src/lib/pubkey/ec_group]/ec_apoint.h>`) | An affine curve point in the context of an ``EC_Group``. Ensures that the contained point is always "on the curve". |
+   +----------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
 
-   **Steps:**
+Private Data Structures
+^^^^^^^^^^^^^^^^^^^^^^^
 
-   1. If ``source`` is builtin and ``strong`` is false, return true.
-   2. Preliminary parameter requirement checks are conducted. ``a`` must be
-      non-negative, ``b`` and ``n`` must be positive, and ``p`` must be larger than 3.
-      Both ``a`` and ``b`` must be smaller than ``p``.
-   3. Perform a primality test of ``p`` with the function ``is_prime()``
-      with the passed random number generator ``rng`` and probability
-      [#ecc_prime_prob_details]_ set to 128, assuming that ``p`` was randomly generated
-      for builtin groups. [#ecc_prime_check_details]_
-      If the test fails return false.
-   4. Perform a primality test of ``n`` with the function ``is_prime()``
-      with the passed random number generator rng and probability set to 128
-      assuming that ``n`` was randomly generated for builtin groups.
-      If the test fails return false.
-   5. Compute :math:`D=(4*a^3 + 27*b^2) \bmod p`. If :math:`D=0` the curve is
-      singular and thus invalid. In this case false is returned.
-   6. Check that the cofactor ``h`` is at least 1. If not return false.
-   7. Verify that ``G`` is on the curve. If not return false.
-   8. Assure that ``G`` has the correct order ``n``. This is the case if
-      :math:`h*G \neq P_{\infty}` and :math:`n*G = P_{\infty}`.
-      If one of the equations does not hold, return false.
+This is a non-exhaustive list of data structures and types used internally. These
+are not accessible by an application using the library. For further details, please
+consult the implementations linked in the table below.
 
-.. [#ecc_prime_prob_details]
-   Chance of the number being composite is at most :math:`\sfrac{1}{2^{128}}`
+.. table:: Private Elliptic Curve Data Structures
+   :widths: 30 70
 
-.. [#ecc_prime_check_details]
-   See :ref:`prim` for further details of the primality checks
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Type/Location                                                                                       | Purpose                                                                                                                                                                                                                                              |
+   +=====================================================================================================+======================================================================================================================================================================================================================================================+
+   | ``PrimeOrderCurve``                                                                                 | Library-internal abstract interface to specific elliptic curve algorithm implementations.                                                                                                                                                            |
+   | (:srcref:`code <[src/lib/math/pcurves]/pcurves.h>`)                                                 |                                                                                                                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ``AffineCurvePoint``                                                                                | Curve specific representation of an affine point with coordinates :math:`x,y \in \mathbb{F}_p`.                                                                                                                                                      |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:706|AffineCurvePoint>`)          |                                                                                                                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ``ProjectiveCurvePoint``                                                                            | Curve-specific implementation of a projective point using Jacobian coordinates :math:`x,y,z \in \mathbb{F}_p`. Provides foundational point algorithms, such as addition and doubling.                                                                |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:879|ProjectiveCurvePoint>`)      |                                                                                                                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ``IntMod``                                                                                          | Curve-specific representation of an integer modulo a prime (either :math:`p` for field elements, or :math:`n` for scalar arithmetics). Provides foundational modular arithmetics algorithms and a customization point for curve-specific reductions. |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:145|IntMod>`)                    |                                                                                                                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ``EllipticCurve``                                                                                   | Trait type for the concrete elliptic curve, its parameters and helper structures. Provides customization points for curve-specific field inversion algorithms.                                                                                       |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1271|EllipticCurve>`)            |                                                                                                                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ``BlindedScalarBits``                                                                               | Allows randomizing the representation of a scalar :math:`k` by adding the curve's prime order :math:`n` random :math:`m` times (:math:`k + n \cdot m`).                                                                                              |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1450|BlindedScalarBits>`)        |                                                                                                                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ``PrecomputedBaseMulTable``                                                                         | Represents a precomputed multiplication table to perform window multiplication by :math:`G`. The table is precomputed using a sequence of point additions of successive powers of the base point in a comb-like technique.                           |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1605|PrecomputedBaseMulTable>`)  |                                                                                                                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ``WindowedMulTable``                                                                                | Allows precomputing a multiplication table for generic point multiplication using a fixed window of some bit length :math:`W`. Then the usage of this precomputed table uses only double and add operations.                                         |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1693|WindowedMulTable>`)         |                                                                                                                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ``WindowedMul2Table``                                                                               | Allows precomputing a multiplication table for 2-ary point multiplication as a windowed variant of "Shamir's Trick" of some window bit length :math:`W`.                                                                                             |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1805|WindowedMul2Table>`)        |                                                                                                                                                                                                                                                      |
+   +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-The ``verify_group()`` function follows the main recommendations from
-[ReqEC]_. Note however that this function performs basic sanity checks on the
-construction of the curve only. In particular it cannot ensure that the passed
-parameters are cryptographically strong and/or are not maliciously chosen to
-contain a backdoor.
+Fundamental Elliptic Curve Algorithms
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Botan implements the elliptic curve standard [ISO-15946-1]_ for ellipic curves
-over :math:`\mathbb{F}_p`. The standard additionally defines curves over
-:math:`\mathbb{F}_{2^m}` and :math:`\mathbb{F}_{3^m}` that are not implemented.
+Point Addition
+~~~~~~~~~~~~~~
 
-*Internally* the representation differs between NIST reduction and Montgomery
-reduction curves and implements the reduction algorithms and curve
-operations in the respective classes ``CurveGFp_NIST`` and
-``CurveGFp_Montgomery``. These representations are an implementation detail that
-is not made available or configurable by the application developer.
-For efficiency purposes Botan uses Jacobian projective
-coordinates for all elliptic curve points and point operations as
-described in [ISO-15946-1]_ with the line at infinity defined as ``[0,Y,0]``.
-The affine coordinates can be obtained by using the conversion
-functions ``EC_Point::get_affine_x()`` and ``EC_Point::get_affine_y()``.
+Implementations are provided for mixed projective and affine additions (see
+:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:958|add_mixed`) and
+projective-projective additions (see
+:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1009|add`). Both
+follow the suggestions in [EFD]_.
 
-The function ``EC_Point::get_affine_x()`` operates as follows.
+Point Doubling
+~~~~~~~~~~~~~~
 
-.. admonition:: ``EC_Point::get_affine_x()``
+Point doubling is implemented following the suggestions in [EFD]_ with
+optimizations for curves with :math:`a = -3` or :math:`a = 0` (see
+:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1135|dbl`).
+Additionally, iterated point doubling is provided (see
+:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1065|dbl_n`) with
+similar special treatment for curves with :math:`a = -3` or :math:`a = 0`.
 
-   **Input:**
+.. _pubkey/ecc/scalar_mul:
 
-   -  ``CurveGFp_Montgomery`` or ``CurveGFp_NIST``: elliptic curve
-   -  ``[X,Y,Z]``: point in Jacobian projective coordinates
+Multiplication of Scalar k and Point P
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   **Ouput:**
+Scalar multiplication of the form :math:`k \cdot P` is implemented using a
+window method with precomputed points. For the curve's base point :math:`G` this
+precomputation is performed only once and the table is cached for later uses by
+the application. For the base point, a window size of 5 bits is used, for points
+known only at runtime, the window size is 4 bits.
 
-   -  ``x``: affine ``x``-coordinate of the input point ``[X,Y,Z]``
+The online phase of the multiplication is implemented in a side-channel silent
+manner ensuring table lookups aren't leaking information about the secret scalar
+:math:`k`. The secret scalar is blinded with a random value :math:`m` of
+bitlength :math:`length(n)/4` rounded up to the next word length of the target
+machine. The scalar representation used in the multiplication is therefore
+:math:`r = k + n \cdot m`, with :math:`n` being the curve's group order.
+Finally, the projective Jacobian coordinate representation of the accumulator is
+randomized for the first few window applications if a seeded random number
+generator is available.
 
-   **Steps:**
+For links to the implementations see ``PrecomputedBaseMulTable`` and
+``WindowedMulTable`` in the table above.
 
-   1. Verify that the input point is not on the line at infinity with the
-      coordinates ``[0,Y,0]``. As the point at infinity has no representative
-      in affine coordinates, terminate with respective error if a
-      representative of the point at infinity is passed.
-   2. If ``Z = 1``, the affine coordinate can be taken simply from the Jacobian
-      coordinates. Return ``X``.
-   3. Otherwise compute affine ``x`` coordinate as
-      :math:`\frac{X}{Z^{2}}`.
+.. _pubkey/ecc/scalar_mul2:
 
-The conversion function ``EC_Point::get_affine_y()`` performs the following steps.
+2-ary Multiplication of Scalars p, q and Points X, Y
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. admonition:: ``EC_Point::get_affine_y()``
+The 2-ary multiplication of the form :math:`p \cdot X + q \cdot Y` is
+implemented using a windowed variant of what is known as "Shamir's Trick". As an
+optimization the multiplication table may be precomputed and cached. This is
+particularly useful when performing multiple signature verifications under the
+same public point :math:`Q`. In this case, the precomputation is performed for
+:math:`X = G` (the group's generator) and :math:`Y = Q`. For such precomputed and
+cached tables, the window size is 3 bits. For generic one-shot precomputations, it
+is 2 bits.
 
-   **Input:**
+The online phase of this 2-ary multiplication table *is not side-channel
+silent*. However, it is used for only operations that don't handle secret values
+such as signature verification. An additional implementation applying the same
+countermeasures as the ordinary scalar multiplication is available. This may be
+useful when implementing cryptographic schemes such as sPAKE, but it is
+currently not used in the elliptic curve algorithms outlined below.
 
-   -  ``CurveGFp_Montgomery`` or ``CurveGFp_NIST``: elliptic curve
-   -  ``[X,Y,Z]``: point in Jacobian projective coordinates
-
-   **Ouput:**
-
-   -  ``y``: affine ``y``-coordinate of the input point ``[X,Y,Z]``
-
-   **Steps:**
-
-   1. Verify that the input point is not on the line at infinity with the
-      coordinates ``[0,Y,0]``. As the point at infinity has no representative
-      in affine coordinates, terminate with respective error if a
-      representative of the point at infinity is passed.
-   2. If ``Z = 1``, the affine coordinate can be taken simply from the Jacobian
-      coordinates. Return ``Y``.
-   3. Otherwise, compute affine ``y`` coordinate as
-      :math:`\frac{Y}{Z^{3}}`.
-
-**Conclusion:** Botan defines all the elliptic curve parameters
-recommended in [TR-02102-1]_.
-Note however that application developers need to take special care when using
-custom curves. Botan's ``verify_group()`` implementation cannot guarantee that
-the parameters of such curves are cryptographically strong.
+For links to the implementation, see ``WindowedMul2Table`` in the table above.
 
 Key Generation
 --------------
@@ -184,40 +234,41 @@ operates as follows:
 
    **Input:**
 
-   -  ``rng``: random number generator
-   -  ``ec_group``: domain(curve parameters(first coefficient a, second
-      coefficient b, prime p), base point G, ord(G) n, cofactor of the
-      curve h)
+   - ``rng``: random number generator
+   - ``ec_group``: curve group parameters :math:`(a, b, p, G, n, h = 1)`
+   - ``with_modular_inverse``: boolean parameter to generate a key pair for ECGDSA/ECKCDSA
 
    **Output:**
 
-   -  EC_PrivateKey: ``d``
-   -  EC_PublicKey: ``Q``
+   -  EC_PrivateKey: :math:`d`
+   -  EC_PublicKey: :math:`Q`
 
    **Steps:**
 
-   1. Sample private value ``d`` as a random number :math:`1 \leq d < n` using the algorithm
-      described in Section :ref:`pubkey_param/rng`, where :math:`n` is the order of the
-      base point G on the curve taken from the domain parameters.
-   2. Compute public point ``Q`` as point multiplication :math:`d*G`, where ``G`` is the
-      base point defined in the domain. Note that if the passed parameter
-      ``with_modular_inverse`` is set to ``true``, the public point ``Q`` is
-      instead computed as :math:`d^{-1}*G`. This is required for ECKDSA and ECGDSA key
-      generation, but results in an invalid ECDH/ECDSA key.
+   1. Sample private value :math:`d` as a random number :math:`1 \leq d < n`
+      using the algorithm described in Section :ref:`pubkey_param/rng`, where
+      :math:`n` is the order of the base point G on the curve taken from the
+      domain parameters.
+   2. Compute public point :math:`Q` as :ref:`point multiplication
+      <pubkey/ecc/scalar_mul>` :math:`d \cdot G`, where :math:`G` is the base
+      point of the curve. Note that if the passed parameter
+      ``with_modular_inverse`` is set to ``true``, the public point :math:`Q` is
+      instead computed as :math:`d^{-1} \cdot G`. This is required for ECKDSA
+      and ECGDSA key generation, but results in an invalid ECDH/ECDSA key.
 
-Optionally ``EC_PublicKeys`` can be extensively checked with a call to
+Optionally ``EC_PublicKeys`` can be explicitly checked with a call to
 ``check_key``. The extensive check performs the following steps. Note that
 ``on_the_curve()`` is always automatically checked.
 
 .. admonition:: ``EC_PublicKeys::check_key()``
 
-   1. Check that the public point ``Q`` is on the curve (function
-      ``on_the_curve()``). This is done when deserializing a public point
-      into the library's internal structures. If the point does not satisfy
-      the curve equation, an error is raised already then.
+   1. Check that the public point :math:`Q` is on the curve (function
+      ``on_the_curve()``). This is done already when deserializing a public
+      point into the library's internal structures. If the point does not
+      satisfy the curve equation, an error is raised already then.
    2. Verify the ``ec_group`` by calling ``EC_Group::verify_group``. If the
       domain does not pass the verification, return false.
-   3. Assure that the public point ``Q`` is not the point at infinity.
+   3. Assure that the public point :math:`Q` is not the point at infinity.
 
 **Conclusion:** The algorithm fulfills all requirements of [TR-03111]_.
 The public key validation follows the requirements described in [ReqEC]_.
@@ -233,10 +284,9 @@ implemented in :srcref:`src/lib/pubkey/ecdh/ecdh.cpp`.
 Key Agreement
 ^^^^^^^^^^^^^
 
-The shared secret is computed by calling ``raw_agree(const byte w[],
-size_t w_len)`` from the respective ECDH operation class
-``ECDH_KA_Operation``. The algorithm receives the public point of the
-other party and computes the shared secret as follows:
+The shared secret is computed in
+:srcref:`[src/lib/pubkey/ecdh]/ecdh.cpp:35|raw_agree`. The algorithm receives
+the public point of the other party and computes the shared secret as follows:
 
 .. admonition:: ``ECDH_KA_Operation::raw_agree()``
 
@@ -244,34 +294,18 @@ other party and computes the shared secret as follows:
 
    -  ``rng``: random number generator
    -  :math:`Q_b`: ECDH public point of the other party
-   -  EC_Privatekey: ``d``, ``Q``, domain (curve parameters (first coefficient
-      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
+   -  EC_Privatekey: :math:`d`, :math:`Q`, curve group parameters :math:`(a, b, p, G, n, h = 1)`
 
    **Output:**
 
-   -  ``S``: shared ECDH secret point
+   -  :math:`S`: shared ECDH secret value (byte-encoded x-coordinate of the secret point)
 
    **Steps:**
 
-   1. Compute intermediate value :math:`i=(h^{-1} \bmod n)*d`, where ``h`` is the cofactor taken from the
-      agreed domain.
-   2. Verify that the received public point :math:`Q_b` is on the elliptic curve. This
-      check is part of the decode function ``OS2ECP()``.
-   3. Sample a :math:`\lceil \frac{length(n)}{2} \rceil` bit long random blinding ``mask`` from ``rng`` and compute
-      :math:`i' = i+n*mask`.
-   4. Compute the shared secret point ``S`` as :math:`S = (h*Q_b)*i' = (h*Q_b)*(h^{-1} \bmod n )*d = Q_b*d`.
-      This computation utilizes
-      randomized Jacobian point coordinates with a blinding masks that is
-      equal in size to the underlying field.
-   5. Verify that the computed shared secret point ``S`` is on the selected
-      elliptic curve (``on_the_curve()``).
-   6. Return affine x coordinate of shared point ``S`` as shared secret.
-      Before the transformation to affine coordinates is carried out, it is
-      checked, if the shared point S is the point at infinity
-      (``is_zero()``). If that is the case, a respective error is thrown.
-
-Optionally a specified KDF is applied to the shared secret.
+      1. Deserialize :math:`Q_b` from bytes. Note that this validates that the point is
+         on the curve specified by the group parameters.
+      2. Calculate the shared secret point :math:`S_{x,y} = d \cdot Q_b` (see :ref:`pubkey/ecc/scalar_mul`)
+      3. Return the shared secret as :math:`S_x` serialized to bytes.
 
 **Conclusion:** The implemented ECDH key agreement algorithm complies
 with the algorithm shown in chapter 4.3.1 of [TR-03111]_ and thus fulfills
@@ -296,39 +330,51 @@ compute a representative of the message to be signed.
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
-The signature generation algorithm works as follows:
+The signature generation algorithm works as follows (see
+:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:162|raw_sign`):
 
 .. admonition:: ``ECDSA_Signature_Operation::raw_sign()``
 
    **Input:**
 
    -  ``rng``: random number generator
-   -  ``m``: raw bytes to sign (EMSA1 encoded data)
-   -  EC_Privatekey: ``d``, ``Q``, domain (curve parameters (first coefficient
-      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
+   -  :math:`H`: the hash value of the message to sign hashed via the hash function
+      passed to the signature operation's constructor.
+   -  EC_Privatekey: :math:`d`, :math:`Q`, curve group parameters :math:`(a, b, p, G, n, h = 1)`
 
    **Output:**
 
-   -  (``r``, ``s``): ECDSA signature
+   -  (:math:`r`, :math:`s`): ECDSA signature
 
    **Steps:**
 
-   1. Generate parameter ``k`` as a random number :math:`0<k< \lvert E \rvert` using the algorithm
-      described in Section :ref:`pubkey_param/rng` or as HMAC_DRBG output
-      [RFC6979]_. If Botan is compiled with the module RFC6979 the HMAC_DRBG
-      is used, otherwise ``k`` is sampled from the passed random number
-      generator ``rng``. HMAC_DRBG is deterministic and k thus depends on the
-      HMAC_DRBG inputs ``m``, ``n`` and ``d``.
-   2. Sample a :math:`\lceil \frac{lenth(n)}{2} \rceil` bit long random blinding
-      ``mask`` from ``rng`` and compute :math:`k'=k+n*mask`.
-      Compute the point multiplication :math:`k_p=(x_1,y_1)=k'*G`, where G is the base point of the
-      domain. This computation utilizes randomized Jacobian point
-      coordinates with a blinding masks that is equal in size to the
-      underlying field. Compute :math:`r=x_1 \bmod n` and :math:`s=k^{-1}*(r*d+m)\bmod n`.
-      Computation of :math:`r*d+m` is blinded by
-      computing it as :math:`(r*d*b+m*b)/b`. If :math:`s=0 \lor r=0` applies,
-      the algorithm terminates with an error.
+   1. Sample a random blinding scalar :math:`1 \leq b_1 < n` from ``rng`` and
+      calculate its inverse :math:`b_1^{-1} \bmod n`
+
+   1. :math:`e = H` and truncate :math:`e` to be at most :math:`length(n)` bits long.
+
+   2. Generate parameter :math:`k` as a random number :math:`0 < k < n` using
+      the algorithm described in Section :ref:`pubkey_param/rng` or as HMAC_DRBG
+      output [RFC6979]_. If Botan is compiled with the module RFC6979 the
+      HMAC_DRBG is used, otherwise :math:`k` is sampled from the passed random
+      number generator ``rng``.
+
+   3. :math:`r = R_x \bmod n` where :math:`R_x` is the x-coordinate of the affine point
+      :math:`R_{x,y} = k \cdot G` (see :ref:`pubkey/ecc/scalar_mul`).
+
+   4. Compute :math:`k^{-1} = (b_1 \cdot k)^{-1} \cdot b_1` using the blinding
+      value :math:`b_1`. The inversion either uses Fermat's little theorem or a
+      curve-specific addition chain if available.
+
+   5. Square the blinding values :math:`b_1` and :math:`b_1^{-1} \bmod n` to
+      obtain new blinding values :math:`b_2` and :math:`b_2^{-1} \bmod n`. This
+      is done to avoid re-sampling/re-inverting the blinding values. When using
+      RFC6979 we might not have a seeded random number generator handy in this
+      phase of the signature creation.
+
+   6. Compute :math:`s = k^{-1} \cdot {b_2}^{-1} \cdot (d \cdot b_2 \cdot r + e \cdot b_2)`
+
+   7. Return :math:`(r, s)` if :math:`r \neq 0` and :math:`s \neq 0`. Otherwise throw an exception.
 
 **Remark:** If Botan is built with the RFC6979 module, it implements
 deterministic ECDSA signatures, which are not covered by [TR-03111]_. In
@@ -339,31 +385,35 @@ policy.
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The signature verification algorithm works as follows:
+The signature verification algorithm works as follows (see
+:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:214|verify`):
 
 .. admonition:: ``ECDSA_Verification_Operation::verify()``
 
    **Input:**
 
-   -  ``m``: message bytes
-   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
-      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
-   -  (``r``, ``s``): ECDSA signature
+   -  :math:`H`: the hash value of the signed message hashed via the hash function
+      passed to the verification operation's constructor
+   -  EC_Publickey: :math:`Q`, curve group parameters :math:`(a, b, p, G, n, h = 1)`
+   -  :math:`(r, s)`: ECDSA signature
 
    **Output:**
 
-   -  ``true``, if the signature for message ``m`` is valid. ``false`` otherwise.
+   -  ``true``, if the signature for digest :math:`H` is valid. ``false`` otherwise.
 
    **Steps:**
 
-   1. Verify the passed signature has length :math:`2*qbits`. If that is not the case
-      ``false`` is returned.
-   2. Assure that :math:`0<r<n \land 0<s<n`. Otherwise the signature is invalid.
-   3. Compute :math:`w=s^{-1}\bmod n`
-   4. Compute :math:`v_1=m*w \bmod n` and :math:`v_2=r*w \bmod n`
-   5. Compute the point :math:`v=(x_1, y_1)=v_1*G+v_2*Q` with Shamir's trick [DI08]_.
-   6. Return ``true`` if :math:`x_1 \equiv r \bmod n` applies. ``false`` otherwise.
+   1. Deserialize the signature into :math:`r` and :math:`s`
+
+      1. Verify the passed signature has a valid length. Otherwise, return ``false``.
+      2. Verify that :math:`0<r<n` and :math:`0<s<n`. Otherwise, return ``false``.
+
+   3. :math:`e = H` and truncate :math:`e` to be at most :math:`length(n)` bits long.
+   4. Calculate :math:`s^{-1} \bmod n` (potentially using a variable time inversion algorithm)
+   5. Check if :math:`r = R_x \bmod n` with :math:`R_{x,y} = (e \cdot s^{-1} \bmod n) \cdot G + (r \cdot s^{-1} \bmod n) \cdot Q`.
+      This operation is *not side-channel silent* (see :ref:`pubkey/ecc/scalar_mul2`).
+   6. If the equation above holds and :math:`R_{x,y}` is not the point at
+      infinity, return ``true``. Otherwise, return ``false``.
 
 
 ECKCDSA
@@ -385,7 +435,8 @@ it also includes the public key in the representative.
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
-The signature generation algorithm works as follows:
+The signature generation algorithm works as follows (see
+:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:163|raw_sign`):
 
 .. admonition:: ``ECKCDSA_Signature_Operation::raw_sign()``
 
@@ -393,9 +444,7 @@ The signature generation algorithm works as follows:
 
    -  ``m``: raw bytes to sign (the hash-code ``H`` in  [ISO-14888-3]_,
       which is the truncated hash from the public key and message)
-   -  EC_Privatekey with inverse: ``d``, ``Q``, domain (curve parameters (first coefficient
-      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
+   -  EC_Privatekey: :math:`d`, :math:`Q`, curve group parameters :math:`(a, b, p, G, n, h = 1)`
    -  ``rng``: random number generator
 
    **Output:**
@@ -404,29 +453,24 @@ The signature generation algorithm works as follows:
 
    **Steps:**
 
-   1. Sample parameter k as a random number
-      :math:`0 < k < n`
-      from ``rng`` using the algorithm described in Section
-      :ref:`pubkey_param/rng`.
-   2. Sample a :math:`\lceil \frac{lenth(n)}{2} \rceil` bit long random blinding
-      ``mask`` from ``rng`` and compute :math:`k'=k+n*mask`.
-   3. Compute point :math:`W=(x_1,y_1)=k'*G`.
-   4. Compute the witness
-      :math:`{r = h}{(x_{1})}`
-      , where :math:`h`
-      is the hash function used in the current instance of the signature scheme.
-   5. If the output length of the hash function :math:`h` exceeds the size of the group order,
-      truncate the *low side* in :math:`r` on a byte level to the size of the group order.
-      This means bytes in :math:`r` are discarded starting from the beginning of the byte sequence.
-   6. Compute
-      :math:`{s = {d \ast {({{k - r}\oplus m})}}}\bmod n`
-      . If :math:`s=0` applies, the algorithm terminates with an error.
+   1. Sample parameter k as a random number :math:`0 < k < n` from ``rng`` using
+      the algorithm described in Section :ref:`pubkey_param/rng`.
+   2. Compute point :math:`W_{x,y} = k \cdot G` (see :ref:`pubkey/ecc/scalar_mul`)
+   3. Compute the witness :math:`r = h(W_x)` , where :math:`h` is the hash
+      function used in the current instance of the signature scheme.
+   4. If the output length of the hash function :math:`h` exceeds the size of
+      the group order, truncate the *low side* in :math:`r` on a byte level to
+      the size of the group order. This means bytes in :math:`r` are discarded
+      starting from the beginning of the byte sequence.
+   5. Compute :math:`s = d \cdot ((k - (r \oplus m)) \bmod n)`.
+   6. If :math:`s = 0`, the algorithm terminates with an error.
    7. Return ECKCDSA signature (r,s).
 
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The signature verification algorithm works as follows:
+The signature verification algorithm works as follows (see
+:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:235|verify`):
 
 .. admonition:: ``ECKCDSA_Verification_Operation::verify()``
 
@@ -434,10 +478,8 @@ The signature verification algorithm works as follows:
 
    -  ``m``: raw bytes to verify (the hash-code ``H`` in  [ISO-14888-3]_,
       which is the truncated hash from the public key and message)
-   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
-      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
-   -  (``r``, ``s``): ECKCDSA signature
+   -  EC_Publickey: :math:`Q`, curve group parameters :math:`(a, b, p, G, n, h = 1)`
+   -  :math:`(r, s)`: ECKCDSA signature
 
    **Output:**
 
@@ -445,18 +487,21 @@ The signature verification algorithm works as follows:
 
    **Steps:**
 
-   1. Perform preliminary parameter checks and verifies that :math:`0<s<n` applies.
-      Terminates otherwise.
+   1. Deserialize the signature into :math:`r` and :math:`s`
+
+      1. Perform preliminary parameter checks, and
+      2. Verify that :math:`0<s<n` applies. Return ``false`` otherwise.
+
    2. Compute :math:`e=r \oplus m \bmod n`.
-   3. Compute point :math:`W=s*Q+e*G` with Shamir's trick.
-   4. Recompute the witness :math:`r'=h(x_i)`,
+   3. Compute point :math:`W_{x,y}=s \cdot Q+e \cdot G`. This operation is *not
+      side-channel silent* (see :ref:`pubkey/ecc/scalar_mul2`).
+   4. Recompute the witness :math:`r'=h(W_x)`,
       where :math:`h` is the hash function used in the current instance of the signature scheme.
    5. If the output length of the hash function :math:`h` exceeds the size of the group order,
       truncate the *low side* in :math:`r` on a byte level to the size of the group order.
       This means bytes in :math:`r` are discarded starting from the beginning of the byte sequence.
    6. Return ``true`` if the recomputed witness :math:`r'` is equal to
-      the witness :math:`r` inside the signature.
-      Otherwise return ``false``.
+      the witness :math:`r` inside the signature. Otherwise return ``false``.
 
 
 ECGDSA
@@ -472,16 +517,16 @@ follows [ISO-14888-3]_.
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
-The signature generation algorithm works as follows:
+The signature generation algorithm works as follows (see
+:srcref:`[src/lib/pubkey/ecgdsa]/ecgdsa.cpp:60|raw_sign`):
 
 .. admonition:: ``ECGDSA_Signature_Operation::raw_sign()``
 
    **Input:**
 
-   -  ``m``: raw bytes to sign (EMSA1 encoded data)
-   -  EC_Privatekey with invers: ``d``, ``Q``, domain (curve parameters (first coefficient
-      ``a``, second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
+   -  :math:`m`: digest of message bytes (using a user-defined hash function)
+      hash function)
+   -  EC_Privatekey: :math:`d`, :math:`Q`, curve group parameters :math:`(a, b, p, G, n, h = 1)`
    -  ``rng``: random number generator
 
    **Output:**
@@ -490,35 +535,30 @@ The signature generation algorithm works as follows:
 
    **Steps:**
 
-   1. Sample parameter ``k`` as a random number
-      :math:`0 < k < n`
-      from ``rng`` using the algorithm described in Section
-      :ref:`pubkey_param/rng` .
-   2. Sample a :math:`\lceil \frac{lenth(n)}{2} \rceil` bit long random blinding
-      ``mask`` from ``rng`` and compute :math:`k'=k+n*mask`.
-   3. Compute point :math:`W=(x_1,y_1)=k'*G`. This computation utilizes randomized Jacobian point
-      coordinates with a blinding masks that is equal in size to the
-      underlying field.
-   4. Set :math:`{r = x_{1}}\bmod n`
-   5. Compute :math:`{s = {d \ast {({{k \ast r} - m})}}}\bmod n`.
-   6. If :math:`s = {0 \vee r} = 0`
-      applies, the algorithm terminates with an error.
-   7. Return ECGDSA signature (r,s).
+   1. Truncate :math:`m` to be at most :math:`length(n)` bits long and interpret
+      it as a big-endian encoded scalar.
+   2. Sample parameter :math:`k` as a random number :math:`0 < k < n` from ``rng``
+      using the algorithm described in Section :ref:`pubkey_param/rng`.
+   3. Compute point :math:`W_{x,y} = k \cdot G` (see :ref:`pubkey/ecc/scalar_mul`)
+   4. Set :math:`r = W_x \bmod n`
+   5. Compute :math:`s = d \cdot (k \cdot r - m) \bmod n`.
+   6. If :math:`s = 0` or :math:`r = 0` applies, the algorithm terminates with
+      an error.
+   7. Return ECGDSA signature :math:`(r,s)`.
 
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The signature verification algorithm works as follows:
+The signature verification algorithm works as follows (see
+:srcref:`[src/lib/pubkey/ecgdsa]/ecgdsa.cpp:97|verify`):
 
 .. admonition:: ``ECGDSA_Verification_Operation::verify()``
 
    **Input:**
 
-   -  ``m``: message bytes
-   -  EC_Publickey: ``Q``, domain (curve parameters (first coefficient ``a``,
-      second coefficient ``b``, prime ``p``), base point ``G``, ``ord(G) n``,
-      cofactor of the curve ``h``)
-   -  (``r``, ``s``): ECGDSA signature
+   -  :math:`m`: digest of message bytes (using a user-defined hash function)
+   -  EC_Publickey: :math:`Q`, curve group parameters :math:`(a, b, p, G, n, h = 1)`
+   -   :math:`(r, s)`: ECGDSA signature
 
    **Output:**
 
@@ -526,13 +566,14 @@ The signature verification algorithm works as follows:
 
    **Steps:**
 
-   1. Perform preliminary parameter checks and verify that
-      :math:`0 < r < {n \land 0} < s < n`
-      applies.
-   2. Compute :math:`r^{- 1}\bmod n`
-   3. Compute :math:`{v_{1} = {r^{- 1} \ast m}}\bmod n`
-      and :math:`{v_{2} = {r^{- 1} \ast s}}\bmod n`.
-   4. Compute point
-      :math:`W = {{v_{1} \ast G} + {v_{2} \ast Q}}`
-   5. Return ``true`` if :math:`r \equiv x_1 \bmod q` applies. Otherwise it returns ``false``.
+   1. Deserialize the signature into :math:`r` and :math:`s`
 
+      1. Perform preliminary parameter checks and verify that
+         :math:`0 < r < n` and :math:`0 < s < n` applies.
+
+   2. Truncate :math:`m` to be at most :math:`length(n)` bits long.
+   3. Compute :math:`r^{-1} \bmod n` (potentially using a variable time inversion algorithm)
+   4. Compute :math:`v_{1} = r^{-1} \cdot m \bmod n`
+      and :math:`v_{2} = r^{-1} \cdot s \bmod n`.
+   5. Compute point :math:`W_{x,y} = v_{1} \cdot G + v_{2} \cdot Q`. This operation is *not side-channel silent* (see :ref:`pubkey/ecc/scalar_mul2`)
+   6. Return ``true`` if :math:`r \equiv W_x \bmod n` applies, otherwise ``false``.
