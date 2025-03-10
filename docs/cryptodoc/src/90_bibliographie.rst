@@ -182,7 +182,7 @@
 
 .. [ReqEC] BSI.
    Minimum Requirements for Evaluating Side-Channel Attack Resistance of Elliptic Curve Implementations.
-   Version 2.0, 21.11.2016
+   Version 3.0, 29.02.2024
 
 .. [RFC2104] H. Krawczyk, M. Bellare, R. Canetti. RFC2104.
    "HMAC: Keyed-Hashing for Message Authentication",
