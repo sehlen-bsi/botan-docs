@@ -1,131 +1,190 @@
 title: ECC Optimizations
 
+description: |
+  Various optimizations for elliptic curves as well as other number theoretic
+  implementations.
+
+  Notably, GH #4569, GH #4588, and GH #4618 facilitate optimizations by
+  selectively using variable-time implementations of certain operations when the
+  inputs are known to be public. It is worth noting that group parameters like
+  the modulus and order of ECC groups or the modulus of discrete logarithm
+  groups are considered to be public by these optimizations.
+
 patches:
-# Add volatile to word8_add2 inline asm block
-#   Author:    @randombit
-- pr: 4621  # https://github.com/randombit/botan/pull/4621
-  merge_commit: ea1783b87962a9b1298eb7cff80ef37957ca3326
-  classification: unspecified
-
-# Add support for constexpr field inversions
-#   Author:    @randombit
-- pr: 4619  # https://github.com/randombit/botan/pull/4619
-  merge_commit: 6d07fd0626fcc7bd2e84a31e0b36b4acc39e4b74
-  classification: unspecified
-
-# Add EC_Scalar::invert_vartime
-#   Author:    @randombit
-#   Approvals: @reneme
-- pr: 4618  # https://github.com/randombit/botan/pull/4618
-  merge_commit: 8170122f8ad98b5d63a9c2a7e2519d73f7cf502f
-  classification: unspecified
-
-# Add PrimeOrderCurve::mul2_setup_g
-#   Author:    @randombit
-- pr: 4611  # https://github.com/randombit/botan/pull/4611
-  merge_commit: a214c2148472dba184e156dcc8327521bd81ef28
-  classification: unspecified
-
 # Faster bigint_cnd_add and bigint_cnd_sub
 #   Author:    @randombit
 - pr: 4608  # https://github.com/randombit/botan/pull/4608
   merge_commit: e61d4e96ea2449af28a04e05c933af14166edffa
-  classification: unspecified
+  classification: info
 
 # Reduce overhead from computing modular reduction parameters
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4588  # https://github.com/randombit/botan/pull/4588
   merge_commit: af6045088ac530830a544a2d2699fe187b201497
-  classification: unspecified
+  classification: critical
+  comment: |
+    When setting up barrett reduction parameters at runtime this now
+    distinguishes whether the modulus is secret or public and only uses
+    constant-time division in the former case.
+
+# Add volatile to word8_add2 inline asm block
+#   Author:    @randombit
+- pr: 4621  # https://github.com/randombit/botan/pull/4621
+  merge_commit: ea1783b87962a9b1298eb7cff80ef37957ca3326
+  classification: info
+  auditer: reneme
+
+# Add support for constexpr field inversions
+#   Author:    @randombit
+- pr: 4619  # https://github.com/randombit/botan/pull/4619
+  merge_commit: 6d07fd0626fcc7bd2e84a31e0b36b4acc39e4b74
+  classification: info
+  auditer: reneme
+
+# Add EC_Scalar::invert_vartime
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4618  # https://github.com/randombit/botan/pull/4618
+  merge_commit: 8170122f8ad98b5d63a9c2a7e2519d73f7cf502f
+  classification: critical
+  comment: |
+    This introduces a notion of variable-time scalar inversion and uses it
+    in EC algorithms that don't handle secret data. E.g. ECDSA verification.
+    Currently, this is just an extension point for future work. The new method
+    simply delegates to the existing constant-time implementation.
+
+# Add PrimeOrderCurve::mul2_setup_g
+#   Author:    @randombit
+- pr: 4611  # https://github.com/randombit/botan/pull/4611
+  merge_commit: a214c2148472dba184e156dcc8327521bd81ef28
+  classification: info
+  auditer: reneme
 
 # Centralize the pcurves reduction correction step
 #   Author:    @randombit
 - pr: 4601  # https://github.com/randombit/botan/pull/4601
   merge_commit: ee2df254f307224bafda9a4c816f11fa9e650ca2
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # When computing modular inverses distingush which case we are in
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4569  # https://github.com/randombit/botan/pull/4569
   merge_commit: 9eae7c12d6c80397480c4a02c0c9e81832074147
-  classification: unspecified
+  classification: critical
+  comment: |
+    Introduces some additional (technical) information about the values being
+    inverted to enable case-by-case optimizations. The cases introduced are:
+
+     * general case: invert :math:`x` modulo some integer :math:`m`
+     * secret prime: invert :math:`x` modulo a secret prime :math:`p`
+     * public prime: invert :math:`x` modulo a public prime :math:`p`
+     * public RSA modulus: invert :math:`x` modulo a public RSA modulus :math:`n`
+     * RSA private exponent: compute the RSA private exponent :math:`d`
+
+    This patch leaves the introduction of optimizations for future work, except
+    for calculating the private exponent :math:`d` with the common public RSA
+    exponent :math:`e = 65537` [Arazi]_.
+
+    Said cases are reflected throughout the implementation of the relevant
+    algorithms. Note that the group parameters of elliptic curves and discrete
+    logarithm groups are considered public.
 
 # Gate creation of Barrett params for reduction mod order by legacy_ec_point
 #   Author:    @randombit
 - pr: 4570  # https://github.com/randombit/botan/pull/4570
   merge_commit: 5e2bd0320afef8fc177791881eb39effa975070c
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Add named constants for the EC scalar multiplication algorithm window sizes
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4564  # https://github.com/randombit/botan/pull/4564
   merge_commit: 91a2620c61c9bfe2af58e0b7a5dcabe7558df123
-  classification: unspecified
+  classification: info
 
 # Correct EC_Scalar::from_bytes_mod_order
 #   Author:    @randombit
 - pr: 4550  # https://github.com/randombit/botan/pull/4550
   merge_commit: d88a2a39e9db82b4b81bfa435279d24cf6a06f1b
-  classification: unspecified
+  classification: info
+  auditer: reneme
 
 # Fix decoding short EC private keys
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4541  # https://github.com/randombit/botan/pull/4541
   merge_commit: 11f6f62649cbe568ccfe23fd316a3f683c81cbc4
-  classification: unspecified
+  classification: info
 
 # Modify restrictions on application specific EC groups
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4533  # https://github.com/randombit/botan/pull/4533
   merge_commit: 22bdaa95b089e799d2804ca63bfa15676b5662c2
-  classification: unspecified
+  classification: relevant
+  comment: |
+    Groups with a bit length below 192 are now deprecated. Also, custom groups are
+    now validated more vigorously:
 
-# During batch affine conversion avoid leaking which point was the identity
-#   Author:    @randombit
-- pr: 4512  # https://github.com/randombit/botan/pull/4512
-  merge_commit: 27697fde9115a4f063573bf967ffed809811ea70
-  classification: unspecified
-
-# Take advantage of mixed addition when setting up mul2 table
-#   Author:    @randombit
-- pr: 4511  # https://github.com/randombit/botan/pull/4511
-  merge_commit: 7e6f6ea343fd9087fee019e3f38be9342c41c744
-  classification: unspecified
-
-# Tweak pcurves blinding to avoid penalizing P-521
-#   Author:    @randombit
-#   Approvals: @reneme
-- pr: 4510  # https://github.com/randombit/botan/pull/4510
-  merge_commit: 9b8f3cc8042f374537df4c74a2b9201ca87fb13d
-  classification: unspecified
+     * :math:`4a^3 + 27b^2 \neq 0` must hold
+     * generator :math:`g` has to be on the curve
 
 # Add support for x-only EC point multiplication
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4503  # https://github.com/randombit/botan/pull/4503
   merge_commit: 28692ee3e308466423485946a5e64d332d5a2db5
-  classification: unspecified
+  classification: info
+
+# During batch affine conversion avoid leaking which point was the identity
+#   Author:    @randombit
+- pr: 4512  # https://github.com/randombit/botan/pull/4512
+  merge_commit: 27697fde9115a4f063573bf967ffed809811ea70
+  classification: relevant
+  comment: |
+    During batch conversion of projective points to affine, if any of the input
+    points is the identity element, the batch processing has to fall back to a
+    normal serial conversion. If that happens, there's no more side-channel
+    leakage of which input was the identity element.
+
+# Take advantage of mixed addition when setting up mul2 table
+#   Author:    @randombit
+- pr: 4511  # https://github.com/randombit/botan/pull/4511
+  merge_commit: 7e6f6ea343fd9087fee019e3f38be9342c41c744
+  classification: info
+
+# Tweak pcurves blinding to avoid penalizing P-521
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4510  # https://github.com/randombit/botan/pull/4510
+  merge_commit: 9b8f3cc8042f374537df4c74a2b9201ca87fb13d
+  classification: info
+  comment: |
+    The blinding factor uses a bit length of 1/4 of the order's bit length. For
+    technical reasons, this bit length has to be a multiple of the compilation
+    target's word length. This merely creates a special case for P-521 to fall
+    into the same category as 512-bit long groups.
 
 # Use mixed addition during windows mul table setup
 #   Author:    @randombit
 - pr: 4492  # https://github.com/randombit/botan/pull/4492
   merge_commit: 902fbb275268aa3fe4f39a31eeeac67f9bf05677
-  classification: unspecified
+  classification: info
 
 # Use a better approach for modular subtraction
 #   Author:    @randombit
 - pr: 4479  # https://github.com/randombit/botan/pull/4479
   merge_commit: c8ffa1f1e909e55e113eb91d911a34c992380bae
-  classification: unspecified
+  classification: info
 
 # Add a constant time p*x + q*y ECC operation
 #   Author:    @randombit
 #   Approvals: @reneme
 - pr: 4433  # https://github.com/randombit/botan/pull/4433
   merge_commit: 162a3890fb0bcad46adb72a37ea30bfab81331d2
-  classification: unspecified
+  classification: info
+  comment: This is currently not used for any relevant algorithm
