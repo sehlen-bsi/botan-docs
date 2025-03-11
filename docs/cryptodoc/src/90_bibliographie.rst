@@ -242,7 +242,7 @@
    https://datatracker.ietf.org/doc/draft-fluhrer-lms-more-parm-sets/11/,
    September 2023
 
-.. [SmoothCrtRsa] Onur Aciicmez, Shay Gueron, Jean-Pierre Seifert:
+.. [SmoothCrtRsa] Onur Acıiçmez, Shay Gueron, Jean-Pierre Seifert:
    "New Branch Prediction Vulnerabilities in OpenSSL and Necessary Software Countermeasures",
    https://eprint.iacr.org/2007/039.pdf,
    February 2007
