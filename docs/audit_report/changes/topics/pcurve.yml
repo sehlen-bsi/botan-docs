@@ -1,7 +1,7 @@
 title: ECC Optimizations
 
 description: |
-  Various optimizations for elliptic curve as well as other number theoretic
+  Various optimizations for elliptic curves as well as other number theoretic
   implementations.
 
   Notably, GH #4569, GH #4588, and GH #4618 facilitate optimizations by
@@ -127,10 +127,10 @@ patches:
   merge_commit: 22bdaa95b089e799d2804ca63bfa15676b5662c2
   classification: relevant
   comment: |
-    Groups with a bitlength below 192 are now deprecated, also custom groups are
+    Groups with a bit length below 192 are now deprecated. Also, custom groups are
     now validated more vigorously:
 
-     * :math:`4*a^3 + 27*b^2 != 0` must hold
+     * :math:`4a^3 + 27b^2 \neq 0` must hold
      * generator :math:`g` has to be on the curve
 
 # Add support for x-only EC point multiplication
@@ -164,10 +164,10 @@ patches:
   merge_commit: 9b8f3cc8042f374537df4c74a2b9201ca87fb13d
   classification: info
   comment: |
-    The blinding factor uses a bitlength 1/4 of the order's bitlength. For
-    technical reasons this bitlength has to be a multiple of the compilation
+    The blinding factor uses a bit length of 1/4 of the order's bit length. For
+    technical reasons, this bit length has to be a multiple of the compilation
     target's word length. This merely creates a special case for P-521 to fall
-    into the same category as 512bit long groups.
+    into the same category as 512-bit long groups.
 
 # Use mixed addition during windows mul table setup
 #   Author:    @randombit
