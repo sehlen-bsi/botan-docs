@@ -29,6 +29,8 @@ def unicode_mappings():
     mapping = {
         "200B": "\\allowbreak", # zero-width space
         "03C1": "$\\rho$",
+        "00E7": "\\c{c}", # small letter "c" with cedilla
+        "C4B1": "{\\i}", # dotless letter "i"
     }
 
     return {

@@ -246,6 +246,11 @@
    https://datatracker.ietf.org/doc/draft-fluhrer-lms-more-parm-sets/11/,
    September 2023
 
+.. [SmoothCrtRsa] Onur Acıiçmez, Shay Gueron, Jean-Pierre Seifert:
+   "New Branch Prediction Vulnerabilities in OpenSSL and Necessary Software Countermeasures",
+   https://eprint.iacr.org/2007/039.pdf,
+   February 2007
+
 .. [SP800-38E] NIST Special Publication SP 800-38E:
    "Recommendation for Block Cipher Modes of Operation: the XTS-AES Mode for Confidentiality on Storage Devices",
    https://csrc.nist.gov/publications/detail/sp/800-38e/final,
