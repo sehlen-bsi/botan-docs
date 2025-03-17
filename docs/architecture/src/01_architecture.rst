@@ -42,6 +42,7 @@ bogo_shim        Adapter to test Botan's TLS with BoringSSL's test suite
 build-data       All build system related files
 cli              Command Line Tool
 configs          Various configuration files for e.g. pylint and sphinx
+ct_selftest      Ensures fundamental assumptions on the constant-time test tool
 editors          Code editor integrations (e.g. for vim or sublime)
 examples         Many small usage examples illustrating typical use cases
 fuzzer           Fuzz targets for various modules of the library
