@@ -18,6 +18,7 @@ patches:
 - pr: 4614  # https://github.com/randombit/botan/pull/4614
   merge_commit: 63746e757fe1892311e802c370790b889c5059c3
   classification: out of scope
+  auditer: reneme
 
 # Split compiler.h into two headers
 #   Author:    @randombit
@@ -77,6 +78,7 @@ patches:
 - pr: 4513  # https://github.com/randombit/botan/pull/4513
   merge_commit: 366727a307b916aa733d38ec11db8073b0c841b7
   classification: out of scope
+  auditer: reneme
 
 # Update and comment BSI policy (Version 2024-01)
 #   Author:    @FAlbertDev

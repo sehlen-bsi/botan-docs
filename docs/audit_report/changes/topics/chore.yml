@@ -1,5 +1,10 @@
 title: Code Chores and Cleanups
 
+description: |
+  Generic maintenance of the library without changing its features or security
+  properties significantly. This ensures future-proofness or facilitates future
+  extensions or adaptations of the API.
+
 patches:
 # Remove PrimeorderCurveId::all
 #   Author:    @randombit
@@ -113,13 +118,6 @@ patches:
 - pr: 4525  # https://github.com/randombit/botan/pull/4525
   merge_commit: eefd60896efc4d21d693630a92c54e02b43544fd
   classification: info
-
-# Modernize Key Derivation Functions
-#   Author:    @reneme
-#   Approvals: @FAlbertDev, (@randombit)
-- pr: 4455  # https://github.com/randombit/botan/pull/4455
-  merge_commit: 8193443d8ebdca25e1c7fb38d5e7a46c8d33cf0f
-  classification: relevant
 
 # Split os_utils into a submodule
 #   Author:    @randombit
