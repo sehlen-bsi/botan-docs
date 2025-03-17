@@ -4,7 +4,7 @@ description: |
   Maintenance work on the library's continuous integration setup. None of those
   changes is directly relevant to the security properties of the library.
 
-  Worth noting is the addition of an extented build matrix for running Botan's
+  Worth noting is the addition of an extended build matrix for running Botan's
   valgrind-based side-channel checks multiple builds with various optimization
   levels.
 
