@@ -102,6 +102,9 @@ def main():
     parser.add_argument('-r', '--repo-location',
                         help='Path to a local checkout of the Botan repository (overrides config.yml and defaults to AUDIT_REPO_LOCATION).',
                         default=os.environ.get('AUDIT_REPO_LOCATION'))
+    parser.add_argument('-v', '--verbose', action="store_true",
+                        help='Provide extra information on the found modules',
+                        default=False)
     parser.add_argument('-c', '--columns',
                         help='Number of columns in the final rST table',
                         default=4)
@@ -129,6 +132,16 @@ def main():
         raise RuntimeError("Didn't find loaded modules in configure.py output")
     modules = list(set(match.group(1).split(' ')) | platform_dependent_modules())
     modules.sort()
+
+    if args.verbose:
+        skipped = []
+        for line in out.splitlines():
+            if skipped_match := re.search(r'Skipping \([^\)]+\): (.*)$', line, re.MULTILINE):
+                skipped += list(set(skipped_match.group(1).split(' ')))
+        skipped = list(set(skipped) - platform_dependent_modules())
+        skipped.sort()
+        print("Not audited: %s" % (', '.join(skipped)))
+        print()
 
     # print the final result
     print_table(args.columns, modules)
