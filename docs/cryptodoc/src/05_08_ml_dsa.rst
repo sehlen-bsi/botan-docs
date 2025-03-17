@@ -24,6 +24,11 @@ in :srcref:`src/lib/pubkey/dilithium`. The implementation is based on
 
 The parameter sets claim a NIST security level of 2, 3, and 5 respectively.
 
+BSI's [TR-02102-1]_ recommends using either ML-DSA-6x5 or ML-DSA-8x7 (both in
+the hedged variant) to meet its desired security levels. Additionally, it
+recommends using ML-DSA only in a hybrid form in a suitable combination with a
+classical signature mechanism such as RSA or ECDSA.
+
 .. _pubkey/ml_dsa/internals:
 
 Algorithm Internals
