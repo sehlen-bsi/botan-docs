@@ -123,3 +123,10 @@ patches:
 - pr: 4309  # https://github.com/randombit/botan/pull/4309
   merge_commit: 7e47d95127112800656826818b0e1a8388f7f7f8
   classification: relevant
+
+# Modernize Key Derivation Functions
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 4455  # https://github.com/randombit/botan/pull/4455
+  merge_commit: 8193443d8ebdca25e1c7fb38d5e7a46c8d33cf0f
+  classification: relevant

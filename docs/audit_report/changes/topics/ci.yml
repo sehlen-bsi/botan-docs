@@ -1,5 +1,13 @@
 title: Continuous Integration
 
+description: |
+  Maintenance work on the library's continuous integration setup. None of those
+  changes is directly relevant to the security properties of the library.
+
+  Worth noting is the addition of an extended build matrix for running Botan's
+  valgrind-based side-channel checks multiple builds with various optimization
+  levels.
+
 patches:
 # Enable ccache for jitterentropy build
 #   Author:    @reneme
@@ -53,6 +61,7 @@ patches:
 #   Approvals: (@randombit)
 - pr: 4422  # https://github.com/randombit/botan/pull/4422
   merge_commit: 74d3993a5d63ecb688b61f875612275233852028
+  classification: info
 
 # FIX: sde utility not in $PATH
 #   Author:    @reneme

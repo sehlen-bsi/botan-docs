@@ -11,11 +11,33 @@ description: |
   groups are considered to be public by these optimizations.
 
 patches:
+# Modify Montgomery exponentiation to return results in Montgomery form
+#   Author:    @randombit
+- pr: 4558  # https://github.com/randombit/botan/pull/4558
+  merge_commit: 5826859893e7aa1131ea44c56df0031a872d7128
+  classification: critical
+  auditer: FAlbertDev
+  comment: |
+    Optimizes the CRT-based RSA decryption algorithm to use in between values in
+    Montgomery form using new classes for handling Montgomery transformed
+    integers. The new implementation only works in combination with the
+    CRT-based approach for balanced primes (bits of p = bits of q). Unbalanced
+    primes are supported using a slower non-CRT approach (also constant time).
+
+
+# Use relevant DL_Group inversion helpers in DH and DSA
+#   Author:    @randombit
+- pr: 4559  # https://github.com/randombit/botan/pull/4559
+  merge_commit: d5d1a3896638b11bc232ce3706e9eee9fce09fdf
+  classification: info
+  auditer: FAlbertDev
+
 # Faster bigint_cnd_add and bigint_cnd_sub
 #   Author:    @randombit
 - pr: 4608  # https://github.com/randombit/botan/pull/4608
   merge_commit: e61d4e96ea2449af28a04e05c933af14166edffa
   classification: info
+  auditer: reneme
 
 # Reduce overhead from computing modular reduction parameters
 #   Author:    @randombit
@@ -145,6 +167,7 @@ patches:
 - pr: 4512  # https://github.com/randombit/botan/pull/4512
   merge_commit: 27697fde9115a4f063573bf967ffed809811ea70
   classification: relevant
+  auditer: reneme
   comment: |
     During batch conversion of projective points to affine, if any of the input
     points is the identity element, the batch processing has to fall back to a
@@ -156,6 +179,7 @@ patches:
 - pr: 4511  # https://github.com/randombit/botan/pull/4511
   merge_commit: 7e6f6ea343fd9087fee019e3f38be9342c41c744
   classification: info
+  auditer: reneme
 
 # Tweak pcurves blinding to avoid penalizing P-521
 #   Author:    @randombit
@@ -174,12 +198,14 @@ patches:
 - pr: 4492  # https://github.com/randombit/botan/pull/4492
   merge_commit: 902fbb275268aa3fe4f39a31eeeac67f9bf05677
   classification: info
+  auditer: reneme
 
 # Use a better approach for modular subtraction
 #   Author:    @randombit
 - pr: 4479  # https://github.com/randombit/botan/pull/4479
   merge_commit: c8ffa1f1e909e55e113eb91d911a34c992380bae
   classification: info
+  auditer: reneme
 
 # Add a constant time p*x + q*y ECC operation
 #   Author:    @randombit
@@ -194,3 +220,4 @@ patches:
 - pr: 4517  # https://github.com/randombit/botan/pull/4517
   merge_commit: 65cd55237ee0c2a8ddd433bc0bf5912a06c1e0d8
   classification: info
+  auditer: reneme

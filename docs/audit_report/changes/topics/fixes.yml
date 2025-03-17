@@ -141,7 +141,7 @@ patches:
 #   Approvals: (@randombit)
 - pr: 4464  # https://github.com/randombit/botan/pull/4464
   merge_commit: f987b23b2ada29b30d90ec39851cd94090471ea3
-  classification: unspecified
+  classification: info
 
 # Remove 'internal' from secp224r1 pcurve
 #   Author:    @FAlbertDev
@@ -172,7 +172,7 @@ patches:
   merge_commit: d35b793df317051c5f317e52fa59eb8ca5e0c681
   classification: relevant
   comment: |
-    Unfortunately, the TPM 2.0 specification introduced the underlying 
+    Unfortunately, the TPM 2.0 specification introduced the underlying
     side channel. This merely tries to avoid amplifying the signal produced by
     it. Note that usage of PKCS #1 v1.5 is strongly discouraged anyway.
 
