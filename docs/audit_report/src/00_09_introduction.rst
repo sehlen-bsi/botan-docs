@@ -102,138 +102,150 @@ reviewed:
      - base
      - base64
      - bigint
-   * - blake2
+   * - bitvector
+     - blake2
+     - blinding
      - block
-     - cbc
+   * - cbc
      - ccm
-   * - certstor_flatfile
+     - certstor_flatfile
      - certstor_sql
-     - certstor_sqlite3
+   * - certstor_sqlite3
      - certstor_system
-   * - certstor_system_macos
+     - certstor_system_macos
      - certstor_system_windows
+   * - classic_mceliece
      - cmac
      - cpuid
-   * - cshake_xof
-     - ctr
+     - cshake_xof
+   * - ctr
      - dh
      - dilithium_common
-   * - dilithium_shake
-     - dl_algo
+     - dilithium_shake
+   * - dl_algo
      - dl_group
      - dsa
-   * - dyn_load
-     - ec_group
+     - dyn_load
+   * - ec_group
      - ecc_key
      - ecdh
-   * - ecdsa
-     - ecgdsa
+     - ecdsa
+   * - ecgdsa
      - ecies
      - eckcdsa
-   * - eme_oaep
-     - eme_pkcs1
+     - eme_oaep
+   * - eme_pkcs1
      - eme_raw
      - emsa_pkcs1
-   * - emsa_pssr
-     - entropy
+     - emsa_pssr
+   * - entropy
      - ffi
      - frodokem
-   * - frodokem_aes
-     - frodokem_common
+     - frodokem_aes
+   * - frodokem_common
      - gcm
      - getentropy
-   * - ghash
-     - ghash_cpu
+     - ghash
+   * - ghash_cpu
      - ghash_vperm
      - gmac
-   * - hash
-     - hash_id
+     - hash
+   * - hash_id
      - hex
      - hkdf
-   * - hmac
-     - hmac_drbg
+     - hmac
+   * - hmac_drbg
      - hss_lms
      - http_util
-   * - iso9796
-     - jitter_rng
+     - iso9796
+   * - jitter_rng
      - kdf
      - kdf1_iso18033
-   * - keccak_perm
-     - keccak_perm_bmi2
+     - keccak_perm
+   * - keccak_perm_bmi2
      - keypair
      - kmac
-   * - kyber_common
-     - locking_allocator
+     - kyber_common
+   * - locking_allocator
      - mac
      - mdx_hash
-   * - mem_pool
-     - mgf1
+     - mem_pool
+   * - mgf1
      - ml_dsa
      - ml_kem
-   * - mode_pad
-     - modes
+     - mode_pad
+   * - modes
      - mp
      - numbertheory
+     - os_utils
    * - pbkdf
      - pcurves
+     - pcurves_brainpool256r1
+     - pcurves_brainpool384r1
+   * - pcurves_brainpool512r1
+     - pcurves_impl
+     - pcurves_secp192r1
+     - pcurves_secp224r1
+   * - pcurves_secp256r1
+     - pcurves_secp384r1
+     - pcurves_secp521r1
      - pem
-     - pk_pad
-   * - pkcs11
+   * - pk_pad
+     - pkcs11
      - poly_dbl
      - pqcrystals
-     - prf_tls
-   * - processor_rng
+   * - prf_tls
+     - processor_rng
      - pubkey
      - rdseed
-     - rng
-   * - rsa
+   * - rng
+     - rsa
      - sha1
      - sha1_armv8
-     - sha1_sse2
-   * - sha1_x86
+   * - sha1_sse2
+     - sha1_x86
      - sha2_32
      - sha2_32_armv8
-     - sha2_32_bmi2
-   * - sha2_32_x86
+   * - sha2_32_bmi2
+     - sha2_32_x86
      - sha2_64
      - sha2_64_armv8
-     - sha2_64_bmi2
-   * - sha3
+   * - sha2_64_bmi2
+     - sha3
      - shake
      - shake_xof
-     - simd
-   * - slh_dsa_sha2
+   * - simd
+     - slh_dsa_sha2
      - slh_dsa_shake
      - socket
-     - sp800_108
-   * - sp800_56c
+   * - sp800_108
+     - sp800_56c
      - sphincsplus_common
      - sphincsplus_sha2_base
-     - sphincsplus_shake_base
-   * - stateful_rng
+   * - sphincsplus_shake_base
+     - stateful_rng
      - stream
      - system_rng
-     - tls
-   * - tls12
+   * - tls
+     - tls12
      - tls13
      - tls13_pqc
-     - tls_cbc
-   * - tpm2
+   * - tls_cbc
+     - tpm2
      - tpm2_crypto_backend
      - tpm2_ecc
-     - tpm2_rsa
-   * - tree_hash
+   * - tpm2_rsa
+     - tree_hash
      - trunc_hash
      - utils
-     - x509
-   * - xmss
+   * - x509
+     - xmss
      - xof
      - xts
-     -
 
-Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
-
-.. todo:: Update this section for each new version of the document.
+Compared to Botan |botan_git_base_ref|, this list now contains the concrete list of
+'pcurve' implementations for compiler-optimized implementations of the respective
+elliptic curve math.
 
 Patch Description Content
 -------------------------
