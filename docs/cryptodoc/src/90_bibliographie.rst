@@ -64,10 +64,6 @@
    NIST PQC Challenge Round 3 Submission, 2021,
    https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210208.pdf
 
-.. [DI08] Christophe Doche, Laurent Imbert.
-   The Double-Base Number System in Elliptic Curve Cryptograhy.
-   http://www.lirmm.fr/~imbert/talks/laurent_Asilomar_08.pdf
-
 .. [FIPS-186-4] Federal Information Processing Standards Publication 186-4.
    Digital Signature Standard (DSS).
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf
@@ -112,6 +108,11 @@
 .. [HD] H. S. Warren:
    "Hacker's Delight",
    July 2002
+
+.. [EFD]
+   Daniel J. Bernstein, Tanja Lange:
+   "Explicit-Formulas Database"
+   https://hyperelliptic.org/EFD/index.html
 
 .. [IEEE-1363-2000] IEEE Std 1363-2000:
    "IEEE Standard Specifications for Public-Key Cryptography",
@@ -186,7 +187,7 @@
 
 .. [ReqEC] BSI.
    Minimum Requirements for Evaluating Side-Channel Attack Resistance of Elliptic Curve Implementations.
-   Version 2.0, 21.11.2016
+   Version 3.0, 29.02.2024
 
 .. [RFC2104] H. Krawczyk, M. Bellare, R. Canetti. RFC2104.
    "HMAC: Keyed-Hashing for Message Authentication",
