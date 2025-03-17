@@ -61,6 +61,10 @@ The parameter sets shown in the tables below are supported.
    | :math:`len_{salt}`   | 0                        | 0                        | 0                         |
    +----------------------+--------------------------+--------------------------+---------------------------+
 
+BSI's [TR-02102-1]_ recommends using either FrodoKEM-976 or FrodoKEM-1344 to meet
+its desired security levels. Additionally, it recommends using all modes of
+FrodoKEM in a hybrid form in a suitable combination with a classical key agreement
+mechanism such as RSA or ECDH.
 
 The implementation consists of several components; these are shown in the table below.
 

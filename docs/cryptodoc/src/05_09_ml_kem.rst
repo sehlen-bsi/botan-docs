@@ -23,6 +23,11 @@ in Table
    | ML-KEM-1024       | 256       | 3329      | 4         | 2              | 2              | 11          | 5           |
    +-------------------+-----------+-----------+-----------+----------------+----------------+-------------+-------------+
 
+BSI's [TR-02102-1]_ recommends using either ML-KEM-768 or ML-KEM-1024 to meet
+its desired security levels. Additionally, it recommends using all modes of
+ML-KEM in a hybrid form in a suitable combination with a classical key agreement
+mechanism such as RSA or ECDH.
+
 .. _pubkey/kyber/internals:
 
 Algorithm Internals

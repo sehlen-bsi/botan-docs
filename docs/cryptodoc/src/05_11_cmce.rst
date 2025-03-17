@@ -30,6 +30,12 @@ in Table :ref:`Supported Classic McEliece parameter sets <pubkey/cmce/parameter_
 All "fast" instances use the constants :math:`\mu = 32` and :math:`\nu = 64` for
 semi-systematic transformation.
 
+BSI's [TR-02102-1]_ recommends using either mceliece460896, mceliece6688128 or
+mceliece8192128, as well as their respective faster variants (with the
+f-suffix), to meet its desired security levels. Additionally, it recommends
+using all modes of Classic McEliece in a hybrid form in a suitable combination
+with a classical key agreement mechanism such as RSA or ECDH.
+
 .. _pubkey/cmce/key_generation:
 
 Algorithm Internals

@@ -294,11 +294,11 @@
 
 .. [TR-02102-1] BSI Technical Guideline BSI TR-02102-1:
    "Cryptographic Mechanisms: Recommendations and Key Lengths",
-   Version 2024-01, 02.02.2024
+   Version 2025-01, 31.01.2025
 
 .. [TR-02102-2] BSI Technical Guideline BSI TR-02102-2:
    "Cryptographic Mechanisms: Recommandations and Key Lengths: Use of Transport Layer Security (TLS)",
-   Version 2024-01, 29.02.2024
+   Version 2025-01, 21.01.2025
 
 .. [TR-02103] BSI Technische Richtlinie BSI TR-02103
    "X.509 Zertifikate und Zertifikatspfadvalidierung"
