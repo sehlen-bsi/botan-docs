@@ -149,3 +149,7 @@
 .. [Arazi] Jarc Joye and Pascal Paillier, CHES 2003 (LNCS 2779)
    "GCD-Free Algorithms for Computing Modular Inverses"
    https://marcjoye.github.io/papers/JP03gcdfree.pdf
+
+.. [ESDM] Stephan Müller:
+   Entropy Source and DRNG Manager
+   https://github.com/smuellerDD/esdm

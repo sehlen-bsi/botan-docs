@@ -67,23 +67,6 @@ relevant modules are considered out-of-scope.
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
 
-.. todo:: Update the module list below for the upcoming release
-
-.. For each new document version, the list below should be sanity checked
-   and potentially adapted using the script in scripts/audited_modules_list.py
-   like so:
-
-     1. Update the list of additional and platform dependent modules in
-        the audited_modules_list.py script
-     2. Check out the to-be-audited version of Botan "somewhere"
-     3. poetry run python audited_modules_list.py --repo-location="somewhere"
-     4. Copy the script's output over the list below
-     5. Go through the `git diff` and sanity check
-     6. Update the enumeration of "additional modules" above with the
-        modules listed in the script.
-     7. Adapt the paragraph under the enumeration of audited modules
-        to reflect notable changes.
-
 .. list-table::
 
    * - aead

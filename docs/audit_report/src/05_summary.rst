@@ -7,7 +7,10 @@ the results of several analysis tools.
 
 The most significant changes are the following:
 
-.. todo:: Add a bullet-point list for the most significant changes in Botan 3.3.0
+* Support for Classic McEliece
+* TLS 1.3 key exchange using x25519/ML-KEM-768 enabled by default
+* Optimizations for Elliptic Curve Cryptography
+* Support for "Entropy Source and DRNG Manager" (ESDM)
 
 According to the observations of this audit, Botan version |botan_version| keeps the security level of
 the previously reviewed version and complements the old version with various sensible and
