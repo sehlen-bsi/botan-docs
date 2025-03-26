@@ -304,8 +304,14 @@ the public point of the other party and computes the shared secret as follows:
 
       1. Deserialize :math:`Q_b` from bytes. Note that this validates that the point is
          on the curve specified by the group parameters.
-      2. Calculate the shared secret point :math:`S_{x,y} = d \cdot Q_b` (see :ref:`pubkey/ecc/scalar_mul`)
-      3. Return the shared secret as :math:`S_x` serialized to bytes.
+      2. Ensure that :math:`Q_b` is not the point at infinity.
+      3. Calculate the shared secret point :math:`S_{x,y} = d \cdot Q_b` (see :ref:`pubkey/ecc/scalar_mul`)
+      4. Return the shared secret as :math:`S_x` serialized to bytes.
+
+**Remark:** [TR-03111]_ requires to check that :math:`S_{x,y}` is not the
+point at infinity. Since we ensure that the private key is non-zero during
+generation or deserialization checking the input point :math:`Q_b` is
+sufficient to ensure this constraint.
 
 **Conclusion:** The implemented ECDH key agreement algorithm complies
 with the algorithm shown in chapter 4.3.1 of [TR-03111]_ and thus fulfills
