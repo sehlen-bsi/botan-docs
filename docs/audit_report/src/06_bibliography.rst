@@ -149,3 +149,15 @@
 .. [Arazi] Jarc Joye and Pascal Paillier, CHES 2003 (LNCS 2779)
    "GCD-Free Algorithms for Computing Modular Inverses"
    https://marcjoye.github.io/papers/JP03gcdfree.pdf
+
+.. [ESDM] Stephan Müller:
+   Entropy Source and DRNG Manager
+   https://github.com/smuellerDD/esdm
+
+.. [TR-02102-1] BSI Technical Guideline BSI TR-02102-1:
+   "Cryptographic Mechanisms: Recommendations and Key Lengths",
+   Version 2025-01, 31.01.2025
+
+.. [TR-03111] BSI Technical Guideline TR-03111:
+   "Elliptic Curve Cryptography",
+   Version 2.1, 01.06.2018
