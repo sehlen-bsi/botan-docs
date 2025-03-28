@@ -393,6 +393,10 @@ jobs:
         if: ${{ env.BUILDING_RELEASE == 'true' }}
         run: gpg --trusted-key 6211EBF1EFBADFBC --import ${{ github.workspace }}/source/.github/resources/jack-botan-release-key.gpg
 
+      - name: Install René's Commit Signing public key
+        if: ${{ env.BUILDING_RELEASE == 'true' }}
+        run: gpg --trusted-key DC0322539EF7E772 --import ${{ github.workspace }}/source/.github/resources/rene-commit-signing-key.gpg
+
       - name: Fetch Botan Repository
         uses: actions/checkout@v4
         if: ${{ env.BUILDING_RELEASE == 'true' }}
