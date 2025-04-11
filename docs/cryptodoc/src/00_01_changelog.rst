@@ -184,3 +184,12 @@ Changelog
    |         |          |   - Hosted RSA/ECC private keys             |            |
    |         |          | - Wrapper for "jitterentropy-library"       |            |
    +---------+----------+---------------------------------------------+------------+
+   | 3.7.1   | FA, AT,  | Update to 3.7.1-RSCS1:                      | 2025-03-28 |
+   |         | RM       |                                             |            |
+   |         |          | - Add PQC Algorithm Classic McEliece as     |            |
+   |         |          |   specified in the latest ISO draft         |            |
+   |         |          | - Rework the elliptic curve documentation   |            |
+   |         |          | - Update blinding mechanism of RSA decrypt  |            |
+   |         |          | - DSA signing now uses additional blinding  |            |
+   |         |          | - Update NIST SP.800-108 KDF description    |            |
+   +---------+----------+---------------------------------------------+------------+

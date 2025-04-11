@@ -145,7 +145,3 @@
    in the McEliece PKC”. en. In: Post-Quantum Cryptography. Ed. by
    Nicolas Sendrier. Berlin, Heidelberg: Springer, 2010, pp. 95–107.
    ISBN: 978-3-642-12929-2. DOI: 10.1007/978-3-642-12929-2_8.
-
-.. [Arazi] Jarc Joye and Pascal Paillier, CHES 2003 (LNCS 2779)
-   "GCD-Free Algorithms for Computing Modular Inverses"
-   https://marcjoye.github.io/papers/JP03gcdfree.pdf
