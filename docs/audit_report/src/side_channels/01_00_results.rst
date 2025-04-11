@@ -37,7 +37,3 @@ If the Botan CLI is used, the command prompt is listed.
 Details on compiling Botan and using the algorithm without the CLI, if needed, are also given.
 Leaks found are described in separate sections.
 The descriptions usually also include the associated source code and, if applicable, the call hierarchy.
-
-.. toctree::
-
-   01_01_cmce
