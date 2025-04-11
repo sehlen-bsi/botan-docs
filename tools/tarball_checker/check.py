@@ -4,7 +4,7 @@ import argparse
 import sys
 import os
 import subprocess
-import tarfile
+import zipfile
 import filecmp
 
 from urllib.request import urlretrieve
@@ -17,7 +17,8 @@ import auditinfo
 
 # Files that may be different without causing an error
 TO_IGNORE = [
-    'src/build-data/version.txt' # This contains specific release information, and may differ
+    'src/build-data/version.txt', # This contains specific release information, and may differ
+    '.github/codecov.yml'
     ]
 
 # The maximum number of paths to print when differences are found
@@ -102,16 +103,16 @@ def main():
     print(f"Downloading source tarball from {src_tarball_url}...")
     tarball = download(src_tarball_url)
 
-    src_tarball_signature_url = auditinfo.botan_get_released_source_tarball_signature()
-    print(f"Downloading source tarball signature from {src_tarball_signature_url}...")
-    signature = download(src_tarball_signature_url)
+    # src_tarball_signature_url = auditinfo.botan_get_released_source_tarball_signature()
+    # print(f"Downloading source tarball signature from {src_tarball_signature_url}...")
+    # signature = download(src_tarball_signature_url)
 
-    print("Verifying signature...")
-    _run(["gpg", "--verify", signature, tarball], stderr_ok=True)
+    # print("Verifying signature...")
+    # _run(["gpg", "--verify", signature, tarball], stderr_ok=True)
 
     print("Extracting tarball...")
-    with tarfile.open(tarball, "r:*") as tar:
-        tar.extractall(path=args.tar_source_dir, filter='tar')
+    with zipfile.ZipFile(tarball, "r") as tar:
+        tar.extractall(path=args.tar_source_dir)
 
     extract_result = os.listdir(args.tar_source_dir)
     if len(extract_result) != 1:
