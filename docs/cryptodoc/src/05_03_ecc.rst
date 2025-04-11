@@ -77,7 +77,9 @@ These restrictions are compatible with the main recommendations from [ReqEC]_
 and checked during the construction of any custom `EC_Group` (see
 :srcref:`[src/lib/pubkey/ec_group]/ec_group.cpp:414|EC_Group`). Previous
 versions of the library had more liberal restrictions on the custom group
-parameters, but those are now deprecated.
+parameters, but those are now deprecated. Particularly, the restriction on
+the cofactor is new and in the future custom curves with a cofactor not
+equal to `1` will no longer be allowed.
 
 .. [#supported_curves]
    Botan's :srcref:`src/lib/math/pcurves/` directory contains a subdirectory for
