@@ -1078,3 +1078,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: 9c40b69fdb6787d711d7d658280456d4f740228b  # https://github.com/randombit/botan/commit/9c40b69fdb6787d711d7d658280456d4f740228b
   classification: unspecified
+
+# Avoid some heap usage in GHASH/GMAC/GCM
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4826  # https://github.com/randombit/botan/pull/4826
+  merge_commit: 2d8b0e81daba53beed1b5b2e2e6bf7681c14172e
+  classification: unspecified
