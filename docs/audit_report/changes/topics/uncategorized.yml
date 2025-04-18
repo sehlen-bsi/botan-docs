@@ -1092,3 +1092,18 @@ patches:
 - pr: 4827  # https://github.com/randombit/botan/pull/4827
   merge_commit: eea33d0b513066d55b70ad884363d1e1ade11aa6
   classification: unspecified
+
+# Update hardware_acceleration doc
+#   Author: Jack Lloyd
+- commit: 7f66c45b37b6beb016e49f38de0e438ec2be44bf  # https://github.com/randombit/botan/commit/7f66c45b37b6beb016e49f38de0e438ec2be44bf
+  classification: unspecified
+
+# Fix compiling TPM2 example with GCC 13 or higher
+#   Author: Jack Lloyd
+- commit: fc2642dbc96e5eb3cf1237febbcb2f1ed242cbd4  # https://github.com/randombit/botan/commit/fc2642dbc96e5eb3cf1237febbcb2f1ed242cbd4
+  classification: unspecified
+
+# Check off a todo
+#   Author: Jack Lloyd
+- commit: 745aef04dc4862c5305eb8fb06f2534ef302b183  # https://github.com/randombit/botan/commit/745aef04dc4862c5305eb8fb06f2534ef302b183
+  classification: unspecified
