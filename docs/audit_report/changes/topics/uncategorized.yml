@@ -1107,3 +1107,29 @@ patches:
 #   Author: Jack Lloyd
 - commit: 745aef04dc4862c5305eb8fb06f2534ef302b183  # https://github.com/randombit/botan/commit/745aef04dc4862c5305eb8fb06f2534ef302b183
   classification: unspecified
+
+# Some small usability improvements to the MARVIN test cli util
+#   Author:    @randombit
+- pr: 4829  # https://github.com/randombit/botan/pull/4829
+  merge_commit: 4c413a8ac1271640d5f4e05f3502ea28414d97a9
+  classification: unspecified
+
+# Add OID related methods to FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 4816  # https://github.com/randombit/botan/pull/4816
+  merge_commit: 3726b2737b5ebeeda3e28a60be68281ba5dd3913
+  classification: unspecified
+
+# Replace std::vector with std::array in codec_base to avoid allocations
+#   Author:    @Chaosvex
+#   Approvals: (@randombit)
+- pr: 4832  # https://github.com/randombit/botan/pull/4832
+  merge_commit: bd284c38ba83097c4bf17e60d268f5b6c4866ca6
+  classification: unspecified
+
+# Install TPM2 libraries for the clang-tidy run
+#   Author:    @randombit
+- pr: 4831  # https://github.com/randombit/botan/pull/4831
+  merge_commit: 2c52b8ac57f722043d64de8d19cea6850505f634
+  classification: unspecified
