@@ -1133,3 +1133,13 @@ patches:
 - pr: 4831  # https://github.com/randombit/botan/pull/4831
   merge_commit: 2c52b8ac57f722043d64de8d19cea6850505f634
   classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 440d3491c8bae3f77614ade0faa3a2e9a8075ce4  # https://github.com/randombit/botan/commit/440d3491c8bae3f77614ade0faa3a2e9a8075ce4
+  classification: unspecified
+
+# Mark EC_Scalar and EC_AffinePoint with BOTAN_PUBLIC_API
+#   Author: Jack Lloyd
+- commit: c4bf10bfd3b0d5908c96dae245ecf879d36f9886  # https://github.com/randombit/botan/commit/c4bf10bfd3b0d5908c96dae245ecf879d36f9886
+  classification: unspecified
