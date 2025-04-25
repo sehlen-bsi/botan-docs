@@ -1143,3 +1143,22 @@ patches:
 #   Author: Jack Lloyd
 - commit: c4bf10bfd3b0d5908c96dae245ecf879d36f9886  # https://github.com/randombit/botan/commit/c4bf10bfd3b0d5908c96dae245ecf879d36f9886
   classification: unspecified
+
+# Fix the test reporter to print the name of the testsuite being waited for
+#   Author:    @randombit
+- pr: 4834  # https://github.com/randombit/botan/pull/4834
+  merge_commit: 8b76da2dc9438e6802ab72dec5abe666c40424be
+  classification: unspecified
+
+# New Barrett Reduction implementation
+#   Author:    @randombit
+- pr: 4835  # https://github.com/randombit/botan/pull/4835
+  merge_commit: d453a1645b387cd1ca2133d5171ae26d603b8239
+  classification: unspecified
+
+# Add EC_Group related methods to FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 4833  # https://github.com/randombit/botan/pull/4833
+  merge_commit: 49a992eb8f89da4a3ea7ce122ff138a7ef287e84
+  classification: unspecified
