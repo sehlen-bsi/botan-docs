@@ -1162,3 +1162,9 @@ patches:
 - pr: 4833  # https://github.com/randombit/botan/pull/4833
   merge_commit: 49a992eb8f89da4a3ea7ce122ff138a7ef287e84
   classification: unspecified
+
+# Update EC_Group::PEM_encode to handle upcoming removal of explicit curves
+#   Author:    @randombit
+- pr: 4840  # https://github.com/randombit/botan/pull/4840
+  merge_commit: 54b3ab9c712785987ef76f47e74dac33b0e4f390
+  classification: unspecified
