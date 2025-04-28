@@ -1168,3 +1168,25 @@ patches:
 - pr: 4840  # https://github.com/randombit/botan/pull/4840
   merge_commit: 54b3ab9c712785987ef76f47e74dac33b0e4f390
   classification: unspecified
+
+# Add SHA-512 using AVX-512 for message expansion
+#   Author:    @randombit
+- pr: 4842  # https://github.com/randombit/botan/pull/4842
+  merge_commit: b8fda5447d5560bcf1c9e12f3b91d93068f5a0a0
+  classification: unspecified
+
+# Consolidate oid_maps.cpp definitions to save space
+#   Author:    @randombit
+- pr: 4825  # https://github.com/randombit/botan/pull/4825
+  merge_commit: a3db9fa5ffb47f9108791171ec23f0796351828b
+  classification: unspecified
+
+# Update change notes
+#   Author: Jack Lloyd
+- commit: 7cd003ad2c2b308a3d4304ed6bfa3dd6a4390f9f  # https://github.com/randombit/botan/commit/7cd003ad2c2b308a3d4304ed6bfa3dd6a4390f9f
+  classification: unspecified
+
+# Remove some SIMD_4x32 constructor calls in the SHA-1 SIMD impl
+#   Author: Jack Lloyd
+- commit: 62083468ebf9aa9b7f2953dde2b44982067d43d0  # https://github.com/randombit/botan/commit/62083468ebf9aa9b7f2953dde2b44982067d43d0
+  classification: unspecified
