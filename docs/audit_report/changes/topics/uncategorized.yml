@@ -1190,3 +1190,24 @@ patches:
 #   Author: Jack Lloyd
 - commit: 62083468ebf9aa9b7f2953dde2b44982067d43d0  # https://github.com/randombit/botan/commit/62083468ebf9aa9b7f2953dde2b44982067d43d0
   classification: unspecified
+
+# Prefer AES/GCM over ChaCha20Poly1305 in TLS
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4843  # https://github.com/randombit/botan/pull/4843
+  merge_commit: dbe524bf59d376432abb11d2126578a831f16074
+  classification: unspecified
+
+# In GHASH skip the slow key schedule if we have CPU instruction support
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4844  # https://github.com/randombit/botan/pull/4844
+  merge_commit: 9a50aedc5ee7530b44bcee1bc39aec2e2a961cd0
+  classification: unspecified
+
+# FIX: handle multi-arch directories in cmake-config package
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4839  # https://github.com/randombit/botan/pull/4839
+  merge_commit: 5f82b97d3447f6be64c96d017eeb338e0ec326b0
+  classification: unspecified
