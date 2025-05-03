@@ -1216,3 +1216,19 @@ patches:
 #   Author: Jack Lloyd
 - commit: b6f2325af657c5462cab894b68a7f269bd3f7fec  # https://github.com/randombit/botan/commit/b6f2325af657c5462cab894b68a7f269bd3f7fec
   classification: unspecified
+
+# Refactor provider reporting
+#   Author:    @randombit
+- pr: 4847  # https://github.com/randombit/botan/pull/4847
+  merge_commit: 4a933ad07dcaa820110e9bd09bcb6196e0d5002a
+  classification: unspecified
+
+# Fix date formatting
+#   Author: Jack Lloyd
+- commit: 2836c1016c5d9a5341f5895de9d31cd81863b119  # https://github.com/randombit/botan/commit/2836c1016c5d9a5341f5895de9d31cd81863b119
+  classification: unspecified
+
+# Update hardware acceleration doc
+#   Author: Jack Lloyd
+- commit: e5b8b6e516d7cddb5ceeacca7e98b694018f3f9a  # https://github.com/randombit/botan/commit/e5b8b6e516d7cddb5ceeacca7e98b694018f3f9a
+  classification: unspecified
