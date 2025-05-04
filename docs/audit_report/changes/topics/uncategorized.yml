@@ -1232,3 +1232,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: e5b8b6e516d7cddb5ceeacca7e98b694018f3f9a  # https://github.com/randombit/botan/commit/e5b8b6e516d7cddb5ceeacca7e98b694018f3f9a
   classification: unspecified
+
+# Tone done unrolling in the AVX-512 SHA-512 code
+#   Author:    @randombit
+- pr: 4849  # https://github.com/randombit/botan/pull/4849
+  merge_commit: e7b06964e16e87c91cb75a2213cfbaaadb268a98
+  classification: unspecified
+
+# Refactor in Kuznyechik to avoid constexpr limits in Clang 19
+#   Author:    @randombit
+- pr: 4850  # https://github.com/randombit/botan/pull/4850
+  merge_commit: 3d5e352e0e17b144a6190164c9255d93c4b9ea9f
+  classification: unspecified
