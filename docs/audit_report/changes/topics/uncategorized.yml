@@ -1244,3 +1244,13 @@ patches:
 - pr: 4850  # https://github.com/randombit/botan/pull/4850
   merge_commit: 3d5e352e0e17b144a6190164c9255d93c4b9ea9f
   classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 3fcc094943620e3c6b4809cbb652a027369103a4  # https://github.com/randombit/botan/commit/3fcc094943620e3c6b4809cbb652a027369103a4
+  classification: unspecified
+
+# More todos [ci skip]
+#   Author: Jack Lloyd
+- commit: c47919cfa64886a350cc491b39fb51e72f5cd279  # https://github.com/randombit/botan/commit/c47919cfa64886a350cc491b39fb51e72f5cd279
+  classification: unspecified
