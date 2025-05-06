@@ -1254,3 +1254,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: c47919cfa64886a350cc491b39fb51e72f5cd279  # https://github.com/randombit/botan/commit/c47919cfa64886a350cc491b39fb51e72f5cd279
   classification: unspecified
+
+# Fix SIMD_4X32 tests
+#   Author:    @randombit
+- pr: 4851  # https://github.com/randombit/botan/pull/4851
+  merge_commit: a541e62f93960787726bb9b974e2f1cda00aa57f
+  classification: unspecified
