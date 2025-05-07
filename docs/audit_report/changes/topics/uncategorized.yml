@@ -1260,3 +1260,8 @@ patches:
 - pr: 4851  # https://github.com/randombit/botan/pull/4851
   merge_commit: a541e62f93960787726bb9b974e2f1cda00aa57f
   classification: unspecified
+
+# Bump for 3.8.0 release
+#   Author: Jack Lloyd
+- commit: d738d3bb56c3ed5743652bdd699d84133da11793  # https://github.com/randombit/botan/commit/d738d3bb56c3ed5743652bdd699d84133da11793
+  classification: unspecified
