@@ -1265,3 +1265,25 @@ patches:
 #   Author: Jack Lloyd
 - commit: d738d3bb56c3ed5743652bdd699d84133da11793  # https://github.com/randombit/botan/commit/d738d3bb56c3ed5743652bdd699d84133da11793
   classification: unspecified
+
+# Add missing include in secmem.h
+#   Author:    @randombit
+- pr: 4857  # https://github.com/randombit/botan/pull/4857
+  merge_commit: b99c9b5da9a4978f7a80ecd00c2dec84b13ff6e7
+  classification: unspecified
+
+# Fix building with fips140 and modern policy sets
+#   Author:    @randombit
+- pr: 4856  # https://github.com/randombit/botan/pull/4856
+  merge_commit: 7cbd1d6035e75e84ac4eb192600f9e98c875c547
+  classification: unspecified
+
+# Update for 3.8.1 release
+#   Author: Jack Lloyd
+- commit: c06967092edd9baa2b42f89135380912113ae209  # https://github.com/randombit/botan/commit/c06967092edd9baa2b42f89135380912113ae209
+  classification: unspecified
+
+# Bump version to 3.8.1
+#   Author: Jack Lloyd
+- commit: 75330121330f761f60331a00a4a737f648e6b204  # https://github.com/randombit/botan/commit/75330121330f761f60331a00a4a737f648e6b204
+  classification: unspecified
