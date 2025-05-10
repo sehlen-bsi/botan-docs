@@ -1287,3 +1287,26 @@ patches:
 #   Author: Jack Lloyd
 - commit: 75330121330f761f60331a00a4a737f648e6b204  # https://github.com/randombit/botan/commit/75330121330f761f60331a00a4a737f648e6b204
   classification: unspecified
+
+# Always inline various low level bit operations
+#   Author:    @randombit
+- pr: 4863  # https://github.com/randombit/botan/pull/4863
+  merge_commit: f8b8a99f3b9818d13d14fe439c81f81795a9fc65
+  classification: unspecified
+
+# Add SHA-1 using AVX2 for message expansion plus BMI2
+#   Author:    @randombit
+- pr: 4852  # https://github.com/randombit/botan/pull/4852
+  merge_commit: 52be9b846e38502f28c3c50230b420cb51c9e65d
+  classification: unspecified
+
+# In CPUID gate support for AVX2 on SSSE3 existing
+#   Author:    @randombit
+- pr: 4853  # https://github.com/randombit/botan/pull/4853
+  merge_commit: 9d0390e77d905f9506e89d086db15ced7976d8dc
+  classification: unspecified
+
+# Bump version to 3.9.0
+#   Author: Jack Lloyd
+- commit: d267d7fd2cd737b6a1930617fd843ed6530356da  # https://github.com/randombit/botan/commit/d267d7fd2cd737b6a1930617fd843ed6530356da
+  classification: unspecified
