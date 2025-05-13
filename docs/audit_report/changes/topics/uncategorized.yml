@@ -1310,3 +1310,14 @@ patches:
 #   Author: Jack Lloyd
 - commit: d267d7fd2cd737b6a1930617fd843ed6530356da  # https://github.com/randombit/botan/commit/d267d7fd2cd737b6a1930617fd843ed6530356da
   classification: unspecified
+
+# Implement Camellia using GFNI+AVX2
+#   Author:    @randombit
+- pr: 4848  # https://github.com/randombit/botan/pull/4848
+  merge_commit: 6bf563ff3e1aab29677aa08d0608ee020d401446
+  classification: unspecified
+
+# Fix provider reporting in GHASH
+#   Author: Jack Lloyd
+- commit: fbf64f94f6a1938705680f6a4ff2db8bd74da3fa  # https://github.com/randombit/botan/commit/fbf64f94f6a1938705680f6a4ff2db8bd74da3fa
+  classification: unspecified
