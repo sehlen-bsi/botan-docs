@@ -1321,3 +1321,30 @@ patches:
 #   Author: Jack Lloyd
 - commit: fbf64f94f6a1938705680f6a4ff2db8bd74da3fa  # https://github.com/randombit/botan/commit/fbf64f94f6a1938705680f6a4ff2db8bd74da3fa
   classification: unspecified
+
+# Fix Broken and Inaccessible Links in Documentation
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 4867  # https://github.com/randombit/botan/pull/4867
+  merge_commit: 836cfd808727387bf20baf171668fb644c76fc1d
+  classification: unspecified
+
+# Mark cryptobox module as deprecated, previously missed
+#   Author: Jack Lloyd
+- commit: 3e40bb9ef2df024828a23e80ee18da4e7c621194  # https://github.com/randombit/botan/commit/3e40bb9ef2df024828a23e80ee18da4e7c621194
+  classification: unspecified
+
+# Clarify tpm module is TPMv1 only
+#   Author: Jack Lloyd
+- commit: 6196f58fceada52866472870d87982848354e994  # https://github.com/randombit/botan/commit/6196f58fceada52866472870d87982848354e994
+  classification: unspecified
+
+# Update todos [ci skip]
+#   Author: Jack Lloyd
+- commit: 29bc203e2c6a8a7b31a8405e0e0b3d5bc184301f  # https://github.com/randombit/botan/commit/29bc203e2c6a8a7b31a8405e0e0b3d5bc184301f
+  classification: unspecified
+
+# Update change notes [ci skip]
+#   Author: Jack Lloyd
+- commit: aed9301b603a398d794bc751e950ecb174d11410  # https://github.com/randombit/botan/commit/aed9301b603a398d794bc751e950ecb174d11410
+  classification: unspecified
