@@ -1348,3 +1348,16 @@ patches:
 #   Author: Jack Lloyd
 - commit: aed9301b603a398d794bc751e950ecb174d11410  # https://github.com/randombit/botan/commit/aed9301b603a398d794bc751e950ecb174d11410
   classification: unspecified
+
+# Silence FFI deprecation warnings when compiled as part of amalgamation
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4872  # https://github.com/randombit/botan/pull/4872
+  merge_commit: b3c5e866bdbd428c239c631e7988a02f0bd61225
+  classification: unspecified
+
+# In Barrett reduction, use constant time check for input validity
+#   Author:    @randombit
+- pr: 4871  # https://github.com/randombit/botan/pull/4871
+  merge_commit: 609128b6339e7cee7bdab4a3ffa0955b052d8277
+  classification: unspecified
