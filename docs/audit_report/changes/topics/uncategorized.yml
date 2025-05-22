@@ -1361,3 +1361,17 @@ patches:
 - pr: 4871  # https://github.com/randombit/botan/pull/4871
   merge_commit: 609128b6339e7cee7bdab4a3ffa0955b052d8277
   classification: unspecified
+
+# Use std::span for block cipher padding schemes
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4873  # https://github.com/randombit/botan/pull/4873
+  merge_commit: 7fb431fe8217d629a46f34fc99639fd85061a5c2
+  classification: unspecified
+
+# Generate ec_named.cpp and relevant pcurves files from gen_ec_groups.py
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4841  # https://github.com/randombit/botan/pull/4841
+  merge_commit: 4bee52b2bfbd300fc65d3d2b09450ba78298b788
+  classification: unspecified
