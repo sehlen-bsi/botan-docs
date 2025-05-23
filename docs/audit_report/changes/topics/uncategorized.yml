@@ -1375,3 +1375,35 @@ patches:
 - pr: 4841  # https://github.com/randombit/botan/pull/4841
   merge_commit: 4bee52b2bfbd300fc65d3d2b09450ba78298b788
   classification: unspecified
+
+# FIX: Ambiguous c'tor overloads in X509_DN with initializer list
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4861  # https://github.com/randombit/botan/pull/4861
+  merge_commit: 02f7a7cae4fc0513ef1200c7eb4d5c86d9531e02
+  classification: unspecified
+
+# Add SHACAL2 AVX-512
+#   Author:    @randombit
+- pr: 4878  # https://github.com/randombit/botan/pull/4878
+  merge_commit: a20a4ec20cc3641f1709440683f195fd82b99fc3
+  classification: unspecified
+
+# Add a test for check_and_canonicalize_dns_name
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4881  # https://github.com/randombit/botan/pull/4881
+  merge_commit: 2fb34a85142cde33ae5006db4df0d2c96ca40ccf
+  classification: unspecified
+
+# Update BSI policy for 2025's TR-02101-1
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 4879  # https://github.com/randombit/botan/pull/4879
+  merge_commit: cf78ad9c9fa5f7f8b5c189806f9a5e3196f14af2
+  classification: unspecified
+
+# Add comment regarding side-channel properties of the DES impl [ci skip]
+#   Author: Jack Lloyd
+- commit: aa801de269fe7d8af1d2218cfa465594a23dc9da  # https://github.com/randombit/botan/commit/aa801de269fe7d8af1d2218cfa465594a23dc9da
+  classification: unspecified
