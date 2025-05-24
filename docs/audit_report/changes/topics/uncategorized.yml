@@ -1407,3 +1407,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: aa801de269fe7d8af1d2218cfa465594a23dc9da  # https://github.com/randombit/botan/commit/aa801de269fe7d8af1d2218cfa465594a23dc9da
   classification: unspecified
+
+# Add IPAddrBlock and ASIdentifiers extensions (RFC 3779)
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 4699  # https://github.com/randombit/botan/pull/4699
+  merge_commit: d7620b408a4783ffa1a2a72fec2a4137848a16c1
+  classification: unspecified
