@@ -1414,3 +1414,22 @@ patches:
 - pr: 4699  # https://github.com/randombit/botan/pull/4699
   merge_commit: d7620b408a4783ffa1a2a72fec2a4137848a16c1
   classification: unspecified
+
+# Replace TLS1.2 raw pointers with unique ptr
+#   Author:    @KaganCanSit
+#   Approvals: @reneme, (@randombit)
+- pr: 4814  # https://github.com/randombit/botan/pull/4814
+  merge_commit: 7964d1f52209a2f704471b1dc4462db65448cb23
+  classification: unspecified
+
+# Reduce overhead from X.509 RPKI tests
+#   Author:    @randombit
+- pr: 4884  # https://github.com/randombit/botan/pull/4884
+  merge_commit: a2e60d65ed0610624d0a6656813b0f3f5de12f95
+  classification: unspecified
+
+# Add a Test utility for comparing optionals
+#   Author:    @randombit
+- pr: 4883  # https://github.com/randombit/botan/pull/4883
+  merge_commit: 606fd37686a1eb2d3dfaba54f73fc98b4350473a
+  classification: unspecified
