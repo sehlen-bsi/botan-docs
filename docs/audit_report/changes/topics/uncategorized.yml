@@ -1433,3 +1433,14 @@ patches:
 - pr: 4883  # https://github.com/randombit/botan/pull/4883
   merge_commit: 606fd37686a1eb2d3dfaba54f73fc98b4350473a
   classification: unspecified
+
+# Skip x509_rpki tests under valgrind with Clang -Os
+#   Author:    @randombit
+- pr: 4886  # https://github.com/randombit/botan/pull/4886
+  merge_commit: 41b950dc4b2ed1a59359ea4c0b5ec8305b622414
+  classification: unspecified
+
+# Set sha2_64_armv8 to require armv8crypto also
+#   Author: Jack Lloyd
+- commit: fa28fc6f4edc344490fab13916a1d6d3dfb7d44b  # https://github.com/randombit/botan/commit/fa28fc6f4edc344490fab13916a1d6d3dfb7d44b
+  classification: unspecified
