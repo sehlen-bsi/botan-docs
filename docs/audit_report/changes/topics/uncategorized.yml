@@ -1444,3 +1444,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: fa28fc6f4edc344490fab13916a1d6d3dfb7d44b  # https://github.com/randombit/botan/commit/fa28fc6f4edc344490fab13916a1d6d3dfb7d44b
   classification: unspecified
+
+# [TODO] Add RFC 1035 Compliant DNS Tag Length Check
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 4876  # https://github.com/randombit/botan/pull/4876
+  merge_commit: 5fbcc7daa2be40fc662e48343882f7abc8827a94
+  classification: unspecified
