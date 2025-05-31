@@ -1451,3 +1451,10 @@ patches:
 - pr: 4876  # https://github.com/randombit/botan/pull/4876
   merge_commit: 5fbcc7daa2be40fc662e48343882f7abc8827a94
   classification: unspecified
+
+# Test: add some KATs for TLS 1.2 CBC AEAD
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4894  # https://github.com/randombit/botan/pull/4894
+  merge_commit: 574b39a4f00c85a156c46ff7d6e0dca1044bbd5b
+  classification: unspecified
