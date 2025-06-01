@@ -1458,3 +1458,10 @@ patches:
 - pr: 4894  # https://github.com/randombit/botan/pull/4894
   merge_commit: 574b39a4f00c85a156c46ff7d6e0dca1044bbd5b
   classification: unspecified
+
+# Enable GCC 14's stack scrubbing for SHA-224 and SHA-256
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4882  # https://github.com/randombit/botan/pull/4882
+  merge_commit: 1f0ab5c8c50c69c3359c9f538817ce0b877d85a9
+  classification: unspecified
