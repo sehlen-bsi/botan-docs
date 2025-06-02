@@ -1465,3 +1465,10 @@ patches:
 - pr: 4882  # https://github.com/randombit/botan/pull/4882
   merge_commit: 1f0ab5c8c50c69c3359c9f538817ce0b877d85a9
   classification: unspecified
+
+# FIX: create fresh garbage for each negative test
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4895  # https://github.com/randombit/botan/pull/4895
+  merge_commit: 0ffb30b0cc32a214ce48fbef56b6dc3a91ea5248
+  classification: unspecified
