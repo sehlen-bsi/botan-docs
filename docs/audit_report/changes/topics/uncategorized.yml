@@ -1472,3 +1472,10 @@ patches:
 - pr: 4895  # https://github.com/randombit/botan/pull/4895
   merge_commit: 0ffb30b0cc32a214ce48fbef56b6dc3a91ea5248
   classification: unspecified
+
+# Add support for null cipher in TLS 1.2
+#   Author:    @lars-du
+#   Approvals: @reneme, (@randombit)
+- pr: 4776  # https://github.com/randombit/botan/pull/4776
+  merge_commit: 9ad273be65a8bb264f5dcb29e00811e2e3b230bd
+  classification: unspecified
