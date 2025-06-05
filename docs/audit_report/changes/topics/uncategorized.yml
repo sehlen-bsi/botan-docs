@@ -1479,3 +1479,16 @@ patches:
 - pr: 4776  # https://github.com/randombit/botan/pull/4776
   merge_commit: 9ad273be65a8bb264f5dcb29e00811e2e3b230bd
   classification: unspecified
+
+# MARVIN test utility improvements
+#   Author:    @randombit
+- pr: 4898  # https://github.com/randombit/botan/pull/4898
+  merge_commit: 6a4f830b2ccc447c4325ea540266e48f10cc5de7
+  classification: unspecified
+
+# Use compile time generated switch statements for OID lookups
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4896  # https://github.com/randombit/botan/pull/4896
+  merge_commit: b70e4ba97922d152f10ec1d5b132555f4ace7aa8
+  classification: unspecified
