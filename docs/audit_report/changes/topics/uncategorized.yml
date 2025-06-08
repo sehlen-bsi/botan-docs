@@ -1492,3 +1492,16 @@ patches:
 - pr: 4896  # https://github.com/randombit/botan/pull/4896
   merge_commit: b70e4ba97922d152f10ec1d5b132555f4ace7aa8
   classification: unspecified
+
+# FIX: re-assign eFrodoKEM code points to match OQS
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4900  # https://github.com/randombit/botan/pull/4900
+  merge_commit: 595e052677538ddf0084f30942f8bf888be8c271
+  classification: unspecified
+
+# Remove the --with-local-config build option
+#   Author:    @randombit
+- pr: 4905  # https://github.com/randombit/botan/pull/4905
+  merge_commit: 0c19b62f3309dd69c1ae5d7b1a2d65d19fb23402
+  classification: unspecified
