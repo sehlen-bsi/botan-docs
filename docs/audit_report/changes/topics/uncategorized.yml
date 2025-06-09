@@ -1505,3 +1505,17 @@ patches:
 - pr: 4905  # https://github.com/randombit/botan/pull/4905
   merge_commit: 0c19b62f3309dd69c1ae5d7b1a2d65d19fb23402
   classification: unspecified
+
+# Remove dead constructor of ISO_9796_DS2
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4908  # https://github.com/randombit/botan/pull/4908
+  merge_commit: eb3fb4bf18504e54268bcdc4453648bd4283d9a4
+  classification: unspecified
+
+# Fix OSS-Fuzz 422598833
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4904  # https://github.com/randombit/botan/pull/4904
+  merge_commit: 0da0ad3febeca17d61b13e929022eaea8c9fe4b0
+  classification: unspecified
