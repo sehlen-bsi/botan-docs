@@ -1519,3 +1519,17 @@ patches:
 - pr: 4904  # https://github.com/randombit/botan/pull/4904
   merge_commit: 0da0ad3febeca17d61b13e929022eaea8c9fe4b0
   classification: unspecified
+
+# FIX: clang-tidy warnings in loadstor.h, mem_ops.h, and ct_utils.h
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4913  # https://github.com/randombit/botan/pull/4913
+  merge_commit: 1861bade7ebb02a203700c70ec3acf130d03534c
+  classification: unspecified
+
+# Fix some clang-tidy warnings in header files
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4910  # https://github.com/randombit/botan/pull/4910
+  merge_commit: 49e83997c7d8261db2b03efd311fac1455ec9177
+  classification: unspecified
