@@ -1533,3 +1533,9 @@ patches:
 - pr: 4910  # https://github.com/randombit/botan/pull/4910
   merge_commit: 49e83997c7d8261db2b03efd311fac1455ec9177
   classification: unspecified
+
+# Change Kuznyechik to use heap for scheduled keys
+#   Author:    @randombit
+- pr: 4915  # https://github.com/randombit/botan/pull/4915
+  merge_commit: f730a28eb34ae8049e3a38a59240c07f80c89732
+  classification: unspecified
