@@ -1539,3 +1539,10 @@ patches:
 - pr: 4915  # https://github.com/randombit/botan/pull/4915
   merge_commit: f730a28eb34ae8049e3a38a59240c07f80c89732
   classification: unspecified
+
+# FIX: CLI benchmark of Classic McEliece
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4917  # https://github.com/randombit/botan/pull/4917
+  merge_commit: 792481a9848846542f5565054398851b0192456f
+  classification: unspecified
