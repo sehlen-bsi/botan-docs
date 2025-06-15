@@ -1553,3 +1553,10 @@ patches:
 - pr: 4907  # https://github.com/randombit/botan/pull/4907
   merge_commit: d887a9c1dc99ad67b578345146111a939c56b81a
   classification: unspecified
+
+# Further clang-tidy fixes in header files
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4912  # https://github.com/randombit/botan/pull/4912
+  merge_commit: 988711ddad23c433a9c04f001f41d1e7e569b3be
+  classification: unspecified
