@@ -1560,3 +1560,17 @@ patches:
 - pr: 4912  # https://github.com/randombit/botan/pull/4912
   merge_commit: 988711ddad23c433a9c04f001f41d1e7e569b3be
   classification: unspecified
+
+# Add a cache for clang-tidy
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4920  # https://github.com/randombit/botan/pull/4920
+  merge_commit: cfc7bc1c63b4f86aeef4d470babd7a6e94f78ea1
+  classification: unspecified
+
+# Clang-tidy headers in CI
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4919  # https://github.com/randombit/botan/pull/4919
+  merge_commit: cb10d62499ce61d65f887283357277562ff2fabc
+  classification: unspecified
