@@ -1574,3 +1574,23 @@ patches:
 - pr: 4919  # https://github.com/randombit/botan/pull/4919
   merge_commit: cb10d62499ce61d65f887283357277562ff2fabc
   classification: unspecified
+
+# CI: stop building the tests when we won't need them
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4926  # https://github.com/randombit/botan/pull/4926
+  merge_commit: ff5da147f64efb0a2716ca508267bba018e0cc1b
+  classification: unspecified
+
+# Take the clang-tidy cache size from an environment variable
+#   Author:    @randombit
+- pr: 4923  # https://github.com/randombit/botan/pull/4923
+  merge_commit: 1d5a2c48c53fe13ec2b2ddfd6f18c0380f5cff75
+  classification: unspecified
+
+# Run clang-tidy on master
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4924  # https://github.com/randombit/botan/pull/4924
+  merge_commit: e6ad9a4dc82c314f8dec6383737f1dc935c4009f
+  classification: unspecified
