@@ -1594,3 +1594,30 @@ patches:
 - pr: 4924  # https://github.com/randombit/botan/pull/4924
   merge_commit: e6ad9a4dc82c314f8dec6383737f1dc935c4009f
   classification: unspecified
+
+# Fix an issue building System_RNG with only getrandom
+#   Author:    @randombit
+- pr: 4932  # https://github.com/randombit/botan/pull/4932
+  merge_commit: d3f85923574e57558db7014acf25c390dd661303
+  classification: unspecified
+
+# Remove configure.py options that disable various intrinsics
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4927  # https://github.com/randombit/botan/pull/4927
+  merge_commit: 520059d8ecf0552cb7f38e2c48b31db94c191d9b
+  classification: unspecified
+
+# CI: install/simulate TPM2 simulation environment only when needed
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4929  # https://github.com/randombit/botan/pull/4929
+  merge_commit: 00a2a96c2624cf42ea240e9c06e0697e55ac0a90
+  classification: unspecified
+
+# Test: GCC's Stack Scrubbing
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4925  # https://github.com/randombit/botan/pull/4925
+  merge_commit: 0a7e9846ba5a1ad78258453ce017271cf1654d79
+  classification: unspecified
