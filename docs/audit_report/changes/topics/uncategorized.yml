@@ -1621,3 +1621,16 @@ patches:
 - pr: 4925  # https://github.com/randombit/botan/pull/4925
   merge_commit: 0a7e9846ba5a1ad78258453ce017271cf1654d79
   classification: unspecified
+
+# In pcurves don't return early from an addition of identity + identity
+#   Author:    @randombit
+- pr: 4935  # https://github.com/randombit/botan/pull/4935
+  merge_commit: 1d8149c0879644af8f4c000834f50411844cca1e
+  classification: unspecified
+
+# configure.py: automatically detect what brand CXX=c++ is from --version
+#   Author:    @nabijaczleweli
+#   Approvals: (@randombit)
+- pr: 4933  # https://github.com/randombit/botan/pull/4933
+  merge_commit: 359710893b2d5fc4e100c0fd96502b98dcb3ac3b
+  classification: unspecified
