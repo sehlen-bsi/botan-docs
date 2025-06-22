@@ -1634,3 +1634,14 @@ patches:
 - pr: 4933  # https://github.com/randombit/botan/pull/4933
   merge_commit: 359710893b2d5fc4e100c0fd96502b98dcb3ac3b
   classification: unspecified
+
+# Add safety comments to if and while statements in pcurves
+#   Author:    @randombit
+- pr: 4937  # https://github.com/randombit/botan/pull/4937
+  merge_commit: cc35cab9178a7aed4e2848d3f60247b227dab281
+  classification: unspecified
+
+# Update change notes
+#   Author: Jack Lloyd
+- commit: 0ec63a0392d32d50cca74f07ee3932860d52a91e  # https://github.com/randombit/botan/commit/0ec63a0392d32d50cca74f07ee3932860d52a91e
+  classification: unspecified
