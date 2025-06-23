@@ -1645,3 +1645,31 @@ patches:
 #   Author: Jack Lloyd
 - commit: 0ec63a0392d32d50cca74f07ee3932860d52a91e  # https://github.com/randombit/botan/commit/0ec63a0392d32d50cca74f07ee3932860d52a91e
   classification: unspecified
+
+# [TODO] X509_DN Normalize function update to utilize structed bindings
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 4874  # https://github.com/randombit/botan/pull/4874
+  merge_commit: c80dbf800eae78409f356fbccf01aaa249236191
+  classification: unspecified
+
+# Fix/reduce Cppcheck warnings in test code
+#   Author:    @KaganCanSit
+#   Approvals: @reneme, (@randombit)
+- pr: 4942  # https://github.com/randombit/botan/pull/4942
+  merge_commit: 57448f64453d3796749038fb2e353566353b2173
+  classification: unspecified
+
+# Test: GCC's Stack Scrubbing on aarch64
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4941  # https://github.com/randombit/botan/pull/4941
+  merge_commit: c6c7423f6ca31b020c1be3e7ae3f5da6293a84bf
+  classification: unspecified
+
+# Range and span were used in line with TODO messages.
+#   Author:    @KaganCanSit
+#   Approvals: @reneme, (@randombit)
+- pr: 4940  # https://github.com/randombit/botan/pull/4940
+  merge_commit: 07a922b1db17236bc2f97d4a13ecc6bac37200b4
+  classification: unspecified
