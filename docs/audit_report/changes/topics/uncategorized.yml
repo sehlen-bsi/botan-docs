@@ -1679,3 +1679,10 @@ patches:
 - pr: 4945  # https://github.com/randombit/botan/pull/4945
   merge_commit: f950d9e37a54b43d70900db0720250c6125877c4
   classification: unspecified
+
+# Use concepts to constrain the allowed types of various integer-related templates
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4946  # https://github.com/randombit/botan/pull/4946
+  merge_commit: f406b8e2ac51ef1d1bdf852d53f75140221d713f
+  classification: unspecified
