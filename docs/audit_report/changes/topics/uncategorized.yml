@@ -1686,3 +1686,10 @@ patches:
 - pr: 4946  # https://github.com/randombit/botan/pull/4946
   merge_commit: f406b8e2ac51ef1d1bdf852d53f75140221d713f
   classification: unspecified
+
+# Improve docs regarding building universal binaries for macOS [ci skip]
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4936  # https://github.com/randombit/botan/pull/4936
+  merge_commit: aefa54c0ddfe55a35457d9196b6dfbed29aef808
+  classification: unspecified
