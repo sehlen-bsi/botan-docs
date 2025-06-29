@@ -1693,3 +1693,15 @@ patches:
 - pr: 4936  # https://github.com/randombit/botan/pull/4936
   merge_commit: aefa54c0ddfe55a35457d9196b6dfbed29aef808
   classification: unspecified
+
+# Add the concept of an internal feature macro definition
+#   Author:    @randombit
+- pr: 4948  # https://github.com/randombit/botan/pull/4948
+  merge_commit: c0f75cf878df5e1805c93630bf861ef2d83ea774
+  classification: unspecified
+
+# Add CT::Choice::from_mask
+#   Author:    @randombit
+- pr: 4949  # https://github.com/randombit/botan/pull/4949
+  merge_commit: 8d0ef6ce69dfa79c231bdbadc8d3caed3da74da5
+  classification: unspecified
