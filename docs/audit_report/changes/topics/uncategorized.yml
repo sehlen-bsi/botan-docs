@@ -1705,3 +1705,14 @@ patches:
 - pr: 4949  # https://github.com/randombit/botan/pull/4949
   merge_commit: 8d0ef6ce69dfa79c231bdbadc8d3caed3da74da5
   classification: unspecified
+
+# Add EC_Scalar::hash using RFC 9380's hash_to_field
+#   Author:    @randombit
+- pr: 4950  # https://github.com/randombit/botan/pull/4950
+  merge_commit: 4e60e3c4eebcfc57dfc158e7c6443a031897e660
+  classification: unspecified
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: 6cd6fe3057318961da6a3cc3918b4590ae2595cc  # https://github.com/randombit/botan/commit/6cd6fe3057318961da6a3cc3918b4590ae2595cc
+  classification: unspecified
