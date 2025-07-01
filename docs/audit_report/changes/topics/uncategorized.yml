@@ -1716,3 +1716,27 @@ patches:
 #   Author: Jack Lloyd
 - commit: 6cd6fe3057318961da6a3cc3918b4590ae2595cc  # https://github.com/randombit/botan/commit/6cd6fe3057318961da6a3cc3918b4590ae2595cc
   classification: unspecified
+
+# Add support for curve specific field element square roots
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4934  # https://github.com/randombit/botan/pull/4934
+  merge_commit: 2c5ea096aaeb8e8f3fec7ba7d9e74382cfff0955
+  classification: unspecified
+
+# FIX: Building a static library using Ninja on macOS
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4947  # https://github.com/randombit/botan/pull/4947
+  merge_commit: 1da353c0e364e81033587ee55e07e18edc85cbfb
+  classification: unspecified
+
+# Add --ecc-groups=generic to speed cli
+#   Author: Jack Lloyd
+- commit: 3d00b152f6c8ce70bab6f80086efbe9d60cf5323  # https://github.com/randombit/botan/commit/3d00b152f6c8ce70bab6f80086efbe9d60cf5323
+  classification: unspecified
+
+# Document EC_Scalar::hash
+#   Author: Jack Lloyd
+- commit: ed7bc069281c4e21810eca51c91d79f82fee3575  # https://github.com/randombit/botan/commit/ed7bc069281c4e21810eca51c91d79f82fee3575
+  classification: unspecified
