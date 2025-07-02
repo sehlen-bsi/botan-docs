@@ -1740,3 +1740,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: ed7bc069281c4e21810eca51c91d79f82fee3575  # https://github.com/randombit/botan/commit/ed7bc069281c4e21810eca51c91d79f82fee3575
   classification: unspecified
+
+# Add variable time scalar inversion to pcurves_generic
+#   Author:    @randombit
+- pr: 4953  # https://github.com/randombit/botan/pull/4953
+  merge_commit: 750c4cef700cb392c6390faf46e95a2832441263
+  classification: unspecified
