@@ -1746,3 +1746,15 @@ patches:
 - pr: 4953  # https://github.com/randombit/botan/pull/4953
   merge_commit: 750c4cef700cb392c6390faf46e95a2832441263
   classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-slicing
+#   Author:    @randombit
+- pr: 4956  # https://github.com/randombit/botan/pull/4956
+  merge_commit: 3a327627dea5fb686aeb495728fbbbc58002c088
+  classification: unspecified
+
+# Address various warnings from clang-tidy
+#   Author:    @randombit
+- pr: 4931  # https://github.com/randombit/botan/pull/4931
+  merge_commit: 930d7f6adac226c517722ffb5744325a24debebf
+  classification: unspecified
