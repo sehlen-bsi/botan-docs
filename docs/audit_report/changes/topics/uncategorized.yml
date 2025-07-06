@@ -1775,3 +1775,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: 463b48f947bd41792135cd069d6c2c4def473be2  # https://github.com/randombit/botan/commit/463b48f947bd41792135cd069d6c2c4def473be2
   classification: unspecified
+
+# Enable and fix clang-tidy warning bugprone-lambda-function-name
+#   Author:    @randombit
+- pr: 4960  # https://github.com/randombit/botan/pull/4960
+  merge_commit: 0b26967f976213e7676a7d90974954af9dd71fbd
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-init-variables
+#   Author:    @randombit
+- pr: 4959  # https://github.com/randombit/botan/pull/4959
+  merge_commit: ecd5815a4930a986a64086e8137af8ee801e7b58
+  classification: unspecified
