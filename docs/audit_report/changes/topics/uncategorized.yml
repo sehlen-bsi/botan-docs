@@ -1787,3 +1787,15 @@ patches:
 - pr: 4959  # https://github.com/randombit/botan/pull/4959
   merge_commit: ecd5815a4930a986a64086e8137af8ee801e7b58
   classification: unspecified
+
+# Fix some clang-tidy readability-implicit-bool-conversion warnings
+#   Author:    @randombit
+- pr: 4961  # https://github.com/randombit/botan/pull/4961
+  merge_commit: 8e84cba5c1ec7832c60cfc4bf278f1c35dcc30c5
+  classification: unspecified
+
+# Fix various clang-tidy warnings in POWER specific code
+#   Author:    @randombit
+- pr: 4963  # https://github.com/randombit/botan/pull/4963
+  merge_commit: 0747f4bc5f4a5a4420a69fecc658516b2e96aa4b
+  classification: unspecified
