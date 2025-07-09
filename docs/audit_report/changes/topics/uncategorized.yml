@@ -1799,3 +1799,9 @@ patches:
 - pr: 4963  # https://github.com/randombit/botan/pull/4963
   merge_commit: 0747f4bc5f4a5a4420a69fecc658516b2e96aa4b
   classification: unspecified
+
+# Cleanup ISO-9796 padding implementation
+#   Author:    @randombit
+- pr: 4965  # https://github.com/randombit/botan/pull/4965
+  merge_commit: a5c4f9c1809cd70d59949d7f2903fbcfe7c07f30
+  classification: unspecified
