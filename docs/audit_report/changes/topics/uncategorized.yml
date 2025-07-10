@@ -1805,3 +1805,17 @@ patches:
 - pr: 4965  # https://github.com/randombit/botan/pull/4965
   merge_commit: a5c4f9c1809cd70d59949d7f2903fbcfe7c07f30
   classification: unspecified
+
+# Support for wildcards in module selection
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4966  # https://github.com/randombit/botan/pull/4966
+  merge_commit: 17a327f63f15986dbecdd94d58b22cd559e50fbd
+  classification: unspecified
+
+# Fix some clang-tidy bugprone-narrowing-conversions warnings
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4964  # https://github.com/randombit/botan/pull/4964
+  merge_commit: a13f9503618d2ee666b0ba0727970cf1fb2359fe
+  classification: unspecified
