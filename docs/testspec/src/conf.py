@@ -38,6 +38,7 @@ rst_prolog = auditinfo.rst_substitutions()
 extensions = [
     'sphinx.ext.todo',
     'sourceref',
+    'sharedimg',
 ]
 
 # Add any paths that contain templates here, relative to this directory.

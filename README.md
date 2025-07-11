@@ -94,3 +94,14 @@ code ../..
 **Caveats:** The completion and preview are configured to work in the crypto
 documentation (see `.vscode/settings.json`). So far, we didn't find a way to
 make it work for all documents without manual reconfiguration.
+
+## License
+
+The contents of this repository are licensed under Creative Commons BY 4.0 and
+may be used and adapted freely, both commercially as well as non-commercially.
+Users must give appropriate credit, provide a link to the license and indicate
+if changes were made.
+
+For legally binding details see https://creativecommons.org/licenses/by/4.0.
+
+![License: CC-BY](resources/legal/cc-by.svg)

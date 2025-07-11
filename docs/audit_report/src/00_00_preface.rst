@@ -33,10 +33,40 @@ This document was generated on |document_datestamp| based on the git revision |d
 
 .. todolist::
 
+.. raw:: latex
+
+   \vfill
+
+.. sharedimg:: legal/cc-by.png
+   :alt: License: CC-BY
+   :align: left
+
+.. raw:: latex
+
+   \pagebreak
+
 **Copyright**
 
-This work is protected by copyright law. Every application outside of copyright
-law without explicit permission by the Federal Office for Information Security
-(BSI) is forbidden and will be prosecuted. This holds especially for the
-reproduction, translation, microfilming and storing and processing in electronic
-systems.
+This material is protected by copyright law and was released under the `Creative
+Commons Attribution 4.0 International <https://creativecommons.org/licenses/by/4.0/deed.en>`_
+license.
+
+*You are free to:*
+
+* **Share** - copy and redistribute the material in any medium or format for any
+  purpose, even commercially.
+* **Adapt** - remix, transform, and build upon the material for any purpose,
+  even commercially.
+
+The licensor cannot revoke these freedoms as long as you follow the license terms.
+
+*Under the following terms:*
+
+* **Attribution** - You must give appropriate credit, provide a link to the
+  license, and indicate if changes were made. You may do so in any reasonable
+  manner, but not in any way that suggests the licensor endorses you or your
+  use.
+
+* **No additional restrictions** - You may not apply legal terms or
+  technological measures that legally restrict others from doing anything the
+  license permits.
