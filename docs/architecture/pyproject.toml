@@ -12,6 +12,7 @@ pylatexenc = "^2.10"
 
 sourceref = { path = "../../tools/sourceref", develop = true }
 auditinfo = { path = "../../tools/auditinfo", develop = true }
+sharedimg = { path = "../../tools/sharedimg", develop = true }
 
 [tool.poetry.dev-dependencies]
 esbonio = "^0.16.1"
