@@ -1819,3 +1819,23 @@ patches:
 - pr: 4964  # https://github.com/randombit/botan/pull/4964
   merge_commit: a13f9503618d2ee666b0ba0727970cf1fb2359fe
   classification: unspecified
+
+# Fix/reduce CppCheck warnings in 'tests' folder
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 4967  # https://github.com/randombit/botan/pull/4967
+  merge_commit: f3cad956a1cd44a3fb51f31538ad06b156a95d2e
+  classification: unspecified
+
+# Improve RSA CRT recombination step
+#   Author:    @randombit
+- pr: 4944  # https://github.com/randombit/botan/pull/4944
+  merge_commit: c74e812c10c104cdcf3308068aca23d659c6b244
+  classification: unspecified
+
+# Fix clang-tidy warning readability-qualified-auto
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4962  # https://github.com/randombit/botan/pull/4962
+  merge_commit: 88e8dd91c31e6806dcb11ecde238e8cbf88e8ecd
+  classification: unspecified
