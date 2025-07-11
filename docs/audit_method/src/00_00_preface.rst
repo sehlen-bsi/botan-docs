@@ -3,14 +3,18 @@ Vorwort
 
 **Zusammenfassung**
 
-Mit Botan steht eine vom BSI geprüfte Kryptobibliothek zur Verfügung. Mit
-dem  Einsatz von Botan durch Herstellern von VS-Produkten kann der
-Evaluierungsaufwand des BSI für solche Produkte erheblich reduziert werden. Ziel
-des Projekts ist die Weiterentwicklung und Pflege des geprüften
-BSI-Entwicklungszweigs der Kryptobibliothek Botan. Dafür soll der
-BSI-Entwicklungszweig an die aktuelle Botan Version angeglichen werden.
-Zusätzlich soll die Botan-Bibliothek um verschiedene Verfahren der
-Post-Quanten-Kryptografie erweitert werden.
+Dieses Dokument ist das direkte Ergebnis der Projekte 481 und 197 des
+Bundesamtes für Sicherheit in der Informationstechnik (BSI) mit dem Ziel die
+quelloffene Kryptobibliothek `Botan <https://github.com/randombit/botan>`_ zu
+unterstützen. Botan bietet sichere, wartbare und gut dokumentierte
+Implementierungen von kryptografischen Basiskomponenten für ein breites
+Spektrum moderner kryptografischer Anwendungen. Insbesondere werden Verfahren
+der Post-Quanten-Kryptografie unterstützt um eine langlebige Sicherheit
+der verarbeiteten Daten sicherstellen zu können.
+
+Botan ist insbesondere für den Einsatz in sicherheitskritischen Produkten
+geeignet, die im VS-NfD Umfeld eingesetzt werden sollen. Dieses Dokument soll
+dem BSI helfen, die Verwendung von Botan in diesen Produkten zu bewerten.
 
 Dieser Bericht erläutert die Prüfmethodik, die für die Freigabe neuer
 Botan-Versionen zum Einsatz kommt.
