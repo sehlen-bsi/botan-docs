@@ -823,6 +823,23 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "sharedimg"
+version = "0.1.0"
+description = "Sphinx extension to conveniently place images that are shared across documents"
+optional = false
+python-versions = "^3.10"
+files = []
+develop = true
+
+[package.dependencies]
+auditinfo = {path = "../auditinfo", develop = true}
+Sphinx = "^6.1.3"
+
+[package.source]
+type = "directory"
+url = "../../tools/sharedimg"
+
+[[package]]
 name = "snowballstemmer"
 version = "3.0.1"
 description = "This package provides 32 stemmers for 30 languages generated from Snowball algorithms."
@@ -1098,4 +1115,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "7a608e6738e4a6887d195bc53a1326b4e2ea7c3bb093e9f21ca8263e38685e5f"
+content-hash = "f22ed395378cfde27cc0db79dc7e3c1aec36321d2626e7a7dd80e9a2233d16a8"

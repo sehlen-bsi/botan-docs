@@ -4,25 +4,23 @@ Preface
 **Summary**
 
 The objective of this project is the secure implementation of a universal crypto
-library which contains all common cryptographic primitives that are necessary
+library that contains all common cryptographic primitives that are necessary
 for the wide use of cryptographic operations. These include symmetric and
-asymmetric encryption and signature methods, PRFs, hash functions and RNGs.
+asymmetric encryption and signature methods, PRFs, hash functions, and RNGs.
 Additionally, security standards such as X.509 and SSL/TLS have to be supported.
 The project’s eventual goal is to add production-grade implementations of
 post-quantum secure algorithms to Botan.
 
-The library will be provided to manufacturers of VS-NfD products which will help
+The library will be provided to manufacturers of VS-NfD products, which will help
 the Federal Office for Information Security (BSI) to evaluate these products.
 
-This document specifies test cases implemented in the library's test suite.
+This document provides a high-level overview of the library's architecture and
+refers to various places of its documentation. It is meant to act as an starting
+point for users that are new to the library.
 
 **Authors**
 
-| René Fischer (RK), Rohde & Schwarz Cybersecurity
-| Juraj Somorovsky (JSo), Hackmanit GmbH
-| Sergii Cherkavskyi (SC), Rohde & Schwarz Cybersecurity
 | René Meusel (RM), Rohde & Schwarz Cybersecurity
-| Fabian Albert (FA), Rohde & Schwarz Cybersecurity
 
 **Document Revision**
 
