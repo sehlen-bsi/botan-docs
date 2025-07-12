@@ -1839,3 +1839,15 @@ patches:
 - pr: 4962  # https://github.com/randombit/botan/pull/4962
   merge_commit: 88e8dd91c31e6806dcb11ecde238e8cbf88e8ecd
   classification: unspecified
+
+# Enable and fix clang-tidy warning hicpp-member-init
+#   Author:    @randombit
+- pr: 4968  # https://github.com/randombit/botan/pull/4968
+  merge_commit: 8e9985cbac56dc365b4856065d025fd95eeaad22
+  classification: unspecified
+
+# Enable and fix (well, mostly silence) clang-tidy warning hicpp-vararg
+#   Author:    @randombit
+- pr: 4969  # https://github.com/randombit/botan/pull/4969
+  merge_commit: 8cd70aa22f95dc664b9370c8e2630cdb23b42984
+  classification: unspecified
