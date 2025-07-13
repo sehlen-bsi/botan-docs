@@ -1851,3 +1851,75 @@ patches:
 - pr: 4969  # https://github.com/randombit/botan/pull/4969
   merge_commit: 8cd70aa22f95dc664b9370c8e2630cdb23b42984
   classification: unspecified
+
+# Enable and fix clang-tidy warning suspcious-call-argument
+#   Author:    @randombit
+- pr: 4981  # https://github.com/randombit/botan/pull/4981
+  merge_commit: 2552b3c137a5ef828d8dd6118d340ff0976a2605
+  classification: unspecified
+
+# Enable and fix clang-tidy warning misc-redundant-expression
+#   Author:    @randombit
+- pr: 4978  # https://github.com/randombit/botan/pull/4978
+  merge_commit: e87c8e33a3e40e0eb4dfe03d72bc893ef32f07ff
+  classification: unspecified
+
+# Enable and fix clang-tidy warning modernize-raw-string-literal
+#   Author:    @randombit
+- pr: 4980  # https://github.com/randombit/botan/pull/4980
+  merge_commit: 7e4685079e83b154ecacb0916c9ad42df9f54abb
+  classification: unspecified
+
+# In clang-tidy config enable a warning already enabled under a different name
+#   Author:    @randombit
+- pr: 4976  # https://github.com/randombit/botan/pull/4976
+  merge_commit: e53ca841ee331f26580fcd112c2947ee827b0d85
+  classification: unspecified
+
+# Fix silencing of vararg clang-tidy warning
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4975  # https://github.com/randombit/botan/pull/4975
+  merge_commit: b0731ce9e1a961967dc6fc265dae61e8758c9655
+  classification: unspecified
+
+# Fix some clang-tidy readability-implict-bool-conversion warnings
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4977  # https://github.com/randombit/botan/pull/4977
+  merge_commit: 5cc87ce626109637dfe662e1c767458f4b16290f
+  classification: unspecified
+
+# Enable and fix clang-tidy warning readability-container-data-pointer
+#   Author:    @randombit
+- pr: 4972  # https://github.com/randombit/botan/pull/4972
+  merge_commit: 63764de6e32492a8ad46548be508f9a964ba713e
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-avoid-do-while
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4973  # https://github.com/randombit/botan/pull/4973
+  merge_commit: 93e9e1d365f52407821711da60a82e31e84345ce
+  classification: unspecified
+
+# Run: `run_clang_tidy.py --regenerate-inline-config-file`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4971  # https://github.com/randombit/botan/pull/4971
+  merge_commit: 6aa9702c75fd0761b1fcc51c3f20001856be327d
+  classification: unspecified
+
+# Document the specific threat model the library operates under
+#   Author:    @randombit
+#   Approvals: @atreiber94, @reneme
+- pr: 4955  # https://github.com/randombit/botan/pull/4955
+  merge_commit: e3b3452ec48335e4eaa80e6e1a99e9b16657f6a2
+  classification: unspecified
+
+# Test: Improve AEAD and cipher mode error condition checks
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4970  # https://github.com/randombit/botan/pull/4970
+  merge_commit: a5656fff8d5a106f5989d5180bdba1f4db536d6a
+  classification: unspecified
