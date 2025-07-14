@@ -1923,3 +1923,81 @@ patches:
 - pr: 4970  # https://github.com/randombit/botan/pull/4970
   merge_commit: a5656fff8d5a106f5989d5180bdba1f4db536d6a
   classification: unspecified
+
+# Various clang-tidy runner script tweaks
+#   Author:    @randombit
+- pr: 4988  # https://github.com/randombit/botan/pull/4988
+  merge_commit: b71fdb4a3e7b422a3148499d3f1800d0f7f70ab3
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cert-err58-cpp
+#   Author:    @randombit
+- pr: 4982  # https://github.com/randombit/botan/pull/4982
+  merge_commit: ef2a1bab275b9b086d243dd018d690996511cc6d
+  classification: unspecified
+
+# Enable clang-tidy warning readability-qualified-auto
+#   Author:    @randombit
+- pr: 4987  # https://github.com/randombit/botan/pull/4987
+  merge_commit: 12425814ccbdf0b4bad182becacb0c4591ce7ace
+  classification: unspecified
+
+# Fix some readability-named-parameter warnings from clang-tidy
+#   Author:    @randombit
+- pr: 4986  # https://github.com/randombit/botan/pull/4986
+  merge_commit: a900b914083178fb5a98f636f710d60adb99e11f
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-prefer-member-initializer
+#   Author:    @randombit
+- pr: 4985  # https://github.com/randombit/botan/pull/4985
+  merge_commit: 796ccaa31a249373a9f60a8cedfed59bd1f3420f
+  classification: unspecified
+
+# Enable and fix clang-tidy warning misc-confusable-identifiers
+#   Author:    @randombit
+- pr: 4984  # https://github.com/randombit/botan/pull/4984
+  merge_commit: 64a316a5d2d07039a1eb434ddec2fc4f2311358d
+  classification: unspecified
+
+# Improve RFC 3779 extension api
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 4890  # https://github.com/randombit/botan/pull/4890
+  merge_commit: cf74a5db8145a33edb98ff6b3dcd016c07fb2c73
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-owning-memory
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4983  # https://github.com/randombit/botan/pull/4983
+  merge_commit: 1999a97b1dc18b255d33345e3a16db64a1281f16
+  classification: unspecified
+
+# Enable and fix clang-tidy warning readability-use-std-min-max
+#   Author:    @randombit
+- pr: 4979  # https://github.com/randombit/botan/pull/4979
+  merge_commit: 5e308722839cf6cab6ca5a77d68801f10d0ef092
+  classification: unspecified
+
+# Enable and fix clang-tidy warning modernize-loop-convert
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4974  # https://github.com/randombit/botan/pull/4974
+  merge_commit: 4c149df22905b9e8f14da8a7aa292b114c1f47fe
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 1acee3b18e05b013333fbf0be973043ee557be2e  # https://github.com/randombit/botan/commit/1acee3b18e05b013333fbf0be973043ee557be2e
+  classification: unspecified
+
+# Ignore .json and .sh files in the top level dir [ci skip]
+#   Author: Jack Lloyd
+- commit: cd3e2b4da849638cad6a05ea3a38000929a73cee  # https://github.com/randombit/botan/commit/cd3e2b4da849638cad6a05ea3a38000929a73cee
+  classification: unspecified
+
+# Silence a new clang-tidy 20 warning in p11.h [ci skip]
+#   Author: Jack Lloyd
+- commit: c94c8e20d0e67307c920385746def1fa0ee2b0a6  # https://github.com/randombit/botan/commit/c94c8e20d0e67307c920385746def1fa0ee2b0a6
+  classification: unspecified
