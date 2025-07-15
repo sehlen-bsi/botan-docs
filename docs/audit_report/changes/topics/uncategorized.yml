@@ -2001,3 +2001,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: c94c8e20d0e67307c920385746def1fa0ee2b0a6  # https://github.com/randombit/botan/commit/c94c8e20d0e67307c920385746def1fa0ee2b0a6
   classification: unspecified
+
+# Fix more readability-named-parameter warnings from clang-tidy
+#   Author:    @randombit
+- pr: 4989  # https://github.com/randombit/botan/pull/4989
+  merge_commit: e18675f4596bf81c8b4212a7f95ecbc7a6b8bcc3
+  classification: unspecified
