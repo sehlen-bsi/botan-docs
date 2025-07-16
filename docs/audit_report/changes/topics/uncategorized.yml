@@ -2007,3 +2007,28 @@ patches:
 - pr: 4989  # https://github.com/randombit/botan/pull/4989
   merge_commit: e18675f4596bf81c8b4212a7f95ecbc7a6b8bcc3
   classification: unspecified
+
+# Enable and fix clang-tidy warning readability-redundant-member-init
+#   Author:    @randombit
+- pr: 4992  # https://github.com/randombit/botan/pull/4992
+  merge_commit: 6eea3cee46dec6e67178e19acebe66144a3bd443
+  classification: unspecified
+
+# Improve string<->span conversions
+#   Author:    @randombit
+- pr: 4990  # https://github.com/randombit/botan/pull/4990
+  merge_commit: 220e81fa51030c44e98d6956cf8c5cef58bf59ac
+  classification: unspecified
+
+# Replace std::array with std::span in roughtime hashNode function
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 4994  # https://github.com/randombit/botan/pull/4994
+  merge_commit: 70871ae2460eada89b251b8c63023edc8ee0e1a8
+  classification: unspecified
+
+# Enable and fix clang-tidy warning bugprone-argument-comment
+#   Author:    @randombit
+- pr: 4993  # https://github.com/randombit/botan/pull/4993
+  merge_commit: 16e090efa22edeabaabbbdaeb06fb02cce1f341b
+  classification: unspecified
