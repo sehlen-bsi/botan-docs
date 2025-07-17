@@ -2032,3 +2032,15 @@ patches:
 - pr: 4993  # https://github.com/randombit/botan/pull/4993
   merge_commit: 16e090efa22edeabaabbbdaeb06fb02cce1f341b
   classification: unspecified
+
+# Scrub pcurves ECC private key values on destruction
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4991  # https://github.com/randombit/botan/pull/4991
+  merge_commit: 421b766f148fbe01b4cf20fb167042a64e663f8c
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: c4aa80cd6649a453396c4163e0745cf11816bd1c  # https://github.com/randombit/botan/commit/c4aa80cd6649a453396c4163e0745cf11816bd1c
+  classification: unspecified
