@@ -2044,3 +2044,16 @@ patches:
 #   Author: Jack Lloyd
 - commit: c4aa80cd6649a453396c4163e0745cf11816bd1c  # https://github.com/randombit/botan/commit/c4aa80cd6649a453396c4163e0745cf11816bd1c
   classification: unspecified
+
+# Replace macros using BOTAN_TARGET_CPU_XXX with BOTAN_TARGET_ARCH_XXX
+#   Author:    @randombit
+- pr: 5003  # https://github.com/randombit/botan/pull/5003
+  merge_commit: c05a6c860badf8cf8877093033cdf74f39da2d07
+  classification: unspecified
+
+# Add ASN1_Time::from_seconds_since_epoch
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4999  # https://github.com/randombit/botan/pull/4999
+  merge_commit: 97f08f6f597210d51932f8e36fc5df8bbb544404
+  classification: unspecified
