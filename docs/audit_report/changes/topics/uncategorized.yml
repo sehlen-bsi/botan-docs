@@ -2057,3 +2057,9 @@ patches:
 - pr: 4999  # https://github.com/randombit/botan/pull/4999
   merge_commit: 97f08f6f597210d51932f8e36fc5df8bbb544404
   classification: unspecified
+
+# Enable and fix clang-tidy warning readability-isolate-declaration
+#   Author:    @randombit
+- pr: 4998  # https://github.com/randombit/botan/pull/4998
+  merge_commit: 5ce69e1e99652d5a843c2104526a04f25eeab5e6
+  classification: unspecified
