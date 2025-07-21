@@ -2063,3 +2063,21 @@ patches:
 - pr: 4998  # https://github.com/randombit/botan/pull/4998
   merge_commit: 5ce69e1e99652d5a843c2104526a04f25eeab5e6
   classification: unspecified
+
+# Remove some unnecessary includes in TLS
+#   Author:    @randombit
+- pr: 5007  # https://github.com/randombit/botan/pull/5007
+  merge_commit: 68c48a5ca5d1ed48c507f3cdeb38bc6b2a0a03ec
+  classification: unspecified
+
+# Enable and fix clang-tidy warning bugprone-branch-clone
+#   Author:    @randombit
+- pr: 5004  # https://github.com/randombit/botan/pull/5004
+  merge_commit: b89426d05eadb05feaab7a40a7ac68d621a931ea
+  classification: unspecified
+
+# Enable clang-tidy warning misc-misplaced-const
+#   Author:    @randombit
+- pr: 5005  # https://github.com/randombit/botan/pull/5005
+  merge_commit: e76868b720f22263cd96ef97c1b3759ae9bec30d
+  classification: unspecified
