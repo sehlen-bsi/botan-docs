@@ -2081,3 +2081,16 @@ patches:
 - pr: 5005  # https://github.com/randombit/botan/pull/5005
   merge_commit: e76868b720f22263cd96ef97c1b3759ae9bec30d
   classification: unspecified
+
+# Modify Montygomery_Int to not store the value as a BigInt
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5010  # https://github.com/randombit/botan/pull/5010
+  merge_commit: b3fa1cbc6adb14bed33c54e6830a840f55d6dfc4
+  classification: unspecified
+
+# Remove some unused functions on Montgomery_Int and Montgomery_Params
+#   Author:    @randombit
+- pr: 5009  # https://github.com/randombit/botan/pull/5009
+  merge_commit: 9200a11107dd2910661431f27c3b715ea4795971
+  classification: unspecified
