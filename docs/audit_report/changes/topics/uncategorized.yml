@@ -2094,3 +2094,22 @@ patches:
 - pr: 5009  # https://github.com/randombit/botan/pull/5009
   merge_commit: 9200a11107dd2910661431f27c3b715ea4795971
   classification: unspecified
+
+# Fix implicit conversion issues caused by encode_if in der encoder
+#   Author:    @Brassinolide
+#   Approvals: (@randombit)
+- pr: 5013  # https://github.com/randombit/botan/pull/5013
+  merge_commit: 1ab1f909fc77d042db5ec711a137f604e6daa414
+  classification: unspecified
+
+# Make Montgomery_Params an inner shared_ptr type
+#   Author:    @randombit
+- pr: 5012  # https://github.com/randombit/botan/pull/5012
+  merge_commit: d45d27fe57cec53ba66cc93cd0d536434be60617
+  classification: unspecified
+
+# Remove 'EMSA' terminology where possible
+#   Author:    @randombit
+- pr: 5008  # https://github.com/randombit/botan/pull/5008
+  merge_commit: a275e372dfa634882dc32c6385346b00fce70402
+  classification: unspecified
