@@ -2113,3 +2113,10 @@ patches:
 - pr: 5008  # https://github.com/randombit/botan/pull/5008
   merge_commit: a275e372dfa634882dc32c6385346b00fce70402
   classification: unspecified
+
+# Small cleanups in Barrett reduction
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5014  # https://github.com/randombit/botan/pull/5014
+  merge_commit: 464e74c875c598fba76ecd5638206b1bd6874210
+  classification: unspecified
