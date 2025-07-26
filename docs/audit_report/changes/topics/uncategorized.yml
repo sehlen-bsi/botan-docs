@@ -2143,3 +2143,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: 55a783101735f9ab542007ffe7909e2b173b5a49  # https://github.com/randombit/botan/commit/55a783101735f9ab542007ffe7909e2b173b5a49
   classification: unspecified
+
+# Improve handling of optional types in ASN.1
+#   Author:    @randombit
+- pr: 5001  # https://github.com/randombit/botan/pull/5001
+  merge_commit: 1eacc5b05c894f6b66403a6a0549ab2b53752947
+  classification: unspecified
