@@ -2149,3 +2149,10 @@ patches:
 - pr: 5001  # https://github.com/randombit/botan/pull/5001
   merge_commit: 1eacc5b05c894f6b66403a6a0549ab2b53752947
   classification: unspecified
+
+# Rename CMake targets to botan::botan / botan::botan-static
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5022  # https://github.com/randombit/botan/pull/5022
+  merge_commit: 7fc5a0f5231a1cc1e47d41281b675ce20fe97318
+  classification: unspecified
