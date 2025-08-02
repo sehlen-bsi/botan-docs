@@ -2173,3 +2173,16 @@ patches:
 #   Author: Jack Lloyd
 - commit: 5f6d020174bbcfd0986289b3d781a549982288d8  # https://github.com/randombit/botan/commit/5f6d020174bbcfd0986289b3d781a549982288d8
   classification: unspecified
+
+# Fix some clang-tidy readability-simplify-boolean-expr warnings
+#   Author:    @randombit
+- pr: 5031  # https://github.com/randombit/botan/pull/5031
+  merge_commit: a361efb2e4223627d1290fcba67f4dc0b0ffeb78
+  classification: unspecified
+
+# improve botan-config.cmake
+#   Author:    @justusranvier
+#   Approvals: @reneme
+- pr: 5027  # https://github.com/randombit/botan/pull/5027
+  merge_commit: 77a3a40a03d145c8c9d5545276a9b864ca0791c3
+  classification: unspecified
