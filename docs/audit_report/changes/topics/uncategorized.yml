@@ -2186,3 +2186,19 @@ patches:
 - pr: 5027  # https://github.com/randombit/botan/pull/5027
   merge_commit: 77a3a40a03d145c8c9d5545276a9b864ca0791c3
   classification: unspecified
+
+# Fix some readability-implict-bool-conversion warnings from clang-tidy
+#   Author:    @randombit
+- pr: 5032  # https://github.com/randombit/botan/pull/5032
+  merge_commit: 802931a9ef2aff559769bdc32ffe443bde939ca0
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: c9d60d429e2c69546bc450ae9815af0601a6ac80  # https://github.com/randombit/botan/commit/c9d60d429e2c69546bc450ae9815af0601a6ac80
+  classification: unspecified
+
+# Regen src/.clang-tidy [ci skip]
+#   Author: Jack Lloyd
+- commit: 7dcd490423a8a43f1f18ca9b57bfe4247171615b  # https://github.com/randombit/botan/commit/7dcd490423a8a43f1f18ca9b57bfe4247171615b
+  classification: unspecified
