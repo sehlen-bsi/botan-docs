@@ -2202,3 +2202,26 @@ patches:
 #   Author: Jack Lloyd
 - commit: 7dcd490423a8a43f1f18ca9b57bfe4247171615b  # https://github.com/randombit/botan/commit/7dcd490423a8a43f1f18ca9b57bfe4247171615b
   classification: unspecified
+
+# Use mp interfaces in X448/Ed448 field arithmetic
+#   Author:    @randombit
+- pr: 5037  # https://github.com/randombit/botan/pull/5037
+  merge_commit: 216547f2b062e609bfa3c86f895978cbdfd381fb
+  classification: unspecified
+
+# Fix some bugprone-unchecked-optional-access warnings from clang-tidy
+#   Author:    @randombit
+- pr: 5035  # https://github.com/randombit/botan/pull/5035
+  merge_commit: e39c1e84c4d71f4d21a05ddbc96484335fac4eeb
+  classification: unspecified
+
+# Fix some readability-convert-member-functions-to-static warnings from clang-tidy
+#   Author:    @randombit
+- pr: 5034  # https://github.com/randombit/botan/pull/5034
+  merge_commit: 8cfedc11c7a22e82d159acaaa067dd72481a3562
+  classification: unspecified
+
+# Update support information [ci skip]
+#   Author: Jack Lloyd
+- commit: 6b24db8518d17ffae51ef07c5a32e5748d3aa40c  # https://github.com/randombit/botan/commit/6b24db8518d17ffae51ef07c5a32e5748d3aa40c
+  classification: unspecified
