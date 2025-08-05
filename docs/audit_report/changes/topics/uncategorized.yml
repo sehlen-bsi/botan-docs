@@ -2225,3 +2225,14 @@ patches:
 #   Author: Jack Lloyd
 - commit: 6b24db8518d17ffae51ef07c5a32e5748d3aa40c  # https://github.com/randombit/botan/commit/6b24db8518d17ffae51ef07c5a32e5748d3aa40c
   classification: unspecified
+
+# Enable clang-tidy warning readability-implict-bool-conversion
+#   Author:    @randombit
+- pr: 5036  # https://github.com/randombit/botan/pull/5036
+  merge_commit: feb9b3ff915198354c91d79e6b1aedbf38753b7f
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 4e84a84d18c8a461823343f894faffdaba7d85cf  # https://github.com/randombit/botan/commit/4e84a84d18c8a461823343f894faffdaba7d85cf
+  classification: unspecified
