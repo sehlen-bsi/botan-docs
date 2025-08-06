@@ -2236,3 +2236,28 @@ patches:
 #   Author: Jack Lloyd
 - commit: 4e84a84d18c8a461823343f894faffdaba7d85cf  # https://github.com/randombit/botan/commit/4e84a84d18c8a461823343f894faffdaba7d85cf
   classification: unspecified
+
+# Use span for MGF1
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5041  # https://github.com/randombit/botan/pull/5041
+  merge_commit: 1f99875554c5f268c2703ad92618f6f50e7e8491
+  classification: unspecified
+
+# small fixes for jitter_rng
+#   Author:    @thillux
+#   Approvals: @reneme, (@randombit)
+- pr: 5044  # https://github.com/randombit/botan/pull/5044
+  merge_commit: a30330a46fec3dafe33a7ae76a94e1fb2ec02861
+  classification: unspecified
+
+# Reword a confusing error message in SP800-56C
+#   Author:    @randombit
+- pr: 5042  # https://github.com/randombit/botan/pull/5042
+  merge_commit: 7f2cb5b36908c75f8b4aa9e2bde652f748e7e231
+  classification: unspecified
+
+# Update for 3.9.0 release
+#   Author: Jack Lloyd
+- commit: 07e1cfe0a06b224bbb37ad534736924931184246  # https://github.com/randombit/botan/commit/07e1cfe0a06b224bbb37ad534736924931184246
+  classification: unspecified
