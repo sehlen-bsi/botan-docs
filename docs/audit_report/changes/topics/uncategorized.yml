@@ -2261,3 +2261,29 @@ patches:
 #   Author: Jack Lloyd
 - commit: 07e1cfe0a06b224bbb37ad534736924931184246  # https://github.com/randombit/botan/commit/07e1cfe0a06b224bbb37ad534736924931184246
   classification: unspecified
+
+# fix: use fedora new pem cert location
+#   Author:    @carlosrodfern
+#   Approvals: (@randombit)
+- pr: 5052  # https://github.com/randombit/botan/pull/5052
+  merge_commit: 1ce160a4010a0460181e8ca5dcf16c92d8401f77
+  classification: unspecified
+
+# Base58 optimizations
+#   Author:    @randombit
+- pr: 5051  # https://github.com/randombit/botan/pull/5051
+  merge_commit: 06972557ae2af1a221f6276128b1b1b3e0f77128
+  classification: unspecified
+
+# Run a full clang-tidy scan on every PR
+#   Author:    @randombit
+- pr: 5050  # https://github.com/randombit/botan/pull/5050
+  merge_commit: fb33dabab15d47be3ce2dc91d0d2101132d76bd3
+  classification: unspecified
+
+# Add support for building with clang-cl
+#   Author:    @solemnwarning
+#   Approvals: @reneme, (@randombit)
+- pr: 4255  # https://github.com/randombit/botan/pull/4255
+  merge_commit: e3f0f7f0df79db57a776219f6abf0aae52726f3e
+  classification: unspecified
