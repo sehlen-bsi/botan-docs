@@ -2287,3 +2287,16 @@ patches:
 - pr: 4255  # https://github.com/randombit/botan/pull/4255
   merge_commit: e3f0f7f0df79db57a776219f6abf0aae52726f3e
   classification: unspecified
+
+# Remove the clang-tidy nightly run
+#   Author:    @randombit
+- pr: 5054  # https://github.com/randombit/botan/pull/5054
+  merge_commit: ee093a635fbfdd9f699decd040a9a1c9634e676f
+  classification: unspecified
+
+# Fix a warning in the sqlite3 wrapper when compiling on 32-bit systems
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5053  # https://github.com/randombit/botan/pull/5053
+  merge_commit: eaad5c54083b791bf5c998b3b0adc3374779f4ab
+  classification: unspecified
