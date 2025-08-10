@@ -2300,3 +2300,9 @@ patches:
 - pr: 5053  # https://github.com/randombit/botan/pull/5053
   merge_commit: eaad5c54083b791bf5c998b3b0adc3374779f4ab
   classification: unspecified
+
+# Remove various uses of IEEE 1363's EME terminology for encryption padding
+#   Author:    @randombit
+- pr: 5055  # https://github.com/randombit/botan/pull/5055
+  merge_commit: 7fe3a730aae9cd5a21f9710f65db4557afc9d46e
+  classification: unspecified
