@@ -2306,3 +2306,21 @@ patches:
 - pr: 5055  # https://github.com/randombit/botan/pull/5055
   merge_commit: 7fe3a730aae9cd5a21f9710f65db4557afc9d46e
   classification: unspecified
+
+# New implementation of the Jacobi function
+#   Author:    @randombit
+- pr: 5057  # https://github.com/randombit/botan/pull/5057
+  merge_commit: d1ae5695b27a8a2811089f207d85c88feb887335
+  classification: unspecified
+
+# Custom ECDH adapter in TLS 1.2 must no-longer derive from `ECDH_PublicKey`
+#   Author:    @reneme
+#   Approvals: (@randombit), (@jdoubleu)
+- pr: 5056  # https://github.com/randombit/botan/pull/5056
+  merge_commit: 63d9957034307dc4ed797187b6262bb013c4cc5e
+  classification: unspecified
+
+# Bump version to 3.10, add initial release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 548c59d41c5664744357e89a4b318bc56eca4f41  # https://github.com/randombit/botan/commit/548c59d41c5664744357e89a4b318bc56eca4f41
+  classification: unspecified
