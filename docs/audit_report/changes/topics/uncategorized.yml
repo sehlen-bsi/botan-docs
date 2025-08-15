@@ -2324,3 +2324,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: 548c59d41c5664744357e89a4b318bc56eca4f41  # https://github.com/randombit/botan/commit/548c59d41c5664744357e89a4b318bc56eca4f41
   classification: unspecified
+
+# Skip CodeQL runs on PRs
+#   Author:    @randombit
+- pr: 5059  # https://github.com/randombit/botan/pull/5059
+  merge_commit: c7afad93c3ef8b7348afcb076bfe6627778e1330
+  classification: unspecified
