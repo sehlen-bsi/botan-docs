@@ -2330,3 +2330,10 @@ patches:
 - pr: 5059  # https://github.com/randombit/botan/pull/5059
   merge_commit: c7afad93c3ef8b7348afcb076bfe6627778e1330
   classification: unspecified
+
+# Fix various clang-tidy warnings in aarch64 specific code
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5060  # https://github.com/randombit/botan/pull/5060
+  merge_commit: a2a0b43c3811f9f2a44d271fe590040c72119703
+  classification: unspecified
