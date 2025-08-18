@@ -2337,3 +2337,15 @@ patches:
 - pr: 5060  # https://github.com/randombit/botan/pull/5060
   merge_commit: a2a0b43c3811f9f2a44d271fe590040c72119703
   classification: unspecified
+
+# Cleanup Aarch64 SHA-256 compression
+#   Author:    @randombit
+- pr: 5065  # https://github.com/randombit/botan/pull/5065
+  merge_commit: ae7e0c4ecc420845db77254dde166ee7320eafb2
+  classification: unspecified
+
+# Partially Revert #4927
+#   Author:    @randombit
+- pr: 5064  # https://github.com/randombit/botan/pull/5064
+  merge_commit: ec6b7b97725e920c3954de4f472d2f0f1d8736cb
+  classification: unspecified
