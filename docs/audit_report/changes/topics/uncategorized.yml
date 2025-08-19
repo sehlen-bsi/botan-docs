@@ -2349,3 +2349,15 @@ patches:
 - pr: 5064  # https://github.com/randombit/botan/pull/5064
   merge_commit: ec6b7b97725e920c3954de4f472d2f0f1d8736cb
   classification: unspecified
+
+# Correct bugs handling division by small negative numbers
+#   Author:    @randombit
+- pr: 5067  # https://github.com/randombit/botan/pull/5067
+  merge_commit: ddbd8dc5a7fbe71d7a0d3b09c34965270c86d092
+  classification: unspecified
+
+# Fix some warnings from the ruff linter
+#   Author:    @randombit
+- pr: 5069  # https://github.com/randombit/botan/pull/5069
+  merge_commit: 98e072bfef38343c5f99e094f17ab8885de1a1a7
+  classification: unspecified
