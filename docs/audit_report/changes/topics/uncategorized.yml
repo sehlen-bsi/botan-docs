@@ -2361,3 +2361,10 @@ patches:
 - pr: 5069  # https://github.com/randombit/botan/pull/5069
   merge_commit: 98e072bfef38343c5f99e094f17ab8885de1a1a7
   classification: unspecified
+
+# NIST SP.800-232: Ascon-Hash256 and Ascon-XOF128
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5061  # https://github.com/randombit/botan/pull/5061
+  merge_commit: 0852a2a74a6823a103368db6a835d4a5f98d0c1a
+  classification: unspecified
