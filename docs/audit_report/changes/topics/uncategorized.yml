@@ -2368,3 +2368,20 @@ patches:
 - pr: 5061  # https://github.com/randombit/botan/pull/5061
   merge_commit: 0852a2a74a6823a103368db6a835d4a5f98d0c1a
   classification: unspecified
+
+# Add a typos CI job
+#   Author:    @randombit
+- pr: 5075  # https://github.com/randombit/botan/pull/5075
+  merge_commit: 52eb916552cc6d8f38255e1ac3169a007a79fcf2
+  classification: unspecified
+
+# Fix various typos
+#   Author:    @randombit
+- pr: 5071  # https://github.com/randombit/botan/pull/5071
+  merge_commit: a0e0c85bd143ea47196b2a3d3d0dd5a453f1f4db
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: b8c3339b98fbd0c344ccf9fceba9aeca8ab3291c  # https://github.com/randombit/botan/commit/b8c3339b98fbd0c344ccf9fceba9aeca8ab3291c
+  classification: unspecified
