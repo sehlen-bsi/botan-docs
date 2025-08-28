@@ -2385,3 +2385,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: b8c3339b98fbd0c344ccf9fceba9aeca8ab3291c  # https://github.com/randombit/botan/commit/b8c3339b98fbd0c344ccf9fceba9aeca8ab3291c
   classification: unspecified
+
+# Refactorings to support optimized word level division/modulus
+#   Author:    @randombit
+- pr: 5077  # https://github.com/randombit/botan/pull/5077
+  merge_commit: 936b8e9596f14694d606be94f8168704686213d2
+  classification: unspecified
