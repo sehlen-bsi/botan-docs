@@ -2391,3 +2391,15 @@ patches:
 - pr: 5077  # https://github.com/randombit/botan/pull/5077
   merge_commit: 936b8e9596f14694d606be94f8168704686213d2
   classification: unspecified
+
+# Add explicit algorithm for variable-time division of 2^k / x
+#   Author:    @randombit
+- pr: 5068  # https://github.com/randombit/botan/pull/5068
+  merge_commit: c03cc54dce240a20d5559931741f84f4fd521359
+  classification: unspecified
+
+# Disable the Emscripten build
+#   Author:    @randombit
+- pr: 5080  # https://github.com/randombit/botan/pull/5080
+  merge_commit: 1b82e522d730c3747650e34257b1ca45d7107866
+  classification: unspecified
