@@ -2403,3 +2403,17 @@ patches:
 - pr: 5080  # https://github.com/randombit/botan/pull/5080
   merge_commit: 1b82e522d730c3747650e34257b1ca45d7107866
   classification: unspecified
+
+# Allow Empty Issuer in Certificate_Extension::validate
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 5081  # https://github.com/randombit/botan/pull/5081
+  merge_commit: 73ef154818a0b23c2251969ecb64ab08fb3e32b9
+  classification: unspecified
+
+# FIX: passing raw bytes into PKSign in botan3.py
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5082  # https://github.com/randombit/botan/pull/5082
+  merge_commit: 00d442452b1f4bf48790f5bd34ba6f9adb4816bf
+  classification: unspecified
