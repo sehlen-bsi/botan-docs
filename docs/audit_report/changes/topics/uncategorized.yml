@@ -2417,3 +2417,10 @@ patches:
 - pr: 5082  # https://github.com/randombit/botan/pull/5082
   merge_commit: 00d442452b1f4bf48790f5bd34ba6f9adb4816bf
   classification: unspecified
+
+# Allow loading (compressed) SEC.1-encoded ECC keys via FFI and Python
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5083  # https://github.com/randombit/botan/pull/5083
+  merge_commit: a72cc07c6ed021b8b35d803aceb69d5c721c2777
+  classification: unspecified
