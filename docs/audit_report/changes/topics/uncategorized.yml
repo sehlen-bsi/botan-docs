@@ -2431,3 +2431,22 @@ patches:
 - pr: 5072  # https://github.com/randombit/botan/pull/5072
   merge_commit: 9857b91cba6214ef43cbe1d58ca78eaeaebdae1d
   classification: unspecified
+
+# Fix some typing errors in botan3.py
+#   Author:    @randombit
+- pr: 5092  # https://github.com/randombit/botan/pull/5092
+  merge_commit: ce0eeaec538bbc51354fce48a0a01bcaf9ff4344
+  classification: unspecified
+
+# Fix remaining warnings from the ruff linter
+#   Author:    @randombit
+- pr: 5089  # https://github.com/randombit/botan/pull/5089
+  merge_commit: 7c17e8f4753f4954f3612751d0a7336d3c04dcf5
+  classification: unspecified
+
+# Type hints for botan3.py
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5086  # https://github.com/randombit/botan/pull/5086
+  merge_commit: 5c84faf9c07480746b7df9ecc3dc920ec462bc2a
+  classification: unspecified
