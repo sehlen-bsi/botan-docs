@@ -2450,3 +2450,21 @@ patches:
 - pr: 5086  # https://github.com/randombit/botan/pull/5086
   merge_commit: 5c84faf9c07480746b7df9ecc3dc920ec462bc2a
   classification: unspecified
+
+# FIX: Don't declare backward compatibility ALIAS for CMake < 3.18
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5099  # https://github.com/randombit/botan/pull/5099
+  merge_commit: 0d4cd13de1a5977da0df3911fb93cfd443732b69
+  classification: unspecified
+
+# Add running ruff linter to CI
+#   Author:    @randombit
+- pr: 5090  # https://github.com/randombit/botan/pull/5090
+  merge_commit: b1885dcc3b5322a8ff33078ff9dd3b9d3449d0f5
+  classification: unspecified
+
+# Fix typo in comment [ci skip]
+#   Author: Jack Lloyd
+- commit: 8b1f7ef93ea5b2333e022012ec15766c2f779625  # https://github.com/randombit/botan/commit/8b1f7ef93ea5b2333e022012ec15766c2f779625
+  classification: unspecified
