@@ -3,13 +3,16 @@ Preface
 
 **Summary**
 
-The objective of this project is the secure implementation of a universal crypto
-library which contains all common cryptographic primitives that are necessary for
-the wide use of cryptographic operations. These include symmetric and asymmetric
-encryption and signature methods, PRFs, hash functions and RNGs. Additionally,
-security standards such as X.509 and SSL/TLS have to be supported. The library will
-be provided to manufacturers of VS-NfD products which will help the Federal Office
-for Information Security (BSI) to evaluate these products.
+This document is a direct result of Projects 481 and 197 of the German Federal
+Office for Information Security (BSI) with the aim to support
+`Botan <https://github.com/randombit/botan>`_ - a secure, maintained and
+well-documented cryptographic library. Botan provides building blocks for a wide
+range of modern cryptographic applications that may have to protect their data
+against the upcoming threat of a quantum computer.
+
+Botan may be used by manufacturers of VS-NfD products and this document will help
+the BSI to evaluate these products.
+
 
 This document reports the test results of the Botan test suite.
 
