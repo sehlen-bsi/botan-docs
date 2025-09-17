@@ -1,0 +1,2477 @@
+title: Uncategorized Patches
+
+patches:
+# ML-KEM: Minimal Support for Expanded Keys
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 4817  # https://github.com/randombit/botan/pull/4817
+  merge_commit: 72b1917b1b6d767578cfded76ce8d6adac737885
+  classification: unspecified
+
+# Add header for helping set target attributes correctly
+#   Author:    @randombit
+- pr: 4822  # https://github.com/randombit/botan/pull/4822
+  merge_commit: d6d6d8bfe113c6e056c9dc011433636bf85661d0
+  classification: unspecified
+
+# Implement SHA-512 using AVX2 for message expansion
+#   Author:    @randombit
+- pr: 4821  # https://github.com/randombit/botan/pull/4821
+  merge_commit: 78a5642dfb74bd2984478a93cc6202d986f08792
+  classification: unspecified
+
+# Refactor SIMD wrappers
+#   Author:    @randombit
+- pr: 4820  # https://github.com/randombit/botan/pull/4820
+  merge_commit: 347a6846a8c141b7c85ea60db4dbd4eb9c95d23a
+  classification: unspecified
+
+# Faster CRL_Entry parsing by avoiding BigInt codepaths
+#   Author:    @randombit
+- pr: 4792  # https://github.com/randombit/botan/pull/4792
+  merge_commit: 85661392060d2a0678d48aeb772f9a59270f96be
+  classification: unspecified
+
+# SHA-256 implementation using generic SIMD for message expansion
+#   Author:    @randombit
+- pr: 4819  # https://github.com/randombit/botan/pull/4819
+  merge_commit: d2d0a0ddaaa545d45056475c1a084b9d4b9a0603
+  classification: unspecified
+
+# New SHA-256 using AVX2 for message expansion
+#   Author:    @randombit
+- pr: 4818  # https://github.com/randombit/botan/pull/4818
+  merge_commit: 86df46c13f9627538b61b4dbb0da3eaf1325dc8b
+  classification: unspecified
+
+# Guard use of sys/hwprobe.h for RISCV64 CPU feature detection
+#   Author:    @randombit
+- pr: 4815  # https://github.com/randombit/botan/pull/4815
+  merge_commit: 88bd49921ca3aabbe6cb8c24a4f9bd8b433ca9d2
+  classification: unspecified
+
+# Update Android NDK to r28 (January 2025)
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4812  # https://github.com/randombit/botan/pull/4812
+  merge_commit: 49974bed347a688054165d1ffa14cf47801b3663
+  classification: unspecified
+
+# Update jitterentropy and work around a build issue in CI
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4813  # https://github.com/randombit/botan/pull/4813
+  merge_commit: 3f73d3c1be0a3800dede0cb73a399c1c0efd664d
+  classification: unspecified
+
+# Fixed the use of C++20 functions with updated Android NDK and XCode versions.
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 4811  # https://github.com/randombit/botan/pull/4811
+  merge_commit: 0379f57d987d04d3a52e62eb9013817f6a2348f8
+  classification: unspecified
+
+# Remove workaround for MSVC 32-bit miscompile in aes_vperm
+#   Author:    @randombit
+- pr: 4810  # https://github.com/randombit/botan/pull/4810
+  merge_commit: 9fb53473352e231d91d1565cc053d3e42f5d5c40
+  classification: unspecified
+
+# Extend SHA-1 SSE2 impl to support generic SIMD
+#   Author:    @randombit
+- pr: 4809  # https://github.com/randombit/botan/pull/4809
+  merge_commit: 98418066d9134ce28133ca11dab726ada7e6e122
+  classification: unspecified
+
+# Avoid a single use of Python 3.8 walrus operator in configure.py
+#   Author:    @randombit
+- pr: 4808  # https://github.com/randombit/botan/pull/4808
+  merge_commit: 346317f134cca6ca908d929c42c5088147980348
+  classification: unspecified
+
+# Try re-enabling modules which MSVC in the past miscompiled
+#   Author:    @randombit
+- pr: 4805  # https://github.com/randombit/botan/pull/4805
+  merge_commit: e16b5f9dac073ee8fbc91cde14ad3120d81e21d6
+  classification: unspecified
+
+# For SIMD_4x32 require SSSE3 rather than SSE2
+#   Author:    @randombit
+- pr: 4803  # https://github.com/randombit/botan/pull/4803
+  merge_commit: 759e2ec9e967aee4b30260c9ecd27fcd87aa46e9
+  classification: unspecified
+
+# Add support for RISCV64 CPU feature detection on Linux
+#   Author:    @randombit
+- pr: 4800  # https://github.com/randombit/botan/pull/4800
+  merge_commit: a0ce7d8da6b49151d644a695bcaba988aa499af3
+  classification: unspecified
+
+# Add support for Loongarch64 LSX SIMD extension
+#   Author:    @randombit
+- pr: 4799  # https://github.com/randombit/botan/pull/4799
+  merge_commit: 7b2ee0e7d419a5dcae31ecf7b01770f623c4078f
+  classification: unspecified
+
+# FIX: dist.py can deal with UTF-8 within `git show`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4801  # https://github.com/randombit/botan/pull/4801
+  merge_commit: 6e7dc060c56944256fada3f0943ece3e3e60d89d
+  classification: unspecified
+
+# FIX: cmake cannot handle version suffix
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4802  # https://github.com/randombit/botan/pull/4802
+  merge_commit: be539352bd38af4d6ca48fd1ff5042c83381cdac
+  classification: unspecified
+
+# Remove vestigial DHE_PSK branch
+#   Author:    @Chaosvex
+#   Approvals: @reneme, (@randombit)
+- pr: 4785  # https://github.com/randombit/botan/pull/4785
+  merge_commit: 3d55d5e37dd2f49289ee4669e4849eb9ab7f77ba
+  classification: unspecified
+
+# Add benchmark for public and private key parsing
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4793  # https://github.com/randombit/botan/pull/4793
+  merge_commit: c3f147f9849e21bd8e3667c3cd8d80b67772c283
+  classification: unspecified
+
+# Add missing compliance checks in EC(DH)
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 4794  # https://github.com/randombit/botan/pull/4794
+  merge_commit: 397d0f9bf50d8a32107812115c873a6bec4dc57f
+  classification: unspecified
+
+# Move most architecture-specific logic out of CPUID and into a submodule
+#   Author:    @randombit
+- pr: 4798  # https://github.com/randombit/botan/pull/4798
+  merge_commit: f4e1e75214693dc919ae6222feb32fd587ca4d71
+  classification: unspecified
+
+# Add a Loongarch64 qemu CI build
+#   Author:    @randombit
+- pr: 4795  # https://github.com/randombit/botan/pull/4795
+  merge_commit: 70cd1604605cead2f4335ba2d17f37ff1476e316
+  classification: unspecified
+
+# Split up CPUID implementation into submodules
+#   Author:    @randombit
+- pr: 4797  # https://github.com/randombit/botan/pull/4797
+  merge_commit: eb0d2b759fbfd28a86001b3f1bd19d75f09c0aca
+  classification: unspecified
+
+# Don't create throwaway strings in bcrypt_base64_encode
+#   Author:    @Chaosvex
+#   Approvals: (@randombit)
+- pr: 4796  # https://github.com/randombit/botan/pull/4796
+  merge_commit: 4f7537c95a0ed5e92873a54cd43429c5e1370b00
+  classification: unspecified
+
+# Faster X.509 extension lookup
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4788  # https://github.com/randombit/botan/pull/4788
+  merge_commit: 64addbb98dcbecac14bd7eb8bf355a164df7fa4e
+  classification: unspecified
+
+# Remove the m68k nightly build
+#   Author:    @randombit
+- pr: 4791  # https://github.com/randombit/botan/pull/4791
+  merge_commit: 399720d82b17feb5cf9a2a017343bf29eb3d7a88
+  classification: unspecified
+
+# Add a benchmark for parsing X509 certs and CRLs
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4790  # https://github.com/randombit/botan/pull/4790
+  merge_commit: ef188846f57a3374be42a5160c18036599239dc4
+  classification: unspecified
+
+# Use initializer-list OID c'tor to avoid string parsing
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4789  # https://github.com/randombit/botan/pull/4789
+  merge_commit: 4c63abab8f0c8ab1407c1f0d15813341deab2f0f
+  classification: unspecified
+
+# FIX: Allow including `x509_ca.h` without `pubkey.h`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4786  # https://github.com/randombit/botan/pull/4786
+  merge_commit: 83d248aa8cb52bc1593384dbf830180b1b5150a7
+  classification: unspecified
+
+# Use Python to decide which Ubuntu packages to install
+#   Author:    @randombit
+- pr: 4780  # https://github.com/randombit/botan/pull/4780
+  merge_commit: aa3c19853abe3bec508d66e70d66b2b6db4dc81a
+  classification: unspecified
+
+# Inline thunk calls in FFI
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4777  # https://github.com/randombit/botan/pull/4777
+  merge_commit: 8a93715410b4e999bf0e620d7bdb77778c4681a0
+  classification: unspecified
+
+# Report size of binary artifacts in CI
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4781  # https://github.com/randombit/botan/pull/4781
+  merge_commit: 8c4bb8044ded2a1297594cf4f72f8f31870586a6
+  classification: unspecified
+
+# Remove support for OpenBSD pledge in the cli sandbox
+#   Author:    @randombit
+- pr: 4779  # https://github.com/randombit/botan/pull/4779
+  merge_commit: 0402aa640e12541f7b50626878c077b0d465d032
+  classification: unspecified
+
+# Refactor oid_maps.cpp to save space
+#   Author:    @randombit
+- pr: 4775  # https://github.com/randombit/botan/pull/4775
+  merge_commit: 0bdb5ecba138552df6c9756c62f2a99d3249c2b7
+  classification: unspecified
+
+# Don't error if a module policy prohibits something which doesn't exist
+#   Author:    @randombit
+- pr: 4769  # https://github.com/randombit/botan/pull/4769
+  merge_commit: b28bdde0a0e974f2efbe9a4f40aa2f0c26075f31
+  classification: unspecified
+
+# Cleanup SHA-1 using SHA-NI instructions
+#   Author:    @randombit
+- pr: 4774  # https://github.com/randombit/botan/pull/4774
+  merge_commit: 5ce7d162331e85b519195887518ea60c5a7dec54
+  classification: unspecified
+
+# Cleanup the SHA-256 code using SHA-NI instructions
+#   Author:    @randombit
+- pr: 4773  # https://github.com/randombit/botan/pull/4773
+  merge_commit: e6f86080ac3c287867a022fc05c7d18f4b108a77
+  classification: unspecified
+
+# Disable man db processing in CI images
+#   Author:    @randombit
+- pr: 4770  # https://github.com/randombit/botan/pull/4770
+  merge_commit: 328dbf70776b02dca5ea6a0a0b21d4695eb80f24
+  classification: unspecified
+
+# Add support for SM4 instructions added in upcoming Intel processors
+#   Author:    @randombit
+- pr: 4768  # https://github.com/randombit/botan/pull/4768
+  merge_commit: 2169d1243e865267030df9d4a9c9f3fd63bef954
+  classification: unspecified
+
+# Add support for SHA-512 Intel instructions
+#   Author:    @randombit
+- pr: 4766  # https://github.com/randombit/botan/pull/4766
+  merge_commit: d3a5a52cd1e0f698e48ec637733744b35aa019c7
+  classification: unspecified
+
+# Use GCC 14 for SDE build
+#   Author:    @randombit
+- pr: 4767  # https://github.com/randombit/botan/pull/4767
+  merge_commit: 2566793e22677b65a0b2fd5ceec0b1c997f6a8d7
+  classification: unspecified
+
+# Implement SWAR based base32 encoding
+#   Author:    @randombit
+- pr: 4765  # https://github.com/randombit/botan/pull/4765
+  merge_commit: 727b173c20b6df83e4942d8b6bc5046d132f4cf0
+  classification: unspecified
+
+# Add two FPE examples
+#   Author:    @randombit
+- pr: 4758  # https://github.com/randombit/botan/pull/4758
+  merge_commit: 87a6f97cc167e7bded8921795d8f76ff7642e1c3
+  classification: unspecified
+
+# Run Valgrind in parallel
+#   Author:    @randombit
+- pr: 4762  # https://github.com/randombit/botan/pull/4762
+  merge_commit: 97018f5202649d7d43e982cb39eefe2a32d3ac5c
+  classification: unspecified
+
+# Move aarch64 amalgamation build from qemu to native
+#   Author:    @randombit
+- pr: 4761  # https://github.com/randombit/botan/pull/4761
+  merge_commit: 27f40efb5f51e80dca2cef8cabb9d15dede16230
+  classification: unspecified
+
+# Further BigInt API deprecations
+#   Author:    @randombit
+- pr: 4757  # https://github.com/randombit/botan/pull/4757
+  merge_commit: 4a157cbeb4e18718b8e837665383373200ed9a64
+  classification: unspecified
+
+# Use Github Actions native aarch64 CI runners
+#   Author:    @randombit
+- pr: 4756  # https://github.com/randombit/botan/pull/4756
+  merge_commit: be6ece56c2a882cdc044092c9f896cc20ded1d5e
+  classification: unspecified
+
+# Extend compare_perf script to properly handle byte oriented operations
+#   Author:    @randombit
+- pr: 4754  # https://github.com/randombit/botan/pull/4754
+  merge_commit: 7ddff0618e6af3d16a1bf009547ad6f0f5b7c804
+  classification: unspecified
+
+# TLS 1.3 PQ hybrid NIST curve extensions and fixes
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4752  # https://github.com/randombit/botan/pull/4752
+  merge_commit: cef990a1435c32ea9c799c701b8d1ec76167efe1
+  classification: unspecified
+
+# Only run tls_policy_text test in a known configuration
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4753  # https://github.com/randombit/botan/pull/4753
+  merge_commit: a3881e97b1be038ac30f2a1be170101017581636
+  classification: unspecified
+
+# Allow using CRLs without a nextUpdate field
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4732  # https://github.com/randombit/botan/pull/4732
+  merge_commit: ea241470a9348ee23e888f753531dd0605874a11
+  classification: unspecified
+
+# Remove support for configure-time endian checks
+#   Author:    @randombit
+- pr: 4747  # https://github.com/randombit/botan/pull/4747
+  merge_commit: 5a4d7bf6427e07fd95a09ddd447d3a50d88df2b7
+  classification: unspecified
+
+# Add the Poly1305 test vectors from RFC 7539
+#   Author:    @randombit
+- pr: 4749  # https://github.com/randombit/botan/pull/4749
+  merge_commit: e2a66f99f734296d730123d6e5c212e362e9e2ae
+  classification: unspecified
+
+# Replace the BLAKE2b test vectors
+#   Author:    @randombit
+- pr: 4748  # https://github.com/randombit/botan/pull/4748
+  merge_commit: 293fe3a2302bdeabe1e074977ea850260039d766
+  classification: unspecified
+
+# When converting a point to affine, check that it is valid
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4746  # https://github.com/randombit/botan/pull/4746
+  merge_commit: c8175a35b12be41d73d79733515ffc06751b0548
+  classification: unspecified
+
+# Fix vpmsumd usage on big-endian POWER
+#   Author:    @randombit
+- pr: 4743  # https://github.com/randombit/botan/pull/4743
+  merge_commit: ea977e73e986bc0f9e81cfcb1f44171fe8ec100b
+  classification: unspecified
+
+# Avoid accidentally quadratic code during template processing in configure.py
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4744  # https://github.com/randombit/botan/pull/4744
+  merge_commit: dbe3aab1803e8405915304918ac34f600ae8696e
+  classification: unspecified
+
+# Include also digitalSignature when creating a CA certificate
+#   Author:    @randombit
+#   Approvals: (@neusdan)
+- pr: 4734  # https://github.com/randombit/botan/pull/4734
+  merge_commit: 86aa386ae33b501ecef860959716dece56111ce6
+  classification: unspecified
+
+# Use std::endian in loadstor.h
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4735  # https://github.com/randombit/botan/pull/4735
+  merge_commit: e62ad005073d9f43fa4c9590bfcac3bd14f0f8eb
+  classification: unspecified
+
+# Fix typo in documentation
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4742  # https://github.com/randombit/botan/pull/4742
+  merge_commit: de9525e4447159c6f553f1dc4c6d70adfd833776
+  classification: unspecified
+
+# Fix vperm AES for big-endian systems
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4738  # https://github.com/randombit/botan/pull/4738
+  merge_commit: 583501358263b7b8a1caf6290fe361efe5c2e90c
+  classification: unspecified
+
+# Small build.h cleanups/removals
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4740  # https://github.com/randombit/botan/pull/4740
+  merge_commit: 988c634cee6e680e69eebd29e465cef8e0032b0b
+  classification: unspecified
+
+# Split up versioning info
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4739  # https://github.com/randombit/botan/pull/4739
+  merge_commit: 6732b68683355370853b2062e4820646b12d866f
+  classification: unspecified
+
+# Move include for explicit_bzero
+#   Author:    @randombit
+- pr: 4737  # https://github.com/randombit/botan/pull/4737
+  merge_commit: 0a070f7e80135c9bbb5077a5bfc8e1551de08ec7
+  classification: unspecified
+
+# Remove support for calling NetBSD _dlauxinfo
+#   Author:    @randombit
+- pr: 4736  # https://github.com/randombit/botan/pull/4736
+  merge_commit: fb2df3e2539f2e352c9962ed2f46480137e3b5cc
+  classification: unspecified
+
+# Extended key usages are not set when creating PKCS#10 requests
+#   Author:    @neusdan
+#   Approvals: (@randombit)
+- pr: 4725  # https://github.com/randombit/botan/pull/4725
+  merge_commit: d91756287f9c8fc0f21b3361e7cad4b4e3c1a3ce
+  classification: unspecified
+
+# Various FFI cleanups and documentation fixes
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4726  # https://github.com/randombit/botan/pull/4726
+  merge_commit: 5a530ee321212db932e0434a6971243174f1ed50
+  classification: unspecified
+
+# Omit trailerField in RSA-PSS encoding
+#   Author:    @neusdan
+#   Approvals: (@randombit)
+- pr: 4731  # https://github.com/randombit/botan/pull/4731
+  merge_commit: 21876d8af6b87668b50d20075b853ddb4b986c5b
+  classification: unspecified
+
+# Use std::endian more, remove endian checks in `CPUID`
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4728  # https://github.com/randombit/botan/pull/4728
+  merge_commit: c94214759b6b2bc2744bfe685fe2f9eafeaa75bb
+  classification: unspecified
+
+# Cleanups and deprecations for key agreement
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4724  # https://github.com/randombit/botan/pull/4724
+  merge_commit: 3b1c833a589f16588d814c8868950aec1e23c29f
+  classification: unspecified
+
+# Add AffinePointTable helper type
+#   Author:    @randombit
+- pr: 4710  # https://github.com/randombit/botan/pull/4710
+  merge_commit: 0e7c063847198ba561b4f13517f845ca783ad2da
+  classification: unspecified
+
+# Emit -fPIC or equivalent even for the static library
+#   Author:    @randombit
+- pr: 4716  # https://github.com/randombit/botan/pull/4716
+  merge_commit: 72a870b0ddbd87e03a80f76319f802511c57496f
+  classification: unspecified
+
+# Make cpuid module optional
+#   Author:    @randombit
+- pr: 4718  # https://github.com/randombit/botan/pull/4718
+  merge_commit: 904d634c2425dc9c645d4af580ab0b634f57aa14
+  classification: unspecified
+
+# Version gate the GCC miscompilation workaround in Serpent
+#   Author:    @randombit
+- pr: 4717  # https://github.com/randombit/botan/pull/4717
+  merge_commit: 19348ff0ee21f404191609c4eab0a5ef249f5746
+  classification: unspecified
+
+# Check if an EC_Group exists before trying to create it in ffi
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4715  # https://github.com/randombit/botan/pull/4715
+  merge_commit: 7c92ef6d9beb905e9c79e5759b2940f63133e7d2
+  classification: unspecified
+
+# Fix declaration in ffi.h
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4714  # https://github.com/randombit/botan/pull/4714
+  merge_commit: 28f7d81206448297420b90cc2582cd90527bad54
+  classification: unspecified
+
+# In FFI deprecate some algorithm specific getter functions
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4713  # https://github.com/randombit/botan/pull/4713
+  merge_commit: ba60477e1cbb82074239388d9160eed608a6865d
+  classification: unspecified
+
+# Make single-element FieldElement conditional_assignment a member function
+#   Author:    @randombit
+- pr: 4711  # https://github.com/randombit/botan/pull/4711
+  merge_commit: 3db6e2f0107a06a095060376a972515bed96e1dd
+  classification: unspecified
+
+# FFI cleanups
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4704  # https://github.com/randombit/botan/pull/4704
+  merge_commit: da4a0e62ff4238a997ef35cfb7a11f6fc28cef9c
+  classification: unspecified
+
+# Remove the workspace argument to various ECC interfaces
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4555  # https://github.com/randombit/botan/pull/4555
+  merge_commit: 9a0659397a3a6c804a2dff52ebcf48966613686b
+  classification: unspecified
+
+# Add generic pcurves for application specific curves
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4554  # https://github.com/randombit/botan/pull/4554
+  merge_commit: 24cffec2b64a8c611ad95c5c3ca16253facd9f39
+  classification: unspecified
+
+# Deprecate SipHash
+#   Author:    @randombit
+- pr: 4709  # https://github.com/randombit/botan/pull/4709
+  merge_commit: 10ddb4916b5446d1408db06033a30e230a2b53ea
+  classification: unspecified
+
+# Add named pseudo-constructors for Ed25519_PrivateKey
+#   Author:    @randombit
+#   Approvals: (@arekmula)
+- pr: 4702  # https://github.com/randombit/botan/pull/4702
+  merge_commit: 7b99e016abdd1c0719f0ce0f3f84e6044428ced0
+  classification: unspecified
+
+# Remove some unused pcurve API functions
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4708  # https://github.com/randombit/botan/pull/4708
+  merge_commit: 5ce84fc1a5fedfc393ac0f837c18fc3bf4344a85
+  classification: unspecified
+
+# FIX: explicitly enable SHAKE in modern policy
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4707  # https://github.com/randombit/botan/pull/4707
+  merge_commit: b482550592a7a41d168641b90f7923ac8e486d64
+  classification: unspecified
+
+# Refactor EC_Group_Data_Map::lookup_or_create
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4687  # https://github.com/randombit/botan/pull/4687
+  merge_commit: 7295027f5b17c748ba1c93a078574ff7280d9100
+  classification: unspecified
+
+# ECIES flags cleanup
+#   Author:    @randombit
+- pr: 4691  # https://github.com/randombit/botan/pull/4691
+  merge_commit: 808027b27cd380cfa6abad7d48850d8f1b3c98c2
+  classification: unspecified
+
+# Remove PrimeOrderCurveId
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4706  # https://github.com/randombit/botan/pull/4706
+  merge_commit: b874c87cdb8579e25031a03be758ab3bce323a5b
+  classification: unspecified
+
+# Improve reduction step for secp521r1
+#   Author:    @randombit
+- pr: 4703  # https://github.com/randombit/botan/pull/4703
+  merge_commit: daded99e5305bf9648a391625ce6e612ddf4d9d5
+  classification: unspecified
+
+# Fix some warnings from latest pylint
+#   Author:    @randombit
+- pr: 4705  # https://github.com/randombit/botan/pull/4705
+  merge_commit: 75c6466feb12081165718e6600e41480f5de2c75
+  classification: unspecified
+
+# Add stateful privkey operations to FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 4700  # https://github.com/randombit/botan/pull/4700
+  merge_commit: a2981b3c6c429b5047b8e97afc9d756387ea1e17
+  classification: unspecified
+
+# Don't bother with loop blocking for carry chains with constant lengths
+#   Author:    @randombit
+- pr: 4692  # https://github.com/randombit/botan/pull/4692
+  merge_commit: c78c8e257d462426214238eb05417f4105d30193
+  classification: unspecified
+
+# FIX: setting 'DER' format explicitly on `PK_Signer` trips assertion
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4698  # https://github.com/randombit/botan/pull/4698
+  merge_commit: 0a71dcc31df5a6f0506569f0cb69c0effbb9937b
+  classification: unspecified
+
+# Move word3 helpers into the implementation of word3 type
+#   Author:    @randombit
+- pr: 4695  # https://github.com/randombit/botan/pull/4695
+  merge_commit: dc7fc4f5cc44c491bc47984fc66d9faf539baac2
+  classification: unspecified
+
+# Add script to help compare performance changes
+#   Author:    @randombit
+- pr: 4693  # https://github.com/randombit/botan/pull/4693
+  merge_commit: cb4fee7588f0624c678fb8ac29c87d75085042db
+  classification: unspecified
+
+# Modify tests to avoid implicitly creating EC_Groups
+#   Author:    @randombit
+- pr: 4690  # https://github.com/randombit/botan/pull/4690
+  merge_commit: d5330605afef9ef5afb710e55a99cdff22363901
+  classification: unspecified
+
+# Small improvements to pcurves multiplications
+#   Author:    @randombit
+- pr: 4689  # https://github.com/randombit/botan/pull/4689
+  merge_commit: 0668049ad2f62a353f7e93c8f74b1ff6af6c83e5
+  classification: unspecified
+
+# Fix ec_named.cpp generation
+#   Author:    @randombit
+- pr: 4688  # https://github.com/randombit/botan/pull/4688
+  merge_commit: 1f7ae2d6d5990ffb408397e71491e45b18e0ac19
+  classification: unspecified
+
+# Reorganize EC_Group registration tests
+#   Author:    @randombit
+- pr: 4686  # https://github.com/randombit/botan/pull/4686
+  merge_commit: ce44f5e838bb3ef4d09296b20a39b13eaaa667fb
+  classification: unspecified
+
+# Undeprecate ECIES KA Operation
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4685  # https://github.com/randombit/botan/pull/4685
+  merge_commit: 3d3fb393178561549332b160035814ba92a4964f
+  classification: unspecified
+
+# Abstraction Layer for Hybrid KEMs
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4067  # https://github.com/randombit/botan/pull/4067
+  merge_commit: 882d1b77cc4b6332f7cc3794872d8d4e3a35459f
+  classification: unspecified
+
+# Fixes for LLVM
+#   Author:    @randombit
+- pr: 4673  # https://github.com/randombit/botan/pull/4673
+  merge_commit: 1cce93244f59b3df8f9ea0e0357469b19d52c00d
+  classification: unspecified
+
+# Simplify generator choice when creating a strong prime DL group
+#   Author:    @randombit
+- pr: 4681  # https://github.com/randombit/botan/pull/4681
+  merge_commit: 7660968dab24981c509d253d85969685ba0d9db6
+  classification: unspecified
+
+# Avoid using power_mod inside the library
+#   Author:    @randombit
+- pr: 4682  # https://github.com/randombit/botan/pull/4682
+  merge_commit: 75e06722b93efaf01e58d9a53a916fb756ffc977
+  classification: unspecified
+
+# Ignore failures to upload to coveralls
+#   Author:    @randombit
+- pr: 4683  # https://github.com/randombit/botan/pull/4683
+  merge_commit: 72d0783619a9deb50e287bee198a1a97a927e7e3
+  classification: unspecified
+
+# Increase CMCE Rejection Sampling Attempts Limit
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4675  # https://github.com/randombit/botan/pull/4675
+  merge_commit: da9ca2ca26aaee0f955e70d5c53b7ed94352736d
+  classification: unspecified
+
+# FIX: Outdated documentation re: module build policy
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4677  # https://github.com/randombit/botan/pull/4677
+  merge_commit: 18df6cc668151bc45dce429a1897ad9be435ebf2
+  classification: unspecified
+
+# FIX: Move TPM2 RSA pubkey loading into tpm2 base module
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4676  # https://github.com/randombit/botan/pull/4676
+  merge_commit: 52eacf5c39cff63abf534c54959d906c5ed3c46b
+  classification: unspecified
+
+# Remove fe typedef in ed25519
+#   Author:    @randombit
+- pr: 4674  # https://github.com/randombit/botan/pull/4674
+  merge_commit: 72f8993d68613ac89778e72096cb9b35c857bd80
+  classification: unspecified
+
+# Fix test error if TPM2 is enabled but no hardware is available
+#   Author:    @randombit
+#   Approvals: @atreiber94, @reneme
+- pr: 4671  # https://github.com/randombit/botan/pull/4671
+  merge_commit: 495ef75d5041d2f5cd418c5fc4ae29845f77e995
+  classification: unspecified
+
+# Avoid using mem_ops.h or assert.h in public headers
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4647  # https://github.com/randombit/botan/pull/4647
+  merge_commit: f0c80419359418e9b6f3ab7d6dd79891ea7de534
+  classification: unspecified
+
+# Fix a FFI test that assumed KDF2 was available
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4670  # https://github.com/randombit/botan/pull/4670
+  merge_commit: a416ab77896fe70fc4ad6b041d882554b70fcfe1
+  classification: unspecified
+
+# FIX: tpm2_ecc silently depends on legacy_ec_point
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 4669  # https://github.com/randombit/botan/pull/4669
+  merge_commit: ffa7870500c4fb790e0e409ed37d8e6eb17da1c3
+  classification: unspecified
+
+# Add fe_invert2 for P-192
+#   Author:    @randombit
+- pr: 4667  # https://github.com/randombit/botan/pull/4667
+  merge_commit: f372b5a9e9681b1d32314aae972b3adf17fc4635
+  classification: unspecified
+
+# Refactor hash2curve expand_message
+#   Author:    @randombit
+#   Approvals: @FAlbertDev, @reneme
+- pr: 4648  # https://github.com/randombit/botan/pull/4648
+  merge_commit: bd3ee44d523789e8dd7149f7a4821af347882f13
+  classification: unspecified
+
+# Update BigInt documentation
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4661  # https://github.com/randombit/botan/pull/4661
+  merge_commit: ce2a7de9a911af9354e7f0584b7f8b7c98c45568
+  classification: unspecified
+
+# std::ignore in test_tpm2.cpp
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 4662  # https://github.com/randombit/botan/pull/4662
+  merge_commit: a3b648d264b6028c0778bf8ed917e38b7174187b
+  classification: unspecified
+
+# On Windows CI, skip installing Boost except for amalgamation target
+#   Author:    @randombit
+- pr: 4659  # https://github.com/randombit/botan/pull/4659
+  merge_commit: 7deaa69bb148c4b43deb96b71dea56a9fdf51371
+  classification: unspecified
+
+# Remove hack for runner-images bug
+#   Author:    @randombit
+- pr: 4658  # https://github.com/randombit/botan/pull/4658
+  merge_commit: 9b2d61f1e3651c6ea49a9ee09b69267c798de0c5
+  classification: unspecified
+
+# Bump the armv7 CI build to the nightly job
+#   Author:    @randombit
+- pr: 4656  # https://github.com/randombit/botan/pull/4656
+  merge_commit: 822d165b70f35ef7c50dacad96783e0ad29bc674
+  classification: unspecified
+
+# In CI log time taken outside of the GH grouping
+#   Author:    @randombit
+- pr: 4657  # https://github.com/randombit/botan/pull/4657
+  merge_commit: fac7d8145bd4e4be1f812a144c3374513e72d136
+  classification: unspecified
+
+# Don't bother with ESDM for the shared lib builds
+#   Author:    @randombit
+- pr: 4655  # https://github.com/randombit/botan/pull/4655
+  merge_commit: eb3f9fad7e276ce97287ff14a9ab7e92eaad7d96
+  classification: unspecified
+
+# CI: Tune the ccache size
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4574  # https://github.com/randombit/botan/pull/4574
+  merge_commit: a01a3e5f84bded7cbcbc876be3564cd1137ec2e3
+  classification: unspecified
+
+# Sort the OS feature macros
+#   Author:    @randombit
+- pr: 4654  # https://github.com/randombit/botan/pull/4654
+  merge_commit: 15fdc9e3aaa809bc318d0cafaa5b66d9df616f20
+  classification: unspecified
+
+# Avoid slicing Private_Key to Public_Key in the tests
+#   Author:    @randombit
+- pr: 4653  # https://github.com/randombit/botan/pull/4653
+  merge_commit: 89ba4ab2f35765723b80cfe2ec7b81fb9b6908ec
+  classification: unspecified
+
+# Reorganize code and reduce header dependencies
+#   Author:    @randombit
+- pr: 4650  # https://github.com/randombit/botan/pull/4650
+  merge_commit: 863380c7a922eb63cdb4ee80984095d038830ce3
+  classification: unspecified
+
+# Fix a bug in template concat introduced in #4642
+#   Author:    @randombit
+- pr: 4652  # https://github.com/randombit/botan/pull/4652
+  merge_commit: bc555cd3c114497a50b49c4649d6606150881f5b
+  classification: unspecified
+
+# Add internal target_info.h header
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4642  # https://github.com/randombit/botan/pull/4642
+  merge_commit: 801a4b3ecd0160b91e25e2ed1a5d67d2bb8652ce
+  classification: unspecified
+
+# Fix AES test
+#   Author:    @randombit
+- pr: 4649  # https://github.com/randombit/botan/pull/4649
+  merge_commit: b1c7c60a2239f2272bc54f64f0ba0b212d402eee
+  classification: unspecified
+
+# Use std::endian
+#   Author:    @randombit
+- pr: 4645  # https://github.com/randombit/botan/pull/4645
+  merge_commit: 0a5939ecd1f9277aa6cb3397b4d7fbe50e1cc473
+  classification: unspecified
+
+# Bump CodeQL action versions
+#   Author:    @randombit
+- pr: 4644  # https://github.com/randombit/botan/pull/4644
+  merge_commit: 63d09d92db5980e022af6b9a7957963778458c5f
+  classification: unspecified
+
+# Remove unused pcurves interfaces
+#   Author:    @randombit
+- pr: 4634  # https://github.com/randombit/botan/pull/4634
+  merge_commit: d4d48503e8a4707a8f5bca28700e510f6c2aba79
+  classification: unspecified
+
+# Add Booth encoding based variable point multiplication
+#   Author:    @randombit
+- pr: 4627  # https://github.com/randombit/botan/pull/4627
+  merge_commit: a4e62a0d4a321b0189e0495e5e6f5ff2b2246e0c
+  classification: unspecified
+
+# Change mp Montgomery reduction functions to be 3 operand
+#   Author:    @randombit
+- pr: 4623  # https://github.com/randombit/botan/pull/4623
+  merge_commit: b7d30acadf1a6a1c337a233fa58e7a09ea82b450
+  classification: unspecified
+
+# Add fast variable time modular inversion to pcurves
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4620  # https://github.com/randombit/botan/pull/4620
+  merge_commit: a7b81443d5138da6b0798a4cf69e138acf6fa8f5
+  classification: unspecified
+
+# Remove most toggles from build.h
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4639  # https://github.com/randombit/botan/pull/4639
+  merge_commit: 5dbdf91528665391f3fc7854b9b760b4c790eefb
+  classification: unspecified
+
+# Add a FFI example, acting as a test that C compiler can parse build.h and ffi.h
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4640  # https://github.com/randombit/botan/pull/4640
+  merge_commit: 1e1eda1e019926d7f0a040e4face4d9baa13b0e7
+  classification: unspecified
+
+# Remove pcurves "user interface" API
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4632  # https://github.com/randombit/botan/pull/4632
+  merge_commit: 79f98ae311fb4d275a317434143011ba06b47d18
+  classification: unspecified
+
+# Use span instead of vector as arguments to EMSA
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4635  # https://github.com/randombit/botan/pull/4635
+  merge_commit: d1e98a5953a296fcf5fd832f6a8c4324da407308
+  classification: unspecified
+
+# Save one point addition in mul2 and mul2_vartime
+#   Author:    @randombit
+- pr: 4625  # https://github.com/randombit/botan/pull/4625
+  merge_commit: 3c7358c0aae1db1ec305d4abd4c49e735e2fe54d
+  classification: unspecified
+
+# In CI don't install the jitter RNG for so many targets
+#   Author:    @randombit
+- pr: 4641  # https://github.com/randombit/botan/pull/4641
+  merge_commit: 5fd59cab35714033ae97a88e9dda724a244c7792
+  classification: unspecified
+
+# Add missing include in jitter_rng.h
+#   Author: Jack Lloyd
+- commit: 6f6bcfc52cee99633ba2bfce9605940207781c20  # https://github.com/randombit/botan/commit/6f6bcfc52cee99633ba2bfce9605940207781c20
+  classification: unspecified
+
+# Remove unnecessary trailing semicolons
+#   Author: Jack Lloyd
+- commit: 3bdfe654f7a771250c505c324f5001543e0cece5  # https://github.com/randombit/botan/commit/3bdfe654f7a771250c505c324f5001543e0cece5
+  classification: unspecified
+
+# Update module policies with module rename [ci skip]
+#   Author: Jack Lloyd
+- commit: 724a79c14924399b042489ed1dd5efc555086913  # https://github.com/randombit/botan/commit/724a79c14924399b042489ed1dd5efc555086913
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 05694b992f9423c42f51ee34fb2e8a80adb4bc8f  # https://github.com/randombit/botan/commit/05694b992f9423c42f51ee34fb2e8a80adb4bc8f
+  classification: unspecified
+
+# Update module names in policy files [ci skip]
+#   Author: Jack Lloyd
+- commit: 98f2e691fb0fff3db927fbef096bd662c0fc492f  # https://github.com/randombit/botan/commit/98f2e691fb0fff3db927fbef096bd662c0fc492f
+  classification: unspecified
+
+# Add missing include for BOTAN_UNUSED [ci skip]
+#   Author: Jack Lloyd
+- commit: 9fbffd0b38c4846d5bd06adf5a0354caa8b2c6b1  # https://github.com/randombit/botan/commit/9fbffd0b38c4846d5bd06adf5a0354caa8b2c6b1
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 16ec3630342d631949c4a15b4a74d61c9b9087fa  # https://github.com/randombit/botan/commit/16ec3630342d631949c4a15b4a74d61c9b9087fa
+  classification: unspecified
+
+# Add missing ISA annotations to the SM4 x86 decrypt functions [ci skip]
+#   Author: Jack Lloyd
+- commit: 2cdb64cd66a0de42468abf863580e48c2710cd76  # https://github.com/randombit/botan/commit/2cdb64cd66a0de42468abf863580e48c2710cd76
+  classification: unspecified
+
+# Update the todos [ci skip]
+#   Author: Jack Lloyd
+- commit: 547f47aa0fbc71a5ba4e39344a59e91c90ca3c78  # https://github.com/randombit/botan/commit/547f47aa0fbc71a5ba4e39344a59e91c90ca3c78
+  classification: unspecified
+
+# Remove Android Docker build setup [ci skip]
+#   Author: Jack Lloyd
+- commit: 02415ac51c64c82feb7512a5136303c72cbd0dd2  # https://github.com/randombit/botan/commit/02415ac51c64c82feb7512a5136303c72cbd0dd2
+  classification: unspecified
+
+# Avoid some data ending up in modifiable data section
+#   Author: Jack Lloyd
+- commit: baf88b16f76e679ad83f5150a3f17d613605af4e  # https://github.com/randombit/botan/commit/baf88b16f76e679ad83f5150a3f17d613605af4e
+  classification: unspecified
+
+# Add note to remove obscure secp521r1 OID in Botan4 [ci skip]
+#   Author: Jack Lloyd
+- commit: 60f5d5b60f69d01aaa90ff835a37fb323ea76ea7  # https://github.com/randombit/botan/commit/60f5d5b60f69d01aaa90ff835a37fb323ea76ea7
+  classification: unspecified
+
+# Update change notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 57cbd468acf5d76e33307c6c5fb1e163e01b93d9  # https://github.com/randombit/botan/commit/57cbd468acf5d76e33307c6c5fb1e163e01b93d9
+  classification: unspecified
+
+# Remove `sodium` from prohibited list in fips140 policy
+#   Author: Jack Lloyd
+- commit: 639524150533e2f8ee08a92f56e06cfa1b5e7003  # https://github.com/randombit/botan/commit/639524150533e2f8ee08a92f56e06cfa1b5e7003
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 7349c667944c643a4b9bd87ee01bca9a8bb477eb  # https://github.com/randombit/botan/commit/7349c667944c643a4b9bd87ee01bca9a8bb477eb
+  classification: unspecified
+
+# Add missing include [ci skip]
+#   Author: Jack Lloyd
+- commit: c345e50bbb563135d44b10fa644e34f55c510260  # https://github.com/randombit/botan/commit/c345e50bbb563135d44b10fa644e34f55c510260
+  classification: unspecified
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: 4dde5131267ed52dee600f1fdb6703d1149e8203  # https://github.com/randombit/botan/commit/4dde5131267ed52dee600f1fdb6703d1149e8203
+  classification: unspecified
+
+# Release process checklist updates [ci skip]
+#   Author: Jack Lloyd
+- commit: 034277ebdd36c84eb2b91b6d163369aebb43a9d8  # https://github.com/randombit/botan/commit/034277ebdd36c84eb2b91b6d163369aebb43a9d8
+  classification: unspecified
+
+# Benchmark constant time EC p*x+q*y operation
+#   Author: Jack Lloyd
+- commit: c94c556d333b644935c5d5224e1829c58ffa7d25  # https://github.com/randombit/botan/commit/c94c556d333b644935c5d5224e1829c58ffa7d25
+  classification: unspecified
+
+# Adjust how compare_perf shows slowdown percentages
+#   Author: Jack Lloyd
+- commit: 010ae3e31de2aed3f6bd59501ded6fd04e33237f  # https://github.com/randombit/botan/commit/010ae3e31de2aed3f6bd59501ded6fd04e33237f
+  classification: unspecified
+
+# Add constexpr for fe_invert2 functions that missed declaring as such
+#   Author: Jack Lloyd
+- commit: 69ecdf682dc6b61a7e9215baf77a46390000de8c  # https://github.com/randombit/botan/commit/69ecdf682dc6b61a7e9215baf77a46390000de8c
+  classification: unspecified
+
+# Remove checksums except the OpenPGP CRC from features list
+#   Author: Jack Lloyd
+- commit: 93092313ea3741adb2ec56948c2bff3217e3f0a5  # https://github.com/randombit/botan/commit/93092313ea3741adb2ec56948c2bff3217e3f0a5
+  classification: unspecified
+
+# Add notes regarding current plans for Botan4 [ci skip]
+#   Author: Jack Lloyd
+- commit: 927acccb2e77b03310431a78f67757e0abf7ffef  # https://github.com/randombit/botan/commit/927acccb2e77b03310431a78f67757e0abf7ffef
+  classification: unspecified
+
+# In compare_perf.py sort by the % improvement/regression
+#   Author: Jack Lloyd
+- commit: 10c28abfbfdf73521f82445995f13f52d145f251  # https://github.com/randombit/botan/commit/10c28abfbfdf73521f82445995f13f52d145f251
+  classification: unspecified
+
+# Avoid duplicated git: prefix [ci skip]
+#   Author: Jack Lloyd
+- commit: 74e4d14986c91e883017412e7ff3c9ad1faa493d  # https://github.com/randombit/botan/commit/74e4d14986c91e883017412e7ff3c9ad1faa493d
+  classification: unspecified
+
+# Update credits [ci skip]
+#   Author: Jack Lloyd
+- commit: 81b1ace5cd1c98055a79842ee31a07f6be587bb7  # https://github.com/randombit/botan/commit/81b1ace5cd1c98055a79842ee31a07f6be587bb7
+  classification: unspecified
+
+# Add a warning about --with-local-config being deprecated [ci skip]
+#   Author: Jack Lloyd
+- commit: c8473e243fd8c3cff9001882a7bf2f71f33e2553  # https://github.com/randombit/botan/commit/c8473e243fd8c3cff9001882a7bf2f71f33e2553
+  classification: unspecified
+
+# Retract Othernames deprecation
+#   Author: Jack Lloyd
+- commit: 4f1cc235d7c9dcacac61bf12d7b9fa20169c8b0f  # https://github.com/randombit/botan/commit/4f1cc235d7c9dcacac61bf12d7b9fa20169c8b0f
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 357e634f4bd22c5680eec8aaaaaff6f455b08557  # https://github.com/randombit/botan/commit/357e634f4bd22c5680eec8aaaaaff6f455b08557
+  classification: unspecified
+
+# Bump version to 3.8.0
+#   Author: Jack Lloyd
+- commit: 9c40b69fdb6787d711d7d658280456d4f740228b  # https://github.com/randombit/botan/commit/9c40b69fdb6787d711d7d658280456d4f740228b
+  classification: unspecified
+
+# Avoid some heap usage in GHASH/GMAC/GCM
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4826  # https://github.com/randombit/botan/pull/4826
+  merge_commit: 2d8b0e81daba53beed1b5b2e2e6bf7681c14172e
+  classification: unspecified
+
+# Remove autogen of x509_dn_ub.cpp
+#   Author:    @randombit
+#   Approvals: @atreiber94
+- pr: 4827  # https://github.com/randombit/botan/pull/4827
+  merge_commit: eea33d0b513066d55b70ad884363d1e1ade11aa6
+  classification: unspecified
+
+# Update hardware_acceleration doc
+#   Author: Jack Lloyd
+- commit: 7f66c45b37b6beb016e49f38de0e438ec2be44bf  # https://github.com/randombit/botan/commit/7f66c45b37b6beb016e49f38de0e438ec2be44bf
+  classification: unspecified
+
+# Fix compiling TPM2 example with GCC 13 or higher
+#   Author: Jack Lloyd
+- commit: fc2642dbc96e5eb3cf1237febbcb2f1ed242cbd4  # https://github.com/randombit/botan/commit/fc2642dbc96e5eb3cf1237febbcb2f1ed242cbd4
+  classification: unspecified
+
+# Check off a todo
+#   Author: Jack Lloyd
+- commit: 745aef04dc4862c5305eb8fb06f2534ef302b183  # https://github.com/randombit/botan/commit/745aef04dc4862c5305eb8fb06f2534ef302b183
+  classification: unspecified
+
+# Some small usability improvements to the MARVIN test cli util
+#   Author:    @randombit
+- pr: 4829  # https://github.com/randombit/botan/pull/4829
+  merge_commit: 4c413a8ac1271640d5f4e05f3502ea28414d97a9
+  classification: unspecified
+
+# Add OID related methods to FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 4816  # https://github.com/randombit/botan/pull/4816
+  merge_commit: 3726b2737b5ebeeda3e28a60be68281ba5dd3913
+  classification: unspecified
+
+# Replace std::vector with std::array in codec_base to avoid allocations
+#   Author:    @Chaosvex
+#   Approvals: (@randombit)
+- pr: 4832  # https://github.com/randombit/botan/pull/4832
+  merge_commit: bd284c38ba83097c4bf17e60d268f5b6c4866ca6
+  classification: unspecified
+
+# Install TPM2 libraries for the clang-tidy run
+#   Author:    @randombit
+- pr: 4831  # https://github.com/randombit/botan/pull/4831
+  merge_commit: 2c52b8ac57f722043d64de8d19cea6850505f634
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 440d3491c8bae3f77614ade0faa3a2e9a8075ce4  # https://github.com/randombit/botan/commit/440d3491c8bae3f77614ade0faa3a2e9a8075ce4
+  classification: unspecified
+
+# Mark EC_Scalar and EC_AffinePoint with BOTAN_PUBLIC_API
+#   Author: Jack Lloyd
+- commit: c4bf10bfd3b0d5908c96dae245ecf879d36f9886  # https://github.com/randombit/botan/commit/c4bf10bfd3b0d5908c96dae245ecf879d36f9886
+  classification: unspecified
+
+# Fix the test reporter to print the name of the testsuite being waited for
+#   Author:    @randombit
+- pr: 4834  # https://github.com/randombit/botan/pull/4834
+  merge_commit: 8b76da2dc9438e6802ab72dec5abe666c40424be
+  classification: unspecified
+
+# New Barrett Reduction implementation
+#   Author:    @randombit
+- pr: 4835  # https://github.com/randombit/botan/pull/4835
+  merge_commit: d453a1645b387cd1ca2133d5171ae26d603b8239
+  classification: unspecified
+
+# Add EC_Group related methods to FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 4833  # https://github.com/randombit/botan/pull/4833
+  merge_commit: 49a992eb8f89da4a3ea7ce122ff138a7ef287e84
+  classification: unspecified
+
+# Update EC_Group::PEM_encode to handle upcoming removal of explicit curves
+#   Author:    @randombit
+- pr: 4840  # https://github.com/randombit/botan/pull/4840
+  merge_commit: 54b3ab9c712785987ef76f47e74dac33b0e4f390
+  classification: unspecified
+
+# Add SHA-512 using AVX-512 for message expansion
+#   Author:    @randombit
+- pr: 4842  # https://github.com/randombit/botan/pull/4842
+  merge_commit: b8fda5447d5560bcf1c9e12f3b91d93068f5a0a0
+  classification: unspecified
+
+# Consolidate oid_maps.cpp definitions to save space
+#   Author:    @randombit
+- pr: 4825  # https://github.com/randombit/botan/pull/4825
+  merge_commit: a3db9fa5ffb47f9108791171ec23f0796351828b
+  classification: unspecified
+
+# Update change notes
+#   Author: Jack Lloyd
+- commit: 7cd003ad2c2b308a3d4304ed6bfa3dd6a4390f9f  # https://github.com/randombit/botan/commit/7cd003ad2c2b308a3d4304ed6bfa3dd6a4390f9f
+  classification: unspecified
+
+# Remove some SIMD_4x32 constructor calls in the SHA-1 SIMD impl
+#   Author: Jack Lloyd
+- commit: 62083468ebf9aa9b7f2953dde2b44982067d43d0  # https://github.com/randombit/botan/commit/62083468ebf9aa9b7f2953dde2b44982067d43d0
+  classification: unspecified
+
+# Prefer AES/GCM over ChaCha20Poly1305 in TLS
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4843  # https://github.com/randombit/botan/pull/4843
+  merge_commit: dbe524bf59d376432abb11d2126578a831f16074
+  classification: unspecified
+
+# In GHASH skip the slow key schedule if we have CPU instruction support
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4844  # https://github.com/randombit/botan/pull/4844
+  merge_commit: 9a50aedc5ee7530b44bcee1bc39aec2e2a961cd0
+  classification: unspecified
+
+# FIX: handle multi-arch directories in cmake-config package
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4839  # https://github.com/randombit/botan/pull/4839
+  merge_commit: 5f82b97d3447f6be64c96d017eeb338e0ec326b0
+  classification: unspecified
+
+# Remove unncessary semicolon
+#   Author: Jack Lloyd
+- commit: b6f2325af657c5462cab894b68a7f269bd3f7fec  # https://github.com/randombit/botan/commit/b6f2325af657c5462cab894b68a7f269bd3f7fec
+  classification: unspecified
+
+# Refactor provider reporting
+#   Author:    @randombit
+- pr: 4847  # https://github.com/randombit/botan/pull/4847
+  merge_commit: 4a933ad07dcaa820110e9bd09bcb6196e0d5002a
+  classification: unspecified
+
+# Fix date formatting
+#   Author: Jack Lloyd
+- commit: 2836c1016c5d9a5341f5895de9d31cd81863b119  # https://github.com/randombit/botan/commit/2836c1016c5d9a5341f5895de9d31cd81863b119
+  classification: unspecified
+
+# Update hardware acceleration doc
+#   Author: Jack Lloyd
+- commit: e5b8b6e516d7cddb5ceeacca7e98b694018f3f9a  # https://github.com/randombit/botan/commit/e5b8b6e516d7cddb5ceeacca7e98b694018f3f9a
+  classification: unspecified
+
+# Tone done unrolling in the AVX-512 SHA-512 code
+#   Author:    @randombit
+- pr: 4849  # https://github.com/randombit/botan/pull/4849
+  merge_commit: e7b06964e16e87c91cb75a2213cfbaaadb268a98
+  classification: unspecified
+
+# Refactor in Kuznyechik to avoid constexpr limits in Clang 19
+#   Author:    @randombit
+- pr: 4850  # https://github.com/randombit/botan/pull/4850
+  merge_commit: 3d5e352e0e17b144a6190164c9255d93c4b9ea9f
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 3fcc094943620e3c6b4809cbb652a027369103a4  # https://github.com/randombit/botan/commit/3fcc094943620e3c6b4809cbb652a027369103a4
+  classification: unspecified
+
+# More todos [ci skip]
+#   Author: Jack Lloyd
+- commit: c47919cfa64886a350cc491b39fb51e72f5cd279  # https://github.com/randombit/botan/commit/c47919cfa64886a350cc491b39fb51e72f5cd279
+  classification: unspecified
+
+# Fix SIMD_4X32 tests
+#   Author:    @randombit
+- pr: 4851  # https://github.com/randombit/botan/pull/4851
+  merge_commit: a541e62f93960787726bb9b974e2f1cda00aa57f
+  classification: unspecified
+
+# Bump for 3.8.0 release
+#   Author: Jack Lloyd
+- commit: d738d3bb56c3ed5743652bdd699d84133da11793  # https://github.com/randombit/botan/commit/d738d3bb56c3ed5743652bdd699d84133da11793
+  classification: unspecified
+
+# Add missing include in secmem.h
+#   Author:    @randombit
+- pr: 4857  # https://github.com/randombit/botan/pull/4857
+  merge_commit: b99c9b5da9a4978f7a80ecd00c2dec84b13ff6e7
+  classification: unspecified
+
+# Fix building with fips140 and modern policy sets
+#   Author:    @randombit
+- pr: 4856  # https://github.com/randombit/botan/pull/4856
+  merge_commit: 7cbd1d6035e75e84ac4eb192600f9e98c875c547
+  classification: unspecified
+
+# Update for 3.8.1 release
+#   Author: Jack Lloyd
+- commit: c06967092edd9baa2b42f89135380912113ae209  # https://github.com/randombit/botan/commit/c06967092edd9baa2b42f89135380912113ae209
+  classification: unspecified
+
+# Bump version to 3.8.1
+#   Author: Jack Lloyd
+- commit: 75330121330f761f60331a00a4a737f648e6b204  # https://github.com/randombit/botan/commit/75330121330f761f60331a00a4a737f648e6b204
+  classification: unspecified
+
+# Always inline various low level bit operations
+#   Author:    @randombit
+- pr: 4863  # https://github.com/randombit/botan/pull/4863
+  merge_commit: f8b8a99f3b9818d13d14fe439c81f81795a9fc65
+  classification: unspecified
+
+# Add SHA-1 using AVX2 for message expansion plus BMI2
+#   Author:    @randombit
+- pr: 4852  # https://github.com/randombit/botan/pull/4852
+  merge_commit: 52be9b846e38502f28c3c50230b420cb51c9e65d
+  classification: unspecified
+
+# In CPUID gate support for AVX2 on SSSE3 existing
+#   Author:    @randombit
+- pr: 4853  # https://github.com/randombit/botan/pull/4853
+  merge_commit: 9d0390e77d905f9506e89d086db15ced7976d8dc
+  classification: unspecified
+
+# Bump version to 3.9.0
+#   Author: Jack Lloyd
+- commit: d267d7fd2cd737b6a1930617fd843ed6530356da  # https://github.com/randombit/botan/commit/d267d7fd2cd737b6a1930617fd843ed6530356da
+  classification: unspecified
+
+# Implement Camellia using GFNI+AVX2
+#   Author:    @randombit
+- pr: 4848  # https://github.com/randombit/botan/pull/4848
+  merge_commit: 6bf563ff3e1aab29677aa08d0608ee020d401446
+  classification: unspecified
+
+# Fix provider reporting in GHASH
+#   Author: Jack Lloyd
+- commit: fbf64f94f6a1938705680f6a4ff2db8bd74da3fa  # https://github.com/randombit/botan/commit/fbf64f94f6a1938705680f6a4ff2db8bd74da3fa
+  classification: unspecified
+
+# Fix Broken and Inaccessible Links in Documentation
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 4867  # https://github.com/randombit/botan/pull/4867
+  merge_commit: 836cfd808727387bf20baf171668fb644c76fc1d
+  classification: unspecified
+
+# Mark cryptobox module as deprecated, previously missed
+#   Author: Jack Lloyd
+- commit: 3e40bb9ef2df024828a23e80ee18da4e7c621194  # https://github.com/randombit/botan/commit/3e40bb9ef2df024828a23e80ee18da4e7c621194
+  classification: unspecified
+
+# Clarify tpm module is TPMv1 only
+#   Author: Jack Lloyd
+- commit: 6196f58fceada52866472870d87982848354e994  # https://github.com/randombit/botan/commit/6196f58fceada52866472870d87982848354e994
+  classification: unspecified
+
+# Update todos [ci skip]
+#   Author: Jack Lloyd
+- commit: 29bc203e2c6a8a7b31a8405e0e0b3d5bc184301f  # https://github.com/randombit/botan/commit/29bc203e2c6a8a7b31a8405e0e0b3d5bc184301f
+  classification: unspecified
+
+# Update change notes [ci skip]
+#   Author: Jack Lloyd
+- commit: aed9301b603a398d794bc751e950ecb174d11410  # https://github.com/randombit/botan/commit/aed9301b603a398d794bc751e950ecb174d11410
+  classification: unspecified
+
+# Silence FFI deprecation warnings when compiled as part of amalgamation
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4872  # https://github.com/randombit/botan/pull/4872
+  merge_commit: b3c5e866bdbd428c239c631e7988a02f0bd61225
+  classification: unspecified
+
+# In Barrett reduction, use constant time check for input validity
+#   Author:    @randombit
+- pr: 4871  # https://github.com/randombit/botan/pull/4871
+  merge_commit: 609128b6339e7cee7bdab4a3ffa0955b052d8277
+  classification: unspecified
+
+# Use std::span for block cipher padding schemes
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4873  # https://github.com/randombit/botan/pull/4873
+  merge_commit: 7fb431fe8217d629a46f34fc99639fd85061a5c2
+  classification: unspecified
+
+# Generate ec_named.cpp and relevant pcurves files from gen_ec_groups.py
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4841  # https://github.com/randombit/botan/pull/4841
+  merge_commit: 4bee52b2bfbd300fc65d3d2b09450ba78298b788
+  classification: unspecified
+
+# FIX: Ambiguous c'tor overloads in X509_DN with initializer list
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4861  # https://github.com/randombit/botan/pull/4861
+  merge_commit: 02f7a7cae4fc0513ef1200c7eb4d5c86d9531e02
+  classification: unspecified
+
+# Add SHACAL2 AVX-512
+#   Author:    @randombit
+- pr: 4878  # https://github.com/randombit/botan/pull/4878
+  merge_commit: a20a4ec20cc3641f1709440683f195fd82b99fc3
+  classification: unspecified
+
+# Add a test for check_and_canonicalize_dns_name
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4881  # https://github.com/randombit/botan/pull/4881
+  merge_commit: 2fb34a85142cde33ae5006db4df0d2c96ca40ccf
+  classification: unspecified
+
+# Update BSI policy for 2025's TR-02101-1
+#   Author:    @reneme
+#   Approvals: @FAlbertDev, (@randombit)
+- pr: 4879  # https://github.com/randombit/botan/pull/4879
+  merge_commit: cf78ad9c9fa5f7f8b5c189806f9a5e3196f14af2
+  classification: unspecified
+
+# Add comment regarding side-channel properties of the DES impl [ci skip]
+#   Author: Jack Lloyd
+- commit: aa801de269fe7d8af1d2218cfa465594a23dc9da  # https://github.com/randombit/botan/commit/aa801de269fe7d8af1d2218cfa465594a23dc9da
+  classification: unspecified
+
+# Add IPAddrBlock and ASIdentifiers extensions (RFC 3779)
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 4699  # https://github.com/randombit/botan/pull/4699
+  merge_commit: d7620b408a4783ffa1a2a72fec2a4137848a16c1
+  classification: unspecified
+
+# Replace TLS1.2 raw pointers with unique ptr
+#   Author:    @KaganCanSit
+#   Approvals: @reneme, (@randombit)
+- pr: 4814  # https://github.com/randombit/botan/pull/4814
+  merge_commit: 7964d1f52209a2f704471b1dc4462db65448cb23
+  classification: unspecified
+
+# Reduce overhead from X.509 RPKI tests
+#   Author:    @randombit
+- pr: 4884  # https://github.com/randombit/botan/pull/4884
+  merge_commit: a2e60d65ed0610624d0a6656813b0f3f5de12f95
+  classification: unspecified
+
+# Add a Test utility for comparing optionals
+#   Author:    @randombit
+- pr: 4883  # https://github.com/randombit/botan/pull/4883
+  merge_commit: 606fd37686a1eb2d3dfaba54f73fc98b4350473a
+  classification: unspecified
+
+# Skip x509_rpki tests under valgrind with Clang -Os
+#   Author:    @randombit
+- pr: 4886  # https://github.com/randombit/botan/pull/4886
+  merge_commit: 41b950dc4b2ed1a59359ea4c0b5ec8305b622414
+  classification: unspecified
+
+# Set sha2_64_armv8 to require armv8crypto also
+#   Author: Jack Lloyd
+- commit: fa28fc6f4edc344490fab13916a1d6d3dfb7d44b  # https://github.com/randombit/botan/commit/fa28fc6f4edc344490fab13916a1d6d3dfb7d44b
+  classification: unspecified
+
+# [TODO] Add RFC 1035 Compliant DNS Tag Length Check
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 4876  # https://github.com/randombit/botan/pull/4876
+  merge_commit: 5fbcc7daa2be40fc662e48343882f7abc8827a94
+  classification: unspecified
+
+# Test: add some KATs for TLS 1.2 CBC AEAD
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4894  # https://github.com/randombit/botan/pull/4894
+  merge_commit: 574b39a4f00c85a156c46ff7d6e0dca1044bbd5b
+  classification: unspecified
+
+# Enable GCC 14's stack scrubbing for SHA-224 and SHA-256
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4882  # https://github.com/randombit/botan/pull/4882
+  merge_commit: 1f0ab5c8c50c69c3359c9f538817ce0b877d85a9
+  classification: unspecified
+
+# FIX: create fresh garbage for each negative test
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4895  # https://github.com/randombit/botan/pull/4895
+  merge_commit: 0ffb30b0cc32a214ce48fbef56b6dc3a91ea5248
+  classification: unspecified
+
+# Add support for null cipher in TLS 1.2
+#   Author:    @lars-du
+#   Approvals: @reneme, (@randombit)
+- pr: 4776  # https://github.com/randombit/botan/pull/4776
+  merge_commit: 9ad273be65a8bb264f5dcb29e00811e2e3b230bd
+  classification: unspecified
+
+# MARVIN test utility improvements
+#   Author:    @randombit
+- pr: 4898  # https://github.com/randombit/botan/pull/4898
+  merge_commit: 6a4f830b2ccc447c4325ea540266e48f10cc5de7
+  classification: unspecified
+
+# Use compile time generated switch statements for OID lookups
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4896  # https://github.com/randombit/botan/pull/4896
+  merge_commit: b70e4ba97922d152f10ec1d5b132555f4ace7aa8
+  classification: unspecified
+
+# FIX: re-assign eFrodoKEM code points to match OQS
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4900  # https://github.com/randombit/botan/pull/4900
+  merge_commit: 595e052677538ddf0084f30942f8bf888be8c271
+  classification: unspecified
+
+# Remove the --with-local-config build option
+#   Author:    @randombit
+- pr: 4905  # https://github.com/randombit/botan/pull/4905
+  merge_commit: 0c19b62f3309dd69c1ae5d7b1a2d65d19fb23402
+  classification: unspecified
+
+# Remove dead constructor of ISO_9796_DS2
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4908  # https://github.com/randombit/botan/pull/4908
+  merge_commit: eb3fb4bf18504e54268bcdc4453648bd4283d9a4
+  classification: unspecified
+
+# Fix OSS-Fuzz 422598833
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4904  # https://github.com/randombit/botan/pull/4904
+  merge_commit: 0da0ad3febeca17d61b13e929022eaea8c9fe4b0
+  classification: unspecified
+
+# FIX: clang-tidy warnings in loadstor.h, mem_ops.h, and ct_utils.h
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4913  # https://github.com/randombit/botan/pull/4913
+  merge_commit: 1861bade7ebb02a203700c70ec3acf130d03534c
+  classification: unspecified
+
+# Fix some clang-tidy warnings in header files
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4910  # https://github.com/randombit/botan/pull/4910
+  merge_commit: 49e83997c7d8261db2b03efd311fac1455ec9177
+  classification: unspecified
+
+# Change Kuznyechik to use heap for scheduled keys
+#   Author:    @randombit
+- pr: 4915  # https://github.com/randombit/botan/pull/4915
+  merge_commit: f730a28eb34ae8049e3a38a59240c07f80c89732
+  classification: unspecified
+
+# FIX: CLI benchmark of Classic McEliece
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4917  # https://github.com/randombit/botan/pull/4917
+  merge_commit: 792481a9848846542f5565054398851b0192456f
+  classification: unspecified
+
+# Ed25519 cleanup
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4907  # https://github.com/randombit/botan/pull/4907
+  merge_commit: d887a9c1dc99ad67b578345146111a939c56b81a
+  classification: unspecified
+
+# Further clang-tidy fixes in header files
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4912  # https://github.com/randombit/botan/pull/4912
+  merge_commit: 988711ddad23c433a9c04f001f41d1e7e569b3be
+  classification: unspecified
+
+# Add a cache for clang-tidy
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4920  # https://github.com/randombit/botan/pull/4920
+  merge_commit: cfc7bc1c63b4f86aeef4d470babd7a6e94f78ea1
+  classification: unspecified
+
+# Clang-tidy headers in CI
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4919  # https://github.com/randombit/botan/pull/4919
+  merge_commit: cb10d62499ce61d65f887283357277562ff2fabc
+  classification: unspecified
+
+# CI: stop building the tests when we won't need them
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4926  # https://github.com/randombit/botan/pull/4926
+  merge_commit: ff5da147f64efb0a2716ca508267bba018e0cc1b
+  classification: unspecified
+
+# Take the clang-tidy cache size from an environment variable
+#   Author:    @randombit
+- pr: 4923  # https://github.com/randombit/botan/pull/4923
+  merge_commit: 1d5a2c48c53fe13ec2b2ddfd6f18c0380f5cff75
+  classification: unspecified
+
+# Run clang-tidy on master
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4924  # https://github.com/randombit/botan/pull/4924
+  merge_commit: e6ad9a4dc82c314f8dec6383737f1dc935c4009f
+  classification: unspecified
+
+# Fix an issue building System_RNG with only getrandom
+#   Author:    @randombit
+- pr: 4932  # https://github.com/randombit/botan/pull/4932
+  merge_commit: d3f85923574e57558db7014acf25c390dd661303
+  classification: unspecified
+
+# Remove configure.py options that disable various intrinsics
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4927  # https://github.com/randombit/botan/pull/4927
+  merge_commit: 520059d8ecf0552cb7f38e2c48b31db94c191d9b
+  classification: unspecified
+
+# CI: install/simulate TPM2 simulation environment only when needed
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4929  # https://github.com/randombit/botan/pull/4929
+  merge_commit: 00a2a96c2624cf42ea240e9c06e0697e55ac0a90
+  classification: unspecified
+
+# Test: GCC's Stack Scrubbing
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4925  # https://github.com/randombit/botan/pull/4925
+  merge_commit: 0a7e9846ba5a1ad78258453ce017271cf1654d79
+  classification: unspecified
+
+# In pcurves don't return early from an addition of identity + identity
+#   Author:    @randombit
+- pr: 4935  # https://github.com/randombit/botan/pull/4935
+  merge_commit: 1d8149c0879644af8f4c000834f50411844cca1e
+  classification: unspecified
+
+# configure.py: automatically detect what brand CXX=c++ is from --version
+#   Author:    @nabijaczleweli
+#   Approvals: (@randombit)
+- pr: 4933  # https://github.com/randombit/botan/pull/4933
+  merge_commit: 359710893b2d5fc4e100c0fd96502b98dcb3ac3b
+  classification: unspecified
+
+# Add safety comments to if and while statements in pcurves
+#   Author:    @randombit
+- pr: 4937  # https://github.com/randombit/botan/pull/4937
+  merge_commit: cc35cab9178a7aed4e2848d3f60247b227dab281
+  classification: unspecified
+
+# Update change notes
+#   Author: Jack Lloyd
+- commit: 0ec63a0392d32d50cca74f07ee3932860d52a91e  # https://github.com/randombit/botan/commit/0ec63a0392d32d50cca74f07ee3932860d52a91e
+  classification: unspecified
+
+# [TODO] X509_DN Normalize function update to utilize structed bindings
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 4874  # https://github.com/randombit/botan/pull/4874
+  merge_commit: c80dbf800eae78409f356fbccf01aaa249236191
+  classification: unspecified
+
+# Fix/reduce Cppcheck warnings in test code
+#   Author:    @KaganCanSit
+#   Approvals: @reneme, (@randombit)
+- pr: 4942  # https://github.com/randombit/botan/pull/4942
+  merge_commit: 57448f64453d3796749038fb2e353566353b2173
+  classification: unspecified
+
+# Test: GCC's Stack Scrubbing on aarch64
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4941  # https://github.com/randombit/botan/pull/4941
+  merge_commit: c6c7423f6ca31b020c1be3e7ae3f5da6293a84bf
+  classification: unspecified
+
+# Range and span were used in line with TODO messages.
+#   Author:    @KaganCanSit
+#   Approvals: @reneme, (@randombit)
+- pr: 4940  # https://github.com/randombit/botan/pull/4940
+  merge_commit: 07a922b1db17236bc2f97d4a13ecc6bac37200b4
+  classification: unspecified
+
+# Correct various functions in bit_ops.h to require unsigned integers
+#   Author:    @randombit
+- pr: 4945  # https://github.com/randombit/botan/pull/4945
+  merge_commit: f950d9e37a54b43d70900db0720250c6125877c4
+  classification: unspecified
+
+# Use concepts to constrain the allowed types of various integer-related templates
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4946  # https://github.com/randombit/botan/pull/4946
+  merge_commit: f406b8e2ac51ef1d1bdf852d53f75140221d713f
+  classification: unspecified
+
+# Improve docs regarding building universal binaries for macOS [ci skip]
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4936  # https://github.com/randombit/botan/pull/4936
+  merge_commit: aefa54c0ddfe55a35457d9196b6dfbed29aef808
+  classification: unspecified
+
+# Add the concept of an internal feature macro definition
+#   Author:    @randombit
+- pr: 4948  # https://github.com/randombit/botan/pull/4948
+  merge_commit: c0f75cf878df5e1805c93630bf861ef2d83ea774
+  classification: unspecified
+
+# Add CT::Choice::from_mask
+#   Author:    @randombit
+- pr: 4949  # https://github.com/randombit/botan/pull/4949
+  merge_commit: 8d0ef6ce69dfa79c231bdbadc8d3caed3da74da5
+  classification: unspecified
+
+# Add EC_Scalar::hash using RFC 9380's hash_to_field
+#   Author:    @randombit
+- pr: 4950  # https://github.com/randombit/botan/pull/4950
+  merge_commit: 4e60e3c4eebcfc57dfc158e7c6443a031897e660
+  classification: unspecified
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: 6cd6fe3057318961da6a3cc3918b4590ae2595cc  # https://github.com/randombit/botan/commit/6cd6fe3057318961da6a3cc3918b4590ae2595cc
+  classification: unspecified
+
+# Add support for curve specific field element square roots
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4934  # https://github.com/randombit/botan/pull/4934
+  merge_commit: 2c5ea096aaeb8e8f3fec7ba7d9e74382cfff0955
+  classification: unspecified
+
+# FIX: Building a static library using Ninja on macOS
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4947  # https://github.com/randombit/botan/pull/4947
+  merge_commit: 1da353c0e364e81033587ee55e07e18edc85cbfb
+  classification: unspecified
+
+# Add --ecc-groups=generic to speed cli
+#   Author: Jack Lloyd
+- commit: 3d00b152f6c8ce70bab6f80086efbe9d60cf5323  # https://github.com/randombit/botan/commit/3d00b152f6c8ce70bab6f80086efbe9d60cf5323
+  classification: unspecified
+
+# Document EC_Scalar::hash
+#   Author: Jack Lloyd
+- commit: ed7bc069281c4e21810eca51c91d79f82fee3575  # https://github.com/randombit/botan/commit/ed7bc069281c4e21810eca51c91d79f82fee3575
+  classification: unspecified
+
+# Add variable time scalar inversion to pcurves_generic
+#   Author:    @randombit
+- pr: 4953  # https://github.com/randombit/botan/pull/4953
+  merge_commit: 750c4cef700cb392c6390faf46e95a2832441263
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-slicing
+#   Author:    @randombit
+- pr: 4956  # https://github.com/randombit/botan/pull/4956
+  merge_commit: 3a327627dea5fb686aeb495728fbbbc58002c088
+  classification: unspecified
+
+# Address various warnings from clang-tidy
+#   Author:    @randombit
+- pr: 4931  # https://github.com/randombit/botan/pull/4931
+  merge_commit: 930d7f6adac226c517722ffb5744325a24debebf
+  classification: unspecified
+
+# Enable and fix clang-tidy hicpp-explicit-conversions warning
+#   Author:    @randombit
+- pr: 4957  # https://github.com/randombit/botan/pull/4957
+  merge_commit: c4f937d19408f8539263fc844c646ad5b9181e90
+  classification: unspecified
+
+# Enable and fix clang-tidy warning modernize-avoid-bind
+#   Author:    @randombit
+- pr: 4958  # https://github.com/randombit/botan/pull/4958
+  merge_commit: bdd158446c17e8480ea05fb2427a95a41eb3fbf3
+  classification: unspecified
+
+# Mark generated EC group defines as an internal define [ci skip]
+#   Author: Jack Lloyd
+- commit: 463b48f947bd41792135cd069d6c2c4def473be2  # https://github.com/randombit/botan/commit/463b48f947bd41792135cd069d6c2c4def473be2
+  classification: unspecified
+
+# Enable and fix clang-tidy warning bugprone-lambda-function-name
+#   Author:    @randombit
+- pr: 4960  # https://github.com/randombit/botan/pull/4960
+  merge_commit: 0b26967f976213e7676a7d90974954af9dd71fbd
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-init-variables
+#   Author:    @randombit
+- pr: 4959  # https://github.com/randombit/botan/pull/4959
+  merge_commit: ecd5815a4930a986a64086e8137af8ee801e7b58
+  classification: unspecified
+
+# Fix some clang-tidy readability-implicit-bool-conversion warnings
+#   Author:    @randombit
+- pr: 4961  # https://github.com/randombit/botan/pull/4961
+  merge_commit: 8e84cba5c1ec7832c60cfc4bf278f1c35dcc30c5
+  classification: unspecified
+
+# Fix various clang-tidy warnings in POWER specific code
+#   Author:    @randombit
+- pr: 4963  # https://github.com/randombit/botan/pull/4963
+  merge_commit: 0747f4bc5f4a5a4420a69fecc658516b2e96aa4b
+  classification: unspecified
+
+# Cleanup ISO-9796 padding implementation
+#   Author:    @randombit
+- pr: 4965  # https://github.com/randombit/botan/pull/4965
+  merge_commit: a5c4f9c1809cd70d59949d7f2903fbcfe7c07f30
+  classification: unspecified
+
+# Support for wildcards in module selection
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4966  # https://github.com/randombit/botan/pull/4966
+  merge_commit: 17a327f63f15986dbecdd94d58b22cd559e50fbd
+  classification: unspecified
+
+# Fix some clang-tidy bugprone-narrowing-conversions warnings
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4964  # https://github.com/randombit/botan/pull/4964
+  merge_commit: a13f9503618d2ee666b0ba0727970cf1fb2359fe
+  classification: unspecified
+
+# Fix/reduce CppCheck warnings in 'tests' folder
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 4967  # https://github.com/randombit/botan/pull/4967
+  merge_commit: f3cad956a1cd44a3fb51f31538ad06b156a95d2e
+  classification: unspecified
+
+# Improve RSA CRT recombination step
+#   Author:    @randombit
+- pr: 4944  # https://github.com/randombit/botan/pull/4944
+  merge_commit: c74e812c10c104cdcf3308068aca23d659c6b244
+  classification: unspecified
+
+# Fix clang-tidy warning readability-qualified-auto
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4962  # https://github.com/randombit/botan/pull/4962
+  merge_commit: 88e8dd91c31e6806dcb11ecde238e8cbf88e8ecd
+  classification: unspecified
+
+# Enable and fix clang-tidy warning hicpp-member-init
+#   Author:    @randombit
+- pr: 4968  # https://github.com/randombit/botan/pull/4968
+  merge_commit: 8e9985cbac56dc365b4856065d025fd95eeaad22
+  classification: unspecified
+
+# Enable and fix (well, mostly silence) clang-tidy warning hicpp-vararg
+#   Author:    @randombit
+- pr: 4969  # https://github.com/randombit/botan/pull/4969
+  merge_commit: 8cd70aa22f95dc664b9370c8e2630cdb23b42984
+  classification: unspecified
+
+# Enable and fix clang-tidy warning suspcious-call-argument
+#   Author:    @randombit
+- pr: 4981  # https://github.com/randombit/botan/pull/4981
+  merge_commit: 2552b3c137a5ef828d8dd6118d340ff0976a2605
+  classification: unspecified
+
+# Enable and fix clang-tidy warning misc-redundant-expression
+#   Author:    @randombit
+- pr: 4978  # https://github.com/randombit/botan/pull/4978
+  merge_commit: e87c8e33a3e40e0eb4dfe03d72bc893ef32f07ff
+  classification: unspecified
+
+# Enable and fix clang-tidy warning modernize-raw-string-literal
+#   Author:    @randombit
+- pr: 4980  # https://github.com/randombit/botan/pull/4980
+  merge_commit: 7e4685079e83b154ecacb0916c9ad42df9f54abb
+  classification: unspecified
+
+# In clang-tidy config enable a warning already enabled under a different name
+#   Author:    @randombit
+- pr: 4976  # https://github.com/randombit/botan/pull/4976
+  merge_commit: e53ca841ee331f26580fcd112c2947ee827b0d85
+  classification: unspecified
+
+# Fix silencing of vararg clang-tidy warning
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4975  # https://github.com/randombit/botan/pull/4975
+  merge_commit: b0731ce9e1a961967dc6fc265dae61e8758c9655
+  classification: unspecified
+
+# Fix some clang-tidy readability-implict-bool-conversion warnings
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4977  # https://github.com/randombit/botan/pull/4977
+  merge_commit: 5cc87ce626109637dfe662e1c767458f4b16290f
+  classification: unspecified
+
+# Enable and fix clang-tidy warning readability-container-data-pointer
+#   Author:    @randombit
+- pr: 4972  # https://github.com/randombit/botan/pull/4972
+  merge_commit: 63764de6e32492a8ad46548be508f9a964ba713e
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-avoid-do-while
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4973  # https://github.com/randombit/botan/pull/4973
+  merge_commit: 93e9e1d365f52407821711da60a82e31e84345ce
+  classification: unspecified
+
+# Run: `run_clang_tidy.py --regenerate-inline-config-file`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4971  # https://github.com/randombit/botan/pull/4971
+  merge_commit: 6aa9702c75fd0761b1fcc51c3f20001856be327d
+  classification: unspecified
+
+# Document the specific threat model the library operates under
+#   Author:    @randombit
+#   Approvals: @atreiber94, @reneme
+- pr: 4955  # https://github.com/randombit/botan/pull/4955
+  merge_commit: e3b3452ec48335e4eaa80e6e1a99e9b16657f6a2
+  classification: unspecified
+
+# Test: Improve AEAD and cipher mode error condition checks
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4970  # https://github.com/randombit/botan/pull/4970
+  merge_commit: a5656fff8d5a106f5989d5180bdba1f4db536d6a
+  classification: unspecified
+
+# Various clang-tidy runner script tweaks
+#   Author:    @randombit
+- pr: 4988  # https://github.com/randombit/botan/pull/4988
+  merge_commit: b71fdb4a3e7b422a3148499d3f1800d0f7f70ab3
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cert-err58-cpp
+#   Author:    @randombit
+- pr: 4982  # https://github.com/randombit/botan/pull/4982
+  merge_commit: ef2a1bab275b9b086d243dd018d690996511cc6d
+  classification: unspecified
+
+# Enable clang-tidy warning readability-qualified-auto
+#   Author:    @randombit
+- pr: 4987  # https://github.com/randombit/botan/pull/4987
+  merge_commit: 12425814ccbdf0b4bad182becacb0c4591ce7ace
+  classification: unspecified
+
+# Fix some readability-named-parameter warnings from clang-tidy
+#   Author:    @randombit
+- pr: 4986  # https://github.com/randombit/botan/pull/4986
+  merge_commit: a900b914083178fb5a98f636f710d60adb99e11f
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-prefer-member-initializer
+#   Author:    @randombit
+- pr: 4985  # https://github.com/randombit/botan/pull/4985
+  merge_commit: 796ccaa31a249373a9f60a8cedfed59bd1f3420f
+  classification: unspecified
+
+# Enable and fix clang-tidy warning misc-confusable-identifiers
+#   Author:    @randombit
+- pr: 4984  # https://github.com/randombit/botan/pull/4984
+  merge_commit: 64a316a5d2d07039a1eb434ddec2fc4f2311358d
+  classification: unspecified
+
+# Improve RFC 3779 extension api
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 4890  # https://github.com/randombit/botan/pull/4890
+  merge_commit: cf74a5db8145a33edb98ff6b3dcd016c07fb2c73
+  classification: unspecified
+
+# Enable and fix clang-tidy warning cppcoreguidelines-owning-memory
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4983  # https://github.com/randombit/botan/pull/4983
+  merge_commit: 1999a97b1dc18b255d33345e3a16db64a1281f16
+  classification: unspecified
+
+# Enable and fix clang-tidy warning readability-use-std-min-max
+#   Author:    @randombit
+- pr: 4979  # https://github.com/randombit/botan/pull/4979
+  merge_commit: 5e308722839cf6cab6ca5a77d68801f10d0ef092
+  classification: unspecified
+
+# Enable and fix clang-tidy warning modernize-loop-convert
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4974  # https://github.com/randombit/botan/pull/4974
+  merge_commit: 4c149df22905b9e8f14da8a7aa292b114c1f47fe
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 1acee3b18e05b013333fbf0be973043ee557be2e  # https://github.com/randombit/botan/commit/1acee3b18e05b013333fbf0be973043ee557be2e
+  classification: unspecified
+
+# Ignore .json and .sh files in the top level dir [ci skip]
+#   Author: Jack Lloyd
+- commit: cd3e2b4da849638cad6a05ea3a38000929a73cee  # https://github.com/randombit/botan/commit/cd3e2b4da849638cad6a05ea3a38000929a73cee
+  classification: unspecified
+
+# Silence a new clang-tidy 20 warning in p11.h [ci skip]
+#   Author: Jack Lloyd
+- commit: c94c8e20d0e67307c920385746def1fa0ee2b0a6  # https://github.com/randombit/botan/commit/c94c8e20d0e67307c920385746def1fa0ee2b0a6
+  classification: unspecified
+
+# Fix more readability-named-parameter warnings from clang-tidy
+#   Author:    @randombit
+- pr: 4989  # https://github.com/randombit/botan/pull/4989
+  merge_commit: e18675f4596bf81c8b4212a7f95ecbc7a6b8bcc3
+  classification: unspecified
+
+# Enable and fix clang-tidy warning readability-redundant-member-init
+#   Author:    @randombit
+- pr: 4992  # https://github.com/randombit/botan/pull/4992
+  merge_commit: 6eea3cee46dec6e67178e19acebe66144a3bd443
+  classification: unspecified
+
+# Improve string<->span conversions
+#   Author:    @randombit
+- pr: 4990  # https://github.com/randombit/botan/pull/4990
+  merge_commit: 220e81fa51030c44e98d6956cf8c5cef58bf59ac
+  classification: unspecified
+
+# Replace std::array with std::span in roughtime hashNode function
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 4994  # https://github.com/randombit/botan/pull/4994
+  merge_commit: 70871ae2460eada89b251b8c63023edc8ee0e1a8
+  classification: unspecified
+
+# Enable and fix clang-tidy warning bugprone-argument-comment
+#   Author:    @randombit
+- pr: 4993  # https://github.com/randombit/botan/pull/4993
+  merge_commit: 16e090efa22edeabaabbbdaeb06fb02cce1f341b
+  classification: unspecified
+
+# Scrub pcurves ECC private key values on destruction
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 4991  # https://github.com/randombit/botan/pull/4991
+  merge_commit: 421b766f148fbe01b4cf20fb167042a64e663f8c
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: c4aa80cd6649a453396c4163e0745cf11816bd1c  # https://github.com/randombit/botan/commit/c4aa80cd6649a453396c4163e0745cf11816bd1c
+  classification: unspecified
+
+# Replace macros using BOTAN_TARGET_CPU_XXX with BOTAN_TARGET_ARCH_XXX
+#   Author:    @randombit
+- pr: 5003  # https://github.com/randombit/botan/pull/5003
+  merge_commit: c05a6c860badf8cf8877093033cdf74f39da2d07
+  classification: unspecified
+
+# Add ASN1_Time::from_seconds_since_epoch
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 4999  # https://github.com/randombit/botan/pull/4999
+  merge_commit: 97f08f6f597210d51932f8e36fc5df8bbb544404
+  classification: unspecified
+
+# Enable and fix clang-tidy warning readability-isolate-declaration
+#   Author:    @randombit
+- pr: 4998  # https://github.com/randombit/botan/pull/4998
+  merge_commit: 5ce69e1e99652d5a843c2104526a04f25eeab5e6
+  classification: unspecified
+
+# Remove some unnecessary includes in TLS
+#   Author:    @randombit
+- pr: 5007  # https://github.com/randombit/botan/pull/5007
+  merge_commit: 68c48a5ca5d1ed48c507f3cdeb38bc6b2a0a03ec
+  classification: unspecified
+
+# Enable and fix clang-tidy warning bugprone-branch-clone
+#   Author:    @randombit
+- pr: 5004  # https://github.com/randombit/botan/pull/5004
+  merge_commit: b89426d05eadb05feaab7a40a7ac68d621a931ea
+  classification: unspecified
+
+# Enable clang-tidy warning misc-misplaced-const
+#   Author:    @randombit
+- pr: 5005  # https://github.com/randombit/botan/pull/5005
+  merge_commit: e76868b720f22263cd96ef97c1b3759ae9bec30d
+  classification: unspecified
+
+# Modify Montygomery_Int to not store the value as a BigInt
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5010  # https://github.com/randombit/botan/pull/5010
+  merge_commit: b3fa1cbc6adb14bed33c54e6830a840f55d6dfc4
+  classification: unspecified
+
+# Remove some unused functions on Montgomery_Int and Montgomery_Params
+#   Author:    @randombit
+- pr: 5009  # https://github.com/randombit/botan/pull/5009
+  merge_commit: 9200a11107dd2910661431f27c3b715ea4795971
+  classification: unspecified
+
+# Fix implicit conversion issues caused by encode_if in der encoder
+#   Author:    @Brassinolide
+#   Approvals: (@randombit)
+- pr: 5013  # https://github.com/randombit/botan/pull/5013
+  merge_commit: 1ab1f909fc77d042db5ec711a137f604e6daa414
+  classification: unspecified
+
+# Make Montgomery_Params an inner shared_ptr type
+#   Author:    @randombit
+- pr: 5012  # https://github.com/randombit/botan/pull/5012
+  merge_commit: d45d27fe57cec53ba66cc93cd0d536434be60617
+  classification: unspecified
+
+# Remove 'EMSA' terminology where possible
+#   Author:    @randombit
+- pr: 5008  # https://github.com/randombit/botan/pull/5008
+  merge_commit: a275e372dfa634882dc32c6385346b00fce70402
+  classification: unspecified
+
+# Small cleanups in Barrett reduction
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5014  # https://github.com/randombit/botan/pull/5014
+  merge_commit: 464e74c875c598fba76ecd5638206b1bd6874210
+  classification: unspecified
+
+# Clean up low level mp interfaces
+#   Author:    @randombit
+- pr: 5017  # https://github.com/randombit/botan/pull/5017
+  merge_commit: e0f6d3fe3ae472af9a7d2e90766f31976af9c168
+  classification: unspecified
+
+# Fix various missing dependencies
+#   Author:    @randombit
+- pr: 5020  # https://github.com/randombit/botan/pull/5020
+  merge_commit: 72deba42e6638516372a40b85190f87f9a076c34
+  classification: unspecified
+
+# Fix a name collision that caused problems when building tpm2 in the amalgamation
+#   Author:    @randombit
+- pr: 5018  # https://github.com/randombit/botan/pull/5018
+  merge_commit: e3e0d35689ed4d675e4e222d5cdd5243b9abf243
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 55a783101735f9ab542007ffe7909e2b173b5a49  # https://github.com/randombit/botan/commit/55a783101735f9ab542007ffe7909e2b173b5a49
+  classification: unspecified
+
+# Improve handling of optional types in ASN.1
+#   Author:    @randombit
+- pr: 5001  # https://github.com/randombit/botan/pull/5001
+  merge_commit: 1eacc5b05c894f6b66403a6a0549ab2b53752947
+  classification: unspecified
+
+# Rename CMake targets to botan::botan / botan::botan-static
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5022  # https://github.com/randombit/botan/pull/5022
+  merge_commit: 7fc5a0f5231a1cc1e47d41281b675ce20fe97318
+  classification: unspecified
+
+# Remove various references to EMSA in the code and docs
+#   Author:    @randombit
+- pr: 5024  # https://github.com/randombit/botan/pull/5024
+  merge_commit: e2a24d382f9e3c9d8a1371bdb4cd7b5f7d9dca7e
+  classification: unspecified
+
+# Avoid using `and` keyword
+#   Author:    @randombit
+- pr: 5029  # https://github.com/randombit/botan/pull/5029
+  merge_commit: a593adab4cacc2dd0ffb748656c516d11c2e5544
+  classification: unspecified
+
+# Update change notes
+#   Author: Jack Lloyd
+- commit: 5f6d020174bbcfd0986289b3d781a549982288d8  # https://github.com/randombit/botan/commit/5f6d020174bbcfd0986289b3d781a549982288d8
+  classification: unspecified
+
+# Fix some clang-tidy readability-simplify-boolean-expr warnings
+#   Author:    @randombit
+- pr: 5031  # https://github.com/randombit/botan/pull/5031
+  merge_commit: a361efb2e4223627d1290fcba67f4dc0b0ffeb78
+  classification: unspecified
+
+# improve botan-config.cmake
+#   Author:    @justusranvier
+#   Approvals: @reneme
+- pr: 5027  # https://github.com/randombit/botan/pull/5027
+  merge_commit: 77a3a40a03d145c8c9d5545276a9b864ca0791c3
+  classification: unspecified
+
+# Fix some readability-implict-bool-conversion warnings from clang-tidy
+#   Author:    @randombit
+- pr: 5032  # https://github.com/randombit/botan/pull/5032
+  merge_commit: 802931a9ef2aff559769bdc32ffe443bde939ca0
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: c9d60d429e2c69546bc450ae9815af0601a6ac80  # https://github.com/randombit/botan/commit/c9d60d429e2c69546bc450ae9815af0601a6ac80
+  classification: unspecified
+
+# Regen src/.clang-tidy [ci skip]
+#   Author: Jack Lloyd
+- commit: 7dcd490423a8a43f1f18ca9b57bfe4247171615b  # https://github.com/randombit/botan/commit/7dcd490423a8a43f1f18ca9b57bfe4247171615b
+  classification: unspecified
+
+# Use mp interfaces in X448/Ed448 field arithmetic
+#   Author:    @randombit
+- pr: 5037  # https://github.com/randombit/botan/pull/5037
+  merge_commit: 216547f2b062e609bfa3c86f895978cbdfd381fb
+  classification: unspecified
+
+# Fix some bugprone-unchecked-optional-access warnings from clang-tidy
+#   Author:    @randombit
+- pr: 5035  # https://github.com/randombit/botan/pull/5035
+  merge_commit: e39c1e84c4d71f4d21a05ddbc96484335fac4eeb
+  classification: unspecified
+
+# Fix some readability-convert-member-functions-to-static warnings from clang-tidy
+#   Author:    @randombit
+- pr: 5034  # https://github.com/randombit/botan/pull/5034
+  merge_commit: 8cfedc11c7a22e82d159acaaa067dd72481a3562
+  classification: unspecified
+
+# Update support information [ci skip]
+#   Author: Jack Lloyd
+- commit: 6b24db8518d17ffae51ef07c5a32e5748d3aa40c  # https://github.com/randombit/botan/commit/6b24db8518d17ffae51ef07c5a32e5748d3aa40c
+  classification: unspecified
+
+# Enable clang-tidy warning readability-implict-bool-conversion
+#   Author:    @randombit
+- pr: 5036  # https://github.com/randombit/botan/pull/5036
+  merge_commit: feb9b3ff915198354c91d79e6b1aedbf38753b7f
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 4e84a84d18c8a461823343f894faffdaba7d85cf  # https://github.com/randombit/botan/commit/4e84a84d18c8a461823343f894faffdaba7d85cf
+  classification: unspecified
+
+# Use span for MGF1
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5041  # https://github.com/randombit/botan/pull/5041
+  merge_commit: 1f99875554c5f268c2703ad92618f6f50e7e8491
+  classification: unspecified
+
+# small fixes for jitter_rng
+#   Author:    @thillux
+#   Approvals: @reneme, (@randombit)
+- pr: 5044  # https://github.com/randombit/botan/pull/5044
+  merge_commit: a30330a46fec3dafe33a7ae76a94e1fb2ec02861
+  classification: unspecified
+
+# Reword a confusing error message in SP800-56C
+#   Author:    @randombit
+- pr: 5042  # https://github.com/randombit/botan/pull/5042
+  merge_commit: 7f2cb5b36908c75f8b4aa9e2bde652f748e7e231
+  classification: unspecified
+
+# Update for 3.9.0 release
+#   Author: Jack Lloyd
+- commit: 07e1cfe0a06b224bbb37ad534736924931184246  # https://github.com/randombit/botan/commit/07e1cfe0a06b224bbb37ad534736924931184246
+  classification: unspecified
+
+# fix: use fedora new pem cert location
+#   Author:    @carlosrodfern
+#   Approvals: (@randombit)
+- pr: 5052  # https://github.com/randombit/botan/pull/5052
+  merge_commit: 1ce160a4010a0460181e8ca5dcf16c92d8401f77
+  classification: unspecified
+
+# Base58 optimizations
+#   Author:    @randombit
+- pr: 5051  # https://github.com/randombit/botan/pull/5051
+  merge_commit: 06972557ae2af1a221f6276128b1b1b3e0f77128
+  classification: unspecified
+
+# Run a full clang-tidy scan on every PR
+#   Author:    @randombit
+- pr: 5050  # https://github.com/randombit/botan/pull/5050
+  merge_commit: fb33dabab15d47be3ce2dc91d0d2101132d76bd3
+  classification: unspecified
+
+# Add support for building with clang-cl
+#   Author:    @solemnwarning
+#   Approvals: @reneme, (@randombit)
+- pr: 4255  # https://github.com/randombit/botan/pull/4255
+  merge_commit: e3f0f7f0df79db57a776219f6abf0aae52726f3e
+  classification: unspecified
+
+# Remove the clang-tidy nightly run
+#   Author:    @randombit
+- pr: 5054  # https://github.com/randombit/botan/pull/5054
+  merge_commit: ee093a635fbfdd9f699decd040a9a1c9634e676f
+  classification: unspecified
+
+# Fix a warning in the sqlite3 wrapper when compiling on 32-bit systems
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5053  # https://github.com/randombit/botan/pull/5053
+  merge_commit: eaad5c54083b791bf5c998b3b0adc3374779f4ab
+  classification: unspecified
+
+# Remove various uses of IEEE 1363's EME terminology for encryption padding
+#   Author:    @randombit
+- pr: 5055  # https://github.com/randombit/botan/pull/5055
+  merge_commit: 7fe3a730aae9cd5a21f9710f65db4557afc9d46e
+  classification: unspecified
+
+# New implementation of the Jacobi function
+#   Author:    @randombit
+- pr: 5057  # https://github.com/randombit/botan/pull/5057
+  merge_commit: d1ae5695b27a8a2811089f207d85c88feb887335
+  classification: unspecified
+
+# Custom ECDH adapter in TLS 1.2 must no-longer derive from `ECDH_PublicKey`
+#   Author:    @reneme
+#   Approvals: (@randombit), (@jdoubleu)
+- pr: 5056  # https://github.com/randombit/botan/pull/5056
+  merge_commit: 63d9957034307dc4ed797187b6262bb013c4cc5e
+  classification: unspecified
+
+# Bump version to 3.10, add initial release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 548c59d41c5664744357e89a4b318bc56eca4f41  # https://github.com/randombit/botan/commit/548c59d41c5664744357e89a4b318bc56eca4f41
+  classification: unspecified
+
+# Skip CodeQL runs on PRs
+#   Author:    @randombit
+- pr: 5059  # https://github.com/randombit/botan/pull/5059
+  merge_commit: c7afad93c3ef8b7348afcb076bfe6627778e1330
+  classification: unspecified
+
+# Fix various clang-tidy warnings in aarch64 specific code
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5060  # https://github.com/randombit/botan/pull/5060
+  merge_commit: a2a0b43c3811f9f2a44d271fe590040c72119703
+  classification: unspecified
+
+# Cleanup Aarch64 SHA-256 compression
+#   Author:    @randombit
+- pr: 5065  # https://github.com/randombit/botan/pull/5065
+  merge_commit: ae7e0c4ecc420845db77254dde166ee7320eafb2
+  classification: unspecified
+
+# Partially Revert #4927
+#   Author:    @randombit
+- pr: 5064  # https://github.com/randombit/botan/pull/5064
+  merge_commit: ec6b7b97725e920c3954de4f472d2f0f1d8736cb
+  classification: unspecified
+
+# Correct bugs handling division by small negative numbers
+#   Author:    @randombit
+- pr: 5067  # https://github.com/randombit/botan/pull/5067
+  merge_commit: ddbd8dc5a7fbe71d7a0d3b09c34965270c86d092
+  classification: unspecified
+
+# Fix some warnings from the ruff linter
+#   Author:    @randombit
+- pr: 5069  # https://github.com/randombit/botan/pull/5069
+  merge_commit: 98e072bfef38343c5f99e094f17ab8885de1a1a7
+  classification: unspecified
+
+# NIST SP.800-232: Ascon-Hash256 and Ascon-XOF128
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5061  # https://github.com/randombit/botan/pull/5061
+  merge_commit: 0852a2a74a6823a103368db6a835d4a5f98d0c1a
+  classification: unspecified
+
+# Add a typos CI job
+#   Author:    @randombit
+- pr: 5075  # https://github.com/randombit/botan/pull/5075
+  merge_commit: 52eb916552cc6d8f38255e1ac3169a007a79fcf2
+  classification: unspecified
+
+# Fix various typos
+#   Author:    @randombit
+- pr: 5071  # https://github.com/randombit/botan/pull/5071
+  merge_commit: a0e0c85bd143ea47196b2a3d3d0dd5a453f1f4db
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: b8c3339b98fbd0c344ccf9fceba9aeca8ab3291c  # https://github.com/randombit/botan/commit/b8c3339b98fbd0c344ccf9fceba9aeca8ab3291c
+  classification: unspecified
+
+# Refactorings to support optimized word level division/modulus
+#   Author:    @randombit
+- pr: 5077  # https://github.com/randombit/botan/pull/5077
+  merge_commit: 936b8e9596f14694d606be94f8168704686213d2
+  classification: unspecified
+
+# Add explicit algorithm for variable-time division of 2^k / x
+#   Author:    @randombit
+- pr: 5068  # https://github.com/randombit/botan/pull/5068
+  merge_commit: c03cc54dce240a20d5559931741f84f4fd521359
+  classification: unspecified
+
+# Disable the Emscripten build
+#   Author:    @randombit
+- pr: 5080  # https://github.com/randombit/botan/pull/5080
+  merge_commit: 1b82e522d730c3747650e34257b1ca45d7107866
+  classification: unspecified
+
+# Allow Empty Issuer in Certificate_Extension::validate
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit)
+- pr: 5081  # https://github.com/randombit/botan/pull/5081
+  merge_commit: 73ef154818a0b23c2251969ecb64ab08fb3e32b9
+  classification: unspecified
+
+# FIX: passing raw bytes into PKSign in botan3.py
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5082  # https://github.com/randombit/botan/pull/5082
+  merge_commit: 00d442452b1f4bf48790f5bd34ba6f9adb4816bf
+  classification: unspecified
+
+# Allow loading (compressed) SEC.1-encoded ECC keys via FFI and Python
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5083  # https://github.com/randombit/botan/pull/5083
+  merge_commit: a72cc07c6ed021b8b35d803aceb69d5c721c2777
+  classification: unspecified
+
+# find x509 cert by issuer dn and serial number
+#   Author:    @Brassinolide
+#   Approvals: (@randombit)
+- pr: 5072  # https://github.com/randombit/botan/pull/5072
+  merge_commit: 9857b91cba6214ef43cbe1d58ca78eaeaebdae1d
+  classification: unspecified
+
+# Fix some typing errors in botan3.py
+#   Author:    @randombit
+- pr: 5092  # https://github.com/randombit/botan/pull/5092
+  merge_commit: ce0eeaec538bbc51354fce48a0a01bcaf9ff4344
+  classification: unspecified
+
+# Fix remaining warnings from the ruff linter
+#   Author:    @randombit
+- pr: 5089  # https://github.com/randombit/botan/pull/5089
+  merge_commit: 7c17e8f4753f4954f3612751d0a7336d3c04dcf5
+  classification: unspecified
+
+# Type hints for botan3.py
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5086  # https://github.com/randombit/botan/pull/5086
+  merge_commit: 5c84faf9c07480746b7df9ecc3dc920ec462bc2a
+  classification: unspecified
+
+# FIX: Don't declare backward compatibility ALIAS for CMake < 3.18
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5099  # https://github.com/randombit/botan/pull/5099
+  merge_commit: 0d4cd13de1a5977da0df3911fb93cfd443732b69
+  classification: unspecified
+
+# Add running ruff linter to CI
+#   Author:    @randombit
+- pr: 5090  # https://github.com/randombit/botan/pull/5090
+  merge_commit: b1885dcc3b5322a8ff33078ff9dd3b9d3449d0f5
+  classification: unspecified
+
+# Fix typo in comment [ci skip]
+#   Author: Jack Lloyd
+- commit: 8b1f7ef93ea5b2333e022012ec15766c2f779625  # https://github.com/randombit/botan/commit/8b1f7ef93ea5b2333e022012ec15766c2f779625
+  classification: unspecified
+
+# Refactor: Clarify Padding Specification in Keccak-based Functions
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5097  # https://github.com/randombit/botan/pull/5097
+  merge_commit: 8ef91eb772d0d46072d5558c6d4094a8b9e91635
+  classification: unspecified
