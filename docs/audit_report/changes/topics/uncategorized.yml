@@ -2468,3 +2468,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: 8b1f7ef93ea5b2333e022012ec15766c2f779625  # https://github.com/randombit/botan/commit/8b1f7ef93ea5b2333e022012ec15766c2f779625
   classification: unspecified
+
+# Refactor: Clarify Padding Specification in Keccak-based Functions
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5097  # https://github.com/randombit/botan/pull/5097
+  merge_commit: 8ef91eb772d0d46072d5558c6d4094a8b9e91635
+  classification: unspecified
