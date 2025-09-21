@@ -2475,3 +2475,10 @@ patches:
 - pr: 5097  # https://github.com/randombit/botan/pull/5097
   merge_commit: 8ef91eb772d0d46072d5558c6d4094a8b9e91635
   classification: unspecified
+
+# Add option to generate documentation in texi format
+#   Author:    @bkmgit
+#   Approvals: (@randombit)
+- pr: 5105  # https://github.com/randombit/botan/pull/5105
+  merge_commit: 14e54e7a15ae2392fc4f010bb39830cc9d50365d
+  classification: unspecified
