@@ -2482,3 +2482,9 @@ patches:
 - pr: 5105  # https://github.com/randombit/botan/pull/5105
   merge_commit: 14e54e7a15ae2392fc4f010bb39830cc9d50365d
   classification: unspecified
+
+# Fix some typos flagged by the latest version of the typos tool
+#   Author:    @randombit
+- pr: 5114  # https://github.com/randombit/botan/pull/5114
+  merge_commit: ea34eb789b378c1de7e2b0c9da5caa6179b43fa6
+  classification: unspecified
