@@ -2488,3 +2488,17 @@ patches:
 - pr: 5114  # https://github.com/randombit/botan/pull/5114
   merge_commit: ea34eb789b378c1de7e2b0c9da5caa6179b43fa6
   classification: unspecified
+
+# Resolve FIXME: Enforce explicit conversion for Context to ESYS_CONTEXT*
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5119  # https://github.com/randombit/botan/pull/5119
+  merge_commit: b88037c82cf8ff4cd4b88f6b847e3830ea893b5d
+  classification: unspecified
+
+# Update BoringSSL TLS test suite link after branch rename
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5120  # https://github.com/randombit/botan/pull/5120
+  merge_commit: 3de96468e4ff3e1b339da3e62e92a1dac5412bc8
+  classification: unspecified
