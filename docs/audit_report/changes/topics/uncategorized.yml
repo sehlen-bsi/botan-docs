@@ -2502,3 +2502,17 @@ patches:
 - pr: 5120  # https://github.com/randombit/botan/pull/5120
   merge_commit: 3de96468e4ff3e1b339da3e62e92a1dac5412bc8
   classification: unspecified
+
+# Modernize logging implementation with C++20 and solve FIXME message
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5115  # https://github.com/randombit/botan/pull/5115
+  merge_commit: 0487ba51f05e239909224ff940d25a55f3d9f81e
+  classification: unspecified
+
+# Update TPM2 session FIXME comments to document intentional implicit conversions
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5118  # https://github.com/randombit/botan/pull/5118
+  merge_commit: 3c6caa3930b5bcf18e0cc7800dccbb3c88b2c535
+  classification: unspecified
