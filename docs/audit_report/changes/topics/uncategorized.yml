@@ -2516,3 +2516,10 @@ patches:
 - pr: 5118  # https://github.com/randombit/botan/pull/5118
   merge_commit: 3c6caa3930b5bcf18e0cc7800dccbb3c88b2c535
   classification: unspecified
+
+# Streebog FIXME fix
+#   Author:    @huven
+#   Approvals: (@randombit)
+- pr: 5111  # https://github.com/randombit/botan/pull/5111
+  merge_commit: a3ed3b00b7d1ca84609d1f25040534d3aa1a183e
+  classification: unspecified
