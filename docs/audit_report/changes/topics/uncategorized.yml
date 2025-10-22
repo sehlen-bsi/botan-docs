@@ -2523,3 +2523,10 @@ patches:
 - pr: 5111  # https://github.com/randombit/botan/pull/5111
   merge_commit: a3ed3b00b7d1ca84609d1f25040534d3aa1a183e
   classification: unspecified
+
+# Chore: Update Android NDK to r29
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5125  # https://github.com/randombit/botan/pull/5125
+  merge_commit: 46f6fc3b265f21a1b348630eb9a3090167ce0da8
+  classification: unspecified
