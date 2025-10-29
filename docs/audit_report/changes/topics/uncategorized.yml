@@ -2530,3 +2530,10 @@ patches:
 - pr: 5125  # https://github.com/randombit/botan/pull/5125
   merge_commit: 46f6fc3b265f21a1b348630eb9a3090167ce0da8
   classification: unspecified
+
+# Update outdated/dead links and remove invalid ones
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5126  # https://github.com/randombit/botan/pull/5126
+  merge_commit: 4e91ea3e410829a1cd43a12fd6f69e651842e1e8
+  classification: unspecified
