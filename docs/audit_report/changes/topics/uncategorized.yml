@@ -2537,3 +2537,49 @@ patches:
 - pr: 5126  # https://github.com/randombit/botan/pull/5126
   merge_commit: 4e91ea3e410829a1cd43a12fd6f69e651842e1e8
   classification: unspecified
+
+# Resolve TODO comments in socket utilities
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5127  # https://github.com/randombit/botan/pull/5127
+  merge_commit: 19e477fdafda09e109b5b9ed325701160831bf19
+  classification: unspecified
+
+# Force the inlining of the Keccak permutation round function
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5133  # https://github.com/randombit/botan/pull/5133
+  merge_commit: 9d930f663fbc7925b040b89867fdb4dd44a44c86
+  classification: unspecified
+
+# Add FFI view functions for mp type
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5131  # https://github.com/randombit/botan/pull/5131
+  merge_commit: 8a1fbdb78fd24fa54f6c68580041dde52ac53eb9
+  classification: unspecified
+
+# Skip certain tests if RSA signature paddings are disabled
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5122  # https://github.com/randombit/botan/pull/5122
+  merge_commit: 4497006050743eae43a15047e4575c51702fa5f8
+  classification: unspecified
+
+# FIX: `BigInt::zero() << 0` causes a segfault
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5130  # https://github.com/randombit/botan/pull/5130
+  merge_commit: 2bd94f6caac1595b2044e50d89dcf21d3d78199c
+  classification: unspecified
+
+# Avoid the Serpent AVX512 code under MSVC
+#   Author:    @randombit
+- pr: 5132  # https://github.com/randombit/botan/pull/5132
+  merge_commit: 1fbc54fc5af520c073bf897288a11099695c0085
+  classification: unspecified
+
+# Some small typos cleanups [ci skip]
+#   Author: Jack Lloyd
+- commit: a41c4e9205654b923a3da374693e500a41848c31  # https://github.com/randombit/botan/commit/a41c4e9205654b923a3da374693e500a41848c31
+  classification: unspecified
