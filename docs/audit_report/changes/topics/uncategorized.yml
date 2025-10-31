@@ -2583,3 +2583,31 @@ patches:
 #   Author: Jack Lloyd
 - commit: a41c4e9205654b923a3da374693e500a41848c31  # https://github.com/randombit/botan/commit/a41c4e9205654b923a3da374693e500a41848c31
   classification: unspecified
+
+# Set up a Dev Container
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5094  # https://github.com/randombit/botan/pull/5094
+  merge_commit: 3036154143d18b86209849f2d0812000b23361d1
+  classification: unspecified
+
+# Reduce cppcheck warnings in test files
+#   Author:    @KaganCanSit
+#   Approvals: @reneme, (@randombit)
+- pr: 5109  # https://github.com/randombit/botan/pull/5109
+  merge_commit: 120d93b4072a3fbab2f262504ddfab43505638f0
+  classification: unspecified
+
+# Update Limbo test suite
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5134  # https://github.com/randombit/botan/pull/5134
+  merge_commit: b12d0bfa62d3c96bcdec0328c4577a74e8d8dd98
+  classification: unspecified
+
+# Avoid problematic construction in some bit_ops.h functions
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5066  # https://github.com/randombit/botan/pull/5066
+  merge_commit: 42e6d29dfb4545566ca591fb1f67638a4bfc374b
+  classification: unspecified
