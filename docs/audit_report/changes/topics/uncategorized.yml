@@ -2611,3 +2611,10 @@ patches:
 - pr: 5066  # https://github.com/randombit/botan/pull/5066
   merge_commit: 42e6d29dfb4545566ca591fb1f67638a4bfc374b
   classification: unspecified
+
+# FIX: SRP6 step1 fails after FFI reported insufficient buffer space
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5135  # https://github.com/randombit/botan/pull/5135
+  merge_commit: 72715a0cf3630233415e812188e8d66a03be3ed3
+  classification: unspecified
