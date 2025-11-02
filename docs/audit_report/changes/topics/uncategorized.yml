@@ -2618,3 +2618,15 @@ patches:
 - pr: 5135  # https://github.com/randombit/botan/pull/5135
   merge_commit: 72715a0cf3630233415e812188e8d66a03be3ed3
   classification: unspecified
+
+# Modernize BLAKE2s and improve performance by removing per-byte loops
+#   Author:    @KaganCanSit
+#   Approvals: @reneme, (@huven), (@randombit)
+- pr: 5117  # https://github.com/randombit/botan/pull/5117
+  merge_commit: 6bdfee8fe90f8b3d6c6328ed8f9c14005b18126f
+  classification: unspecified
+
+# Update release notes
+#   Author: Jack Lloyd
+- commit: f7975f0dbbf71fd670141f5e02e2818566ec0789  # https://github.com/randombit/botan/commit/f7975f0dbbf71fd670141f5e02e2818566ec0789
+  classification: unspecified
