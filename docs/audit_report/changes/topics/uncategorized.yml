@@ -2630,3 +2630,33 @@ patches:
 #   Author: Jack Lloyd
 - commit: f7975f0dbbf71fd670141f5e02e2818566ec0789  # https://github.com/randombit/botan/commit/f7975f0dbbf71fd670141f5e02e2818566ec0789
   classification: unspecified
+
+# Refactor: Sponge<> base class for Ascon-p and Keccak-p
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5101  # https://github.com/randombit/botan/pull/5101
+  merge_commit: 8cb3c5e5529fbc91c01f5fa49743bdb844dee96a
+  classification: unspecified
+
+# Remove various unused includes flagged by clang-tidy misc-include-cleaner
+#   Author:    @randombit
+- pr: 5137  # https://github.com/randombit/botan/pull/5137
+  merge_commit: bc7d5fb6d8cbb1b0c6882d64cad9f7cfaff1c054
+  classification: unspecified
+
+# Installed python bindings file is named botan3.py
+#   Author:    @bkmgit
+#   Approvals: (@randombit)
+- pr: 5139  # https://github.com/randombit/botan/pull/5139
+  merge_commit: f656d0ef9fb00ed12f4ae3025a34f5f3efe88211
+  classification: unspecified
+
+# Fix unused variable and redundant computation in test
+#   Author: Jack Lloyd
+- commit: 17e16fd4770a793047ef3f55f52fe48e85a2f27c  # https://github.com/randombit/botan/commit/17e16fd4770a793047ef3f55f52fe48e85a2f27c
+  classification: unspecified
+
+# Silence a clang-tidy warning [ci skip]
+#   Author: Jack Lloyd
+- commit: 18526ddd34dfeab0724e396d8320d39d95ba8f24  # https://github.com/randombit/botan/commit/18526ddd34dfeab0724e396d8320d39d95ba8f24
+  classification: unspecified
