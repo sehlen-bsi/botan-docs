@@ -2660,3 +2660,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: 18526ddd34dfeab0724e396d8320d39d95ba8f24  # https://github.com/randombit/botan/commit/18526ddd34dfeab0724e396d8320d39d95ba8f24
   classification: unspecified
+
+# Enable the clang-tidy hicpp-no-assembler and portability-simd-intrinsics warnings
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5142  # https://github.com/randombit/botan/pull/5142
+  merge_commit: 24001eec45d022b3d06d50f78f6503d98ab90ac3
+  classification: unspecified
