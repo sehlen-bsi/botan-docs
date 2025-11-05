@@ -2667,3 +2667,22 @@ patches:
 - pr: 5142  # https://github.com/randombit/botan/pull/5142
   merge_commit: 24001eec45d022b3d06d50f78f6503d98ab90ac3
   classification: unspecified
+
+# Change FFI SRP6 to use fixed length outputs for integer values
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5141  # https://github.com/randombit/botan/pull/5141
+  merge_commit: e64a325f779f5b0c5fe901748b00cfb6ceb4796f
+  classification: unspecified
+
+# Feature: Ascon-AEAD128
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5076  # https://github.com/randombit/botan/pull/5076
+  merge_commit: f8ef97b372924babe756ea1d134d706e552a2ac7
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: cf5beb19ba8e829c855139d2ed9ba7858c2a15ed  # https://github.com/randombit/botan/commit/cf5beb19ba8e829c855139d2ed9ba7858c2a15ed
+  classification: unspecified
