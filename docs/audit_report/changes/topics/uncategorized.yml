@@ -2686,3 +2686,47 @@ patches:
 #   Author: Jack Lloyd
 - commit: cf5beb19ba8e829c855139d2ed9ba7858c2a15ed  # https://github.com/randombit/botan/commit/cf5beb19ba8e829c855139d2ed9ba7858c2a15ed
   classification: unspecified
+
+# Preserve file metadata when installing
+#   Author:    @bkmgit
+#   Approvals: (@randombit)
+- pr: 5140  # https://github.com/randombit/botan/pull/5140
+  merge_commit: afebb96a0c5e3a4be220463ece6bcf0748f75659
+  classification: unspecified
+
+# Fix error compiling the Aarch64 cpuid code without os_utils
+#   Author:    @randombit
+- pr: 5145  # https://github.com/randombit/botan/pull/5145
+  merge_commit: 733b29cab37095c9813f69cdcb930efea5db4009
+  classification: unspecified
+
+# Move the iOS cross CI build to using the macos-26 image
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5146  # https://github.com/randombit/botan/pull/5146
+  merge_commit: 4d38d9759fbe0d3a92a9dcb2e5df36abced19917
+  classification: unspecified
+
+# Unroll SEED encrypt and decrypt by two blocks
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5147  # https://github.com/randombit/botan/pull/5147
+  merge_commit: 3b9b6b582504dab7ad23002bded68bb6528cb341
+  classification: unspecified
+
+# Add another `Certificate_Store_In_Memory` convenience constructor
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5143  # https://github.com/randombit/botan/pull/5143
+  merge_commit: 77ff62992a4862ff821ef200e1630c17e4b9c418
+  classification: unspecified
+
+# Add a Botan4 TODO [ci skip]
+#   Author: Jack Lloyd
+- commit: 4b559f55ea80e452653b1196c249edaef068f8f1  # https://github.com/randombit/botan/commit/4b559f55ea80e452653b1196c249edaef068f8f1
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 7ddf59169628be9ce169990e995ba94d17d1e8f1  # https://github.com/randombit/botan/commit/7ddf59169628be9ce169990e995ba94d17d1e8f1
+  classification: unspecified
