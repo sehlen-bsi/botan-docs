@@ -2735,3 +2735,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: e27d332089247f04e89854a2e60a3af2ec4e430f  # https://github.com/randombit/botan/commit/e27d332089247f04e89854a2e60a3af2ec4e430f
   classification: unspecified
+
+# Shebang not needed when used as a library wrapper
+#   Author:    @bkmgit
+#   Approvals: (@randombit)
+- pr: 5152  # https://github.com/randombit/botan/pull/5152
+  merge_commit: a5e0410a5686b37a05ca6ce32185d40d9aa8eab5
+  classification: unspecified
