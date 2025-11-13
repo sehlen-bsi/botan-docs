@@ -2742,3 +2742,10 @@ patches:
 - pr: 5152  # https://github.com/randombit/botan/pull/5152
   merge_commit: a5e0410a5686b37a05ca6ce32185d40d9aa8eab5
   classification: unspecified
+
+# Modify gen_mp_monty script to directly rewrite the source file
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5149  # https://github.com/randombit/botan/pull/5149
+  merge_commit: e78c62c39cd051ed45d2bb2e502faf777f58c311
+  classification: unspecified
