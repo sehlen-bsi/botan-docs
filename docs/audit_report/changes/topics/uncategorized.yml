@@ -2749,3 +2749,10 @@ patches:
 - pr: 5149  # https://github.com/randombit/botan/pull/5149
   merge_commit: e78c62c39cd051ed45d2bb2e502faf777f58c311
   classification: unspecified
+
+# Increased max HMAC key length to 8192
+#   Author:    @huven
+#   Approvals: (@randombit)
+- pr: 5156  # https://github.com/randombit/botan/pull/5156
+  merge_commit: 2d01ad0cedd1d5ae6c00ce372942df5c5a029e8a
+  classification: unspecified
