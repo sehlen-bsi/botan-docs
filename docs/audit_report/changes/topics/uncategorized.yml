@@ -2756,3 +2756,9 @@ patches:
 - pr: 5156  # https://github.com/randombit/botan/pull/5156
   merge_commit: 2d01ad0cedd1d5ae6c00ce372942df5c5a029e8a
   classification: unspecified
+
+# Use macOS 15 images for CI builds
+#   Author:    @randombit
+- pr: 5159  # https://github.com/randombit/botan/pull/5159
+  merge_commit: 258d0fe77049cbeeaf10560aa3d7b40638ca5b25
+  classification: unspecified
