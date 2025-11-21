@@ -2762,3 +2762,16 @@ patches:
 - pr: 5159  # https://github.com/randombit/botan/pull/5159
   merge_commit: 258d0fe77049cbeeaf10560aa3d7b40638ca5b25
   classification: unspecified
+
+# Unroll loops within the generic Montgomery reduction
+#   Author:    @randombit
+- pr: 5150  # https://github.com/randombit/botan/pull/5150
+  merge_commit: f8eb340027de2d81cdb35982ca55760e6d315c45
+  classification: unspecified
+
+# Recognize Wasm SIMD128 and port `SIMD_4x32` to it
+#   Author:    @polarnis
+#   Approvals: (@randombit)
+- pr: 5155  # https://github.com/randombit/botan/pull/5155
+  merge_commit: b99c9efcffc0084d70ad5afefb3e585a22a41bff
+  classification: unspecified
