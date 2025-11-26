@@ -2775,3 +2775,10 @@ patches:
 - pr: 5155  # https://github.com/randombit/botan/pull/5155
   merge_commit: b99c9efcffc0084d70ad5afefb3e585a22a41bff
   classification: unspecified
+
+# X.509 Path: Option for Non-Self-Signed Trust Anchors
+#   Author:    @FAlbertDev
+#   Approvals: @reneme, (@randombit), (@jdoubleu)
+- pr: 5047  # https://github.com/randombit/botan/pull/5047
+  merge_commit: 222c91120d8d5c5e70a0404872ef4fcbad6f2b9a
+  classification: unspecified
