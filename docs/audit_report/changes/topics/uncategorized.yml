@@ -2782,3 +2782,10 @@ patches:
 - pr: 5047  # https://github.com/randombit/botan/pull/5047
   merge_commit: 222c91120d8d5c5e70a0404872ef4fcbad6f2b9a
   classification: unspecified
+
+# PKCS #11 Version 3.2 Support
+#   Author:    @FAlbertDev
+#   Approvals: (@boricm), (@randombit)
+- pr: 4540  # https://github.com/randombit/botan/pull/4540
+  merge_commit: df91b27d3e866caa414f11871e7170da2501e67a
+  classification: unspecified
