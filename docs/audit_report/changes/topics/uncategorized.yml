@@ -2815,3 +2815,9 @@ patches:
 - pr: 5172  # https://github.com/randombit/botan/pull/5172
   merge_commit: e40d37f18a445ed340dd5866c9c143394c438097
   classification: unspecified
+
+# Use a new strategy for blinding in ECDSA signing
+#   Author:    @randombit
+- pr: 5173  # https://github.com/randombit/botan/pull/5173
+  merge_commit: 67e8928b44291ce60795888a9f67b27b74c410df
+  classification: unspecified
