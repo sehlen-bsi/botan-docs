@@ -2821,3 +2821,15 @@ patches:
 - pr: 5173  # https://github.com/randombit/botan/pull/5173
   merge_commit: 67e8928b44291ce60795888a9f67b27b74c410df
   classification: unspecified
+
+# Add some special cases for variable time division
+#   Author:    @randombit
+- pr: 5177  # https://github.com/randombit/botan/pull/5177
+  merge_commit: 94a72b7ec72793ca18d38ccd6923cc774ee35dca
+  classification: unspecified
+
+# Add a helper for integer division by 10
+#   Author:    @randombit
+- pr: 5176  # https://github.com/randombit/botan/pull/5176
+  merge_commit: 0b66845218af561e3fae39c920f615fd8804ec71
+  classification: unspecified
