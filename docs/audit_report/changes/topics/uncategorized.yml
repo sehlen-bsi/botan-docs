@@ -2833,3 +2833,8 @@ patches:
 - pr: 5176  # https://github.com/randombit/botan/pull/5176
   merge_commit: 0b66845218af561e3fae39c920f615fd8804ec71
   classification: unspecified
+
+# Remove stray semicolon [ci skip]
+#   Author: Jack Lloyd
+- commit: 0eef75831158c59b9323c718f1489bb7b937ca0d  # https://github.com/randombit/botan/commit/0eef75831158c59b9323c718f1489bb7b937ca0d
+  classification: unspecified
