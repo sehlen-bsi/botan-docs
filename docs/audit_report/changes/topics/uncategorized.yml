@@ -2838,3 +2838,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: 0eef75831158c59b9323c718f1489bb7b937ca0d  # https://github.com/randombit/botan/commit/0eef75831158c59b9323c718f1489bb7b937ca0d
   classification: unspecified
+
+# Use AVX2/AVX512 broadcast instructions instead of pre-duplicated constant tables
+#   Author:    @randombit
+- pr: 5179  # https://github.com/randombit/botan/pull/5179
+  merge_commit: 3d96b675e4c2042d37db370fb228772364b329a3
+  classification: unspecified
