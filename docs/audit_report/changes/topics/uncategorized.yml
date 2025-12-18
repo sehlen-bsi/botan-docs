@@ -2844,3 +2844,9 @@ patches:
 - pr: 5179  # https://github.com/randombit/botan/pull/5179
   merge_commit: 3d96b675e4c2042d37db370fb228772364b329a3
   classification: unspecified
+
+# Add SM3 AVX2/BMI2 compression function
+#   Author:    @randombit
+- pr: 5178  # https://github.com/randombit/botan/pull/5178
+  merge_commit: d51fd1a35c112389ea0fd0c46faa0aed25089c3f
+  classification: unspecified
