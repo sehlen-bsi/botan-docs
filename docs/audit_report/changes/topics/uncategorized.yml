@@ -2850,3 +2850,15 @@ patches:
 - pr: 5178  # https://github.com/randombit/botan/pull/5178
   merge_commit: d51fd1a35c112389ea0fd0c46faa0aed25089c3f
   classification: unspecified
+
+# Move CT::value_barrier into a new header
+#   Author:    @randombit
+- pr: 5181  # https://github.com/randombit/botan/pull/5181
+  merge_commit: d04ef866041078b2e194971a820c6431774d1696
+  classification: unspecified
+
+# Avoid deprecated strand call in Boost asio
+#   Author:    @randombit
+- pr: 5182  # https://github.com/randombit/botan/pull/5182
+  merge_commit: 1fd0d0cf51af84e3a25d28e0a180198b84a19c42
+  classification: unspecified
