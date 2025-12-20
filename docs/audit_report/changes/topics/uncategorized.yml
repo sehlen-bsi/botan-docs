@@ -2862,3 +2862,31 @@ patches:
 - pr: 5182  # https://github.com/randombit/botan/pull/5182
   merge_commit: 1fd0d0cf51af84e3a25d28e0a180198b84a19c42
   classification: unspecified
+
+# Add support for SM3 instructions added in upcoming Intel processors
+#   Author:    @randombit
+- pr: 5183  # https://github.com/randombit/botan/pull/5183
+  merge_commit: d417b8c6dcd9e5e8f2884657c01818d6e0864990
+  classification: unspecified
+
+# Avoid integer modulo operations when sieving for primes
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5180  # https://github.com/randombit/botan/pull/5180
+  merge_commit: 8152d65a8c62461971b27a9eb46caa81d2487a94
+  classification: unspecified
+
+# Update version
+#   Author: Jack Lloyd
+- commit: 8bb0a997b6be3c47282e8c32aef9baf56a2ae102  # https://github.com/randombit/botan/commit/8bb0a997b6be3c47282e8c32aef9baf56a2ae102
+  classification: unspecified
+
+# Update change notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 1a497b9c87fa1341fff6810ebbcff62214150d2b  # https://github.com/randombit/botan/commit/1a497b9c87fa1341fff6810ebbcff62214150d2b
+  classification: unspecified
+
+# Expand on goals a bit [ci skip]
+#   Author: Jack Lloyd
+- commit: 7f0f0b6e618120914058064cf1865922d6290eb0  # https://github.com/randombit/botan/commit/7f0f0b6e618120914058064cf1865922d6290eb0
+  classification: unspecified
