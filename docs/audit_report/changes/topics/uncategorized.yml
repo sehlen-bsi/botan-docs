@@ -2890,3 +2890,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: 7f0f0b6e618120914058064cf1865922d6290eb0  # https://github.com/randombit/botan/commit/7f0f0b6e618120914058064cf1865922d6290eb0
   classification: unspecified
+
+# Deprecate Threaded_Fork
+#   Author:    @randombit
+- pr: 5185  # https://github.com/randombit/botan/pull/5185
+  merge_commit: 39c4f3b00adc133c7d48ac848734788dbf4b1e28
+  classification: unspecified
+
+# Use gcc-14 for valgrind CT checks
+#   Author:    @randombit
+- pr: 5184  # https://github.com/randombit/botan/pull/5184
+  merge_commit: a4e346b47137dafdfcc1078a80e4d1e499c78656
+  classification: unspecified
