@@ -2902,3 +2902,15 @@ patches:
 - pr: 5184  # https://github.com/randombit/botan/pull/5184
   merge_commit: a4e346b47137dafdfcc1078a80e4d1e499c78656
   classification: unspecified
+
+# When benchmarking the XOF clear the state between buffer sizes
+#   Author:    @randombit
+- pr: 5190  # https://github.com/randombit/botan/pull/5190
+  merge_commit: 3b7c7e9943b87817a0867ba08c45c7dd260345ae
+  classification: unspecified
+
+# Add faster P-192 reduction when native 128 bit integers are available
+#   Author:    @randombit
+- pr: 5186  # https://github.com/randombit/botan/pull/5186
+  merge_commit: de2f51c8e70e6f5109727f102870f8e32bf19487
+  classification: unspecified
