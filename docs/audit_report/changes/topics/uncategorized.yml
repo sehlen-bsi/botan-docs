@@ -2914,3 +2914,24 @@ patches:
 - pr: 5186  # https://github.com/randombit/botan/pull/5186
   merge_commit: de2f51c8e70e6f5109727f102870f8e32bf19487
   classification: unspecified
+
+# Add AVX-512 implementation of the Keccak permutation
+#   Author:    @randombit
+- pr: 5191  # https://github.com/randombit/botan/pull/5191
+  merge_commit: 1772b36fb9926c7dc0b602fd2e524d8b12afab79
+  classification: unspecified
+
+# Update release notes
+#   Author: Jack Lloyd
+- commit: f78c9e9def7c5447d375ef50b06ae706780a7eed  # https://github.com/randombit/botan/commit/f78c9e9def7c5447d375ef50b06ae706780a7eed
+  classification: unspecified
+
+# Add a note to remove zfec_sse2 in Botan4
+#   Author: Jack Lloyd
+- commit: ab5d5197f68b04ac88bf12d71baa4c6b4b964721  # https://github.com/randombit/botan/commit/ab5d5197f68b04ac88bf12d71baa4c6b4b964721
+  classification: unspecified
+
+# Update hardware acceleration doc
+#   Author: Jack Lloyd
+- commit: e6e063e174ea566c84bbab58d21d2a836c022e7b  # https://github.com/randombit/botan/commit/e6e063e174ea566c84bbab58d21d2a836c022e7b
+  classification: unspecified
