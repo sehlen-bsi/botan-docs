@@ -2935,3 +2935,14 @@ patches:
 #   Author: Jack Lloyd
 - commit: e6e063e174ea566c84bbab58d21d2a836c022e7b  # https://github.com/randombit/botan/commit/e6e063e174ea566c84bbab58d21d2a836c022e7b
   classification: unspecified
+
+# Some configuration updates for clang-tidy
+#   Author:    @randombit
+- pr: 5169  # https://github.com/randombit/botan/pull/5169
+  merge_commit: bd82ee34ee4f2e31862de2d01528857227763467
+  classification: unspecified
+
+# Update todos [ci skip]
+#   Author: Jack Lloyd
+- commit: ffdc1a098790518d704aa79d0016913459885fd9  # https://github.com/randombit/botan/commit/ffdc1a098790518d704aa79d0016913459885fd9
+  classification: unspecified
