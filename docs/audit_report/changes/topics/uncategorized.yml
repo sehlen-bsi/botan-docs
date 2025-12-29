@@ -2946,3 +2946,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: ffdc1a098790518d704aa79d0016913459885fd9  # https://github.com/randombit/botan/commit/ffdc1a098790518d704aa79d0016913459885fd9
   classification: unspecified
+
+# Add AVX-512/GFNI implementation of SM4
+#   Author:    @randombit
+- pr: 5192  # https://github.com/randombit/botan/pull/5192
+  merge_commit: 41b5eb5dc5a4676ddce9e14610e25441c2447b68
+  classification: unspecified
