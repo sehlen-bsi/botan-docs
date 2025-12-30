@@ -2952,3 +2952,52 @@ patches:
 - pr: 5192  # https://github.com/randombit/botan/pull/5192
   merge_commit: 41b5eb5dc5a4676ddce9e14610e25441c2447b68
   classification: unspecified
+
+# Prevent using serpent_avx512 with GCC 11
+#   Author:    @randombit
+- pr: 5197  # https://github.com/randombit/botan/pull/5197
+  merge_commit: 0edca269452ae1dec3c7a9b146a15152cec9da0f
+  classification: unspecified
+
+# Port `simd_2x64` to SIMD128 and make use of it in `ghash_vperm`
+#   Author:    @polarnis
+#   Approvals: (@randombit)
+- pr: 5163  # https://github.com/randombit/botan/pull/5163
+  merge_commit: aedddcca69ec9fb6af670e0633de588de4eb1ae2
+  classification: unspecified
+
+# cli: increase visibility of custom RNG options
+#   Author:    @thillux
+#   Approvals: (@randombit)
+- pr: 5045  # https://github.com/randombit/botan/pull/5045
+  merge_commit: dc14a4820b77f0f24d64658fc26fcb6b03bba371
+  classification: unspecified
+
+# Changes to reduce unnecessary inclusions
+#   Author:    @randombit
+- pr: 5167  # https://github.com/randombit/botan/pull/5167
+  merge_commit: 029993209c6f348227769a51ce949b646eb9f1a7
+  classification: unspecified
+
+# Make CT::Choice's underlying type a word
+#   Author:    @randombit
+- pr: 5196  # https://github.com/randombit/botan/pull/5196
+  merge_commit: 68b8e0c54a3288ab90be3166c4edd6bcdd434e72
+  classification: unspecified
+
+# Use a faster method for setting up a mask during Solinas correction step
+#   Author:    @randombit
+- pr: 5194  # https://github.com/randombit/botan/pull/5194
+  merge_commit: 7fa999784e7e80a27e159a50ff7372f01f9428ac
+  classification: unspecified
+
+# Add CT::Choice::into_bitmask
+#   Author:    @randombit
+- pr: 5195  # https://github.com/randombit/botan/pull/5195
+  merge_commit: 7cb4b054994ff208536c4d5c8ba75ac1303e8dbd
+  classification: unspecified
+
+# Update release notes
+#   Author: Jack Lloyd
+- commit: c1bf200671031a7aa100cb121f9c9786dd1a7786  # https://github.com/randombit/botan/commit/c1bf200671031a7aa100cb121f9c9786dd1a7786
+  classification: unspecified
