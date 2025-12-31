@@ -3001,3 +3001,21 @@ patches:
 #   Author: Jack Lloyd
 - commit: c1bf200671031a7aa100cb121f9c9786dd1a7786  # https://github.com/randombit/botan/commit/c1bf200671031a7aa100cb121f9c9786dd1a7786
   classification: unspecified
+
+# Use Newton's method for computing monty_inverse
+#   Author:    @randombit
+- pr: 5200  # https://github.com/randombit/botan/pull/5200
+  merge_commit: 8115c4ef51488dec4bc7101b48f741b75da5ad8c
+  classification: unspecified
+
+# Add a test for encoding of P-521 keys with a leading zero byte.
+#   Author:    @randombit
+- pr: 5199  # https://github.com/randombit/botan/pull/5199
+  merge_commit: 6ae4538ea3e88313f202065a000c42a189542828
+  classification: unspecified
+
+# Update Limbo test suite pin
+#   Author:    @randombit
+- pr: 5198  # https://github.com/randombit/botan/pull/5198
+  merge_commit: 95cb00dea894b978a1365300288eedeeb55be8f6
+  classification: unspecified
