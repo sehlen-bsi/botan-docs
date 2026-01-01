@@ -3019,3 +3019,20 @@ patches:
 - pr: 5198  # https://github.com/randombit/botan/pull/5198
   merge_commit: 95cb00dea894b978a1365300288eedeeb55be8f6
   classification: unspecified
+
+# Use `SIMD_2x64` in Argon2 on all available architectures
+#   Author:    @polarnis
+#   Approvals: (@randombit)
+- pr: 5201  # https://github.com/randombit/botan/pull/5201
+  merge_commit: f2257be0a6c01418431263ebc88b8270bf37159b
+  classification: unspecified
+
+# Add a line flush after writing output in speed cli [ci skip]
+#   Author: Jack Lloyd
+- commit: 24a2ef317a25091f69a966a17097c696dc71623c  # https://github.com/randombit/botan/commit/24a2ef317a25091f69a966a17097c696dc71623c
+  classification: unspecified
+
+# Fix typo [ci skip]
+#   Author: Jack Lloyd
+- commit: 8c5656b5e5115e58a1ad9626c792e1cc1dd5759f  # https://github.com/randombit/botan/commit/8c5656b5e5115e58a1ad9626c792e1cc1dd5759f
+  classification: unspecified
