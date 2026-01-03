@@ -3036,3 +3036,14 @@ patches:
 #   Author: Jack Lloyd
 - commit: 8c5656b5e5115e58a1ad9626c792e1cc1dd5759f  # https://github.com/randombit/botan/commit/8c5656b5e5115e58a1ad9626c792e1cc1dd5759f
   classification: unspecified
+
+# Enable emscripten build
+#   Author:    @randombit
+- pr: 5203  # https://github.com/randombit/botan/pull/5203
+  merge_commit: a8e3d66296350c992ec04a9f02f5e47be5684b4b
+  classification: unspecified
+
+# Happy New Year
+#   Author: Jack Lloyd
+- commit: a09e8a12b50b97fe05142512856d634599b5b253  # https://github.com/randombit/botan/commit/a09e8a12b50b97fe05142512856d634599b5b253
+  classification: unspecified
