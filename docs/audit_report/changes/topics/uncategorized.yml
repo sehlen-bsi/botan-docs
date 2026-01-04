@@ -3047,3 +3047,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: a09e8a12b50b97fe05142512856d634599b5b253  # https://github.com/randombit/botan/commit/a09e8a12b50b97fe05142512856d634599b5b253
   classification: unspecified
+
+# CppCheck - Remove two unused variables
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5204  # https://github.com/randombit/botan/pull/5204
+  merge_commit: a434dd1f87f138bbdd2eaf4b1edfdcec058a954f
+  classification: unspecified
