@@ -3054,3 +3054,17 @@ patches:
 - pr: 5204  # https://github.com/randombit/botan/pull/5204
   merge_commit: a434dd1f87f138bbdd2eaf4b1edfdcec058a954f
   classification: unspecified
+
+# Remove redundant empty option in emcc flags
+#   Author:    @polarnis
+#   Approvals: (@randombit)
+- pr: 5208  # https://github.com/randombit/botan/pull/5208
+  merge_commit: cf0e68e3429f5826b923f26a6b902de13b104870
+  classification: unspecified
+
+# Migrate to native WebAssembly exceptions
+#   Author:    @arekmula
+#   Approvals: (@randombit)
+- pr: 5202  # https://github.com/randombit/botan/pull/5202
+  merge_commit: f283c5d29d14f4cea6ac0f43a632f2eaf9b820c6
+  classification: unspecified
