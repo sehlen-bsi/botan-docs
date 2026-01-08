@@ -3101,3 +3101,8 @@ patches:
 #   Author: Jack Lloyd
 - commit: f536862f010112f84261e8af9b3590e0cab1b979  # https://github.com/randombit/botan/commit/f536862f010112f84261e8af9b3590e0cab1b979
   classification: unspecified
+
+# Fix a couple of misleading permutation constants in Keccak AVX512
+#   Author: Jack Lloyd
+- commit: 4513e62d76898d32a211442abffcede688d674be  # https://github.com/randombit/botan/commit/4513e62d76898d32a211442abffcede688d674be
+  classification: unspecified
