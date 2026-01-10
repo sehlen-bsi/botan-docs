@@ -3113,3 +3113,24 @@ patches:
 - pr: 5216  # https://github.com/randombit/botan/pull/5216
   merge_commit: b1ff92a4ed98a7fda2e31de3300bca5470f66fff
   classification: unspecified
+
+# Add the Poly1305 edge case tests from Wycheproof
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5223  # https://github.com/randombit/botan/pull/5223
+  merge_commit: 1295fc35ce8e8fb676287dd955b68512da55cc41
+  classification: unspecified
+
+# Fix Inconsistency of X509 Name Constraint Matching
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 5189  # https://github.com/randombit/botan/pull/5189
+  merge_commit: e7bca8cf30fd429c83e02eb1199fae5e7f29f3fb
+  classification: unspecified
+
+# In configure.py guard against invalid invalid OS/CPU/compiler names
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5215  # https://github.com/randombit/botan/pull/5215
+  merge_commit: 46ea9a2a3cf84cbc4a6c66ea3bbe0377a6eed03d
+  classification: unspecified
