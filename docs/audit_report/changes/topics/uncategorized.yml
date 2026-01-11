@@ -3134,3 +3134,21 @@ patches:
 - pr: 5215  # https://github.com/randombit/botan/pull/5215
   merge_commit: 46ea9a2a3cf84cbc4a6c66ea3bbe0377a6eed03d
   classification: unspecified
+
+# Extend AVX-512 target features enabled by BOTAN_FN_ISA_AVX512*
+#   Author:    @randombit
+- pr: 5226  # https://github.com/randombit/botan/pull/5226
+  merge_commit: 9224539ebb43280afd95077fdea32426ade3a9fb
+  classification: unspecified
+
+# Add RSA PKCS#1 pubkey loader
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5225  # https://github.com/randombit/botan/pull/5225
+  merge_commit: 9ac8efb6fceb07da05835a37b14a648cdf968472
+  classification: unspecified
+
+# Minor todo updates
+#   Author: Jack Lloyd
+- commit: cdd67b74f175e30697cecd24c89e06317cf45e9f  # https://github.com/randombit/botan/commit/cdd67b74f175e30697cecd24c89e06317cf45e9f
+  classification: unspecified
