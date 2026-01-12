@@ -3152,3 +3152,50 @@ patches:
 #   Author: Jack Lloyd
 - commit: cdd67b74f175e30697cecd24c89e06317cf45e9f  # https://github.com/randombit/botan/commit/cdd67b74f175e30697cecd24c89e06317cf45e9f
   classification: unspecified
+
+# FFI: Query Certificate Subject/Issuer Alternative Names and Name Constraints
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5217  # https://github.com/randombit/botan/pull/5217
+  merge_commit: aabf6fb9d44ced5a0f72689e4143d308ae2379a0
+  classification: unspecified
+
+# Add a BOTAN_FN_ISA flag for CPU RNG function
+#   Author:    @randombit
+#   Approvals: (@mikatammi)
+- pr: 5229  # https://github.com/randombit/botan/pull/5229
+  merge_commit: b941fcb563db1da96cc1ee7e86e49975ecda6d5f
+  classification: unspecified
+
+# FFI: Enumeration of entries in an X.509 CRL
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5220  # https://github.com/randombit/botan/pull/5220
+  merge_commit: a4496f41708369c9bf1409162d4d1c8fafea2b30
+  classification: unspecified
+
+# FFI: Allow querying more X.509 Certificate Constraints
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 5221  # https://github.com/randombit/botan/pull/5221
+  merge_commit: 38f8f4ca0449597f9a720286fe1c864a85e1c933
+  classification: unspecified
+
+# FFI: Allow querying validity interval of X.509 CRLs
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5222  # https://github.com/randombit/botan/pull/5222
+  merge_commit: 9c30aa19821738d2496192c702e1226a3911c3ed
+  classification: unspecified
+
+# Bump the FFI version for 3.11
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5224  # https://github.com/randombit/botan/pull/5224
+  merge_commit: 2bea5a27300be17ff129e087c6ee309e0eee3b4c
+  classification: unspecified
+
+# Add a warning about possible miscompilations with the amalgamation [ci skip]
+#   Author: Jack Lloyd
+- commit: 5e9b85bc961e5e4a8ae098316d96a393b3babf1e  # https://github.com/randombit/botan/commit/5e9b85bc961e5e4a8ae098316d96a393b3babf1e
+  classification: unspecified
