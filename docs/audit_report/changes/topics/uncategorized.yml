@@ -3199,3 +3199,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: 5e9b85bc961e5e4a8ae098316d96a393b3babf1e  # https://github.com/randombit/botan/commit/5e9b85bc961e5e4a8ae098316d96a393b3babf1e
   classification: unspecified
+
+# Copy documentation to botan3.py
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5095  # https://github.com/randombit/botan/pull/5095
+  merge_commit: 832565b875e28ab9598c2c8c574ec85cade579c6
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: ab88122f8a55d78dd7ac13060e081a732053de96  # https://github.com/randombit/botan/commit/ab88122f8a55d78dd7ac13060e081a732053de96
+  classification: unspecified
