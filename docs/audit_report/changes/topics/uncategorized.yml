@@ -3211,3 +3211,37 @@ patches:
 #   Author: Jack Lloyd
 - commit: ab88122f8a55d78dd7ac13060e081a732053de96  # https://github.com/randombit/botan/commit/ab88122f8a55d78dd7ac13060e081a732053de96
   classification: unspecified
+
+# Add XOF API to FFI
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5148  # https://github.com/randombit/botan/pull/5148
+  merge_commit: 81beaa29d3fff53d5406beaced5b54c988f580cc
+  classification: unspecified
+
+# Poly1305 optimizations
+#   Author:    @randombit
+- pr: 5227  # https://github.com/randombit/botan/pull/5227
+  merge_commit: fb514a07c1347609c1740696fd72c1f02511240c
+  classification: unspecified
+
+# FFI: add `*_count()` functions for DN enumerators
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5234  # https://github.com/randombit/botan/pull/5234
+  merge_commit: 8c072d7ea7112d66bd3a0ff99da552119e8581e3
+  classification: unspecified
+
+# FFI: Return serial numbers as `botan_mp_t` for X.509 certificates and CRL entries
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5230  # https://github.com/randombit/botan/pull/5230
+  merge_commit: 3672ecf2e235a99bc1620057e2461aeb4c831eca
+  classification: unspecified
+
+# FFI: add `*_count()` functions for some FFI enumerators
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5232  # https://github.com/randombit/botan/pull/5232
+  merge_commit: cc836e3dfd171c4be1bb27a9c2f6280a5c3834e7
+  classification: unspecified
