@@ -3245,3 +3245,30 @@ patches:
 - pr: 5232  # https://github.com/randombit/botan/pull/5232
   merge_commit: cc836e3dfd171c4be1bb27a9c2f6280a5c3834e7
   classification: unspecified
+
+# Apply a workaround for GCC miscompilation of Serpent AVX512 in amalgamation mode
+#   Author:    @randombit
+- pr: 5238  # https://github.com/randombit/botan/pull/5238
+  merge_commit: 1ff468fa0508ee12e9cf8de7015da6790610801a
+  classification: unspecified
+
+# Address some warnings from the zizmor GHA audit tool
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5237  # https://github.com/randombit/botan/pull/5237
+  merge_commit: 32478179dcdfd651680b33fb1674bbd5457d2ad6
+  classification: unspecified
+
+# FIX: `botan_x509_cert_is_ca()` should return "1" for true
+#   Author:    @reneme
+#   Approvals: @atreiber94
+- pr: 5236  # https://github.com/randombit/botan/pull/5236
+  merge_commit: 1e235e38d5007813d2debfd627afa90c453585b2
+  classification: unspecified
+
+# Add XOF Wrapper to botan3.py
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5235  # https://github.com/randombit/botan/pull/5235
+  merge_commit: 13d256f4cb9381759dd60d553b8ca402ea3dff78
+  classification: unspecified
