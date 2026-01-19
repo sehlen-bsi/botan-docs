@@ -3272,3 +3272,10 @@ patches:
 - pr: 5235  # https://github.com/randombit/botan/pull/5235
   merge_commit: 13d256f4cb9381759dd60d553b8ca402ea3dff78
   classification: unspecified
+
+# Replace deprecated boost/bind.hpp with boost/bind/bind.hpp
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5241  # https://github.com/randombit/botan/pull/5241
+  merge_commit: 18cd21ea019c20b7aabf1cb443db1e7878db0a5c
+  classification: unspecified
