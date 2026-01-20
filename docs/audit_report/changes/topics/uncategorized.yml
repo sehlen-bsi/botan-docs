@@ -3279,3 +3279,17 @@ patches:
 - pr: 5241  # https://github.com/randombit/botan/pull/5241
   merge_commit: 18cd21ea019c20b7aabf1cb443db1e7878db0a5c
   classification: unspecified
+
+# Update Limbo test suite
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5244  # https://github.com/randombit/botan/pull/5244
+  merge_commit: 34efb008883aaff23511a9c06b0b5d079db2aa55
+  classification: unspecified
+
+# Use SHA-256 instead of SHA-512 for XMSS cli key update test
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5245  # https://github.com/randombit/botan/pull/5245
+  merge_commit: c1a826cb0227d3975adcab833763331d61ef1cf1
+  classification: unspecified
