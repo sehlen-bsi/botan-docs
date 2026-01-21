@@ -3293,3 +3293,17 @@ patches:
 - pr: 5245  # https://github.com/randombit/botan/pull/5245
   merge_commit: c1a826cb0227d3975adcab833763331d61ef1cf1
   classification: unspecified
+
+# Fix Shellcheck warnings in dev tools directory scripts
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5250  # https://github.com/randombit/botan/pull/5250
+  merge_commit: 87c26d8ba4daa721929551845b7dab645ae7c92e
+  classification: unspecified
+
+# CI: Remove unused SCRIPT_LOCATION variable in `setup_gh_actions_after_ccache.sh`
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5247  # https://github.com/randombit/botan/pull/5247
+  merge_commit: 0dce43f1f638c9c2525c41438cbfc38aa827e156
+  classification: unspecified
