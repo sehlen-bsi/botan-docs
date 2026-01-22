@@ -3307,3 +3307,22 @@ patches:
 - pr: 5247  # https://github.com/randombit/botan/pull/5247
   merge_commit: 0dce43f1f638c9c2525c41438cbfc38aa827e156
   classification: unspecified
+
+# Add AVX512+CLMUL optimized XTS tweak computation
+#   Author:    @randombit
+- pr: 5251  # https://github.com/randombit/botan/pull/5251
+  merge_commit: 165290eb3ca4f92a9732cf82d7259bc4966823b4
+  classification: unspecified
+
+# Some changes to reduce time taken by the coverage build
+#   Author:    @randombit
+- pr: 5240  # https://github.com/randombit/botan/pull/5240
+  merge_commit: b5e24de156f0901c65b691a0f9ca4bbb1304cd2a
+  classification: unspecified
+
+# Shellcheck - Resolve warnings in start_tpm2_simulator.sh script file
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5248  # https://github.com/randombit/botan/pull/5248
+  merge_commit: 522565111b0e20a74fbc9d47c78f8e6189f70ae7
+  classification: unspecified
