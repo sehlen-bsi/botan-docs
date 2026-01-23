@@ -3326,3 +3326,17 @@ patches:
 - pr: 5248  # https://github.com/randombit/botan/pull/5248
   merge_commit: 522565111b0e20a74fbc9d47c78f8e6189f70ae7
   classification: unspecified
+
+# Avoid hard dependency on `pcurves_secp*` in the TLS module
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5254  # https://github.com/randombit/botan/pull/5254
+  merge_commit: c29d12355e311cc62ba5d071e049e66b910e1e42
+  classification: unspecified
+
+# FIX: sha2_32_armv8 silently depends on simd_4x32
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5255  # https://github.com/randombit/botan/pull/5255
+  merge_commit: f7819a871fb92cfd911046f5cebf7dc4b57eec10
+  classification: unspecified
