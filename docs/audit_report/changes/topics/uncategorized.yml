@@ -3340,3 +3340,9 @@ patches:
 - pr: 5255  # https://github.com/randombit/botan/pull/5255
   merge_commit: f7819a871fb92cfd911046f5cebf7dc4b57eec10
   classification: unspecified
+
+# Add more test vectors for GMAC
+#   Author:    @randombit
+- pr: 5257  # https://github.com/randombit/botan/pull/5257
+  merge_commit: caf2c19963665f252d178e7845be495cd9da6ae1
+  classification: unspecified
