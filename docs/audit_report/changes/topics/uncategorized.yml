@@ -3346,3 +3346,21 @@ patches:
 - pr: 5257  # https://github.com/randombit/botan/pull/5257
   merge_commit: caf2c19963665f252d178e7845be495cd9da6ae1
   classification: unspecified
+
+# Remove support for Sun Studio compilers
+#   Author:    @randombit
+- pr: 5262  # https://github.com/randombit/botan/pull/5262
+  merge_commit: 35bfb4c0752ebfc51787860f7ec08bb548b58f18
+  classification: unspecified
+
+# Replace index-based loop with range-based for in value_exists
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5261  # https://github.com/randombit/botan/pull/5261
+  merge_commit: 67cb2827ce91dd57b7237e86cda60794ccf784c8
+  classification: unspecified
+
+# Remove configure.py logic disabling AVX2 on OpenBSD
+#   Author: Jack Lloyd
+- commit: 9770c2632f48c4ecc519f9461aefeffbf8523db6  # https://github.com/randombit/botan/commit/9770c2632f48c4ecc519f9461aefeffbf8523db6
+  classification: unspecified
