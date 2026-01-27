@@ -3364,3 +3364,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: 9770c2632f48c4ecc519f9461aefeffbf8523db6  # https://github.com/randombit/botan/commit/9770c2632f48c4ecc519f9461aefeffbf8523db6
   classification: unspecified
+
+# Enable BMI2 and GFNI codepaths for MSVC
+#   Author:    @randombit
+- pr: 5263  # https://github.com/randombit/botan/pull/5263
+  merge_commit: 0d718b1467c893e168feaf4d29b61a9681578193
+  classification: unspecified
+
+# Enable /Zc:inline with MSVC and clang-cl
+#   Author:    @randombit
+- pr: 5264  # https://github.com/randombit/botan/pull/5264
+  merge_commit: 75167c1a5fb4b1960cb6482c2645e8b0ff3a4bac
+  classification: unspecified
