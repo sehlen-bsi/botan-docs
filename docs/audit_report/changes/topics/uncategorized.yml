@@ -3376,3 +3376,10 @@ patches:
 - pr: 5264  # https://github.com/randombit/botan/pull/5264
   merge_commit: 75167c1a5fb4b1960cb6482c2645e8b0ff3a4bac
   classification: unspecified
+
+# Fix test categories display in botan-test --help
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5272  # https://github.com/randombit/botan/pull/5272
+  merge_commit: 0226491aca01ed3be34be905b7e6b14b81e8022b
+  classification: unspecified
