@@ -3383,3 +3383,10 @@ patches:
 - pr: 5272  # https://github.com/randombit/botan/pull/5272
   merge_commit: 0226491aca01ed3be34be905b7e6b14b81e8022b
   classification: unspecified
+
+# Avoid validation of known EC groups when decoding an explicit curve block
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5268  # https://github.com/randombit/botan/pull/5268
+  merge_commit: f859c228b2ccd97acda2634b17fae372da6dca8c
+  classification: unspecified
