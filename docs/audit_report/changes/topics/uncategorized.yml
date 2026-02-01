@@ -3390,3 +3390,20 @@ patches:
 - pr: 5268  # https://github.com/randombit/botan/pull/5268
   merge_commit: f859c228b2ccd97acda2634b17fae372da6dca8c
   classification: unspecified
+
+# Reformulate word3 carry chain
+#   Author:    @randombit
+- pr: 5275  # https://github.com/randombit/botan/pull/5275
+  merge_commit: 542b5e177f729d6b3f19cd0c8c2e7f4791626792
+  classification: unspecified
+
+# Implement GHASH/GMAC in terms of Polyval multiplication
+#   Author:    @randombit
+- pr: 5273  # https://github.com/randombit/botan/pull/5273
+  merge_commit: f044195a2fcd104df075995a21d9942c0b76dc6e
+  classification: unspecified
+
+# Add missing include [ci skip]
+#   Author: Jack Lloyd
+- commit: 93b1ed5824b13fc48dc1d6437879e645141e3330  # https://github.com/randombit/botan/commit/93b1ed5824b13fc48dc1d6437879e645141e3330
+  classification: unspecified
