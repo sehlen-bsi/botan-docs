@@ -3407,3 +3407,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: 93b1ed5824b13fc48dc1d6437879e645141e3330  # https://github.com/randombit/botan/commit/93b1ed5824b13fc48dc1d6437879e645141e3330
   classification: unspecified
+
+# Improve code readability in parsing utilities
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5274  # https://github.com/randombit/botan/pull/5274
+  merge_commit: 9094ee3e46e5b737ba10806517d363bbcb84784c
+  classification: unspecified
