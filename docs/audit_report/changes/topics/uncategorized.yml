@@ -3414,3 +3414,26 @@ patches:
 - pr: 5274  # https://github.com/randombit/botan/pull/5274
   merge_commit: 9094ee3e46e5b737ba10806517d363bbcb84784c
   classification: unspecified
+
+# Reduce header pollution in TLS headers
+#   Author:    @randombit
+- pr: 5280  # https://github.com/randombit/botan/pull/5280
+  merge_commit: 00a65d6d1531a5d276a1fcb196a54be1cb000020
+  classification: unspecified
+
+# Fix some typos
+#   Author:    @randombit
+- pr: 5281  # https://github.com/randombit/botan/pull/5281
+  merge_commit: 6717440e6a83601771529f50645e47882632e8f8
+  classification: unspecified
+
+# Consistently use ISA target flags
+#   Author:    @randombit
+- pr: 5276  # https://github.com/randombit/botan/pull/5276
+  merge_commit: c6d1196d329963a0168c1e903d5c8ff81c2c4164
+  classification: unspecified
+
+# Update roadmap [ci skip]
+#   Author: Jack Lloyd
+- commit: 7cb527f16cbfb567192aece2564174463a2db13f  # https://github.com/randombit/botan/commit/7cb527f16cbfb567192aece2564174463a2db13f
+  classification: unspecified
