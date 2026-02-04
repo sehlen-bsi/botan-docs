@@ -3437,3 +3437,24 @@ patches:
 #   Author: Jack Lloyd
 - commit: 7cb527f16cbfb567192aece2564174463a2db13f  # https://github.com/randombit/botan/commit/7cb527f16cbfb567192aece2564174463a2db13f
   classification: unspecified
+
+# Move ASN1_Time to its own header to avoid <chrono> inclusions
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5279  # https://github.com/randombit/botan/pull/5279
+  merge_commit: eb1a54d7570a27b2cbcab371a2de2cd06d491824
+  classification: unspecified
+
+# Add helper to GHASH to reduce GMAC overhead
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5278  # https://github.com/randombit/botan/pull/5278
+  merge_commit: d9511753b4239c7f03ee87e536ff2365a5900889
+  classification: unspecified
+
+# Fixme - Explicit constructors and NOLINT comments in out_ptr/out_opt helpers
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5259  # https://github.com/randombit/botan/pull/5259
+  merge_commit: df18481c2b9ff6c6784b8dc00958935e5c790148
+  classification: unspecified
