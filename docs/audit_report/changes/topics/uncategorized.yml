@@ -3472,3 +3472,17 @@ patches:
 - pr: 5282  # https://github.com/randombit/botan/pull/5282
   merge_commit: 413f230869609c2fe66751be4559a84074325360
   classification: unspecified
+
+# Split out scoped_cleanup to its own header
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5286  # https://github.com/randombit/botan/pull/5286
+  merge_commit: 8c9623340d563621a1551e0358b0c73b3d7d95e4
+  classification: unspecified
+
+# Various header inclusion cleanups
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5285  # https://github.com/randombit/botan/pull/5285
+  merge_commit: 9fda7e83ce0544f0e976070d2c0b461db1e58b6c
+  classification: unspecified
