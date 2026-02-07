@@ -3486,3 +3486,24 @@ patches:
 - pr: 5285  # https://github.com/randombit/botan/pull/5285
   merge_commit: 9fda7e83ce0544f0e976070d2c0b461db1e58b6c
   classification: unspecified
+
+# Split out BufferSlicer and BufferStuffer to their own headers
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5287  # https://github.com/randombit/botan/pull/5287
+  merge_commit: 8ea0ca2524fa947075659a37230f3494202eff43
+  classification: unspecified
+
+# Avoid <chrono> in rng.h
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5284  # https://github.com/randombit/botan/pull/5284
+  merge_commit: 73c7bbe8216cf703eef5a1f247ec2f5162f1f933
+  classification: unspecified
+
+# Refactor: Organize most TLS handshake messages into TLS 1.2 and TLS 1.3 modules
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5288  # https://github.com/randombit/botan/pull/5288
+  merge_commit: a72f0b0a6658682f74106b215341d1dc610c306e
+  classification: unspecified
