@@ -3507,3 +3507,22 @@ patches:
 - pr: 5288  # https://github.com/randombit/botan/pull/5288
   merge_commit: a72f0b0a6658682f74106b215341d1dc610c306e
   classification: unspecified
+
+# Reduce header dependencies in tests and cli
+#   Author:    @randombit
+- pr: 5295  # https://github.com/randombit/botan/pull/5295
+  merge_commit: d4ddd3d048216df89f0a2834fb82173e76188e41
+  classification: unspecified
+
+# Further misc header reductions, forward declarations, etc
+#   Author:    @randombit
+- pr: 5289  # https://github.com/randombit/botan/pull/5289
+  merge_commit: ebf8f0044665a9ebe4a9dba4aacd484fb83a5b4e
+  classification: unspecified
+
+# Refactor: Extract TLS 1.2 specific Certificate_Status constructor
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5291  # https://github.com/randombit/botan/pull/5291
+  merge_commit: 701e3d0938b21dfd50dca9ebefec9e45eabe1792
+  classification: unspecified
