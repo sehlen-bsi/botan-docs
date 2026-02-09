@@ -3526,3 +3526,17 @@ patches:
 - pr: 5291  # https://github.com/randombit/botan/pull/5291
   merge_commit: 701e3d0938b21dfd50dca9ebefec9e45eabe1792
   classification: unspecified
+
+# IWYU - Remove unnecessary header includes to improve build performance
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5300  # https://github.com/randombit/botan/pull/5300
+  merge_commit: f708c3666ea4c81e9f6e6b81389d44b5f21cbe54
+  classification: unspecified
+
+# Remove support for AltiVec on 32-bit PowerPC
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5266  # https://github.com/randombit/botan/pull/5266
+  merge_commit: 7f7dd6c3bbfc4dcb27274bcea637bf9e776ce47b
+  classification: unspecified
