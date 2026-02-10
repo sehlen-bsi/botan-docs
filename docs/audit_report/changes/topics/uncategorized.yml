@@ -3540,3 +3540,31 @@ patches:
 - pr: 5266  # https://github.com/randombit/botan/pull/5266
   merge_commit: 7f7dd6c3bbfc4dcb27274bcea637bf9e776ce47b
   classification: unspecified
+
+# Various changes to reduce header dependencies in TLS
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5296  # https://github.com/randombit/botan/pull/5296
+  merge_commit: 1d119e57a0e4f0105b44d0e9acfe30174bbeda15
+  classification: unspecified
+
+# Remove unused chrono include from cli speed file
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5304  # https://github.com/randombit/botan/pull/5304
+  merge_commit: 1db03ba0ac04730bd9cf1e0609ef9fda6b4e4a13
+  classification: unspecified
+
+# Split part of concepts.h into range_concepts.h
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5294  # https://github.com/randombit/botan/pull/5294
+  merge_commit: 6689463a0a581e778d4b393ced84de0323aa81c4
+  classification: unspecified
+
+# Don't use ISA flags during compilation anymore
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5297  # https://github.com/randombit/botan/pull/5297
+  merge_commit: 8aed85c62d47ed826e2a580f44d46aff87f35d7d
+  classification: unspecified
