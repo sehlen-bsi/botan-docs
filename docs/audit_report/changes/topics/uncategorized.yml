@@ -3568,3 +3568,33 @@ patches:
 - pr: 5297  # https://github.com/randombit/botan/pull/5297
   merge_commit: 8aed85c62d47ed826e2a580f44d46aff87f35d7d
   classification: unspecified
+
+# Cleanup various header inclusions
+#   Author:    @randombit
+- pr: 5302  # https://github.com/randombit/botan/pull/5302
+  merge_commit: 05f82c9bd32d122c108aa6ca1f5fbad723e2a1f2
+  classification: unspecified
+
+# Fix some build dependency issues
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5310  # https://github.com/randombit/botan/pull/5310
+  merge_commit: 4bacf4e56ecddd8f97c9e08bd9cca33d7a4e8056
+  classification: unspecified
+
+# FIX: indentation of some docstring comments
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5305  # https://github.com/randombit/botan/pull/5305
+  merge_commit: 45d38d10a931792f4a98409a83acc416cbb8ff51
+  classification: unspecified
+
+# Fully disable SIMD pathways on ppc32 [ci skip]
+#   Author: Jack Lloyd
+- commit: 0f855d25c20517d962e6346d9e3f8503e4dd826d  # https://github.com/randombit/botan/commit/0f855d25c20517d962e6346d9e3f8503e4dd826d
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 9bd1295ec56750cbf8a288db8f909846ea6cbb37  # https://github.com/randombit/botan/commit/9bd1295ec56750cbf8a288db8f909846ea6cbb37
+  classification: unspecified
