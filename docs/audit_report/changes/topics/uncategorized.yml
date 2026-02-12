@@ -3598,3 +3598,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: 9bd1295ec56750cbf8a288db8f909846ea6cbb37  # https://github.com/randombit/botan/commit/9bd1295ec56750cbf8a288db8f909846ea6cbb37
   classification: unspecified
+
+# Add some debugging convenience for BoGo tests on VSCode
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5311  # https://github.com/randombit/botan/pull/5311
+  merge_commit: 0a9e23f5efcfe8a911b74f8756c1e7822455f56f
+  classification: unspecified
