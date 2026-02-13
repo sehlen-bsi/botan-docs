@@ -3605,3 +3605,24 @@ patches:
 - pr: 5311  # https://github.com/randombit/botan/pull/5311
   merge_commit: 0a9e23f5efcfe8a911b74f8756c1e7822455f56f
   classification: unspecified
+
+# FIX: TLS 1.3 Server Hello MUST not contain `PSK_Key_Exchange_Mode`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5316  # https://github.com/randombit/botan/pull/5316
+  merge_commit: e7443105fe58e165b9a0a147c923ea60b2a1fc02
+  classification: unspecified
+
+# Refactor: Disentangle Server_Hello implementations
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5292  # https://github.com/randombit/botan/pull/5292
+  merge_commit: f97d7db3f789a8640561c3f4d3bad13fed2f43f7
+  classification: unspecified
+
+# CI/Test: Build and test with `--disable-modules=tls13`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5309  # https://github.com/randombit/botan/pull/5309
+  merge_commit: c008b93ef6a1b739fa7c8fe1869d94acc0764826
+  classification: unspecified
