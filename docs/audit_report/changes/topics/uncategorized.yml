@@ -3626,3 +3626,35 @@ patches:
 - pr: 5309  # https://github.com/randombit/botan/pull/5309
   merge_commit: c008b93ef6a1b739fa7c8fe1869d94acc0764826
   classification: unspecified
+
+# Various cleanups for tests.h
+#   Author:    @randombit
+- pr: 5327  # https://github.com/randombit/botan/pull/5327
+  merge_commit: 2c0d780f540133d2d5fb08142bc374e5de29c45c
+  classification: unspecified
+
+# Avoid including hash.h into tls_transcript_hash_13.h
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5326  # https://github.com/randombit/botan/pull/5326
+  merge_commit: bb74c40eb3cfdc5481e1e161caafd79926915443
+  classification: unspecified
+
+# Include botan/assert.h in auto_rng
+#   Author:    @Chaosvex
+#   Approvals: (@randombit)
+- pr: 5325  # https://github.com/randombit/botan/pull/5325
+  merge_commit: 2640927f7789ae1a121678031755eeaf388070e4
+  classification: unspecified
+
+# Reduce header dependencies in STL utility headers
+#   Author:    @randombit
+- pr: 5314  # https://github.com/randombit/botan/pull/5314
+  merge_commit: 963f57521e26f6b37be6a395d530744de2a40839
+  classification: unspecified
+
+# Avoid various unneeded include files
+#   Author:    @randombit
+- pr: 5321  # https://github.com/randombit/botan/pull/5321
+  merge_commit: 031e882fb1dfb3cd7f8c3afe6a9d13cf148db961
+  classification: unspecified
