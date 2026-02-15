@@ -3658,3 +3658,46 @@ patches:
 - pr: 5321  # https://github.com/randombit/botan/pull/5321
   merge_commit: 031e882fb1dfb3cd7f8c3afe6a9d13cf148db961
   classification: unspecified
+
+# Manually interleave 2x wide SM4 AVX512+GFNI encryption/decryption
+#   Author:    @randombit
+- pr: 5333  # https://github.com/randombit/botan/pull/5333
+  merge_commit: 07ae08ed0e34e427266cbf03470bc753b709d1c2
+  classification: unspecified
+
+# Remove confirm test helper, use test_is_true or test_is_false instead
+#   Author:    @randombit
+- pr: 5334  # https://github.com/randombit/botan/pull/5334
+  merge_commit: bf04d2be97daa18d0e30f0955d329e6b8f5104ae
+  classification: unspecified
+
+# Avoid including assert.h into tests.h
+#   Author:    @randombit
+- pr: 5330  # https://github.com/randombit/botan/pull/5330
+  merge_commit: adf5dbc08284db8585bae9ebfd0716f3c8f92ac5
+  classification: unspecified
+
+# Change Test::Result integer and bool predicates to be specifically named
+#   Author:    @randombit
+- pr: 5328  # https://github.com/randombit/botan/pull/5328
+  merge_commit: 5f8c84d25f8b14a2fc21dd5e46c89d2766bbeced
+  classification: unspecified
+
+# Avoid copying std::function objects needlessly in the test_throws infra
+#   Author:    @randombit
+- pr: 5329  # https://github.com/randombit/botan/pull/5329
+  merge_commit: fa5638d328c693d02c7ab0e9089a1d1d026c0b83
+  classification: unspecified
+
+# Don't fully deprecate numthry.h
+#   Author:    @randombit
+- pr: 5324  # https://github.com/randombit/botan/pull/5324
+  merge_commit: 5f60b6bbe41893e0b22213c812faf6b3483a0093
+  classification: unspecified
+
+# Remove buggy operator!= in bitvector, rely on C++20 rewrite rules
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5320  # https://github.com/randombit/botan/pull/5320
+  merge_commit: 23c3c19eb48b17ba6b4c7fffd1bfeb63450b3a1e
+  classification: unspecified
