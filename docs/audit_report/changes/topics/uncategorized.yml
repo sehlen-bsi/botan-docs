@@ -3701,3 +3701,71 @@ patches:
 - pr: 5320  # https://github.com/randombit/botan/pull/5320
   merge_commit: 23c3c19eb48b17ba6b4c7fffd1bfeb63450b3a1e
   classification: unspecified
+
+# Add PasswordHashFamily::tune_params
+#   Author:    @randombit
+- pr: 5315  # https://github.com/randombit/botan/pull/5315
+  merge_commit: fae2f88d3cd187a89dc2dae7262f464a53302dd1
+  classification: unspecified
+
+# Avoid including hash implementation headers into pubkey code
+#   Author:    @randombit
+- pr: 5323  # https://github.com/randombit/botan/pull/5323
+  merge_commit: b1cb8a9bf9283bdd8edf79ec4019caf649b67324
+  classification: unspecified
+
+# Avoid using <algorithm> in tls_session_id.h
+#   Author:    @randombit
+- pr: 5343  # https://github.com/randombit/botan/pull/5343
+  merge_commit: ea6ce6d7c1118bb26bcc05c1f85611114dd87cd6
+  classification: unspecified
+
+# Rename test_is_eq to test_arb_eq and require the type be printable
+#   Author:    @randombit
+- pr: 5342  # https://github.com/randombit/botan/pull/5342
+  merge_commit: c5489e013d5a0507220127d5a886d345275e1430
+  classification: unspecified
+
+# Cleanup test predicates on binary strings
+#   Author:    @randombit
+- pr: 5341  # https://github.com/randombit/botan/pull/5341
+  merge_commit: 6d81b0c0ab1958b15b07635248d7ea7d3a82d7ef
+  classification: unspecified
+
+# Further cleanups of test predicates
+#   Author:    @randombit
+- pr: 5340  # https://github.com/randombit/botan/pull/5340
+  merge_commit: 76dfe61e9365ee7ba20d10628fb79618e775dfd7
+  classification: unspecified
+
+# Improve block cipher tests
+#   Author:    @randombit
+- pr: 5339  # https://github.com/randombit/botan/pull/5339
+  merge_commit: e82712caa011ab2c576255ff34c7b7d2f7057737
+  classification: unspecified
+
+# Rename and cleanup tests.h comparators for strings
+#   Author:    @randombit
+- pr: 5338  # https://github.com/randombit/botan/pull/5338
+  merge_commit: 5391a25a8c624e7f8bc8a198a05c2fcee04362ec
+  classification: unspecified
+
+# Some more small cleanups to tests.h test predicates
+#   Author:    @randombit
+- pr: 5337  # https://github.com/randombit/botan/pull/5337
+  merge_commit: 2993205af79ff985d4c2d002988726b7bfeb2018
+  classification: unspecified
+
+# Move the strubbing CI job to nightly
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5332  # https://github.com/randombit/botan/pull/5332
+  merge_commit: af5a61d20998e6eca03360ceabe70a87f812e6c2
+  classification: unspecified
+
+# Refactor: Disentangle Client_Hello implementations
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5293  # https://github.com/randombit/botan/pull/5293
+  merge_commit: a985be79873ea955356afb9f7f14fd76f9a4de66
+  classification: unspecified
