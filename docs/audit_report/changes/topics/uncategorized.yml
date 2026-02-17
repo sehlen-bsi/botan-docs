@@ -3769,3 +3769,65 @@ patches:
 - pr: 5293  # https://github.com/randombit/botan/pull/5293
   merge_commit: a985be79873ea955356afb9f7f14fd76f9a4de66
   classification: unspecified
+
+# For VarMap keys, use std::string_view instead of a const std::string ref
+#   Author:    @randombit
+- pr: 5351  # https://github.com/randombit/botan/pull/5351
+  merge_commit: cf5c9ad7fcac2243d9007589318c811304fc3bf9
+  classification: unspecified
+
+# For MSVC debug info prefer embedding into the object file rather than using PDB
+#   Author:    @randombit
+- pr: 5349  # https://github.com/randombit/botan/pull/5349
+  merge_commit: e8d957052240e1777893df0061472203185677a9
+  classification: unspecified
+
+# Remove unused test vector parameters in bitvector test
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5331  # https://github.com/randombit/botan/pull/5331
+  merge_commit: 5722005d9a768c1232e58820f39efee06fbf842c
+  classification: unspecified
+
+# Improve use of test predicates
+#   Author:    @randombit
+- pr: 5348  # https://github.com/randombit/botan/pull/5348
+  merge_commit: 16f9d0e2190d2ded6e747c239aaba1554504160e
+  classification: unspecified
+
+# Refactor: Organize TLS Extensions into TLS 1.2 and 1.3 Modules
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5303  # https://github.com/randombit/botan/pull/5303
+  merge_commit: 6f2151a864e8f1d2a9abbbfc71853f452a9f2ab5
+  classification: unspecified
+
+# Use forward declarations in test_pubkey.h
+#   Author:    @randombit
+- pr: 5346  # https://github.com/randombit/botan/pull/5346
+  merge_commit: cff0123e783bfb530241dc0f611e220b271459a6
+  classification: unspecified
+
+# Minimize includes into test_rng.h
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5345  # https://github.com/randombit/botan/pull/5345
+  merge_commit: 987c141d73fd06e1582eaabca0444a80178db993
+  classification: unspecified
+
+# Avoid using secure_vector as storage for BER_Object
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5344  # https://github.com/randombit/botan/pull/5344
+  merge_commit: 35ce62624aed0bb079461dc6c5dbb78ca50cd371
+  classification: unspecified
+
+# Add missing <string_view> include to tests.h [ci skip]
+#   Author: Jack Lloyd
+- commit: b4734c8a30ca983be0ac7fb975cf871fa51002ea  # https://github.com/randombit/botan/commit/b4734c8a30ca983be0ac7fb975cf871fa51002ea
+  classification: unspecified
+
+# Add missing <algorithm> includes
+#   Author: Jack Lloyd
+- commit: 81da1de70d4bd6b22af6eb9f2938a0b546d5c708  # https://github.com/randombit/botan/commit/81da1de70d4bd6b22af6eb9f2938a0b546d5c708
+  classification: unspecified
