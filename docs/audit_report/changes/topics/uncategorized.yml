@@ -3831,3 +3831,45 @@ patches:
 #   Author: Jack Lloyd
 - commit: 81da1de70d4bd6b22af6eb9f2938a0b546d5c708  # https://github.com/randombit/botan/commit/81da1de70d4bd6b22af6eb9f2938a0b546d5c708
   classification: unspecified
+
+# Cleanup Camellia GFNI integration a bit
+#   Author:    @randombit
+- pr: 5355  # https://github.com/randombit/botan/pull/5355
+  merge_commit: 48aee647343d54ee1af2dc32e4a151c70ef526c3
+  classification: unspecified
+
+# Change VarMap to avoid copies internally
+#   Author:    @randombit
+- pr: 5352  # https://github.com/randombit/botan/pull/5352
+  merge_commit: 78fe2b5e6243615a367f7cec43a58acbd58be4ac
+  classification: unspecified
+
+# Changes to reduce dependencies in TLS sources/headers
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5347  # https://github.com/randombit/botan/pull/5347
+  merge_commit: 481736b4e24c6d3e1825506f04b67654367848f0
+  classification: unspecified
+
+# Update the documentation on the test framework
+#   Author:    @randombit
+- pr: 5354  # https://github.com/randombit/botan/pull/5354
+  merge_commit: 8bc12273b9be63b79bc3f7f8b5edf88d0d5a680e
+  classification: unspecified
+
+# Allow disabling TLS 1.2 at Build Time
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5318  # https://github.com/randombit/botan/pull/5318
+  merge_commit: 7b1bee2983ac578ac834e95ed801452159b87368
+  classification: unspecified
+
+# Fix misnamed function in the perf cli
+#   Author: Jack Lloyd
+- commit: 30950b5b8a7ad87ed65fcf04acb177a959840c77  # https://github.com/randombit/botan/commit/30950b5b8a7ad87ed65fcf04acb177a959840c77
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: a3fd414f21ccfb163472f9cd98bc4ba5dc79765e  # https://github.com/randombit/botan/commit/a3fd414f21ccfb163472f9cd98bc4ba5dc79765e
+  classification: unspecified
