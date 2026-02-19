@@ -3873,3 +3873,16 @@ patches:
 #   Author: Jack Lloyd
 - commit: a3fd414f21ccfb163472f9cd98bc4ba5dc79765e  # https://github.com/randombit/botan/commit/a3fd414f21ccfb163472f9cd98bc4ba5dc79765e
   classification: unspecified
+
+# Improve Test::Result::test_note
+#   Author:    @randombit
+- pr: 5357  # https://github.com/randombit/botan/pull/5357
+  merge_commit: 6c70f100303bea870ae9fe61939db90504551163
+  classification: unspecified
+
+# Remove misplaced FIXME annotations in bitvector.h
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5335  # https://github.com/randombit/botan/pull/5335
+  merge_commit: 90b10f4159fdf96338772c28deb099e497c92971
+  classification: unspecified
