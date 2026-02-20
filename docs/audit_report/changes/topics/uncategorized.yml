@@ -3886,3 +3886,30 @@ patches:
 - pr: 5335  # https://github.com/randombit/botan/pull/5335
   merge_commit: 90b10f4159fdf96338772c28deb099e497c92971
   classification: unspecified
+
+# add clang-format option 'InsertNewlineAtEOF: True'
+#   Author:    @TJ-91
+#   Approvals: (@randombit)
+- pr: 5364  # https://github.com/randombit/botan/pull/5364
+  merge_commit: 2cf293ee65fd370077cb3228bcf4549880a2a9f5
+  classification: unspecified
+
+# Allow unregistering EC Groups
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5306  # https://github.com/randombit/botan/pull/5306
+  merge_commit: 5b94bbd9d0705b59c99c39b4b317725b9ea57b87
+  classification: unspecified
+
+# Add a test covering concurrent PK operations
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5359  # https://github.com/randombit/botan/pull/5359
+  merge_commit: b4032cdd8bbd83447d3030cf90f450e4af5ef0ab
+  classification: unspecified
+
+# Add the math perf tests to the coverage build run
+#   Author:    @randombit
+- pr: 5360  # https://github.com/randombit/botan/pull/5360
+  merge_commit: 59d4d64fb7e6fcab58e3d67b514bfefdcf07b070
+  classification: unspecified
