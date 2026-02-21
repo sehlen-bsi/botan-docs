@@ -3913,3 +3913,53 @@ patches:
 - pr: 5360  # https://github.com/randombit/botan/pull/5360
   merge_commit: 59d4d64fb7e6fcab58e3d67b514bfefdcf07b070
   classification: unspecified
+
+# Misc BigInt related improvements
+#   Author:    @randombit
+- pr: 5370  # https://github.com/randombit/botan/pull/5370
+  merge_commit: dfc0c00e706a0eb7e2217ffd79aac37edcd5596a
+  classification: unspecified
+
+# Officially deprecate Round3 variants of Kyber and Dilithium
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5368  # https://github.com/randombit/botan/pull/5368
+  merge_commit: 369046383597143ded68d2513fadcb508a4527a9
+  classification: unspecified
+
+# Disable XMSS concurrency test for now
+#   Author:    @randombit
+- pr: 5369  # https://github.com/randombit/botan/pull/5369
+  merge_commit: ada4c3047050098265b30fc7bcfde01d0085d0d5
+  classification: unspecified
+
+# Remove XMSS private key shared mutable state
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5366  # https://github.com/randombit/botan/pull/5366
+  merge_commit: 8f2d77e6f2fcb4605371715351cf6128c59f4fec
+  classification: unspecified
+
+# Fix FrodoKEM concurrency issue
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5361  # https://github.com/randombit/botan/pull/5361
+  merge_commit: ee391d6d0cef00bb91eacab9b69c07008dc7beaf
+  classification: unspecified
+
+# DevContainer: Install pylint, golang and repair `make fmt`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5365  # https://github.com/randombit/botan/pull/5365
+  merge_commit: 36394b4434428996a1ea35af1471787e61b28d5a
+  classification: unspecified
+
+# Add support for GCC ThreadSanitizer [ci skip]
+#   Author: Jack Lloyd
+- commit: 2344f81004069fd1c8d42ce92d3f6f90734f1536  # https://github.com/randombit/botan/commit/2344f81004069fd1c8d42ce92d3f6f90734f1536
+  classification: unspecified
+
+# Emphasize doc warning about the use of stateful signature schemes [ci skip]
+#   Author: Jack Lloyd
+- commit: b5c4afc0919ce5ded6fa34b9bacd48a73ce47c67  # https://github.com/randombit/botan/commit/b5c4afc0919ce5ded6fa34b9bacd48a73ce47c67
+  classification: unspecified
