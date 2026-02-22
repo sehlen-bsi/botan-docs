@@ -3963,3 +3963,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: b5c4afc0919ce5ded6fa34b9bacd48a73ce47c67  # https://github.com/randombit/botan/commit/b5c4afc0919ce5ded6fa34b9bacd48a73ce47c67
   classification: unspecified
+
+# Fix the FFI datecode for 3.11
+#   Author:    @randombit
+- pr: 5377  # https://github.com/randombit/botan/pull/5377
+  merge_commit: 4648c5020c8dcada728452597a2cc28976778ae4
+  classification: unspecified
+
+# Avoid passing mutable references around in XMSS
+#   Author:    @randombit
+- pr: 5371  # https://github.com/randombit/botan/pull/5371
+  merge_commit: 2e3855db402e38919afe4c9d3d85eb9043b7e15a
+  classification: unspecified
