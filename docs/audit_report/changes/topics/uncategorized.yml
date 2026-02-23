@@ -3975,3 +3975,27 @@ patches:
 - pr: 5371  # https://github.com/randombit/botan/pull/5371
   merge_commit: 2e3855db402e38919afe4c9d3d85eb9043b7e15a
   classification: unspecified
+
+# Fix memory leak when creating MPIs for ECGroup
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5381  # https://github.com/randombit/botan/pull/5381
+  merge_commit: 5166623272c0ee19b5fd04ad7cea71cf51906e0f
+  classification: unspecified
+
+# Avoid a pointless heap allocation during GCM key schedule
+#   Author:    @randombit
+- pr: 5379  # https://github.com/randombit/botan/pull/5379
+  merge_commit: ef0dcf436b2476b650d8e16006b9d22f8389a551
+  classification: unspecified
+
+# Minor SHA-NI SHA-256 improvements
+#   Author:    @randombit
+- pr: 5378  # https://github.com/randombit/botan/pull/5378
+  merge_commit: 5bc9eb6989845be24b27f46884eea0027268e40a
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: b23c2f7a6da1d53755b5232f25f060f6f898c30f  # https://github.com/randombit/botan/commit/b23c2f7a6da1d53755b5232f25f060f6f898c30f
+  classification: unspecified
