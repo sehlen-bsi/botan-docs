@@ -3999,3 +3999,31 @@ patches:
 #   Author: Jack Lloyd
 - commit: b23c2f7a6da1d53755b5232f25f060f6f898c30f  # https://github.com/randombit/botan/commit/b23c2f7a6da1d53755b5232f25f060f6f898c30f
   classification: unspecified
+
+# Fix ML-DSA/Dilithium concurrency issues
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5380  # https://github.com/randombit/botan/pull/5380
+  merge_commit: af19f625f8b6478e1c030365c677e0b8a03dfc68
+  classification: unspecified
+
+# Fix Kyber/ML-KEM concurrency issues
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5367  # https://github.com/randombit/botan/pull/5367
+  merge_commit: d4d3b42615498d745c4eb22dea7b981eed47e037
+  classification: unspecified
+
+# Generalize XMSS_Index_Registry and use it for LMS as well
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5382  # https://github.com/randombit/botan/pull/5382
+  merge_commit: 0a8351f33fca67d47baa445ba78bee2a01fa0f36
+  classification: unspecified
+
+# Fix race in XMSS_Index_Registry
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5376  # https://github.com/randombit/botan/pull/5376
+  merge_commit: 53329c11e701944a3449a8c0ccc954943d8be78b
+  classification: unspecified
