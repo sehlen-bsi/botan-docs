@@ -4027,3 +4027,20 @@ patches:
 - pr: 5376  # https://github.com/randombit/botan/pull/5376
   merge_commit: 53329c11e701944a3449a8c0ccc954943d8be78b
   classification: unspecified
+
+# Ed448/X448 optimizations
+#   Author:    @randombit
+- pr: 5383  # https://github.com/randombit/botan/pull/5383
+  merge_commit: 9aec7a068f68ac101f28ad70296adcfad8c767c1
+  classification: unspecified
+
+# Use squarings when possible when computing Montgomery exponentiation table
+#   Author:    @randombit
+- pr: 5385  # https://github.com/randombit/botan/pull/5385
+  merge_commit: 90b85a862aa377f128d919b4312a61ef54947e5e
+  classification: unspecified
+
+# Update news [ci skip]
+#   Author: Jack Lloyd
+- commit: 88e61f8c72b18be4fe70f13bed7e6539d953bb55  # https://github.com/randombit/botan/commit/88e61f8c72b18be4fe70f13bed7e6539d953bb55
+  classification: unspecified
