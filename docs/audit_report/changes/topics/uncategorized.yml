@@ -4044,3 +4044,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: 88e61f8c72b18be4fe70f13bed7e6539d953bb55  # https://github.com/randombit/botan/commit/88e61f8c72b18be4fe70f13bed7e6539d953bb55
   classification: unspecified
+
+# For FFDH exponents follow the guidance of NIST SP 800-56A and 800-56B
+#   Author:    @randombit
+#   Approvals: (@falko-strenzke)
+- pr: 5384  # https://github.com/randombit/botan/pull/5384
+  merge_commit: ee07c593e8639961236179166953189ab495dc86
+  classification: unspecified
