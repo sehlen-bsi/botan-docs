@@ -4051,3 +4051,58 @@ patches:
 - pr: 5384  # https://github.com/randombit/botan/pull/5384
   merge_commit: ee07c593e8639961236179166953189ab495dc86
   classification: unspecified
+
+# FIX: `botan_x509_cert_allowed_extended_usage_*` should return "1" on true
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5252  # https://github.com/randombit/botan/pull/5252
+  merge_commit: b93d54845e8196dcf44842445d68c56b10165fbd
+  classification: unspecified
+
+# FFI: Generic getter(s) for X.509 objects
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5188  # https://github.com/randombit/botan/pull/5188
+  merge_commit: 27fd567e939181f4d75872409ea253c0ce8711f0
+  classification: unspecified
+
+# Add perf report for PBKDf2
+#   Author:    @randombit
+- pr: 5389  # https://github.com/randombit/botan/pull/5389
+  merge_commit: 23e0fc0cc0df7d061886cde0eba875184faef423
+  classification: unspecified
+
+# In SM2 header avoid defining a deprecated function in terms of another
+#   Author:    @randombit
+- pr: 5390  # https://github.com/randombit/botan/pull/5390
+  merge_commit: b0ac573db5a33c78a18938f9c2e98fbf94246158
+  classification: unspecified
+
+# Clean up pcurves use of clang-format off comments
+#   Author:    @randombit
+- pr: 5388  # https://github.com/randombit/botan/pull/5388
+  merge_commit: c9845069ae7052e83d7d47d41f5641dea57ab675
+  classification: unspecified
+
+# IWYU - Clean up unused includes and forward declarations
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5350  # https://github.com/randombit/botan/pull/5350
+  merge_commit: 710276f0028aa7fc1fec40baf1c457887e3b8eb6
+  classification: unspecified
+
+# Change pcurve base point multiplication to use Booth encoding
+#   Author:    @randombit
+- pr: 5387  # https://github.com/randombit/botan/pull/5387
+  merge_commit: e5ec9cbce27cd09209965c3da0d8dd9a97e401a3
+  classification: unspecified
+
+# Update change notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 625fd45da1292ab24a185259771cadf84a8f5099  # https://github.com/randombit/botan/commit/625fd45da1292ab24a185259771cadf84a8f5099
+  classification: unspecified
+
+# Correct pcurves.cpp template [ci skip]
+#   Author: Jack Lloyd
+- commit: caa9c483421dd718123158080c039c7ed53d634d  # https://github.com/randombit/botan/commit/caa9c483421dd718123158080c039c7ed53d634d
+  classification: unspecified
