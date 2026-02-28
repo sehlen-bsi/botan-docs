@@ -4106,3 +4106,22 @@ patches:
 #   Author: Jack Lloyd
 - commit: caa9c483421dd718123158080c039c7ed53d634d  # https://github.com/randombit/botan/commit/caa9c483421dd718123158080c039c7ed53d634d
   classification: unspecified
+
+# Allow use of variable time inversion in batch affine conversion
+#   Author:    @randombit
+- pr: 5393  # https://github.com/randombit/botan/pull/5393
+  merge_commit: b6bf8dcd268d95124351a566ae48656dfdc00e57
+  classification: unspecified
+
+# Extend compare_perf script to take one set of input from stdin
+#   Author:    @randombit
+- pr: 5392  # https://github.com/randombit/botan/pull/5392
+  merge_commit: c5ef4777fbabf19ff72ed500b8add677f01d8827
+  classification: unspecified
+
+# Add missing XMSS Parameters to pubkey.rst and fix comment for XMSS_PrivateKey::raw_private_key()
+#   Author:    @TJ-91
+#   Approvals: (@randombit)
+- pr: 5391  # https://github.com/randombit/botan/pull/5391
+  merge_commit: 6eb7cfcc4f76765eccf73d65acb26391c922e8d9
+  classification: unspecified
