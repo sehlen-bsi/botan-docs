@@ -4125,3 +4125,9 @@ patches:
 - pr: 5391  # https://github.com/randombit/botan/pull/5391
   merge_commit: 6eb7cfcc4f76765eccf73d65acb26391c922e8d9
   classification: unspecified
+
+# Inline more agressively in pcurves
+#   Author:    @randombit
+- pr: 5394  # https://github.com/randombit/botan/pull/5394
+  merge_commit: 584d785fea22e8e8cbbf626c5a8fd8bdcfa7ab0b
+  classification: unspecified
