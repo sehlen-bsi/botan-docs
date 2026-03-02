@@ -4131,3 +4131,9 @@ patches:
 - pr: 5394  # https://github.com/randombit/botan/pull/5394
   merge_commit: 584d785fea22e8e8cbbf626c5a8fd8bdcfa7ab0b
   classification: unspecified
+
+# Generalized ECC scalar blinding in pcurves
+#   Author:    @randombit
+- pr: 5400  # https://github.com/randombit/botan/pull/5400
+  merge_commit: 6a82ea9000d12b24aaabe67f8a9c0058feda6e52
+  classification: unspecified
