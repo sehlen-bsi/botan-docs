@@ -4137,3 +4137,30 @@ patches:
 - pr: 5400  # https://github.com/randombit/botan/pull/5400
   merge_commit: 6a82ea9000d12b24aaabe67f8a9c0058feda6e52
   classification: unspecified
+
+# Small optimization for shift_left and shift_right
+#   Author:    @randombit
+- pr: 5403  # https://github.com/randombit/botan/pull/5403
+  merge_commit: a78272b61091ba1dfb1b4ebde8cb695d140760ef
+  classification: unspecified
+
+# Refactor: CMake Module now uses mostly hard-coded paths
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5402  # https://github.com/randombit/botan/pull/5402
+  merge_commit: fac269140ef72bff3bd648351bdd58315bf11b02
+  classification: unspecified
+
+# Add CRL creation to FFI
+#   Author:    @arckoor
+#   Approvals: @reneme, (@randombit)
+- pr: 5166  # https://github.com/randombit/botan/pull/5166
+  merge_commit: 1afa1b14a8ee5675154427184c9b516a1c088b25
+  classification: unspecified
+
+# X509: Multiple OCSP Responders
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 5231  # https://github.com/randombit/botan/pull/5231
+  merge_commit: 20cc7dbce670fbf93eb0986a7d634bc93df49801
+  classification: unspecified
