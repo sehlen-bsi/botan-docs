@@ -4164,3 +4164,16 @@ patches:
 - pr: 5231  # https://github.com/randombit/botan/pull/5231
   merge_commit: 20cc7dbce670fbf93eb0986a7d634bc93df49801
   classification: unspecified
+
+# Ensure BOTAN_FFI_EXPORT is consistently at the start of the ffi.h decls
+#   Author:    @randombit
+- pr: 5406  # https://github.com/randombit/botan/pull/5406
+  merge_commit: 41015be85d90a951337b6ac8d6c257e43c9b03af
+  classification: unspecified
+
+# x509: allow AnyExtendedKeyUsage for CA
+#   Author:    @furmur
+#   Approvals: (@randombit)
+- pr: 5313  # https://github.com/randombit/botan/pull/5313
+  merge_commit: 0460ad08f4a36986ffe2d3a0a11fb047cc44e0f9
+  classification: unspecified
