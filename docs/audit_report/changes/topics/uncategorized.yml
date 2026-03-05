@@ -4177,3 +4177,21 @@ patches:
 - pr: 5313  # https://github.com/randombit/botan/pull/5313
   merge_commit: 0460ad08f4a36986ffe2d3a0a11fb047cc44e0f9
   classification: unspecified
+
+# Add PKCS12 OIDs
+#   Author:    @dmazzella
+#   Approvals: (@randombit)
+- pr: 5411  # https://github.com/randombit/botan/pull/5411
+  merge_commit: b47e9d96d4ac3ab24936ab34883da5c4b1ad462d
+  classification: unspecified
+
+# Add inline aarch64 assembly for word3 and word_madd{2/3}
+#   Author:    @randombit
+- pr: 5407  # https://github.com/randombit/botan/pull/5407
+  merge_commit: 3a1a8f5cf31b2d1c1e28b68a0cd61ac958562d5e
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: f98de3af4e7261adca5a97fe51a6058987403279  # https://github.com/randombit/botan/commit/f98de3af4e7261adca5a97fe51a6058987403279
+  classification: unspecified
