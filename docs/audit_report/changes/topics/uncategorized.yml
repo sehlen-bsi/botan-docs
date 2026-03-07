@@ -4195,3 +4195,30 @@ patches:
 #   Author: Jack Lloyd
 - commit: f98de3af4e7261adca5a97fe51a6058987403279  # https://github.com/randombit/botan/commit/f98de3af4e7261adca5a97fe51a6058987403279
   classification: unspecified
+
+# Minor improvements to EC benchmarking cli utils
+#   Author:    @randombit
+- pr: 5413  # https://github.com/randombit/botan/pull/5413
+  merge_commit: ebae7cd2eec008d4f476c35e465be03cac27a7cc
+  classification: unspecified
+
+# Fix ECDSA chosen-key verification forgery
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5412  # https://github.com/randombit/botan/pull/5412
+  merge_commit: 4c7779185a749a275f0300cf881c73b47f240083
+  classification: unspecified
+
+# Use RAII for addrinfo lifetime management
+#   Author:    @KaganCanSit
+#   Approvals: @reneme
+- pr: 5399  # https://github.com/randombit/botan/pull/5399
+  merge_commit: ced0eca478bfa1a09e6361117fd1fcd19925b7fe
+  classification: unspecified
+
+# Fix input split bug in gcd fuzzer
+#   Author:    @OwenSanzas
+#   Approvals: (@randombit)
+- pr: 5415  # https://github.com/randombit/botan/pull/5415
+  merge_commit: 60372dc8072079fb0500b7332b230f96b6b9851f
+  classification: unspecified
