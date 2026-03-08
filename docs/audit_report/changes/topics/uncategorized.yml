@@ -4222,3 +4222,21 @@ patches:
 - pr: 5415  # https://github.com/randombit/botan/pull/5415
   merge_commit: 60372dc8072079fb0500b7332b230f96b6b9851f
   classification: unspecified
+
+# Add some more fuzzers for EC arithmetic
+#   Author:    @randombit
+- pr: 5420  # https://github.com/randombit/botan/pull/5420
+  merge_commit: 7d0b678e68f337367530fcc2d0cd73ca95e58e62
+  classification: unspecified
+
+# Add AVX-512 CLMUL GHASH
+#   Author:    @randombit
+- pr: 5418  # https://github.com/randombit/botan/pull/5418
+  merge_commit: 03d781347a5cc8fac55aa08e685e226d2700ad35
+  classification: unspecified
+
+# Add various precautionary null checks in TLS stack
+#   Author:    @randombit
+- pr: 5419  # https://github.com/randombit/botan/pull/5419
+  merge_commit: 995debad3f2cc900978fbd1a0aed23c2ebd7da55
+  classification: unspecified
