@@ -4240,3 +4240,9 @@ patches:
 - pr: 5419  # https://github.com/randombit/botan/pull/5419
   merge_commit: 995debad3f2cc900978fbd1a0aed23c2ebd7da55
   classification: unspecified
+
+# Avoid possible race conditions in Windows certificate store
+#   Author:    @randombit
+- pr: 5421  # https://github.com/randombit/botan/pull/5421
+  merge_commit: cdaa9c0ff3d49fd2833958b618acf37de98a27d4
+  classification: unspecified
