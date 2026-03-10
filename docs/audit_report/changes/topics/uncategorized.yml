@@ -4246,3 +4246,10 @@ patches:
 - pr: 5421  # https://github.com/randombit/botan/pull/5421
   merge_commit: cdaa9c0ff3d49fd2833958b618acf37de98a27d4
   classification: unspecified
+
+# Run latest Wycheproof tests every night
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5269  # https://github.com/randombit/botan/pull/5269
+  merge_commit: 8607df86fca56d55b2956bd1c26cff8453c039f5
+  classification: unspecified
