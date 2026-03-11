@@ -4253,3 +4253,9 @@ patches:
 - pr: 5269  # https://github.com/randombit/botan/pull/5269
   merge_commit: 8607df86fca56d55b2956bd1c26cff8453c039f5
   classification: unspecified
+
+# Generate Streebog's tables at compile time
+#   Author:    @randombit
+- pr: 5427  # https://github.com/randombit/botan/pull/5427
+  merge_commit: bff63e41a6bca75c5da8b722216f7ca73ccae968
+  classification: unspecified
