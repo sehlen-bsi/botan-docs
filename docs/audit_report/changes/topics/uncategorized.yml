@@ -4259,3 +4259,21 @@ patches:
 - pr: 5427  # https://github.com/randombit/botan/pull/5427
   merge_commit: bff63e41a6bca75c5da8b722216f7ca73ccae968
   classification: unspecified
+
+# Generate Whirlpool tables and RCs at compile time from the miniboxes
+#   Author:    @randombit
+- pr: 5430  # https://github.com/randombit/botan/pull/5430
+  merge_commit: 7eea4b8b50614a19cd519e790da0d1100d9ed411
+  classification: unspecified
+
+# BigInt encoding cleanups
+#   Author:    @randombit
+- pr: 5425  # https://github.com/randombit/botan/pull/5425
+  merge_commit: a69866781d9ffd6f8259768fe62a3eb1d68f3f7c
+  classification: unspecified
+
+# Silence a couple of clang-tidy warnings about plain enums in ffi.h
+#   Author:    @randombit
+- pr: 5429  # https://github.com/randombit/botan/pull/5429
+  merge_commit: b18efa76d16f5c65643ee5598a14d61638a1bb0b
+  classification: unspecified
