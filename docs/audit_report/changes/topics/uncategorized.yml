@@ -4277,3 +4277,21 @@ patches:
 - pr: 5429  # https://github.com/randombit/botan/pull/5429
   merge_commit: b18efa76d16f5c65643ee5598a14d61638a1bb0b
   classification: unspecified
+
+# Implement DES using bitslicing
+#   Author:    @randombit
+- pr: 5433  # https://github.com/randombit/botan/pull/5433
+  merge_commit: 00c66dba324ab6b3da5991049a5294009096c751
+  classification: unspecified
+
+# Generalize support for consteval polynomial multiplication in GF(2^8)
+#   Author:    @randombit
+- pr: 5434  # https://github.com/randombit/botan/pull/5434
+  merge_commit: 15579a1e760e7fabd3b91b8863a436824f479a21
+  classification: unspecified
+
+# Rewrite Twofish key schedule to avoid using tables for GF(2^8) arithmetic
+#   Author:    @randombit
+- pr: 5432  # https://github.com/randombit/botan/pull/5432
+  merge_commit: 0cccd59e85811f9289987b09fc44240d6550cf6f
+  classification: unspecified
