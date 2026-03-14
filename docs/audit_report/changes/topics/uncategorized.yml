@@ -4295,3 +4295,26 @@ patches:
 - pr: 5432  # https://github.com/randombit/botan/pull/5432
   merge_commit: 0cccd59e85811f9289987b09fc44240d6550cf6f
   classification: unspecified
+
+# Add optional callback for user-defined TLS 1.2 key derivation function
+#   Author:    @lars-du
+#   Approvals: @reneme
+- pr: 5107  # https://github.com/randombit/botan/pull/5107
+  merge_commit: 65c848d3d9bd23c89727007593e99fa9603e0e36
+  classification: unspecified
+
+# Use SWAR during base58 decoding
+#   Author:    @randombit
+- pr: 5437  # https://github.com/randombit/botan/pull/5437
+  merge_commit: b866e0ee993b250e2adc64c47c89f03a5c021f12
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 02fe866ea342a2a011335d2bce1318568ed7da90  # https://github.com/randombit/botan/commit/02fe866ea342a2a011335d2bce1318568ed7da90
+  classification: unspecified
+
+# Cleanup todos [ci skip]
+#   Author: Jack Lloyd
+- commit: 52a033211cff20342b4ff7d42f99a8cb19e3e48a  # https://github.com/randombit/botan/commit/52a033211cff20342b4ff7d42f99a8cb19e3e48a
+  classification: unspecified
