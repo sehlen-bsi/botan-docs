@@ -4318,3 +4318,21 @@ patches:
 #   Author: Jack Lloyd
 - commit: 52a033211cff20342b4ff7d42f99a8cb19e3e48a  # https://github.com/randombit/botan/commit/52a033211cff20342b4ff7d42f99a8cb19e3e48a
   classification: unspecified
+
+# Camellia GFNI: new AVX-512 implementation and improved AVX2 implementation
+#   Author:    @randombit
+- pr: 5442  # https://github.com/randombit/botan/pull/5442
+  merge_commit: 6d28178fb9b3eb676e0fb8eac005893be93bb75c
+  classification: unspecified
+
+# Fix inefficiency in IDEA SSE2 transpose step
+#   Author:    @randombit
+- pr: 5441  # https://github.com/randombit/botan/pull/5441
+  merge_commit: b2708500c87cf0c55d23561366d638e8d1f67b95
+  classification: unspecified
+
+# Add ARIA implementation using AVX-512 GFNI
+#   Author:    @randombit
+- pr: 5440  # https://github.com/randombit/botan/pull/5440
+  merge_commit: 46fd95dbd46f95fe4e6545512d7227589c4e6fdc
+  classification: unspecified
