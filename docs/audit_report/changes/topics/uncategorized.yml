@@ -4336,3 +4336,68 @@ patches:
 - pr: 5440  # https://github.com/randombit/botan/pull/5440
   merge_commit: 46fd95dbd46f95fe4e6545512d7227589c4e6fdc
   classification: unspecified
+
+# In SM2 verify the C3 field is of the required length
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5450  # https://github.com/randombit/botan/pull/5450
+  merge_commit: 798a332e11949afa8b004564bb9031e66c1a4d13
+  classification: unspecified
+
+# Fix name constraint DNS check when falling back to CN
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5448  # https://github.com/randombit/botan/pull/5448
+  merge_commit: 134fdda1b0ce1c7239edf75ab34e7dc39117b66a
+  classification: unspecified
+
+# Fix OCSP response verification
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5449  # https://github.com/randombit/botan/pull/5449
+  merge_commit: 6ecc62a4e36937d036df8c8eda6a85708abb8c37
+  classification: unspecified
+
+# Address (or silence) various new warnings from clang-tidy 22
+#   Author:    @randombit
+- pr: 5446  # https://github.com/randombit/botan/pull/5446
+  merge_commit: 2a04c163ce7c767f71b69a3e7f488cd0d699e332
+  classification: unspecified
+
+# Use the span-based variants of CT::is_equal where possible
+#   Author:    @randombit
+- pr: 5447  # https://github.com/randombit/botan/pull/5447
+  merge_commit: e3fc549ad3a231e23a03c64c88da31fbe2d82fae
+  classification: unspecified
+
+# Add AVX2 implementation of IDEA
+#   Author:    @randombit
+- pr: 5443  # https://github.com/randombit/botan/pull/5443
+  merge_commit: cd829427e6f8498f90af64fc6cc388a0daa3af2b
+  classification: unspecified
+
+# Add support for ARMv8 SM3 instructions
+#   Author:    @randombit
+- pr: 5444  # https://github.com/randombit/botan/pull/5444
+  merge_commit: e9952d62f60cd6c23e4a098ccca3f41b4eb339e2
+  classification: unspecified
+
+# Update for 3.11.0 release
+#   Author: Jack Lloyd
+- commit: 4f6f5bbaf7263ca6062e6644950ae30625f06490  # https://github.com/randombit/botan/commit/4f6f5bbaf7263ca6062e6644950ae30625f06490
+  classification: unspecified
+
+# Add advisory test [ci skip]
+#   Author: Jack Lloyd
+- commit: d851c24098bced366a032c36dcfbadf2c163d190  # https://github.com/randombit/botan/commit/d851c24098bced366a032c36dcfbadf2c163d190
+  classification: unspecified
+
+# Small readme tweak [ci skip]
+#   Author: Jack Lloyd
+- commit: d6b78f18a49216643d26536320c83774da167d64  # https://github.com/randombit/botan/commit/d6b78f18a49216643d26536320c83774da167d64
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 09aed6eb2a526e576de593d476aebf44ed9fb8af  # https://github.com/randombit/botan/commit/09aed6eb2a526e576de593d476aebf44ed9fb8af
+  classification: unspecified
