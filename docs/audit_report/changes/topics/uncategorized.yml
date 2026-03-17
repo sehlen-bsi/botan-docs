@@ -4401,3 +4401,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: 09aed6eb2a526e576de593d476aebf44ed9fb8af  # https://github.com/randombit/botan/commit/09aed6eb2a526e576de593d476aebf44ed9fb8af
   classification: unspecified
+
+# Add Whirlpool implementation using AVX-512
+#   Author:    @randombit
+- pr: 5453  # https://github.com/randombit/botan/pull/5453
+  merge_commit: 66b006cf991c4849393109324a1ab9ff8e3c9ad8
+  classification: unspecified
