@@ -4407,3 +4407,33 @@ patches:
 - pr: 5453  # https://github.com/randombit/botan/pull/5453
   merge_commit: 66b006cf991c4849393109324a1ab9ff8e3c9ad8
   classification: unspecified
+
+# Fix various warnings from clang-tidy 22
+#   Author:    @randombit
+- pr: 5456  # https://github.com/randombit/botan/pull/5456
+  merge_commit: a7cbacbd5fb755146e5ceffa9bd6684649b75ea4
+  classification: unspecified
+
+# When testing PK decryption, verify correct ciphertext decrypts after testing mutations
+#   Author:    @randombit
+- pr: 5457  # https://github.com/randombit/botan/pull/5457
+  merge_commit: b542ed6768ad71962413d9f42723366d6fe98ff7
+  classification: unspecified
+
+# Fix a bug in handling invalid DER ECDSA signatures
+#   Author:    @randombit
+- pr: 5455  # https://github.com/randombit/botan/pull/5455
+  merge_commit: 588516d8d8e6a6a0a48bbc9fdaec5086f4d90433
+  classification: unspecified
+
+# test and fix for Ed25519 good-after-bad verify problem
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5454  # https://github.com/randombit/botan/pull/5454
+  merge_commit: a2d9ecf60bf9a07250025ed7c90c46eae6829634
+  classification: unspecified
+
+# Add the CVE IDs assigned to the issues fixed in 3.11.0 [ci skip]
+#   Author: Jack Lloyd
+- commit: 4a421b525a46ccdc165a9646a46ed0fe7d651364  # https://github.com/randombit/botan/commit/4a421b525a46ccdc165a9646a46ed0fe7d651364
+  classification: unspecified
