@@ -4437,3 +4437,40 @@ patches:
 #   Author: Jack Lloyd
 - commit: 4a421b525a46ccdc165a9646a46ed0fe7d651364  # https://github.com/randombit/botan/commit/4a421b525a46ccdc165a9646a46ed0fe7d651364
   classification: unspecified
+
+# Remove SSE2 implementation of ZFEC encoding
+#   Author:    @randombit
+- pr: 5469  # https://github.com/randombit/botan/pull/5469
+  merge_commit: 9348bd7a29e7e9187f97c2a8c69ccbe121729401
+  classification: unspecified
+
+# Refactor vperm AES to avoid global constants
+#   Author:    @randombit
+- pr: 5463  # https://github.com/randombit/botan/pull/5463
+  merge_commit: 0a06cccccae7902e07a37d930115baa501193625
+  classification: unspecified
+
+# Disable the macos-15-intel CI jobs
+#   Author:    @randombit
+- pr: 5468  # https://github.com/randombit/botan/pull/5468
+  merge_commit: acc941d5a1d4ffd29e3d81278ecf8bcb683f1ff0
+  classification: unspecified
+
+# Add Twofish AVX512+GFNI implementation
+#   Author:    @randombit
+- pr: 5465  # https://github.com/randombit/botan/pull/5465
+  merge_commit: f33c6ad58bac9636a7cfc4cdc3b34d48de07d95e
+  classification: unspecified
+
+# Add some missing dependencies and includes
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5464  # https://github.com/randombit/botan/pull/5464
+  merge_commit: e4cc5ba4018b428650f7fe137a22a05569e30752
+  classification: unspecified
+
+# Fix building FFI without bcrypt
+#   Author:    @randombit
+- pr: 5462  # https://github.com/randombit/botan/pull/5462
+  merge_commit: 05106c5878e9ae3862a0d63ef61359c40d1f57c3
+  classification: unspecified
