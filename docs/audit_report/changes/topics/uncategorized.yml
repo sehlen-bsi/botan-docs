@@ -4474,3 +4474,9 @@ patches:
 - pr: 5462  # https://github.com/randombit/botan/pull/5462
   merge_commit: 05106c5878e9ae3862a0d63ef61359c40d1f57c3
   classification: unspecified
+
+# Add AVX-512 execution of Argon2 function
+#   Author:    @randombit
+- pr: 5471  # https://github.com/randombit/botan/pull/5471
+  merge_commit: d430f08deeca9da0cc394d98d84105c8c42abd0d
+  classification: unspecified
