@@ -4480,3 +4480,24 @@ patches:
 - pr: 5471  # https://github.com/randombit/botan/pull/5471
   merge_commit: d430f08deeca9da0cc394d98d84105c8c42abd0d
   classification: unspecified
+
+# Add AVX512+GFNI implementation of SEED
+#   Author:    @randombit
+- pr: 5472  # https://github.com/randombit/botan/pull/5472
+  merge_commit: 78cf4c1a9624de4435f14510be446c69d318f616
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 8b66858c02f67e0f572f0a37a578059224658d74  # https://github.com/randombit/botan/commit/8b66858c02f67e0f572f0a37a578059224658d74
+  classification: unspecified
+
+# Update hardware acceleration doc [ci skip]
+#   Author: Jack Lloyd
+- commit: f93749a2093c674d35af7c62d315695768d0100d  # https://github.com/randombit/botan/commit/f93749a2093c674d35af7c62d315695768d0100d
+  classification: unspecified
+
+# Note CBC's inability to process blocks in parallel when encrypting [ci skip]
+#   Author: Jack Lloyd
+- commit: 4a3cb8cacf9fe7d1a7d2d7db17681e9f4c74db1d  # https://github.com/randombit/botan/commit/4a3cb8cacf9fe7d1a7d2d7db17681e9f4c74db1d
+  classification: unspecified
