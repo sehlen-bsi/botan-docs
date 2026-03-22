@@ -4501,3 +4501,14 @@ patches:
 #   Author: Jack Lloyd
 - commit: 4a3cb8cacf9fe7d1a7d2d7db17681e9f4c74db1d  # https://github.com/randombit/botan/commit/4a3cb8cacf9fe7d1a7d2d7db17681e9f4c74db1d
   classification: unspecified
+
+# Add AVX2 codepath for CTR counter handling and XOR
+#   Author:    @randombit
+- pr: 5474  # https://github.com/randombit/botan/pull/5474
+  merge_commit: 0f222ba0fe750ef5be11ece1cce46f41642b2c7e
+  classification: unspecified
+
+# Check off a few todo items [ci skip]
+#   Author: Jack Lloyd
+- commit: bbca7965e0b85ccabc5a8cec9392018906269a62  # https://github.com/randombit/botan/commit/bbca7965e0b85ccabc5a8cec9392018906269a62
+  classification: unspecified
