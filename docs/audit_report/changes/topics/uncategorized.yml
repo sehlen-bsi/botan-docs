@@ -4512,3 +4512,35 @@ patches:
 #   Author: Jack Lloyd
 - commit: bbca7965e0b85ccabc5a8cec9392018906269a62  # https://github.com/randombit/botan/commit/bbca7965e0b85ccabc5a8cec9392018906269a62
   classification: unspecified
+
+# Added utf8_to_ucs2 and utf8_to_ucs4
+#   Author:    @dmazzella
+#   Approvals: (@randombit)
+- pr: 5459  # https://github.com/randombit/botan/pull/5459
+  merge_commit: c868150bc35e1aa33a3e17225fe56255dfd38f4c
+  classification: unspecified
+
+# Add implementation of SM4 using hardware AES instructions
+#   Author:    @randombit
+- pr: 5476  # https://github.com/randombit/botan/pull/5476
+  merge_commit: 282afd036a21393ead1e9d6aad7b63673f6d6dc5
+  classification: unspecified
+
+# Fix the ML-DSA Wycheproof tests which were broken by a recent schema change
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5475  # https://github.com/randombit/botan/pull/5475
+  merge_commit: 980f1561887854f18e947d9583fc84e00a41fbd4
+  classification: unspecified
+
+# Add AVX2 implementation of Whirlpool compression
+#   Author:    @randombit
+- pr: 5473  # https://github.com/randombit/botan/pull/5473
+  merge_commit: 407ff8f65533aa4e07f5fa6b56e9d75fffd67c3b
+  classification: unspecified
+
+# Avoid tables for GF(2^8) arithmetic in TSS
+#   Author:    @randombit
+- pr: 5470  # https://github.com/randombit/botan/pull/5470
+  merge_commit: 7258ed0280c9c774db51f6ba5f8ed7c6a4596362
+  classification: unspecified
