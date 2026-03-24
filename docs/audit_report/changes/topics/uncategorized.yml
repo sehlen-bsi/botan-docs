@@ -4544,3 +4544,16 @@ patches:
 - pr: 5470  # https://github.com/randombit/botan/pull/5470
   merge_commit: 7258ed0280c9c774db51f6ba5f8ed7c6a4596362
   classification: unspecified
+
+# Handle Not_Implemented in pwdhash tune_params test
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit), (@ffplexim)
+- pr: 5438  # https://github.com/randombit/botan/pull/5438
+  merge_commit: 4f8f699a3aa8de491089ecd0723af7663c2ef68d
+  classification: unspecified
+
+# Add implementation of SEED using hardware AES instructions
+#   Author:    @randombit
+- pr: 5477  # https://github.com/randombit/botan/pull/5477
+  merge_commit: e8ed80c84eb35c9da3deae4b347ec65b959cd16d
+  classification: unspecified
