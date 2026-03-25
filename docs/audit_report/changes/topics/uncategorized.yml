@@ -4557,3 +4557,31 @@ patches:
 - pr: 5477  # https://github.com/randombit/botan/pull/5477
   merge_commit: e8ed80c84eb35c9da3deae4b347ec65b959cd16d
   classification: unspecified
+
+# Add Camellia implementation using hardware AES instructions
+#   Author:    @randombit
+- pr: 5481  # https://github.com/randombit/botan/pull/5481
+  merge_commit: db4897d1b84afe2bdf06ec1e5bd8db933871f1ee
+  classification: unspecified
+
+# Add SIMD_4x32 based counter increment and XOR for CTR
+#   Author:    @randombit
+- pr: 5480  # https://github.com/randombit/botan/pull/5480
+  merge_commit: 3a4ae17b0d48da54f380d47bdc33779340e6e3e7
+  classification: unspecified
+
+# Add ARIA implementation using hardware AES instructions
+#   Author:    @randombit
+- pr: 5479  # https://github.com/randombit/botan/pull/5479
+  merge_commit: 2ddc528b11bb4e49119daca279208cac78d026bf
+  classification: unspecified
+
+# Fix os_utils.cpp compilation when PROT_MAX is supported
+#   Author: Jack Lloyd
+- commit: 60de912fbb5f24bfdd4ddb1fa45ff137d81187df  # https://github.com/randombit/botan/commit/60de912fbb5f24bfdd4ddb1fa45ff137d81187df
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: ca567507d995c2f8eaebeae2bbcaf66c01d79b06  # https://github.com/randombit/botan/commit/ca567507d995c2f8eaebeae2bbcaf66c01d79b06
+  classification: unspecified
