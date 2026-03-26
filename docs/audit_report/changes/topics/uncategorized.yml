@@ -4585,3 +4585,38 @@ patches:
 #   Author: Jack Lloyd
 - commit: ca567507d995c2f8eaebeae2bbcaf66c01d79b06  # https://github.com/randombit/botan/commit/ca567507d995c2f8eaebeae2bbcaf66c01d79b06
   classification: unspecified
+
+# Interleave hw AES SM4 implementation
+#   Author:    @randombit
+- pr: 5485  # https://github.com/randombit/botan/pull/5485
+  merge_commit: f4222026969b4c4e4544c591c40fc67622135dec
+  classification: unspecified
+
+# Enable the macos-15-intel CI builds again
+#   Author:    @randombit
+- pr: 5483  # https://github.com/randombit/botan/pull/5483
+  merge_commit: c96680a4f13b654f461b338dbac593f485aab6a3
+  classification: unspecified
+
+# Improve IDEA multiplication implementations
+#   Author:    @randombit
+- pr: 5484  # https://github.com/randombit/botan/pull/5484
+  merge_commit: c050d37b41dd861e7916c12a9083412c0e61a769
+  classification: unspecified
+
+# Fix: Amalgamated Windows Builds with PKCS 11
+#   Author:    @FAlbertDev
+#   Approvals: (@randombit)
+- pr: 5486  # https://github.com/randombit/botan/pull/5486
+  merge_commit: 35787f547a25a0c4fcb7c2e7fa86a2a971fefc26
+  classification: unspecified
+
+# Properly use double backticks in the hardware accel doc [ci skip]
+#   Author: Jack Lloyd
+- commit: 2b48f42a7334589106e0e11eeb0804333946b03a  # https://github.com/randombit/botan/commit/2b48f42a7334589106e0e11eeb0804333946b03a
+  classification: unspecified
+
+# Update hardware support doc [ci skip]
+#   Author: Jack Lloyd
+- commit: 75ed466c36ac80aa349d261d4c361d14eac162ee  # https://github.com/randombit/botan/commit/75ed466c36ac80aa349d261d4c361d14eac162ee
+  classification: unspecified
