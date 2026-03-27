@@ -4620,3 +4620,17 @@ patches:
 #   Author: Jack Lloyd
 - commit: 75ed466c36ac80aa349d261d4c361d14eac162ee  # https://github.com/randombit/botan/commit/75ed466c36ac80aa349d261d4c361d14eac162ee
   classification: unspecified
+
+# Enable explicit_bzero, getentropy, getrandom on Hurd
+#   Author:    @pinotree
+#   Approvals: (@randombit)
+- pr: 5488  # https://github.com/randombit/botan/pull/5488
+  merge_commit: 065f936463754b8d78e01c15c3dfe0d30adb619d
+  classification: unspecified
+
+# docs: update null cipher documentation in TLS::Policy [ci skip]
+#   Author:    @lars-du
+#   Approvals: (@randombit)
+- pr: 5487  # https://github.com/randombit/botan/pull/5487
+  merge_commit: 70da5139bd26f6d96bd99a67335d658142670bef
+  classification: unspecified
