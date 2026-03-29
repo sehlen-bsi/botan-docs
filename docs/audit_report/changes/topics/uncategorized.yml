@@ -4634,3 +4634,15 @@ patches:
 - pr: 5487  # https://github.com/randombit/botan/pull/5487
   merge_commit: 70da5139bd26f6d96bd99a67335d658142670bef
   classification: unspecified
+
+# Remove SM4 iterations test
+#   Author:    @randombit
+- pr: 5492  # https://github.com/randombit/botan/pull/5492
+  merge_commit: bbfa6f3053d75209838591bdc0d23149efd35c12
+  classification: unspecified
+
+# Improve performance of SHA-512 AVX-512 codepath
+#   Author:    @randombit
+- pr: 5490  # https://github.com/randombit/botan/pull/5490
+  merge_commit: 507bbbfe3efa6e9beb218302a1e5fbfff6eca6b2
+  classification: unspecified
