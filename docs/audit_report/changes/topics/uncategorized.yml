@@ -4656,3 +4656,41 @@ patches:
 #   Author: Jack Lloyd
 - commit: b79dd0e1761164ebec58861cfb4639e123448e43  # https://github.com/randombit/botan/commit/b79dd0e1761164ebec58861cfb4639e123448e43
   classification: unspecified
+
+# Fix Certificate_Store::certificate_known
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5500  # https://github.com/randombit/botan/pull/5500
+  merge_commit: 0bb8b3f407e9e5d887c84bbd9bda4b74e36d1587
+  classification: unspecified
+
+# In TLS 1.3 require that the handshake is completed prior to application data
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5499  # https://github.com/randombit/botan/pull/5499
+  merge_commit: d0c85903c7efdb0bdf6042008e63e3115fc34df4
+  classification: unspecified
+
+# Add missing check on TLS 1.3 ClientHello legacy_version
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5498  # https://github.com/randombit/botan/pull/5498
+  merge_commit: 8759fe96940965af7530e38ff68e64936d71759d
+  classification: unspecified
+
+# Address various minor TLS 1.3 issues
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5494  # https://github.com/randombit/botan/pull/5494
+  merge_commit: 839b455636a57e9b1df285c8a99e5610b5702e8e
+  classification: unspecified
+
+# Update for 3.11.1
+#   Author: Jack Lloyd
+- commit: 86d105523def181ae833e3aaaf773b1b0c20dda4  # https://github.com/randombit/botan/commit/86d105523def181ae833e3aaaf773b1b0c20dda4
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 11aa82ad14f902cea8a1249f54257f4a963113a1  # https://github.com/randombit/botan/commit/11aa82ad14f902cea8a1249f54257f4a963113a1
+  classification: unspecified
