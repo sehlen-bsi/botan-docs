@@ -4694,3 +4694,46 @@ patches:
 #   Author: Jack Lloyd
 - commit: 11aa82ad14f902cea8a1249f54257f4a963113a1  # https://github.com/randombit/botan/commit/11aa82ad14f902cea8a1249f54257f4a963113a1
   classification: unspecified
+
+# Add an index of serial numbers to X509_CRL for fast lookups
+#   Author:    @randombit
+- pr: 5511  # https://github.com/randombit/botan/pull/5511
+  merge_commit: 021b73c3a2cb3684d0411cf18e6cce45f0f0b67f
+  classification: unspecified
+
+# Improve search and indexing in Certificate_Store implementations
+#   Author:    @randombit
+- pr: 5510  # https://github.com/randombit/botan/pull/5510
+  merge_commit: ec092a57cb9d24093261ed4cac43c11723025b1f
+  classification: unspecified
+
+# Add X509_Certificate::Tag
+#   Author:    @randombit
+- pr: 5509  # https://github.com/randombit/botan/pull/5509
+  merge_commit: 87d9feb01c0747bd39a8d59e7516d6ed22e67175
+  classification: unspecified
+
+# Use a shared_ptr pimpl for X509_Object
+#   Author:    @randombit
+- pr: 5504  # https://github.com/randombit/botan/pull/5504
+  merge_commit: 7e1cfb983a0fe13cb94d05daf52782ddea7f01bc
+  classification: unspecified
+
+# Simplify BER_Decoder constructors
+#   Author:    @randombit
+- pr: 5507  # https://github.com/randombit/botan/pull/5507
+  merge_commit: 3275f63d57bae25176541c9e2b1dfbd77311c846
+  classification: unspecified
+
+# Merge ocsp_types.cpp into ocsp.cpp
+#   Author:    @randombit
+- pr: 5508  # https://github.com/randombit/botan/pull/5508
+  merge_commit: dce093f6fd58cee204e963ba6553286f1f49ef0b
+  classification: unspecified
+
+# Use an iterator-style producer for X500 name comparisons
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5505  # https://github.com/randombit/botan/pull/5505
+  merge_commit: 913b0003f72fb25d47a37ec55e937203b3be87eb
+  classification: unspecified
