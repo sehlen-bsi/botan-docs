@@ -4737,3 +4737,65 @@ patches:
 - pr: 5505  # https://github.com/randombit/botan/pull/5505
   merge_commit: 913b0003f72fb25d47a37ec55e937203b3be87eb
   classification: unspecified
+
+# Add a regression test for CVE-2026-35580
+#   Author:    @randombit
+- pr: 5502  # https://github.com/randombit/botan/pull/5502
+  merge_commit: eaf12915e3ba1246e4b4410294af293a0e548299
+  classification: unspecified
+
+# Make the X509 path building DFS incremental
+#   Author:    @randombit
+- pr: 5513  # https://github.com/randombit/botan/pull/5513
+  merge_commit: fc221e72481fd67b0412fad782922f8fff6eaf8b
+  classification: unspecified
+
+# Add a RFC 5280 reference comment in GeneralSubtree::decode_from
+#   Author: Jack Lloyd
+- commit: 042e5bd9885877408dfd43f00ff1b8d285ba6540  # https://github.com/randombit/botan/commit/042e5bd9885877408dfd43f00ff1b8d285ba6540
+  classification: unspecified
+
+# Avoid a timing channel during SM2 decryption
+#   Author: Jack Lloyd
+- commit: f97a85b9b966e6565ebfab806a07165f320227cb  # https://github.com/randombit/botan/commit/f97a85b9b966e6565ebfab806a07165f320227cb
+  classification: unspecified
+
+# Remove unused member of Sphincs_Hash_Functions_Shake
+#   Author: Jack Lloyd
+- commit: dcbac288db4abd366dea21adf93230c68c0f9d5b  # https://github.com/randombit/botan/commit/dcbac288db4abd366dea21adf93230c68c0f9d5b
+  classification: unspecified
+
+# Simplify the ICV check during unwrap of NIST keywrap with padding
+#   Author: Jack Lloyd
+- commit: 6bc6c5fdea1e87d4d32e4242497cd675b1317dd8  # https://github.com/randombit/botan/commit/6bc6c5fdea1e87d4d32e4242497cd675b1317dd8
+  classification: unspecified
+
+# Simplify and clean up the SP800-56C One Step KDF implementation
+#   Author: Jack Lloyd
+- commit: 9a78305aa05a72436ebf5b0e99c618375ec4c44e  # https://github.com/randombit/botan/commit/9a78305aa05a72436ebf5b0e99c618375ec4c44e
+  classification: unspecified
+
+# Return early if scrypt is invoked asking for 0 bytes of output
+#   Author: Jack Lloyd
+- commit: e3d827991498eab5e28694971c514249e365104c  # https://github.com/randombit/botan/commit/e3d827991498eab5e28694971c514249e365104c
+  classification: unspecified
+
+# Check maximum output length for PBKDF2
+#   Author: Jack Lloyd
+- commit: 3c8422fe1d23620c6c56227295b2440547205598  # https://github.com/randombit/botan/commit/3c8422fe1d23620c6c56227295b2440547205598
+  classification: unspecified
+
+# Check maximum output length for X9.42 PRF
+#   Author: Jack Lloyd
+- commit: 487731b10a6745a68db1612a3fc5b2318824245b  # https://github.com/randombit/botan/commit/487731b10a6745a68db1612a3fc5b2318824245b
+  classification: unspecified
+
+# In pcurves check that the result in mul_x_only is not the identity
+#   Author: Jack Lloyd
+- commit: 993d01b0cfad803182d5ba8d711fc103c8320bf8  # https://github.com/randombit/botan/commit/993d01b0cfad803182d5ba8d711fc103c8320bf8
+  classification: unspecified
+
+# Use secure_vector for FrodoKEM's k_bar
+#   Author: Jack Lloyd
+- commit: fc7727a646d1efb482b69a2009bd239be0bccacd  # https://github.com/randombit/botan/commit/fc7727a646d1efb482b69a2009bd239be0bccacd
+  classification: unspecified
