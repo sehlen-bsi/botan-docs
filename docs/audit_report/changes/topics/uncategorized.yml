@@ -4799,3 +4799,33 @@ patches:
 #   Author: Jack Lloyd
 - commit: fc7727a646d1efb482b69a2009bd239be0bccacd  # https://github.com/randombit/botan/commit/fc7727a646d1efb482b69a2009bd239be0bccacd
   classification: unspecified
+
+# Add a test of DFS certificate path search
+#   Author:    @randombit
+- pr: 5520  # https://github.com/randombit/botan/pull/5520
+  merge_commit: 352bda8c3eceb486747f7200ea55b11f4c8bfda6
+  classification: unspecified
+
+# Add BER_Decoder::Limits
+#   Author:    @randombit
+- pr: 5514  # https://github.com/randombit/botan/pull/5514
+  merge_commit: 143d0c257902915d69e24ada5f31f53996b4f972
+  classification: unspecified
+
+# Add BigInt::signum
+#   Author:    @randombit
+- pr: 5519  # https://github.com/randombit/botan/pull/5519
+  merge_commit: c4bf8cc35e7888a59ed6e104bbabe780862757f4
+  classification: unspecified
+
+# Improve handling of X509 extensions which fail to parse
+#   Author:    @randombit
+- pr: 5518  # https://github.com/randombit/botan/pull/5518
+  merge_commit: 00c63a4d87c8fc6e5a7f86a903bec1d56f0596a1
+  classification: unspecified
+
+# Remove signature check for detecting self-signed vs self-issued certs
+#   Author:    @randombit
+- pr: 5515  # https://github.com/randombit/botan/pull/5515
+  merge_commit: 73b945e271934a844b01c9e9d7c4b0d67c60ed5a
+  classification: unspecified
