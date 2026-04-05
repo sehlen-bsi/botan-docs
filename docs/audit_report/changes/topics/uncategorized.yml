@@ -4829,3 +4829,10 @@ patches:
 - pr: 5515  # https://github.com/randombit/botan/pull/5515
   merge_commit: 73b945e271934a844b01c9e9d7c4b0d67c60ed5a
   classification: unspecified
+
+# Skip consulting OCSP or CRLs on chains that we are rejecting anyway
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5512  # https://github.com/randombit/botan/pull/5512
+  merge_commit: 417709dd7959316243c28678dceaa7b9b6e7f399
+  classification: unspecified
