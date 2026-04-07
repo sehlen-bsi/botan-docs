@@ -4836,3 +4836,15 @@ patches:
 - pr: 5512  # https://github.com/randombit/botan/pull/5512
   merge_commit: 417709dd7959316243c28678dceaa7b9b6e7f399
   classification: unspecified
+
+# Rollup of small fixes
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5521  # https://github.com/randombit/botan/pull/5521
+  merge_commit: 8a7f43563751b4ecdf490aa4c41879d441c18692
+  classification: unspecified
+
+# Update release notes, bump version 3.12.0
+#   Author: Jack Lloyd
+- commit: 0fd0090521ad987c8b022d6b3ce7497d149a7076  # https://github.com/randombit/botan/commit/0fd0090521ad987c8b022d6b3ce7497d149a7076
+  classification: unspecified
