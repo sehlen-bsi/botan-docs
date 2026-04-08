@@ -4848,3 +4848,19 @@ patches:
 #   Author: Jack Lloyd
 - commit: 0fd0090521ad987c8b022d6b3ce7497d149a7076  # https://github.com/randombit/botan/commit/0fd0090521ad987c8b022d6b3ce7497d149a7076
   classification: unspecified
+
+# Various TLS fixes
+#   Author:    @randombit
+- pr: 5522  # https://github.com/randombit/botan/pull/5522
+  merge_commit: 5183e74ba25e16736e99991a8cfca2aa3edaf141
+  classification: unspecified
+
+# Fix a warning when building for Emscripten
+#   Author: Jack Lloyd
+- commit: 570b415e21d9874f13b0c753fa267f163748e23e  # https://github.com/randombit/botan/commit/570b415e21d9874f13b0c753fa267f163748e23e
+  classification: unspecified
+
+# Correct both CVE numbers from 3.11.1
+#   Author: Jack Lloyd
+- commit: cdc53c1ee381e6cf62ecc5973c8e49c10abb5e51  # https://github.com/randombit/botan/commit/cdc53c1ee381e6cf62ecc5973c8e49c10abb5e51
+  classification: unspecified
