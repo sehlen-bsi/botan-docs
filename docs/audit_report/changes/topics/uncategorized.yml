@@ -4864,3 +4864,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: cdc53c1ee381e6cf62ecc5973c8e49c10abb5e51  # https://github.com/randombit/botan/commit/cdc53c1ee381e6cf62ecc5973c8e49c10abb5e51
   classification: unspecified
+
+# Rewrite and extend the Wycheproof test script
+#   Author:    @randombit
+- pr: 5526  # https://github.com/randombit/botan/pull/5526
+  merge_commit: 7e69b76ca927d53df5ab7babde7739419db1a6cc
+  classification: unspecified
+
+# CI hardening and config changes
+#   Author:    @randombit
+- pr: 5525  # https://github.com/randombit/botan/pull/5525
+  merge_commit: 3890e88c465aa01da2b100179b426e4d57535e74
+  classification: unspecified
