@@ -4876,3 +4876,9 @@ patches:
 - pr: 5525  # https://github.com/randombit/botan/pull/5525
   merge_commit: 3890e88c465aa01da2b100179b426e4d57535e74
   classification: unspecified
+
+# Upgrade TLS-Anvil and add client-side testing
+#   Author:    @randombit
+- pr: 5503  # https://github.com/randombit/botan/pull/5503
+  merge_commit: 7ee5d80ce4fad66ac72f23b937bf2fe102bcd9a3
+  classification: unspecified
