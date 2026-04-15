@@ -4882,3 +4882,9 @@ patches:
 - pr: 5503  # https://github.com/randombit/botan/pull/5503
   merge_commit: 7ee5d80ce4fad66ac72f23b937bf2fe102bcd9a3
   classification: unspecified
+
+# Add script for running ACVP test vectors
+#   Author:    @randombit
+- pr: 5527  # https://github.com/randombit/botan/pull/5527
+  merge_commit: c4e13cb91b68aef876f0fc4a9791d8c6a1965cba
+  classification: unspecified
