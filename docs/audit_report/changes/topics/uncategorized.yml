@@ -4888,3 +4888,9 @@ patches:
 - pr: 5527  # https://github.com/randombit/botan/pull/5527
   merge_commit: c4e13cb91b68aef876f0fc4a9791d8c6a1965cba
   classification: unspecified
+
+# Avoid buffering the entire file in memory in download_ci_dep.py
+#   Author:    @randombit
+- pr: 5530  # https://github.com/randombit/botan/pull/5530
+  merge_commit: ea96b69d31d9420ad9761e232a07a52427722b01
+  classification: unspecified
