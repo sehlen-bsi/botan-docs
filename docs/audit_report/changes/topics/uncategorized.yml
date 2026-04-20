@@ -4894,3 +4894,40 @@ patches:
 - pr: 5530  # https://github.com/randombit/botan/pull/5530
   merge_commit: ea96b69d31d9420ad9761e232a07a52427722b01
   classification: unspecified
+
+# Various PKIX optimizations and bug fixes
+#   Author:    @randombit
+- pr: 5536  # https://github.com/randombit/botan/pull/5536
+  merge_commit: dafca6824b7548a67435ca68999fb79c36bb59c1
+  classification: unspecified
+
+# Add IPv6 parsing and formatting utilities
+#   Author:    @randombit
+- pr: 5534  # https://github.com/randombit/botan/pull/5534
+  merge_commit: 69e2f378fe8995ad3e4f2887eb5786bad567d329
+  classification: unspecified
+
+# Optimize host_wildcard_match
+#   Author:    @randombit
+- pr: 5535  # https://github.com/randombit/botan/pull/5535
+  merge_commit: 880764db284ff66d3179fed7887ee2bf0368a0eb
+  classification: unspecified
+
+# Add EC scalars and points to FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5404  # https://github.com/randombit/botan/pull/5404
+  merge_commit: e452c0b1c7b8297ac71b68b8cb5ea35ceba3cc32
+  classification: unspecified
+
+# Update BoGo shim, various TLS updates
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5523  # https://github.com/randombit/botan/pull/5523
+  merge_commit: e10ad9c01b8b64391d594d8c85e86b1eedf8c77b
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: e33e282671f84e55904ada1e0d4fedf4db689add  # https://github.com/randombit/botan/commit/e33e282671f84e55904ada1e0d4fedf4db689add
+  classification: unspecified
