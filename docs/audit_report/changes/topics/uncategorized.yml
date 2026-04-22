@@ -4931,3 +4931,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: e33e282671f84e55904ada1e0d4fedf4db689add  # https://github.com/randombit/botan/commit/e33e282671f84e55904ada1e0d4fedf4db689add
   classification: unspecified
+
+# In timing_test shuffle the inputs before measurement
+#   Author:    @randombit
+- pr: 5538  # https://github.com/randombit/botan/pull/5538
+  merge_commit: 1c4c94543162744b3ef51e8309c47b52f9b93fef
+  classification: unspecified
