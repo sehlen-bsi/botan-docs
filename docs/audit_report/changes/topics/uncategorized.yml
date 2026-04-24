@@ -4937,3 +4937,16 @@ patches:
 - pr: 5538  # https://github.com/randombit/botan/pull/5538
   merge_commit: 1c4c94543162744b3ef51e8309c47b52f9b93fef
   classification: unspecified
+
+# Refactor and optimize Windows certificate store
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5539  # https://github.com/randombit/botan/pull/5539
+  merge_commit: d4191bc5ae8e8d0fc039b9d8f42420eef8f8b730
+  classification: unspecified
+
+# Add support for IPv6 name constraints
+#   Author:    @randombit
+- pr: 5537  # https://github.com/randombit/botan/pull/5537
+  merge_commit: a9880548f7b05cf66914ef7e20eb10ebe0465312
+  classification: unspecified
