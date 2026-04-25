@@ -4950,3 +4950,15 @@ patches:
 - pr: 5537  # https://github.com/randombit/botan/pull/5537
   merge_commit: a9880548f7b05cf66914ef7e20eb10ebe0465312
   classification: unspecified
+
+# Fix some bugs relating to CRL distribution point handling
+#   Author:    @randombit
+- pr: 5546  # https://github.com/randombit/botan/pull/5546
+  merge_commit: 757a28492a9b076c684f954ca1f49028310cfc71
+  classification: unspecified
+
+# Fix bugs in handling of indefinite length BER data
+#   Author:    @randombit
+- pr: 5545  # https://github.com/randombit/botan/pull/5545
+  merge_commit: 44bf6e2721d21c8691714daa4c575ce5612c9d95
+  classification: unspecified
