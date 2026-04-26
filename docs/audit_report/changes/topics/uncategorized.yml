@@ -4962,3 +4962,10 @@ patches:
 - pr: 5545  # https://github.com/randombit/botan/pull/5545
   merge_commit: 44bf6e2721d21c8691714daa4c575ce5612c9d95
   classification: unspecified
+
+# refactor(streebog): Replace memcpy with typecast_copy
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5548  # https://github.com/randombit/botan/pull/5548
+  merge_commit: 48d874d9fd3868a3160fc9a3c491eaba93bdb82a
+  classification: unspecified
