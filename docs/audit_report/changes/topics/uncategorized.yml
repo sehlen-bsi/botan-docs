@@ -4969,3 +4969,20 @@ patches:
 - pr: 5548  # https://github.com/randombit/botan/pull/5548
   merge_commit: 48d874d9fd3868a3160fc9a3c491eaba93bdb82a
   classification: unspecified
+
+# Feature: More configuration options for installation directory structure
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5528  # https://github.com/randombit/botan/pull/5528
+  merge_commit: e79f1f66b032f4d7b8da51cbc08316199163b9f2
+  classification: unspecified
+
+# Update path for SDE [ci skip]
+#   Author: Jack Lloyd
+- commit: 3ef943741342321a17827aca82fe72a16f021741  # https://github.com/randombit/botan/commit/3ef943741342321a17827aca82fe72a16f021741
+  classification: unspecified
+
+# Update SDE download URL and hash to latest version
+#   Author: Jack Lloyd
+- commit: 69b11ce066ec04ad540b7e6c645a87dc6b3341d8  # https://github.com/randombit/botan/commit/69b11ce066ec04ad540b7e6c645a87dc6b3341d8
+  classification: unspecified
