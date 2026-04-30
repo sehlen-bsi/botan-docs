@@ -4986,3 +4986,39 @@ patches:
 #   Author: Jack Lloyd
 - commit: 69b11ce066ec04ad540b7e6c645a87dc6b3341d8  # https://github.com/randombit/botan/commit/69b11ce066ec04ad540b7e6c645a87dc6b3341d8
   classification: unspecified
+
+# Download sccache directly from Mozilla's release binaries on Github
+#   Author:    @randombit
+- pr: 5557  # https://github.com/randombit/botan/pull/5557
+  merge_commit: 3bdb4549cf598eb477fcd3816321212c05a39388
+  classification: unspecified
+
+# Tighten checks on DER class tags
+#   Author:    @randombit
+- pr: 5554  # https://github.com/randombit/botan/pull/5554
+  merge_commit: 5eb19dc0cfd8730f03dcf5ad13878c36eb8c2224
+  classification: unspecified
+
+# Some fixes for TLS-Anvil
+#   Author:    @randombit
+- pr: 5555  # https://github.com/randombit/botan/pull/5555
+  merge_commit: 76d84f093d9f81d68f5f3ba020c5667497768421
+  classification: unspecified
+
+# Add some missing nullptr checks to ffi
+#   Author:    @randombit
+- pr: 5553  # https://github.com/randombit/botan/pull/5553
+  merge_commit: defa401fcc99ae6a1bfcae8d10e14f4021dbc2a7
+  classification: unspecified
+
+# TLS conformance, hardening, and performance fixes
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5550  # https://github.com/randombit/botan/pull/5550
+  merge_commit: 9db7e5dd85078fcb5bd8a800ee56cab0ad42b190
+  classification: unspecified
+
+# Avoid using BOTAN_ASSERT for input validation
+#   Author: Jack Lloyd
+- commit: 40b24c3313358b5ec4e6ac0f4f2e865a7f46924b  # https://github.com/randombit/botan/commit/40b24c3313358b5ec4e6ac0f4f2e865a7f46924b
+  classification: unspecified
