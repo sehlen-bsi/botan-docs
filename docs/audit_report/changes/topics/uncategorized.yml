@@ -5046,3 +5046,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: 4f8daeb95d85228a0e0cda21f657325e56cfb0b9  # https://github.com/randombit/botan/commit/4f8daeb95d85228a0e0cda21f657325e56cfb0b9
   classification: unspecified
+
+# Add some missing calls to BER_Decoder::verify_end
+#   Author:    @randombit
+- pr: 5561  # https://github.com/randombit/botan/pull/5561
+  merge_commit: d7cdbec4f8c1b9ada741caba9a3cc230f2e2dc1d
+  classification: unspecified
