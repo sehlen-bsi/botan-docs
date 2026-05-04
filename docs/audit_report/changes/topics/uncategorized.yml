@@ -5052,3 +5052,10 @@ patches:
 - pr: 5561  # https://github.com/randombit/botan/pull/5561
   merge_commit: d7cdbec4f8c1b9ada741caba9a3cc230f2e2dc1d
   classification: unspecified
+
+# Various OCSP hardenings
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5562  # https://github.com/randombit/botan/pull/5562
+  merge_commit: 971661b05233f8510433cff8ba9b861a4918ce53
+  classification: unspecified
