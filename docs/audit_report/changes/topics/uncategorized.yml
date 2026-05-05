@@ -5059,3 +5059,42 @@ patches:
 - pr: 5562  # https://github.com/randombit/botan/pull/5562
   merge_commit: 971661b05233f8510433cff8ba9b861a4918ce53
   classification: unspecified
+
+# Check for newline and null characters in HTTP inputs
+#   Author:    @randombit
+- pr: 5567  # https://github.com/randombit/botan/pull/5567
+  merge_commit: d8188886beb8a856429afde3a9646d6c8e8450a5
+  classification: unspecified
+
+# Refactor: extract `specialize to<>` helper template
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5566  # https://github.com/randombit/botan/pull/5566
+  merge_commit: 1a65f84e15e6adbb061832e194400aae7195d9b4
+  classification: unspecified
+
+# More minor TLS hardening/bug fixes
+#   Author:    @randombit
+- pr: 5568  # https://github.com/randombit/botan/pull/5568
+  merge_commit: 25fbec3fa89fd85f648ec65a18f33a2ad2845558
+  classification: unspecified
+
+# Fixes for GCC 16
+#   Author:    @randombit
+- pr: 5564  # https://github.com/randombit/botan/pull/5564
+  merge_commit: c3b808013146c430d175600057d4c4e6a05fa292
+  classification: unspecified
+
+# Discard TLS handshake state after handshake has completed
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5517  # https://github.com/randombit/botan/pull/5517
+  merge_commit: 424030807099e158f3da8c986e1f46719c689df4
+  classification: unspecified
+
+# Make EC_Scalar FFI serializable
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5565  # https://github.com/randombit/botan/pull/5565
+  merge_commit: 5897abf93ab95e3454bb2a53b55b3af12515f809
+  classification: unspecified
