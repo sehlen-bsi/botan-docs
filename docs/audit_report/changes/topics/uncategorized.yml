@@ -5098,3 +5098,16 @@ patches:
 - pr: 5565  # https://github.com/randombit/botan/pull/5565
   merge_commit: 5897abf93ab95e3454bb2a53b55b3af12515f809
   classification: unspecified
+
+# Avoid a hidden dependency of <algorithm> in secmem.h
+#   Author:    @randombit
+- pr: 5572  # https://github.com/randombit/botan/pull/5572
+  merge_commit: 333ee1e3d413c09523ceeb95e51223bf0d2d39ff
+  classification: unspecified
+
+# Small RNG fixes
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5570  # https://github.com/randombit/botan/pull/5570
+  merge_commit: 564ec01f3027f16d2be0381963ff89ef6fa96c21
+  classification: unspecified
