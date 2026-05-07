@@ -5111,3 +5111,81 @@ patches:
 - pr: 5570  # https://github.com/randombit/botan/pull/5570
   merge_commit: 564ec01f3027f16d2be0381963ff89ef6fa96c21
   classification: unspecified
+
+# Fix some build issues caught by test_all_configs.py
+#   Author:    @randombit
+- pr: 5579  # https://github.com/randombit/botan/pull/5579
+  merge_commit: 13e5dbb03bb69d61d6b2f5009b58194a314966b6
+  classification: unspecified
+
+# Add missing final annotations
+#   Author:    @randombit
+- pr: 5577  # https://github.com/randombit/botan/pull/5577
+  merge_commit: 1fe66cd7c9989c10fb95055fa9e21f01af0ceda2
+  classification: unspecified
+
+# Bump FFI version for 3.12.0
+#   Author:    @randombit
+- pr: 5578  # https://github.com/randombit/botan/pull/5578
+  merge_commit: 1550ef152f8fde8957475708682012349b09de91
+  classification: unspecified
+
+# Fix EC_Group::supports_named_group to check application registered groups
+#   Author:    @randombit
+- pr: 5575  # https://github.com/randombit/botan/pull/5575
+  merge_commit: f5ba920bd56d425455da58d3941a96271a49d1db
+  classification: unspecified
+
+# Simplify and cleanup XMSS parameters types
+#   Author:    @randombit
+- pr: 5574  # https://github.com/randombit/botan/pull/5574
+  merge_commit: 1b346237d8ba93bf4eec1f44d3995774d8018bf8
+  classification: unspecified
+
+# More ASN.1 and X.509 related bug fixes and hardening
+#   Author:    @randombit
+- pr: 5569  # https://github.com/randombit/botan/pull/5569
+  merge_commit: 5e3e3f97db6b733ea9bc700691516d908caef525
+  classification: unspecified
+
+# Added ALPN support to Boost ASIO
+#   Author:    @fxdupont
+#   Approvals: (@randombit)
+- pr: 5428  # https://github.com/randombit/botan/pull/5428
+  merge_commit: 690916ff21850bbcc1f431d1c11f24475d1a9efe
+  classification: unspecified
+
+# Update for 3.12.0 release
+#   Author: Jack Lloyd
+- commit: 45d6f286c320b2f2efd5373d195ec88c367e3071  # https://github.com/randombit/botan/commit/45d6f286c320b2f2efd5373d195ec88c367e3071
+  classification: unspecified
+
+# Fix another formatting issue [ci skip]
+#   Author: Jack Lloyd
+- commit: 0f9e5326ad584cf14ec0f62225abefecc59fe436  # https://github.com/randombit/botan/commit/0f9e5326ad584cf14ec0f62225abefecc59fe436
+  classification: unspecified
+
+# Correct formatting in previous commit [ci skip]
+#   Author: Jack Lloyd
+- commit: 3b29e816016d5b573fc2715aae6c30ac04e84c9b  # https://github.com/randombit/botan/commit/3b29e816016d5b573fc2715aae6c30ac04e84c9b
+  classification: unspecified
+
+# In TLS 1.3 verification of client certs, check the correct extension for OCSP
+#   Author: Jack Lloyd
+- commit: b5f41e29a30bce6a0f630dc02d2c793f97b8e29a  # https://github.com/randombit/botan/commit/b5f41e29a30bce6a0f630dc02d2c793f97b8e29a
+  classification: unspecified
+
+# Avoid potential null deref in Truncated_Hash constructor
+#   Author: Jack Lloyd
+- commit: cd3c00cb542fb6a25bd99e9f9bdb790c3557418e  # https://github.com/randombit/botan/commit/cd3c00cb542fb6a25bd99e9f9bdb790c3557418e
+  classification: unspecified
+
+# Fix certificate verification test to not use local clock
+#   Author: Jack Lloyd
+- commit: 3a181697cd4fe9b4b544ff0b8c23da6ed169c53a  # https://github.com/randombit/botan/commit/3a181697cd4fe9b4b544ff0b8c23da6ed169c53a
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 916f9b582d1bdc5a77183faeb899e2e8dcfc914a  # https://github.com/randombit/botan/commit/916f9b582d1bdc5a77183faeb899e2e8dcfc914a
+  classification: unspecified
