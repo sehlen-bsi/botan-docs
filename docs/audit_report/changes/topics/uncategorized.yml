@@ -5189,3 +5189,21 @@ patches:
 #   Author: Jack Lloyd
 - commit: 916f9b582d1bdc5a77183faeb899e2e8dcfc914a  # https://github.com/randombit/botan/commit/916f9b582d1bdc5a77183faeb899e2e8dcfc914a
   classification: unspecified
+
+# Fix BigInt division when both inputs are negative
+#   Author:    @randombit
+- pr: 5585  # https://github.com/randombit/botan/pull/5585
+  merge_commit: 9ca10c7b7115af54ac25ed7487f68af2f6c96077
+  classification: unspecified
+
+# In Win32 entropy source, check return values before passing to the RNG
+#   Author:    @randombit
+- pr: 5583  # https://github.com/randombit/botan/pull/5583
+  merge_commit: a1f28a1a0f22bd2288651dac07b362cf8ebcf28e
+  classification: unspecified
+
+# Prohibit a DH public key of p-1
+#   Author:    @randombit
+- pr: 5581  # https://github.com/randombit/botan/pull/5581
+  merge_commit: 2b8ed9e4283b04b774f9c8ee2f40869c5c1c6e9f
+  classification: unspecified
