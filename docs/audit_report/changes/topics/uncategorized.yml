@@ -5207,3 +5207,33 @@ patches:
 - pr: 5581  # https://github.com/randombit/botan/pull/5581
   merge_commit: 2b8ed9e4283b04b774f9c8ee2f40869c5c1c6e9f
   classification: unspecified
+
+# In GH Actions clean up branch caches after the PRs are merged
+#   Author:    @randombit
+- pr: 5591  # https://github.com/randombit/botan/pull/5591
+  merge_commit: 29759d2e09f2b78ea3b3e59e712029cb5b2af44a
+  classification: unspecified
+
+# In Ed25519 and Ed448 reject the identity element as a public key
+#   Author:    @randombit
+- pr: 5590  # https://github.com/randombit/botan/pull/5590
+  merge_commit: 1a06a71c79239b96422fbd936b4721f4323b6f65
+  classification: unspecified
+
+# Throw the correct exception for a FrodoKEM private key decoding issue
+#   Author:    @randombit
+- pr: 5589  # https://github.com/randombit/botan/pull/5589
+  merge_commit: 35d85eaa7a28688502dacef689f2f817234e7618
+  classification: unspecified
+
+# Improve verification of EC group generators
+#   Author:    @randombit
+- pr: 5588  # https://github.com/randombit/botan/pull/5588
+  merge_commit: fbb82b80c510b06d27703410711776196939ad4b
+  classification: unspecified
+
+# Avoid possible integer overflow in BigInt left shift.
+#   Author:    @randombit
+- pr: 5586  # https://github.com/randombit/botan/pull/5586
+  merge_commit: 9c2370127a56e59214d09a886bc865ed6087e421
+  classification: unspecified
