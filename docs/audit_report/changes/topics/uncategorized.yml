@@ -5237,3 +5237,15 @@ patches:
 - pr: 5586  # https://github.com/randombit/botan/pull/5586
   merge_commit: 9c2370127a56e59214d09a886bc865ed6087e421
   classification: unspecified
+
+# Various BigInt/mp related hardenings and bug fixes
+#   Author:    @randombit
+- pr: 5592  # https://github.com/randombit/botan/pull/5592
+  merge_commit: c5930e7087ca27ff21b3b5528dced4a2e9e8c82c
+  classification: unspecified
+
+# Various PKIX hardening and bug fixes
+#   Author:    @randombit
+- pr: 5593  # https://github.com/randombit/botan/pull/5593
+  merge_commit: 33a8037486904aa233454cba985e6225b97a3df6
+  classification: unspecified
