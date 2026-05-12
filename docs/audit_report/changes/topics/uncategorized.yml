@@ -5249,3 +5249,9 @@ patches:
 - pr: 5593  # https://github.com/randombit/botan/pull/5593
   merge_commit: 33a8037486904aa233454cba985e6225b97a3df6
   classification: unspecified
+
+# Temporarily revert the check on RSA signature sizes
+#   Author:    @randombit
+- pr: 5596  # https://github.com/randombit/botan/pull/5596
+  merge_commit: 8ef3c598995b13151c0411c206e8a2ef275c94dd
+  classification: unspecified
