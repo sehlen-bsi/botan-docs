@@ -5255,3 +5255,9 @@ patches:
 - pr: 5596  # https://github.com/randombit/botan/pull/5596
   merge_commit: 8ef3c598995b13151c0411c206e8a2ef275c94dd
   classification: unspecified
+
+# Move IPv6 address parsing and formatting utils to ipv6_address.cpp
+#   Author:    @randombit
+- pr: 5597  # https://github.com/randombit/botan/pull/5597
+  merge_commit: 08e296e6ad246ac5e362e56b531dc04321b12a82
+  classification: unspecified
