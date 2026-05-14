@@ -5261,3 +5261,10 @@ patches:
 - pr: 5597  # https://github.com/randombit/botan/pull/5597
   merge_commit: 08e296e6ad246ac5e362e56b531dc04321b12a82
   classification: unspecified
+
+# Add support for RFC 9608 No Revocation Available extension
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5595  # https://github.com/randombit/botan/pull/5595
+  merge_commit: ed0ced67c852c90134855139e3540fa4e44f56c6
+  classification: unspecified
