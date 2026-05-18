@@ -5268,3 +5268,15 @@ patches:
 - pr: 5595  # https://github.com/randombit/botan/pull/5595
   merge_commit: ed0ced67c852c90134855139e3540fa4e44f56c6
   classification: unspecified
+
+# Add timeout to running apt-get update on Github Actions
+#   Author:    @randombit
+- pr: 5604  # https://github.com/randombit/botan/pull/5604
+  merge_commit: 1aea685295f0864998f770e0099b0361bd3558bc
+  classification: unspecified
+
+# Use span and string_view for function inputs in charset.h
+#   Author:    @randombit
+- pr: 5603  # https://github.com/randombit/botan/pull/5603
+  merge_commit: 4fa05db5758f58dc60ccc834191016eb964cd992
+  classification: unspecified
