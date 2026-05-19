@@ -5280,3 +5280,23 @@ patches:
 - pr: 5603  # https://github.com/randombit/botan/pull/5603
   merge_commit: 4fa05db5758f58dc60ccc834191016eb964cd992
   classification: unspecified
+
+# Add URI and email name constraint processing
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5598  # https://github.com/randombit/botan/pull/5598
+  merge_commit: e4f123280cfa0cb7687f2e7eba55d397bb7abf57
+  classification: unspecified
+
+# Fix a KMAC padding edge case
+#   Author:    @randombit
+#   Approvals: (@falko-strenzke)
+- pr: 5584  # https://github.com/randombit/botan/pull/5584
+  merge_commit: 6a56d8b160231509bb1d02804cacd9f42b8b8c64
+  classification: unspecified
+
+# Check return value of sysctlbyname
+#   Author:    @randombit
+- pr: 5606  # https://github.com/randombit/botan/pull/5606
+  merge_commit: aa8f5456c3b11926287b1ab7bcc0b8e32108bab0
+  classification: unspecified
