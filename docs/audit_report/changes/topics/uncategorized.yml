@@ -5300,3 +5300,33 @@ patches:
 - pr: 5606  # https://github.com/randombit/botan/pull/5606
   merge_commit: aa8f5456c3b11926287b1ab7bcc0b8e32108bab0
   classification: unspecified
+
+# Improve the HTTP 1.0 client used for OCSP/CRL
+#   Author:    @randombit
+- pr: 5609  # https://github.com/randombit/botan/pull/5609
+  merge_commit: 3c50c5dfd5a759207d14662be6a9da11070f544b
+  classification: unspecified
+
+# In X509 use named types (URI, EmailAddress, DNSName, IPv4Address) rather than std::string or uint32_t
+#   Author:    @randombit
+- pr: 5601  # https://github.com/randombit/botan/pull/5601
+  merge_commit: 2373e9401752be09e7db24bdc8f97c5cab162158
+  classification: unspecified
+
+# Require that OCSP nocheck extension is only on OCSP responder certs
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5605  # https://github.com/randombit/botan/pull/5605
+  merge_commit: 3ec1d5e68326331a2fd5e8cddc3031b99e6e8b94
+  classification: unspecified
+
+# Improve Database interface, fix various Sqlite3 binding bugs
+#   Author:    @randombit
+- pr: 5607  # https://github.com/randombit/botan/pull/5607
+  merge_commit: b21dc82115274bc5c7d906cde108db97b235f9f3
+  classification: unspecified
+
+# Correct documentation comment [ci skip]
+#   Author: Jack Lloyd
+- commit: d0c0223e281981c0ea8ceb9494e0b513c3a9251d  # https://github.com/randombit/botan/commit/d0c0223e281981c0ea8ceb9494e0b513c3a9251d
+  classification: unspecified
