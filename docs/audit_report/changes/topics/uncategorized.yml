@@ -5330,3 +5330,14 @@ patches:
 #   Author: Jack Lloyd
 - commit: d0c0223e281981c0ea8ceb9494e0b513c3a9251d  # https://github.com/randombit/botan/commit/d0c0223e281981c0ea8ceb9494e0b513c3a9251d
   classification: unspecified
+
+# Add more name constraint test cases
+#   Author:    @randombit
+- pr: 5616  # https://github.com/randombit/botan/pull/5616
+  merge_commit: 40857f656098da10cc646516f0ca7852a5340d0d
+  classification: unspecified
+
+# Push security reports towards using Github's private issues flow [ci skip]
+#   Author: Jack Lloyd
+- commit: 3da752ccaf3f809ed142b5ba4f78071292cdd607  # https://github.com/randombit/botan/commit/3da752ccaf3f809ed142b5ba4f78071292cdd607
+  classification: unspecified
