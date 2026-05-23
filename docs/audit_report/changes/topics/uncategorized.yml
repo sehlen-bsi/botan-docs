@@ -5341,3 +5341,42 @@ patches:
 #   Author: Jack Lloyd
 - commit: 3da752ccaf3f809ed142b5ba4f78071292cdd607  # https://github.com/randombit/botan/commit/3da752ccaf3f809ed142b5ba4f78071292cdd607
   classification: unspecified
+
+# Move the cli test TCP/UDP port range downward
+#   Author:    @randombit
+- pr: 5621  # https://github.com/randombit/botan/pull/5621
+  merge_commit: e0068e4354a93a5b98c3ba95d559d47c5ed40603
+  classification: unspecified
+
+# Modify DN decoding to capture RDN groupings
+#   Author:    @randombit
+- pr: 5618  # https://github.com/randombit/botan/pull/5618
+  merge_commit: e0aaa196e54d7ba925048981fcf3465ac07891da
+  classification: unspecified
+
+# refactor(aes_ni): Replace raw __m128i intrinsics with SIMD_4x32 in key schedules
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5549  # https://github.com/randombit/botan/pull/5549
+  merge_commit: b582133a8a1d1ebe4fb0933a00ab23f1cfc5f6b2
+  classification: unspecified
+
+# Require that X509 extensions match their context
+#   Author:    @randombit
+- pr: 5611  # https://github.com/randombit/botan/pull/5611
+  merge_commit: a3b983b3db6705b990197919578aca9384693f9b
+  classification: unspecified
+
+# Fix various cipher mode edge case bugs
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5610  # https://github.com/randombit/botan/pull/5610
+  merge_commit: cea55088d7788c2af8314a7c52643d760c032f79
+  classification: unspecified
+
+# Minor clarification in IntMod::pow_vartime()
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5619  # https://github.com/randombit/botan/pull/5619
+  merge_commit: 7aa361751bb1ac4cefb0d128d0fde819baac3fb9
+  classification: unspecified
