@@ -5380,3 +5380,14 @@ patches:
 - pr: 5619  # https://github.com/randombit/botan/pull/5619
   merge_commit: 7aa361751bb1ac4cefb0d128d0fde819baac3fb9
   classification: unspecified
+
+# Add typed add to AlternativeName for URL, DNSName, and EmailAddress
+#   Author:    @randombit
+- pr: 5622  # https://github.com/randombit/botan/pull/5622
+  merge_commit: 35d6e9521153292a03607c2d6bc0436da3bfbb60
+  classification: unspecified
+
+# Bump version to 3.13.0-pre
+#   Author: Jack Lloyd
+- commit: 1375a05909d7eff7f03e31a48896eec180370236  # https://github.com/randombit/botan/commit/1375a05909d7eff7f03e31a48896eec180370236
+  classification: unspecified
