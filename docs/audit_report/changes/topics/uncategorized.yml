@@ -5391,3 +5391,23 @@ patches:
 #   Author: Jack Lloyd
 - commit: 1375a05909d7eff7f03e31a48896eec180370236  # https://github.com/randombit/botan/commit/1375a05909d7eff7f03e31a48896eec180370236
   classification: unspecified
+
+# chore(test): Resolve TODO in Roughtime_Request test
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5624  # https://github.com/randombit/botan/pull/5624
+  merge_commit: b801a751d0b96f40e4a3b3e1710447d05d89cacb
+  classification: unspecified
+
+# Add PKCS#12 KDF
+#   Author:    @dmazzella
+#   Approvals: (@randombit)
+- pr: 5478  # https://github.com/randombit/botan/pull/5478
+  merge_commit: c627228fe76cf8827fe995fa9da0949a949ba8c2
+  classification: unspecified
+
+# Fix various bugs in the PKCS11 wrapper
+#   Author:    @randombit
+- pr: 5602  # https://github.com/randombit/botan/pull/5602
+  merge_commit: a09371704741bbadbf395268cfc37e43f1ba9cec
+  classification: unspecified
