@@ -5411,3 +5411,9 @@ patches:
 - pr: 5602  # https://github.com/randombit/botan/pull/5602
   merge_commit: a09371704741bbadbf395268cfc37e43f1ba9cec
   classification: unspecified
+
+# OCSP optimizations and policy changes
+#   Author:    @randombit
+- pr: 5623  # https://github.com/randombit/botan/pull/5623
+  merge_commit: 9a97b324531d321a5ece669259db2261645bd020
+  classification: unspecified
