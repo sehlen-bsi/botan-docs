@@ -5417,3 +5417,8 @@ patches:
 - pr: 5623  # https://github.com/randombit/botan/pull/5623
   merge_commit: 9a97b324531d321a5ece669259db2261645bd020
   classification: unspecified
+
+# Fix a typo [ci skip]
+#   Author: Jack Lloyd
+- commit: ae4d04e7cefdf88047192ceb364a57e832f1d9b2  # https://github.com/randombit/botan/commit/ae4d04e7cefdf88047192ceb364a57e832f1d9b2
+  classification: unspecified
