@@ -5422,3 +5422,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: ae4d04e7cefdf88047192ceb364a57e832f1d9b2  # https://github.com/randombit/botan/commit/ae4d04e7cefdf88047192ceb364a57e832f1d9b2
   classification: unspecified
+
+# In Argon2 and Scrypt provide some reasonable upper bound on memory consumption
+#   Author:    @randombit
+- pr: 5629  # https://github.com/randombit/botan/pull/5629
+  merge_commit: 8a5dde2565785c74fbfbbf0cd9f245ecba6fce76
+  classification: unspecified
+
+# In StreamCipher avoid seeking or reading past the defined keystream
+#   Author:    @randombit
+- pr: 5628  # https://github.com/randombit/botan/pull/5628
+  merge_commit: 58464241065b87871ee9f9b596d4ee44928d78ae
+  classification: unspecified
