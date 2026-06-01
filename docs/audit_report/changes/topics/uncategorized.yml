@@ -5434,3 +5434,15 @@ patches:
 - pr: 5628  # https://github.com/randombit/botan/pull/5628
   merge_commit: 58464241065b87871ee9f9b596d4ee44928d78ae
   classification: unspecified
+
+# Systematically eliminate any possible integer overflows
+#   Author:    @randombit
+- pr: 5631  # https://github.com/randombit/botan/pull/5631
+  merge_commit: 01c3438e3657b99d41ee95fa156ab57920d1a110
+  classification: unspecified
+
+# Upgrade to TLS-Anvil 1.5
+#   Author:    @randombit
+- pr: 5630  # https://github.com/randombit/botan/pull/5630
+  merge_commit: 6b88cc08cc443dd094e081a9d101f2032dac1d12
+  classification: unspecified
