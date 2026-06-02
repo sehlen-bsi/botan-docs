@@ -5446,3 +5446,33 @@ patches:
 - pr: 5630  # https://github.com/randombit/botan/pull/5630
   merge_commit: 6b88cc08cc443dd094e081a9d101f2032dac1d12
   classification: unspecified
+
+# Fix some RNG fork/thread safety bugs
+#   Author:    @randombit
+- pr: 5635  # https://github.com/randombit/botan/pull/5635
+  merge_commit: fe00c82836600e9e52e7c4603dfc8f0833b916a3
+  classification: unspecified
+
+# Refactor password hashing in PBES2
+#   Author:    @randombit
+- pr: 5636  # https://github.com/randombit/botan/pull/5636
+  merge_commit: 53d878ae65b049932156a5877f4cb4915798a051
+  classification: unspecified
+
+# Add a few missing structural checks during ASN.1 decoding
+#   Author:    @randombit
+- pr: 5637  # https://github.com/randombit/botan/pull/5637
+  merge_commit: f92390016bd5f206ae66293db99efcb68c037313
+  classification: unspecified
+
+# Rewrite the SM4 key schedule to run in constant time
+#   Author:    @randombit
+- pr: 5638  # https://github.com/randombit/botan/pull/5638
+  merge_commit: 44ce2e2cc71027959d089d5b402f8be27caf63ae
+  classification: unspecified
+
+# Add iteration limits to X509 path building functions
+#   Author:    @randombit
+- pr: 5633  # https://github.com/randombit/botan/pull/5633
+  merge_commit: 9b5cb932e9aa40d475bdcf38b579305b8f63ad9b
+  classification: unspecified
