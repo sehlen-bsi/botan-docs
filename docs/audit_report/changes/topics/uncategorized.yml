@@ -5476,3 +5476,27 @@ patches:
 - pr: 5633  # https://github.com/randombit/botan/pull/5633
   merge_commit: 9b5cb932e9aa40d475bdcf38b579305b8f63ad9b
   classification: unspecified
+
+# Add hwaes hook for SM4 key schedule
+#   Author:    @randombit
+- pr: 5639  # https://github.com/randombit/botan/pull/5639
+  merge_commit: 9b33df19502052e40f273aed5ff64db89c79963f
+  classification: unspecified
+
+# Modify bitvector::resize to avoid a GCC 16 false positive warning
+#   Author:    @randombit
+- pr: 5641  # https://github.com/randombit/botan/pull/5641
+  merge_commit: ae1d021c584712ec993f4d32e22c349e88e97418
+  classification: unspecified
+
+# Fix cases where copy, move or clone resulted in incorrect states or incomplete copies
+#   Author:    @randombit
+- pr: 5632  # https://github.com/randombit/botan/pull/5632
+  merge_commit: 6e092bfca056a7efc6785584ed7e9eae4ea2207a
+  classification: unspecified
+
+# Add missing nullptr checks to FFI
+#   Author:    @randombit
+- pr: 5634  # https://github.com/randombit/botan/pull/5634
+  merge_commit: 559b8ff9a99c73765b2c8783d5327588ee19f97c
+  classification: unspecified
