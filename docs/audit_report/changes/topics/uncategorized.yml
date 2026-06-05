@@ -5500,3 +5500,56 @@ patches:
 - pr: 5634  # https://github.com/randombit/botan/pull/5634
   merge_commit: 559b8ff9a99c73765b2c8783d5327588ee19f97c
   classification: unspecified
+
+# Improve prefetching for table based implementations
+#   Author:    @randombit
+- pr: 5642  # https://github.com/randombit/botan/pull/5642
+  merge_commit: c048c9be97bb5412e24b1301f7fdc11ce371a4e3
+  classification: unspecified
+
+# Add more missing nullptr checks to ffi
+#   Author:    @randombit
+- pr: 5647  # https://github.com/randombit/botan/pull/5647
+  merge_commit: 73caf06ed9ec6558e379b21f26153a3c7e5eda7d
+  classification: unspecified
+
+# Improve EC_Scalar cross-group checks
+#   Author:    @randombit
+- pr: 5650  # https://github.com/randombit/botan/pull/5650
+  merge_commit: 1a6cc94cabd0c9b893772de1d1fde6d4c221ae91
+  classification: unspecified
+
+# Remove noexcept annotations from functions which might throw
+#   Author:    @randombit
+- pr: 5646  # https://github.com/randombit/botan/pull/5646
+  merge_commit: 09e82b015d80e65f2ed5e3b1811f4d5fa7f10649
+  classification: unspecified
+
+# Fix assumption in FrodoMatrix::pack that its output buffer was zero initialized
+#   Author:    @randombit
+- pr: 5648  # https://github.com/randombit/botan/pull/5648
+  merge_commit: be9676695d00bfa4c97221aa66878b68dac9f1b8
+  classification: unspecified
+
+# Consolidate string to integer parsing logic
+#   Author:    @randombit
+- pr: 5645  # https://github.com/randombit/botan/pull/5645
+  merge_commit: c57928be8fcc5deff8fa081bd2e9739eb75ce6d3
+  classification: unspecified
+
+# Improve validation of parameters field in algorithm identifiers
+#   Author:    @randombit
+- pr: 5643  # https://github.com/randombit/botan/pull/5643
+  merge_commit: 12a1a71ed5b8dd3dca65505ce4f5fd5a089aaba9
+  classification: unspecified
+
+# Fix various clang-tidy warnings
+#   Author:    @randombit
+- pr: 5644  # https://github.com/randombit/botan/pull/5644
+  merge_commit: b3972de4372fce4e4993c763ff4bde90d2d61263
+  classification: unspecified
+
+# Fix RFC reference typo [ci skip]
+#   Author: Jack Lloyd
+- commit: a0e77f81390bcd2bcf2858526aacf98178aae235  # https://github.com/randombit/botan/commit/a0e77f81390bcd2bcf2858526aacf98178aae235
+  classification: unspecified
