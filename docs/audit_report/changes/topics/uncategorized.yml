@@ -5553,3 +5553,26 @@ patches:
 #   Author: Jack Lloyd
 - commit: a0e77f81390bcd2bcf2858526aacf98178aae235  # https://github.com/randombit/botan/commit/a0e77f81390bcd2bcf2858526aacf98178aae235
   classification: unspecified
+
+# Various small hardenings and improve input validation
+#   Author:    @randombit
+- pr: 5649  # https://github.com/randombit/botan/pull/5649
+  merge_commit: f21f6268e2fa25e60ade2054c8f1d46dad763c85
+  classification: unspecified
+
+# Faster X509_DN comparison and subtree checks using precomputed canonical bytes
+#   Author:    @randombit
+- pr: 5652  # https://github.com/randombit/botan/pull/5652
+  merge_commit: 630104e9a79aef08bab9cf49e478bfc04fafbd51
+  classification: unspecified
+
+# Add further name constraint test chains
+#   Author:    @randombit
+- pr: 5651  # https://github.com/randombit/botan/pull/5651
+  merge_commit: e503159ef55c88687d829df3783413bfee5bb6ff
+  classification: unspecified
+
+# Downgrade null char check in dns_subtree_match to a debug assert
+#   Author: Jack Lloyd
+- commit: 975e319db3d70823952c11b7c06cb92bf240594f  # https://github.com/randombit/botan/commit/975e319db3d70823952c11b7c06cb92bf240594f
+  classification: unspecified
