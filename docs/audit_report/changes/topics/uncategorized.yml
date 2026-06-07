@@ -5576,3 +5576,14 @@ patches:
 #   Author: Jack Lloyd
 - commit: 975e319db3d70823952c11b7c06cb92bf240594f  # https://github.com/randombit/botan/commit/975e319db3d70823952c11b7c06cb92bf240594f
   classification: unspecified
+
+# Add AVX-512/GFNI implementation of the Streebog compression function
+#   Author:    @randombit
+- pr: 5655  # https://github.com/randombit/botan/pull/5655
+  merge_commit: 0c389d688a2a78c8bba7d3745df455286a184904
+  classification: unspecified
+
+# Use a mirror for Intel SDE [ci skip]
+#   Author: Jack Lloyd
+- commit: 89c6d2463eed803533102cb9a9daceb41adc47e9  # https://github.com/randombit/botan/commit/89c6d2463eed803533102cb9a9daceb41adc47e9
+  classification: unspecified
