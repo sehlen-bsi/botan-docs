@@ -5587,3 +5587,8 @@ patches:
 #   Author: Jack Lloyd
 - commit: 89c6d2463eed803533102cb9a9daceb41adc47e9  # https://github.com/randombit/botan/commit/89c6d2463eed803533102cb9a9daceb41adc47e9
   classification: unspecified
+
+# Add support for randomized ML-DSA signing in Wycheproof test script
+#   Author: Jack Lloyd
+- commit: 9cd4c160e8a8759c0ae19ca9e4953a2d1725f9fa  # https://github.com/randombit/botan/commit/9cd4c160e8a8759c0ae19ca9e4953a2d1725f9fa
+  classification: unspecified
