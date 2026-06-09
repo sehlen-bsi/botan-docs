@@ -5592,3 +5592,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: 9cd4c160e8a8759c0ae19ca9e4953a2d1725f9fa  # https://github.com/randombit/botan/commit/9cd4c160e8a8759c0ae19ca9e4953a2d1725f9fa
   classification: unspecified
+
+# Escape control characters in codec error reporting and DN printing
+#   Author:    @randombit
+- pr: 5657  # https://github.com/randombit/botan/pull/5657
+  merge_commit: 044d59fdbe63f7f96cc75a26dd99ea176369bccf
+  classification: unspecified
