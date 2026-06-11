@@ -5598,3 +5598,21 @@ patches:
 - pr: 5657  # https://github.com/randombit/botan/pull/5657
   merge_commit: 044d59fdbe63f7f96cc75a26dd99ea176369bccf
   classification: unspecified
+
+# Fix order of X.509 DFS iteration
+#   Author:    @randombit
+- pr: 5660  # https://github.com/randombit/botan/pull/5660
+  merge_commit: 10237a3b42025d02577397cb7780723cb76fc04a
+  classification: unspecified
+
+# Consistently zero output data if AEAD tag or CBC padding fails
+#   Author:    @randombit
+- pr: 5659  # https://github.com/randombit/botan/pull/5659
+  merge_commit: 76567fae89713d89f5488447181caa5727043880
+  classification: unspecified
+
+# Add X509_DN::parse and improve DN string parsing
+#   Author:    @randombit
+- pr: 5658  # https://github.com/randombit/botan/pull/5658
+  merge_commit: 0fa38ddcc435db5e4605a4e824e8c6c943869c76
+  classification: unspecified
