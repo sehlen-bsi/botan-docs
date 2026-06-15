@@ -5633,3 +5633,15 @@ patches:
 - pr: 5662  # https://github.com/randombit/botan/pull/5662
   merge_commit: 602befe17687c6537ade6519e5f4acedad177a8d
   classification: unspecified
+
+# When decoding an HSS public key reject L = 0
+#   Author:    @randombit
+- pr: 5666  # https://github.com/randombit/botan/pull/5666
+  merge_commit: 49debfec54dd365934dfd3d315461e78dc5cb625
+  classification: unspecified
+
+# Fix a bug in SIV when AADs are set with a gap in the index
+#   Author:    @randombit
+- pr: 5665  # https://github.com/randombit/botan/pull/5665
+  merge_commit: 7b1ca99f2ecac24dac0b811d08e3226dac3d2777
+  classification: unspecified
