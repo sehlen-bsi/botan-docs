@@ -5645,3 +5645,20 @@ patches:
 - pr: 5665  # https://github.com/randombit/botan/pull/5665
   merge_commit: 7b1ca99f2ecac24dac0b811d08e3226dac3d2777
   classification: unspecified
+
+# Avoid using `bool` for secret bits in Classic McEliece
+#   Author:    @randombit
+- pr: 5667  # https://github.com/randombit/botan/pull/5667
+  merge_commit: a888026696b32f24c280b4552555d9a3888e2869
+  classification: unspecified
+
+# Various small optimizations for X509 path validation
+#   Author:    @randombit
+- pr: 5670  # https://github.com/randombit/botan/pull/5670
+  merge_commit: 23d9ae9b4736d9803a376d1c7eb35b7a21bfc4c4
+  classification: unspecified
+
+# Add volatile specifier to rdseed inline asm annotation
+#   Author: Jack Lloyd
+- commit: 625633fd4774620fe688abdaa356daf797ff11b4  # https://github.com/randombit/botan/commit/625633fd4774620fe688abdaa356daf797ff11b4
+  classification: unspecified
