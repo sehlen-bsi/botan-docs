@@ -5662,3 +5662,30 @@ patches:
 #   Author: Jack Lloyd
 - commit: 625633fd4774620fe688abdaa356daf797ff11b4  # https://github.com/randombit/botan/commit/625633fd4774620fe688abdaa356daf797ff11b4
   classification: unspecified
+
+# Fix message authentication code edge cases
+#   Author:    @randombit
+- pr: 5672  # https://github.com/randombit/botan/pull/5672
+  merge_commit: 5f03795123f4a572686824186077904088fb5301
+  classification: unspecified
+
+# In all public and private key classes, store data as a const shared_ptr
+#   Author:    @randombit
+- pr: 5671  # https://github.com/randombit/botan/pull/5671
+  merge_commit: dfa0010e72ef2e3a684ce3453a68e0d5b72c3f03
+  classification: unspecified
+
+# Remove unused member variable from Encrypted_PSK_Database
+#   Author: Jack Lloyd
+- commit: c41b50eafd8dd8038d52e040de7f163cc1f1acde  # https://github.com/randombit/botan/commit/c41b50eafd8dd8038d52e040de7f163cc1f1acde
+  classification: unspecified
+
+# Avoid possible null deref in DLIES_Encryptor::ciphertext_length
+#   Author: Jack Lloyd
+- commit: 8836eb52b19853204c1b54c997399965e73aa56a  # https://github.com/randombit/botan/commit/8836eb52b19853204c1b54c997399965e73aa56a
+  classification: unspecified
+
+# Avoid signed overflow in base58 decoding
+#   Author: Jack Lloyd
+- commit: 76e44760e34229270b5412192fd436c4aba179b9  # https://github.com/randombit/botan/commit/76e44760e34229270b5412192fd436c4aba179b9
+  classification: unspecified
