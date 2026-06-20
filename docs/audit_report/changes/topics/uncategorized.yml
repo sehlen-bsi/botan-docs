@@ -5731,3 +5731,27 @@ patches:
 - pr: 5674  # https://github.com/randombit/botan/pull/5674
   merge_commit: 695e153023e09385557be138f34c30f54e5d10ca
   classification: unspecified
+
+# Improve X509_Certificate::to_string
+#   Author:    @randombit
+- pr: 5682  # https://github.com/randombit/botan/pull/5682
+  merge_commit: 8636e29f78e05e1c9de098074a51866923023e23
+  classification: unspecified
+
+# In PK_Ops::Encryption_with_Padding::encrypt use the correct length
+#   Author:    @randombit
+- pr: 5681  # https://github.com/randombit/botan/pull/5681
+  merge_commit: 2b40ba14a56f3fd75863dd3529a97a2cc2e01139
+  classification: unspecified
+
+# Reject use of UTCTime in OCSP responses
+#   Author:    @randombit
+- pr: 5678  # https://github.com/randombit/botan/pull/5678
+  merge_commit: fa1afadf6904e65ded1e8b97fa9e73949647de7b
+  classification: unspecified
+
+# Precheck length in raw variants of PSS and PKCS signature padding
+#   Author:    @randombit
+- pr: 5679  # https://github.com/randombit/botan/pull/5679
+  merge_commit: 6571f40ac76011162c9dff1642ee49dd82d4f67b
+  classification: unspecified
