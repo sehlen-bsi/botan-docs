@@ -5755,3 +5755,19 @@ patches:
 - pr: 5679  # https://github.com/randombit/botan/pull/5679
   merge_commit: 6571f40ac76011162c9dff1642ee49dd82d4f67b
   classification: unspecified
+
+# Add support for parsing URIs without an authority
+#   Author:    @randombit
+- pr: 5683  # https://github.com/randombit/botan/pull/5683
+  merge_commit: 21b08132307a8cd71552904a97e099ea8aba7bab
+  classification: unspecified
+
+# Escape control chars in X509_Certificate::to_string
+#   Author: Jack Lloyd
+- commit: b349eb3acffadb714404c6143e37518167cef721  # https://github.com/randombit/botan/commit/b349eb3acffadb714404c6143e37518167cef721
+  classification: unspecified
+
+# Initialize input_consumed in the base_decode helper
+#   Author: Jack Lloyd
+- commit: 89db4dee3be16cb2b12cd01b9393304eff93b45e  # https://github.com/randombit/botan/commit/89db4dee3be16cb2b12cd01b9393304eff93b45e
+  classification: unspecified
