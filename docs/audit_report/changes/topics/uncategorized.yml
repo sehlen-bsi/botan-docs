@@ -5771,3 +5771,16 @@ patches:
 #   Author: Jack Lloyd
 - commit: 89db4dee3be16cb2b12cd01b9393304eff93b45e  # https://github.com/randombit/botan/commit/89db4dee3be16cb2b12cd01b9393304eff93b45e
   classification: unspecified
+
+# Extend calendar_point/ASN1_Time to support timepoint conversions for 1950-1970
+#   Author:    @randombit
+- pr: 5685  # https://github.com/randombit/botan/pull/5685
+  merge_commit: 45a096ed8ac9015aec72a3b6974b36b6fc4306f3
+  classification: unspecified
+
+# Fix bugs in ISO 9796 signature verification, and deprecate it
+#   Author:    @randombit
+#   Approvals: @FAlbertDev
+- pr: 5680  # https://github.com/randombit/botan/pull/5680
+  merge_commit: bbae9e6a5239d3806dde4851a0eef01c80331a37
+  classification: unspecified
