@@ -5784,3 +5784,15 @@ patches:
 - pr: 5680  # https://github.com/randombit/botan/pull/5680
   merge_commit: bbae9e6a5239d3806dde4851a0eef01c80331a37
   classification: unspecified
+
+# Improve X509 CRL decoding checks and encoding logic
+#   Author:    @randombit
+- pr: 5687  # https://github.com/randombit/botan/pull/5687
+  merge_commit: 7aae8ee7871180adf8f1e448500a7717136e1061
+  classification: unspecified
+
+# In random_prime require that equiv and modulo are relatively prime
+#   Author:    @randombit
+- pr: 5688  # https://github.com/randombit/botan/pull/5688
+  merge_commit: c17134b83625fbb59d21099e98a9e289f2a09087
+  classification: unspecified
