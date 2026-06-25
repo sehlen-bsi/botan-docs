@@ -5796,3 +5796,22 @@ patches:
 - pr: 5688  # https://github.com/randombit/botan/pull/5688
   merge_commit: c17134b83625fbb59d21099e98a9e289f2a09087
   classification: unspecified
+
+# Improve ASN.1 APIs for implicit tag and bitstring handling
+#   Author:    @randombit
+- pr: 5693  # https://github.com/randombit/botan/pull/5693
+  merge_commit: 850a57d0697b5e1ffcf0a50977ceabfe59f085b7
+  classification: unspecified
+
+# Update Limbo test suite
+#   Author:    @randombit
+- pr: 5692  # https://github.com/randombit/botan/pull/5692
+  merge_commit: ab51c38432049206127c8d881457f0ffd2c774f4
+  classification: unspecified
+
+# [TLS 1.3] Support for Brainpool ECDH code-points as defined in RFC8734
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5691  # https://github.com/randombit/botan/pull/5691
+  merge_commit: 98ff8446d05cae5684e63280a3b59cf5a67a524f
+  classification: unspecified
