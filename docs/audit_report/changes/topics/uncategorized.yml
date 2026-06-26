@@ -5815,3 +5815,21 @@ patches:
 - pr: 5691  # https://github.com/randombit/botan/pull/5691
   merge_commit: 98ff8446d05cae5684e63280a3b59cf5a67a524f
   classification: unspecified
+
+# Reduce runtime for the ISO 9796 padding test
+#   Author:    @randombit
+- pr: 5699  # https://github.com/randombit/botan/pull/5699
+  merge_commit: ed7e002149d983d7a5914b9cf776eb8c955d300e
+  classification: unspecified
+
+# Support CRL Numbers larger than 32 bits
+#   Author:    @randombit
+- pr: 5694  # https://github.com/randombit/botan/pull/5694
+  merge_commit: 626928ce6c14a3ef45e02161dc006705369397e7
+  classification: unspecified
+
+# In FFI use the CRL DP URI getter instead of iteration on the extension directly
+#   Author:    @randombit
+- pr: 5695  # https://github.com/randombit/botan/pull/5695
+  merge_commit: 2f4cfc4daa12a77e0aa5a2bfeaf099960377332b
+  classification: unspecified
