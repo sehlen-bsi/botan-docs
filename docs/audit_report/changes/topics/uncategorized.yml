@@ -5833,3 +5833,10 @@ patches:
 - pr: 5695  # https://github.com/randombit/botan/pull/5695
   merge_commit: 2f4cfc4daa12a77e0aa5a2bfeaf099960377332b
   classification: unspecified
+
+# [std::span] For TLS message and extension parsing and usage
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5700  # https://github.com/randombit/botan/pull/5700
+  merge_commit: 8cc9837fcd5afacd0b4ccb82d113a004cf55273c
+  classification: unspecified
