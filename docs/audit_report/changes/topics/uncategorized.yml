@@ -5840,3 +5840,27 @@ patches:
 - pr: 5700  # https://github.com/randombit/botan/pull/5700
   merge_commit: 8cc9837fcd5afacd0b4ccb82d113a004cf55273c
   classification: unspecified
+
+# Validate AlgorithmIdentifier parameters on decode
+#   Author:    @randombit
+- pr: 5703  # https://github.com/randombit/botan/pull/5703
+  merge_commit: d2e8b026f8e1e9a21b9adf52f2fb27b0416fac89
+  classification: unspecified
+
+# Avoid including brainpool TLS 1.3 curve points in the TLS-Anvil policy
+#   Author:    @randombit
+- pr: 5701  # https://github.com/randombit/botan/pull/5701
+  merge_commit: f2a10c26be9998c2385c3495858b344e013bd1a2
+  classification: unspecified
+
+# During CRL parsing, reject if a CRL entry reason is RemoveFromCrl
+#   Author:    @randombit
+- pr: 5697  # https://github.com/randombit/botan/pull/5697
+  merge_commit: 11ae2fc44c8180036bd211c6ac70375c10a1290b
+  classification: unspecified
+
+# Improve X509 certificate path building limits
+#   Author:    @randombit
+- pr: 5698  # https://github.com/randombit/botan/pull/5698
+  merge_commit: b2d983cbab3acfe86d50520cf06eb34b1fac4c04
+  classification: unspecified
