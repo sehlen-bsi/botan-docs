@@ -5864,3 +5864,29 @@ patches:
 - pr: 5698  # https://github.com/randombit/botan/pull/5698
   merge_commit: b2d983cbab3acfe86d50520cf06eb34b1fac4c04
   classification: unspecified
+
+# Add brainpool back to the TLS-Anvil policy file
+#   Author:    @randombit
+- pr: 5709  # https://github.com/randombit/botan/pull/5709
+  merge_commit: 6372c0cbb08333b130e2b57b05f2efa843b3b235
+  classification: unspecified
+
+# Add missing length check in RSA-KEM decryption
+#   Author: Jack Lloyd
+- commit: 78f5d5a343800318723ad45c90efdee65b921fee  # https://github.com/randombit/botan/commit/78f5d5a343800318723ad45c90efdee65b921fee
+  classification: unspecified
+
+# Add missing volatile specifiers in mp_asmi.h
+#   Author: Jack Lloyd
+- commit: 82e2c98d66f4e80a7a674fda008252fd95bfc825  # https://github.com/randombit/botan/commit/82e2c98d66f4e80a7a674fda008252fd95bfc825
+  classification: unspecified
+
+# Add missing length check in next_utf8_codepoint
+#   Author: Jack Lloyd
+- commit: 19e3653a080b0897d0968557b78bd773cd45ed26  # https://github.com/randombit/botan/commit/19e3653a080b0897d0968557b78bd773cd45ed26
+  classification: unspecified
+
+# Add missing check on return value of calloc in sodium_malloc
+#   Author: Jack Lloyd
+- commit: 4465153df7812b5c757156b421120ee06367eab0  # https://github.com/randombit/botan/commit/4465153df7812b5c757156b421120ee06367eab0
+  classification: unspecified
