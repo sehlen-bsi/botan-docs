@@ -5890,3 +5890,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: 4465153df7812b5c757156b421120ee06367eab0  # https://github.com/randombit/botan/commit/4465153df7812b5c757156b421120ee06367eab0
   classification: unspecified
+
+# ASN.1 hardenings and improved decoder strictness
+#   Author:    @randombit
+- pr: 5710  # https://github.com/randombit/botan/pull/5710
+  merge_commit: cbf80078e5cd7d849e2a0534ee3b72a09554a2de
+  classification: unspecified
