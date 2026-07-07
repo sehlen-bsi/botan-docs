@@ -5896,3 +5896,9 @@ patches:
 - pr: 5710  # https://github.com/randombit/botan/pull/5710
   merge_commit: cbf80078e5cd7d849e2a0534ee3b72a09554a2de
   classification: unspecified
+
+# Extend Blowfish to support keys up to 72 bytes in length
+#   Author:    @randombit
+- pr: 5714  # https://github.com/randombit/botan/pull/5714
+  merge_commit: fcaafca27bb1e2f5d91735c0252380289c49c318
+  classification: unspecified
