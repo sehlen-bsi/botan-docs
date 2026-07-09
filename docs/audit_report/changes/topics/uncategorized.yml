@@ -5902,3 +5902,16 @@ patches:
 - pr: 5714  # https://github.com/randombit/botan/pull/5714
   merge_commit: fcaafca27bb1e2f5d91735c0252380289c49c318
   classification: unspecified
+
+# Improve CDP, AIA and IDP extension decoding and handling
+#   Author:    @randombit
+- pr: 5712  # https://github.com/randombit/botan/pull/5712
+  merge_commit: 545a0ac246ac81a6b509302cb8050fbc48f1f4a2
+  classification: unspecified
+
+# Introduce PK_Decryptor(_EME)::ciphertext_length()
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5717  # https://github.com/randombit/botan/pull/5717
+  merge_commit: 7bf6146b33072b31357057d19200268810183144
+  classification: unspecified
