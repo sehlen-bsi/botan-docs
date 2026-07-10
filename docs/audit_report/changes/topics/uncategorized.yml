@@ -5915,3 +5915,20 @@ patches:
 - pr: 5717  # https://github.com/randombit/botan/pull/5717
   merge_commit: 7bf6146b33072b31357057d19200268810183144
   classification: unspecified
+
+# Add RFC 9909 test certificate for SLH-DSA
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5716  # https://github.com/randombit/botan/pull/5716
+  merge_commit: 768bb07d9ff6276425dc671cb1456bf8f056ceb4
+  classification: unspecified
+
+# Add some further notes for contributors [ci skip]
+#   Author: Jack Lloyd
+- commit: d9cbc958d153a48e8f62055fa944e43614388138  # https://github.com/randombit/botan/commit/d9cbc958d153a48e8f62055fa944e43614388138
+  classification: unspecified
+
+# Reference the threat model document from security.rst [ci skip]
+#   Author: Jack Lloyd
+- commit: a49695797afbcb6dc462ef91075a660bc2949d98  # https://github.com/randombit/botan/commit/a49695797afbcb6dc462ef91075a660bc2949d98
+  classification: unspecified
