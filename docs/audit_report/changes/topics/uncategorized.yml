@@ -5932,3 +5932,9 @@ patches:
 #   Author: Jack Lloyd
 - commit: a49695797afbcb6dc462ef91075a660bc2949d98  # https://github.com/randombit/botan/commit/a49695797afbcb6dc462ef91075a660bc2949d98
   classification: unspecified
+
+# Various fixes for SM2 signatures and encryption
+#   Author:    @randombit
+- pr: 5713  # https://github.com/randombit/botan/pull/5713
+  merge_commit: 707c2043d39cb84fa2bf123355cbbe293c305291
+  classification: unspecified
