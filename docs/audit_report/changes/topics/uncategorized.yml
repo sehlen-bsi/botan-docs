@@ -5938,3 +5938,22 @@ patches:
 - pr: 5713  # https://github.com/randombit/botan/pull/5713
   merge_commit: 707c2043d39cb84fa2bf123355cbbe293c305291
   classification: unspecified
+
+# Fix some errors in the Python binding
+#   Author:    @randombit
+- pr: 5722  # https://github.com/randombit/botan/pull/5722
+  merge_commit: cfb533d3ab30bd386168b9b51c6c06e0147d6d32
+  classification: unspecified
+
+# FIX: Minor quirks in TLS 1.3
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5721  # https://github.com/randombit/botan/pull/5721
+  merge_commit: 5ee2510d1b11a5c2f47bf9f5c570d8b2269e5fc5
+  classification: unspecified
+
+# Add support for constructed OCTET STRING and BIT STRING during BER decoding
+#   Author:    @randombit
+- pr: 5720  # https://github.com/randombit/botan/pull/5720
+  merge_commit: b812336c9aac097fa9906d7ab440ee470b481815
+  classification: unspecified
