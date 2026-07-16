@@ -5957,3 +5957,35 @@ patches:
 - pr: 5720  # https://github.com/randombit/botan/pull/5720
   merge_commit: b812336c9aac097fa9906d7ab440ee470b481815
   classification: unspecified
+
+# Fix various bugs in the Pipe/Filter library
+#   Author:    @randombit
+- pr: 5724  # https://github.com/randombit/botan/pull/5724
+  merge_commit: 4956b874ab63cfbdf9cc73d16d1bcb4cdf04e343
+  classification: unspecified
+
+# Properly split EC_AffinePoint deserialization
+#   Author:    @randombit
+- pr: 5725  # https://github.com/randombit/botan/pull/5725
+  merge_commit: fd8b193028669739eea75e398e90ae9caaeda5f6
+  classification: unspecified
+
+# Various SLH-DSA fixes and improvements
+#   Author:    @randombit
+- pr: 5730  # https://github.com/randombit/botan/pull/5730
+  merge_commit: f829afbe0122568bfb92bb5a0c764e3988d53444
+  classification: unspecified
+
+# Prefer ECDSA over RSA signatures in the default TLS policy
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5727  # https://github.com/randombit/botan/pull/5727
+  merge_commit: 2eef1d8fe747df2920ae39e241e2953244220281
+  classification: unspecified
+
+# Remove dependency on `Public_Key` class hierachy in TLS 1.3
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5726  # https://github.com/randombit/botan/pull/5726
+  merge_commit: d1f4c45da786ddfc899486bd789e374cfdfa16d0
+  classification: unspecified
