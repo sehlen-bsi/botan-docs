@@ -5989,3 +5989,22 @@ patches:
 - pr: 5726  # https://github.com/randombit/botan/pull/5726
   merge_commit: d1f4c45da786ddfc899486bd789e374cfdfa16d0
   classification: unspecified
+
+# VSCode's bogo.py reads `repo_config.env` for BoGo branch
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5732  # https://github.com/randombit/botan/pull/5732
+  merge_commit: 1ca83828affe7e1bea105fed21d2b00c325797d9
+  classification: unspecified
+
+# In Ed25519 verification also reject the non-canonical identity
+#   Author:    @randombit
+- pr: 5731  # https://github.com/randombit/botan/pull/5731
+  merge_commit: 545d4328ec57be320e1df3a179c569a25da92194
+  classification: unspecified
+
+# Fix some issues in the compression wrappers
+#   Author:    @randombit
+- pr: 5733  # https://github.com/randombit/botan/pull/5733
+  merge_commit: 8b254582bd7c8d0ab098109686c92b13fb3743ce
+  classification: unspecified
