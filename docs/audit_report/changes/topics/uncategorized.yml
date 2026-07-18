@@ -6008,3 +6008,38 @@ patches:
 - pr: 5733  # https://github.com/randombit/botan/pull/5733
   merge_commit: 8b254582bd7c8d0ab098109686c92b13fb3743ce
   classification: unspecified
+
+# Add an explicit type for X509 certificate serial numbers
+#   Author:    @randombit
+- pr: 5740  # https://github.com/randombit/botan/pull/5740
+  merge_commit: b591e66d72b47ff227b690bd8bd97b6bd08137ed
+  classification: unspecified
+
+# Use RFC 5280's prescribed method for generating subject public key ID values
+#   Author:    @randombit
+- pr: 5735  # https://github.com/randombit/botan/pull/5735
+  merge_commit: b2360baddcbcecc5eb299078eac2dee80a2eaeae
+  classification: unspecified
+
+# Add support for encoding name constraints extensions
+#   Author:    @randombit
+- pr: 5734  # https://github.com/randombit/botan/pull/5734
+  merge_commit: 5dd87dd3c01a3608094f9acad9f76d0f17040f28
+  classification: unspecified
+
+# Fix CLI test port allocation woes
+#   Author:    @randombit
+- pr: 5738  # https://github.com/randombit/botan/pull/5738
+  merge_commit: d18ca1d401b4a2e971d97476c4f04b879022715f
+  classification: unspecified
+
+# Detect fork in Stateful_Key_Index
+#   Author:    @randombit
+- pr: 5723  # https://github.com/randombit/botan/pull/5723
+  merge_commit: 6b0b32f1ed05fa3ebb1fa7b27367eb623bc434ab
+  classification: unspecified
+
+# Add a few more file types to .gitignore in the top level dir [ci skip]
+#   Author: Jack Lloyd
+- commit: 6d28ad63476e5db9d3434c5d1c2297b5feb28b13  # https://github.com/randombit/botan/commit/6d28ad63476e5db9d3434c5d1c2297b5feb28b13
+  classification: unspecified
