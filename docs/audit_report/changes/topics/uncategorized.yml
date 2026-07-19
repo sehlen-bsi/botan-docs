@@ -6043,3 +6043,45 @@ patches:
 #   Author: Jack Lloyd
 - commit: 6d28ad63476e5db9d3434c5d1c2297b5feb28b13  # https://github.com/randombit/botan/commit/6d28ad63476e5db9d3434c5d1c2297b5feb28b13
   classification: unspecified
+
+# Various minor bug fixes in symmetric algorithm implementations
+#   Author:    @randombit
+- pr: 5742  # https://github.com/randombit/botan/pull/5742
+  merge_commit: 3367f82899dfb97316b534cd4f128b4c9675cbcf
+  classification: unspecified
+
+# Improve OCSP serialization and deserialization
+#   Author:    @randombit
+- pr: 5741  # https://github.com/randombit/botan/pull/5741
+  merge_commit: b1abe88c3102da1de6dabdfd72635ebd2442c9af
+  classification: unspecified
+
+# Support decoding of X509 authority key ID fields with a DN + serial
+#   Author:    @randombit
+- pr: 5737  # https://github.com/randombit/botan/pull/5737
+  merge_commit: af7d17a7714715a7955034ea62e318ab8a31c232
+  classification: unspecified
+
+# Remove a couple of unused functions in the tests
+#   Author:    @randombit
+- pr: 5744  # https://github.com/randombit/botan/pull/5744
+  merge_commit: fe57c66b11aa936677e7dbe8f34dda529a1fdf6a
+  classification: unspecified
+
+# Avoid possible UB in some ARMv8 code which casts byte pointers to word
+#   Author:    @randombit
+- pr: 5743  # https://github.com/randombit/botan/pull/5743
+  merge_commit: 29f523ae90bfc132a7e8dec953a29706956534d0
+  classification: unspecified
+
+# add parsing of ECC group from ECC parameters
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5532  # https://github.com/randombit/botan/pull/5532
+  merge_commit: 7566931afbe5f4c766ac0f63be78be9a3e312d5c
+  classification: unspecified
+
+# Fix EC_Scalar_Data_BN::square_self
+#   Author: Jack Lloyd
+- commit: dee4717c3f3935a4c41dad40474eba00540489d5  # https://github.com/randombit/botan/commit/dee4717c3f3935a4c41dad40474eba00540489d5
+  classification: unspecified
