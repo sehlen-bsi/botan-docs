@@ -12,8 +12,14 @@ version, key exchange method, and cipher algorithm.
 
 The tests are implemented in :srcref:`src/tests/unit_tls.cpp`.
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here except to the addition of new tests.
+**Remark from review of 3.12.0:** The test harness in `unit_tls.cpp` was
+hardened: the tests now explicitly assert that both client and server
+completed the handshake, so that a handshake aborting via an exception can no
+longer be reported as a success (tests that intentionally drive a handshake
+abort suppress this assertion). Furthermore, the brainpool256r1 handshake
+test is now guarded by a build-configuration check, and RSA support is
+required for building the tests. No substantial change to the test logic
+otherwise.
 
 The following TLS handshake tests are executed:
 
@@ -91,8 +97,11 @@ tests validating correct certificate handling.
 
 The tests are implemented in :srcref:`src/tests/unit_tls_policy.cpp`.
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here.
+**Remark from review of 3.12.0:** A test was added that verifies the
+``require_extended_master_secret`` policy option: the default policy and the
+default text policy must require the extended master secret extension
+(RFC 7627), and a text policy override must be able to disable and re-enable
+the requirement. No substantial change in the test code otherwise.
 
 In the test different certificates with different key lengths are
 created and tested against the default TLS policy. Only certificates
@@ -578,8 +587,8 @@ test cases exist.
 The tests are implemented in
 :srcref:`src/tests/test_tls_stream_integration.cpp`.
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here.
+**Remark from review of 3.12.0:** No change in the test code referenced
+here.
 
 .. table::
    :class: longtable
@@ -719,11 +728,27 @@ following.
 
 The tests are implemented in :srcref:`src/tests/test_tls.cpp`.
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here, except for the addition of further tests.
+**Remark from review of 3.12.0:** Two tests were added in `test_tls.cpp`,
+which are included in the list below: the RFC 9258 PSK import test and the
+TLS 1.2 no_renegotiation alert test. No substantial change in the test code
+otherwise.
 
 -  Session handling: A test that encrypts and decrypts static session
    test data
+
+-  TLS 1.3 PSK import: A test vector based test for the external PSK
+   import interface according to RFC 9258 (added in Botan 3.12.0). For each
+   vector, an imported PSK is derived from an external PSK (consisting of
+   key, identity and optional context) for a given target KDF hash, and the
+   test checks that the PSK is marked as imported, uses the target hash as
+   its PRF algorithm, and that the derived key matches the expected output.
+   Test vectors are listed in :srcref:`src/tests/data/tls_13_psk_import.vec`.
+
+-  TLS 1.2 no_renegotiation alert during initial handshake: A test that a
+   no_renegotiation warning alert received during the initial handshake
+   (added in Botan 3.12.0) is delivered to the application but does not tear
+   down the pending handshake state: the client must neither become active
+   nor closed, and the pending handshake must survive.
 
 -  CBC padding: Tests that check TLS padding of a TLS CBC encrypted
    record. Test vectors are listed in

@@ -19,8 +19,18 @@ independent test suites:
    OCSP checks.
 
 
-**Remark from review of 3.11.0:** No substantial change in `unit_x509.cpp`,
-`test_x509_path.cpp`, `test_name_constraint.cpp`, or `test_ocsp.cpp` except for some minor additions of further tests.
+**Remark from review of 3.12.0:** Botan 3.12.0 reworked large parts of the
+X.509 code (strict DER decoding of PKIX types, incremental DFS path building,
+IPv6 name constraints, optimized certificate and CRL indexing). Accordingly,
+all four test files received additions, which are described in the respective
+sections below. Furthermore, the expected results of some existing test
+vectors changed: in `src/tests/data/x509/bsi/expected.txt` the expected error
+messages of the test cases ``ext_05`` and ``ext_10`` were adapted to the
+stricter DER decoding, and in `src/tests/data/x509/nist/expected.txt` the
+expected result of ``test76`` changed from ``Verified`` to ``Certificate is
+revoked``, since the CRL IssuingDistributionPoint extension (marked critical,
+with the unhandled ``onlyContainsCACerts`` field) is now treated as
+unprocessable so that affected certificates are assumed revoked.
 
 In the following, we describe these tests in more detail.
 
@@ -46,6 +56,18 @@ The following X.509 certificate tests are executed:
    ECDH, RSA, ElGamal, DSA, ECDSA, ECGDSA, ECKCDSA
 -  X.509v3 extension handling, including writing and reading custom
    X.509v3 extensions
+
+**Remark from review of 3.12.0:** The following tests were added in
+`unit_x509.cpp`:
+
+-  A negative test that decoding an extension block containing two extensions
+   with the same OID is rejected with a ``Decoding_Error``
+-  A test that the distributionPoint URI of a CRL's
+   IssuingDistributionPoint extension is decoded correctly
+-  A test that a CRL entry whose serial number is encoded as a negative
+   two's-complement INTEGER is decoded to its magnitude, so that it matches
+   the serial number of the corresponding certificate during revocation
+   checking
 
 X.509 Test with Certificate Files
 ---------------------------------
@@ -185,6 +207,26 @@ following tables shows an example test case with one test vector.
    |                      | validation.                                                               |
    +----------------------+---------------------------------------------------------------------------+
 
+**Remark from review of 3.12.0:** Two tests were added in
+`test_x509_path.cpp`:
+
+-  A path building test (test name ``x509_path_building``): Botan 3.12.0
+   reworked the depth-first-search certificate path building to work
+   incrementally. The test uses a dedicated certificate set in
+   :srcref:`src/tests/data/x509/path_building` consisting of a root
+   certificate, two levels of seven intermediate certificates each, and seven
+   end-entity certificates. Each end-entity certificate is validated at a
+   fixed validation time with all intermediate certificates supplied in an
+   unspecified order, and the validation result is compared to the expected
+   result (``Verified`` for all seven chains) from the accompanying
+   ``expected.txt``. This ensures that the path builder finds a valid path
+   through the ambiguous intermediate certificates.
+-  A regression test (test name ``x509_cve_2026_35580``) for CVE-2026-35580:
+   an end-entity certificate from
+   `src/tests/data/x509/cve_2026_35580` is validated against the
+   accompanying root certificate at a fixed validation time, and the test
+   asserts that path validation fails with ``Cannot establish trust``.
+
 Extended X.509 Name Constraints Test
 ------------------------------------
 
@@ -205,8 +247,14 @@ The following tables show example test cases with one valid and one
 invalid test vector. All test vectors are included as certificates in
 :srcref:`src/tests/data/x509/name_constraint`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here
-except for the addition of further test vector files.
+**Remark from review of 3.12.0:** Botan 3.12.0 added support for IPv6 name
+constraints in certificate path validation (GH #5534, #5537). Accordingly,
+`test_name_constraint.cpp` received three new tests, which are described at
+the end of this section: a chain validation test for IPv6 name constraints, a
+test vector based test for the DER validation of ``GeneralName`` iPAddress
+encodings, and a test for a leaf certificate with an empty subject DN whose
+subject alternative name is matched against a directoryName constraint. The
+test vectors referenced above did not change.
 
 .. table::
    :class: longtable
@@ -437,6 +485,53 @@ except for the addition of further test vector files.
    |                      | -  src/tests/data/x509/misc/name_constraint_ci/leaf.pem                   |
    +----------------------+---------------------------------------------------------------------------+
 
+The following tests were added in the review cycle for Botan 3.12.0:
+
+-  **IPv6 name constraint chains** (test name
+   ``x509_name_constraint_ipv6_chains``): validates certificate chains
+   against IPv6 (and mixed IPv4/IPv6) name constraints. The certificates
+   reside in :srcref:`src/tests/data/x509/name_constraint_ipv6` and cover the
+   following scenarios, each with a leaf certificate that is expected to pass
+   and leaf certificates that are expected to fail with "Certificate does not
+   pass name constraint":
+
+   -  an IPv6 permittedSubtree (``2001:db8::/32``) with a subject
+      alternative name inside respectively outside the subtree
+   -  an IPv6 excludedSubtree with a subject alternative name outside
+      respectively inside the subtree
+   -  a root certificate permitting only an IPv4 range (``10.0.0.0/8``),
+      which must reject a leaf with an IPv6 subject alternative name (and
+      vice versa for a root permitting only an IPv6 range), since iPAddress
+      constraints of one address family constrain the entire iPAddress name
+      form (RFC 5280, section 4.2.1.10)
+   -  constraints across multiple issuers: the root permits
+      ``{10.0.0.0/8, 2001:db8::/32}``, the intermediate narrows the
+      permitted subtrees and adds excluded subtrees; leaves with one IPv4
+      and one IPv6 subject alternative name each violate the permitted or
+      excluded subtrees of the root or the intermediate in all combinations
+   -  IPv4-mapped IPv6 subject alternative names tested against IPv4
+      excluded and permitted subtrees (a mapped address inside an excluded
+      IPv4 range is rejected; a mapped address inside a permitted IPv4-only
+      range is also rejected, as RFC 5280 gives no clear guidance on
+      matching mapped addresses across address families)
+
+-  **GeneralName iPAddress mask validation** (test name
+   ``x509_name_constraint_ip_mask``): a test vector based test using
+   :srcref:`src/tests/data/x509/general_name_ip.vec`. Each vector consists
+   of an address and a netmask, which are DER-encoded as a ``GeneralName``
+   iPAddress ([7] IMPLICIT OCTET STRING) and then decoded with strict DER
+   limits. Valid vectors (IPv4 and IPv6 addresses with contiguous netmasks)
+   must be accepted; invalid vectors (e.g. non-contiguous netmasks or
+   invalid lengths) must be rejected with a ``Decoding_Error``.
+
+-  **Empty subject DN with SAN directoryName** (test name
+   ``x509_name_constraint_empty_subject``): validates a chain from
+   :srcref:`src/tests/data/x509/name_constraint_empty_subject` in which the
+   intermediate CA carries a critical name constraints extension with a
+   directoryName permittedSubtree and the leaf certificate has an empty
+   subject DN and a critical subject alternative name extension containing a
+   directoryName inside the permitted subtree. Path validation must succeed.
+
 OCSP Tests
 ----------
 
@@ -446,6 +541,22 @@ signature validation) and also using online tests for randombit.net.
 Online tests are only executed if BOTAN_HAS_ONLINE_REVOCATION_CHECKS is
 set. The tests are implemented in :srcref:`src/tests/test_ocsp.cpp`. All
 test data can be found in :srcref:`src/tests/data/x509/ocsp`.
+
+**Remark from review of 3.12.0:** The following tests were added in
+`test_ocsp.cpp`:
+
+-  A test parsing an OCSP response (generated with ``openssl ocsp ...
+   -resp_key_id``) that identifies the responder via the byKey ResponderID
+   choice instead of a name: the parsed response must report an empty signer
+   name, the signer key hash must equal the SHA-1 hash of the responder
+   certificate's public key, and the responder certificate must be found via
+   the key hash.
+-  A test that partial OCSP stapling preserves the per-slot gap for the
+   online fallback: ``PKIX::check_ocsp`` is invoked on a three-certificate
+   chain with a stapled response for only the intermediate (respectively only
+   the end-entity) certificate, and the test verifies that the returned
+   status list keeps an empty entry exactly at the position of the
+   certificate without a stapled response.
 
 Limbo X.509 Tests
 -----------------

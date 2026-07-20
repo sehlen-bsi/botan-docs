@@ -271,7 +271,11 @@ GCM is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/aead/gcm.vec`.
 
-**Remark from review of 3.11.0:** No substantial change in AEAD test code. GCM test vectors have only received additions.
+**Remark from review of 3.12.0:** No change in the AEAD test code. The GCM
+test vectors have only received additions: several known answer tests with
+long messages (generated with OpenSSL 3.6) were added in the course of
+introducing maximum input length enforcement for GHASH/GCM and
+ChaCha20Poly1305 (GH #5521).
 
 .. table::
    :class: longtable

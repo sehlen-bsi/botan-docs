@@ -246,8 +246,16 @@ Additionally, the :srcref:`Dilithium_Keypair_Codec
 serves as a customization point for the key encoding and decoding functions that
 differ between ML-DSA ([FIPS-204]_; :math:`\xi` only) and Dilithium (round 3;
 partially expanded key format as specified in [FIPS-204]_). By *always*
-expanding the private key from the secret seed :math:`\xi`, sanity checks during
-decoding of the key pair can be omitted.
+expanding the private key from the secret seed :math:`\xi`, structural sanity
+checks during decoding of the key pair can be omitted. Since Botan 3.12.0, the
+key expansion explicitly rejects seeds whose length does not match the expected
+32 bytes with a ``Decoding_Error``.
+
+Since Botan 3.12.0, ``Dilithium_PrivateKey::check_key(rng, strong)`` performs,
+if ``strong`` is set, a sign/verify pairwise consistency check
+(``KeyPair::signature_consistency_check()``). The public key
+``check_key()`` performs no checks, since all length and range checks are
+already enforced during decoding.
 
 Explicitly note that Botan's ML-DSA implementation does not support encoding or
 decoding the private key in the partially expanded format.
@@ -416,8 +424,9 @@ preparation of the message representative ``mu`` being done in
      <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:131|Dilithium_Signature_Operation>`
      to amortize the complexity of these operations across multiple consecutive
      signature generations. The same applies to the calculation of ``tr``.
-   - Step 1: Botan 3.6.0 does not yet support the application-defined context
-     string as specified in [FIPS-204]_ Algorithm 2. See `GitHub #4376
+   - Step 1: Botan (as of version 3.12.0) does not yet support the
+     application-defined context string as specified in [FIPS-204]_
+     Algorithm 2; the context is always empty. See `GitHub #4376
      <https://github.com/randombit/botan/issues/4376>`_.
    - Steps 3.12, 3.15: Botan uses an optimization for hint generation as
      provided by the reference implementation. Instead of computing the hint

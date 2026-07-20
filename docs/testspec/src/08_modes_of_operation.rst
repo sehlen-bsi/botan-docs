@@ -6,7 +6,13 @@ Block cipher modes of operation are tested using known answer tests that
 implemented in :srcref:`src/tests/test_modes.cpp`. The test cases are described
 in the following.
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here.
+**Remark from review of 3.12.0:** The cipher mode known answer tests in
+`test_modes.cpp` were extended: in addition to the existing processing
+variants, each test vector is now also processed with ``finish()`` on a
+buffer with a non-zero offset and with ``update()`` followed by ``finish()``
+on buffers with a non-zero offset, verifying that the bytes before the
+offset remain untouched and the produced ciphertext/plaintext equals the
+expected value. No substantial change in the test code otherwise.
 
 .. table::
    :class: longtable
@@ -142,7 +148,7 @@ CBC is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/modes/cbc.vec`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -279,7 +285,10 @@ constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/stream/ctr.vec`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** A test vector with a long keystream and an
+``#test cpuid avx2`` directive was added to `ctr.vec` to cover the AVX2
+optimized CTR code path added in Botan 3.11.1. No change in the test vectors
+otherwise.
 
 .. table::
    :class: longtable

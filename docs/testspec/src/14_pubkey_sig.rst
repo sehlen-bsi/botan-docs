@@ -11,7 +11,18 @@ implemented for specific algorithms, e.g., for public key validation.
 All public key-based signature algorithms use test classes implemented
 in :srcref:`src/tests/test_pubkey.cpp`.
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here.
+**Remark from review of 3.12.0:** The generic test for invalid signatures in
+`test_pubkey.cpp` (cf. PKSIG-3) was strengthened: in addition to an all-zero
+signature and randomly perturbed signatures (now 24 instead of 20 iterations
+with long tests, 9 instead of 5 otherwise), a set of deterministic malformed
+signatures is now always tested (an empty signature, all-zero signatures of
+lengths one and two, a signature truncated by one byte, and a signature with
+the first bit flipped). Furthermore, after every rejected invalid signature
+the test now re-verifies that the valid signature still verifies. The latter
+serves as regression coverage for the Ed25519 and ECDSA verifier-state issues
+fixed in Botan 3.11.1 (GH #5454, #5455), where an invalid signature could
+poison the verifier object and cause a subsequent valid signature to be
+rejected.
 
 .. table::
    :class: longtable
@@ -422,8 +433,8 @@ Additionally, the vectors for testing the still supported Dilithium
 (NIST Round 3 submission) instances are in :srcref:`src/tests/data/pubkey/`
 with prefix ``dilithium`` and the same naming scheme.
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here.  No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test code or test vectors
+referenced here.
 
 .. table::
    :class: longtable
@@ -572,7 +583,7 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/dsa_prob.vec`
 and :srcref:`src/tests/data/pubkey/dsa_verify.vec`.
 
 
-**Remark from review of 3.11.0:** No change in the test code or test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test code or test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -787,10 +798,8 @@ following table shows an example test case with one test vector. All
 test vectors are listed in
 :srcref:`src/tests/data/pubkey/ecdsa_prob.vec`, :srcref:`src/tests/data/pubkey/ecdsa_verify.vec` and :srcref:`src/tests/data/pubkey/ecdsa_wycheproof.vec`.
 
-**Remark from review of 3.11.0:** No change in the test code referenced here
-except for the addition of the test `ECDSA_ExplicitCurveKey_Test`. No changes in
-the test vectors referenced here except for additional test vectors in
-`ecdsa_verify.vec`
+**Remark from review of 3.12.0:** No change in the test code or test vectors
+referenced here.
 
 .. table::
    :class: longtable
@@ -1021,8 +1030,8 @@ following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/ecgdsa.vec`.
 
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here.  No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test code or test vectors
+referenced here.
 
 .. table::
    :class: longtable
@@ -1176,8 +1185,8 @@ following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/eckcdsa.vec`.
 
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here. No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test code or test vectors
+referenced here.
 
 .. table::
    :class: longtable
@@ -1316,8 +1325,8 @@ of HSS/LMS, their interface is only functionally tested for debugging and not ex
 The HSS/LMS tests cover the Botan interface and the signature creation and verification in
 detail. The tests are located in :srcref:`src/tests/test_hss_lms.cpp`.
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here.
+**Remark from review of 3.12.0:** No change in the test code referenced
+here.
 
 There are no official KAT test vectors for HSS/LMS. Also, the format of a private key and
 its usage is not well defined in RFC 8554. RFC 8554 and draft-fluhrer-lms-more-parm-sets-11
@@ -1336,7 +1345,7 @@ the following files:
 - Signature verification tests: :srcref:`src/tests/data/pubkey/hss_lms_verify.vec`
 - Negative signature verification tests: :srcref:`src/tests/data/pubkey/hss_lms_invalid.vec`
 
-**Remark from review of 3.11.0:** No substantial change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 Besides some non-cryptography-related API tests, the following tests are an extension to
 the (already extensive) generic tests.
@@ -1414,8 +1423,8 @@ The RSA algorithm is tested with the following constraints:
 
 All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. 
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here.
+**Remark from review of 3.12.0:** No change in the test code referenced
+here.
 
 The
 following table shows an example test case with one test vector. Test
@@ -1423,7 +1432,7 @@ vectors for test cases PKSIG-RSA-1 and PKSIG-RSA-2 are listed in
 :srcref:`src/tests/data/pubkey/rsa_sig.vec`. Test vectors for test case
 PKSIG-RSA-3 are listed in :srcref:`src/tests/data/pubkey/rsa_invalid.vec`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -1621,7 +1630,7 @@ therefore not discussed in detail in this chapter.
    |                        | * :srcref:`src/tests/data/pubkey/slh_dsa.vec`                           |
    |                        | * :srcref:`src/tests/data/pubkey/sphincsplus.vec`                       |
    |                        |                                                                         |
-   |                        | **Remark from review of 3.11.0:** No change in the                      |
+   |                        | **Remark from review of 3.12.0:** No change in the                      |
    |                        | test vectors referenced here.                                           |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Above described test vector files contain expected values for:          |
@@ -1677,7 +1686,7 @@ therefore not discussed in detail in this chapter.
    |                        |                                                                         |
    |                        | * :srcref:`src/tests/data/pubkey/sphincsplus_wots.vec`                  |
    |                        |                                                                         |
-   |                        | **Remark from review of 3.11.0:** No change in the                      |
+   |                        | **Remark from review of 3.12.0:** No change in the                      |
    |                        | test vectors referenced here.                                           |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Hashed WOTS+ signatures and keys as defined in the test vector.         |
@@ -1717,7 +1726,7 @@ therefore not discussed in detail in this chapter.
    |                        | To save disk space, the FORS signatures in the test vector are stored   |
    |                        | as digests only.                                                        |
    |                        |                                                                         |
-   |                        | **Remark from review of 3.11.0:** No change in the                      |
+   |                        | **Remark from review of 3.12.0:** No change in the                      |
    |                        | test vectors referenced here.                                           |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | FORS signatures and keys as defined in the test vector                  |
@@ -1755,9 +1764,9 @@ provided through the algorithm oid, which is part of the private key.
 The following table shows an example test case with one test vector.
 
 
-**Remark from review of 3.11.0:** No substantial change in the test code
-referenced here.
-No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No substantial change in the test code
+referenced here; only an adaptation to the changed ``XMSS_Parameters``
+factory API. No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -1832,7 +1841,7 @@ the test case PKSIG-XMSS-2 and PKCS-XMSS-3 are listed in
 :srcref:`src/tests/data/pubkey/xmss_invalid.vec`, correspondingly.The following
 table shows an example test case with one test vector.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable

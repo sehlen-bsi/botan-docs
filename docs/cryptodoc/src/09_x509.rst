@@ -40,7 +40,21 @@ Unknown extensions are not parsed but their DER encoded content is provided to
 the application via the certificate API. [TR-02103]_ provides a separate list of
 certificate extensions that might be useful in "some contexts". Only the
 "FreshestCRL" extension is not supported by Botan: meaning that delta-CRLs are
-not supported either.
+not supported either. Since Botan 3.12.0, an extension whose OID is
+recognized but whose body fails to decode is retained as an unknown
+extension and reported with the new status code EXTENSION_ENCODING_ERROR
+during path validation (``check_chain()``), regardless of whether the
+extension is marked critical.
+
+Since Botan 3.12.0, PKIX structures (certificates, CRLs, certificate
+requests and OCSP responses) are decoded with strict DER limits
+(``BER_Decoder::Limits::DER()``): non-canonical BER encodings, e.g.
+indefinite-length or non-minimal-length encodings, are rejected at parse
+time. Furthermore, whether a certificate is considered self-signed is
+determined heuristically during parsing (equal subject and issuer
+distinguished names and, if both are present, equal subject and
+authority key identifiers); the certificate's self-signature is no
+longer verified during parsing, but only during path validation.
 
 Note that the requirements for specific certificate types (i.e. "CA", "TLS Server",
 "S/MIME", ..) layed out in [TR-02103]_ are not explicitly enforced during
@@ -50,28 +64,40 @@ certificate validation or left to the application developer.
 Certificate Path Validation Overview
 ------------------------------------
 
-First, all possible certificate paths are built from the end entity
-certificate to a trusted root certificate. As neither the uniqueness of
-the issuing certificate's distinguished name nor the uniqueness of its
-key identifier can be guaranteed, a certificate's issuing certificate
-might not be uniquely defined. Therefore, during path construction all
+Certificate paths are built from the end entity certificate to a
+trusted root certificate. As neither the uniqueness of the issuing
+certificate's distinguished name nor the uniqueness of its key
+identifier can be guaranteed, a certificate's issuing certificate might
+not be uniquely defined. Therefore, during path construction all
 possible issuers are considered which produces a set of potentially
 valid paths to trusted root certificates. Note that the graph induced by
 the 'certificate-signed-by-relation' is assumed to be a forest. More
 complex structures such as mesh structures and bridge structures as
-considered in [RFC4158]_ are not supported.
+considered in [RFC4158]_ are not supported. Since Botan 3.12.0, path
+building and validation are interleaved: the candidate paths are
+enumerated lazily by an internal depth-first search (class
+``CertificatePathBuilder``) and each candidate path is validated as soon
+as it is discovered, before the search continues.
 
 Candidate paths are validated by checking signatures, validity periods,
 key usages and other extensions. Any failures in the validation of each
 candidate path are recorded and do not result in an early exit. Instead,
-Botan collects all error codes and merges them in the last step. Before,
-CRLs and OCSP responses are checked on the candidate path.
+Botan collects all error codes and merges them in the last step.
+Afterwards, CRLs and OCSP responses are checked on the candidate path.
+Since Botan 3.12.0, these revocation checks are skipped for a candidate
+path whose recorded status already contains an error of severity equal
+to or above ``FIRST_ERROR_STATUS_TO_SKIP_REVOCATION`` (numeric value
+3000), i.e. for chains that are already bound to be rejected.
 
 The algorithm returns the first candidate path that is validated
 successfully. All errors recorded for the candidate paths checked
 previously are discarded. If no candidate path can be validated
 successfully, the algorithm arbitrarily returns the errors recorded for
-the first checked candidate.
+the first checked candidate. To bound the work performed on maliciously
+constructed inputs, since Botan 3.12.0 at most 50 candidate paths and at
+most 200 certificate validations are attempted per call; if these limits
+are exceeded, the validation fails with the hard-failure status code
+``EXCEEDED_SEARCH_LIMITS``.
 
 **Conclusion:** X.509 path validation is implemented according to the crucial
 recommendations of [TR-02103]_. Some extended validation recommendations are not
@@ -106,6 +132,13 @@ restrictions on path validation, namely the following:
    chain
 -  Require a minimum key strength for all keys in the certificate chain
 -  Optionally ignore the validity period of the root certificate
+-  Require trust anchors to be self-signed
+   (``require_self_signed_trust_anchors()``, default: true); if disabled,
+   a trusted non-self-signed certificate (e.g. an intermediate CA
+   deployed as trust anchor) may terminate a valid path
+-  Provide a ``Certificate_Store`` of trusted OCSP responder certificates
+   (``trusted_ocsp_responders()``, default: an empty in-memory store);
+   see the description of ``check_ocsp()`` below
 
 All variants of ``x509_path_validate()`` take an object of class
 ``Certificate_Store``. Such a ``Certificate_Store`` is used to store
@@ -125,17 +158,22 @@ retrieved by calling the ``result()`` member function. Moreover, the
 subset of status codes that are considered warnings can be queried with
 the ``warnings()`` member function. At the time of writing, only the
 occurrence of negative certificate serial numbers, distinguished names
-that do not adhere to the length limitations and a missing OCSP URL or
-unreachable OCSP server produce warnings. To quickly check whether an
+that do not adhere to the length limitations, a missing OCSP URL or
+unreachable OCSP server, and validity-period violations of the trust
+root when the restrictions are configured to ignore them
+(TRUSTED_CERT_HAS_EXPIRED, TRUSTED_CERT_NOT_YET_VALID) produce
+warnings. To quickly check whether an
 X.509 path validation was successful or whether it produced any
 warnings, the member functions ``successful_validation()`` and
 ``no_warnings()`` will return a boolean. All certificate validation status
 codes are defined in :srcref:`src/lib/x509/pkix_enums.h`.
 
-The path validation logic assumes that the end certificate to be checked
-is not trusted directly as, in this case, no validation is necessary at
-all. More fine-grained policies concerning trusted end certificates can
-be built manually using lower-level functions as needed.
+If the end certificate to be checked is itself contained in one of the
+trusted certificate stores, it can constitute a valid candidate path of
+length one (provided it is self-signed or self-signed trust anchors are
+not required). More fine-grained policies concerning trusted end
+certificates can be built manually using lower-level functions as
+needed.
 
 .. admonition:: ``x509_path_validate()``
 
@@ -168,56 +206,90 @@ be built manually using lower-level functions as needed.
 
    3. Set ``end_entity_extra = end_certs[1] .. end_certs[n-1]``
 
-   4. Set ``path_building_result = build_all_certificate_paths(cert_paths,
-      trusted_roots, end_entity, end_entity_extra)``
+   4. Initialize an internal ``CertificatePathBuilder`` with
+      ``trusted_roots``, ``end_entity``, ``end_entity_extra`` and
+      ``require_self_signed =
+      restrictions.require_self_signed_trust_anchors()``. The builder
+      enumerates the candidate certificate paths lazily using the
+      depth-first search described in the following section.
 
-   5. If (``path_building_result`` != Certificate_Status_Code::OK), then do
-      Return Path_Validation_Result(``path_building_result``) // no chain to
-      a trusted self-signed root
+   5. Set ``first_path_error`` to empty, ``paths_checked = 0`` and
+      ``certs_checked = 0``.
 
-   6. Set ``error_results`` to an empty vector.
+   6. While the builder yields another candidate path ``cert_path`` do:
 
-   7. For each ``cert_path`` in ``cert_paths`` do:
+      a) Increment ``paths_checked`` by one and ``certs_checked`` by the
+         number of certificates in ``cert_path``. If (``paths_checked`` >
+         50) or (``certs_checked`` > 200), set ``first_path_error =
+         Path_Validation_Result(EXCEEDED_SEARCH_LIMITS)`` and exit the
+         loop. // bound the search on maliciously constructed inputs
 
-      a) Set ``status = check_chain(cert_path, ref_time, hostname, usage,
+      b) Set ``status = check_chain(cert_path, ref_time, hostname, usage,
          restrictions)`` // check the certificate chain, but not rev. data
 
-      b) Set ``crl_status = check_crl(cert_path, trusted_roots, ref_time)``
+      c) If the most severe status code in ``status`` is below
+         ``FIRST_ERROR_STATUS_TO_SKIP_REVOCATION`` (3000) then do: //
+         revocation checks are skipped on chains that are already
+         bound to be rejected
 
-      c) If (``!ocsp_responses.empty()``) then do:
+         i.   Set ``crl_status = check_crl(cert_path, trusted_roots,
+              ref_time)``
 
-         i. ``ocsp_status = check_ocsp(cert_path, ocsp_resp, trusted_roots,
-            ref_time, restrictions)`` // check additional
-            OCSP responses
+         ii.  If (``!ocsp_responses.empty()``) then do:
+              ``ocsp_status = check_ocsp(cert_path, ocsp_responses,
+              trusted_roots, ref_time, restrictions)`` // check the
+              delivered OCSP responses
 
-      d) If (``ocsp_status.empty()`` AND ``ocsp_timeout`` != 0) then do:
+         iii. If (``ocsp_timeout`` != 0) then do:
 
-         i. ``ocsp_status = check_ocsp_online(cert_path, trusted_roots,
-            ref_time, ocsp_timeout, restrictions)`` // check OCSP using
-            online HTTP access
+              1. Set ``to_online = n - 1`` (i.e. all certificates except
+                 the trust root) if
+                 ``restrictions.ocsp_all_intermediates()`` is set,
+                 otherwise ``to_online = 1`` (only the end entity
+                 certificate) // chain positions that require an OCSP
+                 status
 
-      e) Call ``merge_revocation_status(status, crl_status, ocsp_status,
-         restrictions)`` // merge all revocation
-         information
+              2. If any of the first ``to_online`` entries of
+                 ``ocsp_status`` is empty or missing, obtain OCSP
+                 responses online by calling
+                 ``check_ocsp_online(cert_path, trusted_roots, ref_time,
+                 ocsp_timeout, restrictions)`` and copy its results into
+                 the *empty* entries of ``ocsp_status`` only; the
+                 statuses obtained from the delivered OCSP responses in
+                 the previous step are kept. If Botan was built without
+                 HTTP support, the status code OCSP_NO_HTTP is inserted
+                 into the empty entries instead.
 
-      f) Set ``pvd = Path_Validation_Result(status, cert_path)``
+         iv.  Call ``merge_revocation_status(status, crl_status,
+              ocsp_status, restrictions)`` // merge all revocation
+              information
 
-      g) If ``pvd.successful_validation()`` then return ``pvd``
+      d) Set ``pvd = Path_Validation_Result(status, cert_path)``
 
-      h) Else append ``pvd`` to ``error_results``.
+      e) If ``pvd.successful_validation()`` then return ``pvd``
 
-   8. Return ``error_results[0]``
+      f) Else if ``first_path_error`` is empty, set
+         ``first_path_error = pvd``.
 
-Function build_all_certificate_paths()
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   7. If ``first_path_error`` is set, return ``first_path_error`` // at
+      least one candidate path was found, but none of them verified
 
-The ``build_all_certificate_paths()`` function tries to build all
-possible certificate paths from the end entity certificate given to a
-trusted root in one of the trusted certificate stores given. It returns
-the certificate paths built and a certificate status code. If at least
-one candidate path could be built successfully, the status code will be
-``OK``. Otherwise, the first critical error encountered during path
-building is returned arbitrarily.
+   8. Return ``Path_Validation_Result(builder.error())`` // no path could
+      be built at all; the builder reports the first error encountered
+      during path building (CERT_CHAIN_LOOP, CANNOT_ESTABLISH_TRUST or
+      CERT_ISSUER_NOT_FOUND)
+
+Certificate Path Building (``CertificatePathBuilder``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Since Botan 3.12.0, the certificate path building is implemented in the
+internal class ``CertificatePathBuilder``, a lazy iterator whose
+``next()`` method resumes the search and returns the next discovered
+candidate path, or nothing when the search space is exhausted.
+``x509_path_validate()`` consumes the candidate paths directly from the
+builder (see above). The public API functions
+``build_all_certificate_paths()`` and ``build_certificate_path()``
+(see below) are wrappers around the same builder.
 
 Basically, a DFS is performed starting from the end certificate. A stack
 serves to control the DFS. At the beginning of each iteration, a pair is
@@ -229,10 +301,12 @@ distinguished name and authority key identifier need not be unique among
 the certificates used for building the path. In such a case, we consider
 all the matching issuers by pushing <IssuerCert, trusted?> on the stack
 for each of them. While executing the DFS, a certificate path is
-continuously updated. If a trusted root certificate is reached, the
-current certificate path is added to the set of successfully built
-paths. To enable backtracking, the stack can also contain deletion
-markers. This way, the current certificate path is used a stack as well.
+continuously updated. If a trusted certificate is reached, the current
+certificate path is a candidate path. Note that additional paths could
+potentially extend through a trusted, non-self-signed certificate, so
+the DFS continues from there. To enable backtracking, the stack can also
+contain deletion markers. This way, the current certificate path is used
+as a stack as well.
 
 **Conclusion:** This certificate path construction is implemented in accordance
 with the path building guidelines in [TR-02103]_. Note however, that Botan depends
@@ -240,84 +314,119 @@ on the application to provide all necessary intermediate certificates to build a
 valid path. It explicitly *does not* use any information in Certificate Information
 Access extensions to fetch additional intermediates from the network.
 
-.. admonition:: ``build_all_certificate_paths()``
+On construction, the builder receives the trusted certificate stores,
+the end entity certificate, the additional untrusted certificates
+(``end_entity_extra``) and a flag ``require_self_signed`` indicating
+whether only paths ending in a self-signed certificate are to be
+yielded. It loads all certificates from ``end_entity_extra`` that are
+not already contained in a trusted store into an in-memory certificate
+store ``ee_extras``, and initializes the DFS ``stack`` with
+``(end_entity, trusted?)``, where ``trusted?`` indicates whether the end
+entity certificate itself is contained in one of the trusted stores.
+Errors encountered during the search are recorded; the first recorded
+error is reported via ``error()`` if no path is found at all. Each call
+to ``next()`` operates as follows:
 
-   **Input:**
-
-   -  ``cert_paths``: Holds the certificate paths built (output parameter).
-   -  ``trusted_certstores``: List of certificate stores that contain trusted
-      certificates.
-   -  ``end_entity``: The end entity certificate to be validated.
-   -  ``end_entity_extra``: An optional list of additional untrusted
-      certificates for path building.
+.. admonition:: ``CertificatePathBuilder::next()``
 
    **Output:**
 
-   -  The certificate paths built
-   -  A certificate status code: OK if a path could be built, one of
-      CANNOT_ESTABLISH_TRUST, CERT_CHAIN_LOOP or CERT_ISSUER_NOT_FOUND,
-      otherwise
+   -  The next candidate certificate path, or nothing if the search
+      space is exhausted
 
    **Steps:**
 
-   i.   If the ``end_entity`` certificate is self-signed, Return
-        CANNOT_ESTABLISH_TRUST
+   i.   Set ``steps = 0``
 
-   ii.  Initialize empty ``certs_seen`` and ``path_so_far``
+   ii.  While ``stack`` is not empty do:
 
-   iii. Initialize the ``stack`` with ``(end_entity, false)``
+        a)  Increment ``steps``. If (``steps`` > 1000), record
+            CERT_ISSUER_NOT_FOUND as the builder error (intentionally
+            overwriting any previously recorded error) and Return
+            nothing. // bound the work per call on maliciously
+            constructed inputs
 
-   iv.  Load all certificates from ``end_entity_extra`` into a
-        CertificateStore ``ee_extras``
+        b)  Pop ``<last,trusted>`` from the ``stack``
 
-   v.   While ``stack`` is not empty do:
+        c)  If the popped element is a deletion marker then do:
 
-        a)  If the top of ``stack`` is a deletion marker then do:
-
-            1) Pop the deletion marker from the ``stack``.
-            2) Remove the SHA-256 fingerprint of the last certificate from
+            1) Remove the tag [#tag]_ of the last certificate of
                ``path_so_far`` from ``certs_seen``
-            3) Pop the last certificate from ``path_so_far``
+            2) Pop the last certificate from ``path_so_far``
+            3) Continue with step ii.
 
-        b)  Else do:
+        d)  If ``certs_seen`` contains the tag of ``last``, record
+            ``CERT_CHAIN_LOOP`` and continue with step ii.
 
-            1)  Pop ``<last,trusted>`` from the ``stack``
-            2)  If ``certs_seen`` contains the SHA-256 fingerprint of ``last``,
-                append ``CERT_CHAIN_LOOP`` to stats and return to step v.
-            3)  If ``trusted`` and ``last.is_self_signed()``, add ``path_so_far``
-                extended by ``last`` to ``cert_paths`` and return to Step v.
-            4)  Else if ``not trusted`` and ``last.is_self_signed()``, append
-                CANNOT_ESTABLISH_TRUST to ``stats`` and return to Step v.
-            5)  Set ``trusted_issuers`` to the set of all certificates that
-                match ``last``'s issuer name and issuer authority key
-                identifier in ``trusted_certstores``
-            6)  Set ``misc_issuers`` to the set of all certificates that
-                match ``last``'s issuer name and issuer authority key
-                identifier in ``ee_extras``
-            7)  If ``trusted_issuers`` and ``misc_issuers`` are empty, append
-                CERT_ISSUER_NOT_FOUND to ``stats`` and return to Step v.
-            8)  Add ``last``'s SHA-256 fingerprint to ``certs_seen``
-            9)  Append ``last`` to ``path_so_far``
-            10) Push a deletion marker on the ``stack``
-            11) For each ``issuer`` in ``trusted_issuers``, push ``<issuer,true>``
-                on the ``stack``
-            12) For each ``issuer`` in ``misc_issuers``, push ``<issuer,false>``
-                on the ``stack``
+        e)  If ``trusted`` then do:
+
+            1) Set ``path`` = ``path_so_far`` extended by ``last``
+            2) Push the issuers of ``last`` for further exploration
+               (step g below) // additional paths may extend through a
+               trusted, non-self-signed certificate
+            3) If ``require_self_signed`` is not set or
+               ``last.is_self_signed()``, Return ``path``
+            4) Else record CANNOT_ESTABLISH_TRUST (overwriting any
+               previously recorded error) and continue with step ii.
+
+        f)  Else if ``last.is_self_signed()``, record
+            CANNOT_ESTABLISH_TRUST and continue with step ii. //
+            untrusted self-signed certificate terminates the path
+
+        g)  Push the issuers of ``last``:
+
+            1) Set ``trusted_issuers`` to the set of all certificates that
+               match ``last``'s issuer name and issuer authority key
+               identifier in ``trusted_certstores``
+            2) Set ``misc_issuers`` to the set of all certificates that
+               match ``last``'s issuer name and issuer authority key
+               identifier in ``ee_extras``
+            3) If ``trusted_issuers`` and ``misc_issuers`` are empty,
+               record CERT_ISSUER_NOT_FOUND and continue with step ii.
+            4) Add ``last``'s tag to ``certs_seen``
+            5) Append ``last`` to ``path_so_far``
+            6) Push a deletion marker on the ``stack``
+            7) For each ``issuer`` in ``trusted_issuers``, push
+               ``<issuer,true>`` on the ``stack``
+            8) For each ``issuer`` in ``misc_issuers``, push
+               ``<issuer,false>`` on the ``stack``
+
+   iii. Return nothing // search space exhausted
+
+.. [#tag]
+   The certificate tag (``X509_Certificate::Tag``, added in Botan
+   3.12.0) wraps the precomputed SHA-256 hash of the certificate data
+   and serves as a fast identifier for searching and indexing.
+
+Function build_all_certificate_paths()
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The public API function ``build_all_certificate_paths()`` builds all
+possible certificate paths from the end entity certificate given to a
+trusted certificate in one of the trusted certificate stores given. It
+returns the certificate paths built and a certificate status code. It
+is implemented by iterating a ``CertificatePathBuilder`` (with
+``require_self_signed = false``, i.e. paths ending in trusted
+non-self-signed certificates are included) until the search space is
+exhausted, collecting all yielded paths. If at least one candidate path
+could be built, the status code is ``OK``. Otherwise, the first error
+encountered during path building (one of CANNOT_ESTABLISH_TRUST,
+CERT_CHAIN_LOOP or CERT_ISSUER_NOT_FOUND) is returned. Note that since
+Botan 3.12.0 this function is no longer used by
+``x509_path_validate()``, which consumes the builder directly.
 
 Function build_certificate_path()
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The function ``build_certificate_path()`` was not designed to handle
-ambiguous paths from an end certificate to a trusted root certificate.
-The path validation logic calls the function
-``build_all_certificate_paths()`` instead. Since
-``build_certificate_path()`` is part of the public API since version 2.0,
-it can still be called manually.
+The function ``build_certificate_path()`` returns a single certificate
+path. It is not used by the path validation logic, which considers all
+candidate paths; since ``build_certificate_path()`` is part of the
+public API since version 2.0, it can still be called manually.
 
 The ``build_certificate_path()`` function tries to build a certificate
-path from the end entity certificate given to a trusted root in one of
-the trusted certificate stores given. It returns the certificate path
-built and a certificate status code.
+path from the end entity certificate given to a trusted certificate in
+one of the trusted certificate stores given. It returns the certificate
+path built and a certificate status code.
 
 .. admonition:: ``build_certificate_path()``
 
@@ -333,40 +442,29 @@ built and a certificate status code.
    **Output:**
 
    -  The certificate path built
-   -  A certificate status code: OK if path could be built, one of
+   -  A certificate status code: OK if a path could be built, one of
       CANNOT_ESTABLISH_TRUST, CERT_CHAIN_LOOP or CERT_ISSUER_NOT_FOUND,
       otherwise
 
    **Steps:**
 
-   1. If the ``end_entity`` certificate is self-signed, Return
-      CANNOT_ESTABLISH_TRUST
+   1. Initialize a ``CertificatePathBuilder`` with
+      ``trusted_certstores``, ``end_entity`` and ``end_entity_extra``
+      (with ``require_self_signed = false``)
 
-   2. Append ``end_entity`` to ``cert_path``
+   2. While the builder yields another candidate path ``path`` do:
 
-   3. Append the SHA-256 fingerprint of ``end_entity`` to ``certs_seen``
+      a) If the last certificate of ``path`` is self-signed, set
+         ``cert_path = path`` and Return OK // prefer paths ending in a
+         self-signed certificate
+      b) Else, if no path has been saved yet, save ``path`` as
+         ``first_path``
 
-   4. Load all certificates from ``end_entity_extra`` into a CertificateStore
-      ``ee_extras``
+   3. If a ``first_path`` was saved, set ``cert_path = first_path`` and
+      Return OK // a path ending in a trusted, non-self-signed
+      certificate is as good as can be formed
 
-   5. Iterate until we reach a root or cannot find the certificate issuer
-      as follows:
-
-      a) Set ``trusted_issuer = false``
-      b) Search for the issuer certificate ``issuer`` of the last certificate
-         in ``cert_path`` and in all certificate stores in
-         ``trusted_certstores``; if found, set ``trusted_issuer = true`` and
-         go to the next step
-      c) If no issuer certificate was found in the previous step, search
-         for the issuer certificate ``issuer`` of the last certificate in
-         ``cert_path`` in ``ee_extras``; if not found, Return
-         CERT_ISSUER_NOT_FOUND
-      d) If ``certs_seen`` contains the SHA-256 fingerprint of ``issuer``,
-         Return CERT_CHAIN_LOOP
-      e) Append ``issuer``'s SHA-256 fingerprint to ``certs_seen``
-      f) Append ``issuer`` to ``cert_path``
-      g) If ``issuer`` is self-signed then do: If(``trusted_issuer = true``),
-         then do Return OK Else Return CANNOT_ESTABLISH_TRUST
+   4. Return the first error encountered during path building
 
 Function check_chain()
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -417,12 +515,19 @@ validation of the CertificatePolicies extension.
 
    a) For ``i = 0...n-1`` in ``cert_path`` do:
 
+      0. If ``restrictions.require_self_signed_trust_anchors()`` is not
+         set and ``cert_path[i]`` is the trust anchor and is not
+         self-signed, continue with the next ``i`` // the signature of a
+         non-self-signed trust anchor cannot be verified
+
       1. If ``subject.signature_algorithm().oid`` is unknown then do Append
-         SIGNATURE_ALGORITHM_UNKNOWN to ``cert_status[i]``
+         SIGNATURE_ALGO_UNKNOWN to ``cert_status[i]`` and continue with
+         the next ``i`` // the following sub-steps are only performed for
+         known signature algorithms
 
       2. If the ``issuer`` public key cannot be loaded from the ``issuer``
          certificate, then do Append CERT_PUBKEY_INVALID to
-         ``cert_status[i]`` and continue with step l)
+         ``cert_status[i]`` and continue with the next ``i``
 
       3. If ``issuer``'s public key strength <
          ``restrictions.minimum_key_strength()`` then do Append SIGNATURE_METHOD_TOO_WEAK to
@@ -462,8 +567,10 @@ validation of the CertificatePolicies extension.
           set ``issuer = cert_path[i+1]``
 
       4.  If (``at_self_signed_root = true`` AND ``cert_path[i]`` is not
-          self-signed) then do Append ``CHAIN_LACKS_TRUST_ROOT`` to
-          ``cert_status[i]``
+          self-signed AND ``restrictions.require_self_signed_trust_anchors()``
+          is set (the default)) then do Append ``CHAIN_LACKS_TRUST_ROOT``
+          to ``cert_status[i]`` // if non-self-signed trust anchors are
+          permitted, a trusted non-self-signed chain end is accepted
 
       5.  If (issuer DN of ``subject`` NOT EQUAL TO subject DN of ``issuer``)
           Append CHAIN_NAME_MISMATCH to *cert_status[i]*
@@ -624,23 +731,31 @@ name, according to [RFC6125]_.
 
    1. If ``name`` is empty, Return false
 
-   2. Set ``issued_names`` = all entries in the *DNS* field of the
+   2. If ``name`` parses as an IPv4 or IPv6 address (the latter since
+      Botan 3.12.0), Return true if the address equals one of the
+      *iPAddress* entries of the SubjectAlternativeName extension, false
+      otherwise
+
+   3. Set ``issued_names`` = all entries in the *DNS* field of the
       SubjectAlternativeName extension or subject DN
 
-   3. If no subject alternative names extension is available then do set
+   4. If no subject alternative names extension is available then do set
       ``issued_names`` = all entries in the *CN* field of subject DN // fall
       back to CN only if no DNS names are set, RFC 6125 sec. 6.4.4
 
-   4. For ``i=0..n`` do:
+   5. For ``i=0..n`` do:
 
       a) If (``host_wildcard_match(issued_names[i], name) = true``) then do
          Return ``true``
 
-   5. Return ``false``
+   6. Return ``false``
 
 **Remark:** Botan checks against the "DNS" field in the SubjectAlternativeName
-extension. It does however not support matching "IPAddress" or "URI" fields as
-recommended by [TR-02103]_. Applications that rely on such checks must perform
+extension. If the name to match parses as an IPv4 address, it is instead
+matched against the "IPAddress" (iPAddress) entries of the
+SubjectAlternativeName extension; since Botan 3.12.0 this also applies
+to IPv6 addresses. Matching "URI" fields as recommended by [TR-02103]_
+is not supported. Applications that rely on such checks must perform
 them manually using the provided certificate API.
 
 **Remark:** [TR-02103]_ recommends the prohibition of wildcards for checking
@@ -713,21 +828,33 @@ of [TR-02103]_ for handling certificate revocation checks using CRLs.
          CA_CERT_NOT_FOR_CRL_ISSUER to ``cert_status[i]``
       e) If ``ref_time < crls[i].this_update()``, Append CRL_NOT_YET_VALID
          to ``cert_status[i]``
-      f) If ``ref_time > crls[i].next_update()``, Append CRL_HAS_EXPIRED
-         to ``cert_status[i]``
-      g) If the signature on the ``crls[i]`` cannot be verified with ``ca``'s
-         public key, Append CRL_BAD_SIGNATURE to ``cert_status[i]``
-      h) Append VALID_CRL_CHECKED to ``cert_status[i]``
-      i) If crls[i] lists subject as REVOKED, Append CERT_IS_REVOKED to
+      f) If ``crls[i]`` has a ``next_update`` time set and ``ref_time >
+         crls[i].next_update()``, Append CRL_HAS_EXPIRED to
          ``cert_status[i]``
-      j) If ``subject.crl_distribution_point`` not in
-         ``crls[i].issuing_distribution_points()`` then do Append
-         NO_MATCHING_CRLDP to ``cert_status[i]``
-      k) If ``crls[i]`` contains an unknown critical extension then do Append
-         CERT_IS_REVOKED to ``cert_status[i]`` // according
-         to [ISO-9594-8]_
+      g) If the signature on the ``crls[i]`` cannot be verified with ``ca``'s
+         public key, Append CRL_BAD_SIGNATURE to ``cert_status[i]``.
+         Else do: // since Botan 3.12.0, the contents of a CRL whose
+         signature does not verify are ignored
 
-   5. Remove all empty sets from ``cert_status``
+         1. Append VALID_CRL_CHECKED to ``cert_status[i]``
+         2. If crls[i] lists subject as REVOKED, Append CERT_IS_REVOKED
+            to ``cert_status[i]``
+         3. If ``crls[i].has_matching_distribution_point(subject)``
+            returns false then do Append NO_MATCHING_CRLDP to
+            ``cert_status[i]``. Since Botan 3.12.0 the matching is
+            performed structurally: if ``subject`` has no (or an empty)
+            CRLDistributionPoints extension, the check passes; if
+            ``subject`` has distribution points but ``crls[i]`` carries
+            no IssuingDistributionPoint extension, the check fails;
+            otherwise the check passes if the GeneralNames of any
+            distribution point of ``subject`` overlap with those of the
+            CRL's IssuingDistributionPoint (previously, the URL strings
+            were compared for equality).
+         4. If ``crls[i]`` contains an unrecognized critical extension
+            then do Append CERT_IS_REVOKED to ``cert_status[i]`` //
+            according to [ISO-9594-8]_
+
+   5. Remove all trailing empty sets from ``cert_status``
 
    6. Return ``cert_status``
 
@@ -794,9 +921,9 @@ not implemented in Botan [#ocsp_extension]_.
          evaluation throws an exception, Append OCSP_RESPONSE_INVALID to
          ``cert_status[i]``
 
-   3. Remove all empty sets from ``cert_status``
-
-   4. Return ``cert_status``
+   3. Return ``cert_status`` // since Botan 3.12.0 the returned list has
+      the fixed size ``n-1``; entries for which no OCSP response was
+      available remain empty sets
 
 Function evaluate_ocsp_response()
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -858,27 +985,53 @@ see below).
          for the certificate in question
       b) It is the certificate of the CA that issued the certificate in
          question, i.e., ``signing_cert = ca``
-      c) It passes a full X.509 path validation, performed by calling
-         ``x509_path_validate()`` with ``signing_cert`` as the end entity
-         certificate, the certificates delivered with the OCSP response and
-         the certificates in ``cert_path`` as additional untrusted
-         certificates, the trusted ``certstores``, the usage type *OCSP
-         Responder*, and ``ref_time``. The usage type check requires
-         ``signing_cert`` to have the *digitalSignature* or *nonRepudiation*
-         key usage as well as the *id-kp-OCSPSigning* extended key usage; a
-         violation is reported as OCSP_RESPONSE_MISSING_KEYUSAGE
+      c) It carries the *id-kp-OCSPSigning* extended key usage, is issued
+         by the CA that issued the certificate in question, and passes a
+         full X.509 path validation. Since Botan 3.12.0, before the path
+         validation is attempted, two preconditions are checked: the
+         issuer distinguished name of ``signing_cert`` must equal the
+         subject distinguished name of ``ca``, and, if both are present,
+         the authority key identifier of ``signing_cert`` must equal the
+         subject key identifier of ``ca`` (this handles CAs that share a
+         subject DN but use different keys, e.g. re-keyed or
+         cross-certified CAs). If either precondition fails, Return the
+         single status code OCSP_ISSUER_NOT_TRUSTED (without performing a
+         path validation). Otherwise, the path validation is performed by
+         calling ``x509_path_validate()`` with ``signing_cert`` as the
+         end entity certificate, the certificates delivered with the OCSP
+         response and the certificates in ``cert_path`` as additional
+         untrusted certificates, the trusted ``certstores``, the usage
+         type *OCSP Responder*, and ``ref_time``. The usage type check
+         requires ``signing_cert`` to have the *digitalSignature* or
+         *nonRepudiation* key usage as well as the *id-kp-OCSPSigning*
+         extended key usage; a violation is reported as
+         OCSP_RESPONSE_MISSING_KEYUSAGE. Since Botan 3.12.0, the
+         *id-kp-OCSPSigning* requirement is no longer satisfied by an
+         *anyExtendedKeyUsage* entry.
 
-      If the path validation in criterion c) fails, Return a set containing
-      two status codes: the most severe status code of that path validation
-      (``Path_Validation_Result::result()``, e.g. CERT_HAS_EXPIRED or
+      If the path validation in criterion c) fails, i.e. its most severe
+      status code (``Path_Validation_Result::result()``) is an error code
+      (numeric value >= FIRST_ERROR_STATUS = 1000; before Botan 3.12.0
+      the comparison was strictly greater, so that
+      SIGNATURE_METHOD_TOO_WEAK = 1000 did not count as a failure),
+      Return a set containing two status codes: the most severe status
+      code of that path validation (e.g. CERT_HAS_EXPIRED or
       OCSP_RESPONSE_MISSING_KEYUSAGE) and OCSP_ISSUER_NOT_TRUSTED. The
       former preserves the reason why the responder certificate was
-      rejected, the latter indicates that the OCSP response was rejected for
-      this reason.
+      rejected, the latter indicates that the OCSP response was rejected
+      for this reason.
 
    4. If the signature on the OCSP response cannot be verified with
       ``signing_cert``'s public key (function ``verify_signature()``),
-      Return the respective status code (e.g. OCSP_SIGNATURE_ERROR)
+      Return the respective status code (e.g. OCSP_SIGNATURE_ERROR).
+      Since Botan 3.12.0 this step takes the ``restrictions`` into
+      account and can also fail with: UNKNOWN_CRITICAL_EXTENSION, if the
+      OCSP response or one of its SingleResponse entries carries an
+      unrecognized critical extension; UNTRUSTED_HASH, if the hash
+      function of the response's signature is not contained in
+      ``restrictions.trusted_hashes()``; or SIGNATURE_METHOD_TOO_WEAK,
+      if the responder's public key is weaker than
+      ``restrictions.minimum_key_strength()``
    5. Return the OCSP status returned by calling ``status_for(ca, subject,
       ref_time, restrictions.max_ocsp_age())`` on ``ocsp_response``
 
@@ -915,7 +1068,9 @@ an appropriate OCSP status code.
 
    -  An OCSP status code, one of CERT_IS_REVOKED, OCSP_NOT_YET_VALID,
       OCSP_HAS_EXPIRED, OCSP_IS_TOO_OLD, OCSP_RESPONSE_GOOD,
-      OCSP_BAD_STATUS or OCSP_CERT_NOT_LISTED.
+      OCSP_BAD_STATUS, OCSP_CERT_NOT_LISTED or OCSP_RESPONSE_INVALID
+      (the latter since Botan 3.12.0, if a thisUpdate/nextUpdate time in
+      the response cannot be represented and the time comparison throws).
 
    **Steps:**
 

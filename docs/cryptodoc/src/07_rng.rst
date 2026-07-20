@@ -47,7 +47,6 @@ important member functions that typically take ``std::span`` from C++20:
    bits of entropy and calls ``add_entropy()`` on this random generator.
    The default value for ``poll_bits`` is
    ``RandomNumberGenerator::DefaultPollBits``, which is 256.
-
 Deterministic Generators
 ------------------------
 
@@ -141,7 +140,7 @@ The second constructor is implemented as follows:
    1. If (``reseed_interval`` = 0) or (``reseed_interval`` > 2^24), then Return
       "Invalid Argument"
    2. If (``max_number_of_bytes_per_request`` = 0) or
-      (``max_number_of_bytes_per_request`` >= 64*1024), then Return "Invalid
+      (``max_number_of_bytes_per_request`` > 64*1024), then Return "Invalid
       Argument"
    3. Set Stateful_RNG.\ ``underlying_rng`` = ``underlying_rng``
    4. Set Stateful_RNG.\ ``reseed_counter`` = 0
@@ -169,7 +168,7 @@ The third constructor is implemented as follows:
    1. If (``reseed_interval`` = 0) or (``reseed_interval`` > 2^24), then Return
       "Invalid Argument"
    2. If (``max_number_of_bytes_per_request`` = 0) or
-      (``max_number_of_bytes_per_request`` >= 64*1024), then Return "Invalid
+      (``max_number_of_bytes_per_request`` > 64*1024), then Return "Invalid
       Argument"
    3. Set Stateful_RNG.\ ``entropy_sources`` = ``entropy_sources``
    4. Set Stateful_RNG.\ ``reseed_counter`` = 0
@@ -199,7 +198,7 @@ The fourth constructor is implemented as follows:
    1. If (``reseed_interval`` = 0) or (``reseed_interval`` > 2^24), then Return
       "Invalid Argument"
    2. If (``max_number_of_bytes_per_request`` = 0) or
-      (``max_number_of_bytes_per_request`` >= 64*1024), then Return "Invalid
+      (``max_number_of_bytes_per_request`` > 64*1024), then Return "Invalid
       Argument"
    3. Set Stateful_RNG.\ ``underlying_rng`` = ``underlying_rng``
    4. Set Stateful_RNG.\ ``entropy_sources`` = ``entropy_sources``
@@ -248,7 +247,12 @@ security level of the hash function used in the PRF, given in
 [SP800-57-P1]_ Table 3. For SHA-1, a maximum of 128 bits is supported,
 for SHA-224 and SHA-512/224 a maximum of 192 bits is supported and for
 SHA-256, SHA-512/256, SHA-384, SHA-512 and SHA3-512 a maximum security
-level of 256 bits is supported.
+level of 256 bits is supported. Since Botan 3.12.0, the security level
+computation, which is invoked from every HMAC_DRBG constructor, rejects
+MACs with an output length of less than 160 bits with an
+Invalid_Argument exception. Consequently, an HMAC_DRBG can no longer be
+instantiated with a hash function with an output length below that of
+SHA-1.
 
 Function reset_reseed_counter():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -511,6 +515,24 @@ implemented as follows.
          entropy pool by calling Stateful_RNG's ``reseed_from_sources()``,
          which works as follows:
 
+         1. Request ``security_level()`` bits from the underlying RNG by
+            calling its ``random_vec()`` member function and mix the
+            returned bytes into HMAC_DRBG's entropy pool by calling its
+            ``add_entropy()`` member function (both steps via an
+            indirection to the RandomNumberGenerator's
+            ``reseed_from_rng()`` member function)
+         2. If the requested number of bits ``poll_bits`` is equal to or
+            exceeds ``security_level()``, call ``reset_reseed_counter()``.
+            Note that no entropy estimation takes place here; since
+            ``reseed_check()`` requests exactly ``security_level()``
+            bits, this condition is always fulfilled on this path.
+
+      4. If the HMAC_DRBG was constructed with at least a collection of
+         entropy sources, ``security_level()`` bits of entropy are
+         requested from the entropy sources and added to HMAC_DRBG's
+         entropy pool by calling Stateful_RNG's
+         ``reseed_from_sources()``, which works as follows:
+
          1. Request ``security_level()`` bits of entropy from the entropy
             sources by calling Entropy_Sources' ``poll()`` member
             function, which polls one source after another, whereby each
@@ -592,7 +614,7 @@ generator.
 +------------------------------------+----------------------------------+
 | ``arc4random()``                   | macOS, iOS, OpenBSD, ...         |
 +------------------------------------+----------------------------------+
-| ``getrandom()``                    | Linux (if explicitly enabled)    |
+| ``getrandom()``                    | Linux (enabled by default)       |
 +------------------------------------+----------------------------------+
 | ``/dev/random`` / ``/dev/urandom`` | Unix-like platforms              |
 +------------------------------------+----------------------------------+
@@ -804,8 +826,10 @@ getrandom
          1. If (errno = EINTR) do Continue
          2. Return with output "System_RNG getrandom failed"
 
-      3. ``buf`` = ``buf`` + ``got``
-      4. ``len`` = ``len`` - ``got``
+      3. If (``got`` = 0) then Return with output "System_RNG getrandom
+         unexpectedly returned 0"
+      4. ``buf`` = ``buf`` + ``got``
+      5. ``len`` = ``len`` - ``got``
 
 /dev/urandom
 ^^^^^^^^^^^^
@@ -833,11 +857,11 @@ getrandom
 
    **Steps:**
 
-   1. ``fd`` = **open**\ (``/dev/random``, O_RDWD \| O_NOCTTY)
+   1. ``fd`` = **open**\ (``/dev/random``, O_RDONLY \| O_NOCTTY)
    2. If (``fd`` < 0) then output "System_RNG failed to open RNG device"
    3. Read one byte from ``fd`` and close ``fd``.
       If reading failed then output "System_RNG failed to read blocking RNG device".
-   4. ``fd`` = **open**\ (``/dev/urandom``, O_RDWD \| O_NOCTTY)
+   4. ``fd`` = **open**\ (``/dev/urandom``, O_RDWR \| O_NOCTTY)
    5. If (``fd`` < 0) then do fd = **open**\ (``/dev/urandom``, O_RDONLY
       \| O_NOCTTY)
    6. If (``fd`` < 0) then output "System_RNG failed to open RNG device"
@@ -912,9 +936,14 @@ both a ``Botan::RandomNumberGenerator`` and a ``Botan::EntropySource``.
 
    **Steps:**
 
-   1. Initialize the JitterEntropy library via ``jent_entropy_init()``
+   1. Initialize the JitterEntropy library via ``jent_entropy_init_ex()``
+      with the default oversampling rate (0) and the ``JENT_FORCE_FIPS``
+      flag, which forces the [SP800-90B]_ startup and runtime health
+      tests independently of the operating system's FIPS configuration.
+      If the initialization fails, throw an ``Internal_Error`` exception.
    2. Instantiate a ``rand_data`` structure via ``jent_entropy_collector_alloc()``
-      with default flags and a default oversampling rate
+      with the same flags and oversampling rate. If the allocation fails,
+      throw an ``Internal_Error`` exception.
 
 .. admonition:: Randomize
 

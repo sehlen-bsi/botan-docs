@@ -29,18 +29,6 @@ The security issues that were identified between |botan_git_base_ref| and
        caller assumes that a new verification is started, the verification operation instance appends the new message for verification to the previous one. This allows attacks where the attacker first deliberately causes a failed
        verification for some prefix A. In the second step he submits the message B together with a valid signature for the message A || B. The verification of B succeeds due to the pending message in the internal hash context, even though
        the legitimate signer only signed A || B, and never signed B.
-   * - CVE-2026-32883
-     - Since 2022, the corresponding version has not been determined.
-     - 3.11.0
-     - OCSP signature verification was skipped and thus OCSP responses could straightforwardly be forged.
-   * - CVE-2026-32884
-     - Earliest affected version is unknown
-     - 3.11.0
-     - A vulnerability that allows bypassing permitted subtrees matching for the Name Constraints X.509 certificate extension.
-   * - CVE-2026-32877
-     - Earliest affected version is unknown
-     - 3.11.0
-     - Heap over-read during SM2 decryption.
    * - `#5614 <https://github.com/randombit/botan/issues/5614>`_
      - up to 3.11.0 and presumably also 3.12.0
      -

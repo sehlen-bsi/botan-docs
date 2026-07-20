@@ -225,30 +225,61 @@ the ``DH_PrivateKey``. The key generation algorithm operates as follows:
 
       Optionally the generated parameters and the DL_Group parameters can
       be verified with a call to ``check_key(RandomNumberGenerator& rng,
-      bool strong)``. The generated values and the used discrete logarithm
-      group ``fail`` the check if one of the following conditions is met.
+      bool strong)``. Since Botan 3.12.0, ``DH_PrivateKey::check_key()``
+      verifies the group (see below) and the private value ``x``
+      (``DL_Group::verify_private_element()``); it fails if one of the
+      following conditions is met:
 
-      -  :math:`y < 2`
-      -  :math:`y \geq p`
-      -  :math:`x < 2`
+      -  :math:`x \leq 1`
       -  :math:`x \geq p`
+      -  :math:`q > 0 \; \land \; x > q`
+
+      ``DH_PublicKey::check_key()`` verifies the group and the public
+      value ``y`` (``DL_Group::verify_public_element()``); it fails if
+      one of the following conditions is met:
+
+      -  :math:`y \leq 1`
+      -  :math:`y \geq p`
+      -  :math:`q \neq 0 \; \land \; {g^{q} \bmod p} \neq 1`
+
+      Note that neither check verifies the consistency of the key pair,
+      i.e. :math:`y = g^{x} \bmod p` is not checked.
+
+      The group verification (``DL_Group::verify_group()``) is skipped
+      for Botan's builtin named groups unless ``strong`` is set. It fails
+      if one of the following conditions is met:
+
       -  :math:`g < 2`
       -  :math:`p < 3`
       -  :math:`q < 0`
-      -  :math:`{q \neq {{0 \land p} - 1}}\bmod {q \neq 0}`
-      -  :math:`{q \neq {0 \land g^{q}}}\bmod {p \neq 1}`
-      -  Miller-Rabin primality test for ``p`` or ``q`` fails with 6 (65 if
-         ``strong`` is true) test iterations. The test is performed with the
-         function ``is_prime()`` for non random numbers.
+      -  :math:`q \neq 0 \; \land \; {(p - 1) \bmod q} \neq 0`
+      -  :math:`q \neq 0 \; \land \; {g^{q} \bmod p} \neq 1`
+      -  Miller-Rabin primality test of ``p`` or ``q`` (if ``q`` is set)
+         fails. The test is performed with the function ``is_prime()``
+         with an error probability of :math:`2^{-128}`, resulting in 65
+         test iterations for groups obtained from an external source and
+         a reduced, bit-size-dependent iteration count for randomly
+         generated groups.
       -  Lucas primality test of ``p`` or ``q`` fails.
-      -  :math:`{y \neq g^{x}}\bmod p`
+      -  :math:`q = 0` and the group stems from an external source and
+         :math:`g^{i} \bmod p = 1` for some :math:`2 \leq i < 100`
+         (:math:`2 \leq i < 1000` if ``strong`` is set), i.e. the group
+         order is very small.
 
 **Conclusion:** The secret DH parameter is sampled as described in
 [TR-02102-1]_.
 
 To avoid potentially malicious system parameters from computational
 peers, the ``check_key`` function should be manually called before the key
-from the peer has been accepted.
+from the peer has been accepted. Note that since Botan 3.12.0 basic
+validity checks are already enforced when a key or group is constructed
+or decoded: every ``DL_Group`` construction rejects parameters unless
+``p`` is positive and odd with :math:`3 \leq len(p) \leq 16384` bits,
+:math:`2 \leq g < p`, and, if ``q`` is present, ``q`` is positive and
+odd with :math:`len(q) < len(p)`. Public keys are rejected at
+construction/decoding time unless :math:`1 < y < p`; only the subgroup
+membership check :math:`y^{q} \bmod p = 1` is deferred to
+``check_key()``.
 
 Key Exchange
 ------------

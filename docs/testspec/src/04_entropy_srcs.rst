@@ -15,7 +15,7 @@ therefore tests are skipped on unsupported platforms.
 
 All the tests are implemented in *src/tests/test\_entropy.cpp*.
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here.
+**Remark from review of 3.12.0:** No change in the test code addressed here.
 
 Entropy sources are tested with the following constraints:
 

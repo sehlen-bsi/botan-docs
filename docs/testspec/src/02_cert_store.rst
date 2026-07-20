@@ -54,7 +54,7 @@ The following table shows an example test case with one test vector. All test ve
    |                     | #. Look up Key by Cert                                                     |
    +---------------------+----------------------------------------------------------------------------+
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
+**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
 
 Revocation
 ~~~~~~~~~~
@@ -103,7 +103,7 @@ The following table shows an example test case with one test vector. All test ve
    +---------------------+----------------------------------------------------------------------------+
 
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
+**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
 
 Subject DN Listing
 ~~~~~~~~~~~~~~~~~~
@@ -137,7 +137,7 @@ The following table shows an example test case with one test vector. All test ve
    +----------------------+--------------------------------------------------------------------------+
 
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
+**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
 
 Finding all Certificates
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -171,7 +171,7 @@ The following table shows an example test case with one test vector. All test ve
    +----------------------+----------------------------------------------------------------------------------+
 
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
+**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
 
 Finding Certificate by hashed Subject DN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -207,7 +207,7 @@ The following table shows an example test case with one test vector. All test ve
    |                      |    hash.                                                                 |
    +----------------------+--------------------------------------------------------------------------+
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
+**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
 
 System Certificate Store
 ------------------------
@@ -233,7 +233,14 @@ Note that the tests are relying on certain (common) certificates to be installed
 All tests are implemented in :srcref:`src/tests/test_certstor_system.cpp`.
 
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here. There is only an additional test in 3.11.0.
+**Remark from review of 3.12.0:** Botan 3.12.0 reworked the certificate
+store search operations (GH #5510, #5539). The tests in
+`test_certstor_system.cpp` were extended accordingly: for the find
+operations (by subject DN, by subject DN and key ID, by issuer DN and serial
+number, and with DN normalization), the tests now additionally verify that
+every returned certificate is also reported as contained in the store by
+``Certificate_Store::contains()``. No substantial change in the test code
+otherwise.
 
 Find Certificate by SHA-1 Hash of its Public Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

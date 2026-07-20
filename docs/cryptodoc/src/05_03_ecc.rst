@@ -75,7 +75,7 @@ parameters:
 
 These restrictions are compatible with the main recommendations from [ReqEC]_
 and checked during the construction of any custom `EC_Group` (see
-:srcref:`[src/lib/pubkey/ec_group]/ec_group.cpp:503|EC_Group`). Previous
+:srcref:`[src/lib/pubkey/ec_group]/ec_group.cpp:533|EC_Group`). Previous
 versions of the library had more liberal restrictions on the custom group
 parameters, but those are now deprecated. Particularly, the restriction on
 the cofactor is new and in the future custom curves with a cofactor not
@@ -270,6 +270,12 @@ Optionally ``EC_PublicKeys`` can be explicitly checked with a call to
    2. Verify the ``ec_group`` by calling ``EC_Group::verify_group``. If the
       domain does not pass the verification, return false.
    3. Assure that the public point :math:`Q` is not the point at infinity.
+
+Since Botan 3.12.0, ``EC_PrivateKey::check_key()`` additionally performs
+a pairwise consistency check: it recomputes the public point from the
+private scalar (as :math:`d \cdot G`, or :math:`d^{-1} \cdot G` for
+ECKCDSA/ECGDSA) and returns false if the result does not equal the
+stored public point.
 
 **Conclusion:** The algorithm fulfills all requirements of [TR-03111]_.
 The public key validation follows the requirements described in [ReqEC]_.

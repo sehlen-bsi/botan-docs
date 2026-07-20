@@ -48,8 +48,13 @@ BigInt& x_arg)``. The implementation operates as follows:
    2. Compute public value ``y`` as :math:`g^x \bmod{p}`
 
       Optional verification of the generated key with
-      ``check_key(RandomNumberGenerator& rng, bool strong)``. See DH key
-      generation check.
+      ``check_key(RandomNumberGenerator& rng, bool strong)``.
+      ``DSA_PrivateKey::check_key()`` performs the DL private key check
+      described in the :ref:`DH key generation section <pubkey/dh>`
+      (group verification and private element check), additionally
+      requires :math:`x < q` and performs a sign/verify pairwise
+      consistency check with SHA-256
+      (``KeyPair::signature_consistency_check()``).
 
 DSA Signature Schemes
 ---------------------

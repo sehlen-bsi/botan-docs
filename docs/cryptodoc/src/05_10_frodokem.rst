@@ -206,6 +206,11 @@ It works as follows:
    - The creation of a ``FrodoKEM_PublicKey`` is conducted using the
      ``public_key`` method of the private key.
 
+Since Botan 3.12.0, ``FrodoKEM_PrivateKey::check_key(rng, strong)``
+performs, if ``strong`` is set, a pairwise consistency check: it runs one
+encapsulate/decapsulate roundtrip (with the "Raw" KDF) and returns true
+only if the encapsulated and decapsulated shared secrets are equal.
+
 ..  _pubkey/frodokem/encapsulation:
 
 Key Encapsulation

@@ -36,14 +36,6 @@ of the code base that are in scope for this review, and is considered to be
 prone to affect security critical aspects of the code that are not assumed to be
 covered by the test suite.
 
-Due to the fact that the present review spans four Botan releases and more than
-700 patches that have accumulated over the time frame of one year. Numerous of these patches bring  modifications to the code to comply with newly introduced requirements from CI-checks regarding coding style and best practices. Some of the patches of this type introduce numerous minor modifications in more than 100 files. Such patches  are assumed to have only a neglibile risk of introducing errors into the code that are not caught by the existing tests and thus were only partially reviewed.
-
-Due to the ECC implementations having been subject of various changes during the audited period, their security critical aspects underwent a focussed and detailed review.
-Here, an analysis of the side channel countermeasures and
-security-critical parameter checks was verified by adding corresponding trace
-logging to the implementation.
-
 This document lists *all* patches along with links to their representation on
 GitHub, our classification, and optionally noteworthy remarks from the
 in-depth review.
@@ -91,10 +83,11 @@ reviewed:
         modules listed in the script.
      7. Adapt the paragraph under the enumeration of audited modules
         to reflect notable changes.
-     (FSE 2026-05-22: List was updated with changes for 3.11.0, changes see below)
+     (TODO: The list below still reflects Botan 3.11.0 and must be regenerated for 3.12.0.)
 
 
 .. list-table::
+
 
    * - aead
      - aes
@@ -170,146 +163,122 @@ reviewed:
      - hss_lms
    * - http_util
      - hybrid_kem
+     - ip_address
      - iso9796
-     - jitter_rng
-   * - kdf
+   * - jitter_rng
+     - kdf
      - kdf1_iso18033
      - keccak_perm
-     - keccak_perm_bmi2
-   * - kex_to_kem_adapter
+   * - keccak_perm_bmi2
+     - kex_to_kem_adapter
      - keypair
      - kmac
-     - kyber_common
-   * - locking_allocator
+   * - kyber_common
+     - locking_allocator
      - mac
      - mdx_hash
-     - mem_pool
-   * - mgf1
+   * - mem_pool
+     - mgf1
      - ml_dsa
      - ml_kem
-     - mode_pad
-   * - modes
+   * - mode_pad
+     - modes
      - mp
      - nist_keywrap
-     - numbertheory
-   * - os_utils
+   * - numbertheory
+     - os_utils
      - pbkdf
      - pcurves
-     - pcurves_brainpool256r1
-   * - pcurves_brainpool384r1
+   * - pcurves_brainpool256r1
+     - pcurves_brainpool384r1
      - pcurves_brainpool512r1
      - pcurves_frp256v1
-     - pcurves_generic
-   * - pcurves_impl
+   * - pcurves_generic
+     - pcurves_impl
      - pcurves_numsp512d1
      - pcurves_secp192r1
-     - pcurves_secp224r1
-   * - pcurves_secp256k1
+   * - pcurves_secp224r1
+     - pcurves_secp256k1
      - pcurves_secp256r1
      - pcurves_secp384r1
-     - pcurves_secp521r1
-   * - pcurves_sm2p256v1
+   * - pcurves_secp521r1
+     - pcurves_sm2p256v1
      - pem
      - pkcs11
-     - poly_dbl
-   * - pqcrystals
+   * - poly_dbl
+     - pqcrystals
      - prf_tls
      - processor_rng
-     - pubkey
-   * - rdseed
+   * - pubkey
+     - rdseed
      - rng
      - rsa
-     - sha1
-   * - sha1_armv8
+   * - sha1
+     - sha1_armv8
      - sha1_x86
      - sha2_32
-     - sha2_32_armv8
-   * - sha2_32_avx2
+   * - sha2_32_armv8
+     - sha2_32_avx2
      - sha2_32_simd
      - sha2_32_x86
-     - sha2_64
-   * - sha2_64_armv8
+   * - sha2_64
+     - sha2_64_armv8
      - sha2_64_avx2
      - sha2_64_avx512
-     - sha2_64_x86
-   * - sha3
+   * - sha2_64_x86
+     - sha3
      - shake
      - shake_xof
-     - sig_padding
-   * - simd_2x64
+   * - sig_padding
+     - simd_2x64
      - simd_4x32
      - simd_4x64
-     - simd_8x64
-   * - simd_avx2
+   * - simd_8x64
+     - simd_avx2
      - slh_dsa_sha2
      - slh_dsa_shake
-     - socket
-   * - sp800_108
+   * - socket
+     - sp800_108
      - sp800_56c
      - sphincsplus_common
-     - sphincsplus_sha2_base
-   * - sphincsplus_shake_base
+   * - sphincsplus_sha2_base
+     - sphincsplus_shake_base
      - sponge
      - stateful_key_index
-     - stateful_rng
-   * - stream
+   * - stateful_rng
+     - stream
      - system_rng
      - tls
-     - tls12
-   * - tls13
+   * - tls12
+     - tls13
      - tls13_pqc
      - tls_cbc
-     - tpm2
-   * - tpm2_crypto_backend
+   * - tpm2
+     - tpm2_crypto_backend
      - tpm2_ecc
      - tpm2_rsa
-     - tree_hash
-   * - trunc_hash
+   * - tree_hash
+     - trunc_hash
      - utils
      - x509
-     - xmss
-   * - xof
+   * - xmss
+     - xof
      - xts
-     -
      -
 
 Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
 
-* The following modules were removed in Botan |botan_version|:
+.. When regenerating the module list above for the new audited version, list
+   the modules that were removed and added compared to |botan_git_base_ref|
+   here (see the instructions in the comment above the table).
 
-  - argon2_ssse3
-  - pk_pad
-  - sha1_sse2
-  - sha2_32_bmi2
-  - sha2_64_bmi2
-  - simd
+* The following modules were removed in Botan |botan_version|: None
+
+   
 
 * The following modules were added in Botan |botan_version|:
 
-  - argon2_simd64
-  - cpuid_x86
-  - enc_padding
-  - hybrid_kem
-  - kex_to_kem_adapter
-  - nist_keywrap
-  - pcurves_frp256v1
-  - pcurves_generic
-  - pcurves_numsp512d1
-  - pcurves_secp256k1
-  - pcurves_sm2p256v1
-  - sha2_32_avx2
-  - sha2_32_simd
-  - sha2_64_avx2
-  - sha2_64_avx512
-  - sha2_64_x86
-  - sig_padding
-  - simd_2x64
-  - simd_4x32
-  - simd_4x64
-  - simd_8x64
-  - simd_avx2
-  - sponge
-  - stateful_key_index
+  - ip_address
 
 Patch Description Content
 -------------------------

@@ -283,6 +283,12 @@
    https://csrc.nist.gov/publications/detail/sp/800-90a/rev-1/final,
    June 2015
 
+.. [SP800-90B] NIST Special Publication 800-90B:
+   "Recommendation for the Entropy Sources Used for Random Bit Generation",
+   Meltem Sönmez Turan, Elaine Barker, John Kelsey, Kerry A. McKay, Mary L. Baish, Mike Boyle,
+   https://csrc.nist.gov/publications/detail/sp/800-90b/final,
+   January 2018
+
 .. [SP800-108] NIST Special Publication 800-108 Rev. 1:
    "Recommendation for Key Derivation Using Pseudorandom Functions",
    https://csrc.nist.gov/publications/detail/sp/800-108/rev-1/final,

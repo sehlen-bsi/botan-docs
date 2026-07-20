@@ -4,7 +4,7 @@ Preface
 
 **Summary**
 
-This document provides the result of the audit review of the Botan releases following version 3.7.1 up to and including 3.11 as part of Project P663 issued by
+This document provides the result of the audit review of the Botan releases following version 3.11 up to and including 3.12 as part of Project P663 issued by
 the German Federal
 Office for Information Security (BSI). It is based on the previous versions of the Audit Report that
 were created in the scope of the projects P197 and P481.

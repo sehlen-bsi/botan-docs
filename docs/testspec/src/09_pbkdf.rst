@@ -6,7 +6,10 @@ known answer test that derives a key from a set of input values. The
 test is implemented in :srcref:`src/tests/test_pbkdf.cpp`. The test case is
 described in the following.
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here.
+**Remark from review of 3.12.0:** No substantial change in the test code
+addressed here. The parameter tuning part of the ``Pwdhash`` test was merely
+made tolerant of build configurations in which ``tune_params`` is not
+available (it now skips instead of failing in that case).
 
 .. table::
    :class: longtable
@@ -64,7 +67,7 @@ PBKDF2 from PKCS#5 is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pbkdf/pbkdf2.vec`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -122,7 +125,7 @@ Some of the test data is taken from the official test vectors, others are genera
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/argon2.vec`.
 
-**Remark from review of 3.11.0:** No substantial change in the test vectors referenced here. Only a line with a list of compilation modules changed.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable

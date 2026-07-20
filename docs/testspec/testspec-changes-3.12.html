@@ -1,0 +1,1574 @@
+<title>Botan 3.12 Test Suite Changes — Testspec Review</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --fg: #1c2733;
+  --muted: #5a6a7a;
+  --accent: #0b5aa5;
+  --border: #d4dbe3;
+  --code-bg: #f4f6f8;
+  --code-fg: #24313e;
+  --doc-bg: #f6f4ec;
+  --doc-border: #ddd6c0;
+  --caption-bg: #e8ecf1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14181d;
+    --fg: #d7dee6;
+    --muted: #93a1b0;
+    --accent: #6cb2f0;
+    --border: #333c46;
+    --code-bg: #1c2229;
+    --code-fg: #d3dae2;
+    --doc-bg: #201f19;
+    --doc-border: #46422f;
+    --caption-bg: #232a32;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14181d;
+  --fg: #d7dee6;
+  --muted: #93a1b0;
+  --accent: #6cb2f0;
+  --border: #333c46;
+  --code-bg: #1c2229;
+  --code-fg: #d3dae2;
+  --doc-bg: #201f19;
+  --doc-border: #46422f;
+  --caption-bg: #232a32;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.55;
+  margin: 0;
+  padding: 2rem 1rem 4rem;
+}
+main { max-width: 62rem; margin: 0 auto; }
+header.page { border-bottom: 2px solid var(--border); margin-bottom: 1.5rem; padding-bottom: 1rem; }
+h1 { font-size: 1.7rem; margin: 0 0 .4rem; }
+h2 {
+  font-size: 1.25rem;
+  margin: 2.5rem 0 .6rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.meta { color: var(--muted); font-size: .92rem; }
+nav.toc {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .8rem 1.2rem;
+  margin: 1.2rem 0 0;
+}
+nav.toc h2 { border: 0; margin: 0 0 .3rem; padding: 0; font-size: 1rem; }
+nav.toc ol { margin: .2rem 0 .2rem 1.2rem; padding: 0; }
+nav.toc li { margin: .15rem 0; }
+a { color: var(--accent); }
+p.summary { margin: .3rem 0 1rem; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .88em;
+}
+p code, li code {
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: .08em .3em;
+}
+figure.snippet {
+  margin: 1.1rem 0 1.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+figure.snippet figcaption {
+  background: var(--caption-bg);
+  border-bottom: 1px solid var(--border);
+  padding: .4rem .8rem;
+  font-size: .85rem;
+  color: var(--muted);
+}
+figure.snippet figcaption .path {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  color: var(--fg);
+}
+figure.snippet pre {
+  margin: 0;
+  padding: .8rem 1rem;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  overflow-x: auto;
+  font-size: .8rem;
+  line-height: 1.45;
+}
+figure.doc-snippet pre { background: var(--doc-bg); }
+figure.doc-snippet { border-color: var(--doc-border); }
+figure.snippet p.src-link {
+  margin: 0;
+  padding: .45rem .8rem;
+  border-top: 1px solid var(--border);
+  font-size: .82rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+</style>
+<main>
+<header class="page">
+<h1>Botan 3.12 Test Suite Changes — Testspec Review</h1>
+<p class="meta">Review companion for the test specification update: changes in Botan’s test
+suite between release <strong>3.11.0</strong> and <strong>3.12.0</strong> (including the 3.11.1
+span) that are relevant to the test specification
+(<code>docs/testspec/src/*.rst</code>, branch <code>release-3.12-update</code>). For each change
+area this page shows the new/changed test code as of tag <code>3.12.0</code> with a GitHub source
+link, followed by the testspec section covering the change with a link to the document on GitHub.
+Document excerpts reflect the working state of the concurrently updated testspec on 2026-08-11.</p>
+<p class="meta">Date: 2026-08-11</p>
+<nav class="toc">
+<h2>Contents</h2>
+<ol style="list-style: none;">
+<li><a href="#block">1. Block ciphers — “Iterations” mechanism removed</a></li>
+<li><a href="#nc-ipv6">2. X.509 IPv6 name constraints (GH #5534, #5537)</a></li>
+<li><a href="#path-building">3. X.509 path building DFS</a></li>
+<li><a href="#cve">4. CVE-2026-35580 regression test</a></li>
+<li><a href="#ocsp">5. OCSP: byKey ResponderID and partial stapling</a></li>
+<li><a href="#unit-x509">6. X.509 unit test additions</a></li>
+<li><a href="#tls-tests">7. TLS: RFC 9258 PSK import and TLS 1.2 no_renegotiation alert</a></li>
+<li><a href="#tls-policy">8. TLS policy: require_extended_master_secret</a></li>
+<li><a href="#tls-handshake">9. TLS handshake-test hardening (explicit completion assertion)</a></li>
+<li><a href="#pubkey">10. Generic public-key verification/decryption test changes</a></li>
+<li><a href="#ecdh">11. ECDH: negative test for off-curve peer public point</a></li>
+<li><a href="#certstor">12. Certificate store: contains() cross-checks</a></li>
+<li><a href="#modes">13. Cipher modes / AEAD and CTR test vectors</a></li>
+</ol>
+</nav>
+</header>
+<section id="block">
+<h2>1. Block ciphers — “Iterations” mechanism removed</h2>
+<p class="summary">The block cipher KAT driver in <code>src/tests/test_block.cpp</code> no longer
+supports the <code>Iterations</code> test-vector key (which repeatedly re-encrypted a vector):
+the <code>Text_Based_Test</code> constructor changed to
+<code>Text_Based_Test("block", "Key,In,Out", "Tweak")</code>, so every KAT vector is now
+encrypted and decrypted exactly once. The only vector using <code>Iterations</code> was removed
+from <code>src/tests/data/block/sm4.vec</code>.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_block.cpp (lines 23–35)</span></figcaption>
+<pre><code>class Block_Cipher_Tests final : public Text_Based_Test {
+   public:
+      Block_Cipher_Tests() : Text_Based_Test(&quot;block&quot;, &quot;Key,In,Out&quot;, &quot;Tweak&quot;) {}
+
+      std::vector&lt;std::string&gt; possible_providers(const std::string&amp; algo) override {
+         return provider_filter(Botan::BlockCipher::providers(algo));
+      }
+
+      Test::Result run_one_test(const std::string&amp; algo, const VarMap&amp; vars) override {
+         const std::vector&lt;uint8_t&gt; key = vars.get_req_bin(&quot;Key&quot;);
+         const std::vector&lt;uint8_t&gt; input = vars.get_req_bin(&quot;In&quot;);
+         const std::vector&lt;uint8_t&gt; expected = vars.get_req_bin(&quot;Out&quot;);
+         const std::vector&lt;uint8_t&gt; tweak = vars.get_opt_bin(&quot;Tweak&quot;);</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_block.cpp#L23-L35">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_block.cpp#L23-L35</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">03_block_ciphers.rst</span> — section
+“Block Ciphers” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>Block Ciphers
+=============
+
+Block ciphers are tested using (1) unit tests and known answer tests that (2) encrypt a message and (3) decrypt a message. All the tests are implemented in :srcref:`src/tests/test_block.cpp`. The test cases are described in the following.
+
+
+**Remark from review of 3.12.0:** The test code was changed to remove support
+for the ``Iterations`` test vector key. Each known answer test vector is now
+encrypted and decrypted exactly once; the single test vector making use of
+``Iterations`` was removed from `sm4.vec`. Furthermore, the ``#test cpuid``
+directives in several block cipher test vector files were extended to cover
+the constant-time SIMD implementations added in Botan 3.11.1 (e.g. AES-NI /
+ARMv8-AES based s-box lookups for ARIA, Camellia, SEED and SM4 and the
+AVX512/GFNI implementation of Twofish). The test case descriptions below were
+adapted accordingly.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/03_block_ciphers.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/03_block_ciphers.rst</a></p>
+</figure>
+</section>
+<section id="nc-ipv6">
+<h2>2. X.509 IPv6 name constraints (GH #5534, #5537)</h2>
+<p class="summary">Botan 3.12.0 adds IPv6 support to name constraint processing. Three new tests were added in
+<code>src/tests/test_name_constraint.cpp</code>: <code>Name_Constraint_IPv6_Chain_Tests</code>
+(registration <code>x509_name_constraint_ipv6_chains</code>) validating chains against IPv6 and
+mixed IPv4/IPv6 constraints with data in <code>src/tests/data/x509/name_constraint_ipv6/</code>,
+<code>Name_Constraint_IP_Mask_Tests</code> (registration <code>x509_name_constraint_ip_mask</code>)
+driving <code>GeneralName</code> iPAddress DER decoding with
+<code>src/tests/data/x509/general_name_ip.vec</code>, and
+<code>Name_Constraint_Empty_Subject_Test</code> (registration
+<code>x509_name_constraint_empty_subject</code>) with data in
+<code>src/tests/data/x509/name_constraint_empty_subject/</code>.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_name_constraint.cpp (lines 146–173) — Name_Constraint_IPv6_Chain_Tests: test case table (beginning)</span></figcaption>
+<pre><code>class Name_Constraint_IPv6_Chain_Tests final : public Test {
+   public:
+      std::vector&lt;Test::Result&gt; run() override {
+         struct Case {
+               std::string label;
+               std::string dir;
+               std::vector&lt;std::string&gt; intermediates;
+               std::string leaf;
+               bool accept;
+         };
+
+         const std::vector&lt;Case&gt; cases = {
+            // IPv6 permittedSubtree 2001:db8::/32
+            {&quot;IPv6 permit: SAN inside subtree&quot;, &quot;permitted&quot;, {}, &quot;leaf_valid.pem&quot;, true},
+            {&quot;IPv6 permit: SAN outside subtree&quot;, &quot;permitted&quot;, {}, &quot;leaf_invalid.pem&quot;, false},
+
+            // IPv6 excludedSubtree 2001:db8::/32
+            {&quot;IPv6 exclude: SAN outside subtree&quot;, &quot;excluded&quot;, {}, &quot;leaf_valid.pem&quot;, true},
+            {&quot;IPv6 exclude: SAN inside subtree&quot;, &quot;excluded&quot;, {}, &quot;leaf_invalid.pem&quot;, false},
+
+            // Root permits only IPv4 10.0.0.0/8, so an IPv6 SAN must be rejected
+            // because iPAddress is a single GeneralName form (RFC 5280 4.2.1.10).
+            {&quot;IPv4-only permit: IPv4 SAN&quot;, &quot;cross_v4only&quot;, {}, &quot;leaf_valid.pem&quot;, true},
+            {&quot;IPv4-only permit: IPv6 SAN&quot;, &quot;cross_v4only&quot;, {}, &quot;leaf_invalid.pem&quot;, false},
+
+            // Similar to previous - root permits only IPv6 2001:db8::/32 so IPv4 must be rejected
+            {&quot;IPv6-only permit: IPv6 SAN&quot;, &quot;cross_v6only&quot;, {}, &quot;leaf_valid.pem&quot;, true},
+            {&quot;IPv6-only permit: IPv4 SAN&quot;, &quot;cross_v6only&quot;, {}, &quot;leaf_invalid.pem&quot;, false},</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_name_constraint.cpp#L146-L173">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_name_constraint.cpp#L146-L173</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_name_constraint.cpp (lines 203–235) — Name_Constraint_IPv6_Chain_Tests: validation loop and registration</span></figcaption>
+<pre><code>         const Botan::Path_Validation_Restrictions restrictions(false, 80);
+
+         const auto validation_time = Botan::calendar_point(2027, 4, 22, 20, 0, 0).to_std_timepoint();
+
+         std::vector&lt;Test::Result&gt; results;
+         for(const auto&amp; c : cases) {
+            const std::string base = &quot;x509/name_constraint_ipv6/&quot; + c.dir + &quot;/&quot;;
+            const Botan::X509_Certificate root(Test::data_file(base + &quot;root.pem&quot;));
+            const Botan::X509_Certificate leaf(Test::data_file(base + c.leaf));
+
+            std::vector&lt;Botan::X509_Certificate&gt; chain{leaf};
+            for(const auto&amp; intermediate_file : c.intermediates) {
+               chain.emplace_back(Test::data_file(base + intermediate_file));
+            }
+
+            Botan::Certificate_Store_In_Memory trusted;
+            trusted.add_certificate(root);
+
+            const auto pv = Botan::x509_path_validate(
+               chain, restrictions, trusted, &quot;&quot; /* hostname */, Botan::Usage_Type::UNSPECIFIED, validation_time);
+
+            Test::Result result(&quot;X509v3 Name Constraints (IPv6 chains): &quot; + c.label);
+
+            const std::string expected = c.accept ? &quot;Verified&quot; : &quot;Certificate does not pass name constraint&quot;;
+            result.test_str_eq(&quot;path validation result&quot;, pv.result_string(), expected);
+            results.emplace_back(std::move(result));
+         }
+
+         return results;
+      }
+};
+
+BOTAN_REGISTER_TEST(&quot;x509&quot;, &quot;x509_name_constraint_ipv6_chains&quot;, Name_Constraint_IPv6_Chain_Tests);</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_name_constraint.cpp#L203-L235">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_name_constraint.cpp#L203-L235</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_name_constraint.cpp (lines 237–289) — Name_Constraint_IP_Mask_Tests</span></figcaption>
+<pre><code>/*
+* Validate that GeneralName iPAddress decoding rejects masks that are not a
+* contiguous CIDR prefix. Drives the decoder with hand-rolled BER for a
+* single [7] IMPLICIT OCTET STRING carrying {net || mask}.
+*/
+class Name_Constraint_IP_Mask_Tests final : public Text_Based_Test {
+   public:
+      Name_Constraint_IP_Mask_Tests() : Text_Based_Test(&quot;x509/general_name_ip.vec&quot;, &quot;Address,Netmask&quot;) {}
+
+      Test::Result run_one_test(const std::string&amp; header, const VarMap&amp; vars) override {
+         Test::Result result(&quot;GeneralName iPAddress mask validation&quot;);
+
+         const auto address = vars.get_req_bin(&quot;Address&quot;);
+         const auto netmask = vars.get_req_bin(&quot;Netmask&quot;);
+
+         const auto der = encode_address(address, netmask);
+
+         Botan::BER_Decoder decoder(der, Botan::BER_Decoder::Limits::DER());
+         Botan::GeneralName gn;
+
+         if(header == &quot;Valid&quot;) {
+            try {
+               gn.decode_from(decoder);
+               result.test_success(&quot;Accepted valid GeneralName IP encoding&quot;);
+            } catch(Botan::Decoding_Error&amp;) {
+               result.test_failure(&quot;Rejected valid GeneralName IP encoding&quot;);
+            }
+         } else {
+            try {
+               gn.decode_from(decoder);
+               result.test_failure(&quot;Accepted invalid GeneralName IP encoding&quot;);
+            } catch(Botan::Decoding_Error&amp;) {
+               result.test_success(&quot;Rejected invalid GeneralName IP encoding&quot;);
+            }
+         }
+
+         return result;
+      }
+
+   private:
+      static std::vector&lt;uint8_t&gt; encode_address(std::span&lt;const uint8_t&gt; address, std::span&lt;const uint8_t&gt; netmask) {
+         std::vector&lt;uint8_t&gt; der;
+         // [7] IMPLICIT OCTET STRING, primitive, context-specific.
+         der.push_back(0x87);
+         // Short for length is sufficient here
+         der.push_back(static_cast&lt;uint8_t&gt;(address.size() + netmask.size()));
+         der.insert(der.end(), address.begin(), address.end());
+         der.insert(der.end(), netmask.begin(), netmask.end());
+         return der;
+      }
+};
+
+BOTAN_REGISTER_TEST(&quot;x509&quot;, &quot;x509_name_constraint_ip_mask&quot;, Name_Constraint_IP_Mask_Tests);</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_name_constraint.cpp#L237-L289">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_name_constraint.cpp#L237-L289</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_name_constraint.cpp (lines 105–144) — Name_Constraint_Empty_Subject_Test</span></figcaption>
+<pre><code>class Name_Constraint_Empty_Subject_Test final : public Test {
+   public:
+      std::vector&lt;Test::Result&gt; run() override {
+         /*
+         - `root.pem`:
+              Self-signed CA, `O=Acme NC Root, C=US`
+         - `intermediate.pem`:
+              CA signed by root, `O=Acme NC Intermediate, C=US`, critical `nameConstraints` with
+              `permittedSubtrees: [directoryName=O=Acme, C=US]`
+         - `leaf.pem`:
+              End-entity signed by the intermediate, empty subject DN and critical SAN
+              `directoryName=CN=server, O=Acme, C=US`
+         */
+         Test::Result result(&quot;X509v3 Name Constraints: empty subject + SAN directoryName inside permittedSubtrees&quot;);
+
+         const Botan::X509_Certificate root(Test::data_file(&quot;x509/name_constraint_empty_subject/root.pem&quot;));
+         const Botan::X509_Certificate intermediate(
+            Test::data_file(&quot;x509/name_constraint_empty_subject/intermediate.pem&quot;));
+         const Botan::X509_Certificate leaf(Test::data_file(&quot;x509/name_constraint_empty_subject/leaf.pem&quot;));
+
+         result.test_is_true(&quot;Leaf subject DN is empty&quot;, leaf.subject_dn().empty());
+         result.test_sz_eq(&quot;Leaf SAN has one directoryName entry&quot;, leaf.subject_alt_name().directory_names().size(), 1);
+
+         Botan::Certificate_Store_In_Memory trusted;
+         trusted.add_certificate(root);
+
+         const std::vector&lt;Botan::X509_Certificate&gt; chain{leaf, intermediate};
+         const Botan::Path_Validation_Restrictions restrictions(false, 80);
+         const auto validation_time = Botan::calendar_point(2027, 1, 1, 0, 0, 0).to_std_timepoint();
+
+         const auto path_result = Botan::x509_path_validate(
+            chain, restrictions, trusted, &quot;&quot;, Botan::Usage_Type::UNSPECIFIED, validation_time);
+
+         result.test_str_eq(&quot;validation result&quot;, path_result.result_string(), &quot;Verified&quot;);
+
+         return {result};
+      }
+};
+
+BOTAN_REGISTER_TEST(&quot;x509&quot;, &quot;x509_name_constraint_empty_subject&quot;, Name_Constraint_Empty_Subject_Test);</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_name_constraint.cpp#L105-L144">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_name_constraint.cpp#L105-L144</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">17_x509.rst</span> — section
+“Extended X.509 Name Constraints Test” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>Extended X.509 Name Constraints Test
+------------------------------------
+
+The name constraints extension is an extension used in CA certificates.
+It indicates a name space within which all subject names of the issued
+certificates must be located. For example, it indicates the IP addresses
+of the issued certificates or their domain names.
+
+This test extends the previous tests with further further name
+constraints:
+
+-  Domain names
+-  DNS name
+-  email address
+-  IP address
+
+The following tables show example test cases with one valid and one
+invalid test vector. All test vectors are included as certificates in
+:srcref:`src/tests/data/x509/name_constraint`.
+
+**Remark from review of 3.12.0:** Botan 3.12.0 added support for IPv6 name
+constraints in certificate path validation (GH #5534, #5537). Accordingly,
+`test_name_constraint.cpp` received three new tests, which are described at
+the end of this section: a chain validation test for IPv6 name constraints, a
+test vector based test for the DER validation of ``GeneralName`` iPAddress
+encodings, and a test for a leaf certificate with an empty subject DN whose
+subject alternative name is matched against a directoryName constraint. The
+test vectors referenced above did not change.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">17_x509.rst</span> — section
+“Extended X.509 Name Constraints Test” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>The following tests were added in the review cycle for Botan 3.12.0:
+
+-  **IPv6 name constraint chains** (test name
+   ``x509_name_constraint_ipv6_chains``): validates certificate chains
+   against IPv6 (and mixed IPv4/IPv6) name constraints. The certificates
+   reside in :srcref:`src/tests/data/x509/name_constraint_ipv6` and cover the
+   following scenarios, each with a leaf certificate that is expected to pass
+   and leaf certificates that are expected to fail with &quot;Certificate does not
+   pass name constraint&quot;:
+
+   -  an IPv6 permittedSubtree (``2001:db8::/32``) with a subject
+      alternative name inside respectively outside the subtree
+   -  an IPv6 excludedSubtree with a subject alternative name outside
+      respectively inside the subtree
+   -  a root certificate permitting only an IPv4 range (``10.0.0.0/8``),
+      which must reject a leaf with an IPv6 subject alternative name (and
+      vice versa for a root permitting only an IPv6 range), since iPAddress
+      constraints of one address family constrain the entire iPAddress name
+      form (RFC 5280, section 4.2.1.10)
+   -  constraints across multiple issuers: the root permits
+      ``{10.0.0.0/8, 2001:db8::/32}``, the intermediate narrows the
+      permitted subtrees and adds excluded subtrees; leaves with one IPv4
+      and one IPv6 subject alternative name each violate the permitted or
+      excluded subtrees of the root or the intermediate in all combinations
+   -  IPv4-mapped IPv6 subject alternative names tested against IPv4
+      excluded and permitted subtrees (a mapped address inside an excluded
+      IPv4 range is rejected; a mapped address inside a permitted IPv4-only
+      range is also rejected, as RFC 5280 gives no clear guidance on
+      matching mapped addresses across address families)
+
+-  **GeneralName iPAddress mask validation** (test name
+   ``x509_name_constraint_ip_mask``): a test vector based test using
+   :srcref:`src/tests/data/x509/general_name_ip.vec`. Each vector consists
+   of an address and a netmask, which are DER-encoded as a ``GeneralName``
+   iPAddress ([7] IMPLICIT OCTET STRING) and then decoded with strict DER
+   limits. Valid vectors (IPv4 and IPv6 addresses with contiguous netmasks)
+   must be accepted; invalid vectors (e.g. non-contiguous netmasks or
+   invalid lengths) must be rejected with a ``Decoding_Error``.
+
+-  **Empty subject DN with SAN directoryName** (test name
+   ``x509_name_constraint_empty_subject``): validates a chain from
+   :srcref:`src/tests/data/x509/name_constraint_empty_subject` in which the
+   intermediate CA carries a critical name constraints extension with a
+   directoryName permittedSubtree and the leaf certificate has an empty
+   subject DN and a critical subject alternative name extension containing a
+   directoryName inside the permitted subtree. Path validation must succeed.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst</a></p>
+</figure>
+</section>
+<section id="path-building">
+<h2>3. X.509 path building DFS</h2>
+<p class="summary">Botan 3.12.0 reworked certificate path building into an incremental depth-first search. The new
+<code>Path_Building_Tests</code> class (registration <code>x509_path_building</code>) in
+<code>src/tests/test_x509_path.cpp</code> validates seven end-entity certificates against a root and
+two levels of seven intermediate certificates each (data in
+<code>src/tests/data/x509/path_building/</code>), checking each validation result against
+<code>expected.txt</code>.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_x509_path.cpp (lines 1836–1886)</span></figcaption>
+<pre><code>/**
+* Test that the certificate path building DFS correctly handles constructing
+* paths with many possible intermediates.
+*/
+class Path_Building_Tests final : public Test {
+   public:
+      std::vector&lt;Test::Result&gt; run() override {
+         if(Botan::has_filesystem_impl() == false) {
+            return {Test::Result::Note(&quot;X509 path building&quot;, &quot;Skipping due to missing filesystem access&quot;)};
+         }
+
+         const std::string base_dir = &quot;x509/path_building&quot;;
+         auto validation_time = Botan::calendar_point(2026, 4, 1, 4, 20, 0).to_std_timepoint();
+
+         // Load root into trust store
+         Botan::Certificate_Store_In_Memory trust_store;
+         trust_store.add_certificate(Botan::X509_Certificate(Test::data_file(base_dir + &quot;/root.pem&quot;)));
+
+         // Load the intermediates
+         std::vector&lt;Botan::X509_Certificate&gt; intermediates;
+         for(const auto&amp; file : Test::files_in_data_dir(base_dir)) {
+            if(file.find(&quot;level1_&quot;) != std::string::npos || file.find(&quot;level2_&quot;) != std::string::npos) {
+               intermediates.emplace_back(file);
+            }
+         }
+
+         Test::Result result(&quot;X509 path building DFS&quot;);
+         result.start_timer();
+
+         const Botan::Path_Validation_Restrictions restrictions(false, 80, false);
+
+         for(const auto&amp; [test_name, expected_result] : read_results(Test::data_file(base_dir + &quot;/expected.txt&quot;))) {
+            const Botan::X509_Certificate end_entity(Test::data_file(Botan::fmt(&quot;{}/{}&quot;, base_dir, test_name)));
+
+            std::vector&lt;Botan::X509_Certificate&gt; end_certs;
+            end_certs.push_back(end_entity);
+            end_certs.insert(end_certs.end(), intermediates.begin(), intermediates.end());
+
+            const Botan::Path_Validation_Result validation_result = Botan::x509_path_validate(
+               end_certs, restrictions, {&amp;trust_store}, &quot;&quot;, Botan::Usage_Type::UNSPECIFIED, validation_time);
+
+            result.test_str_eq(
+               test_name + &quot; path validation result&quot;, validation_result.result_string(), expected_result);
+         }
+
+         result.end_timer();
+         return {result};
+      }
+};
+
+BOTAN_REGISTER_TEST(&quot;x509&quot;, &quot;x509_path_building&quot;, Path_Building_Tests);</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_x509_path.cpp#L1836-L1886">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_x509_path.cpp#L1836-L1886</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">17_x509.rst</span> — section
+“X.509 Test with Certificate Files” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>**Remark from review of 3.12.0:** Two tests were added in
+`test_x509_path.cpp`:
+
+-  A path building test (test name ``x509_path_building``): Botan 3.12.0
+   reworked the depth-first-search certificate path building to work
+   incrementally. The test uses a dedicated certificate set in
+   :srcref:`src/tests/data/x509/path_building` consisting of a root
+   certificate, two levels of seven intermediate certificates each, and seven
+   end-entity certificates. Each end-entity certificate is validated at a
+   fixed validation time with all intermediate certificates supplied in an
+   unspecified order, and the validation result is compared to the expected
+   result (``Verified`` for all seven chains) from the accompanying
+   ``expected.txt``. This ensures that the path builder finds a valid path
+   through the ambiguous intermediate certificates.
+-  A regression test (test name ``x509_cve_2026_35580``) for CVE-2026-35580:
+   an end-entity certificate from
+   `src/tests/data/x509/cve_2026_35580` is validated against the</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst</a></p>
+</figure>
+</section>
+<section id="cve">
+<h2>4. CVE-2026-35580 regression test</h2>
+<p class="summary">A new regression test <code>CVE_2026_35580_Test</code> (registration
+<code>x509_cve_2026_35580</code>) in <code>src/tests/test_x509_path.cpp</code> validates an
+end-entity certificate from <code>src/tests/data/x509/cve_2026_35580/</code> against the
+accompanying root certificate and asserts that path validation fails with
+“Cannot establish trust”.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_x509_path.cpp (lines 1805–1830)</span></figcaption>
+<pre><code>class CVE_2026_35580_Test final : public Test {
+   public:
+      std::vector&lt;Test::Result&gt; run() override {
+         Test::Result result(&quot;CVE-2026-35580&quot;);
+
+         const Botan::Path_Validation_Restrictions restrictions;
+
+         auto end_entity = Botan::X509_Certificate(Test::data_file(&quot;x509/cve_2026_35580/end_entity.pem&quot;));
+         auto trusted_root = Botan::X509_Certificate(Test::data_file(&quot;x509/cve_2026_35580/root.pem&quot;));
+
+         auto validation_time = Botan::calendar_point(2026, 3, 29, 0, 0, 0).to_std_timepoint();
+
+         Botan::Certificate_Store_In_Memory trusted;
+         trusted.add_certificate(trusted_root);
+
+         const auto validation_result = Botan::x509_path_validate(
+            {end_entity}, restrictions, {&amp;trusted}, &quot;&quot;, Botan::Usage_Type::UNSPECIFIED, validation_time);
+
+         result.test_str_eq(
+            &quot;Cert validation status&quot;, Botan::to_string(validation_result.result()), &quot;Cannot establish trust&quot;);
+
+         return {result};
+      }
+};
+
+BOTAN_REGISTER_TEST(&quot;x509&quot;, &quot;x509_cve_2026_35580&quot;, CVE_2026_35580_Test);</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_x509_path.cpp#L1805-L1830">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_x509_path.cpp#L1805-L1830</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">17_x509.rst</span> — section
+“X.509 Test with Certificate Files” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>-  A regression test (test name ``x509_cve_2026_35580``) for CVE-2026-35580:
+   an end-entity certificate from
+   `src/tests/data/x509/cve_2026_35580` is validated against the
+   accompanying root certificate at a fixed validation time, and the test
+   asserts that path validation fails with ``Cannot establish trust``.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst</a></p>
+</figure>
+</section>
+<section id="ocsp">
+<h2>5. OCSP: byKey ResponderID and partial stapling</h2>
+<p class="summary">Two new tests in <code>src/tests/test_ocsp.cpp</code>:
+<code>test_response_with_bykey_responder_id</code> parses an OCSP response identifying the
+responder via the byKey ResponderID choice (data:
+<code>src/tests/data/x509/ocsp/byKey_responderID.der</code>,
+<code>byKey_responder.pem</code>), and
+<code>test_partial_stapling_preserves_per_slot_gap</code> verifies that
+<code>PKIX::check_ocsp</code> keeps an empty status entry exactly at the slot of a certificate
+without a stapled response, preserving the per-slot gap for the online fallback.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_ocsp.cpp (lines 61–84) — test_response_with_bykey_responder_id</span></figcaption>
+<pre><code>      static Test::Result test_response_with_bykey_responder_id() {
+         // RFC 6960&#x27;s ASN.1 module is &quot;DEFINITIONS EXPLICIT TAGS&quot; and ResponderID&#x27;s
+         // CHOICE alternatives are not marked IMPLICIT, so byKey is encoded as
+         // constructed [2] wrapping a primitive OCTET STRING. The data below
+         // was produced using `openssl ocsp ... -resp_key_id`
+         Test::Result result(&quot;OCSP response with byKey ResponderID&quot;);
+
+         const Botan::OCSP::Response resp(Test::read_binary_data_file(&quot;x509/ocsp/byKey_responderID.der&quot;));
+         result.test_enum_eq(
+            &quot;Successful response status&quot;, resp.status(), Botan::OCSP::Response_Status_Code::Successful);
+
+         const auto responder = load_test_X509_cert(&quot;x509/ocsp/byKey_responder.pem&quot;);
+
+         result.test_is_true(&quot;byKey response has empty signer_name&quot;, resp.signer_name().empty());
+         result.test_sz_eq(&quot;byKey hash is 20 bytes (SHA-1)&quot;, resp.signer_key_hash().size(), 20);
+         result.test_bin_eq(&quot;byKey hash matches responder pubkey SHA-1&quot;,
+                            resp.signer_key_hash(),
+                            responder.subject_public_key_bitstring_sha1());
+
+         test_arb_eq(
+            result, &quot;Responder is found via byKey&quot;, resp.find_signing_certificate(responder), std::optional(responder));
+
+         return result;
+      }</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_ocsp.cpp#L61-L84">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_ocsp.cpp#L61-L84</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_ocsp.cpp (lines 490–534) — test_partial_stapling_preserves_per_slot_gap</span></figcaption>
+<pre><code>      static Test::Result test_partial_stapling_preserves_per_slot_gap() {
+         Test::Result result(&quot;OCSP partial stapling preserves per-slot gap for online fallback&quot;);
+
+         auto ee = load_test_X509_cert(&quot;x509/ocsp/mychain_ee.pem&quot;);
+         auto ca = load_test_X509_cert(&quot;x509/ocsp/mychain_int.pem&quot;);
+         auto trust_root = load_test_X509_cert(&quot;x509/ocsp/mychain_root.pem&quot;);
+
+         auto ocsp_for_ee = load_test_OCSP_resp(&quot;x509/ocsp/mychain_ocsp_for_ee.der&quot;);
+         auto ocsp_for_int = load_test_OCSP_resp(&quot;x509/ocsp/mychain_ocsp_for_int_self_signed.der&quot;);
+
+         Botan::Certificate_Store_In_Memory certstore;
+         certstore.add_certificate(trust_root);
+
+         const std::vector&lt;Botan::X509_Certificate&gt; cert_path = {ee, ca, trust_root};
+         const auto valid_time = Botan::calendar_point(2022, 9, 22, 22, 30, 0).to_std_timepoint();
+         const auto restrictions = Botan::Path_Validation_Restrictions();
+
+         // Here the intermediate has a stapled OCSP but the leaf does not
+         {
+            const std::vector&lt;std::optional&lt;Botan::OCSP::Response&gt;&gt; staples = {std::nullopt, ocsp_for_int};
+            const auto ocsp_status =
+               Botan::PKIX::check_ocsp(cert_path, staples, {&amp;certstore}, valid_time, restrictions);
+
+            result.test_sz_eq(&quot;missing-leaf: ocsp_status sized to non-root certs&quot;, ocsp_status.size(), 2);
+            if(ocsp_status.size() == 2) {
+               result.test_is_true(&quot;missing-leaf: leaf slot is empty&quot;, ocsp_status[0].empty());
+               result.test_is_false(&quot;missing-leaf: intermediate slot is filled&quot;, ocsp_status[1].empty());
+            }
+         }
+
+         // Here the leaf has a stapled OCSP but the intermediate does not
+         {
+            const std::vector&lt;std::optional&lt;Botan::OCSP::Response&gt;&gt; staples = {ocsp_for_ee, std::nullopt};
+            const auto ocsp_status =
+               Botan::PKIX::check_ocsp(cert_path, staples, {&amp;certstore}, valid_time, restrictions);
+
+            result.test_sz_eq(&quot;missing-intermediate: ocsp_status sized to non-root certs&quot;, ocsp_status.size(), 2);
+            if(ocsp_status.size() == 2) {
+               result.test_is_false(&quot;missing-intermediate: leaf slot is filled&quot;, ocsp_status[0].empty());
+               result.test_is_true(&quot;missing-intermediate: intermediate slot is empty&quot;, ocsp_status[1].empty());
+            }
+         }
+
+         return result;
+      }</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_ocsp.cpp#L490-L534">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_ocsp.cpp#L490-L534</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">17_x509.rst</span> — section
+“OCSP Tests” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>OCSP Tests
+----------
+
+Botan&#x27;s OCSP code is tested using different tests that parse OCSP
+requests and OCSP responses, validate OCSP responses (in terms of
+signature validation) and also using online tests for randombit.net.
+Online tests are only executed if BOTAN_HAS_ONLINE_REVOCATION_CHECKS is
+set. The tests are implemented in :srcref:`src/tests/test_ocsp.cpp`. All
+test data can be found in :srcref:`src/tests/data/x509/ocsp`.
+
+**Remark from review of 3.12.0:** The following tests were added in
+`test_ocsp.cpp`:
+
+-  A test parsing an OCSP response (generated with ``openssl ocsp ...
+   -resp_key_id``) that identifies the responder via the byKey ResponderID
+   choice instead of a name: the parsed response must report an empty signer
+   name, the signer key hash must equal the SHA-1 hash of the responder
+   certificate&#x27;s public key, and the responder certificate must be found via
+   the key hash.
+-  A test that partial OCSP stapling preserves the per-slot gap for the
+   online fallback: ``PKIX::check_ocsp`` is invoked on a three-certificate
+   chain with a stapled response for only the intermediate (respectively only
+   the end-entity) certificate, and the test verifies that the returned
+   status list keeps an empty entry exactly at the position of the
+   certificate without a stapled response.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst</a></p>
+</figure>
+</section>
+<section id="unit-x509">
+<h2>6. X.509 unit test additions</h2>
+<p class="summary">Three additions in <code>src/tests/unit_x509.cpp</code>: a negative test that decoding an
+extension block with a duplicated extension OID throws <code>Decoding_Error</code>
+(“X509 Extensions reject duplicate OID”),
+<code>test_crl_issuing_distribution_point_extension</code> checking that the distributionPoint URI
+of a CRL’s IssuingDistributionPoint extension is decoded correctly, and
+<code>test_crl_entry_negative_serial</code> checking that CRL entry serial numbers encoded as
+negative two’s-complement INTEGERs are decoded to their magnitude.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/unit_x509.cpp (lines 251–271) — test_x509_extension_decode_duplicate</span></figcaption>
+<pre><code>Test::Result test_x509_extension_decode_duplicate() {
+   Test::Result result(&quot;X509 Extensions reject duplicate OID&quot;);
+
+   const auto oid_bc = Botan::OID::from_string(&quot;X509v3.BasicConstraints&quot;);
+   const std::vector&lt;uint8_t&gt; bc_bits = {0x30, 0x06, 0x01, 0x01, 0xFF, 0x02, 0x01, 0x00};
+
+   std::vector&lt;uint8_t&gt; der;
+   Botan::DER_Encoder enc(der);
+   enc.start_sequence();
+   for(size_t i = 0; i != 2; ++i) {
+      enc.start_sequence().encode(oid_bc).encode(bc_bits, Botan::ASN1_Type::OctetString).end_cons();
+   }
+   enc.end_cons();
+
+   Botan::Extensions extns;
+   Botan::BER_Decoder dec(der);
+   result.test_throws&lt;Botan::Decoding_Error&gt;(&quot;Duplicate extension OID is rejected at decode time&quot;,
+                                             [&amp;]() { extns.decode_from(dec); });
+
+   return result;
+}</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_x509.cpp#L251-L271">https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_x509.cpp#L251-L271</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/unit_x509.cpp (lines 768–778) — test_crl_issuing_distribution_point_extension</span></figcaption>
+<pre><code>Test::Result test_crl_issuing_distribution_point_extension() {
+   Test::Result result(&quot;X509 CRL IssuingDistributionPoint extension&quot;);
+
+   // BSI CRL_12 has an IDP with a URI general name
+   const Botan::X509_CRL crl(Test::data_file(&quot;x509/bsi/CRL_12/crls/CRL_12_crl.pem.crl&quot;));
+
+   result.test_str_eq(
+      &quot;CRL IDP URI decoded correctly&quot;, crl.crl_issuing_distribution_point(), &quot;http://localhost/subca/crldp/crl.crl&quot;);
+
+   return result;
+}</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_x509.cpp#L768-L778">https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_x509.cpp#L768-L778</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/unit_x509.cpp (lines 1140–1170) — test_crl_entry_negative_serial</span></figcaption>
+<pre><code>Test::Result test_crl_entry_negative_serial() {
+   Test::Result result(&quot;CRL entry with negative serial matches certificate serial&quot;);
+
+   const auto build_crl_entry = [](const std::vector&lt;uint8_t&gt;&amp; serial_bytes) {
+      std::vector&lt;uint8_t&gt; der;
+      Botan::DER_Encoder enc(der);
+      enc.start_sequence()
+         .add_object(Botan::ASN1_Type::Integer, Botan::ASN1_Class::Universal, serial_bytes.data(), serial_bytes.size())
+         .encode(Botan::X509_Time(std::chrono::system_clock::now()))
+         .end_cons();
+
+      Botan::CRL_Entry entry;
+      Botan::BER_Decoder dec(der);
+      entry.decode_from(dec);
+      return entry;
+   };
+
+   // -129 in two&#x27;s complement
+   auto entry = build_crl_entry({0xFF, 0x7F});
+   result.test_bin_eq(&quot;negative serial -129 magnitude&quot;, entry.serial_number(), Botan::BigInt(129).serialize());
+
+   // -1 in two&#x27;s complement
+   entry = build_crl_entry({0xFF});
+   result.test_bin_eq(&quot;negative serial -1 magnitude&quot;, entry.serial_number(), Botan::BigInt(1).serialize());
+
+   // 128 (positive, high bit set so DER requires the leading zero)
+   entry = build_crl_entry({0x00, 0x80});
+   result.test_bin_eq(&quot;positive serial 128&quot;, entry.serial_number(), Botan::BigInt(128).serialize());
+
+   return result;
+}</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_x509.cpp#L1140-L1170">https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_x509.cpp#L1140-L1170</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">17_x509.rst</span> — section
+“X.509 Unit Test” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>X.509 Unit Test
+---------------
+
+X.509 unit test performs tests with dynamically generated valid and
+invalid X.509 certificates and validates their processing in Botan. The
+test validates key usage extension, expiration dates, or processing of
+self-signed certificates and certificate issuer properties.
+
+The test is implemented in :srcref:`src/tests/unit_x509.cpp`.
+
+
+The following X.509 certificate tests are executed:
+
+-  Validity period: tests with valid and expired certificates
+-  Issuer information storage: tests storage and access to issuer data
+   in certificates
+-  Certificate revocation
+-  Detection of self-signed certificates
+-  Key usage constraints for different cryptographic algorithms: DH,
+   ECDH, RSA, ElGamal, DSA, ECDSA, ECGDSA, ECKCDSA
+-  X.509v3 extension handling, including writing and reading custom
+   X.509v3 extensions
+
+**Remark from review of 3.12.0:** The following tests were added in
+`unit_x509.cpp`:
+
+-  A negative test that decoding an extension block containing two extensions
+   with the same OID is rejected with a ``Decoding_Error``
+-  A test that the distributionPoint URI of a CRL&#x27;s
+   IssuingDistributionPoint extension is decoded correctly
+-  A test that a CRL entry whose serial number is encoded as a negative
+   two&#x27;s-complement INTEGER is decoded to its magnitude, so that it matches
+   the serial number of the corresponding certificate during revocation
+   checking</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/17_x509.rst</a></p>
+</figure>
+</section>
+<section id="tls-tests">
+<h2>7. TLS: RFC 9258 PSK import and TLS 1.2 no_renegotiation alert</h2>
+<p class="summary">Two new tests in <code>src/tests/test_tls.cpp</code>:
+<code>TLS13_PSK_Import_Tests</code> (registration <code>tls13_psk_import</code>) is a test vector
+based test of the RFC 9258 external PSK import interface using the new vector file
+<code>src/tests/data/tls_13_psk_import.vec</code>.
+<code>Test_TLS12_NoRenegotiation_During_Initial_Handshake</code> (registration
+<code>tls12_no_renegotiation_during_initial_handshake</code>) verifies that a no_renegotiation
+<em>warning</em> alert received during the initial TLS 1.2 handshake is delivered to the
+application but does <em>not</em> tear down the pending handshake state: the client must neither
+become active nor closed, and <code>renegotiate()</code>, used as a probe, must not throw
+(NoRenegotiation only tears down a pending state if there is already an active state).</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_tls.cpp (lines 796–821) — TLS13_PSK_Import_Tests</span></figcaption>
+<pre><code>class TLS13_PSK_Import_Tests final : public Text_Based_Test {
+   public:
+      TLS13_PSK_Import_Tests() :
+            Text_Based_Test(&quot;tls_13_psk_import.vec&quot;, &quot;Key,Identity,TargetHash,Output&quot;, &quot;Context&quot;) {}
+
+      Test::Result run_one_test(const std::string&amp; hash_name, const VarMap&amp; vars) override {
+         Test::Result result(&quot;PSK Import &quot; + hash_name);
+
+         const auto key = vars.get_req_bin(&quot;Key&quot;);
+         const auto identity = vars.get_req_bin(&quot;Identity&quot;);
+         const auto context = vars.get_opt_bin(&quot;Context&quot;);
+         const auto target_hash = vars.get_req_str(&quot;TargetHash&quot;);
+         const auto expected = vars.get_req_bin(&quot;Output&quot;);
+
+         const Botan::TLS::PSKImporter importer(key, identity, context, hash_name);
+         auto psk = importer.derive_imported_psk(Botan::TLS::Protocol_Version::TLS_V13, target_hash);
+
+         result.test_is_true(&quot;PSK is marked as imported&quot;, psk.is_imported());
+         result.test_str_eq(&quot;PRF algo matches target hash&quot;, psk.prf_algo(), target_hash);
+         result.test_bin_eq(&quot;Derived PSK&quot;, psk.extract_master_secret(), expected);
+
+         return result;
+      }
+};
+
+BOTAN_REGISTER_TEST(&quot;tls&quot;, &quot;tls13_psk_import&quot;, TLS13_PSK_Import_Tests);</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_tls.cpp#L796-L821">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_tls.cpp#L796-L821</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/tls_13_psk_import.vec (lines 1–14) — new test vector file (beginning)</span></figcaption>
+<pre><code># Test vectors for RFC 9258 PSK Import
+
+[SHA-256]
+
+# SHA-256 key, SHA-256 target
+Key = 4142434441424344414243444142434441424344414243444142434441424344
+Identity = 70736b31
+Context = 636f6e7465787431
+TargetHash = SHA-256
+Output = 77cfa040c1e1ca63f0cd989dbefb28f5129625b08ce4f258bb825a9b0a4642a0
+
+# SHA-256 key, SHA-384 target
+Key = 4142434441424344414243444142434441424344414243444142434441424344
+Identity = 70736b31</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/tls_13_psk_import.vec#L1-L14">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/tls_13_psk_import.vec#L1-L14</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_tls.cpp (lines 544–593) — Test_TLS12_NoRenegotiation_During_Initial_Handshake: run() (class comment at lines 521–522: “NoRenegotiation warning only tears down a pending state if there is already an active state”)</span></figcaption>
+<pre><code>   public:
+      std::vector&lt;Test::Result&gt; run() override {
+         Test::Result result(&quot;TLS 1.2 NoRenegotiation alert during initial handshake&quot;);
+
+         auto rng = Test::new_shared_rng(this-&gt;test_name());
+         auto callbacks = std::make_shared&lt;Capture_Callbacks&gt;();
+         auto sessions = std::make_shared&lt;Botan::TLS::Session_Manager_In_Memory&gt;(rng);
+         auto creds = std::make_shared&lt;Botan::Credentials_Manager&gt;();
+         auto policy = std::make_shared&lt;Botan::TLS::Policy&gt;();
+
+         Botan::TLS::Client client(callbacks,
+                                   sessions,
+                                   creds,
+                                   policy,
+                                   rng,
+                                   Botan::TLS::Server_Information(&quot;server.example.com&quot;),
+                                   Botan::TLS::Protocol_Version::TLS_V12);
+
+         result.test_is_true(&quot;client emitted ClientHello&quot;, !callbacks-&gt;emitted().empty());
+         result.test_is_true(&quot;client not active yet&quot;, !client.is_active());
+
+         // RFC 5246: record header type=21 (alert) version=0x0303, length=2, followed by
+         // alert level=1 (warning), description=100 (no_renegotiation)
+         const std::vector&lt;uint8_t&gt; no_renegotiation_alert = {21, 0x03, 0x03, 0x00, 0x02, 1, 100};
+         result.test_no_throw(&quot;alert record accepted&quot;, [&amp;]() { (void)client.received_data(no_renegotiation_alert); });
+
+         const auto alerts = callbacks-&gt;alerts();
+         result.test_sz_eq(&quot;alert was delivered to application&quot;, alerts.size(), 1);
+         if(!alerts.empty()) {
+            result.test_is_true(&quot;alert was no_renegotiation&quot;, alerts[0].type() == Botan::TLS::Alert::NoRenegotiation);
+         }
+         result.test_is_true(&quot;client still not active&quot;, !client.is_active());
+         result.test_is_true(&quot;client not closed&quot;, !client.is_closed());
+
+         /*
+         Here we use renegotiate as a probe as to the internal state.
+
+         If there is already a pending state, renegotiate silently returns. But if
+         the state is torn down then renegotiate will throw because there is neither
+         an active or pending state.
+         */
+         result.test_no_throw(&quot;pending handshake state survived&quot;, [&amp;]() { client.renegotiate(); });
+
+         return {result};
+      }
+};
+
+BOTAN_REGISTER_TEST(&quot;tls&quot;,
+                    &quot;tls12_no_renegotiation_during_initial_handshake&quot;,
+                    Test_TLS12_NoRenegotiation_During_Initial_Handshake);</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_tls.cpp#L544-L593">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_tls.cpp#L544-L593</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">16_tls.rst</span> — section
+“Additional TLS Tests” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>Additional TLS Tests
+--------------------
+
+TLS is further tested using various system tests, as listed in the
+following.
+
+The tests are implemented in :srcref:`src/tests/test_tls.cpp`.
+
+**Remark from review of 3.12.0:** Two tests were added in `test_tls.cpp`,
+which are included in the list below: the RFC 9258 PSK import test and the
+TLS 1.2 no_renegotiation alert test. No substantial change in the test code
+otherwise.
+
+-  Session handling: A test that encrypts and decrypts static session
+   test data
+
+-  TLS 1.3 PSK import: A test vector based test for the external PSK
+   import interface according to RFC 9258 (added in Botan 3.12.0). For each
+   vector, an imported PSK is derived from an external PSK (consisting of
+   key, identity and optional context) for a given target KDF hash, and the
+   test checks that the PSK is marked as imported, uses the target hash as
+   its PRF algorithm, and that the derived key matches the expected output.
+   Test vectors are listed in :srcref:`src/tests/data/tls_13_psk_import.vec`.
+
+-  TLS 1.2 no_renegotiation alert during initial handshake: A test that a
+   no_renegotiation warning alert received during the initial handshake
+   (added in Botan 3.12.0) is delivered to the application but does not tear
+   down the pending handshake state: the client must neither become active
+   nor closed, and the pending handshake must survive.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/16_tls.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/16_tls.rst</a></p>
+</figure>
+</section>
+<section id="tls-policy">
+<h2>8. TLS policy: require_extended_master_secret</h2>
+<p class="summary"><code>src/tests/unit_tls_policy.cpp</code> gained
+<code>test_require_extended_master_secret</code>: the default policy and the default text policy
+must require the extended master secret extension (RFC 7627), and a text policy override must be
+able to disable and re-enable the requirement.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/unit_tls_policy.cpp (lines 57–70)</span></figcaption>
+<pre><code>      static Test::Result test_require_extended_master_secret() {
+         Test::Result result(&quot;TLS Policy require_extended_master_secret&quot;);
+
+         const Botan::TLS::Policy default_policy;
+         result.test_is_true(&quot;default Policy requires EMS&quot;, default_policy.require_extended_master_secret());
+
+         using TP = Botan::TLS::Text_Policy;
+         result.test_is_true(&quot;default text policy requires EMS&quot;, TP(&quot;&quot;).require_extended_master_secret());
+         result.test_is_true(&quot;text policy override disables EMS requirement&quot;,
+                             !TP(&quot;require_extended_master_secret = false&quot;).require_extended_master_secret());
+         result.test_is_true(&quot;text policy override re-enables EMS requirement&quot;,
+                             TP(&quot;require_extended_master_secret = true&quot;).require_extended_master_secret());
+         return result;
+      }</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_tls_policy.cpp#L57-L70">https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_tls_policy.cpp#L57-L70</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">16_tls.rst</span> — section
+“TLS Policy Verification” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>TLS Policy Verification
+-----------------------
+
+TLS policy is used to validate correct cryptographic algorithms,
+protocol versions, or cipher suites. Many of these properties are
+already tested in the TLS handshake execution test described in the
+previous section. We extended the test suite with positive and negative
+tests validating correct certificate handling.
+
+The tests are implemented in :srcref:`src/tests/unit_tls_policy.cpp`.
+
+**Remark from review of 3.12.0:** A test was added that verifies the
+``require_extended_master_secret`` policy option: the default policy and the
+default text policy must require the extended master secret extension
+(RFC 7627), and a text policy override must be able to disable and re-enable
+the requirement. No substantial change in the test code otherwise.
+
+In the test different certificates with different key lengths are
+created and tested against the default TLS policy. Only certificates
+with appropriate key lengths can be accepted. Certificates with
+insufficient key lengths must be rejected.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/16_tls.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/16_tls.rst</a></p>
+</figure>
+</section>
+<section id="tls-handshake">
+<h2>9. TLS handshake-test hardening (explicit completion assertion)</h2>
+<p class="summary">The handshake test harness in <code>src/tests/unit_tls.cpp</code> previously swallowed
+exceptions raised during <code>received_data()</code>, so a handshake aborting via exception could
+still be reported as a success. A new member <code>m_expect_handshake_completion</code> (default
+<code>true</code>) now drives an explicit end-of-test assertion that both client and server reached
+<code>is_active()</code>; tests that intentionally drive a handshake abort call
+<code>expect_handshake_failure()</code> (e.g. lines 1000 and 1022) to suppress it.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/unit_tls.cpp (lines 324–327) — expect_handshake_failure()</span></figcaption>
+<pre><code>      // Tests that drive an intentional handshake abort (eg via a throwing
+      // tls_session_established callback) call this so the end-of-test
+      // completion assertion in go() is suppressed.
+      void expect_handshake_failure() { m_expect_handshake_completion = false; }</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_tls.cpp#L324-L327">https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_tls.cpp#L324-L327</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/unit_tls.cpp (lines 735–746) — completion assertion at the end of TLS_Handshake_Test::go()</span></figcaption>
+<pre><code>   // The receive loop above swallows exceptions raised during received_data().
+   // Without an explicit completion assertion, a handshake that aborts via
+   // exception still reports &quot;all ok&quot; because the server alert + close path
+   // unwinds cleanly. Assert that both sides reached is_active() unless the
+   // test was deliberately set up to drive a handshake abort.
+   if(m_expect_handshake_completion) {
+      m_results.test_is_true(&quot;client handshake completed&quot;, client_handshake_completed);
+      m_results.test_is_true(&quot;server handshake completed&quot;, server_handshake_completed);
+   }
+
+   m_results.end_timer();
+}</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_tls.cpp#L735-L746">https://github.com/randombit/botan/blob/3.12.0/src/tests/unit_tls.cpp#L735-L746</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">16_tls.rst</span> — section
+“TLS Protocol Execution” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>TLS Protocol Execution
+----------------------
+
+TLS client and server are tested with positive tests by performing TLS
+handshakes. In these tests basic credentials with TLS certificates and
+TLS policy are first created. Afterwards, the client and the server
+attempt to execute a TLS handshake with a specific TLS/DTLS protocol
+version, key exchange method, and cipher algorithm.
+
+The tests are implemented in :srcref:`src/tests/unit_tls.cpp`.
+
+**Remark from review of 3.12.0:** The test harness in `unit_tls.cpp` was
+hardened: the tests now explicitly assert that both client and server
+completed the handshake, so that a handshake aborting via an exception can no
+longer be reported as a success (tests that intentionally drive a handshake
+abort suppress this assertion). Furthermore, the brainpool256r1 handshake
+test is now guarded by a build-configuration check, and RSA support is
+required for building the tests. No substantial change to the test logic
+otherwise.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/16_tls.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/16_tls.rst</a></p>
+</figure>
+</section>
+<section id="pubkey">
+<h2>10. Generic public-key verification/decryption test changes</h2>
+<p class="summary"><code>src/tests/test_pubkey.cpp</code>: the new helper
+<code>generate_specific_false_signatures()</code> produces deterministic invalid signatures (empty,
+1-byte, 2-byte, truncated by one byte, first bit flipped); <code>check_invalid_signatures()</code>
+now runs 24 (long) / 9 (short) iterations instead of 20/5 and, after every rejected signature,
+re-verifies that the valid signature still verifies — regression coverage for the 3.11.1
+Ed25519/ECDSA verifier-state fixes (GH #5454, #5455). <code>check_invalid_ciphertexts()</code>
+additionally verifies that the decryptor can still decrypt the original ciphertext after
+processing corrupted ones.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_pubkey.cpp (lines 35–83) — generate_specific_false_signatures() and check_invalid_signatures()</span></figcaption>
+<pre><code>std::vector&lt;std::vector&lt;uint8_t&gt;&gt; generate_specific_false_signatures(const std::span&lt;const uint8_t&gt; correct_signature) {
+   std::vector&lt;std::vector&lt;uint8_t&gt;&gt; result;
+   result.push_back(std::vector&lt;uint8_t&gt;());
+   result.push_back(std::vector&lt;uint8_t&gt;(1));
+   result.push_back(std::vector&lt;uint8_t&gt;(2));
+   if(correct_signature.size() &gt; 1) {
+      result.push_back(std::vector&lt;uint8_t&gt;(correct_signature.size() - 1));
+      std::vector&lt;uint8_t&gt; flip_start(correct_signature.begin(), correct_signature.end());
+      flip_start[0] ^= 1;
+      result.push_back(flip_start);
+   }
+
+   return result;
+}
+
+void check_invalid_signatures(Test::Result&amp; result,
+                              Botan::PK_Verifier&amp; verifier,
+                              const std::vector&lt;uint8_t&gt;&amp; message,
+                              const std::vector&lt;uint8_t&gt;&amp; signature,
+                              Botan::RandomNumberGenerator&amp; rng) {
+   const size_t tests_to_run = (Test::run_long_tests() ? 24 : 9);
+
+   const std::vector&lt;uint8_t&gt; zero_sig(signature.size());
+   result.test_is_false(&quot;all zero signature invalid&quot;, verifier.verify_message(message, zero_sig));
+
+   auto specific_false_sigs = generate_specific_false_signatures(signature);
+
+   for(size_t i = 0; i &lt; tests_to_run; ++i) {
+      std::vector&lt;uint8_t&gt; bad_sig;
+      if(i &lt; specific_false_sigs.size()) {
+         bad_sig = specific_false_sigs[i];
+      } else {
+         bad_sig = Test::mutate_vec(signature, rng);
+      }
+
+      try {
+         if(!result.test_is_false(&quot;incorrect signature invalid&quot;, verifier.verify_message(message, bad_sig))) {
+            result.test_note(&quot;Accepted invalid signature&quot;, bad_sig);
+         }
+      } catch(std::exception&amp; e) {
+         result.test_note(&quot;Modified signature&quot;, bad_sig);
+         result.test_failure(&quot;Modified signature rejected with exception&quot;, e.what());
+      }
+      if(!result.test_is_true(&quot;correct signature valid after failed verification&quot;,
+                              verifier.verify_message(message, signature))) {
+         result.test_note(&quot;rejected valid signature after this invalid signature&quot;, bad_sig);
+      }
+   }
+}</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_pubkey.cpp#L35-L83">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_pubkey.cpp#L35-L83</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_pubkey.cpp (lines 88–119) — check_invalid_ciphertexts()</span></figcaption>
+<pre><code>void check_invalid_ciphertexts(Test::Result&amp; result,
+                               Botan::PK_Decryptor&amp; decryptor,
+                               const std::vector&lt;uint8_t&gt;&amp; plaintext,
+                               const std::vector&lt;uint8_t&gt;&amp; ciphertext,
+                               Botan::RandomNumberGenerator&amp; rng) {
+   const size_t tests_to_run = (Test::run_long_tests() ? 20 : 5);
+
+   size_t ciphertext_accepted = 0;
+   size_t ciphertext_rejected = 0;
+
+   for(size_t i = 0; i &lt; tests_to_run; ++i) {
+      const std::vector&lt;uint8_t&gt; bad_ctext = Test::mutate_vec(ciphertext, rng);
+
+      try {
+         const Botan::secure_vector&lt;uint8_t&gt; decrypted = decryptor.decrypt(bad_ctext);
+         ++ciphertext_accepted;
+
+         if(!result.test_bin_ne(&quot;incorrect ciphertext different&quot;, decrypted, plaintext)) {
+            result.test_bin_eq(&quot;used corrupted ciphertext&quot;, bad_ctext, ciphertext);
+         }
+      } catch(std::exception&amp;) {
+         ++ciphertext_rejected;
+      }
+   }
+
+   result.test_note(
+      Botan::fmt(&quot;Accepted {} invalid ciphertexts, rejected {}&quot;, ciphertext_accepted, ciphertext_rejected));
+
+   result.test_bin_eq(&quot;After decrypting corrupted messages, PK_Decryptor can decrypt original message&quot;,
+                      decryptor.decrypt(ciphertext),
+                      plaintext);
+}</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_pubkey.cpp#L88-L119">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_pubkey.cpp#L88-L119</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">14_pubkey_sig.rst</span> — section
+“Public Key-based Signature Algorithms” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>Public Key-based Signature Algorithms
+=====================================
+
+Public Key-based Signature Algorithms are tested using (1) a known
+answer test that generates a signature on a test message, and (2) checks
+that a manipulated signature does not verify. Some algorithms also
+contain a third test (3), a known answer test that checks that an
+invalid signature does not verify and/or a fourth test (4), a known
+answer test that verifies a given signature. Additional tests may be
+implemented for specific algorithms, e.g., for public key validation.
+All public key-based signature algorithms use test classes implemented
+in :srcref:`src/tests/test_pubkey.cpp`.
+
+**Remark from review of 3.12.0:** The generic test for invalid signatures in
+`test_pubkey.cpp` (cf. PKSIG-3) was strengthened: in addition to an all-zero
+signature and randomly perturbed signatures (now 24 instead of 20 iterations
+with long tests, 9 instead of 5 otherwise), a set of deterministic malformed
+signatures is now always tested (an empty signature, all-zero signatures of
+lengths one and two, a signature truncated by one byte, and a signature with
+the first bit flipped). Furthermore, after every rejected invalid signature
+the test now re-verifies that the valid signature still verifies. The latter
+serves as regression coverage for the Ed25519 and ECDSA verifier-state issues
+fixed in Botan 3.11.1 (GH #5454, #5455), where an invalid signature could
+poison the verifier object and cause a subsequent valid signature to be
+rejected.
+</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/14_pubkey_sig.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/14_pubkey_sig.rst</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">11_pubkey_enc.rst</span> — section
+“Public Key-based Encryption Algorithms” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>Public Key-based Encryption Algorithms
+======================================
+
+Public Key-based Encryption Algorithms are divided into hybrid
+encryption schemes and public key encryption schemes. Some public
+key-based encryption algorithms use test classes implemented in
+:srcref:`src/tests/test_pubkey.cpp`.
+
+**Remark from review of 3.12.0:** The generic test for invalid ciphertexts
+in `test_pubkey.cpp` (cf. e.g. PKENC-DLIES-2, PKENC-RSAES-2) was extended:
+after the decryption attempts on the corrupted ciphertexts, the test now
+additionally verifies that the ``PK_Decryptor`` object still correctly
+decrypts the original valid ciphertext, i.e. that failed decryptions do not
+poison the decryptor state. No substantial change in the test code addressed
+here otherwise.
+</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/11_pubkey_enc.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/11_pubkey_enc.rst</a></p>
+</figure>
+</section>
+<section id="ecdh">
+<h2>11. ECDH: negative test for off-curve peer public point</h2>
+<p class="summary"><code>ECDH_AllGroups_Tests</code> (registration <code>ecdh_all_groups</code>) in
+<code>src/tests/test_ecdh.cpp</code> gained a negative test: performing key agreement with a peer
+public point that is not on the curve (the encoded generator with a corrupted coordinate byte)
+must throw <code>Decoding_Error</code>; likewise the point-at-infinity as public value is
+rejected.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_ecdh.cpp (lines 89–107) — ECDH_AllGroups_Tests (class starts at line 61, registration at line 139)</span></figcaption>
+<pre><code>               // Regression test: prohibit ECDH-agreement with all-zero public value
+               result.test_throws&lt;Botan::Decoding_Error&gt;(&quot;ECDH public value is point-at-infinity&quot;, [&amp;] {
+                  const auto sk = Botan::ECDH_PrivateKey(rng(), group);
+                  const Botan::PK_Key_Agreement ka(sk, rng(), kdf);
+                  std::vector&lt;uint8_t&gt; sec1_infinity(1, 0x00);
+                  const auto a_ss = ka.derive_key(0, sec1_infinity);
+               });
+
+               // Regression test: prohibit loading a point not on the curve
+               result.test_throws&lt;Botan::Decoding_Error&gt;(&quot;point is not on curve&quot;, [&amp;] {
+                  const auto&amp; base_point = Botan::EC_AffinePoint::generator(group);
+                  auto encoded = base_point.serialize_uncompressed();
+                  encoded[3] -= 1;
+
+                  const Botan::ECDH_PrivateKey a_priv(rng(), group);
+                  const auto a_pub = a_priv.public_value();
+                  const Botan::PK_Key_Agreement a_ka(a_priv, rng(), kdf);
+                  const auto a_ss = a_ka.derive_key(0, encoded);
+               });</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_ecdh.cpp#L89-L107">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_ecdh.cpp#L89-L107</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">13_pubkey_agree.rst</span> — section
+“Elliptic Curve Diffie Hellman” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>Elliptic Curve Diffie Hellman
+-----------------------------
+
+The Elliptic Curve Diffie-Hellman key agreement scheme is tested with a
+known answer test as follows. The test is implemented in
+:srcref:`src/tests/test_ecdh.cpp`.
+
+**Remark from review of 3.12.0:** A negative test was added to the ECDH test
+over all supported curve groups in `test_ecdh.cpp`: deriving a shared secret
+from an uncompressed peer public point that does not lie on the curve (the
+serialized generator with one coordinate byte modified) must be rejected with
+a ``Decoding_Error``. This is a regression test for the prohibition of
+loading points not on the curve.
+
+.. table::
+   :class: longtable
+   :widths: 20 80</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/13_pubkey_agree.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/13_pubkey_agree.rst</a></p>
+</figure>
+</section>
+<section id="certstor">
+<h2>12. Certificate store: contains() cross-checks</h2>
+<p class="summary"><code>src/tests/test_certstor_system.cpp</code> now cross-checks
+<code>certstore.contains()</code> on all certificates returned by the find operations (lines 165,
+194, 246 and 300): every certificate returned by
+<code>find_all_certs()</code>/<code>find_cert()</code> variants must also be reported as contained
+in the store.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_certstor_system.cpp (lines 174–201) — find_all_certs_by_subject_dn with the new contains() loop</span></figcaption>
+<pre><code>Test::Result find_all_certs_by_subject_dn(Botan::Certificate_Store&amp; certstore) {
+   Test::Result result(&quot;System Certificate Store - Find all Certificates by subject DN&quot;);
+
+   try {
+      auto dn = get_dn();
+
+      result.start_timer();
+      auto certs = certstore.find_all_certs(dn, std::vector&lt;uint8_t&gt;());
+      result.end_timer();
+
+      // check for duplications
+      sort(certs.begin(), certs.end());
+      for(size_t i = 1; i &lt; certs.size(); ++i) {
+         if(certs[i - 1] == certs[i]) {
+            result.test_failure(&quot;find_all_certs produced duplicated result&quot;);
+         }
+      }
+
+      // check all returned certs are considered contained
+      for(const auto&amp; cert : certs) {
+         result.test_is_true(&quot;contains returns true&quot;, certstore.contains(cert));
+      }
+
+      if(result.test_is_true(&quot;result not empty&quot;, !certs.empty())) {
+         auto cns = certs.front().subject_dn().get_attribute(&quot;CN&quot;);
+         result.test_sz_gte(&quot;at least one CN&quot;, cns.size(), size_t(1));
+         result.test_str_eq(&quot;CN&quot;, cns.front(), get_subject_cn());
+      }</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_certstor_system.cpp#L174-L201">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_certstor_system.cpp#L174-L201</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">02_cert_store.rst</span> — section
+“System Certificate Store” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>
+
+**Remark from review of 3.12.0:** Botan 3.12.0 reworked the certificate
+store search operations (GH #5510, #5539). The tests in
+`test_certstor_system.cpp` were extended accordingly: for the find
+operations (by subject DN, by subject DN and key ID, by issuer DN and serial
+number, and with DN normalization), the tests now additionally verify that
+every returned certificate is also reported as contained in the store by
+``Certificate_Store::contains()``. No substantial change in the test code
+otherwise.
+
+Find Certificate by SHA-1 Hash of its Public Key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/02_cert_store.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/02_cert_store.rst</a></p>
+</figure>
+</section>
+<section id="modes">
+<h2>13. Cipher modes / AEAD and CTR test vectors</h2>
+<p class="summary"><code>Cipher_Mode_Tests</code> in <code>src/tests/test_modes.cpp</code> now additionally
+exercises <code>finish()</code> and <code>update()</code>+<code>finish()</code> with a non-zero
+buffer offset (random 1–32 byte prefix that must remain untouched).
+<code>src/tests/data/aead/gcm.vec</code> gained new KATs with larger inputs (≈ 1 KiB, generated
+with OpenSSL 3.6), added in the context of the new GHASH/GCM maximum input length enforcement
+(GH #5521), and <code>src/tests/data/stream/ctr.vec</code> gained long multi-block vectors
+(up to 8 KiB) plus a <code>#test cpuid avx2</code> directive covering the new SIMD CTR paths.
+Long hex lines in the vector file snippets below are truncated for display; follow the GitHub
+links for the full data.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_modes.cpp (lines 190–230) — Cipher_Mode_Tests: non-zero buffer offset tests</span></figcaption>
+<pre><code>         // Test finish() with non-zero offset
+         {
+            const size_t test_offset = 1 + rng.next_byte() % 32;
+            buf.assign(test_offset, 0xAB);
+            buf.insert(buf.end(), input.begin(), input.end());
+
+            mode.start(nonce);
+            mode.finish(buf, test_offset);
+
+            for(size_t i = 0; i &lt; test_offset; ++i) {
+               result.test_u8_eq(direction + &quot; prefix byte&quot;, buf[i], 0xAB);
+            }
+            result.test_bin_eq(direction + &quot; finish with offset&quot;, std::span{buf}.subspan(test_offset), expected);
+         }
+
+         // Test update() + finish() with non-zero offset
+         if(input.size() &gt;= update_granularity + min_final_bytes) {
+            const size_t test_offset = 1 + rng.next_byte() % 32;
+            const size_t max_blocks = (input.size() - min_final_bytes) / update_granularity;
+            const size_t bytes_to_update = max_blocks * update_granularity;
+
+            buf.assign(test_offset, 0xAB);
+            buf.insert(buf.end(), input.begin(), input.begin() + bytes_to_update);
+
+            Botan::secure_vector&lt;uint8_t&gt; final_buf(test_offset, 0xAB);
+            final_buf.insert(final_buf.end(), input.begin() + bytes_to_update, input.end());
+
+            mode.start(nonce);
+            mode.update(buf, test_offset);
+            mode.finish(final_buf, test_offset);
+
+            for(size_t i = 0; i &lt; test_offset; ++i) {
+               result.test_u8_eq(direction + &quot; update offset prefix byte&quot;, buf[i], 0xAB);
+               result.test_u8_eq(direction + &quot; finish offset prefix byte&quot;, final_buf[i], 0xAB);
+            }
+
+            Botan::secure_vector&lt;uint8_t&gt; combined;
+            combined.insert(combined.end(), buf.begin() + test_offset, buf.end());
+            combined.insert(combined.end(), final_buf.begin() + test_offset, final_buf.end());
+            result.test_bin_eq(direction + &quot; update+finish with offset&quot;, combined, expected);
+         }</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_modes.cpp#L190-L230">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_modes.cpp#L190-L230</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/aead/gcm.vec (lines 349–354) — new OpenSSL 3.6 generated large-input KAT (ARIA-128/GCM; hex truncated for display)</span></figcaption>
+<pre><code># Generated by OpenSSL 3.6
+Key = 03476061769DB0F96932B51624E7E4F9
+Nonce = 1DB5D4047156623EE98018ED
+AD = 16639F776A45E78A7A1BDC732B0161AC91A4565CACA5ACC7F16D414C9BA04303
+In = 883BC20E3BB2F4FCD566EFA1487055444AE0696D1C48E73B0A1004EDE96E7301325BA49A111006BA0D1 …[+1965 chars]
+Out = 13B159446AB2C6ECE6A63102767B1FC6A0836513D7A91213D84D3FDBC3FA1738BAF72CEB8FEEC0DEBA …[+1998 chars]</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/aead/gcm.vec#L349-L354">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/aead/gcm.vec#L349-L354</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/stream/ctr.vec (lines 615–624) — new long CTR vectors incl. seek (hex truncated for display); see also the “#test cpuid avx2” directive at line 2</span></figcaption>
+<pre><code>Key = FDCD25C05C5D2EEC19F325924BF2F7AB
+Nonce = D3BFFE7D9A480362532B542007577EC6
+In = 000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F2021222324252627282 …[+16301 chars]
+Out = 900BF2352D973046F4128A1489F84DB204C552D2E59FFD58844B2BEA8DC04B46B1212433EA1D370467 …[+16302 chars]
+
+Seek = 163812
+Key = FDCD25C05C5D2EEC19F325924BF2F7AB
+Nonce = D3BFFE7D9A480362532B542007577EC6
+In = E4E5E6E7E8E9EAEBECEDEEEFF0F1F2F3F4F5F6F7F8F9FAFBFCFDFEFF
+Out = C2B03F2E9DB7C22A9E730B10A572CAB1198FF46E4EC70801A66DDFC1</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/stream/ctr.vec#L615-L624">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/stream/ctr.vec#L615-L624</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">08_modes_of_operation.rst</span> — section
+“Modes of Operation” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>Modes of Operation
+==================
+
+Block cipher modes of operation are tested using known answer tests that
+(1) encrypt a message and (2) decrypt a message. All the tests are
+implemented in :srcref:`src/tests/test_modes.cpp`. The test cases are described
+in the following.
+
+**Remark from review of 3.12.0:** The cipher mode known answer tests in
+`test_modes.cpp` were extended: in addition to the existing processing
+variants, each test vector is now also processed with ``finish()`` on a
+buffer with a non-zero offset and with ``update()`` followed by ``finish()``
+on buffers with a non-zero offset, verifying that the bytes before the
+offset remain untouched and the produced ciphertext/plaintext equals the
+expected value. No substantial change in the test code otherwise.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/08_modes_of_operation.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/08_modes_of_operation.rst</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">08_modes_of_operation.rst</span> — section
+“CTR” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>test vectors are listed in :srcref:`src/tests/data/stream/ctr.vec`.
+
+**Remark from review of 3.12.0:** A test vector with a long keystream and an
+``#test cpuid avx2`` directive was added to `ctr.vec` to cover the AVX2
+optimized CTR code path added in Botan 3.11.1. No change in the test vectors
+otherwise.
+
+.. table::
+   :class: longtable
+   :widths: 20 80</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/08_modes_of_operation.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/08_modes_of_operation.rst</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">01_aead.rst</span> — section
+“GCM” (excerpt as of 2026-08-11, branch release-3.12-update)</figcaption>
+<pre><code>The following table shows an example test case with one test vector. All
+test vectors are listed in :srcref:`src/tests/data/aead/gcm.vec`.
+
+**Remark from review of 3.12.0:** No change in the AEAD test code. The GCM
+test vectors have only received additions: several known answer tests with
+long messages (generated with OpenSSL 3.6) were added in the course of
+introducing maximum input length enforcement for GHASH/GCM and
+ChaCha20Poly1305 (GH #5521).
+
+.. table::
+   :class: longtable
+   :widths: 20 80</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/01_aead.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/01_aead.rst</a></p>
+</figure>
+</section>
+</main>
