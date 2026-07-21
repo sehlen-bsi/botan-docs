@@ -6090,3 +6090,29 @@ patches:
 #   Author: Jack Lloyd
 - commit: c395800f633a8f1a73d18bce2a8f855d07066396  # https://github.com/randombit/botan/commit/c395800f633a8f1a73d18bce2a8f855d07066396
   classification: unspecified
+
+# ZFEC optimizations and improvements
+#   Author:    @randombit
+- pr: 5747  # https://github.com/randombit/botan/pull/5747
+  merge_commit: c3f13bc82aba004ce6657833d4c09246f5de4e74
+  classification: unspecified
+
+# Extend ACVP testing
+#   Author:    @randombit
+- pr: 5748  # https://github.com/randombit/botan/pull/5748
+  merge_commit: 6f6aca19e7802f080f324a3be9e50fbced62554f
+  classification: unspecified
+
+# Add HashFunction::security_level
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5746  # https://github.com/randombit/botan/pull/5746
+  merge_commit: 06f0bec023b2a58930bca521edeb8916623c8e8b
+  classification: unspecified
+
+# Generalize `unit_tls` integration test
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5728  # https://github.com/randombit/botan/pull/5728
+  merge_commit: 9fd04cc1df8d2c3453559955a3884d80ef2da6ff
+  classification: unspecified
