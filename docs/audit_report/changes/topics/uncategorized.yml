@@ -6116,3 +6116,29 @@ patches:
 - pr: 5728  # https://github.com/randombit/botan/pull/5728
   merge_commit: 9fd04cc1df8d2c3453559955a3884d80ef2da6ff
   classification: unspecified
+
+# [TLS 1.3] Extend `unit_tls` with support for TLS 1.3
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5729  # https://github.com/randombit/botan/pull/5729
+  merge_commit: 8c8ab6ca8c2a4e36c8169e606a130db439facbf3
+  classification: unspecified
+
+# Rename URI::parse to ::from_string
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5750  # https://github.com/randombit/botan/pull/5750
+  merge_commit: 17fbf3483522158886d072c1813b16ebff94bcc9
+  classification: unspecified
+
+# Output filename and line number with deprecation messages on MSVC
+#   Author:    @lanurmi
+#   Approvals: (@randombit)
+- pr: 5749  # https://github.com/randombit/botan/pull/5749
+  merge_commit: 532971e3b2de436ba1ac44bb0f7a07611cf939b8
+  classification: unspecified
+
+# Update side channel document [ci skip]
+#   Author: Jack Lloyd
+- commit: b83b308ee008df1b77d1485506dc2c93aee162e8  # https://github.com/randombit/botan/commit/b83b308ee008df1b77d1485506dc2c93aee162e8
+  classification: unspecified
