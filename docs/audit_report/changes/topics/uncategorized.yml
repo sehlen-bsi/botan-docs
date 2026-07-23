@@ -6142,3 +6142,17 @@ patches:
 #   Author: Jack Lloyd
 - commit: b83b308ee008df1b77d1485506dc2c93aee162e8  # https://github.com/randombit/botan/commit/b83b308ee008df1b77d1485506dc2c93aee162e8
   classification: unspecified
+
+# Zeroize pcurves scalar objects on destruction
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5751  # https://github.com/randombit/botan/pull/5751
+  merge_commit: d4555a8f27c68d1505c18042a4a2a99c55b9a832
+  classification: unspecified
+
+# [TLS 1.3] Add TLS::Policy::minimum_record_size() to obfuscate plaintext lengths
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5752  # https://github.com/randombit/botan/pull/5752
+  merge_commit: 7cc2af762cee9ebbb5872dc7cd400ff8f0861ca1
+  classification: unspecified
