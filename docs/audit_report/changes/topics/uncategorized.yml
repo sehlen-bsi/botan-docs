@@ -6156,3 +6156,33 @@ patches:
 - pr: 5752  # https://github.com/randombit/botan/pull/5752
   merge_commit: 7cc2af762cee9ebbb5872dc7cd400ff8f0861ca1
   classification: unspecified
+
+# Add EC_Group::hash_to_curve_supported and enforce RFC 9380 hash requirements
+#   Author:    @randombit
+- pr: 5758  # https://github.com/randombit/botan/pull/5758
+  merge_commit: 3e1175bc5b51eb101a2c555f0033d188c22de335
+  classification: unspecified
+
+# Add getters for RFC 3779 extensions to FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5491  # https://github.com/randombit/botan/pull/5491
+  merge_commit: 26648176bda14322b75b12bf122a609ebfddb61d
+  classification: unspecified
+
+# Add support for hash2curve for brainpool{256,384,512}r1 and numsp512d1
+#   Author:    @randombit
+- pr: 5754  # https://github.com/randombit/botan/pull/5754
+  merge_commit: e10a26c2f3d11f2c73c5cf3c90b834dd6a7f3c86
+  classification: unspecified
+
+# Pin CI imports by version or git tag
+#   Author:    @randombit
+- pr: 5756  # https://github.com/randombit/botan/pull/5756
+  merge_commit: 3c1ea0d076a9b2c51d91e43319b96a09fe031d8a
+  classification: unspecified
+
+# In CI also add a timeout to apt-get install [ci skip]
+#   Author: Jack Lloyd
+- commit: 6fe7c3e64d7e9814eada8564e168586a9f23daeb  # https://github.com/randombit/botan/commit/6fe7c3e64d7e9814eada8564e168586a9f23daeb
+  classification: unspecified
