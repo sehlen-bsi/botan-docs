@@ -6186,3 +6186,22 @@ patches:
 #   Author: Jack Lloyd
 - commit: 6fe7c3e64d7e9814eada8564e168586a9f23daeb  # https://github.com/randombit/botan/commit/6fe7c3e64d7e9814eada8564e168586a9f23daeb
   classification: unspecified
+
+# Add Doxygen comment blocks for all functions in ffi.h
+#   Author:    @randombit
+- pr: 5761  # https://github.com/randombit/botan/pull/5761
+  merge_commit: 647f0b66ea7bc4af53c0e09dd086c4256db855d3
+  classification: unspecified
+
+# Fix various documentation errors
+#   Author:    @randombit
+- pr: 5760  # https://github.com/randombit/botan/pull/5760
+  merge_commit: f02c4a9ef293a4a8bcefb6fde5e6603bc0153c2c
+  classification: unspecified
+
+# Generate python documentation with sphinx
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5233  # https://github.com/randombit/botan/pull/5233
+  merge_commit: 15a24199e105b7c6e6fcc1a75a35a26d761d0f1b
+  classification: unspecified
