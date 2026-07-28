@@ -107,7 +107,7 @@ def determine_flags(target, target_os, target_cc, ccache,
              '--build-tool=%s' % make_tool]
 
     if ccache is not None:
-        flags += ['--no-store-vc-rev', '--compiler-cache=%s' % (ccache)]
+        flags += ['--compiler-cache=%s' % (ccache)]
 
     if target_os == 'windows':
         # Workaround for https://github.com/actions/runner-images/issues/10004

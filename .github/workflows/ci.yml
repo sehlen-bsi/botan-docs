@@ -2,6 +2,7 @@ name: CI
 
 on:
   push:
+  pull_request:
   schedule:
     # Run this around 2:37am once every 6-ish days to keep the GitHub API
     # cache warm. Otherwise we would run into an API rate limit whenever
