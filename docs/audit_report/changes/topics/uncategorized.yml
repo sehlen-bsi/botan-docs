@@ -6205,3 +6205,39 @@ patches:
 - pr: 5233  # https://github.com/randombit/botan/pull/5233
   merge_commit: 15a24199e105b7c6e6fcc1a75a35a26d761d0f1b
   classification: unspecified
+
+# Add doc comments to Python bindings that had none
+#   Author:    @randombit
+- pr: 5765  # https://github.com/randombit/botan/pull/5765
+  merge_commit: 26a3decdc8fa4da36e2dd60d426d749bf8ef378e
+  classification: unspecified
+
+# Add doc comments to ASN.1 handling APIs that were missing them
+#   Author:    @randombit
+- pr: 5766  # https://github.com/randombit/botan/pull/5766
+  merge_commit: 7612378fb4a6f5eb0d4b9c182bbcfcfec38d8bf2
+  classification: unspecified
+
+# Add missing doc comments to types and functions in utils
+#   Author:    @randombit
+- pr: 5762  # https://github.com/randombit/botan/pull/5762
+  merge_commit: 42ff5a84a793f05ddbdedd092ad8f2be3660ad70
+  classification: unspecified
+
+# Add missing doc comments for EC_Group, EC_Scalar, and EC_AffinePoint
+#   Author:    @randombit
+- pr: 5764  # https://github.com/randombit/botan/pull/5764
+  merge_commit: 6a374ef738416a73c144674a5c768850f9eb1f4d
+  classification: unspecified
+
+# Add missing or fix incorrect doc comments in various base classes
+#   Author:    @randombit
+- pr: 5763  # https://github.com/randombit/botan/pull/5763
+  merge_commit: 4515e1401f05ceee3b08ab1b5b7798f0aea29a5f
+  classification: unspecified
+
+# Add SIMD implementations of Salsa
+#   Author:    @randombit
+- pr: 5759  # https://github.com/randombit/botan/pull/5759
+  merge_commit: 417465db10f418bdc945ed4a80d03b9d44bbf0d0
+  classification: unspecified
