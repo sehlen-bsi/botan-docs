@@ -6241,3 +6241,15 @@ patches:
 - pr: 5759  # https://github.com/randombit/botan/pull/5759
   merge_commit: 417465db10f418bdc945ed4a80d03b9d44bbf0d0
   classification: unspecified
+
+# Refactor: Handle TLS 1.3 Compat Mode via the TLS state machine
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5767  # https://github.com/randombit/botan/pull/5767
+  merge_commit: f5acc29ba6195d2337e4d54685f30eb19e467c5f
+  classification: unspecified
+
+# Add docs for Python X509CRLReason codes [ci skip]
+#   Author: Jack Lloyd
+- commit: 164885cdcdc22526d3aa0fdb67da7189ed4df28c  # https://github.com/randombit/botan/commit/164885cdcdc22526d3aa0fdb67da7189ed4df28c
+  classification: unspecified
