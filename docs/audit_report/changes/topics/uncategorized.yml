@@ -6253,3 +6253,47 @@ patches:
 #   Author: Jack Lloyd
 - commit: 164885cdcdc22526d3aa0fdb67da7189ed4df28c  # https://github.com/randombit/botan/commit/164885cdcdc22526d3aa0fdb67da7189ed4df28c
   classification: unspecified
+
+# FIX: `./botan tls_client` can drop outgoing alert records on error
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5776  # https://github.com/randombit/botan/pull/5776
+  merge_commit: 98adbc601e540a6b57ce16060e63adb3cd1d369f
+  classification: unspecified
+
+# Generate CRC tables at compile time
+#   Author:    @randombit
+- pr: 5775  # https://github.com/randombit/botan/pull/5775
+  merge_commit: 7cf3c36de9983d96a9dd656308f9c3c6cd4b9bbb
+  classification: unspecified
+
+# Add missing doc comments for various public interfaces
+#   Author:    @randombit
+- pr: 5774  # https://github.com/randombit/botan/pull/5774
+  merge_commit: 17de773e30eef8c220a425d6c8187c7796619291
+  classification: unspecified
+
+# `TLS::Text_Policy::allowed_signature_schemes()`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5773  # https://github.com/randombit/botan/pull/5773
+  merge_commit: 03c33e9bd83ac73ad50e2a0c0064bdbf5db1dd69
+  classification: unspecified
+
+# Fix DTLS handshake retransmission edge cases
+#   Author:    @Thiesius
+#   Approvals: @reneme, (@randombit)
+- pr: 5696  # https://github.com/randombit/botan/pull/5696
+  merge_commit: 480c535c9fe2c8ba39f5937965308a89889c049d
+  classification: unspecified
+
+# Improve validation of algorithm identifiers in keys and signatures
+#   Author:    @randombit
+- pr: 5689  # https://github.com/randombit/botan/pull/5689
+  merge_commit: 52166af681fa7ebc5dae1c543834ce42d1820a64
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 0f17f004d6f8bc1ed01a28d2a5b2a50236683522  # https://github.com/randombit/botan/commit/0f17f004d6f8bc1ed01a28d2a5b2a50236683522
+  classification: unspecified
