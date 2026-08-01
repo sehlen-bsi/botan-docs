@@ -6304,3 +6304,10 @@ patches:
 - pr: 5771  # https://github.com/randombit/botan/pull/5771
   merge_commit: dae02dd5c2e730292ac3c602587a726d403a3a60
   classification: unspecified
+
+# Explicitly state Signature_Scheme::ECDSA_SECPxxxR1_TLS13_SHAxxx
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5772  # https://github.com/randombit/botan/pull/5772
+  merge_commit: e39eca41e8c8eeb4571f222b1766edf767e93bc8
+  classification: unspecified
