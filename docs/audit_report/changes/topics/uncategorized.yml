@@ -6311,3 +6311,33 @@ patches:
 - pr: 5772  # https://github.com/randombit/botan/pull/5772
   merge_commit: e39eca41e8c8eeb4571f222b1766edf767e93bc8
   classification: unspecified
+
+# Optimize SRP6's server step2
+#   Author:    @randombit
+- pr: 5781  # https://github.com/randombit/botan/pull/5781
+  merge_commit: d422f910081624adebfddeb267bb3ea4d15af650
+  classification: unspecified
+
+# Align documented and annotated deprecation markers
+#   Author:    @randombit
+- pr: 5780  # https://github.com/randombit/botan/pull/5780
+  merge_commit: 0367d0da0ef030146f7685a3cc5aeb8cc680313a
+  classification: unspecified
+
+# Add GCM-SIV from RFC 8452
+#   Author:    @randombit
+- pr: 5770  # https://github.com/randombit/botan/pull/5770
+  merge_commit: 11100d2e90f1ac158b8299d2751f463f83d25b65
+  classification: unspecified
+
+# Refactor: Use SIMD4x64 in the x86 SHA-512 compression function
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5779  # https://github.com/randombit/botan/pull/5779
+  merge_commit: 275ee240e175cabc65b0c282e51b4ea0db75ba79
+  classification: unspecified
+
+# Add missing include [ci skip]
+#   Author: Jack Lloyd
+- commit: c2ac22d5c8d49e91c96d36683c75dd0c71462806  # https://github.com/randombit/botan/commit/c2ac22d5c8d49e91c96d36683c75dd0c71462806
+  classification: unspecified
