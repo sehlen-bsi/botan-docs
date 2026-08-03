@@ -6341,3 +6341,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: c2ac22d5c8d49e91c96d36683c75dd0c71462806  # https://github.com/randombit/botan/commit/c2ac22d5c8d49e91c96d36683c75dd0c71462806
   classification: unspecified
+
+# Add PKCS#12
+#   Author:    @dmazzella
+#   Approvals: (@randombit)
+- pr: 5625  # https://github.com/randombit/botan/pull/5625
+  merge_commit: de22448f71dccc3b5665c41fcbbcd4dae33c92b5
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 32556ae61220d4efc2314d43c8d4b3f7b8ff7aac  # https://github.com/randombit/botan/commit/32556ae61220d4efc2314d43c8d4b3f7b8ff7aac
+  classification: unspecified
