@@ -6353,3 +6353,43 @@ patches:
 #   Author: Jack Lloyd
 - commit: 32556ae61220d4efc2314d43c8d4b3f7b8ff7aac  # https://github.com/randombit/botan/commit/32556ae61220d4efc2314d43c8d4b3f7b8ff7aac
   classification: unspecified
+
+# Refactor DTLS testing
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5787  # https://github.com/randombit/botan/pull/5787
+  merge_commit: 6084c18990eecab12b808b6a91713c75561ad169
+  classification: unspecified
+
+# Add SPAKE2+ password authenticated key exchange (RFC 9383)
+#   Author:    @randombit
+- pr: 5711  # https://github.com/randombit/botan/pull/5711
+  merge_commit: 280670273e5682ca4f160c3b6d4640a5de1d9b15
+  classification: unspecified
+
+# Disable finite field DH key exchange in the default TLS policy
+#   Author:    @randombit
+#   Approvals: @reneme, @FAlbertDev
+- pr: 5782  # https://github.com/randombit/botan/pull/5782
+  merge_commit: a1805ab2498064b3c9152f806c7341d7560f6a70
+  classification: unspecified
+
+# Fix a typo [ci skip]
+#   Author: Jack Lloyd
+- commit: f618c886ed2dafe2e59c9b6f06e36293408f0460  # https://github.com/randombit/botan/commit/f618c886ed2dafe2e59c9b6f06e36293408f0460
+  classification: unspecified
+
+# Fix some doc crossref typos [ci skip]
+#   Author: Jack Lloyd
+- commit: 6bf293b4366cb66e7daf2c3d9726ce316532dc63  # https://github.com/randombit/botan/commit/6bf293b4366cb66e7daf2c3d9726ce316532dc63
+  classification: unspecified
+
+# Fix bad doc link [ci skip]
+#   Author: Jack Lloyd
+- commit: 68459e748034bfe77e31d5b02777dca6a1cd565f  # https://github.com/randombit/botan/commit/68459e748034bfe77e31d5b02777dca6a1cd565f
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: b0b04139199798d463016f54b6d1e368e5b542c9  # https://github.com/randombit/botan/commit/b0b04139199798d463016f54b6d1e368e5b542c9
+  classification: unspecified
