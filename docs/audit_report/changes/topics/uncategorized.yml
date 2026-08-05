@@ -6393,3 +6393,57 @@ patches:
 #   Author: Jack Lloyd
 - commit: b0b04139199798d463016f54b6d1e368e5b542c9  # https://github.com/randombit/botan/commit/b0b04139199798d463016f54b6d1e368e5b542c9
   classification: unspecified
+
+# Bound DTLS handshake retry attempts and properly abandon timed out states
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5793  # https://github.com/randombit/botan/pull/5793
+  merge_commit: 3c39759ec95f08cff95289fe2ba905241abd8512
+  classification: unspecified
+
+# Refuse unsafe ciphersuites in DTLS
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5791  # https://github.com/randombit/botan/pull/5791
+  merge_commit: 5b120d3342cd9e5b831fbf054aa6ec3ee08a4efb
+  classification: unspecified
+
+# Require address-bound cookies for DTLS servers
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5792  # https://github.com/randombit/botan/pull/5792
+  merge_commit: 26c557a07543056ab02fd41a52d98ce4a73dcf64
+  classification: unspecified
+
+# Fix native ownership of Python SRP server sessions
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5796  # https://github.com/randombit/botan/pull/5796
+  merge_commit: 30b3f5a74cc14412999afbe052675edb01a44873
+  classification: unspecified
+
+# Note in SemVer docs that we will break as needed for security
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5794  # https://github.com/randombit/botan/pull/5794
+  merge_commit: 544f38846764e8cd02eb7a582dd9c61296b79ca2
+  classification: unspecified
+
+# Properly ignore HelloRequest received during a TLS renegotiation
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5790  # https://github.com/randombit/botan/pull/5790
+  merge_commit: 2fd23a6bad77d5f8decfdcf59af2a316e5fd210e
+  classification: unspecified
+
+# Make DTLS retransmission timing deterministic
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5788  # https://github.com/randombit/botan/pull/5788
+  merge_commit: 940084bbecc1f5d4e678df9d82181d33f3a6018b
+  classification: unspecified
+
+# Update the roadmap [ci skip]
+#   Author: Jack Lloyd
+- commit: b776d8ac394d9320ef5a609c8455c4a969b08fa8  # https://github.com/randombit/botan/commit/b776d8ac394d9320ef5a609c8455c4a969b08fa8
+  classification: unspecified
