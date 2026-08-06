@@ -6447,3 +6447,31 @@ patches:
 #   Author: Jack Lloyd
 - commit: b776d8ac394d9320ef5a609c8455c4a969b08fa8  # https://github.com/randombit/botan/commit/b776d8ac394d9320ef5a609c8455c4a969b08fa8
   classification: unspecified
+
+# In (D)TLS discard old cipher state, and prevent DTLS epoch wraparound
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5801  # https://github.com/randombit/botan/pull/5801
+  merge_commit: a8f6c6a59e850016f77dd2a1d3d10991d2610eba
+  classification: unspecified
+
+# Make legacy McEliece GF2m caches thread-safe
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5799  # https://github.com/randombit/botan/pull/5799
+  merge_commit: f60d8e6a5a489ac40efd49d841994b906573f362
+  classification: unspecified
+
+# Avoid using the system clock to drive DTLS timeout tests
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5802  # https://github.com/randombit/botan/pull/5802
+  merge_commit: 30b4d7980648c80c1db39181fcfb64492e2928ae
+  classification: unspecified
+
+# Account for record expansion due to AEAD when fragmenting handshakes
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5800  # https://github.com/randombit/botan/pull/5800
+  merge_commit: 4695b4a661af36714c6a323d0c345b16ac2facc8
+  classification: unspecified
