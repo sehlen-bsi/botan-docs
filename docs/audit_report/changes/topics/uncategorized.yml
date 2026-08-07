@@ -6475,3 +6475,23 @@ patches:
 - pr: 5800  # https://github.com/randombit/botan/pull/5800
   merge_commit: 4695b4a661af36714c6a323d0c345b16ac2facc8
   classification: unspecified
+
+# Use the encoded byte length in Python PKSign.update
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5807  # https://github.com/randombit/botan/pull/5807
+  merge_commit: 7ffae689f89286ecddf5ffecb17803403ad96fde
+  classification: unspecified
+
+# Fix an integer overflow in botan_block_cipher_block_size
+#   Author:    @randombit
+- pr: 5805  # https://github.com/randombit/botan/pull/5805
+  merge_commit: 1846ba2f465735ae95b901f374f3aea040c00ed1
+  classification: unspecified
+
+# Make OCSP "soft fail" conditions errors unless specifically opted into
+#   Author:    @randombit
+#   Approvals: @FAlbertDev, @reneme
+- pr: 5804  # https://github.com/randombit/botan/pull/5804
+  merge_commit: 38bb4bff9873f69e285fad083e00a8f8699f407f
+  classification: unspecified
