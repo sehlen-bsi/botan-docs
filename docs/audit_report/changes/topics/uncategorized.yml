@@ -6495,3 +6495,43 @@ patches:
 - pr: 5804  # https://github.com/randombit/botan/pull/5804
   merge_commit: 38bb4bff9873f69e285fad083e00a8f8699f407f
   classification: unspecified
+
+# Ignore unauthenticated epoch-zero input in active DTLS associations
+#   Author:    @randombit
+- pr: 5811  # https://github.com/randombit/botan/pull/5811
+  merge_commit: 76dd4bb986a13ccc3778c6ce90f0be64d1878cd9
+  classification: unspecified
+
+# Align the cost limits on PBES2 and PKCS12 decryption
+#   Author:    @randombit
+- pr: 5820  # https://github.com/randombit/botan/pull/5820
+  merge_commit: 3a1e7f35fc33a2f211f0741e173bc149c1bac26a
+  classification: unspecified
+
+# Disable implicit redirects in the internal HTTP client
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5815  # https://github.com/randombit/botan/pull/5815
+  merge_commit: b635a1ded40a0d96183d6ad7b12b021689f2cd61
+  classification: unspecified
+
+# Reject embedded NULs at the Python C-string boundary
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5814  # https://github.com/randombit/botan/pull/5814
+  merge_commit: 95a7629762785d021d4607abc1991985eac5ad61
+  classification: unspecified
+
+# Refactor: Opportunistically disable TLS downgrade support entirely
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5812  # https://github.com/randombit/botan/pull/5812
+  merge_commit: 0a3d083f039ca479d06e3e938a26bba320af6405
+  classification: unspecified
+
+# Propagate Threaded_Fork branch exceptions
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5809  # https://github.com/randombit/botan/pull/5809
+  merge_commit: 7e314d021635bd747a4b1c6614081ef7ac7bf68c
+  classification: unspecified
