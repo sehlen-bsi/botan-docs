@@ -6535,3 +6535,22 @@ patches:
 - pr: 5809  # https://github.com/randombit/botan/pull/5809
   merge_commit: 7e314d021635bd747a4b1c6614081ef7ac7bf68c
   classification: unspecified
+
+# Authenticate OCSP responses in ocsp_check
+#   Author:    @randombit
+- pr: 5825  # https://github.com/randombit/botan/pull/5825
+  merge_commit: 003ef4ad378bec897ae3830e266ae39ed99948a0
+  classification: unspecified
+
+# Add documentation for name types (URI, DNSName, etc)
+#   Author:    @randombit
+- pr: 5824  # https://github.com/randombit/botan/pull/5824
+  merge_commit: a88f81ec17d1e5daa2f368dc5d160886fe523a30
+  classification: unspecified
+
+# Refactor: TLS downgrade does not re-parse Client Hello
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5813  # https://github.com/randombit/botan/pull/5813
+  merge_commit: 82a09c7c401736f535cd3b80b9312352151bd459
+  classification: unspecified
