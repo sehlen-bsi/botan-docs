@@ -6554,3 +6554,26 @@ patches:
 - pr: 5813  # https://github.com/randombit/botan/pull/5813
   merge_commit: 82a09c7c401736f535cd3b80b9312352151bd459
   classification: unspecified
+
+# SCAN_Name improvements and tests
+#   Author:    @randombit
+- pr: 5831  # https://github.com/randombit/botan/pull/5831
+  merge_commit: 7aca23ff658e2934cb185b026bc8a7c20d6fb682
+  classification: unspecified
+
+# Add documentation for the hex, base32, base58 and base64 APIs
+#   Author:    @randombit
+- pr: 5827  # https://github.com/randombit/botan/pull/5827
+  merge_commit: b77d3688d8e5f4f96cbba384d8cde23a61a9e8b8
+  classification: unspecified
+
+# In TLS 1.2 ensure sensitive state is cleared after a fatal alert
+#   Author:    @randombit
+- pr: 5810  # https://github.com/randombit/botan/pull/5810
+  merge_commit: 6ea60e144559ed99555fef78c5510b9d9e8349bf
+  classification: unspecified
+
+# Update goals document [ci skip]
+#   Author: Jack Lloyd
+- commit: 7c3ffe6ba4ad3382b95234e82fd7cd635b9b2c7a  # https://github.com/randombit/botan/commit/7c3ffe6ba4ad3382b95234e82fd7cd635b9b2c7a
+  classification: unspecified
