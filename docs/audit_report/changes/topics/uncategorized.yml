@@ -6577,3 +6577,51 @@ patches:
 #   Author: Jack Lloyd
 - commit: 7c3ffe6ba4ad3382b95234e82fd7cd635b9b2c7a  # https://github.com/randombit/botan/commit/7c3ffe6ba4ad3382b95234e82fd7cd635b9b2c7a
   classification: unspecified
+
+# Test: Downgrade during TLS session resumption
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5833  # https://github.com/randombit/botan/pull/5833
+  merge_commit: d59f1b2789ca1469f6d8ece131410c5300654884
+  classification: unspecified
+
+# Add some further tests of X509 DN comparisons
+#   Author:    @randombit
+- pr: 5830  # https://github.com/randombit/botan/pull/5830
+  merge_commit: 3b07e0bee3c83803cbbf2705453f6137485e0a1c
+  classification: unspecified
+
+# Bound the HelloVerifyRequest messages a DTLS client acts on
+#   Author:    @randombit
+#   Approvals: @atreiber94
+- pr: 5834  # https://github.com/randombit/botan/pull/5834
+  merge_commit: 8440322c5f4103fdfc40ba122f3321f3d6d35a33
+  classification: unspecified
+
+# Fix some DTLS renegotiation handling bugs
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5829  # https://github.com/randombit/botan/pull/5829
+  merge_commit: a61f9334ff3255a257c229bbef2d461ba535b42f
+  classification: unspecified
+
+# Bound DTLS handshake reassembly memory and improve fragment handling
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5803  # https://github.com/randombit/botan/pull/5803
+  merge_commit: 6ee6d9a34fc022ace39871e75ee0ac2a16d9f325
+  classification: unspecified
+
+# In ECIES require a fresh nonce be created for each message
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5823  # https://github.com/randombit/botan/pull/5823
+  merge_commit: 87bc86dc3df09ede96f5de601664aa437322d812
+  classification: unspecified
+
+# Add TLS Downgrading Tests
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 5817  # https://github.com/randombit/botan/pull/5817
+  merge_commit: 2445ace0b8f6b0902f86d646c9206d32b9adeba5
+  classification: unspecified
