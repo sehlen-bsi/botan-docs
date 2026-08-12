@@ -6625,3 +6625,31 @@ patches:
 - pr: 5817  # https://github.com/randombit/botan/pull/5817
   merge_commit: 2445ace0b8f6b0902f86d646c9206d32b9adeba5
   classification: unspecified
+
+# In randomize_with_ts_input prefer system RNG if available
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5839  # https://github.com/randombit/botan/pull/5839
+  merge_commit: 96e37b3527a9ee6fe23e5f8c7f3ce26f877655b6
+  classification: unspecified
+
+# In DTLS distinguish a delayed or replayed handshake message from a current one
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5836  # https://github.com/randombit/botan/pull/5836
+  merge_commit: de876bbabc3b7c35b96e61304890e19cbef82563
+  classification: unspecified
+
+# Treat empty AutoSeeded_RNG requests as no-ops
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5838  # https://github.com/randombit/botan/pull/5838
+  merge_commit: 46a80949fe694e794a353f203a37586929f6f8d3
+  classification: unspecified
+
+# Correct and bound DTLS terminal-flight replay
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5835  # https://github.com/randombit/botan/pull/5835
+  merge_commit: 7544a87a69f227f55579b7f7435eee1ec7485a79
+  classification: unspecified
