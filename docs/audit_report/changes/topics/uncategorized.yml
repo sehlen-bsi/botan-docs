@@ -6653,3 +6653,28 @@ patches:
 - pr: 5835  # https://github.com/randombit/botan/pull/5835
   merge_commit: 7544a87a69f227f55579b7f7435eee1ec7485a79
   classification: unspecified
+
+# Make TLS 1.3 record padding more configurable
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5843  # https://github.com/randombit/botan/pull/5843
+  merge_commit: 12d7f2e8bd986c0194e11605d1d4dbe68bc82ed9
+  classification: unspecified
+
+# In TLS 1.2 session summaries, report the pending PSK identity
+#   Author:    @randombit
+- pr: 5842  # https://github.com/randombit/botan/pull/5842
+  merge_commit: 64287363243071e843ed2e4c51d19d4c9efb34ad
+  classification: unspecified
+
+# add hss/lms test certificate from RFC 9802
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5840  # https://github.com/randombit/botan/pull/5840
+  merge_commit: 58719fc84c4f225eb7bb2775c7349b1ddc071047
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: c6a6be802e6d93c0ffdb2bc16e417d8feee86ff8  # https://github.com/randombit/botan/commit/c6a6be802e6d93c0ffdb2bc16e417d8feee86ff8
+  classification: unspecified
