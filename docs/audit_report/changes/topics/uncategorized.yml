@@ -6678,3 +6678,18 @@ patches:
 #   Author: Jack Lloyd
 - commit: c6a6be802e6d93c0ffdb2bc16e417d8feee86ff8  # https://github.com/randombit/botan/commit/c6a6be802e6d93c0ffdb2bc16e417d8feee86ff8
   classification: unspecified
+
+# Update for 3.13.0 release
+#   Author: Jack Lloyd
+- commit: 2a81eef56c96c237e590c27f9a75e60317c9c700  # https://github.com/randombit/botan/commit/2a81eef56c96c237e590c27f9a75e60317c9c700
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 868a487afa89b758f70c1f1236252ad6626513d7  # https://github.com/randombit/botan/commit/868a487afa89b758f70c1f1236252ad6626513d7
+  classification: unspecified
+
+# Add missing module dependency [ci skip]
+#   Author: Jack Lloyd
+- commit: 980d0cb4aaa61a1cb76df480a9fcec5cf23fafb5  # https://github.com/randombit/botan/commit/980d0cb4aaa61a1cb76df480a9fcec5cf23fafb5
+  classification: unspecified
