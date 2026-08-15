@@ -6693,3 +6693,26 @@ patches:
 #   Author: Jack Lloyd
 - commit: 980d0cb4aaa61a1cb76df480a9fcec5cf23fafb5  # https://github.com/randombit/botan/commit/980d0cb4aaa61a1cb76df480a9fcec5cf23fafb5
   classification: unspecified
+
+# Update the jitterentropy and esdm deps in CI
+#   Author:    @randombit
+- pr: 5846  # https://github.com/randombit/botan/pull/5846
+  merge_commit: ab592ad17101af57b1a917f5bb2ad9c366016b7a
+  classification: unspecified
+
+# Add a value barrier in Kyber decompress helper
+#   Author:    @randombit
+- pr: 5845  # https://github.com/randombit/botan/pull/5845
+  merge_commit: afde30dd78adc50dc7a9231ba462e3bdf21b1d68
+  classification: unspecified
+
+# Fix various lint warnings from ruff 0.16
+#   Author:    @randombit
+- pr: 5757  # https://github.com/randombit/botan/pull/5757
+  merge_commit: 4985edb8598bfb875559a8863bb1415f268a5ec6
+  classification: unspecified
+
+# Skip `pk_concurrent_ops` under standard CI valgrind [ci skip]
+#   Author: Jack Lloyd
+- commit: 7542a6e96155082466a377041e5656bb4deca673  # https://github.com/randombit/botan/commit/7542a6e96155082466a377041e5656bb4deca673
+  classification: unspecified
