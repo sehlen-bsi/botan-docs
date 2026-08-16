@@ -6716,3 +6716,43 @@ patches:
 #   Author: Jack Lloyd
 - commit: 7542a6e96155082466a377041e5656bb4deca673  # https://github.com/randombit/botan/commit/7542a6e96155082466a377041e5656bb4deca673
   classification: unspecified
+
+# Add Hash_Engine
+#   Author:    @randombit
+- pr: 5493  # https://github.com/randombit/botan/pull/5493
+  merge_commit: 9090eb61421cab22e957dc18c61e4b33c51e2608
+  classification: unspecified
+
+# Migrate off of using 22.04 images in CI
+#   Author:    @randombit
+- pr: 5848  # https://github.com/randombit/botan/pull/5848
+  merge_commit: e38ea0ae49a55655e4a264207c0fef77b4e353e2
+  classification: unspecified
+
+# Randomize BoGo RNG and fix an inmem TLS session storage bug
+#   Author:    @randombit
+- pr: 5847  # https://github.com/randombit/botan/pull/5847
+  merge_commit: 9af5913b47aab86a1ef4adab443e0acd8384630c
+  classification: unspecified
+
+# In the bitsliced AES use the native word size instead of always 32-bit
+#   Author:    @randombit
+- pr: 5826  # https://github.com/randombit/botan/pull/5826
+  merge_commit: 10831835d73572da1d4bb13f2046e6550a647c88
+  classification: unspecified
+
+# Use Ubuntu 26.04 image where possible in GHA CI
+#   Author:    @randombit
+- pr: 5768  # https://github.com/randombit/botan/pull/5768
+  merge_commit: 57aa012b816aa339ba20f4afcce490191b3ea1e9
+  classification: unspecified
+
+# Add doc comments for the macros used in ffi.h [ci skip]
+#   Author: Jack Lloyd
+- commit: 6931ef6fdce2fa03cfc0e2fee74cd86b2fbf6916  # https://github.com/randombit/botan/commit/6931ef6fdce2fa03cfc0e2fee74cd86b2fbf6916
+  classification: unspecified
+
+# Bump version to 3.14.0
+#   Author: Jack Lloyd
+- commit: 6770f8ebe30180fa29b22bd944538326875eecc5  # https://github.com/randombit/botan/commit/6770f8ebe30180fa29b22bd944538326875eecc5
+  classification: unspecified
