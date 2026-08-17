@@ -1,0 +1,55 @@
+title: API Enhancements and Modifications
+
+description: |
+  This section lists changes to Botan's API.
+
+patches:
+
+# Custom ECDH adapter in TLS 1.2 must no-longer derive from `ECDH_PublicKey`
+#   Author:    @reneme
+#   Approvals: (@jdoubleu), (@randombit)
+- pr: 5056  # https://github.com/randombit/botan/pull/5056
+  merge_commit: 63d9957034307dc4ed797187b6262bb013c4cc5e
+  auditer: falko-strenzke
+  classification:  info
+
+# Update EC_Group::PEM_encode to handle upcoming removal of explicit curves
+#   Author:    @randombit
+- pr: 4840  # https://github.com/randombit/botan/pull/4840
+  merge_commit: 54b3ab9c712785987ef76f47e74dac33b0e4f390
+  auditer: falko-strenzke
+  classification:  info
+  comment: |
+    Botan 4 will completely remove explicit encoding of EC domain parameters and will only support named curves. This change introduces the for choice for encoding them as named curves and adds a warning to the API doc that the explicit encoding will be removed.
+
+# Further BigInt API deprecations
+#   Author:    @randombit
+- pr: 4757  # https://github.com/randombit/botan/pull/4757
+  merge_commit: 4a157cbeb4e18718b8e837665383373200ed9a64
+  auditer: falko-strenzke
+  classification:  info
+
+# Add named pseudo-constructors for Ed25519_PrivateKey
+#   Author:    @randombit
+#   Approvals: (@arekmula)
+- pr: 4702  # https://github.com/randombit/botan/pull/4702
+  merge_commit: 7b99e016abdd1c0719f0ce0f3f84e6044428ced0
+  auditer: falko-strenzke
+  classification:  info
+
+# FFI: Generic getter(s) for X.509 objects
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5188  # https://github.com/randombit/botan/pull/5188
+  merge_commit: 27fd567e939181f4d75872409ea253c0ce8711f0
+  auditer: falko-strenzke
+  classification:  info
+
+# Allow unregistering EC Groups
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5306  # https://github.com/randombit/botan/pull/5306
+  merge_commit: 5b94bbd9d0705b59c99c39b4b317725b9ea57b87
+  auditer: falko-strenzke
+  classification:  info
+

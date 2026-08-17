@@ -75,7 +75,7 @@ parameters:
 
 These restrictions are compatible with the main recommendations from [ReqEC]_
 and checked during the construction of any custom `EC_Group` (see
-:srcref:`[src/lib/pubkey/ec_group]/ec_group.cpp:414|EC_Group`). Previous
+:srcref:`[src/lib/pubkey/ec_group]/ec_group.cpp:503|EC_Group`). Previous
 versions of the library had more liberal restrictions on the custom group
 parameters, but those are now deprecated. Particularly, the restriction on
 the cofactor is new and in the future custom curves with a cofactor not
@@ -129,28 +129,28 @@ consult the implementations linked in the table below.
    | (:srcref:`code <[src/lib/math/pcurves]/pcurves.h>`)                                                 |                                                                                                                                                                                                                                                      |
    +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | ``AffineCurvePoint``                                                                                | Curve specific representation of an affine point with coordinates :math:`x,y \in \mathbb{F}_p`.                                                                                                                                                      |
-   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:706|AffineCurvePoint>`)          |                                                                                                                                                                                                                                                      |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:909|AffineCurvePoint>`)          |                                                                                                                                                                                                                                                      |
    +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | ``ProjectiveCurvePoint``                                                                            | Curve-specific implementation of a projective point using Jacobian coordinates :math:`x,y,z \in \mathbb{F}_p`. Provides foundational point algorithms, such as addition and doubling.                                                                |
-   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:879|ProjectiveCurvePoint>`)      |                                                                                                                                                                                                                                                      |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1000|ProjectiveCurvePoint>`)     |                                                                                                                                                                                                                                                      |
    +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | ``IntMod``                                                                                          | Curve-specific representation of an integer modulo a prime (either :math:`p` for field elements, or :math:`n` for scalar arithmetics). Provides foundational modular arithmetics algorithms and a customization point for curve-specific reductions. |
-   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:145|IntMod>`)                    |                                                                                                                                                                                                                                                      |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:163|IntMod>`)                    |                                                                                                                                                                                                                                                      |
    +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | ``EllipticCurve``                                                                                   | Trait type for the concrete elliptic curve, its parameters and helper structures. Provides customization points for curve-specific field inversion algorithms.                                                                                       |
-   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1271|EllipticCurve>`)            |                                                                                                                                                                                                                                                      |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1228|EllipticCurve>`)            |                                                                                                                                                                                                                                                      |
    +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | ``BlindedScalarBits``                                                                               | Allows randomizing the representation of a scalar :math:`k` by adding the curve's prime order :math:`n` random :math:`m` times (:math:`k + n \cdot m`).                                                                                              |
-   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1450|BlindedScalarBits>`)        |                                                                                                                                                                                                                                                      |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1293|BlindedScalarBits>`)        |                                                                                                                                                                                                                                                      |
    +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | ``PrecomputedBaseMulTable``                                                                         | Represents a precomputed multiplication table to perform window multiplication by :math:`G`. The table is precomputed using a sequence of point additions of successive powers of the base point in a comb-like technique.                           |
-   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1605|PrecomputedBaseMulTable>`)  |                                                                                                                                                                                                                                                      |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1390|PrecomputedBaseMulTable>`)  |                                                                                                                                                                                                                                                      |
    +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | ``WindowedMulTable``                                                                                | Allows precomputing a multiplication table for generic point multiplication using a fixed window of some bit length :math:`W`. Then the usage of this precomputed table uses only double and add operations.                                         |
-   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1693|WindowedMulTable>`)         |                                                                                                                                                                                                                                                      |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1422|WindowedMulTable>`)         |                                                                                                                                                                                                                                                      |
    +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | ``WindowedMul2Table``                                                                               | Allows precomputing a multiplication table for 2-ary point multiplication as a windowed variant of "Shamir's Trick" of some window bit length :math:`W`.                                                                                             |
-   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1805|WindowedMul2Table>`)        |                                                                                                                                                                                                                                                      |
+   | (:srcref:`code <[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1538|WindowedMul2Table>`)        |                                                                                                                                                                                                                                                      |
    +-----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Fundamental Elliptic Curve Algorithms
@@ -160,9 +160,9 @@ Point Addition
 ~~~~~~~~~~~~~~
 
 Implementations are provided for mixed projective and affine additions (see
-:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:958|add_mixed`) and
+:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1091|add_mixed`) and
 projective-projective additions (see
-:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1009|add`). Both
+:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1103|add`). Both
 follow the suggestions in [EFD]_.
 
 Point Doubling
@@ -170,9 +170,9 @@ Point Doubling
 
 Point doubling is implemented following the suggestions in [EFD]_ with
 optimizations for curves with :math:`a = -3` or :math:`a = 0` (see
-:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1135|dbl`).
+:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1121|dbl`).
 Additionally, iterated point doubling is provided (see
-:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1065|dbl_n`) with
+:srcref:`[src/lib/math/pcurves/pcurves_impl]/pcurves_impl.h:1108|dbl_n`) with
 similar special treatment for curves with :math:`a = -3` or :math:`a = 0`.
 
 .. _pubkey/ecc/scalar_mul:
@@ -183,13 +183,12 @@ Multiplication of Scalar k and Point P
 Scalar multiplication of the form :math:`k \cdot P` is implemented using a
 window method with precomputed points. For the curve's base point :math:`G` this
 precomputation is performed only once and the table is cached for later uses by
-the application. For the base point, a window size of 5 bits is used, for points
-known only at runtime, the window size is 4 bits.
+the application.
 
 The online phase of the multiplication is implemented in a side-channel silent
 manner ensuring table lookups aren't leaking information about the secret scalar
 :math:`k`. The secret scalar is blinded with a random value :math:`m` of
-bitlength :math:`length(n)/4` rounded up to the next word length of the target
+bit length :math:`bitlength(n)/8` rounded up to the next word length of the target
 machine. The scalar representation used in the multiplication is therefore
 :math:`r = k + n \cdot m`, with :math:`n` being the curve's group order.
 Finally, the projective Jacobian coordinate representation of the accumulator is
@@ -217,7 +216,7 @@ The online phase of this 2-ary multiplication table *is not side-channel
 silent*. However, it is used for only operations that don't handle secret values
 such as signature verification. An additional implementation applying the same
 countermeasures as the ordinary scalar multiplication is available. This may be
-useful when implementing cryptographic schemes such as sPAKE, but it is
+useful when implementing cryptographic schemes such as SPAKE, but it is
 currently not used in the elliptic curve algorithms outlined below.
 
 For links to the implementation, see ``WindowedMul2Table`` in the table above.
@@ -227,7 +226,7 @@ Key Generation
 
 Botan provides the elliptic curve private key class ``EC_PrivateKey``, the
 respective public key class ``EC_PublicKey``, and the key generation algorithm
-in :srcref:`src/lib/pubkey/ecc_key/ecc_key.cpp:140|EC_PrivateKey`. To generate a
+in :srcref:`src/lib/pubkey/ecc_key/ecc_key.cpp:141|EC_PrivateKey`. To generate a
 private key the constructor ``EC_PrivateKey(RandomNumberGenerator& rng, const
 EC_Group& ec_group, bool with_modular_inverse)`` is called. The constructor
 operates as follows:
@@ -255,7 +254,7 @@ operates as follows:
       <pubkey/ecc/scalar_mul>` :math:`d \cdot G`, where :math:`G` is the base
       point of the curve. Note that if the passed parameter
       ``with_modular_inverse`` is set to ``true``, the public point :math:`Q` is
-      instead computed as :math:`d^{-1} \cdot G`. This is required for ECKDSA
+      instead computed as :math:`d^{-1} \cdot G`. This is required for ECKCDSA
       and ECGDSA key generation, but results in an invalid ECDH/ECDSA key.
 
 Optionally ``EC_PublicKeys`` can be explicitly checked with a call to
@@ -287,7 +286,7 @@ Key Agreement
 ^^^^^^^^^^^^^
 
 The shared secret is computed in
-:srcref:`[src/lib/pubkey/ecdh]/ecdh.cpp:35|raw_agree`. The algorithm receives
+:srcref:`[src/lib/pubkey/ecdh]/ecdh.cpp:37|raw_agree`. The algorithm receives
 the public point of the other party and computes the shared secret as follows:
 
 .. admonition:: ``ECDH_KA_Operation::raw_agree()``
@@ -319,7 +318,7 @@ sufficient to ensure this constraint.
 with the algorithm shown in chapter 4.3.1 of [TR-03111]_ and thus fulfills
 the ECDH criteria listed in [TR-02102-1]_, if a recommended curve was
 chosen. Furthermore, it is recommended to utilize the optional KDF to
-derive a symmetric key.
+\derive a symmetric key.
 
 
 ECDSA
@@ -339,7 +338,7 @@ Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
 The signature generation algorithm works as follows (see
-:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:162|raw_sign`):
+:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:163|raw_sign`):
 
 .. admonition:: ``ECDSA_Signature_Operation::raw_sign()``
 
@@ -356,45 +355,50 @@ The signature generation algorithm works as follows (see
 
    **Steps:**
 
-   1. Sample a random blinding scalar :math:`1 \leq b_1 < n` from ``rng`` and
-      calculate its inverse :math:`b_1^{-1} \bmod n`
+   1. During the initialization the signature operation, sample a random blinding scalar :math:`1 \leq b_i < n` from ``rng``
 
-   1. :math:`e = H` and truncate :math:`e` to be at most :math:`length(n)` bits long.
+   2. :math:`e = H` and truncate :math:`e` to be at most bitlength(:math:`n`) bits long.
 
-   2. Generate parameter :math:`k` as a random number :math:`0 < k < n` using
+   3. Generate parameter :math:`k` as a random number :math:`0 < k < n` using
       the algorithm described in Section :ref:`pubkey_param/rng` or as HMAC_DRBG
       output [RFC6979]_. If Botan is compiled with the module RFC6979 the
       HMAC_DRBG is used, otherwise :math:`k` is sampled from the passed random
       number generator ``rng``.
 
-   3. :math:`r = R_x \bmod n` where :math:`R_x` is the x-coordinate of the affine point
-      :math:`R_{x,y} = k \cdot G` (see :ref:`pubkey/ecc/scalar_mul`).
+   4. :math:`r = R_x \bmod n` where :math:`R_x` is the x-coordinate of the affine point
+      :math:`R_{x,y} = k \cdot G` (see :ref:`pubkey/ecc/scalar_mul`). The computation
+      of :math:`k \cdot G` is done with the use of scalar blinding.
 
-   4. Compute :math:`k^{-1} = (b_1 \cdot k)^{-1} \cdot b_1` using the blinding
-      value :math:`b_1`. The inversion either uses Fermat's little theorem or a
-      curve-specific addition chain if available.
 
-   5. Square the blinding values :math:`b_1` and :math:`b_1^{-1} \bmod n` to
-      obtain new blinding values :math:`b_2` and :math:`b_2^{-1} \bmod n`. This
-      is done to avoid re-sampling/re-inverting the blinding values. When using
-      RFC6979 we might not have a seeded random number generator handy in this
-      phase of the signature creation.
+   5. Compute :math:`k'^{-1} = (b_i \cdot k)^{-1}` using the blinding
+      value :math:`b_i`. The inversion either uses Fermat's little theorem (:math:`a^{-1} = a^{p-2} \bmod n`) or a
+      curve-specific addition chain if available. In the former case, the computation is realized with a variable time scalar exponentiation.
 
-   6. Compute :math:`s = k^{-1} \cdot {b_2}^{-1} \cdot (d \cdot b_2 \cdot r + e \cdot b_2)`
+   6. Compute :math:`u=(d \cdot b_i) \cdot r + e \cdot b_i`. The braces indicate the order of evaluation.
 
-   7. Return :math:`(r, s)` if :math:`r \neq 0` and :math:`s \neq 0`. Otherwise throw an exception.
+   7. Compute :math:`s = k'^{-1} \cdot u` which amounts to :math:`(b_i \cdot k )^{-1} \cdot (d \cdot r + e) \cdot b_i = k^{-1} \cdot (d \cdot r + e)`.
+
+   8. Square the blinding value :math:`b_i` to
+      obtain new a blinding value :math:`b_{i+1}` which replaces :math:`b_i` in
+      the next signature generation with the same signature operation instance. This
+      is done to avoid re-sampling/re-inverting the blinding value. This is useful when using
+      [RFC6979]_ as then there might not be a seeded random number generator available during the signature creation.
+
+   9. ensure that :math:`r \neq 0` and :math:`s \neq 0`. Otherwise throw an exception.
+
+   10. Return :math:`(r, s)`
 
 **Remark:** If Botan is built with the RFC6979 module, it implements
-deterministic ECDSA signatures, which are not covered by [TR-03111]_. In
-this case the implemented ECDSA signature algorithm is not [FIPS-186-4]_
-conform. However, the RFC6979 module is prohibited in the BSI module
-policy.
+deterministic ECDSA signatures, which are not covered by [TR-03111]_.
+Note that the RFC6979 module is prohibited in the BSI module policy.
+
+**Remark:** The blinding countermeasure was reworked in Dec 2025 in the PR https://github.com/randombit/botan/pull/5173.
 
 Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
 The signature verification algorithm works as follows (see
-:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:214|verify`):
+:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:230|verify`):
 
 .. admonition:: ``ECDSA_Verification_Operation::verify()``
 
@@ -444,7 +448,7 @@ Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
 The signature generation algorithm works as follows (see
-:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:163|raw_sign`):
+:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:164|raw_sign`):
 
 .. admonition:: ``ECKCDSA_Signature_Operation::raw_sign()``
 
@@ -478,7 +482,7 @@ Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
 The signature verification algorithm works as follows (see
-:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:235|verify`):
+:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:236|verify`):
 
 .. admonition:: ``ECKCDSA_Verification_Operation::verify()``
 

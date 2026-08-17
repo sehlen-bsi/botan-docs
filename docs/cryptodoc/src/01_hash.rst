@@ -16,36 +16,33 @@ of hash compression methods.
 SHA-1
 -----
 
-Botan provides four SHA-1 implementations: software, SSE2 (Streaming
-SIMD Extensions 2), x86 (Intel SHA Extensions) and ARMv8 (ARMv8
-Cryptography Extensions). The description of SHA-1 is provided in
+Botan provides five SHA-1 implementations: software, a generic SIMD
+implementation, x86 AVX2/BMI2, x86 (Intel SHA Extensions) and ARMv8
+(ARMv8 Cryptography Extensions). The description of SHA-1 is provided in
 [NIST-SHS]_.
 
 The software implementation is located
 in :srcref:`src/lib/hash/sha1/sha1.cpp`. It uses the Botan structure
 ``secure_vector`` to implement data handling and compressions.
 
-The SSE2 implementation is in :srcref:`src/lib/hash/sha1/sha1_sse2/sha1_sse2.cpp`.
-It is based on the code by Dean Gaudet [#sha1_dean]_.
+The generic SIMD implementation is in
+:srcref:`src/lib/hash/sha1/sha1_simd/sha1_simd.cpp`. The x86 AVX2/BMI2 implementation in
+:srcref:`src/lib/hash/sha1/sha1_avx2/sha1_avx2.cpp` uses the same
+approach as in `sha1_simd.cpp`, operating on the two 128-bit lanes of the wider AVX2 register
+in parallel.
 
 The ARMv8 implementation is in
 :srcref:`src/lib/hash/sha1/sha1_armv8/sha1_armv8.cpp`. The x86 implementation is
-in :srcref:`src/lib/hash/sha1/sha1_x86/sha1_x86.cpp`. Both are based on the
-code by Jeffrey Walton [#sha_intrinsics]_.
-
-.. [#sha1_dean]
-   http://arctic.org/~dean/crypto/sha1.html
-
-.. [#sha_intrinsics]
-   https://github.com/noloader/SHA-Intrinsics
+in :srcref:`src/lib/hash/sha1/sha1_x86/sha1_x86.cpp`.
 
 SHA-2
 -----
 
-Botan provides four SHA-2 implementations: software, BMI2 (Bit
-Manipulation Instruction Set 2), x86 (Intel SHA Extensions) and ARMv8
-(ARMv8 Cryptography Extensions). The description of SHA-2 is provided in
-[NIST-SHS]_.
+Botan provides five SHA-256 implementations (software, generic SIMD, x86
+AVX2/BMI2, x86 SHA Extensions and ARMv8 Cryptography Extensions) and five
+SHA-512 implementations (software, x86 AVX2/BMI2, x86 AVX-512/BMI2, x86
+SHA-512 instructions and ARMv8 Cryptography Extensions). The description
+of SHA-2 is provided in [NIST-SHS]_.
 
 The software implementations are located in
 :srcref:`src/lib/hash/sha2_64/sha2_64.cpp` and in
@@ -53,17 +50,24 @@ The software implementations are located in
 and SHA-256 hash functions. ``sha2_64.cpp`` implements SHA-384 and
 SHA-512.
 
-The BMI2 implementations are located in
-:srcref:`src/lib/hash/sha2_64/sha2_64_bmi2/sha2_64_bmi2.cpp` and in
-:srcref:`src/lib/hash/sha2_32/sha2_32_bmi2/sha2_32_bmi2.cpp`.
-``sha2_32_bmi2.cpp`` implements the SHA-224 and SHA-256 hash functions.
-``sha2_64_bmi2.cpp`` implements SHA-384 and SHA-512.
+SHA-256 additionally has a generic SIMD implementation in
+:srcref:`src/lib/hash/sha2_32/sha2_32_simd/sha2_32_simd.cpp`. Both
+SHA-256 and SHA-512 provide an AVX2/BMI2 implementation, in
+:srcref:`src/lib/hash/sha2_32/sha2_32_avx2/sha2_32_avx2.cpp` and
+:srcref:`src/lib/hash/sha2_64/sha2_64_avx2/sha2_64_avx2.cpp` respectively.
+SHA-512 additionally has an AVX-512/BMI2 implementation in
+:srcref:`src/lib/hash/sha2_64/sha2_64_avx512/sha2_64_avx512.cpp`.
 
-The ARMv8 implementation is in
-:srcref:`src/lib/hash/sha2_32/sha2_32_armv8/sha2_32_armv8.cpp` and
-:srcref:`src/lib/hash/sha2_64/sha2_64_armv8/sha2_64_armv8.cpp`. The x86
-implementation is in :srcref:`src/lib/hash/sha2_32/sha2_32_x86/sha2_32_x86.cpp`.
-All are based on the code by Jeffrey Walton [#sha_intrinsics]_.
+The SHA-256 x86 implementation, in
+:srcref:`src/lib/hash/sha2_32/sha2_32_x86/sha2_32_x86.cpp`, uses the same
+SHA Extensions (SHA-NI) as the SHA-1 x86 implementation. The SHA-512 x86
+implementation, in :srcref:`src/lib/hash/sha2_64/sha2_64_x86/sha2_64_x86.cpp`,
+instead uses the newer, dedicated x86 SHA-512 instruction extension
+available on recent CPUs.
+
+The SHA-256 ARMv8 implementation is found in
+:srcref:`src/lib/hash/sha2_32/sha2_32_armv8/sha2_32_armv8.cpp`. The SHA-512 ARMv8 implementation is found in
+:srcref:`src/lib/hash/sha2_64/sha2_64_armv8/sha2_64_armv8.cpp`.
 
 SHA-3
 -----

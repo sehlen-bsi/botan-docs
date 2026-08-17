@@ -79,7 +79,7 @@ The AES-CCM functionality is implemented in the classes ``CCM_Encryption``
 and ``CCM_Decryption`` (located in :srcref:`src/lib/modes/aead/ccm/ccm.cpp`). Both
 classes extend functionality of the ``CCM_Mode``, ``AEAD_Mode`` and
 ``Cipher_Mode`` abstract classes. The following public methods are used by
-a developer when working with AES-CBC:
+a developer when working with AES-CCM:
 
 -  ``set_key(key)``: It initializes AES-CCM encryption / decryption with a
    symmetric key. The key length depends on the underlying AES block
@@ -236,7 +236,7 @@ according to [IEEE-1619]_. The following functions are available:
    block cipher. Only the block sizes 64 and 128 bit are supported.
 -  ``key_schedule(key, key length)``: Splits the passed key in half and
    sets the cipher and the tweak key. If the key length is odd or the
-   underlying cipher does not support a key with length :math:`\frac{key}{20}`, the function
+   underlying cipher does not support a key with length :math:`\frac{key}{2}`, the function
    throws an error.
 -  ``start_msg(nonce, nonce length)``: Sets nonce as input of tweak
    computation and compute initial tweak as :math:`E_{k_{2}}(nonce)`.

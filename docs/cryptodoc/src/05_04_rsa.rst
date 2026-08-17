@@ -193,7 +193,7 @@ The PKCS#1 v1.5 padding has the form:
                    (must be at least 8 bytes)
 
 The RSA-PKCS#1 v1.5 padding functionality is implemented in
-:srcref:`src/lib/pk_pad/eme_pkcs1/eme_pkcs.cpp`, in the methods ``pad`` and
+:srcref:`src/lib/pk_pad/enc_padding/eme_pkcs1/eme_pkcs.cpp`, in the methods ``pad`` and
 ``unpad``.
 
 Padding a message ``k`` for a maximum input length ``l`` works as follows:
@@ -215,7 +215,7 @@ Padding a message ``k`` for a maximum input length ``l`` works as follows:
    1. Check that :math:`len(k) <= l - 10`
    2. Create an output buffer matching the maximum raw input length: :math:`l`
    3. Set the first byte to ``0x02`` [#rsa_pkcs1_leading_zero]_
-   4. Fill the buffer with random non-zero values up to :math:`len(k) - 2`
+   4. Fill the buffer with :math:`l - len(k) - 2` random non-zero bytes
    5. Insert a ``0x00`` to separate padding and message bytes
    6. Append the message bytes in ``k`` -- fully filling up the buffer
 
@@ -252,13 +252,13 @@ timing constant validation. This method is implemented as follows:
    2. ``seen_zero_m = 0``
    3. ``delim_idx = 2``
    4. ``bad_input_m |= (m[0] != 0x00)``
-   5. ``bad_input_m |= (m[0] != 0x02)``
+   5. ``bad_input_m |= (m[1] != 0x02)``
    6. ``for (i = 2; i < |m|; i++)``
 
       -  ``delim_idx += (seen_zero_m == 0) & 1``
       -  ``seen_zero_m |= (m[i] == 0x00)``
 
-   7. ``bad_input_m |= ~seen_zero``
+   7. ``bad_input_m |= ~seen_zero_m``
    8. ``bad_input_m |= (delim_idx < 11)``
    9. ``valid_mask = ~bad_input_m;``
    10. Set ``k`` to the byte array behind the first ``0x00``
@@ -271,7 +271,7 @@ RSA-OAEP
 ^^^^^^^^
 
 The RSA-OAEP functionality is implemented in
-:srcref:`src/lib/pk_pad/eme_oaep/oaep.cpp`, in the functions ``pad()`` and
+:srcref:`src/lib/pk_pad/enc_padding/eme_oaep/oaep.cpp`, in the functions ``pad()`` and
 ``unpad()``.
 
 Padding a message ``k`` for a key length ``l`` works as follows:
@@ -372,10 +372,10 @@ Before a message can be signed it must be processed to achieve the bit
 length of the RSA modulus ``N``. Therefore, a padding scheme is applied to
 the message ``m``. Botan implements multiple padding schemes. For RSA
 signatures the probabilistic RSA-PSS scheme (EMSA4) implemented in
-:srcref:`src/lib/pk_pad/emsa_pssr/pssr.cpp` is recommended [TR-02102-1]_. The
+:srcref:`src/lib/pk_pad/sig_padding/emsa_pssr/pssr.cpp` is recommended [TR-02102-1]_. The
 RSA-PSS implementation follows the definition in [RFC3447]_. The ISO
 9796-2 DS2 and ISO 9796-2 DS3 padding schemes are implemented in
-:srcref:`src/lib/pk_pad/iso9796/iso9796.cpp`
+:srcref:`src/lib/pk_pad/sig_padding/iso9796/iso9796.cpp`
 Both implementations follow the specification [ISO-9796-2]_.
 Alternatively, Botan provides the deterministic PKCS#1 v1.5 RSA
 signature scheme (EMSA3), which is obsolete and thus not recommended [#sig_emsa3_disclaimer]_.

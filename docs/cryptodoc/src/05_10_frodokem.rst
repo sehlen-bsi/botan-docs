@@ -1,7 +1,7 @@
 .. _pubkey/frodokem:
 
 FrodoKEM
-=================
+========
 
 Botan's FrodoKEM implementation is found in
 :srcref:`src/lib/pubkey/frodokem/` and follows [FrodoKEM-ISO]_.
@@ -63,7 +63,7 @@ The parameter sets shown in the tables below are supported.
 
 BSI's [TR-02102-1]_ recommends using either FrodoKEM-976 or FrodoKEM-1344 to meet
 its desired security levels. Additionally, it recommends using all modes of
-FrodoKEM in a hybrid form in a suitable combination with a classical key agreement
+FrodoKEM in a hybrid form in a suitable combination with a traditional key agreement
 mechanism such as RSA or ECDH.
 
 The implementation consists of several components; these are shown in the table below.
@@ -168,7 +168,7 @@ Key Generation
 --------------
 
 FrodoKEM key generation follows Section 8.1 of [FrodoKEM-ISO]_ and is
-implemented within ``FrodoKEM_PrivateKey`` constructor (see: :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:319|FrodoKEM_PrivateKey`).
+implemented within ``FrodoKEM_PrivateKey`` constructor (see: :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:322|FrodoKEM_PrivateKey`).
 It works as follows:
 
 .. admonition:: FrodoKEM Key Generation
@@ -211,7 +211,7 @@ It works as follows:
 Key Encapsulation
 -----------------
 
-The FrodoKEM encapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:91|raw_kem_encrypt`) follows Section 8.2 of [FrodoKEM-ISO]_ and
+The FrodoKEM encapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:92|raw_kem_encrypt`) follows Section 8.2 of [FrodoKEM-ISO]_ and
 works as follows:
 
 .. admonition:: FrodoKEM Encapsulation
@@ -257,7 +257,7 @@ works as follows:
 Key Decapsulation
 -----------------
 
-The FrodoKEM decapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:162|raw_kem_decrypt`) follows Section 8.3 of [FrodoKEM-ISO]_ and
+The FrodoKEM decapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:163|raw_kem_decrypt`) follows Section 8.3 of [FrodoKEM-ISO]_ and
 works as follows:
 
 .. admonition:: FrodoKEM Decapsulation

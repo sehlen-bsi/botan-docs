@@ -18,6 +18,7 @@ help:
 rst_changes:
 	python3 -m genaudit.cli render -u -o "$(BUILDDIR)/changes" "$(CHANGESDIR)"
 	rm "$(SOURCEDIR)/changes"; ln -s "../$(BUILDDIR)/changes" "$(SOURCEDIR)/changes"
+	find _build/changes/ -name "*.rst" | xargs -n1 sed -i s/наб/Ha6/
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).

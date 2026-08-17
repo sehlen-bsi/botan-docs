@@ -14,7 +14,7 @@ auditinfo = { path = "../../tools/auditinfo", develop = true }
 sourceref = { path = "../../tools/sourceref", develop = true }
 sharedimg = { path = "../../tools/sharedimg", develop = true }
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 esbonio = "^0.16.1"
 
 [build-system]

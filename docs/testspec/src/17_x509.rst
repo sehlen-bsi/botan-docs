@@ -18,6 +18,10 @@ independent test suites:
    OCSP requests and responses, validating responses and testing online
    OCSP checks.
 
+
+**Remark from review of 3.11.0:** No substantial change in `unit_x509.cpp`,
+`test_x509_path.cpp`, `test_name_constraint.cpp`, or `test_ocsp.cpp` except for some minor additions of further tests.
+
 In the following, we describe these tests in more detail.
 
 X.509 Unit Test
@@ -29,6 +33,7 @@ test validates key usage extension, expiration dates, or processing of
 self-signed certificates and certificate issuer properties.
 
 The test is implemented in :srcref:`src/tests/unit_x509.cpp`.
+
 
 The following X.509 certificate tests are executed:
 
@@ -199,6 +204,9 @@ constraints:
 The following tables show example test cases with one valid and one
 invalid test vector. All test vectors are included as certificates in
 :srcref:`src/tests/data/x509/name_constraint`.
+
+**Remark from review of 3.11.0:** No change in the test vectors referenced here
+except for the addition of further test vector files.
 
 .. table::
    :class: longtable
@@ -449,7 +457,7 @@ thousand certificate validation test cases.
 Botan's CI is running the entire Limbo test harness via the library's python
 binding to verify proper path building and validation. Less than 1% of the
 tests are either ignored, disabled or produce a different result than expected.
-See :srcref:`src/scripts/run_limbo_tests.py:18|tests_that_succeed_unexpectedly`
+See :srcref:`src/scripts/run_limbo_tests.py`
 for the full details of the irregular test results.
 
 .. [#limbo_url] Limbo X.509 test suite: https://x509-limbo.com/

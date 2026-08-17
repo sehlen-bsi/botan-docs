@@ -184,22 +184,20 @@ be built manually using lower-level functions as needed.
 
       b) Set ``crl_status = check_crl(cert_path, trusted_roots, ref_time)``
 
-      c) If (``!oscp_responses.empty()``) then do:
+      c) If (``!ocsp_responses.empty()``) then do:
 
          i. ``ocsp_status = check_ocsp(cert_path, ocsp_resp, trusted_roots,
-            ref_time, restrictions.max_ocsp_age())`` // check additional
+            ref_time, restrictions)`` // check additional
             OCSP responses
 
       d) If (``ocsp_status.empty()`` AND ``ocsp_timeout`` != 0) then do:
 
          i. ``ocsp_status = check_ocsp_online(cert_path, trusted_roots,
-            ref_time, ocsp_timeout,
-            restrictions.ocsp_all_intermediates())`` // check OCSP using
+            ref_time, ocsp_timeout, restrictions)`` // check OCSP using
             online HTTP access
 
       e) Call ``merge_revocation_status(status, crl_status, ocsp_status,
-         restrictions_require_revocation_information(),
-         restrictions.ocsp_all_intermediates())`` // merge all revocation
+         restrictions)`` // merge all revocation
          information
 
       f) Set ``pvd = Path_Validation_Result(status, cert_path)``
@@ -741,13 +739,19 @@ Function check_ocsp()
 The function ``check_ocsp()`` checks the given OCSP responses for a given
 certificate chain. It returns a list of sets of certificate status
 codes, each entry in the list contains the status codes for each
-certificate in the chain.
+certificate in the chain. The evaluation of each individual OCSP response
+is performed by the internal helper function ``evaluate_ocsp_response()``
+described below.
 
-Full compliance with the extended OCSP validation rules layed out in [TR-02103]_
+Full compliance with the extended OCSP validation rules laid out in [TR-02103]_
 requires that authorized OCSP responder certificates that in-turn contain an OCSP
 responder in its AuthorityInformationAccess extension to be "recursively" checked
-for their revocation status. This functionality is currently not implemented in
-Botan [#ocsp_extension]_.
+for their revocation status. While delegated OCSP responder certificates are
+validated with a full X.509 path validation (see ``evaluate_ocsp_response()``
+below), their own revocation status is deliberately not checked in this process,
+to prevent endless loops on maliciously forged chains of OCSP responses
+referring to each other. Hence, this "recursive" revocation check is currently
+not implemented in Botan [#ocsp_extension]_.
 
 .. [#ocsp_extension] See `GitHub #3124 <https://github.com/randombit/botan/issues/3124>`_
    where any potential improvement to this functionality is discussed.
@@ -761,8 +765,11 @@ Botan [#ocsp_extension]_.
    -  ``certstores``: List of certificate stores that contain trusted
       certificates and CRLs.
    -  ``ref_time``: The time to perform validation against.
-   -  ``max_ocsp_age``: maximum age of OCSP responses without ``next_update``.
-      0 for no maximum.
+   -  ``restrictions``: Path validation restrictions. Used for the maximum
+      age of OCSP responses without ``next_update``
+      (``restrictions.max_ocsp_age()``) and the optional certificate store
+      with trusted OCSP responder certificates
+      (``restrictions.trusted_ocsp_responders()``).
 
    **Output:**
 
@@ -778,73 +785,114 @@ Botan [#ocsp_extension]_.
 
       2. Set ``ca = cert_path[i+1]``
 
-      3. If ``ocsp_respones[i]`` does not contain an OCSP response, then do
-         continue with the next ``i``
+      3. If ``ocsp_responses[i]`` does not contain a successfully parsed
+         OCSP response, then do continue with the next ``i``
 
-      4. Check the signature on the ``ocsp_responses[i]`` by calling
-         ``check_signature(trusted_certstores, cert_path)`` on
-         ``oscp_responses[i]``
-
-         1. If it returned OCSP_SIGNATURE_OK then do Append the OCSP status
-            returned by calling ``status_for(ca, subject, ref_time,
-            max_ocsp_age)`` on ``ocsp_responses[i]`` to ``cert_status[i]``
-         2. Else Append the return value of ``check_signature()`` to
-            ``cert_status[i]``
+      4. Set ``cert_status[i]`` to the result of
+         ``evaluate_ocsp_response(ocsp_responses[i], subject, ca, cert_path,
+         certstores, ref_time, restrictions)`` (see below). If the
+         evaluation throws an exception, Append OCSP_RESPONSE_INVALID to
+         ``cert_status[i]``
 
    3. Remove all empty sets from ``cert_status``
 
    4. Return ``cert_status``
 
-Function check_signature()
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Function evaluate_ocsp_response()
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The function ``check_signature()`` of the ``OCSP_Response`` class verifies
-the signature on the OCSP response. The issuer's public key is looked up
-in the list of trusted certificates in a given list of certificate
-stores, in the already validation certificate chain given and last but
-not least in the certificate chain as part of the OCSP response. If an
-issuer could not be found, the function returns the
-OCSP_ISSUER_NOT_FOUND certificate status code. Internally,
-``check_signature()`` calls another function ``verify_signature()`` that
-performs the actual signature verification using the issuer certificate
-found. To improve readability, ``verify_signature()``'s functionality is
-specified below as if it was part of ``check_signature()``, starting from
-step 7).
 
-.. admonition:: ``OCSP::Response::check_signature()``
+The internal function ``evaluate_ocsp_response()`` evaluates a single OCSP
+response for a subject certificate and the CA certificate that issued it. It
+first identifies the certificate that signed the OCSP response (function
+``OCSP::Response::find_signing_certificate()``), then establishes trust in this
+signing certificate following the requirements of Section 4.2.2.2 of
+[RFC6960]_ (internal function ``verify_ocsp_signing_cert()``), verifies the
+signature on the OCSP response (function
+``OCSP::Response::verify_signature()``), and finally extracts the revocation
+status of the subject certificate (function ``OCSP::Response::status_for()``,
+see below).
+
+.. admonition:: ``evaluate_ocsp_response()``
 
    **Input:**
 
-   -  ``trusted_roots``: List of certificate stores that contain trusted
+   -  ``ocsp_response``: The OCSP response to evaluate.
+   -  ``subject``: The subject certificate the OCSP response refers to.
+   -  ``ca``: The certificate of the CA that issued ``subject``.
+   -  ``cert_path``: The certificate chain being validated.
+   -  ``certstores``: List of certificate stores that contain trusted
       certificates.
-   -  ``ee_cert_path``: The certificate chain validated, of size ``n``.
+   -  ``ref_time``: The time to perform validation against.
+   -  ``restrictions``: Path validation restrictions.
 
    **Output:**
 
-   -  A certificate status code.
+   -  A set of certificate status codes.
 
    **Steps:**
 
-   1. If OCSP issuer's DN is empty and the hash of the OCSP issuer's public
-      key is empty then do Return OCSP_RESPONSE_INVALID
-   2. Look for the OCSP response's issuer certificate in ``trusted_roots``
-      and if found, set ``signing_cert`` to it and continue with step 5)
-   3. Look for the OCSP response's issuer certificate in ``ee_cert_path`` and
-      if found, set ``signing_cert`` to it and continue with step 5)
-   4. Look for the OCSP response's issuer certificate in the optional list
-      of certificates sent with the OCSP response and if found, set
-      ``signing_cert`` to it and continue with step 5)
-   5. If the issuer certificate could not be found eventually, Return
-      OCSP_ISSUER_NOT_FOUND
-   6. If ``signing_cert``'s key usage does not contain crlSign AND
-      ``signing_cert``'s extended key usage does not contain OCSPSigning then
-      do Return OCSP_RESPONSE_MISSING_KEYUSAGE
-   7. If the signature algorithm sent in the OCSP response does not match
-      the signature algorithm in signing_cert's certificate, then do Return
-      OCSP_RESPONSE_INVALID
-   8. If the signature on the OCSP response cannot be verified using
-      signing_cert's public key then do Return OCSP_SIGNATURE_ERROR,
-      otherwise Return OCSP_SIGNATURE_OK
+   1. If ``ocsp_response`` is a placeholder response generated by Botan
+      itself because no actual OCSP response is available (status codes
+      OCSP_NO_REVOCATION_URL or OCSP_SERVER_NOT_AVAILABLE, see
+      ``check_ocsp_online()``), Return this status code
+   2. Find the certificate ``signing_cert`` that signed the OCSP response
+      (function ``find_signing_certificate()``). The responder ID contained
+      in the OCSP response identifies the signing certificate either by its
+      distinguished name or by the SHA-1 hash of its public key:
+
+      a) If the responder ID matches ``ca``, set ``signing_cert = ca``
+      b) Else, if the responder ID matches one of the certificates delivered
+         within the OCSP response, set ``signing_cert`` to it
+      c) Else, if the responder ID matches a certificate in
+         ``restrictions.trusted_ocsp_responders()``, set ``signing_cert`` to
+         it
+      d) Otherwise Return OCSP_ISSUER_NOT_FOUND
+
+   3. Establish trust in ``signing_cert`` following Section 4.2.2.2 of
+      [RFC6960]_ (function ``verify_ocsp_signing_cert()``). ``signing_cert``
+      is trusted if it meets one of the following criteria:
+
+      a) It is contained in ``restrictions.trusted_ocsp_responders()``,
+         i.e., it matches a local configuration of an OCSP signing authority
+         for the certificate in question
+      b) It is the certificate of the CA that issued the certificate in
+         question, i.e., ``signing_cert = ca``
+      c) It passes a full X.509 path validation, performed by calling
+         ``x509_path_validate()`` with ``signing_cert`` as the end entity
+         certificate, the certificates delivered with the OCSP response and
+         the certificates in ``cert_path`` as additional untrusted
+         certificates, the trusted ``certstores``, the usage type *OCSP
+         Responder*, and ``ref_time``. The usage type check requires
+         ``signing_cert`` to have the *digitalSignature* or *nonRepudiation*
+         key usage as well as the *id-kp-OCSPSigning* extended key usage; a
+         violation is reported as OCSP_RESPONSE_MISSING_KEYUSAGE
+
+      If the path validation in criterion c) fails, Return a set containing
+      two status codes: the most severe status code of that path validation
+      (``Path_Validation_Result::result()``, e.g. CERT_HAS_EXPIRED or
+      OCSP_RESPONSE_MISSING_KEYUSAGE) and OCSP_ISSUER_NOT_TRUSTED. The
+      former preserves the reason why the responder certificate was
+      rejected, the latter indicates that the OCSP response was rejected for
+      this reason.
+
+   4. If the signature on the OCSP response cannot be verified with
+      ``signing_cert``'s public key (function ``verify_signature()``),
+      Return the respective status code (e.g. OCSP_SIGNATURE_ERROR)
+   5. Return the OCSP status returned by calling ``status_for(ca, subject,
+      ref_time, restrictions.max_ocsp_age())`` on ``ocsp_response``
+
+**Remark 1:** For the path validation of a delegated OCSP responder certificate
+in Step 3c), the revocation-related restrictions are relaxed: no revocation
+information is required for the responder certificate and no OCSP requests
+are made for it, as discussed at the beginning of this section.
+
+**Remark 2:** The function evaluate_ocsp_response() is called from the following API functions:
+
+- ``PKIX::check_ocsp()``: It receives as input OCSP responses and it evaluates them per certificate. 
+- ``x509_path_validate()``: pass responses via the trailing ``ocsp_resp`` parameter. 
+- ``PKIX::check_ocsp_online()`` (guarded by ``BOTAN_HAS_ONLINE_REVOCATION_CHECKS``): fetches responses over HTTP and then calls ``check_ocsp()``
+  
 
 Function status_for()
 ^^^^^^^^^^^^^^^^^^^^^
@@ -909,11 +957,10 @@ responses and then passes them to ``check_ocsp()``.
       trusted certificates.
    -  ``ref_time``: The time to perform validation against.
    -  ``timeout``: Timeout after which a HTTP request should time out.
-   -  ``ocsp_check_intermediate_CAs``: If true also performs OCSP on any
-      intermediate certificates, if false only on the end entity
-      certificate.
-   -  ``max_ocsp_age``: maximum age of OCSP responses without ``next_update``.
-      0 for no maximum.
+   -  ``restrictions``: Path validation restrictions. If
+      ``restrictions.ocsp_all_intermediates()`` is true, OCSP requests are
+      also made for intermediate certificates, otherwise only for the end
+      entity certificate. Also passed through to ``check_ocsp()``.
 
    **Output:**
 
@@ -925,8 +972,8 @@ responses and then passes them to ``check_ocsp()``.
 
    2. Set ``to_ocsp = 1``
 
-   3. If (``oscp_check_intermediate_CAs = true``) then do set ``to_ocsp =
-      cert_path.size()-1``
+   3. If (``restrictions.ocsp_all_intermediates() = true``) then do set
+      ``to_ocsp = cert_path.size()-1``
 
    4. If (``cert_path.size() = 1``) then do set ``to_ocsp = 0``
 
@@ -947,7 +994,7 @@ responses and then passes them to ``check_ocsp()``.
             ``timeout`` and Append the OCSP response to ``ocsp_responses``
 
    6. Return the value returned by calling ``check_ocsp(cert_path,
-      ocsp_responses, trusted_certstores, ref_time, max_ocsp_age)``
+      ocsp_responses, trusted_certstores, ref_time, restrictions)``
 
 
 .. _x509/merge_revocation_status:
@@ -968,10 +1015,11 @@ certificate status codes for the certificate chain validated.
       parameter), of size ``n``.
    -  ``crl_status``: Results of the call to ``check_crl()``.
    -  ``ocsp_status``: Results of the call to ``check_ocsp()``.
-   -  ``require_rev_on_end_entity``: Whether a valid CRL or OCSP is required
-      for the end entity certificate.
-   -  ``require_rev_on_intermediates``: Whether a valid CRL or OCSP is
-      required for all intermediate certificates.
+   -  ``restrictions``: Path validation restrictions. A valid CRL or OCSP
+      response is required for the end entity certificate if
+      ``restrictions.require_revocation_information()`` is set, and for all
+      intermediate certificates if ``restrictions.ocsp_all_intermediates()``
+      is set.
 
    **Output:** None
 
@@ -1006,6 +1054,119 @@ certificate status codes for the certificate chain validated.
 
       g) If (``had_crl = false`` AND ``had_ocsp = false``) then do:
 
-         i. If (``require_rev_on_end_entity = true`` AND ``i = 0``) OR
-            (``require_rev_on_intermediates = true`` AND ``i > 0``) then do
-            Append NO_REVOCATION_DATA to ``chain_status[i]``
+         i. If (``restrictions.require_revocation_information() = true`` AND
+            ``i = 0``) OR (``restrictions.ocsp_all_intermediates() = true``
+            AND ``i > 0``) then do Append NO_REVOCATION_DATA to
+            ``chain_status[i]``
+
+
+Building a PKI-Hierarchy via Botan's CLI Tool
+---------------------------------------------
+
+Botan's command line tool ``botan`` offers the commands ``keygen``,
+``gen_self_signed``, ``gen_pkcs10`` and ``sign_cert`` (implemented in
+:srcref:`src/cli/pubkey.cpp` and :srcref:`src/cli/x509.cpp`), which
+together allow the construction of a complete X.509 PKI hierarchy. In
+the following, the creation of a three-level hierarchy consisting of a
+self-signed root CA, a subordinate CA and an end-entity certificate is
+shown. All commands write their result to the standard output, which is
+redirected to a file in the examples. The private keys are written in
+unencrypted PKCS #8 format unless a passphrase is supplied via the
+``--passphrase`` option of ``keygen``; in that case the passphrase must
+be provided to the subsequent commands via their ``--key-pass``
+(``gen_self_signed``, ``gen_pkcs10``) or ``--ca-key-pass``
+(``sign_cert``) option.
+
+Creating the Root CA Certificate
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The root CA is set up by generating a private key and creating a
+self-signed certificate for it. The flag ``--ca`` causes the
+BasicConstraints extension to be set with ``cA = true`` and the
+``pathLenConstraint`` given by ``--path-limit``. Setting
+``--path-limit=1`` permits exactly one further CA level below the root,
+as required for the three-level hierarchy built here.
+
+.. code-block:: none
+
+   botan keygen --algo=ECDSA --params=secp384r1 > root_ca_key.pem
+   botan gen_self_signed root_ca_key.pem "Example Root CA" \
+       --country=DE --organization=Example \
+       --ca --path-limit=1 --hash=SHA-384 --days=3650 > root_ca_cert.pem
+
+Creating the Subordinate CA Certificate
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For the subordinate CA, a private key and a PKCS #10 certificate signing
+request are generated. Here, too, the ``--ca`` flag requests a CA
+certificate; ``--path-limit=0`` means that the subordinate CA may only
+issue end-entity certificates. The request is then signed with the root
+CA's key using the ``sign_cert`` command, whose ``--duration`` option
+specifies the certificate validity period in days. The ``--hash`` option
+of ``sign_cert`` selects the hash function for the signature created by
+the issuing CA.
+
+.. code-block:: none
+
+   botan keygen --algo=ECDSA --params=secp384r1 > sub_ca_key.pem
+   botan gen_pkcs10 sub_ca_key.pem "Example Sub CA" \
+       --country=DE --organization=Example \
+       --ca --path-limit=0 --hash=SHA-384 > sub_ca_req.pem
+   botan sign_cert --hash=SHA-384 --duration=1825 \
+       root_ca_cert.pem root_ca_key.pem sub_ca_req.pem > sub_ca_cert.pem
+
+Creating the End-Entity Certificate
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The end-entity certificate is created analogously, but without the
+``--ca`` flag. For a TLS server certificate, the host name can be added
+as a ``dNSName`` in the SubjectAlternativeName extension via the
+``--dns`` option; extended key usages can be requested via ``--ext-ku``.
+
+.. code-block:: none
+
+   botan keygen --algo=ECDSA --params=secp256r1 > ee_key.pem
+   botan gen_pkcs10 ee_key.pem "server.example.com" \
+       --country=DE --organization=Example \
+       --dns=server.example.com --hash=SHA-256 > ee_req.pem
+   botan sign_cert --hash=SHA-384 --duration=365 \
+       sub_ca_cert.pem sub_ca_key.pem ee_req.pem > ee_cert.pem
+
+The resulting chain can be checked with the ``cert_verify`` command,
+which performs the path validation described in the previous sections.
+Note that ``cert_verify`` places all certificates passed after the
+subject certificate into the trusted certificate store:
+
+.. code-block:: none
+
+   botan cert_verify ee_cert.pem sub_ca_cert.pem root_ca_cert.pem
+
+Restriction Regarding KEM Keys
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Certificates for KEM keys (e.g. ML-KEM or FrodoKEM) currently cannot be
+created via the command line tool. The reason is that ``gen_pkcs10``
+creates the PKCS #10 request via ``X509::create_cert_req()``
+(:srcref:`src/lib/x509/x509self.cpp`), which self-signs the request with
+the subject's private key as proof of possession. Since a KEM key does
+not support signature operations, the instantiation of the signing
+object fails, and thus no request can be created for such a key
+(``gen_self_signed`` is equally unavailable, and ``sign_cert`` only
+accepts PKCS #10 requests as input). In the library API, a certificate
+for a KEM key can be created with the static member function
+``X509_CA::make_cert()`` (:srcref:`src/lib/x509/x509_ca.h`), which
+receives the serialized subject public key directly instead of a
+PKCS #10 request.
+
+Creating a Certificate Revocation List
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The command line tool does not offer any command for the creation or
+updating of CRLs: no such command is implemented in
+:srcref:`src/cli/x509.cpp`. CRLs can only be created programmatically
+via the library API, namely with the member functions ``new_crl()``
+(creation of an empty CRL) and ``update_crl()`` (creation of a new CRL
+from an existing one and a list of ``CRL_Entry`` objects, each of which
+references the revoked certificate and a revocation reason) of the class
+``X509_CA`` defined in :srcref:`src/lib/x509/x509_ca.h`.
+
