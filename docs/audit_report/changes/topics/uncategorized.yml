@@ -6756,3 +6756,29 @@ patches:
 #   Author: Jack Lloyd
 - commit: 6770f8ebe30180fa29b22bd944538326875eecc5  # https://github.com/randombit/botan/commit/6770f8ebe30180fa29b22bd944538326875eecc5
   classification: unspecified
+
+# Use Möller-Granlund division in divide_precomp
+#   Author:    @randombit
+- pr: 5849  # https://github.com/randombit/botan/pull/5849
+  merge_commit: 71e043b2c571ddf851fa7e93d98fe83f33eed3ed
+  classification: unspecified
+
+# Fix mp_asmi.h for unexpected word types
+#   Author:    @randombit
+- pr: 5850  # https://github.com/randombit/botan/pull/5850
+  merge_commit: 2ff95e3c3027455c684b7dfc7c8bdda76c142734
+  classification: unspecified
+
+# CppCheck - Reduce/Fix warnings in utils directory
+#   Author:    @KaganCanSit
+#   Approvals: @reneme, (@randombit)
+- pr: 4995  # https://github.com/randombit/botan/pull/4995
+  merge_commit: 5c47ab1132329bca9f70e5e6ac92cd3669e0dc99
+  classification: unspecified
+
+# ocsp response verification with ML-DSA and SLH-DSA
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5844  # https://github.com/randombit/botan/pull/5844
+  merge_commit: cf7cfea4898129790500f4807079922c7a69cf37
+  classification: unspecified
