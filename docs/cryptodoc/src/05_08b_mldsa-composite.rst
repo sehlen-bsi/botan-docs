@@ -327,7 +327,8 @@ Symbols used in the combiner
 Implementation in Botan
 -----------------------
 
-:ref:`pubkey/mldsa_composite/files` lists the header files that are part of Botan's public API and the implementation source code files.
+:ref:`pubkey/mldsa_composite/files` lists the header files that are part of Botan's public API and the implementation source code files. The cryptographic implementation of the component algorithms in all cases reuses the existing
+implementations in Botan.
 
 .. _pubkey/mldsa_composite/files:
 

@@ -261,7 +261,8 @@ exception of the type `Botan::Decoding_Error`.
 Implementation in Botan
 -----------------------
 
-Table :ref:`pubkey/mlkem_composite/files` lists the header files that are part of Botan's public API and the implementation source files of ML-KEM-composite in Botan.
+Table :ref:`pubkey/mlkem_composite/files` lists the header files that are part of Botan's public API and the implementation source files of ML-KEM-composite in Botan. The cryptographic implementation of the component algorithms in all cases reuses the existing
+implementations in Botan.
 
 .. _pubkey/mlkem_composite/files:
 
