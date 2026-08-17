@@ -21,6 +21,8 @@ encapsulation and decapsulation or the key exchange mechanism.
    05_06_hss_lms
    05_07_slh_dsa
    05_08_ml_dsa
+   05_08b_mldsa-composite
    05_09_ml_kem
+   05_09b_mlkem-composite
    05_10_frodokem
    05_11_cmce

@@ -64,6 +64,11 @@
    NIST PQC Challenge Round 3 Submission, 2021,
    https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210208.pdf
 
+.. [draft-ietf-lamps-pq-composite-kem] Mike Ounsworth, John Gray, Massimiliano Pala, Jan Klaußner, Scott Fluhrer: "Composite ML-KEM for use in X.509 Public Key Infrastructure" (draft-ietf-lamps-pq-composite-kem-18), 23 July 2026, https://datatracker.ietf.org/doc/draft-ietf-lamps-pq-composite-kem/18/
+
+.. [draft-ietf-lamps-pq-composite-sigs] Mike Ounsworth, John Gray, Massimiliano Pala, Jan Klaußner, Scott Fluhrer: "Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) for use in X.509 Public Key Infrastructure"
+  (draft-ietf-lamps-pq-composite-sigs-19), 21 April 2026, https://datatracker.ietf.org/doc/draft-ietf-lamps-pq-composite-sigs/19/
+
 .. [FIPS-186-4] Federal Information Processing Standards Publication 186-4.
    Digital Signature Standard (DSS).
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf
@@ -87,6 +92,10 @@
 .. [FIPS-205] Federal Information Processing Standards Publication 205.
    Stateless Hash-Based Digital Signature Standard
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf
+
+.. [FIPS-140-3-IG] National Institute of Standards and Technology, Canadian Centre for Cyber Security:
+  "Implementation Guidance for FIPS 140-3 and the Cryptographic Module Validation Program",
+  Last Update: April 16, 2026
 
 .. [FrodoKEM-ISO] Erdem Alkim, Joppe W. Bos, Léo Ducas, Patrick Longa, Ilya Mironov, Michael Naehrig, Valeria Nikolaenko, Chris Peikert, Ananth Raghunathan, Douglas Stebila
    "FrodoKEM: Learning With Errors Key Encapsulation Preliminary Standardization Proposal (2023-03-14)",
@@ -288,6 +297,12 @@
    https://csrc.nist.gov/publications/detail/sp/800-185/final,
    December 2016
 
+.. [SP-800-227] NIST Special Publication 800-227: 
+  "Recommendations for Key-Encapsulation Mechanisms", 
+  Sept. 2025, 
+  https://doi.org/10.6028/NIST.SP.800-227 
+
+
 .. [SPX-R3] J.-P. Aumasson, D. J. Bernstein, W. Beullens, C. Dobraunig, M. Eichlseder, S. Fluhrer, S.-L. Gazdag, A. Hülsing, P. Kampanakis, S. Kölbl, T. Lange, M. M. Lauridsen, F. Mendel, R. Niederhagen, C. Rechberger, J. Rijneveld, P. Schwabe, B. Westerbaan:
    "SPHINCS+ Submission to the NIST post-quantum project, v.3.1",
    NIST PQC Challenge Round 3 Submission, 2021,
@@ -318,3 +333,6 @@
    XMSS: eXtended Merkle Signatures Scheme.
    RFC8391.
    https://datatracker.ietf.org/doc/rfc8391/, 2018
+
+.. [XWING] Barbosa et al. "X-Wing – The Hybrid KEM You’ve Been Looking For", https://eprint.iacr.org/2024/039.pdf
+
