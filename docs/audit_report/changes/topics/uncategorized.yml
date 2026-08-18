@@ -6782,3 +6782,15 @@ patches:
 - pr: 5844  # https://github.com/randombit/botan/pull/5844
   merge_commit: cf7cfea4898129790500f4807079922c7a69cf37
   classification: unspecified
+
+# jitter_rng: make FIPS mode optional, allow NTG.1 and custom OSR
+#   Author:    @thillux
+#   Approvals: (@randombit)
+- pr: 5832  # https://github.com/randombit/botan/pull/5832
+  merge_commit: 4f40410b6bc2c7c7426482b3091e7d0f9c2faddd
+  classification: unspecified
+
+# Fix dates on some of the 3.13 security advisories [ci skip]
+#   Author: Jack Lloyd
+- commit: 5a3353f139652c04782f0699debd71c4cf616245  # https://github.com/randombit/botan/commit/5a3353f139652c04782f0699debd71c4cf616245
+  classification: unspecified
