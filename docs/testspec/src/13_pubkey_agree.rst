@@ -559,7 +559,40 @@ over all supported curve groups in `test_ecdh.cpp`: deriving a shared secret
 from an uncompressed peer public point that does not lie on the curve (the
 serialized generator with one coordinate byte modified) must be rejected with
 a ``Decoding_Error``. This is a regression test for the prohibition of
-loading points not on the curve.
+loading points not on the curve. This test is specified in the following
+table.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | KA-ECDH-2                                                               |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Makes sure ECDH key agreement rejects a peer public point that does not |
+   |                        | lie on the curve                                                        |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | Curve: each named elliptic curve group supported by the library         |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | A ``Decoding_Error`` exception is thrown                                |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Serialize the generator of *Curve* in uncompressed point encoding    |
+   |                        |    and decrement one byte of the encoded x-coordinate, yielding the     |
+   |                        |    encoding of a point that does not lie on the curve                   |
+   |                        |                                                                         |
+   |                        | #. Generate a random ECDH keypair on *Curve*                            |
+   |                        |                                                                         |
+   |                        | #. Create the key agreement object from the generated private key       |
+   |                        |    (KDF: Raw)                                                           |
+   |                        |                                                                         |
+   |                        | #. Derive the shared secret with the modified encoding as the           |
+   |                        |    counterparty public value and check that a ``Decoding_Error``        |
+   |                        |    exception is thrown                                                  |
+   +------------------------+-------------------------------------------------------------------------+
 
 .. table::
    :class: longtable

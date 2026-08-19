@@ -232,15 +232,11 @@ Note that the tests are relying on certain (common) certificates to be installed
 
 All tests are implemented in :srcref:`src/tests/test_certstor_system.cpp`.
 
-
-**Remark from review of 3.12.0:** Botan 3.12.0 reworked the certificate
-store search operations (GH #5510, #5539). The tests in
-`test_certstor_system.cpp` were extended accordingly: for the find
-operations (by subject DN, by subject DN and key ID, by issuer DN and serial
-number, and with DN normalization), the tests now additionally verify that
-every returned certificate is also reported as contained in the store by
-``Certificate_Store::contains()``. No substantial change in the test code
-otherwise.
+Since the rework of the certificate store search operations in Botan 3.12.0
+(GH #5510, #5539), the tests for the find operations (by subject DN, by
+subject DN and key ID, by issuer DN and serial number, and with DN
+normalization) additionally verify that every returned certificate is also
+reported as contained in the store by ``Certificate_Store::contains()``.
 
 Find Certificate by SHA-1 Hash of its Public Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

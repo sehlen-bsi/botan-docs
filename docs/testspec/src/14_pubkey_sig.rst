@@ -12,7 +12,7 @@ All public key-based signature algorithms use test classes implemented
 in :srcref:`src/tests/test_pubkey.cpp`.
 
 **Remark from review of 3.12.0:** The generic test for invalid signatures in
-`test_pubkey.cpp` (cf. PKSIG-3) was strengthened: in addition to an all-zero
+`test_pubkey.cpp` (cf. PKSIG-2) was strengthened: in addition to an all-zero
 signature and randomly perturbed signatures (now 24 instead of 20 iterations
 with long tests, 9 instead of 5 otherwise), a set of deterministic malformed
 signatures is now always tested (an empty signature, all-zero signatures of
@@ -103,10 +103,21 @@ rejected.
    |                        | #. Check that a signature with all zeros (of the length of that of the  |
    |                        |    generated signature) does not verify                                 |
    |                        |                                                                         |
-   |                        | #. Create a modified version of the generated signature by changing the |
-   |                        |    length of it or by flipping random bits in it                        |
+   |                        | #. Repeat the following for 24 iterations (if long tests are enabled,   |
+   |                        |    otherwise 9 iterations):                                             |
    |                        |                                                                         |
-   |                        | #. Check that this modified signature does not verify                   |
+   |                        |    #. Create an invalid signature: in the first five iterations one of  |
+   |                        |       the deterministic malformed signatures (an empty signature,       |
+   |                        |       all-zero signatures of lengths one and two, an all-zero signature |
+   |                        |       one byte shorter than the generated signature, and the generated  |
+   |                        |       signature with the least significant bit of its first byte        |
+   |                        |       flipped); in the remaining iterations a modified version of the   |
+   |                        |       generated signature created by changing the length of it or by    |
+   |                        |       flipping random bits in it                                        |
+   |                        |                                                                         |
+   |                        |    #. Check that this invalid signature does not verify                 |
+   |                        |                                                                         |
+   |                        |    #. Check that the originally generated signature still verifies      |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::

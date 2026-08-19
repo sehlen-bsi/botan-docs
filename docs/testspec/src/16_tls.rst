@@ -8,21 +8,13 @@ TLS client and server are tested with positive tests by performing TLS
 handshakes. In these tests basic credentials with TLS certificates and
 TLS policy are first created. Afterwards, the client and the server
 attempt to execute a TLS handshake with a specific TLS/DTLS protocol
-version, key exchange method, and cipher algorithm.
+version, key exchange method, and cipher algorithm. Each test explicitly
+asserts that both client and server have completed the handshake, so that
+a handshake aborting via an exception cannot be reported as a success;
+tests that intentionally drive a handshake abort suppress this assertion.
 
-The tests are implemented in :srcref:`src/tests/unit_tls.cpp`.
-
-**Remark from review of 3.12.0:** The test harness in `unit_tls.cpp` was
-hardened: the tests now explicitly assert that both client and server
-completed the handshake, so that a handshake aborting via an exception can no
-longer be reported as a success (tests that intentionally drive a handshake
-abort suppress this assertion). Furthermore, the brainpool256r1 handshake
-test is now guarded by a build-configuration check, and RSA support is
-required for building the tests. In the course of this hardening the
-handshake test with an application-specific curve (numsp256d1) was found to
-be non-functional and is disabled in 3.12.0, since the TLS 1.2 server
-implementation currently cannot negotiate application-specific group codes
-(GH #5550). No substantial change to the test logic otherwise.
+The tests are implemented in :srcref:`src/tests/unit_tls.cpp`. Building
+the tests requires RSA support in the build configuration.
 
 The following TLS handshake tests are executed:
 
@@ -66,7 +58,8 @@ The following TLS handshake tests are executed:
 
    -  ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
 
--  TLS handshake using the specific curve brainpool256r1 with the
+-  TLS handshake using the specific curve brainpool256r1, executed only
+   if the curve is available in the build configuration, with the
    following cipher suites (for TLS 1.2, DTLS 1.2)
 
    -  ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
@@ -83,11 +76,15 @@ The following TLS handshake tests are executed:
    -  ECDHE_PSK_WITH_AES_128_CBC_SHA256
    -  DHE_PSK_WITH_AES_128_CBC_SHA
 
--  If a house curve is defined: TLS handshake using a custom curve (in
-   this case, secp112r1) with the following cipher suites (for TLS 1.2,
+-  TLS handshake using an application-specific custom curve (in this
+   case, numsp256d1) with the following cipher suites (for TLS 1.2,
    DTLS 1.2):
 
    -  ECDHE_ECDSA_WITH_AES_256_GCM_SHA256
+
+   This test is disabled in Botan 3.12.0, since the TLS 1.2 server
+   implementation currently cannot negotiate application-specific group
+   codes (GH #5550).
 
 TLS Policy Verification
 -----------------------
@@ -100,12 +97,6 @@ tests validating correct certificate handling.
 
 The tests are implemented in :srcref:`src/tests/unit_tls_policy.cpp`.
 
-**Remark from review of 3.12.0:** A test was added that verifies the
-``require_extended_master_secret`` policy option: the default policy and the
-default text policy must require the extended master secret extension
-(RFC 7627), and a text policy override must be able to disable and re-enable
-the requirement. No substantial change in the test code otherwise.
-
 In the test different certificates with different key lengths are
 created and tested against the default TLS policy. Only certificates
 with appropriate key lengths can be accepted. Certificates with
@@ -116,6 +107,12 @@ In the test the following certificates are tested:
 -  RSA (1024 / 2048 bits)
 -  ECDSA (192 / 256 bits)
 -  DSA (1024 / 2048 bits)
+
+In addition, the ``require_extended_master_secret`` policy option is
+verified (added in the review of 3.12.0): the default policy and the
+default text policy must require the extended master secret extension
+(RFC 7627), and a text policy override must be able to disable and
+re-enable the requirement.
 
 TLS Protocol Message Parsing
 ----------------------------
