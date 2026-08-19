@@ -6794,3 +6794,16 @@ patches:
 #   Author: Jack Lloyd
 - commit: 5a3353f139652c04782f0699debd71c4cf616245  # https://github.com/randombit/botan/commit/5a3353f139652c04782f0699debd71c4cf616245
   classification: unspecified
+
+# Convert AVX2 to be generic SIMD_8x32/SIMD_4x64
+#   Author:    @randombit
+- pr: 5855  # https://github.com/randombit/botan/pull/5855
+  merge_commit: 96459227c5b381ea90dc4418ec254bce9cafac1e
+  classification: unspecified
+
+# test_runner: ensure that std::all_of is available
+#   Author:    @ffplexim
+#   Approvals: (@randombit)
+- pr: 5854  # https://github.com/randombit/botan/pull/5854
+  merge_commit: 0af621baf5f66cd87b64c1c9d74e770ffe2c96e6
+  classification: unspecified
