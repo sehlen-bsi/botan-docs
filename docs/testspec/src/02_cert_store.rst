@@ -54,8 +54,6 @@ The following table shows an example test case with one test vector. All test ve
    |                     | #. Look up Key by Cert                                                     |
    +---------------------+----------------------------------------------------------------------------+
 
-**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
-
 Revocation
 ~~~~~~~~~~
 
@@ -103,8 +101,6 @@ The following table shows an example test case with one test vector. All test ve
    +---------------------+----------------------------------------------------------------------------+
 
 
-**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
-
 Subject DN Listing
 ~~~~~~~~~~~~~~~~~~
 
@@ -137,8 +133,6 @@ The following table shows an example test case with one test vector. All test ve
    +----------------------+--------------------------------------------------------------------------+
 
 
-**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
-
 Finding all Certificates
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -170,8 +164,6 @@ The following table shows an example test case with one test vector. All test ve
    |                      | #.  Check that only one match is found                                           |
    +----------------------+----------------------------------------------------------------------------------+
 
-
-**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
 
 Finding Certificate by hashed Subject DN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -206,8 +198,6 @@ The following table shows an example test case with one test vector. All test ve
    |                      | #. Check if certificate can be found in the store by using the built     |
    |                      |    hash.                                                                 |
    +----------------------+--------------------------------------------------------------------------+
-
-**Remark from review of 3.12.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
 
 System Certificate Store
 ------------------------

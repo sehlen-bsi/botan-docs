@@ -6,8 +6,6 @@ that derives a key from a set of input values. The test is implemented
 in :srcref:`src/tests/test_kdf.cpp`. The test case is described in the
 following.
 
-**Remark from review of 3.12.0:** No change in the test code addressed here.
-
 .. table::
    :class: longtable
    :widths: 20 80
@@ -59,8 +57,6 @@ KDF1 from ISO 18033-2 is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/kdf/kdf1_iso18033.vec`.
 
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
-
 .. table::
    :class: longtable
    :widths: 20 80
@@ -105,8 +101,6 @@ constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_ctr.vec`.
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -153,8 +147,6 @@ constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_fb.vec`.
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 
 .. table::
@@ -204,8 +196,6 @@ constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_pipe.vec`.
 
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
-
 .. table::
    :class: longtable
    :widths: 20 80
@@ -250,8 +240,6 @@ The NIST SP 800-56Cr2 Two-Step KDM is tested with the following constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/kdf/sp800_56c.vec`.
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -298,8 +286,6 @@ The PRF used in TLS 1.0/1.1 is tested with the following constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/kdf/tls_prf.vec`.
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -402,8 +388,6 @@ See `GitHub #3213 <https://github.com/randombit/botan/issues/3213>`_ for further
 
 The following tables show two example test cases.
 All test vectors are listed in :srcref:`src/tests/data/kdf/hkdf.vec`.
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable

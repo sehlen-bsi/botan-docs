@@ -10,8 +10,6 @@ hashes a message in separate chunks. All the tests are implemented in
 :srcref:`src/tests/test_hash.cpp`. The test cases are described in the
 following.
 
-**Remark from review of 3.12.0:** No change in the test code addressed here.
-
 .. table::
    :class: longtable
    :widths: 20 80
@@ -191,8 +189,6 @@ MD-5 is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/hash/md5.vec`.
 
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
-
 .. table::
    :class: longtable
    :widths: 20 80
@@ -257,8 +253,6 @@ SHA-1 is tested with the following constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/hash/sha1.vec`.
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -325,8 +319,6 @@ SHA-224 is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
 
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -461,8 +453,6 @@ SHA-384 is tested with the following constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -662,8 +652,6 @@ SHA-3/224 is tested with the following constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -915,8 +903,6 @@ SHAKE being a XOF it is tested for a number of output lengths with the following
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/hash/shake.vec`.
 
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
-
 .. table::
    :class: longtable
    :widths: 20 80
@@ -982,8 +968,6 @@ Blake2b having a configurable output length it is being tested with the followin
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/hash/blake2b.vec`.
 
-
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable

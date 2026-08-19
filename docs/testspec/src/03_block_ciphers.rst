@@ -187,8 +187,6 @@ The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/block/aes.vec`.
 
 
-**Remark from review of 3.12.0:** No change in the vector file mentioned above.
-
 .. table::
    :class: longtable
    :widths: 20 80

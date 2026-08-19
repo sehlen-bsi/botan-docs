@@ -587,9 +587,6 @@ test cases exist.
 The tests are implemented in
 :srcref:`src/tests/test_tls_stream_integration.cpp`.
 
-**Remark from review of 3.12.0:** No change in the test code referenced
-here.
-
 .. table::
    :class: longtable
    :widths: 20 80

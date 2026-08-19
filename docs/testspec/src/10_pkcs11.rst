@@ -10,8 +10,6 @@ functions to initialize a token and setting/changing the user PIN and
 Security Officer (SO) PIN are tested. All the tests are implemented in
 :srcref:`src/tests/test_pkcs11_high_level.cpp`.
 
-**Remark from review of 3.12.0:** No change in the test code addressed here.
-
 PKCS#11 functions are not executed during a regular run of the test
 suite, but instead must be executed manually:
 

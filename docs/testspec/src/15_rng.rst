@@ -11,9 +11,6 @@ validates the correctness of the HMAC-DRBG random number generator
 All unit tests for various RNGs are implemented in
 :srcref:`src/tests/test_rng_behavior.cpp`.
 
-**Remark from review of 3.12.0:** No change in the test code referenced
-here.
-
 All Known-Answer tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`.
 
 HMAC-DRBG
@@ -36,9 +33,6 @@ SHA-384, SHA-512, and SHA-512-256.
 The following table shows an example test case with one test vector.
 Tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`. All test vectors
 are listed in :srcref:`src/tests/data/rng/hmac_drbg.vec`.
-
-**Remark from review of 3.12.0:** No change in the test code or test vectors
-referenced here.
 
 .. table::
    :class: longtable

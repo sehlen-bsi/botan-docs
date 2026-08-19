@@ -40,8 +40,6 @@ All the tests are implemented in :srcref:`src/tests/test_dlies.cpp`. The
 following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/dlies.vec`.
 
-**Remark from review of 3.12.0:** No change in the test vectors referenced here.
-
 .. table::
    :class: longtable
    :widths: 20 80
@@ -174,8 +172,6 @@ encrypt/decrypt, but instead only check that the combination of these
 modes lead to an exception (negative test). In the following one
 positive and one negative test is shown.
 
-
-**Remark from review of 3.12.0:** No change in the test code or test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -383,8 +379,6 @@ following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/rsaes.vec` and
 :srcref:`src/tests/data/pubkey/rsa_decrypt.vec`.
 
-
-**Remark from review of 3.12.0:** No change in the test code or test vectors referenced here.
 
 .. table::
    :class: longtable
