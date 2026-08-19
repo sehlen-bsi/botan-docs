@@ -88,6 +88,13 @@ latex_additional_files = [
 ]
 
 latex_elements = {
+    # TeX Live 2026's rewritten colortbl (with array >= 2026/02/24) makes
+    # \CT@everycr an alias of \everycr; Sphinx's "colorrows" table style still
+    # assigns \CT@everycr{\the\everycr}, which then loops forever ("TeX capacity
+    # exceeded [input stack size]" at the first longtable; unfixed as of Sphinx
+    # 9.1.0). Preloading the array/longtable rollback releases from TeX Live 2024
+    # makes colortbl take its legacy code path, which Sphinx supports.
+    'passoptionstopackages': r'\usepackage{array}[=v2.6]\usepackage{longtable}[=v4.13]',
     'preamble': r'\usepackage{custom_coverpage}\usepackage{xfrac}',
     'maketitle': r'\custommanualmaketitle',
     'papersize': 'a4paper',
