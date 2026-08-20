@@ -31,10 +31,10 @@ granularity. Additionally, all commits added to the
 "atomic changesets" as *patches* in the remainder of this document.
 
 For each patch, the influence on the library's security guarantees is determined
-first. An in-depth review of the patch was conducted if the patch touches parts
+first. An thorough review of the patch was conducted if the patch touches parts
 of the code base that are in scope for this review, and is considered to be
 prone to affect security critical aspects of the code that are not assumed to be
-covered by the test suite.
+covered by the test suite. The audit method is further described in :ref:`sec-trace-changes`.
 
 This document lists *all* patches along with links to their representation on
 GitHub, our classification, and optionally noteworthy remarks from the
@@ -328,3 +328,4 @@ GitHub) and "auditors" (in retrospect, explicitly for this project) is visualize
 by setting the latter into parenthesis in the patch tables below.
 
 Auditing members of this project and their GitHub handles are: |auditors_list|
+
