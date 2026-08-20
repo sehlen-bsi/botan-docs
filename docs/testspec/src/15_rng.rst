@@ -18,7 +18,7 @@ HMAC-DRBG
 
 HMAC-DRBG RNG is tested with the following constraints:
 
--  Number of test cases: 3360
+-  Number of test cases: 1680
 -  Source: NIST CAVP (NIST CAVS file 14.3)
 
 -  EntropyInput: initial entropy input
@@ -28,7 +28,7 @@ HMAC-DRBG RNG is tested with the following constraints:
 -  Out: RNG output (80-256 bytes)
 
 The tests are executed for HMAC-DRBG with SHA-1, SHA-224, SHA-256,
-SHA-384, SHA-512, and SHA-512-256.
+SHA-384, SHA-512, SHA-512-224, and SHA-512-256.
 
 The following table shows an example test case with one test vector.
 Tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`. All test vectors
@@ -87,9 +87,9 @@ tested:
 -  test_broken_entropy_input: Tests whether the RNG throws exceptions if
    it is provided with insufficient entropy.
 -  test_check_nonce: Tests whether the nonce provided to the RNG has at
-   least one half of the security bit strength. Otherwise, the RNG has
+   least the full security bit strength. Otherwise, the RNG has
    to throw an exception (for HMAC-SHA-256, the nonce has to be at least
-   16 bytes long).
+   32 bytes long).
 -  test_prediction_resistance: Tests with a reseed interval set to 1.
 -  test_fork_safety: Tests whether a forked process has a different RNG
    output than its parent process.
@@ -146,7 +146,7 @@ tested:
    +-----------------------+--------------------------------------------------------------------------+
    | **Preconditions:**    | None                                                                     |
    +-----------------------+--------------------------------------------------------------------------+
-   | **Input Values:**     | -  Approved hash functions: SHA-160, SHA-224, SHA-256, SHA-512/256,      |
+   | **Input Values:**     | -  Approved hash functions: SHA-1, SHA-224, SHA-256, SHA-512/256,        |
    |                       |    SHA-384, SHA-512                                                      |
    |                       |                                                                          |
    |                       | -  Security levels: 128, 192, 256, 256, 256, 256                         |
@@ -177,7 +177,8 @@ tested:
    +-----------------------+--------------------------------------------------------------------------+
    | **Input Values:**     | .. code-block:: none                                                     |
    |                       |                                                                          |
-   |                       |    SeedData = 0x00112233445566778899AABBCCDDEEFF                         |
+   |                       |    SeedData = 0x00112233445566778899AABBCCDDEEFF001122334455667788       |
+   |                       |    99AABBCCDDEEFF                                                        |
    |                       |    OutFirstRequest = 48D3B45AAB65EF92CCFCB9427EF20C90297065ECC1B8A525B   |
    |                       |    FE4DC6FF36D0E38                                                       |
    |                       |    OutSecondRequest = 2F8FCA696832C984781123FD64F4B20C7379A25C87AB29A2   |
@@ -242,8 +243,8 @@ for initialization, seeding and reseeding.
    |                       |                                                                          |
    |                       | #. Create an AutoSeeded_RNG object with the default constructor          |
    |                       |                                                                          |
-   |                       | #. Check that the name is HMAC_DRBG plus the HMAC specified in           |
-   |                       |    BOTAN_AUTO_RNG_HMAC                                                   |
+   |                       | #. Check that the name of the RNG starts with the string                 |
+   |                       |    “HMAC_DRBG(HMAC(SHA-”                                                 |
    |                       |                                                                          |
    |                       | #. Check that the AutoSeeded_RNG is seeded                               |
    |                       |                                                                          |
@@ -295,7 +296,8 @@ The system RNG is tested for basic consistency and functionality.
    | **Description:**      | A unit test that makes sure initialization and basic functionality work  |
    |                       | correctly                                                                |
    +-----------------------+--------------------------------------------------------------------------+
-   | **Preconditions:**    | (partially) 64bit system (size_t > 4 bytes)                              |
+   | **Preconditions:**    | (partially) 64bit system (size_t > 4 bytes) and test suite invoked with  |
+   |                       | the options for long-running and memory-intensive tests                  |
    +-----------------------+--------------------------------------------------------------------------+
    | **Input Values:**     | None                                                                     |
    +-----------------------+--------------------------------------------------------------------------+
@@ -315,15 +317,16 @@ The system RNG is tested for basic consistency and functionality.
    |                       | #. Reseed the System_RNG                                                 |
    |                       |                                                                          |
    |                       | #. | Fetch several random data buffers from the RNG:                     |
-   |                       |    | Consecutively weighing from 1 byte to 128 bytes                     |
+   |                       |    | Consecutively weighing from 0 bytes to 127 bytes                    |
    |                       |                                                                          |
-   |                       | #. | On 64-bit systems (size_t > 4 bytes):                               |
+   |                       | #. | On 64-bit systems (size_t > 4 bytes), if the test suite options for |
+   |                       |      long-running and memory-intensive tests are set:                    |
    |                       |    | *Regression Test*                                                   |
    |                       |                                                                          |
-   |                       |    #. Prepare an output buffer (4 GiB + 1024 bytes) with a well-known    |
-   |                       |       bit pattern for the highest 1024 bytes of the buffer               |
+   |                       |    #. Prepare an output buffer (0xFFFFFFFF + 1024 bytes) with a          |
+   |                       |       well-known bit pattern for the highest 1024 bytes of the buffer    |
    |                       |                                                                          |
-   |                       |    #. Pull 4 GiB + 1024 bytes from the RNG into the prepared output      |
+   |                       |    #. Pull 0xFFFFFFFF + 1024 bytes from the RNG into the prepared output |
    |                       |       buffer                                                             |
    |                       |                                                                          |
    |                       |    #. Confirm that the prepared 1024 bytes at the end of the buffer were |

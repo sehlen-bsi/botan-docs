@@ -31,9 +31,10 @@ All the tests specific to Classic McEliece are found in
 :srcref:`src/tests/test_cmce.cpp`. The relevant test data vectors for the
 KAT tests are located in :srcref:`src/tests/data/pubkey/cmce_kat_hashed.vec`,
 while the negative test vectors are in
-:srcref:`src/tests/data/pubkey/cmce_negative.vec`. Note that, due to the large
-size of the other values, all values except the KAT seeds and the ciphertexts
-are hashed.
+:srcref:`src/tests/data/pubkey/cmce_negative.vec`. Note that, due to their
+large size, the public and private keys are stored as SHAKE-256(512) hashes in
+the KAT vectors, while the KAT seeds, the ciphertexts, and the shared secrets
+are stored unhashed.
 
 .. table::
    :class: longtable
@@ -221,14 +222,18 @@ tests are in *src/tests/data/pubkey/frodokem_kat.vec*.
    |                        | #. Decapsulate the ciphertext with the associated private key and       |
    |                        |    expect success.                                                      |
    |                        |                                                                         |
-   |                        | #. Generate another random key pair, try to decapsulate the ciphertext  |
-   |                        |    from before with the new private key. Expect a decryption failure.   |
+   |                        | #. Generate another random key pair and decapsulate the ciphertext      |
+   |                        |    from before with the new private key. Check that the result equals   |
+   |                        |    the implicit rejection value derived from the ciphertext and the     |
+   |                        |    new private key's rejection seed.                                    |
    |                        |                                                                         |
-   |                        | #. Randomly mutate the ciphertext and attempt a decapsulation with the  |
-   |                        |    original private key. Expect a decryption failure.                   |
+   |                        | #. Randomly mutate the ciphertext (a byte at a random position is       |
+   |                        |    XORed with a random non-zero value) and decapsulate it with the      |
+   |                        |    second private key. Check that the result equals the implicit        |
+   |                        |    rejection value for the mutated ciphertext.                          |
    |                        |                                                                         |
    |                        | #. Truncate the ciphertext by a single byte and attempt a decapsulation |
-   |                        |    with the original private key. Expect a decryption failure.          |
+   |                        |    with the original private key. Expect an error.                      |
    +------------------------+-------------------------------------------------------------------------+
 
 ML-KEM
@@ -277,35 +282,39 @@ instances are in :srcref:`[src/tests/data/pubkey]/kyber_kat.vec`.
    |                        | * ML-KEM Private Key                                                    |
    |                        | * Ciphertext                                                            |
    |                        | * Shared Secret                                                         |
-   |                        | * Invalid Ciphertext                                                    |
-   |                        | * Shared Secret for Invalid Ciphertext                                  |
+   |                        | * Invalid Ciphertext (only in *ml_kem.vec*)                             |
+   |                        | * Shared Secret for Invalid Ciphertext (only in *ml_kem.vec*)           |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | For each KAT vector:                                                    |
    |                        |                                                                         |
    |                        | #. Seed an AES-256-CTR-DRBG with the specified RNG seed                 |
    |                        |                                                                         |
-   |                        | #. Use the seeded RNG to generate a ML-KEM key pair and compare it to   |
-   |                        |    the expected public and private key in the test vector. This uses    |
-   |                        |    the key encoding as implemented in the reference implementation.     |
+   |                        | #. Use the seeded RNG to generate a ML-KEM key pair and compare its     |
+   |                        |    private key to the expected value in the test vector. The expected   |
+   |                        |    value is a 16-byte SHAKE-256(128) digest (SHA-256 for the Kyber 90s  |
+   |                        |    variants) of the key encoding as implemented in the reference        |
+   |                        |    implementation.                                                      |
    |                        |                                                                         |
    |                        | #. Check that the expected algorithm properties of the generated keys   |
    |                        |    match the generic expectations for KEMs (supports key encapsulation, |
    |                        |    reports a key strength in a reasonable interval, etc.).              |
    |                        |                                                                         |
    |                        | #. Extract the public key from the just generated key pair and compare  |
-   |                        |    it to the expected value in the test vector.                         |
+   |                        |    it to the expected (hashed) value in the test vector.                |
    |                        |                                                                         |
-   |                        | #. Encapsulate a secret with the just-generted public key (using the    |
-   |                        |    same RNG) and compare the resulting shared secret and ciphertext to  |
-   |                        |    expected values in the test vector.                                  |
+   |                        | #. Encapsulate a secret with the just-generated public key after an     |
+   |                        |    encode/decode roundtrip (using the same RNG) and compare the         |
+   |                        |    resulting shared secret and ciphertext to the expected values in the |
+   |                        |    test vector. The ciphertext is also stored as a 16-byte digest,      |
+   |                        |    while the shared secret is stored unhashed.                          |
    |                        |                                                                         |
-   |                        | #. Decapsulate the just-calculated ciphertext with the private key from |
-   |                        |    the test vector and ensure that the resulting shared secret is equal |
-   |                        |    to the expected value from the test vector                           |
+   |                        | #. Decapsulate the just-calculated ciphertext with the private key      |
+   |                        |    after an encode/decode roundtrip and ensure that the resulting       |
+   |                        |    shared secret is equal to the expected value from the test vector    |
    |                        |                                                                         |
-   |                        | #. Decapsulate the invalid ciphertext with the private key from the     |
-   |                        |    test vector and ensure that the resulting shared secret is equal to  |
-   |                        |    the expected value from the test vector.                             |
+   |                        | #. For the vectors in *ml_kem.vec*: decapsulate the invalid ciphertext  |
+   |                        |    with the same private key and ensure that the resulting shared       |
+   |                        |    secret is equal to the expected value from the test vector.          |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -471,15 +480,17 @@ RSA-KEM
 The RSA Key Encapsulation Mechanism (RSA-KEM) is tested with the
 following constraints:
 
--  Number of test cases: 3
--  Source: Generated with BouncyCastle
--  KDF: KDF1-18033
+-  Number of test cases: 10
+-  Source: ISO/IEC 18033-2 (4 test cases), generated with BouncyCastle
+   (6 test cases)
+-  KDF: KDF1-18033, KDF2
 -  Hash Function: SHA-1, SHA-256, SHA-512
--  E: 17
--  P: 1024 bits
--  Q: 1024 bits
+-  E: 65537
+-  P: 256 bits, 1024 bits
+-  Q: 256 bits, 1024 bits
+-  R: 512 bits, 2048 bits (random input for the encapsulation)
 -  C0: 512 bits, 2048 bits
--  K: 2432 bits - 2944 bits
+-  K: 160 bits, 1024 bits, 2048 bits
 
 All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. The
 following table shows an example test case with one test vector. All
@@ -502,7 +513,7 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/rsa_kem.vec`.
    |                        |                                                                         |
    |                        |    KDF= KDF1-18033                                                      |
    |                        |    Hash Function = SHA-1                                                |
-   |                        |    E = 17                                                               |
+   |                        |    E = 65537                                                            |
    |                        |    P = 1645950186568473882341964582951551761067580585163458271143764628 |
    |                        |    50563872821063372112958430530617671033588730874556123844100607371610 |
    |                        |    22235704428221007774543857356946467542295606081624245975158122439134 |
@@ -513,6 +524,14 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/rsa_kem.vec`.
    |                        |    74852665095085448171202919729860177636423044468469111847959944718638 |
    |                        |    10981813191843193890746739216420985718840385793232935393632733929895 |
    |                        |    80933234215294363547330708372978868708523                            |
+   |                        |    R = 0E37156BA7E268DA28FA234531267352ACCBE1238096B46D1BCBFB9404309BF6 |
+   |                        |    25A2EF0DFC7009DDD032A86BACCE46F105FCAF11E776D0CF8D5C8B6ACB2EA8A493D3 |
+   |                        |    52C1394CCA37FE91A97A06758398F7C041BFAF0216B9DC9872223AE6031D995C15DC |
+   |                        |    BE8DCEE7EC01FBDA1E485FAC4D3645C47617A03E941AFB0017A6BA48FB00F24F036A |
+   |                        |    52029F0F032288AE9F010867C28C3FEE0A1289F2FC2302CEABC7C41441526BAB5F0B |
+   |                        |    697A651C440B87752945944561471FBEEEC0E65F17B190F2C504B208674A9CDAF474 |
+   |                        |    FDF8F61371696105642E8FE700157C600E9E722200D371A5A177C98098F681632C1B |
+   |                        |    FBC84DC7DFE8889E256DCDF8158277DF25B7ED28                             |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | .. code-block:: none                                                    |
    |                        |                                                                         |
@@ -525,18 +544,6 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/rsa_kem.vec`.
    |                        |        7BF2625EBCBC66EE87F734C95DDFEC808EF6D44DD9682801F26D0F91F60F85F0 |
    |                        |        1A1A3D197CD13DFC2B174F4BE14CBB14A5946F8E22E9AC492472707DB684B85E |
    |                        |        0E                                                               |
-   |                        |        0x57DFAFA0D81AC3AACA2570AD13CCCD127239F4EE04843BB738234588F0DAEA |
-   |                        |        53CCD8AF65A5A00ED19FBB6F2EB57779FF2E38E3D5D27986253A1193DABF14D2 |
-   |                        |        402E1A33527866FA21F23F7ABBEE5F454AAD762FC90139C8377BF6CC77AF7F98 |
-   |                        |        2404BAEA5CA4831DD8ED28BABF2D43B1F65EFF42167B82F020DFD4928D8E96DC |
-   |                        |        B7845ECF8F560FBBF5646FAE5BC4EDA6D978E5FB333843A1F4525CFBDDE75684 |
-   |                        |        2A1E353F4DE1503738EEC6C9D901A78CDEFEDF8DAAA49631DA674B44CAB2193C |
-   |                        |        778BF29766730A656B42E96F84698F77913C718067048263034CF2A2F34572AB |
-   |                        |        662E4B1C5B04CD71183433C591ABD5613820544D46F7462BEA57E44F23AB06E0 |
-   |                        |        FB9A0B0CAB5C285FB0CB1F788213B6B82A2C2E485C1D514BAEF7FC241D57DB03 |
-   |                        |        1D9E80361C55B562232759A660C89E0DE0E11BB8C807142C1C98C07C9BD08BFC |
-   |                        |        7A3D9977133AD07DDED60728B46D668444A74BC001CFBFB8E8FE0BACF6A4078D |
-   |                        |        D4212DC7CDC3291CB3F02AC0B7CDF6E65D                               |
    |                        |    C0 = 0xC03666B82F2E0076C9CF78056F3BE5549A2BD03349D0D52160C3D9C1C2B46 |
    |                        |    FB4E65642B340EE73EE73D301CE8DB75A5CDF5B972011490758A1E0314E0E7E4B952 |
    |                        |    A546FBA6EE8AA7370B6773D6E591D2561148FD049E571A5D8AEAF2BE9EA90F15FFE2 |
@@ -546,12 +553,16 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/rsa_kem.vec`.
    |                        |    1A78D12B4E826ACE6BE2F1954CD56716D3BD7FE23C7187EE40E34BF5CD0F01B0F9A6 |
    |                        |    DE390830EC71CB9021ADBCE5AE761E6A1439E157E01                          |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create a Private_Key object from *P, Q, G*                           |
+   | **Steps:**             | #. Create an RSA Private_Key object from *E, P, Q* and extract the      |
+   |                        |    corresponding public key                                             |
    |                        |                                                                         |
-   |                        | #. Use the Private_Key and the *KDF* to derive a shared secret, compare |
-   |                        |    the shared secret to expected output *K* and the encapsulated key to |
-   |                        |    expected output *C0*                                                 |
+   |                        | #. Create a PK_KEM_Encryptor from the public key and the *KDF* and use  |
+   |                        |    it to encapsulate a shared secret, drawing the required randomness   |
+   |                        |    from a Fixed_Output_RNG seeded with *R*; compare the shared secret   |
+   |                        |    to expected output *K* and the encapsulated key to expected output   |
+   |                        |    *C0*                                                                 |
    |                        |                                                                         |
-   |                        | #. Use the Private_Key and the *KDF* to decrypt the input value *C0*    |
-   |                        |    and compare the output to expected output *K*                        |
+   |                        | #. Create a PK_KEM_Decryptor from the Private_Key and the *KDF*,        |
+   |                        |    decrypt the input value *C0* and compare the output to expected      |
+   |                        |    output *K*                                                           |
    +------------------------+-------------------------------------------------------------------------+

@@ -15,16 +15,18 @@ DLIES
 The Discrete Logarithm Integrated Encryption Scheme (DLIES) is tested
 with the following constraints:
 
--  Number of test cases: 37
+-  Number of test cases: 72 (42 with AES-256/CBC, 22 with XOR, 8 with
+   AES-256/GCM)
 -  Source: Generated with BouncyCastle
--  KDF: KDF1-18033
+-  KDF: KDF1-18033, KDF2
 -  Hash Function: SHA-1, SHA-256, SHA-512
--  MAC: HMAC-SHA1, HMAC-SHA256, HMAC-SHA512
--  IV: 128 bits
+-  MAC: HMAC(SHA-1), HMAC(SHA-256), HMAC(SHA-512), CMAC(AES-256)
+-  MacKeyLen: 128 bits, 160 bits, 256 bits, 512 bits
+-  IV: 128 bits (only for the AES-based ciphers)
 -  X1: 232 bits
 -  X2: 232 bits
 -  Group (P, Q, G): 2048 bits (MODP Group, RFC 3526)
--  Cipher: XOR, AES-256/GCM
+-  Cipher: AES-256/CBC, XOR, AES-256/GCM
 -  Msg: 256 bits
 -  Ciphertext: 2432 bits - 2944 bits
 
@@ -49,6 +51,8 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/dlies.vec`.
    |                        |                                                                         |
    |                        |    KDF = KDF1-18033(SHA-512)                                            |
    |                        |    MAC = HMAC(SHA-512)                                                  |
+   |                        |    MacKeyLen = 64                                                       |
+   |                        |    Cipher = AES-256/GCM                                                 |
    |                        |    Group = modp/ietf/2048                                               |
    |                        |    IV = 0x00112233445566778899aabbccddeeff                              |
    |                        |    X1 = 0x4316760088048858173826993660634587631078362099236037980378049 |
@@ -93,7 +97,7 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/dlies.vec`.
    +========================+=========================================================================+
    | **Type:**              | Negative Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Invalid signatures should not verify                                    |
+   | **Description:**       | Invalid ciphertexts should not decrypt correctly                        |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
@@ -101,6 +105,8 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/dlies.vec`.
    |                        |                                                                         |
    |                        |    KDF = KDF1-18033(SHA-512)                                            |
    |                        |    MAC = HMAC(SHA-512)                                                  |
+   |                        |    MacKeyLen = 64                                                       |
+   |                        |    Cipher = AES-256/GCM                                                 |
    |                        |    Group = modp/ietf/2048                                               |
    |                        |    IV = 0x00112233445566778899aabbccddeeff                              |
    |                        |    X1 = 0x4316760088048858173826993660634587631078362099236037980378049 |
@@ -118,6 +124,19 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/dlies.vec`.
    |                        |                                                                         |
    |                        | #. Use P2, P1, the *KDF*, *MAC* and *IV* to decrypt the *Ciphertext*    |
    |                        |    and compare with *Msg*                                               |
+   |                        |                                                                         |
+   |                        | #. Create a modified version of the *Ciphertext* by XOR-ing a byte at   |
+   |                        |    a random position with a random non-zero value                       |
+   |                        |                                                                         |
+   |                        | #. Decrypt the modified ciphertext and check that it either fails to    |
+   |                        |    decrypt or yields an output different from *Msg*                     |
+   |                        |                                                                         |
+   |                        | #. Repeat the previous two steps five times (twenty times if long       |
+   |                        |    tests are enabled)                                                   |
+   |                        |                                                                         |
+   |                        | #. Decrypt the original *Ciphertext* again and check that it still      |
+   |                        |    correctly recovers *Msg* (failed decryptions must not affect the     |
+   |                        |    decryptor state)                                                     |
    +------------------------+-------------------------------------------------------------------------+
 
 ECIES
@@ -132,8 +151,8 @@ the following constraints:
 -  P: 192 bits
 -  A: 192 bits
 -  B: 191 bits
--  MU: 192 bits (order)
--  NU: 8 bits (cofactor)
+-  Order: 192 bits (group order)
+-  Oid: 1.3.6.1.4.1.25258.4.18033 (group identifier)
 -  Gx: 189 bits (base point x)
 -  Gy: 187 bits (base point y)
 -  Hx: 189 bits (x of public point of bob)
@@ -184,9 +203,9 @@ positive and one negative test is shown.
    |                        |                                                                         |
    |                        | B = 0x64210519e59c80e70fa7e9ab72243049feb8deecc146b9b1                  |
    |                        |                                                                         |
-   |                        | MU = 0xffffffffffffffffffffffff99def836146bc9b1b4d22831                 |
+   |                        | Order = 0xffffffffffffffffffffffff99def836146bc9b1b4d22831              |
    |                        |                                                                         |
-   |                        | NU = 0x01                                                               |
+   |                        | Oid = 1.3.6.1.4.1.25258.4.18033                                         |
    |                        |                                                                         |
    |                        | Gx = 0x188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012                 |
    |                        |                                                                         |
@@ -226,33 +245,32 @@ positive and one negative test is shown.
    |                        | 9b865a7232b5661b7cac87cf4150bdf23b015d7b525b797cf6d533e9f6ad49a4c6de5e7 |
    |                        | 089724c9cadf0adf13ee51b41be6713653fc1cb2c95a1d1b771cc7429189861d7a829f3 |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create an ECDH_PrivateKey object *PR1* from *P, A, B, Gx, Gy, MU,    |
-   |                        |    NU,* *X*                                                             |
+   | **Steps:**             | #. Create an EC_Group object *G* from *Oid, P, A, B, Gx, Gy* and        |
+   |                        |    *Order*                                                              |
    |                        |                                                                         |
-   |                        | #. Create an ECDH_PublicKey object *PU1* P, A, B, Hx, Hy                |
+   |                        | #. Create an ECDH_PrivateKey object *PR1* from *G* and *X*              |
    |                        |                                                                         |
-   |                        | #. Create an ECDH_PrivateKey object *PR2* from *P, A, B, Gx, Gy, MU,    |
-   |                        |    NU,* *R*                                                             |
+   |                        | #. Create an ECDH_PublicKey object *PU1* from *G* and the public point  |
+   |                        |    (*Hx*, *Hy*)                                                         |
+   |                        |                                                                         |
+   |                        | #. Create an ECDH_PrivateKey object *PR2* from *G* and *R*              |
    |                        |                                                                         |
    |                        | #. Encode the public point of *PR2* using *Format* and compare with     |
    |                        |    expected output *C0*                                                 |
    |                        |                                                                         |
-   |                        | #. Use PR1 and PU1 to derive a shared secret of 128 bytes using         |
+   |                        | #. Use PR2 and PU1 to derive a shared secret of 128 bytes using         |
    |                        |    KDF1-18033(SHA-1) and *Format* and compare with expected output *K*  |
    |                        |                                                                         |
-   |                        | #. Create an ECIES_System_Params object ESP from *P*, *A*, *B*, *Kdf*,  |
+   |                        | #. Create an ECIES_System_Params object ESP from *G*, *Kdf*,            |
    |                        |    *Cipher*, *CipherKeyLen*, *Mac*, *MacKeyLen*, *Format* and *Cofactor |
    |                        |    Mode*, *Old Cofactor Mode*, *Single Hash Mode* and *Check Mode*      |
    |                        |                                                                         |
-   |                        | #. Create an ECIES_Encryptor from PR1 and ESP                           |
+   |                        | #. Create an ECIES_Encryptor from PR2 and ESP                           |
    |                        |                                                                         |
-   |                        | #. Set the public point of PR2 as the public key of the other party on  |
+   |                        | #. Set the public point of PR1 as the public key of the other party on  |
    |                        |    the ECIES_Encryptor                                                  |
    |                        |                                                                         |
-   |                        | #. Create an ECIES_Decryptor from PR2 and ESP                           |
-   |                        |                                                                         |
-   |                        | #. Set the public point of PR2 as the public key of the other party on  |
-   |                        |    the ECIES_Decryptor                                                  |
+   |                        | #. Create an ECIES_Decryptor from PR1 and ESP                           |
    |                        |                                                                         |
    |                        | #. Set the IV on the ECIES_Encryptor to 16 zero bytes                   |
    |                        |                                                                         |
@@ -287,9 +305,9 @@ positive and one negative test is shown.
    |                        |                                                                         |
    |                        | B = 0x64210519e59c80e70fa7e9ab72243049feb8deecc146b9b1                  |
    |                        |                                                                         |
-   |                        | MU = 0xffffffffffffffffffffffff99def836146bc9b1b4d22831                 |
+   |                        | Order = 0xffffffffffffffffffffffff99def836146bc9b1b4d22831              |
    |                        |                                                                         |
-   |                        | NU = 0x01                                                               |
+   |                        | Oid = 1.3.6.1.4.1.25258.4.18033                                         |
    |                        |                                                                         |
    |                        | Gx = 0x188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012                 |
    |                        |                                                                         |
@@ -329,21 +347,23 @@ positive and one negative test is shown.
    |                        | 9b865a7232b5661b7cac87cf4150bdf23b015d7b525b797cf6d533e9f6ad49a4c6de5e7 |
    |                        | 089724c9cadf0adf13ee51b41be6713653fc1cb2c95a1d1b771cc7429189861d7a829f3 |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create an ECDH_PrivateKey object *PR1* from *P, A, B, Gx, Gy, MU,    |
-   |                        |    NU,* *X*                                                             |
+   | **Steps:**             | #. Create an EC_Group object *G* from *Oid, P, A, B, Gx, Gy* and        |
+   |                        |    *Order*                                                              |
    |                        |                                                                         |
-   |                        | #. Create an ECDH_PublicKey object *PU1* P, A, B, Hx, Hy                |
+   |                        | #. Create an ECDH_PrivateKey object *PR1* from *G* and *X*              |
    |                        |                                                                         |
-   |                        | #. Create an ECDH_PrivateKey object *PR2* from *P, A, B, Gx, Gy, MU,    |
-   |                        |    NU,* *R*                                                             |
+   |                        | #. Create an ECDH_PublicKey object *PU1* from *G* and the public point  |
+   |                        |    (*Hx*, *Hy*)                                                         |
+   |                        |                                                                         |
+   |                        | #. Create an ECDH_PrivateKey object *PR2* from *G* and *R*              |
    |                        |                                                                         |
    |                        | #. Encode the public point of *PR2* using *Format* and compare with     |
    |                        |    expected output *C0*                                                 |
    |                        |                                                                         |
-   |                        | #. Use PR1 and PU1 to derive a shared secret of 128 bytes using         |
+   |                        | #. Use PR2 and PU1 to derive a shared secret of 128 bytes using         |
    |                        |    KDF1-18033(SHA-1) and *Format* and compare with expected output *K*  |
    |                        |                                                                         |
-   |                        | #. Create an ECIES_System_Params ESP object from *P*, *A*, *B*, *Kdf*,  |
+   |                        | #. Create an ECIES_System_Params ESP object from *G*, *Kdf*,            |
    |                        |    *Cipher*, *CipherKeyLen*, *Mac*, *MacKeyLen*, *Format* and *Cofactor |
    |                        |    Mode*, *Old Cofactor Mode*, *Single Hash Mode* and *Check Mode* and  |
    |                        |    check that it throws an exception                                    |
@@ -357,13 +377,17 @@ RSA
 
 RSA encryption and decryption are tested with the following constraints:
 
--  Number of test cases: 148
+-  Number of test cases: 213 (188 in *rsaes.vec*, 25 in
+   *rsa_decrypt.vec*)
 -  E: 3 - 2147483647
 -  P: 256 bits – 1024 bits
 -  Q: 256 bits – 1024 bits
--  Msg: 32 bits – 1024 bits
+-  Msg: 8 bits – 1088 bits
 -  Nonce: 88 - 904 bits (optional)
--  Padding: Raw, EME1(SHA-1, SHA-256, SHA-512), EME-PKCS1-v1_5(SHA-1)
+-  Padding: Raw, EME-PKCS1-v1_5, OAEP(SHA-1),
+   OAEP(SHA-256,MGF1(SHA-1)), OAEP(SHA-512,MGF1(SHA-1)),
+   OAEP(SHA-256,MGF1(SHA-512)), OAEP(SHA-224,MGF1(SHA-256)),
+   OAEP(SHA-512,MGF1(SHA-512),TCPA)
 -  Ciphertext: 512 bits – 2048 bits
 
 All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. The
@@ -407,11 +431,12 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/rsaes.vec` and
    |                        | #. Decrypt the *Ciphertext* with the Private_Key object and compare     |
    |                        |    with the *Msg*                                                       |
    |                        |                                                                         |
-   |                        | #. Encrypt the *Msg* with the Public_Key object and compare with the    |
-   |                        |    *Ciphertext*                                                         |
+   |                        | #. Encrypt the *Msg* with the Public_Key object and compare the         |
+   |                        |    generated ciphertext with the *Ciphertext* (for the base provider)   |
    |                        |                                                                         |
-   |                        | #. Decrypt the generated ciphertext from the previous step and compare  |
-   |                        |    with the *Msg*                                                       |
+   |                        | #. For alternative implementation providers only: if the generated      |
+   |                        |    ciphertext differs from the *Ciphertext*, decrypt the generated      |
+   |                        |    ciphertext and compare the result with the *Msg*                     |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -445,10 +470,14 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/rsaes.vec` and
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | #. Create the Private_Key object from *P, Q, E*                         |
    |                        |                                                                         |
-   |                        | #. Create a modified version of the *Ciphertext* by changing the length |
-   |                        |    of it or by flipping random bits in it                               |
+   |                        | #. Create a modified version of the *Ciphertext* by XOR-ing a byte at   |
+   |                        |    a random position with a random non-zero value                       |
    |                        |                                                                         |
-   |                        | #. Decrypt the modified *Ciphertext* compare it to the *Msg*            |
+   |                        | #. Decrypt the modified ciphertext and check that it either fails to    |
+   |                        |    decrypt or yields an output different from *Msg*                     |
+   |                        |                                                                         |
+   |                        | #. Repeat the previous two steps five times (twenty times if long       |
+   |                        |    tests are enabled)                                                   |
    |                        |                                                                         |
    |                        | #. Decrypt the original *Ciphertext* again and check that it still      |
    |                        |    correctly recovers *Msg* (failed decryptions must not affect the     |

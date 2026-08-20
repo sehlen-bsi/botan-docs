@@ -124,9 +124,9 @@ in :srcref:`src/tests/test_pubkey.cpp`.
    |                        |                                                                         |
    |                        | -  Curve: The elliptic curve, e.g., secp192r1 or                        |
    |                        |                                                                         |
-   |                        | -  P, Q, E: RSA parameters                                              |
+   |                        | -  E, N: RSA parameters                                                 |
    |                        |                                                                         |
-   |                        | -  Private Parameters: Algorithm-specific Private Key Parameters        |
+   |                        | -  Public Parameters: Algorithm-specific Public Key Parameters          |
    |                        |                                                                         |
    |                        | -  Msg: The test message (varying length)                               |
    |                        |                                                                         |
@@ -136,8 +136,8 @@ in :srcref:`src/tests/test_pubkey.cpp`.
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | |                                                                       |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create the PrivateKey object from *Group/Curve/P,Q,E* and *Private   |
-   |                        |    Parameters*                                                          |
+   | **Steps:**             | #. Create the PublicKey object from *Group/Curve/E,N* and *Public*      |
+   |                        |    *Parameters*                                                         |
    |                        |                                                                         |
    |                        | #. Check that the signature *InvalidSignature* does not verify          |
    +------------------------+-------------------------------------------------------------------------+
@@ -159,7 +159,7 @@ in :srcref:`src/tests/test_pubkey.cpp`.
    |                        |                                                                         |
    |                        | -  Curve: The elliptic curve, e.g., secp192r1 or                        |
    |                        |                                                                         |
-   |                        | -  P, Q, E: RSA parameters                                              |
+   |                        | -  E, N: RSA parameters                                                 |
    |                        |                                                                         |
    |                        | -  Public Parameters: Algorithm-specific Public Key Parameters          |
    |                        |                                                                         |
@@ -171,7 +171,7 @@ in :srcref:`src/tests/test_pubkey.cpp`.
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | |                                                                       |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create the PublicKey object from *Group/Curve/P,Q,E* and *Public*    |
+   | **Steps:**             | #. Create the PublicKey object from *Group/Curve/E,N* and *Public*      |
    |                        |    *Parameters*                                                         |
    |                        |                                                                         |
    |                        | #. Check that the signature *Signature* verifies                        |
@@ -248,12 +248,11 @@ described here in the following.
    |                        | #. Create a PublicKey object from the BER-encoded byte array, decoding  |
    |                        |    the BER-encoded key                                                  |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid\ :sup:`1`                         |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
    |                        |                                                                         |
-   |                        | #. Check that the key is valid (see PKSIG-KEY-1)                        |
+   |                        | #. Check that the BER encoding of the key object equals that of the     |
+   |                        |    generated public key                                                 |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -284,12 +283,11 @@ described here in the following.
    |                        | #. Create a PrivateKey object from the PEM-encoded string, decoding the |
    |                        |    PEM-encoded key                                                      |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid                                   |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
    |                        |                                                                         |
-   |                        | #. Check that the key is valid (see PKSIG-KEY-1)                        |
+   |                        | #. Check that the encoding of the key object equals that of the         |
+   |                        |    generated private key                                                |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -320,12 +318,8 @@ described here in the following.
    |                        | #. Create a PrivateKey object from the BER-encoded byte array, decoding |
    |                        |    the BER-encoded key                                                  |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid                                   |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
-   |                        |                                                                         |
-   |                        | #. Check that the key is valid (see PKSIG-KEY-1)                        |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -349,7 +343,8 @@ described here in the following.
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Generate a random password string of length between 1-32 characters  |
+   | **Steps:**             | #. Generate a random password as the hex encoding of 1 to 32 random     |
+   |                        |    bytes                                                                |
    |                        |                                                                         |
    |                        | #. Generate a random keypair on the *Group/Curve/RSA parameters*        |
    |                        |                                                                         |
@@ -359,12 +354,11 @@ described here in the following.
    |                        | #. Create a PrivateKey object from the PEM-encoded string, decoding the |
    |                        |    PEM-encoded key                                                      |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid                                   |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
    |                        |                                                                         |
-   |                        | #. Check that the key is valid (see PKSIG-KEY-1)                        |
+   |                        | #. Check that the encoding of the key object equals that of the         |
+   |                        |    generated private key                                                |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -388,7 +382,8 @@ described here in the following.
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Generate a random password string of length between 1-32 characters  |
+   | **Steps:**             | #. Generate a random password as the hex encoding of 1 to 32 random     |
+   |                        |    bytes                                                                |
    |                        |                                                                         |
    |                        | #. Generate a random keypair on the *Group/Curve/RSA parameters*        |
    |                        |                                                                         |
@@ -398,12 +393,11 @@ described here in the following.
    |                        | #. Create a PrivateKey object from the BER-encoded byte array, decoding |
    |                        |    the BER-encoded key                                                  |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid (see PKSIG-KEY-1)                 |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
    |                        |                                                                         |
-   |                        | #. Check that the key is valid (see PKSIG-KEY-1)                        |
+   |                        | #. Check that the encoding of the key object equals that of the         |
+   |                        |    generated private key                                                |
    +------------------------+-------------------------------------------------------------------------+
 
 ML-DSA
@@ -565,16 +559,21 @@ DSA
 The Digital Signature Algorithm (DSA) is tested with the following
 constraints:
 
--  Number of test cases: 306
--  Source: NIST CAVP (NIST CAVS file 11.2), OpenSSL
+-  Number of test cases: 325 (21 in *dsa_rfc6979.vec*, used for
+   signature generation in default builds, 302 in *dsa_prob.vec*, used
+   for signature verification in default builds, and 2 in
+   *dsa_verify.vec*)
+-  Sources: RFC 6979, NIST CAVP (NIST CAVS file 11.2), OpenSSL
 -  Hash Function: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512
--  Group (P, Q, G): 1024 bits, 2048 bits, 3072 bits
--  Msg: 1024 bits
--  Signature: 1024 bits, 2048 bits, 3072 bits
+-  Group (P, Q, G): 512 bits, 1024 bits, 2048 bits, 3072 bits
+-  Msg: 32 bits – 1024 bits
+-  Signature: 320 bits, 448 bits, 512 bits
 
 All the tests are implemented in :srcref:`src/tests/test_dsa.cpp`. The
 following table shows an example test case with one test vector. All
-test vectors are listed in :srcref:`src/tests/data/pubkey/dsa_prob.vec`
+test vectors are listed in
+:srcref:`src/tests/data/pubkey/dsa_rfc6979.vec`,
+:srcref:`src/tests/data/pubkey/dsa_prob.vec`
 and :srcref:`src/tests/data/pubkey/dsa_verify.vec`.
 
 
@@ -608,7 +607,10 @@ and :srcref:`src/tests/data/pubkey/dsa_verify.vec`.
    |                        | .. code-block:: none                                                    |
    |                        |                                                                         |
    |                        |    X= 0xc53eae6d45323164c7d07af5715703744a63fc3a                        |
-   |                        |    Msg = empty message                                                  |
+   |                        |    Msg = 3b46736d559bd4e0c2c1b2553a33ad3c6cf23cac998d3d0c0e8fa4b19bca06 |
+   |                        |    f2f386db2dcff9dca4f40ad8f561ffc308b46c5f31a7735b5fa7e0f9e6cb512e63d7 |
+   |                        |    eea05538d66a75cd0d4234b5ccf6c1715ccaaf9cdc0a2228135f716ee9bdee7fc13e |
+   |                        |    c27a03a6d11c5c5b3685f51900b1337153bc6c4e8f52920c33fa37f4e7           |
    |                        |    Nonce = 0x98cbcc4969d845e2461b5f66383dd503712bbcfa                   |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | .. code-block:: none                                                    |
@@ -645,7 +647,7 @@ and :srcref:`src/tests/data/pubkey/dsa_verify.vec`.
    |                        | b4479c15ada7ea8424d2502fa01472e760241713dab025ae1b02e1703a1435f62ddf4ee |
    |                        | 4c1b664066eb22f2e3bf28bb70a2a76e4fd5ebe2d1229681b5b06439ac9c7e9d8bde283 |
    |                        |                                                                         |
-   |                        | Q = 0x0xf85f0f83ac4df7ea0cdf8f469bfeeaea14156495                        |
+   |                        | Q = 0xf85f0f83ac4df7ea0cdf8f469bfeeaea14156495                          |
    |                        |                                                                         |
    |                        | G =                                                                     |
    |                        | 0x2b3152ff6c62f14622b8f48e59f8af46883b38e79b8                           |
@@ -657,7 +659,11 @@ and :srcref:`src/tests/data/pubkey/dsa_verify.vec`.
    |                        |                                                                         |
    |                        | X= 0xc53eae6d45323164c7d07af5715703744a63fc3a                           |
    |                        |                                                                         |
-   |                        | Msg = empty message                                                     |
+   |                        | Msg =                                                                   |
+   |                        | 3b46736d559bd4e0c2c1b2553a33ad3c6cf23cac998d3d0c0e8fa4b19bca06f2f386db2 |
+   |                        | dcff9dca4f40ad8f561ffc308b46c5f31a7735b5fa7e0f9e6cb512e63d7eea05538d66a |
+   |                        | 75cd0d4234b5ccf6c1715ccaaf9cdc0a2228135f716ee9bdee7fc13ec27a03a6d11c5c5 |
+   |                        | b3685f51900b1337153bc6c4e8f52920c33fa37f4e7                             |
    |                        |                                                                         |
    |                        | Nonce = 0x98cbcc4969d845e2461b5f66383dd503712bbcfa                      |
    +------------------------+-------------------------------------------------------------------------+
@@ -708,7 +714,7 @@ and :srcref:`src/tests/data/pubkey/dsa_verify.vec`.
    |                        |    Y = 0xcea7c9120eb8d8bc17cbe015cad32fc349140c7018af2445c6686bbbb2e572 |
    |                        |    05fe7412a40e196d57cf5ac924855ad25b79c6140cfe2dece79b907c37cf9a74eaef |
    |                        |    9597b73d55655b30843b9025c2edd1531c11480971dd55b7462a23de611ce0be7a3f |
-   |                        |    e82fd4b0c65faa4445b894212406ac608ed05ad2b3c2986efa1b8cd580a          |
+   |                        |    e82fd4b0c65faa4445b894212406ac608ed05ad2b3c2986efa1b8cd580           |
    |                        |    Msg = fffdfbf9f7f5f3f1efedebe9e7e5e3e1dfdddbd9                       |
    |                        |    Signature = 3db343dc58acdebf815f85d0e55fbdeda326bea6107f10f3a2cb1fbf |
    |                        |    afb3324b3fc6076fe298ac9e                                             |
@@ -723,7 +729,7 @@ and :srcref:`src/tests/data/pubkey/dsa_verify.vec`.
 The following example shows a DSA-specific PKSIG-KEY-1 test case. The
 constraints for this test case are:
 
--  Group: dsa/jce/1024, dsa/botan/2048
+-  Group: dsa/jce/1024
 
 .. table::
    :class: longtable
@@ -768,9 +774,13 @@ constraints for this test case are:
    |                        |                                                                         |
    |                        |       b. G\ :sup:`Q` mod P = 1                                          |
    |                        |                                                                         |
-   |                        |       c. Q is prime using a Miller-Rabin test with 50 rounds            |
+   |                        |       c. Q is prime, using a probabilistic primality test with error    |
+   |                        |          probability at most 2\ :sup:`-128` (Miller-Rabin iterations    |
+   |                        |          plus a Lucas test)                                             |
    |                        |                                                                         |
-   |                        |    #. P is prime using a Miller-Rabin test with 50 rounds               |
+   |                        |    #. P is prime, using a probabilistic primality test with error       |
+   |                        |       probability at most 2\ :sup:`-128` (Miller-Rabin iterations plus  |
+   |                        |       a Lucas test)                                                     |
    +------------------------+-------------------------------------------------------------------------+
 
 ECDSA
@@ -779,12 +789,18 @@ ECDSA
 The Elliptic Curve Digital Signature Algorithm (ECDSA) is tested with
 the following constraints:
 
--  Number of test cases: 4156
--  Source: NIST CAVP (NIST CAVS file 11.2), OpenSSL, Wycheproof
--  Hash Function: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512
--  Curve: secp224r1, secp256r1, secp384r1
--  Msg: 1024 bits
--  Signature: 448 bits, 512 bits, 568 bits
+-  Number of test cases: 12146 (251 in *ecdsa_prob.vec*, 31 in
+   *ecdsa_verify.vec* and 11864 in *ecdsa_wycheproof.vec*)
+-  Sources: NIST CAVP (NIST CAVS file 11.2), OpenSSL, Wycheproof
+-  Hash Function: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA3-224,
+   SHA3-256, SHA3-384, SHA3-512, Raw
+-  Curve: secp160k1, secp160r1, secp160r2, secp224k1, secp224r1,
+   secp256k1, secp256r1, secp384r1, secp521r1, brainpool224r1,
+   brainpool256r1, brainpool320r1, brainpool384r1, brainpool512r1,
+   frp256v1, x962_p239v1, x962_p239v2
+-  Msg: 0 bits – 1024 bits
+-  Signature: 336 bits – 1056 bits (valid signatures; the Wycheproof
+   vectors additionally contain malformed signatures of other lengths)
 
 All the tests are implemented in :srcref:`src/tests/test_ecdsa.cpp`. The
 following table shows an example test case with one test vector. All
@@ -927,7 +943,7 @@ with special case values for r and s, etc.
 The following example shows an ECDSA-specific PKSIG-KEY-1 test case. The
 constraints for this test case are:
 
--  Curve: secp256r1, secp384r1, secp521r1
+-  Curve: all named elliptic curve groups supported by the library
 
 .. table::
    :class: longtable
@@ -963,8 +979,7 @@ constraints for this test case are:
    +------------------------+-------------------------------------------------------------------------+
 
 Additional tests check that public keys are validated correctly. Test
-vectors are taken from NIST CAVS file 11.0 for FIPS 186-2 and FIPS
-186-4.
+vectors are taken from NIST CAVS file 11.0 for FIPS 186-2.
 
 .. table::
    :class: longtable
@@ -989,15 +1004,11 @@ vectors are taken from NIST CAVS file 11.0 for FIPS 186-2 and FIPS
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Generate a random keypair on the ECDSA *Curve*                       |
+   | **Steps:**             | #. Attempt to create a public point on the curve *Curve* from the x     |
+   |                        |    coordinate InvalidKeyX and the y coordinate InvalidKeyY              |
    |                        |                                                                         |
-   |                        | #. Encode the public key as PEM-encoded string                          |
-   |                        |                                                                         |
-   |                        | #. Create a ECDSA_PublicKey object on the curve *Curve* with the public |
-   |                        |    point x coordinate InvalidKeyX and the y coordinate InvalidKeyY      |
-   |                        |                                                                         |
-   |                        | #. Check that the public key is valid by performing the checks from AIS |
-   |                        |    46                                                                   |
+   |                        | #. Check that the construction of the public point fails because the    |
+   |                        |    coordinates do not form a valid point on the curve                   |
    +------------------------+-------------------------------------------------------------------------+
 
 ECGDSA
@@ -1006,10 +1017,10 @@ ECGDSA
 The Elliptic Curve German Digital Signature Algorithm (ECGDSA) is tested
 with the following constraints:
 
--  Number of test cases: 9
+-  Number of test cases: 12
 -  Source: “The Digital Signature Scheme ECGDSA”, Erwin Hess, Marcus
    Schafheutle, and Pascale Serf, Siemens AG, October 24, 2006
--  Hash Function: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512
+-  Hash Function: RIPEMD-160, SHA-1, SHA-224, SHA-256, SHA-384, SHA-512
 -  Curve: brainpool192r1, brainpool256r1, brainpool320r1,
    brainpool384r1, brainpool512r1
 -  Msg: 368 bits, 384 bits, 408 bits
@@ -1033,25 +1044,23 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/ecgdsa.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Input Values:**      | Hash Function = SHA-224                                                 |
+   | **Input Values:**      | Hash Function = RIPEMD-160                                              |
    |                        |                                                                         |
-   |                        | Curve = secp224r1                                                       |
+   |                        | Curve = brainpool192r1                                                  |
    |                        |                                                                         |
    |                        | Private Parameters:                                                     |
    |                        |                                                                         |
-   |                        | X= 0x16797b5c0c7ed5461e2ff1b88e6eafa03c0f46bf072000dfc830d615           |
+   |                        | X= 0x80F2425E89B4F585F27F3536ED834D68E3E492DE08FE84B9                   |
    |                        |                                                                         |
    |                        | Msg =                                                                   |
-   |                        | 0x699325d6fc8fbbb4981a6ded3c3a54ad2e4e3db8a56                           |
-   |                        | 69201912064c64e700c139248cdc19495df081c3fc60245b9f25fc9e301b845b3d703a6 |
-   |                        | 94986e4641ae3c7e5a19e6d6edbf1d61e535f49a8fad5f4ac26397cfec682f161a5fcd3 |
-   |                        | 2c5e780668b0181a91955157635536a22367308036e2070f544ad4fff3d5122c76fad5d |
+   |                        | 0x4578616d706c65206f662045434744534120776974682074686520686173682066756 |
+   |                        | e6374696f6e20524950454d442d313630                                       |
    |                        |                                                                         |
-   |                        | Nonce = 0xd9a5a7328117f48b4b8dd8c17dae722e756b3ff64bd29a527137eec0      |
+   |                        | Nonce = 0x22C17C2A367DD85AB8A365ED06F19C43F9ED18349A9BC044              |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Signature =                                                             |
-   |                        | 0x2fc2cff8cdd4866b1d74e45b07d333af46b7af088                             |
-   |                        | 8049d0fdbc7b0d68d9cc4c8ea93e0fd9d6431b9a1fd99b88f281793396321b11dac41eb |
+   |                        | 0x2D017BE7F117FF994ED6FC63CA5B4C7A0430E9FA095DAFC4C02B5CC5C51D5411060BF |
+   |                        | 0245049F824839F671D78A1BBF1                                             |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | #. Create the ECGDSA_PrivateKey object from *Curve, X*                  |
    |                        |                                                                         |
@@ -1076,21 +1085,19 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/ecgdsa.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Input Values:**      | Hash Function = SHA-224                                                 |
+   | **Input Values:**      | Hash Function = RIPEMD-160                                              |
    |                        |                                                                         |
-   |                        | Curve = secp224r1                                                       |
+   |                        | Curve = brainpool192r1                                                  |
    |                        |                                                                         |
    |                        | Private Parameters:                                                     |
    |                        |                                                                         |
-   |                        | X= 0x16797b5c0c7ed5461e2ff1b88e6eafa03c0f46bf072000dfc830d615           |
+   |                        | X= 0x80F2425E89B4F585F27F3536ED834D68E3E492DE08FE84B9                   |
    |                        |                                                                         |
    |                        | Msg =                                                                   |
-   |                        | 0x699325d6fc8fbbb4981a6ded3c3a54ad2e4e3db8a56                           |
-   |                        | 69201912064c64e700c139248cdc19495df081c3fc60245b9f25fc9e301b845b3d703a6 |
-   |                        | 94986e4641ae3c7e5a19e6d6edbf1d61e535f49a8fad5f4ac26397cfec682f161a5fcd3 |
-   |                        | 2c5e780668b0181a91955157635536a22367308036e2070f544ad4fff3d5122c76fad5d |
+   |                        | 0x4578616d706c65206f662045434744534120776974682074686520686173682066756 |
+   |                        | e6374696f6e20524950454d442d313630                                       |
    |                        |                                                                         |
-   |                        | Nonce = 0xd9a5a7328117f48b4b8dd8c17dae722e756b3ff64bd29a527137eec0      |
+   |                        | Nonce = 0x22C17C2A367DD85AB8A365ED06F19C43F9ED18349A9BC044              |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Signatures do not verify                                                |
    +------------------------+-------------------------------------------------------------------------+
@@ -1151,7 +1158,7 @@ ECKCDSA
 The Elliptic Curve Korean Certificate Digital Signature Algorithm
 (ECKCDSA) is tested with the following constraints:
 
--  Number of test cases: 3
+-  Number of test cases: 11
 -  Sources for KAT tests:
 
    - TTAK.KO-12.0015/R2 "Digital Signature Mechanism with Appendix
@@ -1194,8 +1201,7 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/eckcdsa.vec`.
    |                        |                                                                         |
    |                        | .. code-block:: none                                                    |
    |                        |                                                                         |
-   |                        |    X = 0x9051A275AA4D98439EDDED13FA1C6CBBCCE775D8CC9433DEE69C59848B3594 |
-   |                        |    DF                                                                   |
+   |                        |    X = 0x562A6F64E162FFCB51CD4707774AE36681B6CEF205FE5D43912956A2       |
    |                        |    Msg = 0x5468697320697320612073616D706C65206D65737361676520666F722045 |
    |                        |    432D4B4344534120696D706C656D656E746174696F6E2076616C69646174696F6E2E |
    |                        |    Nonce = 0x76A0AFC18646D1B620A079FB223865A7BCB447F3C03A35D878EA4CDA   |
@@ -1237,8 +1243,7 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/eckcdsa.vec`.
    |                        |                                                                         |
    |                        | .. code-block:: none                                                    |
    |                        |                                                                         |
-   |                        |    X = 0x9051A275AA4D98439EDDED13FA1C6CBBCCE775D8CC9433DEE69C59848B3594 |
-   |                        |    DF                                                                   |
+   |                        |    X = 0x562A6F64E162FFCB51CD4707774AE36681B6CEF205FE5D43912956A2       |
    |                        |    Msg = 0x5468697320697320612073616D706C65206D65737361676520666F722045 |
    |                        |    432D4B4344534120696D706C656D656E746174696F6E2076616C69646174696F6E2E |
    |                        |    Nonce = 0x76A0AFC18646D1B620A079FB223865A7BCB447F3C03A35D878EA4CDA   |
@@ -1268,7 +1273,7 @@ The constraints for this test case are:
    :widths: 20 80
 
    +------------------------+-------------------------------------------------------------------------+
-   | **Test Case No.:**     | PKSIG-KEY-ECDSA-1                                                       |
+   | **Test Case No.:**     | PKSIG-KEY-ECKCDSA-1                                                     |
    +========================+=========================================================================+
    | **Type:**              | Positive Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
@@ -1280,7 +1285,7 @@ The constraints for this test case are:
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Generate a random keypair on the ECDSA *Curve*                       |
+   | **Steps:**             | #. Generate a random keypair on the ECKCDSA *Curve*                     |
    |                        |                                                                         |
    |                        | #. Encode the public key as PEM-encoded string                          |
    |                        |                                                                         |
@@ -1348,8 +1353,9 @@ the (already extensive) generic tests.
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | #. Create a valid HSS/LMS signature ``sig``                             |
    |                        |                                                                         |
-   |                        | #. For i = 1,...,length of ``sig``: cut the last i bits from the valid  |
-   |                        |    signature and check that the verification of it fails correctly      |
+   |                        | #. For i = 1,...,byte length of ``sig``: cut the last i bytes from the  |
+   |                        |    valid signature and check that the verification of it fails          |
+   |                        |    correctly                                                            |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -1384,21 +1390,21 @@ RSA
 
 The RSA algorithm is tested with the following constraints:
 
--  Number of test cases: 77
+-  Number of test cases: 172
 -  Source: ISO 9796-2:2010, Project Wycheproof, others
--  Hash Function: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512
--  E: 3, 5, 7, 17, 79, 28609, 29115, 65537
--  P: 192 bits, 256 bits, 384 bits, 512 bits, 768 bits, 1024 bits, 1536
-   bits, 2048 bits
--  Q: 192 bits, 256 bits, 384 bits, 512 bits, 768 bits, 1024 bits, 1536
-   bits, 2048 bits
+-  Hash Function: MD5, RIPEMD-160, SHA-1, SHA-224, SHA-256, SHA-384,
+   SHA-512, Whirlpool
+-  E: 3, 5, 7, 11, 17, 28609, 29115, 65537, 65539
+-  P: 192 bits – 2048 bits
+-  Q: 192 bits – 2048 bits
 -  Msg: 0 bits – 1864 bits
--  Padding: EMSA1(SHA-1), EMSA2(SHA-1), EMSA2(SHA-224), EMSA2(SHA-256),
-   EMSA2(SHA-384), EMSA2(SHA-512), EMSA3(Raw), EMSA3(SHA-1),
-   EMSA3(SHA-224), EMSA3(SHA-256), EMSA3(SHA-384), EMSA3(SHA-512),
-   EMSA4(SHA-1), EMSA4(SHA-1), ISO 9796-2 DS2(SHA-1), ISO 9797-2
-   DS3(SHA-1)
--  Signature: 384 bits – 2048 bits
+-  Padding: Raw, PKCS1v15(MD5), PKCS1v15(RIPEMD-160), PKCS1v15(Raw),
+   PKCS1v15(Raw,MD5), PKCS1v15(SHA-1), PKCS1v15(SHA-224),
+   PKCS1v15(SHA-256), PKCS1v15(SHA-384), PKCS1v15(SHA-512), PSS(SHA-1),
+   X9.31(RIPEMD-160), X9.31(SHA-1), X9.31(SHA-224), X9.31(SHA-256),
+   X9.31(SHA-384), X9.31(SHA-512), X9.31(Whirlpool), ISO 9796-2
+   DS2(RIPEMD-160), ISO 9796-2 DS2(SHA-1), ISO 9796-2 DS3(SHA-1)
+-  Signature: 384 bits – 4096 bits
 
 All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. 
 
@@ -1423,20 +1429,20 @@ PKSIG-RSA-3 are listed in :srcref:`src/tests/data/pubkey/rsa_invalid.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | .. code-block:: none                                                    |
    |                        |                                                                         |
-   |                        |    Hash Function = SHA-1                                                |
+   |                        |    Padding = Raw                                                        |
    |                        |    E = 5                                                                |
    |                        |    P = 2932597160139455343587654517786101586715937059620256574803271522 |
    |                        |    4855053574888335295064118595233157878850644746476053                 |
    |                        |    Q = 3634072611698581074958455627374959034665880003838661976815530888 |
    |                        |    2211829358443758608966414537457415767576889158645019                 |
-   |                        |    Msg = 0x4161436445664768496A4B                                       |
+   |                        |    Msg = 0x0000000069113490A6B0793F802C7810BB16E943                     |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | .. code-block:: none                                                    |
    |                        |                                                                         |
-   |                        |    Signature = 0x3A3B7502D85F05128CFB74608205031339753DA50D0DB7E268C395 |
-   |                        |    1F04A1981EDE22613BFC38DB9FFEBE183A4F11B0B0F8D7BEB668F7C1C385A801C2DD |
-   |                        |    D7C08CB2E56082F80AD1105E930ED96DB6A0309639A51F5379B682C7F75C601BD4AD |
-   |                        |    E5                                                                   |
+   |                        |    Signature = 0x39ED15BA0A0A5546A634A8D94CB9750FFB968C4DF184DA76B6ACDF |
+   |                        |    89D8E0C37475E2DB053F75DF9AE3FB317B199E4ABAD3C9279EEAD5481C8F3B1B5EEB |
+   |                        |    BE3A95137234AB8C6D04E9ECE72A20DC7759B1836F392B99F5F095A4591639B63B69 |
+   |                        |    99                                                                   |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | #. Create the RSA_PrivateKey object from *P, Q, E*                      |
    |                        |                                                                         |
@@ -1461,7 +1467,7 @@ PKSIG-RSA-3 are listed in :srcref:`src/tests/data/pubkey/rsa_invalid.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Input Values:**      | Hash Function = SHA-1                                                   |
+   | **Input Values:**      | Padding = Raw                                                           |
    |                        |                                                                         |
    |                        | E = 5                                                                   |
    |                        |                                                                         |
@@ -1473,7 +1479,7 @@ PKSIG-RSA-3 are listed in :srcref:`src/tests/data/pubkey/rsa_invalid.vec`.
    |                        | 363407261169858107495845562737495903466588000                           |
    |                        | 38386619768155308882211829358443758608966414537457415767576889158645019 |
    |                        |                                                                         |
-   |                        | Msg = 0x4161436445664768496A4B                                          |
+   |                        | Msg = 0x0000000069113490A6B0793F802C7810BB16E943                        |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | Signatures do not verify                                                |
    +------------------------+-------------------------------------------------------------------------+
@@ -1507,9 +1513,7 @@ PKSIG-RSA-3 are listed in :srcref:`src/tests/data/pubkey/rsa_invalid.vec`.
    |                        |                                                                         |
    |                        | -  Curve: The elliptic curve, e.g., secp192r1 or                        |
    |                        |                                                                         |
-   |                        | -  P, Q, E: RSA parameters                                              |
-   |                        |                                                                         |
-   |                        | -  Private Parameters: Algorithm-specific Private Key Parameters        |
+   |                        | -  E, N: RSA parameters                                                 |
    |                        |                                                                         |
    |                        | -  Msg: The test message (varying length)                               |
    |                        |                                                                         |
@@ -1519,7 +1523,7 @@ PKSIG-RSA-3 are listed in :srcref:`src/tests/data/pubkey/rsa_invalid.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | |                                                                       |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create the RSA_PrivateKey object from *P, Q, E*                      |
+   | **Steps:**             | #. Create the RSA_PublicKey object from *E, N*                          |
    |                        |                                                                         |
    |                        | #. Check that the signature *InvalidSignature* does not verify          |
    +------------------------+-------------------------------------------------------------------------+
@@ -1564,7 +1568,9 @@ constraints for this test case are:
    |                        |                                                                         |
    |                        |    #. N is uneven                                                       |
    |                        |                                                                         |
-   |                        |    #. E >= 2                                                            |
+   |                        |    #. E >= 3                                                            |
+   |                        |                                                                         |
+   |                        |    #. E is uneven                                                       |
    +------------------------+-------------------------------------------------------------------------+
 
 SLH-DSA
@@ -1714,19 +1720,19 @@ Signature Generation
 The XMSS signature generation algorithm [XMSS] is tested with the
 following constraints:
 
--  Hash Function: SHA-256, SHA-512
+-  Parameter Set: SHA2_10_192, SHA2_10_256, SHA2_10_512, SHAKE_10_256,
+   SHAKE_10_512, SHAKE256_10_192, SHAKE256_10_256
 -  w: 16
 -  h: 10
--  Msg: 0 bits – 400 bits
--  Signature: 20032 bits - 72768 bits
+-  Msg: 0 bits – 8000 bits
+-  Signature: 11936 bits - 72736 bits
 
 All the tests are implemented in :srcref:`src/tests/test_xmss.cpp`. All test
-vectors are listed in :srcref:`src/tests/data/pubkey/xmss_sig.vec`. Currently 4
-test vectors are tested. Optional additional test vectors are present
-within *xmss_sig.vec* but commented out by default to reduce the test
-bench run time. The hash function and algorithm parameters “w”, “h” are
-provided through the algorithm oid, which is part of the private key.
-The following table shows an example test case with one test vector.
+vectors are listed in :srcref:`src/tests/data/pubkey/xmss_sig.vec`. Currently 27
+test vectors are tested. The hash function and algorithm parameters “w”,
+“h” are provided through the algorithm oid, which is part of the private
+key. The following table shows an example test case with one test
+vector.
 
 
 .. table::
@@ -1744,33 +1750,26 @@ The following table shows an example test case with one test vector.
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | .. code-block:: none                                                    |
    |                        |                                                                         |
-   |                        |    Hash Function = SHA-256                                              |
-   |                        |    h = 10                                                               |
-   |                        |    PrivateKey = 0x01000001A020196CDE3A20C13477CE56DE3A7A4381821EA50BF07 |
-   |                        |    F0670048A0E1736D22876575FA4F5404B393828F74776A9B9C73B0962069652B0884 |
-   |                        |    32242E12CF75E170000000000000000CE1994BC37AEDD7E21851001EC0F4296ECC3D |
-   |                        |    389263E4E720D05EFFD60A20A41B90B7E2CC1647319B4B143CEDDADADFB3E571BE68 |
-   |                        |    F36ACC8D6C0A0ADD41266F2                                              |
-   |                        |    Msg = 0x078A87923DEC59CE843149F5E642A3F921E2E78543132F88BA637A09DF0C |
-   |                        |    16552A3037E3EEB3A30FDA5DF73AE2E0DD3821D1                             |
+   |                        |    Parameter Set = SHA2_10_256                                          |
+   |                        |    PrivateKey = 0x00000001ce52afeaab62a4ba514253fcf59d5d8326ff0cd1bd3ed |
+   |                        |    d916baea883cea0d004bc1b7d069cabf1b9556315e69f8b3f7baa62d0004d89dc9e1 |
+   |                        |    d302ffa9b7c7a280000000075f11c53d6355fa070a7c75d1b4e4c8bbd8917f165516 |
+   |                        |    19665b840ed072f93f590daae519f7b076fdf67a025ab8aac02a4cd92014fe678a4b |
+   |                        |    455c4c375e6aff902                                                    |
+   |                        |    Msg = (empty message)                                                |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | .. code-block:: none                                                    |
    |                        |                                                                         |
-   |                        |    Signature = 0x0000000000000000D3A842202DB1812F8DC93387EA6A78D01211D0 |
-   |                        |    0911D37678CAD55CBC228B2DA495C0B88593D505696EF3BE99A6742B75A12555BBED |
-   |                        |    E5F788D4F4B7DAE4E6C7DA82FAA2D7E60F836673BC0BAE8CB75A6A94480970C90A41 |
-   |                        |    2E49AE7B0CFA63025C1444A746C5BDCF9D8618CECE33549043A98D05CBA7673FB7E4 |
-   |                        |    F835E624B482E85B3B2AFF7613CD58F1C8FF2B0E6011E02F5A3387708E8E99970EB0 |
+   |                        |    Signature = 0x00000000a590c58ac6a649a95e05764f66577f48d558bb7e2103c3 |
+   |                        |    b9e157c44e6e04c6051a9ce78938ccb2f771ff2390ca064dbc09fcfb54863cc336b0 |
+   |                        |    c887ab07b8afabeec38246bc667fab2558dba93416318da33232d30f9e6861959135 |
+   |                        |    928432681f93ae97eeb385cc8e645f0bc34eb5b3796c5af307d70c34e0ff32d7af01 |
+   |                        |    8a33a50d9cee2251cd68468eada712465baf255f4eb16a9e934e7646e05daad1ee81 |
    |                        |    [...]                                                                |
-   |                        |    880DC8C51FC850354AACB05BD175542080D0C87CEA99081ADF901920EA6327B761DE |
-   |                        |    A28B61951EAEC23BC9DC30D32DD0ED4FCFE39F575803F874D72D71D48CE8F26D47B0 |
-   |                        |    CC74881C54F80F41DB4718EC04FAAADFD93AF8B8A258527024658FB28D4F6983DAA0 |
-   |                        |    1558F85BF8C6120D355388C302516D1FDA5480961799AC8B5E9B485BC579675F03CE |
-   |                        |    604A103DF21CD31ADD951AD0A3AE1AD1788444997EB12F78BA96E909C74543EB6D0D |
-   |                        |    CAFAE60796632E6888E3B3D2EB6D6B733AA53C455C04473C2213494570F6C8AE04FE |
-   |                        |    F4307419A7D84C87EF8A9CA8DC62177D2BC09FB1362ECF7A6E879B51B0B27B535835 |
-   |                        |    6689289D09BAEC2F204ADBA0A20C05A5E7C59F10D4C9F0C349ED71B2D08CFAFC96CB |
-   |                        |    97DE01FBC0484B2                                                      |
+   |                        |    cd7be32424f76b95dbfe83250c73174c28e79a3524cb2b99982194f5fc0cb407b292 |
+   |                        |    f40201e508a6089922b642332a55c9c5c4752d97bf00b7aa9cd64252a92e53bce680 |
+   |                        |    f7b59a38c40d3748b95bca90474e9d68d44dc0cdab444e2897dca3a54038e23a490f |
+   |                        |    ac114daa0e097ebc7a74a8482d80482a0cfc05bd558ecb4f91                   |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | #. Create the XMSS_PrivateKey object from the byte sequence provided    |
    |                        |    through input value “PrivateKey”                                     |

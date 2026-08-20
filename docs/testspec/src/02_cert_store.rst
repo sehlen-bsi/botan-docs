@@ -136,7 +136,7 @@ The following table shows an example test case with one test vector. All test ve
 Finding all Certificates
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-These unit tests test search certificates matching given subject DN and Subject Key Identifier. The tests are executed with the following constraints:
+These unit tests test search of certificates matching a given subject DN and Subject Key Identifier, including the case of multiple certificates sharing the same subject DN. The tests are executed with the following constraints:
 
     - Number of test cases: 1
     - Cert: X.509v3
@@ -157,18 +157,32 @@ The following table shows an example test case with one test vector. All test ve
    | **Preconditions:**   | None                                                                             |
    +----------------------+----------------------------------------------------------------------------------+
    | **Input Values:**    | -  Certs: Certificates stored in the store                                       |
+   |                      |                                                                                  |
+   |                      | -  SameDNCerts: Two certificates sharing the same subject DN                     |
+   |                      |    (*common_14_sub_ca.ca.pem.crt* and *common_14_wrong_sub_ca.ca.pem.crt*        |
+   |                      |    from :srcref:`src/tests/data/x509/bsi/common_14/`)                            |
    +----------------------+----------------------------------------------------------------------------------+
    | **Expected Output:** | None                                                                             |
    +----------------------+----------------------------------------------------------------------------------+
-   | **Steps:**           | #. Look up Certs by subject DN and subject key ID                                |
-   |                      | #.  Check that only one match is found                                           |
+   | **Steps:**           | #. For each certificate from *Certs*, look up the certificates matching its      |
+   |                      |    subject DN and subject key ID                                                 |
+   |                      |                                                                                  |
+   |                      | #. Check that exactly one match with the expected subject DN is found            |
+   |                      |                                                                                  |
+   |                      | #. Insert both certificates from *SameDNCerts* into the store                    |
+   |                      |                                                                                  |
+   |                      | #. Look up all certificates matching their shared subject DN (without            |
+   |                      |    specifying a subject key ID)                                                  |
+   |                      |                                                                                  |
+   |                      | #. Check that both certificates are returned and that both carry the expected    |
+   |                      |    subject DN                                                                    |
    +----------------------+----------------------------------------------------------------------------------+
 
 
-Finding Certificate by hashed Subject DN
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Finding Certificate by hashed Subject DN or by Issuer DN and Serial Number
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-These unit tests test search certificates by the hashed subject DN. The tests are executed with the following constraints:
+These unit tests test search of certificates by the hashed subject DN and by the issuer DN and serial number. The test operates on an in-memory certificate store (``Certificate_Store_In_Memory``) filled with the test certificates. The tests are executed with the following constraints:
 
     - Number of test cases: 1
     - Cert: X.509v3
@@ -184,7 +198,8 @@ The following table shows an example test case with one test vector. All test ve
    +----------------------+--------------------------------------------------------------------------+
    | **Type:**            | Positive Test                                                            |
    +----------------------+--------------------------------------------------------------------------+
-   | **Description:**     | Searches certificate by hashed subject DNs of all certificates           |
+   | **Description:**     | Searches certificates by hashed subject DN and by issuer DN and          |
+   |                      | serial number                                                            |
    +----------------------+--------------------------------------------------------------------------+
    | **Preconditions:**   | None                                                                     |
    +----------------------+--------------------------------------------------------------------------+
@@ -192,11 +207,19 @@ The following table shows an example test case with one test vector. All test ve
    +----------------------+--------------------------------------------------------------------------+
    | **Expected Output:** | None                                                                     |
    +----------------------+--------------------------------------------------------------------------+
-   | **Steps:**           | #. For each certificate from Certs, build hash value from the subject DN |
-   |                      |    of the given certificate                                              |
+   | **Steps:**           | #. For each certificate from Certs, build the SHA-256 hash value of the  |
+   |                      |    raw subject DN of the given certificate                               |
    |                      |                                                                          |
    |                      | #. Check if certificate can be found in the store by using the built     |
    |                      |    hash.                                                                 |
+   |                      |                                                                          |
+   |                      | #. For each certificate from Certs, look up the certificate by its       |
+   |                      |    issuer DN and serial number                                           |
+   |                      |                                                                          |
+   |                      | #. Check that the certificate with the expected serial number is found   |
+   |                      |                                                                          |
+   |                      | #. Look up a certificate using a dummy hash consisting of 32 zero bytes  |
+   |                      |    and check that no certificate is found                                |
    +----------------------+--------------------------------------------------------------------------+
 
 System Certificate Store
@@ -209,9 +232,14 @@ Note that the tests are relying on certain (common) certificates to be installed
     - **„ISRG Root X1“**
         - valid until: 4th of June 2035
         - *contains „PrintableString“ encodings in its Distinguished Name fields*
-    - **„D-TRUST Root Class 3 CA 2 EV 2009“**
-        - valid until: 5th of November 2029
-        - *contains UTF-8 encoded strings in its Distinguished Name fields*
+    - at least one of the following certificates, all of which *contain UTF-8
+      encoded strings in their Distinguished Name fields*:
+
+        - **„SSL.com TLS ECC Root CA 2022“** (valid until: 12th of February 2041)
+        - **„D-TRUST Root Class 3 CA 2 EV 2009“** (valid until: 5th of November 2029)
+        - **„TrustAsia Global Root CA G3“** (valid until: 19th of May 2046)
+        - **„T-TeleSec GlobalRoot Class 2“** (valid until: 1st of October 2033)
+        - **„Atos TrustedRoot Root CA ECC TLS 2021“** (valid until: 17th of April 2041)
     - „SecureTrust CA“
         - valid until: 31st of December 2029
         - *defines a Subject Key Identifier that is different from the public key's SHA-1 hash
@@ -280,17 +308,19 @@ This test uses two root certificates, (1) with its Subject Distinguished Name co
    +----------------------+--------------------------------------------------------------------------+
    | **Description:**     | Look up root certificates given their Subject Distinguished Name         |
    +----------------------+--------------------------------------------------------------------------+
-   | **Preconditions:**   | | Certificates „ISRG Root X1“ and „D-TRUST Root Class 3 CA 2 EV 2009“    |
-   |                      |   are installed in the system root certificate store.                    |
-   |                      | | Note that „D-TRUST Root Class 3 CA 2 EV 2009“ was not available in the |
-   |                      |   CI provider’s trust store on Windows. Hence, this part of the test is  |
-   |                      |   currently disabled for Windows entirely.                               |
+   | **Preconditions:**   | | Certificate „ISRG Root X1“ is installed in the system root certificate |
+   |                      |   store.                                                                 |
+   |                      | | At least one of the certificates „SSL.com TLS ECC Root CA 2022“,       |
+   |                      |   „D-TRUST Root Class 3 CA 2 EV 2009“, „TrustAsia Global Root CA G3“,    |
+   |                      |   „T-TeleSec GlobalRoot Class 2“ and „Atos TrustedRoot Root CA ECC TLS   |
+   |                      |   2021“ (all with UTF-8 encoded strings in their DN) is installed in the |
+   |                      |   system root certificate store.                                         |
    +----------------------+--------------------------------------------------------------------------+
    | **Input Values:**    | None                                                                     |
    +----------------------+--------------------------------------------------------------------------+
    | **Expected Output:** | None                                                                     |
    +----------------------+--------------------------------------------------------------------------+
-   | **Steps:**           | #. Query certificates by their public key’s SHA-1                        |
+   | **Steps:**           | #. Query certificates by their Subject Distinguished Name                |
    |                      |                                                                          |
    |                      | #. Check that:                                                           |
    |                      |                                                                          |
@@ -392,4 +422,38 @@ Query non-existent Certificates
    |                      |     (a) all query results are empty                                      |
    |                      |                                                                          |
    |                      |     (b) no unexpected error occurs                                       |
+   +----------------------+--------------------------------------------------------------------------+
+
+Find Certificate by Issuer Distinguished Name and Serial Number
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This test queries a certificate by its Issuer Distinguished Name and its serial number. Since the queried certificate is a self-signed root certificate, its issuer DN equals its subject DN.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +----------------------+--------------------------------------------------------------------------+
+   | **Test Case No.:**   | CERTSTOR-SYSTEM-6                                                        |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Type:**            | Positive Test                                                            |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Description:**     | Look up a root certificate given its Issuer Distinguished Name and its   |
+   |                      | serial number                                                            |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Preconditions:**   | Certificate „ISRG Root X1“ is installed in the system root certificate   |
+   |                      | store.                                                                   |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Input Values:**    | None                                                                     |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Expected Output:** | None                                                                     |
+   +----------------------+--------------------------------------------------------------------------+
+   | **Steps:**           | #. Query the certificate by the issuer DN and the serial number of       |
+   |                      |    „ISRG Root X1“                                                        |
+   |                      |                                                                          |
+   |                      | #. Check that:                                                           |
+   |                      |                                                                          |
+   |                      |     (a) the correct certificate with the expected serial number is found |
+   |                      |                                                                          |
+   |                      |     (b) the returned certificate is reported as contained in the store   |
    +----------------------+--------------------------------------------------------------------------+

@@ -83,12 +83,11 @@ described here in the following.
    |                        | #. Create a Public_Key object from the BER-encoded byte array, decoding |
    |                        |    the BER-encoded keypair                                              |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid\ :sup:`1`                         |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
    |                        |                                                                         |
-   |                        | #. Check that the key is valid                                          |
+   |                        | #. Check that the BER encoding of the key object equals that of the     |
+   |                        |    generated public key                                                 |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -121,12 +120,11 @@ described here in the following.
    |                        | #. Create a Private_Key object from the PEM-encoded string, decoding    |
    |                        |    the PEM-encoded keypair                                              |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid                                   |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
    |                        |                                                                         |
-   |                        | #. Check that the key is valid (see KA-KEY-1)                           |
+   |                        | #. Check that the encoding of the key object equals that of the         |
+   |                        |    generated private key                                                |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -159,12 +157,8 @@ described here in the following.
    |                        | #. Create a Private_Key object from the BER-encoded byte array,         |
    |                        |    decoding the BER-encoded keypair                                     |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid                                   |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
-   |                        |                                                                         |
-   |                        | #. Check that the key is valid (see KA-KEY-1)                           |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -187,7 +181,8 @@ described here in the following.
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Generate a random password string of length between 1-32 characters  |
+   | **Steps:**             | #. Generate a random password as the hex encoding of 1 to 32 random     |
+   |                        |    bytes                                                                |
    |                        |                                                                         |
    |                        | #. Generate a random keypair on the *Group*/*Curve*                     |
    |                        |                                                                         |
@@ -200,12 +195,11 @@ described here in the following.
    |                        | #. Create a Private_Key object from the PEM-encoded string, decoding    |
    |                        |    the PEM-encoded keypair                                              |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid                                   |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
    |                        |                                                                         |
-   |                        | #. Check that the key is valid (see KA-KEY-1)                           |
+   |                        | #. Check that the encoding of the key object equals that of the         |
+   |                        |    generated private key                                                |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::
@@ -228,12 +222,13 @@ described here in the following.
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Generate a random password string of length between 1-32 characters  |
+   | **Steps:**             | #. Generate a random password as the hex encoding of 1 to 32 random     |
+   |                        |    bytes                                                                |
+   |                        |                                                                         |
+   |                        | #. Generate a random keypair on the *Group*/*Curve*                     |
    |                        |                                                                         |
    |                        | #. Check that the generated public key is valid and its estimated       |
    |                        |    strength satisfies the requirements                                  |
-   |                        |                                                                         |
-   |                        | #. Generate a random keypair on the *Group*/*Curve*                     |
    |                        |                                                                         |
    |                        | #. Encode the keypair as BER-encoded byte array, protected with the     |
    |                        |    password                                                             |
@@ -241,12 +236,11 @@ described here in the following.
    |                        | #. Create a Private_Key object from the BER-encoded byte array,         |
    |                        |    decoding the BER-encoded keypair                                     |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid                                   |
-   |                        |                                                                         |
    |                        | #. Check that the key object algorithm name equals that of the          |
    |                        |    generated keypair                                                    |
    |                        |                                                                         |
-   |                        | #. Check that the key is valid (see KA-KEY-1)                           |
+   |                        | #. Check that the encoding of the key object equals that of the         |
+   |                        |    generated private key                                                |
    +------------------------+-------------------------------------------------------------------------+
 
 Diffie-Hellman
@@ -297,14 +291,15 @@ Diffie-Hellman key agreement is tested with the following constraints:
 -  Number of test cases: 40
 -  Sources: NIST CAVP file 20.1, other
 
--  P: 512 bits, 768 bits, 1024 bits, 1536 bits, 2048 bits
+-  P: 256 bits, 512 bits, 515 bits, 768 bits, 1024 bits, 1536 bits,
+   2048 bits
 -  G: 2, 3, 5 (Zahlenwerte), 2045 bits, 2048 bits
 -  X: 119 bits – 1535 bits
 -  Y: 254 bits – 2048 bits
--  KDF: None
+-  KDF: None, KDF2(SHA-1)
 -  Output Length: None, 40 bits, 128 bits, 152 bits, 264 bits
--  K: 40 bits, 128 bits, 152 bits, 256 bits, 264 bits, 512 bits, 1024
-   bits, 1536 bits
+-  K: 40 bits, 128 bits, 152 bits, 256 bits, 264 bits, 512 bits, 768
+   bits, 1024 bits, 1536 bits, 2048 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/dh.vec`.
@@ -344,8 +339,8 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/dh.vec`.
    |                        |    compare the result with the expected output value *K*                |
    +------------------------+-------------------------------------------------------------------------+
 
-Additional two unit tests check that DH only accept public key values 1
-<= Y <= P-1.
+Additional two unit tests check that DH only accepts public key values
+Y with 1 < Y < P.
 
 .. table::
    :class: longtable
@@ -417,7 +412,7 @@ Additional two unit tests check that DH only accept public key values 1
 The following example shows a DH-specific KA-KEY-1 test case. The
 constraints for this test case are:
 
--  Group: modp/ietf/1024, modp/ietf/2048
+-  Group: modp/ietf/1024
 
 .. table::
    :class: longtable
@@ -462,9 +457,13 @@ constraints for this test case are:
    |                        |                                                                         |
    |                        |       b. G\ :sup:`Q` mod P = 1                                          |
    |                        |                                                                         |
-   |                        |       c. Q is prime using a Miller-Rabin test with 50 rounds            |
+   |                        |       c. Q is prime, using a probabilistic primality test with error    |
+   |                        |          probability at most 2\ :sup:`-128` (Miller-Rabin iterations    |
+   |                        |          plus a Lucas test)                                             |
    |                        |                                                                         |
-   |                        |    #. P is prime using a Miller-Rabin test with 50 rounds               |
+   |                        |    #. P is prime, using a probabilistic primality test with error       |
+   |                        |       probability at most 2\ :sup:`-128` (Miller-Rabin iterations plus  |
+   |                        |       a Lucas test)                                                     |
    +------------------------+-------------------------------------------------------------------------+
 
 Additional tests are executed for invalid public keys failing the key
@@ -513,14 +512,22 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/dh_invalid.vec`.
    |                        |    ce345ff7cea18e9cd1457eb93daa87dba8a31508fa5695c32ce485962eb183414441 |
    |                        |    3b41ef936db71b79d6fe985c018ac396e3af25054dbbc95e56ab5d4d4b7b61a70670 |
    |                        |    e789c336b46b9f7be43cf6eb0e68b40e33a55d55cc                           |
-   +------------------------+-------------------------------------------------------------------------+
-   | **Expected Output:**   | Public key fails key checks                                             |
-   +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create a DH_Public_Key object from P, Q, G                           |
    |                        |                                                                         |
-   |                        | #. Check that the key object is valid                                   |
+   |                        |    InvalidKey = 0x4e2a136cf21a94b4c226fb5c6a4e9be1472acffe8dee6b20f987b |
+   |                        |    1cdf90c6a581a69e2ab25e3615e9ee3681edb2c468af9142fb2d2f4b7333133e107c |
+   |                        |    829e60d00e969c432a204105e75976eea05ee0988dfbbd01cc10d816908b0f616b62 |
+   |                        |    0d4829ebee50ddd1733d025ebe5abf3d069a3424ec1300d582cd442cacae6f09760c |
+   |                        |    b5f4195fff6fe0c85ac986e14a8b232b33c6f5e7729e0d38fd42fe07f646816e01c6 |
+   |                        |    784e029a03663199b2ea6135aee2949f9371045ce7c24a10acd193fb3ed5b53326ba |
+   |                        |    e54bf5928fff5548d0877555260ab4475bdade168211fa3a1df87510b08796ebce5e |
+   |                        |    a742112ca7942a7a602d106007a5259624aebb74fe771755050                  |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | The public key check (check_key) returns false                          |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create a DH_Public_Key object from P, Q, G and the public value      |
+   |                        |    InvalidKey                                                           |
    |                        |                                                                         |
-   |                        | #. Check that the key is invalid by checking that at least one of the   |
+   |                        | #. Check that check_key returns false, i.e., at least one of the        |
    |                        |    following does not hold:                                             |
    |                        |                                                                         |
    |                        |    #. 1 < Y < P                                                         |
@@ -533,9 +540,13 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/dh_invalid.vec`.
    |                        |                                                                         |
    |                        |    #. G\ :sup:`Q` mod P = 1                                             |
    |                        |                                                                         |
-   |                        |    #. Q is prime using a Miller-Rabin test with 50 rounds               |
+   |                        |    #. Q is prime, using a probabilistic primality test with error       |
+   |                        |       probability at most 2\ :sup:`-128` (Miller-Rabin iterations plus  |
+   |                        |       a Lucas test)                                                     |
    |                        |                                                                         |
-   |                        |    #. P is prime using a Miller-Rabin test with 50 rounds               |
+   |                        |    #. P is prime, using a probabilistic primality test with error       |
+   |                        |       probability at most 2\ :sup:`-128` (Miller-Rabin iterations plus  |
+   |                        |       a Lucas test)                                                     |
    +------------------------+-------------------------------------------------------------------------+
 
 Elliptic Curve Diffie Hellman
@@ -616,14 +627,15 @@ This test is specified in the following table.
 Elliptic Curve Diffie-Hellman key agreement is tested with the following
 constraints:
 
--  Number of test cases: 150
--  Source: NIST CAVS file 14.1
+-  Number of test cases: 156
+-  Sources: NIST CAVS file 14.1, RFC 7027
 
 -  Curve: secp192r1, secp224r1, secp256r1, secp384r1, secp521r1,
-   frp256v1
--  Secret: 190 bits - 521 bits
--  CounterKey: 192 bits, 224 bits, 256 bits, 384 bits, 521 bits
--  K: 192 bits, 224 bits, 256 bits, 384 bits, 521 bits
+   brainpool256r1, brainpool384r1, brainpool512r1, frp256v1
+-  Secret: 189 bits - 521 bits
+-  CounterKey: 192 bits, 224 bits, 256 bits, 384 bits, 512 bits, 521
+   bits
+-  K: 192 bits, 224 bits, 256 bits, 384 bits, 512 bits, 521 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/ecdh.vec`.
@@ -662,7 +674,7 @@ The following example shows an ECDH-specific KA-KEY-1 test case. The
 constraints for all the key-related test cases are:
 
 -  Curve: secp256r1, secp384r1, secp521r1, brainpool256r1,
-   brainpool384r1, frp256v1
+   brainpool384r1, brainpool512r1, frp256v1
 
 .. table::
    :class: longtable

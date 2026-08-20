@@ -98,7 +98,7 @@ following.
    +------------------------+-------------------------------------------------------------------------+
    | **Description:**       | Calculates the MAC tag on a test message in chunks                      |
    +------------------------+-------------------------------------------------------------------------+
-   | **Preconditions:**     | *In* is of length n > 1 byte                                            |
+   | **Preconditions:**     | *In* is of length n > 2 bytes                                           |
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | -  Block Cipher: The underlying block cipher, e.g., AES-128 or AES-256  |
    |                        |    or                                                                   |
@@ -141,15 +141,16 @@ CMAC
 
 CMAC is tested with the following constraints:
 
--  Number of test cases: 36
+-  Number of test cases: 39
 
--  Block Cipher: AES-128, AES-192, AES-256
--  Key: 128 bits, 192 bits and 256 bits
+-  Block Cipher: AES-128, AES-192, AES-256, ARIA-128, Blowfish,
+   Threefish-512
+-  Key: 64 bits - 512 bits
 
 -  In: varying length
 
-   -  Range: 8 bits - 960 bits
-   -  Extreme values: empty message, 960 bits
+   -  Range: 16 bits - 512 bits
+   -  Extreme values: empty message, 784 bits, 960 bits, 1336 bits
 
 -  Out: varying length
 
@@ -205,15 +206,16 @@ HMAC
 
 HMAC is tested with the following constraints:
 
--  Number of test cases: 15
+-  Number of test cases: 73
 
--  Hash Function: MD5, SHA-1, SHA-256
--  Key: 128 bits, 160 bits, 256 bits
+-  Hash Function: MD5, SHA-1, RIPEMD-160, SHA-224, SHA-256, SHA-384,
+   SHA-512, SHA-512-256, SHA-3(224), SHA-3(256), SHA-3(384), SHA-3(512)
+-  Key: 24 bits - 1176 bits
 
 -  In: varying length
 
-   -  Range: 24 bits – 896 bits
-   -  Extreme values: 896 bits
+   -  Range: 24 bits – 1216 bits
+   -  Extreme values: 1216 bits
 
 -  Out: varying length
 
@@ -268,7 +270,7 @@ GMAC
 
 GMAC is tested with the following constraints:
 
--  Number of test cases: 15
+-  Number of test cases: 143
 -  Source: Generated with BouncyCastle
 
 -  Cipher: AES-128, AES-192, AES-256
@@ -276,7 +278,7 @@ GMAC is tested with the following constraints:
 
 -  In: varying length
 
-   -  Range: 0 bits – 400 bits
+   -  Range: 0 bits – 4992 bits
 
 -  IV: different 96 bit values, one 32 bit value
 
@@ -371,7 +373,7 @@ The tests are taken from NIST's `KMAC_samples.pdf <https://csrc.nist.gov/CSRC/me
    | **Type:**            | Positive Test                                                            |
    +----------------------+--------------------------------------------------------------------------+
    | **Description:**     | Combined unit and known answer test that checks that reset works         |
-   |                      | correctly and calculates the GMAC tag on a test message                  |
+   |                      | correctly and calculates the KMAC tag on a test message                  |
    +----------------------+--------------------------------------------------------------------------+
    | **Preconditions:**   | None                                                                     |
    +----------------------+--------------------------------------------------------------------------+
@@ -380,7 +382,7 @@ The tests are taken from NIST's `KMAC_samples.pdf <https://csrc.nist.gov/CSRC/me
    |                      | Nonce = 0x4D7920546167676564204170706C69636174696F6E (168 bits)          |
    |                      |                                                                          |
    |                      | Key = 0x404142434445464748494A4B4C4D4E4F505152535455565758595A5B5C5D5E5F |
-   |                      |      (128 bits)                                                          |
+   |                      |      (256 bits)                                                          |
    |                      |                                                                          |
    |                      | In = 0x0001020...C4C5C6C7 (1600 bits)                                    |
    +----------------------+--------------------------------------------------------------------------+

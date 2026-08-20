@@ -112,12 +112,12 @@ in the following.
    |                     |                                                                            |
    |                     | #. Test that large nonce sizes are rejected by throwing an exception       |
    |                     |                                                                            |
-   |                     | #. Set the key *Key* on the Cipher_Mode encryption object                  |
+   |                     | #. Set the key *Key* on the Cipher_Mode decryption object                  |
    |                     |                                                                            |
    |                     | #. Set the nonce *Nonce* on the Cipher_Mode decryption object              |
    |                     |                                                                            |
-   |                     | #. Calculate the plaintext of output value *In* and compare the result     |
-   |                     |    with the output value *In*                                              |
+   |                     | #. Calculate the plaintext of input value *Out* and compare the result     |
+   |                     |    with the expected output value *In*                                     |
    |                     |                                                                            |
    |                     | #. If *Out* is longer than the block size of the mode, calculate the       |
    |                     |    plaintext of input value *Out* by decrypting *Out* in block size blocks |
@@ -147,13 +147,15 @@ CBC
 
 CBC is tested with the following constraints:
 
--  Number of test cases: 3
+-  Number of test cases: 281
 
--  Block Cipher: AES-128, AES-192 and AES-256
--  Key: 128 bits, 192 and 256 bits
--  Nonce: 128 bits
--  In: 512 bits
--  Out: 512 bits
+-  Block Cipher: AES-128, AES-192, AES-256, ARIA-256, Blowfish, CAST-128,
+   DES, TripleDES and Noekeon
+-  Padding: NoPadding, PKCS7 and OneAndZeros
+-  Key: 64 bits to 256 bits (depending on the block cipher)
+-  Nonce: 64 bits or 128 bits (matching the block size of the block cipher)
+-  In: 0 bits to 1280 bits
+-  Out: 64 bits to 1280 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/modes/cbc.vec`.
@@ -214,14 +216,14 @@ CBC-CTS (CBC-CS3)
 
 CBC-CTS is tested with the following constraints:
 
--  Number of test cases: 6
--  Source: RFC 3962
+-  Number of test cases: 48 (6 with AES-128, 42 with DES)
+-  Source: RFC 3962 (AES-128 test cases)
 
--  Block Cipher: AES-128
--  Key: 128 bits
--  Nonce: 128 bits
--  In: 136 bits, 248 bits, 256 bits, 376 bits, 384 bits, 512 bits
--  Out: 136 bits, 248 bits, 256 bits, 376 bits, 384 bits, 512 bits
+-  Block Cipher: AES-128, DES
+-  Key: 128 bits (AES-128), 64 bits (DES)
+-  Nonce: 128 bits (AES-128), 64 bits (DES)
+-  In: 136 bits - 512 bits (AES-128), 72 bits - 400 bits (DES)
+-  Out: 136 bits - 512 bits (AES-128), 72 bits - 400 bits (DES)
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/modes/cbc.vec`.
@@ -282,13 +284,16 @@ stream cipher modes of operation tests are implemented in
 :srcref:`src/tests/test_stream.cpp`. CTR mode is tested with the following
 constraints:
 
--  Number of test cases: 6
+-  Number of test cases: 821
 
--  Block Cipher: AES-128, AES-192, AES-256
--  Key: 128 bits, 192 bits, 256 bits
--  Nonce: 128 bits
--  In: 384 bits, 512 bits, 5720 bits, 65536 bits
--  Out: 384 bits, 512 bits, 5720 bits, 65536 bits
+-  Block Cipher: AES-128, AES-192, AES-256, ARIA, Blowfish, DES, TripleDES,
+   Noekeon and Serpent
+-  AES-128 is additionally tested with restricted counter widths of 32 bits,
+   40 bits, 48 bits and 64 bits
+-  Key: 64 bits to 256 bits (depending on the block cipher)
+-  Nonce: 64 bits, 120 bits or 128 bits
+-  In: 8 bits to 65536 bits
+-  Out: 8 bits to 65536 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/stream/ctr.vec`.

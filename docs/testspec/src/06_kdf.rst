@@ -45,7 +45,7 @@ KDF1 (ISO 18033-2)
 
 KDF1 from ISO 18033-2 is tested with the following constraints:
 
--  Number of test cases: 2
+-  Number of test cases: 4
 -  Source: ISO 18033-2
 
 -  Hash Function: SHA-1, SHA-256
@@ -88,16 +88,16 @@ NIST SP 800-108 (Counter Mode)
 The NIST SP 800-108 KDF in Counter Mode is tested with the following
 constraints:
 
--  Number of test cases: 240
+-  Number of test cases: 299
 -  Source: Generated with BouncyCastle
 
 -  MAC: HMAC-SHA1, HMAC-SHA256, HMAC-SHA384, HMAC-SHA512, CMAC-AES128,
-   CMAC-AES192, CMAC-AES256
+   CMAC-AES192, CMAC-AES256, CMAC-TripleDES
 
--  Output Length: 16 bits - 160 bits
+-  Output Length: 16 bits - 384 bits
 -  Salt: 80 bits - 800 bits
 -  Secret: 128 bits - 512 bits
--  Out: 16 bits - 160 bits
+-  Out: 16 bits - 384 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_ctr.vec`.
@@ -135,15 +135,15 @@ NIST SP 800-108 (Feedback Mode)
 The NIST SP 800-108 KDF in Feedback Mode is tested with the following
 constraints:
 
--  Number of test cases: 240
+-  Number of test cases: 299
 -  Source: Generated with BouncyCastle
 -  MAC: HMAC-SHA1, HMAC-SHA256, HMAC-SHA384, HMAC-SHA512, CMAC-AES128,
-   CMAC-AES192, CMAC-AES256
+   CMAC-AES192, CMAC-AES256, CMAC-TripleDES
 
--  Output Length: 16 bits - 160 bits
--  Salt: 144 bits - 1104 bits
+-  Output Length: 16 bits - 384 bits
+-  Salt: 128 bits - 1312 bits
 -  Secret: 128 bits - 512 bits
--  Out: 16 bits - 160 bits
+-  Out: 16 bits - 384 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_fb.vec`.
@@ -183,15 +183,15 @@ NIST SP 800-108 (Pipeline Mode)
 The NIST SP 800-108 KDF in Pipeline Mode is tested with the following
 constraints:
 
--  Number of test cases: 240
+-  Number of test cases: 299
 -  Source: Generated with BouncyCastle
 -  MAC: HMAC-SHA1, HMAC-SHA256, HMAC-SHA384, HMAC-SHA512, CMAC-AES128,
-   CMAC-AES192, CMAC-AES256
+   CMAC-AES192, CMAC-AES256, CMAC-TripleDES
 
--  Output Length: 16 bits - 160 bits
+-  Output Length: 16 bits - 384 bits
 -  Salt: 80 bits - 800 bits
 -  Secret: 128 bits - 512 bits
--  Out: 16 bits - 160 bits
+-  Out: 16 bits - 384 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/kdf/sp800_108_pipe.vec`.
@@ -275,12 +275,12 @@ TLS 1.0/1.1 PRF
 
 The PRF used in TLS 1.0/1.1 is tested with the following constraints:
 
--  Number of test cases: 30
+-  Number of test cases: 32
 
 -  MAC: HMAC-MD5, HMAC-SHA1
 
 -  Output Length: 8 bits - 256 bits
--  Salt: 120 bits - 248 bits
+-  Salt: 0 bits - 248 bits
 -  Secret: 152 bits, 160 bits
 -  Out: 8 bits - 256 bits
 
@@ -376,8 +376,8 @@ Each of those algorithms are instantiated with SHA-1, SHA-256 and SHA-512.
 For ``HKDF(HMAC(SHA-1))`` there's an additional regression test validating the longest possible output of 40.800bits.
 See `GitHub #3213 <https://github.com/randombit/botan/issues/3213>`_ for further details.
 
--  Total number of test cases (across all algorithm configurations): 21
--  Sources: RFC 5669, SHA-512 by Kullo GmbH
+-  Total number of test cases (across all algorithm configurations): 37
+-  Sources: RFC 5869, SHA-512 by Kullo GmbH
 
 -  PRFs: HMAC-SHA-1, HMAC-SHA-256, HMAC-SHA-512
 
@@ -402,7 +402,7 @@ All test vectors are listed in :srcref:`src/tests/data/kdf/hkdf.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Input Values:**      | KDF = HKDF-Extract(HMAC(SHA-256))                                       |
+   | **Input Values:**      | KDF = HKDF-Extract(HMAC(SHA-512))                                       |
    |                        |                                                                         |
    |                        | Salt = 0x000102030405060708090a0b0c (104 bits)                          |
    |                        |                                                                         |
@@ -416,9 +416,9 @@ All test vectors are listed in :srcref:`src/tests/data/kdf/hkdf.vec`.
    |                        |          0a26c36238127d8661b88cf80ef802d57e2f7cebcf1e00e083848be19929c6 |
    |                        |          1b4237 (512 bits)                                              |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create the HMAC-Extract object                                       |
+   | **Steps:**             | #. Create the HKDF-Extract object                                       |
    |                        |                                                                         |
-   |                        | #. Input *Salt,* and *Secret* into the HMAC-Extract KDF and compare     |
+   |                        | #. Input *Salt,* and *Secret* into the HKDF-Extract KDF and compare     |
    |                        |    the result with the expected output value *Out*                      |
    +------------------------+-------------------------------------------------------------------------+
 
@@ -436,7 +436,7 @@ All test vectors are listed in :srcref:`src/tests/data/kdf/hkdf.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
-   | **Input Values:**      | KDF = HKDF(HMAC(SHA-256))                                               |
+   | **Input Values:**      | KDF = HKDF(HMAC(SHA-1))                                                 |
    |                        |                                                                         |
    |                        | Salt = 0x000102030405060708090a0b0c (104 bits)                          |
    |                        |                                                                         |
@@ -449,7 +449,7 @@ All test vectors are listed in :srcref:`src/tests/data/kdf/hkdf.vec`.
    |                        |    Out = 0x085a01ea1b10f36933068b56efa5ad81a4f14b822f5b091568a9cdd4f155 |
    |                        |          fda2c22e422478d305f3f896 (336 bits)                            |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create the HMAC-Extract object                                       |
+   | **Steps:**             | #. Create the HKDF object                                               |
    |                        |                                                                         |
    |                        | #. Input *Salt,* *Label* and *Secret* into the HKDF and compare         |
    |                        |    the result with the expected output value *Out*                      |

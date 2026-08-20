@@ -72,7 +72,7 @@ following.
    |                      | #. Calculate the ciphertext of input value *In* and compare the result    |
    |                      |    with the expected output value *Out*                                   |
    |                      |                                                                           |
-   |                      | #. If *In* is the empty message, Return                                   |
+   |                      | #. If *In* is the empty message, skip the following two steps             |
    |                      |                                                                           |
    |                      | #. If *In* is longer than the block size of the AEAD mode, calculate the  |
    |                      |    ciphertext of input value *In* by encrypting *In* in block size blocks |
@@ -123,8 +123,6 @@ following.
    |                      |                                                                           |
    |                      | #. Check that the AEAD output length matches the length of *Out*          |
    |                      |                                                                           |
-   |                      | #. Check that the AEAD mode accepts nonces of the default nonce length    |
-   |                      |                                                                           |
    |                      | #. Check that trying to decrypt a random value before setting a key       |
    |                      |    throws an exception                                                    |
    |                      |                                                                           |
@@ -132,18 +130,16 @@ following.
    |                      |    associated data, check that setting *AD* on the AEAD_Decryption object |
    |                      |    throws an exception                                                    |
    |                      |                                                                           |
-   |                      | #. Set the key *Key* on the AEAD_Encryption object                        |
-   |                      |                                                                           |
-   |                      | #. Check that trying to decrypt a random value before setting a nonce     |
-   |                      |    throws an exception                                                    |
-   |                      |                                                                           |
-   |                      | #. Set a modified version of nonce *Nonce* on the AEAD_Decryption object  |
+   |                      | #. Set the key *Key* on the AEAD_Decryption object                        |
    |                      |                                                                           |
    |                      | #. Set a modified version of associated data *AD* on the AEAD_Decryption  |
    |                      |    object                                                                 |
    |                      |                                                                           |
    |                      | #. Check that trying to decrypt a random value before setting a nonce     |
    |                      |    throws an exception                                                    |
+   |                      |                                                                           |
+   |                      | #. Check that trying to finalize the decryption of a random value before  |
+   |                      |    setting a nonce throws an exception                                    |
    |                      |                                                                           |
    |                      | #. Set a modified version of nonce *Nonce* on the AEAD_Decryption object  |
    |                      |                                                                           |

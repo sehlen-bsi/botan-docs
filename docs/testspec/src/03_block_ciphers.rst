@@ -29,8 +29,8 @@ Block ciphers are tested using (1) unit tests and known answer tests that (2) en
    |                       |                                                                          |
    |                       | #. Test that block size equals or is greater than eight                  |
    |                       |                                                                          |
-   |                       | #. Test that block cipher parallel bytes equals *block size*parallel     |
-   |                       |    bytes*                                                                |
+   |                       | #. Test that block cipher parallel bytes equals or is greater than       |
+   |                       |    *block size* times *parallelism*                                      |
    |                       |                                                                          |
    |                       | #. Test that block cipher encryption throws an exception if key is not   |
    |                       |    set                                                                   |
@@ -63,9 +63,9 @@ Block ciphers are tested using (1) unit tests and known answer tests that (2) en
    +-----------------------+--------------------------------------------------------------------------+
    | **Steps:**            | #. Create a block cipher object                                          |
    |                       |                                                                          |
-   |                       | #. Set a randomly generated key of length *minimum key length* bits      |
+   |                       | #. Set a randomly generated key of length *maximum key length* bits      |
    |                       |                                                                          |
-   |                       | #. Generate a random plaintext of length *key length* bits and encrypt   |
+   |                       | #. Generate a random plaintext of length *block size* bits and encrypt   |
    |                       |    it                                                                    |
    |                       |                                                                          |
    |                       | #. Reset the block cipher object                                         |
@@ -117,57 +117,63 @@ Block ciphers are tested using (1) unit tests and known answer tests that (2) en
    |                       |                                                                          |
    |                       | #. Set the key *Key* on the block cipher object                          |
    |                       |                                                                          |
-   |                       | #. Encrypt the value *In*                                                |
-   |                       |                                                                          |
-   |                       | #. Decrypt the result from the previous step and compare with the input  |
-   |                       |    value *Out*                                                           |
+   |                       | #. Decrypt the input value *Out* and compare the result with the         |
+   |                       |    expected output value *In*                                            |
    +-----------------------+--------------------------------------------------------------------------+
 
 AES
 ---
 
-The AES tests are executed with the AES software implementation and on
-systems with SSSE3 support additionally with SSSE3 and on systems with
-support for hardware acceleration additionally with AES-NI.
+The AES tests are executed with the AES software implementation and
+additionally with the accelerated implementations on systems that
+support the respective processor extensions: AVX2 with VAES, AES-NI,
+ARMv8 AES, POWER crypto, SSSE3, NEON, AltiVec, LSX and SIMD128.
+
+AES is tested with 1353 test cases in total, distributed over the key
+sizes as follows.
 
 AES-128 is tested with the following constraints:
 
--  Number of test cases: 1350
+-  Number of test cases: 385
 -  Source: NIST CAVP AESAVS
 
 -  Key: 128 bits
 
    -  Extreme values: 128 bits all zero, only one bit set
 
--  In: 128 bits, 1024 bits
+-  In: 128 bits, 512 bits, 1024 bits, 1152 bits, 8576 bits
 
-   -  Extreme values: 128 bits all zero, only one bit set, 1024 bits
+   -  Extreme values: 128 bits all zero, only one bit set
 
--  Out: 128 bits, 1024 bits
+-  Out: 128 bits, 512 bits, 1024 bits, 1152 bits, 8576 bits
 
 AES-192 is tested with the following constraints:
+
+-  Number of test cases: 452
 
 -  Key: 192 bits
 
    -  Extreme values: 192 bits all zero, only one bit set
 
--  In: 128 bits, 896 bits
+-  In: 128 bits, 896 bits, 1152 bits, 8576 bits
 
-   -  Extreme values: 192 bits all zero, only one bit set, 896 bits
+   -  Extreme values: 192 bits all zero, only one bit set
 
--  Out: 128 bits, 896 bits
+-  Out: 128 bits, 896 bits, 1152 bits, 8576 bits
 
 AES-256 is tested with the following constraints:
+
+-  Number of test cases: 516
 
 -  Key: 256 bits
 
    -  Extreme values: 256 bits all zero, only one bit set
 
--  In: 128 bits, 640 bits
+-  In: 128 bits, 640 bits, 1152 bits, 8576 bits
 
-   -  Extreme values: 256 bits all zero, only one bit set, 640 bits
+   -  Extreme values: 256 bits all zero, only one bit set
 
--  Out: 128 bits, 640 bits
+-  Out: 128 bits, 640 bits, 1152 bits, 8576 bits
 
 Note: The BlockCipher interface allows processing multiples of the
 cipher's block size (via encrypt_n()/decrypt_n()). In this case,
@@ -198,9 +204,9 @@ test vectors are listed in :srcref:`src/tests/data/block/aes.vec`.
    +-----------------------+--------------------------------------------------------------------------+
    | **Steps:**            | #. Create an AES object                                                  |
    |                       |                                                                          |
-   |                       | #. Set a randomly generated key of length *minimum key length* bits      |
+   |                       | #. Set a randomly generated key of length *maximum key length* bits      |
    |                       |                                                                          |
-   |                       | #. Generate a random plaintext of length *key length* bits and encrypt   |
+   |                       | #. Generate a random plaintext of length *block size* bits and encrypt   |
    |                       |    it                                                                    |
    |                       |                                                                          |
    |                       | #. Reset the AES object                                                  |

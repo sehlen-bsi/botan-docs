@@ -148,7 +148,7 @@ following tables shows an example test case with one test vector.
    | **Input Values:**    | A certificate chain with a certificate, which sets basic constraint       |
    |                      | *Certificate Authority* to “\ *No*\ ”                                     |
    +----------------------+---------------------------------------------------------------------------+
-   | **Expected Output:** | Out = certificate not allowed to issue certs                              |
+   | **Expected Output:** | Out = CA certificate not allowed to issue certs                           |
    +----------------------+---------------------------------------------------------------------------+
    | #. **Steps:**        | #. Import the root certificate                                            |
    |                      |                                                                           |
@@ -199,7 +199,7 @@ following tables shows an example test case with one test vector.
    |                      | #. Check the result of Botan certificate path validation                  |
    +----------------------+---------------------------------------------------------------------------+
    | **Notes:**           | Files used for this test are located in:                                  |
-   |                      | data/x509/bsi/cert_path_common_01/                                        |
+   |                      | data/x509/bsi/common_01/                                                  |
    |                      |                                                                           |
    |                      | The test results are included in the file expected.txt and used for       |
    |                      | validation.                                                               |
@@ -296,8 +296,12 @@ constraints:
 -  IP address (IPv4 and IPv6)
 
 The following tables show example test cases with one valid and one
-invalid test vector. All test vectors are included as certificates in
-:srcref:`src/tests/data/x509/name_constraint`.
+invalid test vector. The test vectors for the first two test cases are
+included as certificates in :srcref:`src/tests/data/x509/name_constraint`;
+the certificates for the remaining test cases are located in
+:srcref:`src/tests/data/x509/name_constraint_san`,
+:srcref:`src/tests/data/x509/misc/name_constraint_ci`, and
+:srcref:`src/tests/data/x509/misc/nc_skip_self`.
 
 .. table::
    :class: longtable
@@ -521,11 +525,11 @@ invalid test vector. All test vectors are included as certificates in
    +----------------------+---------------------------------------------------------------------------+
    | **Notes:**           | The following files are used for this test:                               |
    |                      |                                                                           |
-   |                      | -  src/tests/data/x509/misc/name_constraint_ci/root.pem                   |
+   |                      | -  src/tests/data/x509/misc/nc_skip_self/root.pem                         |
    |                      |                                                                           |
-   |                      | -  src/tests/data/x509/misc/name_constraint_ci/int.pem                    |
+   |                      | -  src/tests/data/x509/misc/nc_skip_self/int.pem                          |
    |                      |                                                                           |
-   |                      | -  src/tests/data/x509/misc/name_constraint_ci/leaf.pem                   |
+   |                      | -  src/tests/data/x509/misc/nc_skip_self/leaf.pem                         |
    +----------------------+---------------------------------------------------------------------------+
 
 The following test cases cover the IPv6 name constraint support and
@@ -665,11 +669,13 @@ OCSP Tests
 ----------
 
 Botan's OCSP code is tested using different tests that parse OCSP
-requests and OCSP responses, validate OCSP responses (in terms of
-signature validation) and also using online tests for randombit.net.
-Online tests are only executed if BOTAN_HAS_ONLINE_REVOCATION_CHECKS is
-set. The tests are implemented in :srcref:`src/tests/test_ocsp.cpp`. All
-test data can be found in :srcref:`src/tests/data/x509/ocsp`.
+requests and OCSP responses (among others, responses for randombit.net),
+validate OCSP responses (in terms of signature validation) and also
+using an online test that checks the revocation status of a DigiCert
+intermediate CA certificate. Online tests are only executed if
+BOTAN_HAS_ONLINE_REVOCATION_CHECKS is set. The tests are implemented in
+:srcref:`src/tests/test_ocsp.cpp`. All test data can be found in
+:srcref:`src/tests/data/x509/ocsp`.
 
 The parsing tests also cover an OCSP response (generated with
 ``openssl ocsp ... -resp_key_id``) that identifies the responder via the
