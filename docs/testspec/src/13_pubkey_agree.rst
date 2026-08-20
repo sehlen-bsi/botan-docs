@@ -545,13 +545,11 @@ The Elliptic Curve Diffie-Hellman key agreement scheme is tested with a
 known answer test as follows. The test is implemented in
 :srcref:`src/tests/test_ecdh.cpp`.
 
-**Remark from review of 3.12.0:** A negative test was added to the ECDH test
-over all supported curve groups in `test_ecdh.cpp`: deriving a shared secret
-from an uncompressed peer public point that does not lie on the curve (the
-serialized generator with one coordinate byte modified) must be rejected with
-a ``Decoding_Error``. This is a regression test for the prohibition of
-loading points not on the curve. This test is specified in the following
-table.
+Additionally, a negative test is executed for each supported curve group:
+deriving a shared secret from an uncompressed peer public point that does
+not lie on the curve must be rejected with a ``Decoding_Error`` (a
+regression test for the prohibition of loading points not on the curve).
+This test is specified in the following table.
 
 .. table::
    :class: longtable

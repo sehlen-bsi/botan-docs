@@ -6,14 +6,6 @@ Block cipher modes of operation are tested using known answer tests that
 implemented in :srcref:`src/tests/test_modes.cpp`. The test cases are described
 in the following.
 
-**Remark from review of 3.12.0:** The cipher mode known answer tests in
-`test_modes.cpp` were extended: in addition to the existing processing
-variants, each test vector is now also processed with ``finish()`` on a
-buffer with a non-zero offset and with ``update()`` followed by ``finish()``
-on buffers with a non-zero offset, verifying that the bytes before the
-offset remain untouched and the produced ciphertext/plaintext equals the
-expected value. No substantial change in the test code otherwise.
-
 .. table::
    :class: longtable
    :widths: 20 80
@@ -67,6 +59,15 @@ expected value. No substantial change in the test code otherwise.
    |                     |    ciphertext of input value *In* by encrypting *In* in multiples of block |
    |                     |    size blocks and comparing the result with the expected output value     |
    |                     |    *Out*                                                                   |
+   |                     |                                                                            |
+   |                     | #. Calculate the ciphertext of input value *In* in one go on a buffer      |
+   |                     |    with a non-zero offset and check that the bytes before the offset       |
+   |                     |    remain untouched and the ciphertext equals the expected output *Out*    |
+   |                     |                                                                            |
+   |                     | #. Calculate the ciphertext of input value *In* incrementally on           |
+   |                     |    buffers with a non-zero offset and check that the bytes before the      |
+   |                     |    offset remain untouched and the ciphertext equals the expected          |
+   |                     |    output *Out*                                                            |
    |                     |                                                                            |
    |                     | #. Clear the Cipher_Mode encryption object                                 |
    |                     |                                                                            |
@@ -126,6 +127,15 @@ expected value. No substantial change in the test code otherwise.
    |                     |    plaintext of input value *Out* by decrypting *Out* in multiples of      |
    |                     |    block size blocks and comparing the result with the expected output     |
    |                     |    value *In*                                                              |
+   |                     |                                                                            |
+   |                     | #. Calculate the plaintext of input value *Out* in one go on a buffer      |
+   |                     |    with a non-zero offset and check that the bytes before the offset       |
+   |                     |    remain untouched and the plaintext equals the expected output *In*      |
+   |                     |                                                                            |
+   |                     | #. Calculate the plaintext of input value *Out* incrementally on           |
+   |                     |    buffers with a non-zero offset and check that the bytes before the      |
+   |                     |    offset remain untouched and the plaintext equals the expected           |
+   |                     |    output *In*                                                             |
    |                     |                                                                            |
    |                     | #. Clear the Cipher_Mode decryption object                                 |
    |                     |                                                                            |
@@ -282,11 +292,6 @@ constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/stream/ctr.vec`.
-
-**Remark from review of 3.12.0:** A test vector with a long keystream and an
-``#test cpuid avx2`` directive was added to `ctr.vec` to cover the AVX2
-optimized CTR code path added in Botan 3.11.1. No change in the test vectors
-otherwise.
 
 .. table::
    :class: longtable

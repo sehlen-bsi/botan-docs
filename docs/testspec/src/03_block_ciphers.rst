@@ -4,16 +4,6 @@ Block Ciphers
 Block ciphers are tested using (1) unit tests and known answer tests that (2) encrypt a message and (3) decrypt a message. All the tests are implemented in :srcref:`src/tests/test_block.cpp`. The test cases are described in the following.
 
 
-**Remark from review of 3.12.0:** The test code was changed to remove support
-for the ``Iterations`` test vector key. Each known answer test vector is now
-encrypted and decrypted exactly once; the single test vector making use of
-``Iterations`` was removed from `sm4.vec`. Furthermore, the ``#test cpuid``
-directives in several block cipher test vector files were extended to cover
-the constant-time SIMD implementations added in Botan 3.11.1 (e.g. AES-NI /
-ARMv8-AES based s-box lookups for ARIA, Camellia, SEED and SM4 and the
-AVX512/GFNI implementation of Twofish). The test case descriptions below were
-adapted accordingly.
-
 .. table::
    :class: longtable
    :widths: 20 80

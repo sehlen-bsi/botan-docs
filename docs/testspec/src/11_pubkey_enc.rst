@@ -6,14 +6,6 @@ encryption schemes and public key encryption schemes. Some public
 key-based encryption algorithms use test classes implemented in
 :srcref:`src/tests/test_pubkey.cpp`.
 
-**Remark from review of 3.12.0:** The generic test for invalid ciphertexts
-in `test_pubkey.cpp` (cf. e.g. PKENC-DLIES-2, PKENC-RSAES-2) was extended:
-after the decryption attempts on the corrupted ciphertexts, the test now
-additionally verifies that the ``PK_Decryptor`` object still correctly
-decrypts the original valid ciphertext, i.e. that failed decryptions do not
-poison the decryptor state. No substantial change in the test code addressed
-here otherwise.
-
 Hybrid Encryption Schemes
 -------------------------
 
@@ -457,6 +449,10 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/rsaes.vec` and
    |                        |    of it or by flipping random bits in it                               |
    |                        |                                                                         |
    |                        | #. Decrypt the modified *Ciphertext* compare it to the *Msg*            |
+   |                        |                                                                         |
+   |                        | #. Decrypt the original *Ciphertext* again and check that it still      |
+   |                        |    correctly recovers *Msg* (failed decryptions must not affect the     |
+   |                        |    decryptor state)                                                     |
    +------------------------+-------------------------------------------------------------------------+
 
 .. table::

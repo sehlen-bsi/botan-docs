@@ -11,19 +11,6 @@ implemented for specific algorithms, e.g., for public key validation.
 All public key-based signature algorithms use test classes implemented
 in :srcref:`src/tests/test_pubkey.cpp`.
 
-**Remark from review of 3.12.0:** The generic test for invalid signatures in
-`test_pubkey.cpp` (cf. PKSIG-2) was strengthened: in addition to an all-zero
-signature and randomly perturbed signatures (now 24 instead of 20 iterations
-with long tests, 9 instead of 5 otherwise), a set of deterministic malformed
-signatures is now always tested (an empty signature, all-zero signatures of
-lengths one and two, an all-zero signature one byte shorter than the valid
-signature, and a signature with the first bit flipped). Furthermore, after every rejected invalid signature
-the test now re-verifies that the valid signature still verifies. The latter
-serves as regression coverage for the Ed25519 and ECDSA verifier-state issues
-fixed in Botan 3.11.1 (GH #5454, #5455), where an invalid signature could
-poison the verifier object and cause a subsequent valid signature to be
-rejected.
-
 .. table::
    :class: longtable
    :widths: 20 80

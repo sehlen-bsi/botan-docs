@@ -725,11 +725,6 @@ following.
 
 The tests are implemented in :srcref:`src/tests/test_tls.cpp`.
 
-**Remark from review of 3.12.0:** Two tests were added in `test_tls.cpp`,
-which are included in the list below: the RFC 9258 PSK import test and the
-TLS 1.2 no_renegotiation alert test. No substantial change in the test code
-otherwise.
-
 -  Session handling: A test that encrypts and decrypts static session
    test data
 

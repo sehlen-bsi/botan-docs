@@ -250,10 +250,11 @@ GCM
 
 GCM is tested with the following constraints:
 
--  Number of test cases: 43
+-  Number of test cases: 55
 -  Sources: NIST CAVP, generated using OpenSSL, Project Wycheproof
 
--  Block Cipher: AES-128 and AES-256
+-  Block Cipher: AES-128, AES-192, AES-256, ARIA-128, ARIA-192,
+   ARIA-256, SM4
 
 -  Key: 128 bits, 192 bits, 256 bits
 
@@ -264,19 +265,13 @@ GCM is tested with the following constraints:
 
    -  Extreme values: 128 bits, 480 bits [1]_
 
--  Out: 64 bits, 128 bits, 608 bits, 640 bits
+-  Out: 128 bits - 8320 bits, including known answer tests with long
+   messages
 
--  AD: 64 bits, 128 bits, 160 bits, 192 bits, no AD
+-  AD: 64 bits - 256 bits, no AD
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/aead/gcm.vec`.
-
-.. 
-  **Remark from review of 3.12.0:** No change in the AEAD test code. The GCM
-  test vectors have only received additions: several known answer tests with
-  long messages (generated with OpenSSL 3.6) were added together with the
-  AVX2 code path for CTR counter handling introduced in Botan 3.11.1
-  (GH #5474).
 
 .. table::
    :class: longtable
