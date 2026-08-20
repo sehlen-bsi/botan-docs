@@ -6807,3 +6807,9 @@ patches:
 - pr: 5854  # https://github.com/randombit/botan/pull/5854
   merge_commit: 0af621baf5f66cd87b64c1c9d74e770ffe2c96e6
   classification: unspecified
+
+# Use a fixed array for storing the last ffi exception message
+#   Author:    @randombit
+- pr: 5859  # https://github.com/randombit/botan/pull/5859
+  merge_commit: 010037a31527deb21dc8d3473368ed3d3b78d8cc
+  classification: unspecified
