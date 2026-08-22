@@ -6813,3 +6813,33 @@ patches:
 - pr: 5859  # https://github.com/randombit/botan/pull/5859
   merge_commit: 010037a31527deb21dc8d3473368ed3d3b78d8cc
   classification: unspecified
+
+# Optimize base58 encoding/decoding, and make constant time
+#   Author:    @randombit
+- pr: 5858  # https://github.com/randombit/botan/pull/5858
+  merge_commit: c82298632b065ebca7aca3b807b05cf915ab80a5
+  classification: unspecified
+
+# Script apt-get downloads
+#   Author:    @randombit
+- pr: 5860  # https://github.com/randombit/botan/pull/5860
+  merge_commit: d64a2c55237b2f1eeb7c5bf4e75e1341efe6545e
+  classification: unspecified
+
+# Enable NEON and ARMv8 crypto extensions for MSVC
+#   Author:    @randombit
+- pr: 5863  # https://github.com/randombit/botan/pull/5863
+  merge_commit: beeb72644c824d52f94dabf1ea4fefc36b026b6f
+  classification: unspecified
+
+# Enable Windows ARM64 CI support
+#   Author:    @Harishmcw
+#   Approvals: (@randombit)
+- pr: 5861  # https://github.com/randombit/botan/pull/5861
+  merge_commit: 4fae673d77af6b1cd4a235951d25b14b51f7e753
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 7130b0be3003901467782e727c434b950abe7eb8  # https://github.com/randombit/botan/commit/7130b0be3003901467782e727c434b950abe7eb8
+  classification: unspecified
