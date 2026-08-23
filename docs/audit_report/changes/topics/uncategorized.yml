@@ -6843,3 +6843,34 @@ patches:
 #   Author: Jack Lloyd
 - commit: 7130b0be3003901467782e727c434b950abe7eb8  # https://github.com/randombit/botan/commit/7130b0be3003901467782e727c434b950abe7eb8
   classification: unspecified
+
+# Convert the AVX2 Whirlpool implementation to use SIMD_8x32
+#   Author:    @randombit
+- pr: 5857  # https://github.com/randombit/botan/pull/5857
+  merge_commit: 19838289d4915f3cba449ec4b8dbfdbcfb2ec40c
+  classification: unspecified
+
+# Extend SIMD abstractions to support Hash_Engine implementations
+#   Author:    @randombit
+- pr: 5865  # https://github.com/randombit/botan/pull/5865
+  merge_commit: 31e9b5df5ffc7717dcb3ad8520db3e7aecc1de1a
+  classification: unspecified
+
+# Add PK_Signature_Options
+#   Author:    @randombit
+#   Approvals: @reneme, (@falko-strenzke)
+- pr: 5489  # https://github.com/randombit/botan/pull/5489
+  merge_commit: 086a44d84b486c50ecc21c852d13dda1b3e2d7c5
+  classification: unspecified
+
+# Modify botan3.py so it can adapt to any release of Botan3
+#   Author:    @randombit
+#   Approvals: (@arckoor)
+- pr: 5851  # https://github.com/randombit/botan/pull/5851
+  merge_commit: 081417e4eba70f27f946c115f3b555f63961c5f6
+  classification: unspecified
+
+# Fix performance testing for GMAC
+#   Author: Jack Lloyd
+- commit: 739a0e1ad4fbe72dd281751a928df80c5e1a5b89  # https://github.com/randombit/botan/commit/739a0e1ad4fbe72dd281751a928df80c5e1a5b89
+  classification: unspecified
