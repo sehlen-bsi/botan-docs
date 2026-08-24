@@ -6874,3 +6874,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: 739a0e1ad4fbe72dd281751a928df80c5e1a5b89  # https://github.com/randombit/botan/commit/739a0e1ad4fbe72dd281751a928df80c5e1a5b89
   classification: unspecified
+
+# Improve work partitioning in threaded Hash_Engine
+#   Author:    @randombit
+- pr: 5869  # https://github.com/randombit/botan/pull/5869
+  merge_commit: 7700a955ed5cc8d4cc3dd05cc6c75007b243084f
+  classification: unspecified
+
+# In Hash_Engine avoid creating thread pool unless actually needed
+#   Author:    @randombit
+- pr: 5867  # https://github.com/randombit/botan/pull/5867
+  merge_commit: 906b8ff1804e728fb850b43d01c5d7b051538f9b
+  classification: unspecified
