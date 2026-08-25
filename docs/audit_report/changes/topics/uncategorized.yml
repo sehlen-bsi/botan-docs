@@ -6886,3 +6886,26 @@ patches:
 - pr: 5867  # https://github.com/randombit/botan/pull/5867
   merge_commit: 906b8ff1804e728fb850b43d01c5d7b051538f9b
   classification: unspecified
+
+# Add multi-buffer Keccak (SHA-3/SHAKE) Hash_Engine
+#   Author:    @randombit
+- pr: 5872  # https://github.com/randombit/botan/pull/5872
+  merge_commit: 36963c9499760d1f94912dbf0e285fa80e7ce542
+  classification: unspecified
+
+# Add multi-buffer SHA-512 Hash_Engine
+#   Author:    @randombit
+- pr: 5873  # https://github.com/randombit/botan/pull/5873
+  merge_commit: 686da355970d1e918aedd3641f51b310eedc14f0
+  classification: unspecified
+
+# Add multi-buffer SHA-256 Hash_Engine
+#   Author:    @randombit
+- pr: 5871  # https://github.com/randombit/botan/pull/5871
+  merge_commit: 5789b873def8970d5397c447de8052c15bc7b837
+  classification: unspecified
+
+# Disable the AVX-512 SHA-256 hash engine for GCC < 13
+#   Author: Jack Lloyd
+- commit: b8a43f517863cacbaef0806a6e645f2d98410644  # https://github.com/randombit/botan/commit/b8a43f517863cacbaef0806a6e645f2d98410644
+  classification: unspecified
