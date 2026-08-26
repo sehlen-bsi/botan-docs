@@ -6909,3 +6909,14 @@ patches:
 #   Author: Jack Lloyd
 - commit: b8a43f517863cacbaef0806a6e645f2d98410644  # https://github.com/randombit/botan/commit/b8a43f517863cacbaef0806a6e645f2d98410644
   classification: unspecified
+
+# Avoid deadlock risk in Thread_Pool
+#   Author:    @randombit
+- pr: 5874  # https://github.com/randombit/botan/pull/5874
+  merge_commit: 3be57aa4f5474d6fe8cb4caf009c143c81eb36f8
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 0ed2a2ebf03a7d12336f91999eee6f36f7482626  # https://github.com/randombit/botan/commit/0ed2a2ebf03a7d12336f91999eee6f36f7482626
+  classification: unspecified
