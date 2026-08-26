@@ -47,6 +47,7 @@ important member functions that typically take ``std::span`` from C++20:
    bits of entropy and calls ``add_entropy()`` on this random generator.
    The default value for ``poll_bits`` is
    ``RandomNumberGenerator::DefaultPollBits``, which is 256.
+
 Deterministic Generators
 ------------------------
 
@@ -497,12 +498,12 @@ implemented as follows.
          follows:
 
          1. Request ``poll_bits / 8`` bytes from the underlying RNG by
-            calling its ``randomize()`` member function
-         2. Mix the returned bytes into HMAC_DRBG's entropy pool by
-            calling its ``add_entropy()`` member function (both steps
-            via an indirection to the RandomNumberGenerator's
+            calling its ``random_vec()`` member function and mix the
+            returned bytes into HMAC_DRBG's entropy pool by calling
+            its ``add_entropy()`` member function (both steps via an
+            indirection to the RandomNumberGenerator's
             ``reseed_from_rng()`` member function)
-         3. If the requested ``poll_bits`` are equal to or exceed
+         2. If the requested ``poll_bits`` are equal to or exceed
             ``security_level()`` then do call ``reset_reseed_counter()``.
             Note that no estimate of the actually collected entropy is
             involved in this condition; since ``reseed_check()`` requests
@@ -515,24 +516,6 @@ implemented as follows.
          entropy pool by calling Stateful_RNG's ``reseed_from_sources()``,
          which works as follows:
 
-         1. Request ``security_level()`` bits from the underlying RNG by
-            calling its ``random_vec()`` member function and mix the
-            returned bytes into HMAC_DRBG's entropy pool by calling its
-            ``add_entropy()`` member function (both steps via an
-            indirection to the RandomNumberGenerator's
-            ``reseed_from_rng()`` member function)
-         2. If the requested number of bits ``poll_bits`` is equal to or
-            exceeds ``security_level()``, call ``reset_reseed_counter()``.
-            Note that no entropy estimation takes place here; since
-            ``reseed_check()`` requests exactly ``security_level()``
-            bits, this condition is always fulfilled on this path.
-
-      4. If the HMAC_DRBG was constructed with at least a collection of
-         entropy sources, ``security_level()`` bits of entropy are
-         requested from the entropy sources and added to HMAC_DRBG's
-         entropy pool by calling Stateful_RNG's
-         ``reseed_from_sources()``, which works as follows:
-
          1. Request ``security_level()`` bits of entropy from the entropy
             sources by calling Entropy_Sources' ``poll()`` member
             function, which polls one source after another, whereby each
@@ -544,7 +527,9 @@ implemented as follows.
             invoked on this path takes no timeout parameter.
          2. If the returned number of bits collected is equal to or
             exceeds ``security_level()`` bits, call
-            ``reset_reseed_counter()``
+            ``reset_reseed_counter()``. Note that the number of bits
+            collected is the sum of the entropy estimates reported by
+            the polled sources; the actual entropy is not verified.
          3. Return the number of bits collected
 
       5. If (``reseed_counter`` = 0) then do:
@@ -563,6 +548,33 @@ implemented as follows.
          in this branch, as the branch condition implies a non-zero
          reseed counter)
       2. ``reseed_counter`` = ``reseed_counter`` + 1
+
+:numref:`rng/reseed_fig` summarizes the objects involved in the
+reseeding mechanism and the call hierarchy of ``reseed_check()``
+described above.
+
+.. _rng/reseed_fig:
+
+.. figure:: figures/rng_reseed.*
+   :align: center
+   :width: 100%
+
+   Object relations and call hierarchy of the reseed/entropy polling
+   mechanism of ``Stateful_RNG``/``HMAC_DRBG`` (arrow types are
+   explained in the legend). The numbered marks on the call arrows
+   encode the order of the control flow within one invocation of
+   ``reseed_check()``: a plain number *n* denotes the *n*-th step
+   taken by ``reseed_check()`` itself, and a mark with a letter
+   suffix (2a, 2b, ...) denotes a call nested below step *n*, with
+   the letters giving the execution order within that step. The
+   complete order is thus 1, 2, 2a-2d, 3, 3a-3d, 4, where the steps
+   2/2a-2d and 3/3a-3d are only taken if an underlying RNG
+   respectively a collection of entropy sources was supplied at
+   construction. The reseed counter is only reset (steps 2d/3d) if
+   the requested or collected bits reach ``security_level()``;
+   otherwise the DRBG remains unseeded and ``reseed_check()`` (step
+   4) throws an exception instead of allowing random output to be
+   generated from an insufficiently seeded state.
 
 **Conclusion:** HMAC_DRBG conforms to [SP800-90A]_, although it differs
 from the standard in two ways: It automatically reseeds if required

@@ -61,7 +61,7 @@ The following entropy sources are currently defined:
 
 -  ``Getentropy``: This entropy source is available by default on
    operating systems that declare the ``getentropy`` target feature,
-   among them OpenBSD, macOS, Linux, Android, FreeBSD and Solaris. It
+   among them OpenBSD, macOS, Linux, FreeBSD and Solaris. It
    gathers 256 bytes of entropy using the ``getentropy(2)`` system call
    first introduced in OpenBSD 5.6. Note that the maximum buffer size of
    the buffer provided ``getentropy(2)`` is limited to 256 bytes. On
@@ -72,7 +72,8 @@ The following entropy sources are currently defined:
    available as an entropy source. Each poll reseeds the target RNG from
    the Jitter_RNG and returns
    ``RandomNumberGenerator::DefaultPollBits`` (256), i.e. in contrast to
-   the other hardware-based sources this source's entropy is counted.
+   the other hardware-based sources, which return an entropy estimation of zero,
+   this source's entropy is counted.
    Note that this source is not part of the default source list used by
    ``Entropy_Sources::global_sources()``.
 

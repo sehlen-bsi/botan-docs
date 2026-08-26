@@ -7,7 +7,7 @@ defined in [RFC5280]_. It also verifies that Botan is compliant to
 the guidelines layed out in [TR-02103]_.
 
 X.509 path validation is implemented in
-:srcref:`src/lib/x509/x509path.cpp`. Figure :ref:`x509/path_validation_img` shows how X.509 path validation
+:srcref:`src/lib/x509/x509path.cpp`. :numref:`x509/path_validation_img` shows how X.509 path validation
 is organized.
 
 .. _x509/path_validation_img:
@@ -1069,8 +1069,8 @@ an appropriate OCSP status code.
    -  An OCSP status code, one of CERT_IS_REVOKED, OCSP_NOT_YET_VALID,
       OCSP_HAS_EXPIRED, OCSP_IS_TOO_OLD, OCSP_RESPONSE_GOOD,
       OCSP_BAD_STATUS, OCSP_CERT_NOT_LISTED or OCSP_RESPONSE_INVALID
-      (the latter since Botan 3.12.0, if a thisUpdate/nextUpdate time in
-      the response cannot be represented and the time comparison throws).
+      (the latter since Botan 3.12.0: if a thisUpdate/nextUpdate time in
+      the response cannot be decoded properly).
 
    **Steps:**
 

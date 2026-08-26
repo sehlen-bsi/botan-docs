@@ -155,9 +155,9 @@ The RSA decryption operation is implemented as follows:
       is set to ``(m_modulus_bits - 1)``.
    1. Verify that :math:`0 < ct < N`; otherwise the operation is
       rejected with a ``Decoding_Error`` ("RSA input is not in the valid
-      range", added in Botan 3.12.0). Blind ciphertext:
-      :math:`ct' = ct*{m_e}^e \bmod N`
-   2. Use Chinese Remainder Theorem (CRT) to decrypt ``ct'`` and retrieve ``m'``
+      range", added in Botan 3.12.0). 
+   2. Blind ciphertext: :math:`ct' = ct*{m_e}^e \bmod N`
+   3. Use Chinese Remainder Theorem (CRT) to decrypt ``ct'`` and retrieve ``m'``
 
       1. | Calculate :math:`S_p` and :math:`S_q` using constant-time Montgomery
            exponentiation and masking for :math:`d_1` and :math:`d_2` as:
@@ -172,7 +172,7 @@ The RSA decryption operation is implemented as follows:
            :math:`S_p - S_q` *that would otherwise have required handling with
            a leaking branch.*
 
-   3. Unblind message ::math:`m = m' * m_d \bmod N`
+   4. Unblind message ::math:`m = m' * m_d \bmod N`
 
 **Remarks:**
  - After each blinding step, the blinding values change:

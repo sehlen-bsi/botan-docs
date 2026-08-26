@@ -97,6 +97,11 @@ latex_elements = {
     **auditinfo.unicode_mappings(),
 }
 
+# Number figures and tables so they can be cross-referenced with :numref:
+# (e.g. "Fig. 1"). The LaTeX builder numbers captioned figures/tables anyway;
+# this makes the HTML output consistent with it.
+numfig = True
+
 # -- Options for extensions --------------------------------------------------
 
 todo_include_todos = True

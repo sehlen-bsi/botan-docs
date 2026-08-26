@@ -112,7 +112,7 @@ The default in Botan is 128 bit.
 The maximum length can be configured to be 2\ :sup:`8\*L` - 1 by initializing L with a value between 2 and 8.
 Note that this parameter is denoted q in [CCM]_.
 The size of the nonce is then (15-L) bytes. Since Botan 3.12.0, a
-message exceeding this limit is already rejected with an
+message exceeding the above length limit is already rejected with an
 ``Invalid_State`` exception while it is buffered in ``process()``;
 previously the overflow was only detected when the length was encoded
 during ``finish()``.

@@ -3,6 +3,31 @@
 Diffie-Hellman
 ==============
 
+The Diffie-Hellman (DH) key exchange enables two parties to agree on a
+shared secret over a public channel. Its security relies on the
+hardness of the discrete logarithm problem, more precisely of the
+computational Diffie-Hellman problem, in the underlying group.
+
+Formally, both parties agree on a discrete logarithm group: the finite
+multiplicative cyclic group (**Z**/*p*\ **Z**)*, where ``p`` is a large
+prime, together with a generator ``g`` of the group or of a subgroup of
+prime order ``q``, i.e. :math:`g^{q} \bmod p = 1`. The key exchange
+then proceeds as follows:
+
+1. Each party samples a secret exponent ``x`` with :math:`1 < x < q`
+   (respectively :math:`1 < x < p-1` if no subgroup order ``q`` is
+   specified) and computes its public value :math:`y = g^{x} \bmod p`.
+2. The parties exchange their public values. In the following, the
+   public value received from the other party is denoted :math:`y_b`.
+3. Each party computes the shared secret :math:`s = y_b^{x} \bmod p`.
+
+Both parties obtain the same secret since
+:math:`(g^{x_b})^{x_a} = (g^{x_a})^{x_b} = g^{x_a x_b} \bmod p`, where
+:math:`x_a` and :math:`x_b` denote the secret exponents of the two
+parties. The symbols ``p``, ``g``, ``q``, ``x``, ``y``, :math:`y_b` and
+``s`` are used with this meaning throughout the remainder of this
+chapter.
+
 .. _pubkey/dh/param_gen:
 
 Parameter Generation
@@ -240,7 +265,7 @@ the ``DH_PrivateKey``. The key generation algorithm operates as follows:
 
       -  :math:`y \leq 1`
       -  :math:`y \geq p`
-      -  :math:`q \neq 0 \; \land \; {g^{q} \bmod p} \neq 1`
+      -  :math:`q \neq 0 \; \land \; {y^{q} \bmod p} \neq 1`
 
       Note that neither check verifies the consistency of the key pair,
       i.e. :math:`y = g^{x} \bmod p` is not checked.

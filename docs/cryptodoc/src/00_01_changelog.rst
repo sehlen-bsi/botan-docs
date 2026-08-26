@@ -211,3 +211,30 @@ Changelog
    |         |          |                                             |            |
    |         |          |                                             |            |
    +---------+----------+---------------------------------------------+------------+
+   | 3.12.0  | FS       | Update to 3.12.0:                           | 2026-08-26 |
+   |         |          |                                             |            |
+   |         |          | - X.509: strict DER decoding of PKIX        |            |
+   |         |          |   structures                                |            |
+   |         |          | - X.509: reworked path building with        |            |
+   |         |          |   bounded search (new status code           |            |
+   |         |          |   EXCEEDED_SEARCH_LIMITS)                   |            |
+   |         |          | - X.509: optional non-self-signed           |            |
+   |         |          |   trust anchors and trusted OCSP            |            |
+   |         |          |   responder certificates                    |            |
+   |         |          | - X.509: OCSP hardening, structural         |            |
+   |         |          |   CRLDP matching, IPv6 name                 |            |
+   |         |          |   constraints and SAN matching              |            |
+   |         |          | - Stricter public key checks at             |            |
+   |         |          |   construction/decoding and extended        |            |
+   |         |          |   ``check_key()`` descriptions              |            |
+   |         |          | - AEAD modes zeroize output on              |            |
+   |         |          |   authentication failure; GCM/CCM           |            |
+   |         |          |   message length limits enforced            |            |
+   |         |          | - HMAC_DRBG requires at least 160 bit       |            |
+   |         |          |   MAC output                                |            |
+   |         |          | - Entropy source platform defaults          |            |
+   |         |          |   updated; Jitter RNG available as an       |            |
+   |         |          |   entropy source                            |            |
+   |         |          | - New figure on the HMAC_DRBG reseed        |            |
+   |         |          |   mechanism                                 |            |
+   +---------+----------+---------------------------------------------+------------+
