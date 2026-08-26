@@ -89,8 +89,10 @@ latex_elements = {
     # assigns \CT@everycr{\the\everycr}, which then loops forever ("TeX capacity
     # exceeded [input stack size]" at the first longtable; unfixed as of Sphinx
     # 9.1.0). Preloading the array/longtable rollback releases from TeX Live 2024
-    # makes colortbl take its legacy code path, which Sphinx supports.
-    'passoptionstopackages': r'\usepackage{array}[=v2.6]\usepackage{longtable}[=v4.13]',
+    # makes colortbl take its legacy code path, which Sphinx supports. Older TeX
+    # distributions (e.g. Ubuntu's TeX Live 2023 in CI) don't know these release
+    # names and don't need the workaround, hence the kernel-date guard.
+    'passoptionstopackages': r'\IfFormatAtLeastTF{2025-11-01}{\usepackage{array}[=v2.6]\usepackage{longtable}[=v4.13]}{}',
     'preamble': r'\usepackage{custom_coverpage}\usepackage{xfrac}',
     'maketitle': r'\custommanualmaketitle',
     'papersize': 'a4paper',
