@@ -6945,3 +6945,16 @@ patches:
 #   Author: Jack Lloyd
 - commit: 1e57cd8dfffdcef0533cc107ac58b385a5c3409d  # https://github.com/randombit/botan/commit/1e57cd8dfffdcef0533cc107ac58b385a5c3409d
   classification: unspecified
+
+# Fix outdated description of SubjectAlternativeName parsing in the handbook
+#   Author:    @moritzschmitt
+#   Approvals: (@randombit)
+- pr: 5882  # https://github.com/randombit/botan/pull/5882
+  merge_commit: 161af712bc47d89f09032054391f409b69fe2929
+  classification: unspecified
+
+# Fix a latent bug in amalgamation include order handling
+#   Author:    @randombit
+- pr: 5881  # https://github.com/randombit/botan/pull/5881
+  merge_commit: 61eec4ce03cc306824bd500fb9965ca4940415e7
+  classification: unspecified
