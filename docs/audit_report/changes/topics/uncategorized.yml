@@ -6958,3 +6958,9 @@ patches:
 - pr: 5881  # https://github.com/randombit/botan/pull/5881
   merge_commit: 61eec4ce03cc306824bd500fb9965ca4940415e7
   classification: unspecified
+
+# Convert all BigInt integer divisions to constant time
+#   Author:    @randombit
+- pr: 5880  # https://github.com/randombit/botan/pull/5880
+  merge_commit: 1edae05718dd7392a302de3286b127fa3080e449
+  classification: unspecified
