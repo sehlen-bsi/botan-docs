@@ -6964,3 +6964,41 @@ patches:
 - pr: 5880  # https://github.com/randombit/botan/pull/5880
   merge_commit: 1edae05718dd7392a302de3286b127fa3080e449
   classification: unspecified
+
+# Use Hash_Engine batching in SLH-DSA
+#   Author:    @randombit
+#   Approvals: @FAlbertDev
+- pr: 5868  # https://github.com/randombit/botan/pull/5868
+  merge_commit: 550039e2ef1b54bacd2d99619528af00f9f60205
+  classification: unspecified
+
+# Use Hash_Engine batching in XMSS
+#   Author:    @randombit
+#   Approvals: @FAlbertDev
+- pr: 5870  # https://github.com/randombit/botan/pull/5870
+  merge_commit: b735e1d80a0700aadaf9b3076e13025aa98ff007
+  classification: unspecified
+
+# Use Hash_Engine batching in FrodoKEM
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5876  # https://github.com/randombit/botan/pull/5876
+  merge_commit: 6b75c99d022da9021d484d0991d396c112a74fad
+  classification: unspecified
+
+# Fix constant time issues in the division precomputation
+#   Author:    @randombit
+- pr: 5883  # https://github.com/randombit/botan/pull/5883
+  merge_commit: 00ab2ccbce0aa8a415c4e46543a540bebe93e112
+  classification: unspecified
+
+# Use Newton iteration for reciprocal_word fallback
+#   Author:    @randombit
+- pr: 5884  # https://github.com/randombit/botan/pull/5884
+  merge_commit: 3bd318708a3e4b418e2a1eacf1ebea5d31ac62e7
+  classification: unspecified
+
+# Drop the 32-bit MIPS cross build from CI
+#   Author: Jack Lloyd
+- commit: 7309783883cc8f6a4c8f6c9228f53ef683f39408  # https://github.com/randombit/botan/commit/7309783883cc8f6a4c8f6c9228f53ef683f39408
+  classification: unspecified
