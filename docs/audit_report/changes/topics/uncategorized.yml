@@ -7002,3 +7002,45 @@ patches:
 #   Author: Jack Lloyd
 - commit: 7309783883cc8f6a4c8f6c9228f53ef683f39408  # https://github.com/randombit/botan/commit/7309783883cc8f6a4c8f6c9228f53ef683f39408
   classification: unspecified
+
+# Improve performance of PEM_Code::matches
+#   Author:    @randombit
+- pr: 5891  # https://github.com/randombit/botan/pull/5891
+  merge_commit: 8ec36f93670a007e7a20bf20e7ea0ec1cf110d39
+  classification: unspecified
+
+# Read in chunks in BER_Decoder::raw_bytes and discard_remaining
+#   Author:    @randombit
+- pr: 5890  # https://github.com/randombit/botan/pull/5890
+  merge_commit: ae0dec246918da1f23f41bd0367e85f4e8645b56
+  classification: unspecified
+
+# Avoid copying each X509 extension body during decoding
+#   Author:    @randombit
+- pr: 5889  # https://github.com/randombit/botan/pull/5889
+  merge_commit: d0626e7887d6115dd685cff7c7a9f7afb9949216
+  classification: unspecified
+
+# Reduce allocations during OID decoding
+#   Author:    @randombit
+- pr: 5888  # https://github.com/randombit/botan/pull/5888
+  merge_commit: 0bb4695f292d4580a729cf6dafc7a588db3c7848
+  classification: unspecified
+
+# Perform trial division prior to Miller-Rabin
+#   Author:    @randombit
+- pr: 5886  # https://github.com/randombit/botan/pull/5886
+  merge_commit: 02838b4a991529f6c799ebf760cc94857549ddd7
+  classification: unspecified
+
+# Use Hash_Engine batching in HSS-LMS
+#   Author:    @randombit
+#   Approvals: @FAlbertDev
+- pr: 5866  # https://github.com/randombit/botan/pull/5866
+  merge_commit: 398b9036546afd883bb391ce62144023066cd35f
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: a962d2f919d701b31dbb02099e9eae8a7b858d2a  # https://github.com/randombit/botan/commit/a962d2f919d701b31dbb02099e9eae8a7b858d2a
+  classification: unspecified
