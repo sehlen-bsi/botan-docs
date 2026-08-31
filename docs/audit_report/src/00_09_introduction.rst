@@ -83,7 +83,7 @@ reviewed:
         modules listed in the script.
      7. Adapt the paragraph under the enumeration of audited modules
         to reflect notable changes.
-     (TODO: The list below still reflects Botan 3.11.0 and must be regenerated for 3.12.0.)
+     (TODO: The list below still reflects Botan 3.12.0 and must be regenerated for 3.13.0.)
 
 
 .. list-table::
@@ -272,13 +272,13 @@ Here are some notable module changes compared to the last review (Botan |botan_g
    the modules that were removed and added compared to |botan_git_base_ref|
    here (see the instructions in the comment above the table).
 
-* The following modules were removed in Botan |botan_version|: None
+* The following modules were removed in Botan |botan_version|:
 
-   
+  - (TODO: to be determined during the review)
 
 * The following modules were added in Botan |botan_version|:
 
-  - ip_address
+  - (TODO: to be determined during the review)
 
 Patch Description Content
 -------------------------

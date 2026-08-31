@@ -9,9 +9,12 @@ column records where the issue was identified: issues drawn from the upstream
 Botan release notes are marked *Botan release notes*, while issues identified
 during this project's audit are marked *P663 Audit*. For issues taken from the
 release notes, the ``Fixed in Version`` column names the upstream release that
-resolved them; the first release published after |botan_version| is Botan 3.13.0
-(released 2026-08-13). None of the security issues listed below were assigned a
-CVE in the official release notes.
+resolved them.
+
+.. TODO: During the review, check the release notes of the releases following
+   |botan_version| for issues that are present in |botan_version| and list them
+   here (with the release that fixes them in the "Fixed in Version" column).
+   Also re-validate the entries carried over from the previous audit below.
 
 .. list-table::
    :class: longtable
@@ -24,36 +27,6 @@ CVE in the official release notes.
      - Affected versions
      - Fixed in Version
      - Description
-   * - `#5815 <https://github.com/randombit/botan/issues/5815>`__
-     - Botan release notes
-     - security
-     - |botan_version| and likely earlier
-     - 3.13.0
-     - Blind server-side request forgery (SSRF) during OCSP request processing: a malicious OCSP responder or network attacker could cause the application to perform a blind GET request to an internal service.
-   * - `#5838 <https://github.com/randombit/botan/issues/5838>`__, `#5839 <https://github.com/randombit/botan/issues/5839>`__
-     - Botan release notes
-     - security
-     - |botan_version|, only on platforms without a system RNG
-     - 3.13.0
-     - A bug in ``AutoSeeded_RNG`` where the API sequence of ``clear()`` followed by ``randomize()`` writing into an empty buffer resulted in the RNG being considered seeded although it was not.
-   * - `#5629 <https://github.com/randombit/botan/issues/5629>`__, `#5820 <https://github.com/randombit/botan/issues/5820>`__
-     - Botan release notes
-     - security
-     - |botan_version|, only on 32-bit platforms
-     - 3.13.0
-     - An integer overflow in the handling of Scrypt parameters.
-   * - Not referenced by a dedicated pull request in the release notes
-     - Botan release notes
-     - security
-     - |botan_version| and likely earlier
-     - 3.13.0
-     - Certain Distinguished Name (DN) name constraints were not correctly enforced during X.509 certificate path validation.
-   * - `#5805 <https://github.com/randombit/botan/issues/5805>`__
-     - Botan release notes
-     - security
-     - |botan_version| and likely earlier
-     - 3.13.0
-     - An integer overflow in the FFI interface that might be exploitable in unusual scenarios involving attacker-controlled cipher specifiers and the raw block cipher (ECB) APIs.
    * - `#5614 <https://github.com/randombit/botan/issues/5614>`__
      - P663 Audit
      - security
