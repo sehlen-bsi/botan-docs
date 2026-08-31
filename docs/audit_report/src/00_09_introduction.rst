@@ -83,6 +83,7 @@ reviewed:
         modules listed in the script.
      7. Adapt the paragraph under the enumeration of audited modules
         to reflect notable changes.
+     (TODO: The list below still reflects Botan 3.12.0 and must be regenerated for 3.13.0.)
 
 
 .. list-table::
