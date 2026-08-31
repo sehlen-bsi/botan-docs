@@ -34,6 +34,11 @@ Botan-Versionen zum Einsatz kommt.
 
 Dieses Dokument wurde am |document_datestamp| aus der Git Revision |document_gitsha_short| erzeugt.
 
+Hinweis: Dieses Dokument wurde im Rahmen des Audit-Reviews von Botan 3.11
+unverändert gegenüber der Version für Botan 3.7.1-RSCS1 geliefert. Die Methodik, nach
+das Audit-Review für Botan 3.11 durchgeführt wurde, ist in dem Audit-Report
+Dokument für diese Version beschrieben.
+
 .. todolist::
 
 .. raw:: latex

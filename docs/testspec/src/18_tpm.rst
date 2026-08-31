@@ -437,10 +437,11 @@ ECDSA
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | n/a                                                                     |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create a TPM2 context and an authenticated session via the Storage   |
-   |                        |    Root Key                                                             |
+   | **Steps:**             | #. Create a TPM2 context and an authenticated session via a persistent  |
+   |                        |    ECC key stored on the TPM                                            |
    |                        |                                                                         |
-   |                        | #. Create a transient unrestricted key with the auth_value "secret"     |
+   |                        | #. Create a transient unrestricted key with the auth_value "secret",    |
+   |                        |    using the Storage Root Key as its parent                             |
    |                        |                                                                         |
    |                        | #. Sign a random message using the new private key on the TPM           |
    |                        |                                                                         |

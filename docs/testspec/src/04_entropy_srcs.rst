@@ -6,10 +6,9 @@ source for entropy and checks that entropy was added to given random
 number generator's entropy pool. Additionally, the entropy returned by
 the entropy sources is compressed using different compression algorithms
 and the compressed byte size is compared to the number of entropy bytes
-returned by the entropy source. All entropy sources in the build-time
-configuration variable BOTAN_ENTROPY_DEFAULT_SOURCES are tested. In the
-default configuration these are "rdseed", "rdrand", "darwin_secrandom",
-"dev_random", "win32_cryptoapi", "proc_walk" and "system_stats". Note
+returned by the entropy source. All entropy sources registered in
+Entropy_Sources::global_sources() are tested. These are "rdseed",
+"hwrng", "getentropy", "system_rng" and "system_stats". Note
 that some entropy sources are not available on all platforms and
 therefore tests are skipped on unsupported platforms.
 
@@ -37,8 +36,8 @@ Entropy sources are tested with the following constraints:
    +-----------------------+--------------------------------------------------------------------------+
    | **Expected Output:**  | None                                                                     |
    +-----------------------+--------------------------------------------------------------------------+
-   | **Steps:**            | #. Create an Entropy_Sources object from all entropy sources in          |
-   |                       |    BOTAN_ENTROPY_DEFAULT_SOURCES using Entropy_Sources::global_sources() |
+   | **Steps:**            | #. Obtain the Entropy_Sources object containing all default entropy      |
+   |                       |    sources using Entropy_Sources::global_sources()                       |
    |                       |                                                                          |
    |                       | #. Get all sources supported by this platform and for each entropy       |
    |                       |    source do:                                                            |
@@ -50,5 +49,5 @@ Entropy sources are tested with the following constraints:
    |                       |                                                                          |
    |                       |    b. If the entropy source added entropy to the pool in the previous    |
    |                       |       step, check that it added at least one byte and check that it      |
-   |                       |       added entropy exactly once                                         |
+   |                       |       added entropy at least once                                        |
    +-----------------------+--------------------------------------------------------------------------+

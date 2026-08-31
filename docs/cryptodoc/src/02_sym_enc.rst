@@ -79,7 +79,7 @@ The AES-CCM functionality is implemented in the classes ``CCM_Encryption``
 and ``CCM_Decryption`` (located in :srcref:`src/lib/modes/aead/ccm/ccm.cpp`). Both
 classes extend functionality of the ``CCM_Mode``, ``AEAD_Mode`` and
 ``Cipher_Mode`` abstract classes. The following public methods are used by
-a developer when working with AES-CBC:
+a developer when working with AES-CCM:
 
 -  ``set_key(key)``: It initializes AES-CCM encryption / decryption with a
    symmetric key. The key length depends on the underlying AES block
@@ -108,17 +108,24 @@ change authenticated data or a ciphertext with a success probability of
 The default in Botan is 128 bit.
 
 **Remark:** In Botan the default maximum length of the message is
-2\ :sup:`24` bytes (with a nonce size of 12 byte).
-The maximum length can be configured to be 2\ :sup:`8\*L` by initializing L with a value between 2 and 8.
+2\ :sup:`24` - 1 bytes (with a nonce size of 12 byte).
+The maximum length can be configured to be 2\ :sup:`8\*L` - 1 by initializing L with a value between 2 and 8.
 Note that this parameter is denoted q in [CCM]_.
-The size of the nonce is then (15-L) bytes.
+The size of the nonce is then (15-L) bytes. Since Botan 3.12.0, a
+message exceeding the above length limit is already rejected with an
+``Invalid_State`` exception while it is buffered in ``process()``;
+previously the overflow was only detected when the length was encoded
+during ``finish()``.
 
 **Remark:** In Botan the maximum size for the associated data is 65279
 bytes.
 
-**Remark:** If the decryption in Botan fails, the output buffer can
-still contain parts of the decrypted ciphertext. It is up to the
-application developer to ensure it is not leaked.
+**Remark:** Since Botan 3.12.0, if the decryption fails due to an
+invalid authentication tag, the output buffer is zeroized before the
+``Invalid_Authentication_Tag`` exception is thrown. This applies to all
+AEAD modes (CCM, GCM, EAX, SIV, ChaCha20Poly1305). In earlier versions
+the output buffer could still contain parts of the decrypted ciphertext
+and it was up to the application developer to ensure it was not leaked.
 
 **Remark:** Botan implements AES-CCM cipher suites in TLS. When
 encrypting TLS records, Botan sets the nonce value to zero and
@@ -163,7 +170,7 @@ providers for Galois field multiplication. An application developer can
 enable and disable a specific implementation at compile time by using
 macros:
 
--  ``BOTAN_HAS_GCM_CLMUL_CPU``
+-  ``BOTAN_HAS_GHASH_CLMUL_CPU``
 -  ``BOTAN_HAS_GHASH_CLMUL_VPERM``
 
 The order of check whether an implementation is enabled corresponds to
@@ -177,9 +184,14 @@ case no hardware implementation is available.
 authenticity of the constructed ciphertext [GCM-FA]_ [GCM-ND]_. It is up to
 the application developer to choose the nonces properly.
 
-**Remark:** AES-GCM specification prescribes the maximum length of the
-message to be encrypted to (2\ :sup:`32` - 1) blocks. Botan does not
-check the plaintext length explicitly. It is currently up to the
+**Remark:** The AES-GCM specification [GCM]_ prescribes a maximum
+length of (2\ :sup:`39` - 256) bits, i.e. (2\ :sup:`32` - 2) blocks,
+for the message to be encrypted. Since Botan 3.12.0 this limit is
+enforced: the GHASH computation throws an ``Invalid_State`` exception
+("GCM message length limit exceeded") once the processed plaintext or
+ciphertext exceeds (2\ :sup:`39` - 256) / 8 bytes. The limit applies to
+the message only, not to the associated data. In earlier versions Botan
+did not check the plaintext length explicitly and it was up to the
 application developer to choose correct data lengths.
 
 **Remark:** Botan implements AES-GCM cipher suites in TLS. When
@@ -236,7 +248,7 @@ according to [IEEE-1619]_. The following functions are available:
    block cipher. Only the block sizes 64 and 128 bit are supported.
 -  ``key_schedule(key, key length)``: Splits the passed key in half and
    sets the cipher and the tweak key. If the key length is odd or the
-   underlying cipher does not support a key with length :math:`\frac{key}{20}`, the function
+   underlying cipher does not support a key with length :math:`\frac{key}{2}`, the function
    throws an error.
 -  ``start_msg(nonce, nonce length)``: Sets nonce as input of tweak
    computation and compute initial tweak as :math:`E_{k_{2}}(nonce)`.

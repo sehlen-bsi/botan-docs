@@ -18,6 +18,12 @@ independent test suites:
    OCSP requests and responses, validating responses and testing online
    OCSP checks.
 
+
+Botan 3.12.0 reworked large parts of the X.509 code (strict DER decoding
+of PKIX types, incremental depth-first-search path building, IPv6 name
+constraints, and optimized certificate and CRL indexing). The tests added
+for these changes are described in the respective sections below.
+
 In the following, we describe these tests in more detail.
 
 X.509 Unit Test
@@ -30,6 +36,7 @@ self-signed certificates and certificate issuer properties.
 
 The test is implemented in :srcref:`src/tests/unit_x509.cpp`.
 
+
 The following X.509 certificate tests are executed:
 
 -  Validity period: tests with valid and expired certificates
@@ -41,6 +48,15 @@ The following X.509 certificate tests are executed:
    ECDH, RSA, ElGamal, DSA, ECDSA, ECGDSA, ECKCDSA
 -  X.509v3 extension handling, including writing and reading custom
    X.509v3 extensions
+-  Rejection of an extension block that contains two extensions with the
+   same OID with a ``Decoding_Error``
+-  Decoding of the distributionPoint URI of a CRL's
+   IssuingDistributionPoint extension
+-  Decoding of a CRL entry whose serial number is encoded as a negative
+   two's-complement INTEGER to its magnitude, so that it matches the serial
+   number of the corresponding certificate during revocation checking
+
+The last three tests were added in Botan 3.12.0.
 
 X.509 Test with Certificate Files
 ---------------------------------
@@ -104,6 +120,15 @@ generated certificates:
       -  CA certificate requirements defined by a standard are not met
          by an intermediate CA
 
+Due to the stricter DER decoding of PKIX types in Botan 3.12.0, the
+expected error messages of the BSI test cases ``ext_05`` and ``ext_10`` in
+``src/tests/data/x509/bsi/expected.txt`` were adapted. Likewise, the
+expected result of the NIST test case ``test76`` in
+``src/tests/data/x509/nist/expected.txt`` is ``Certificate is revoked``
+(previously ``Verified``), since the CRL IssuingDistributionPoint extension
+(marked critical, with the unhandled ``onlyContainsCACerts`` field) is now
+treated as unprocessable so that affected certificates are assumed revoked.
+
 The tests are implemented in :srcref:`src/tests/test_x509_path.cpp`. The
 following tables shows an example test case with one test vector.
 
@@ -123,7 +148,7 @@ following tables shows an example test case with one test vector.
    | **Input Values:**    | A certificate chain with a certificate, which sets basic constraint       |
    |                      | *Certificate Authority* to “\ *No*\ ”                                     |
    +----------------------+---------------------------------------------------------------------------+
-   | **Expected Output:** | Out = certificate not allowed to issue certs                              |
+   | **Expected Output:** | Out = CA certificate not allowed to issue certs                           |
    +----------------------+---------------------------------------------------------------------------+
    | #. **Steps:**        | #. Import the root certificate                                            |
    |                      |                                                                           |
@@ -174,10 +199,84 @@ following tables shows an example test case with one test vector.
    |                      | #. Check the result of Botan certificate path validation                  |
    +----------------------+---------------------------------------------------------------------------+
    | **Notes:**           | Files used for this test are located in:                                  |
-   |                      | data/x509/bsi/cert_path_common_01/                                        |
+   |                      | data/x509/bsi/common_01/                                                  |
    |                      |                                                                           |
    |                      | The test results are included in the file expected.txt and used for       |
    |                      | validation.                                                               |
+   +----------------------+---------------------------------------------------------------------------+
+
+The following two test cases, added in Botan 3.12.0, cover the
+incremental depth-first-search certificate path building and a
+regression for CVE-2026-35580.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +----------------------+---------------------------------------------------------------------------+
+   | **Test Case No.:**   | X509-path-building-1                                                      |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Type:**            | Positive Test                                                             |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Description:**     | Certificate path building finds a valid path through ambiguous            |
+   |                      | intermediate certificates (test name ``x509_path_building``)              |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Preconditions:**   | None                                                                      |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Input Values:**    | A certificate set consisting of a root certificate, two levels of         |
+   |                      | seven intermediate certificates each, and seven end-entity                |
+   |                      | certificates                                                              |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Expected Output:** | Out = Verified (for each of the seven end-entity certificates)            |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Steps:**           | #. Import the root certificate                                            |
+   |                      |                                                                           |
+   |                      | #. Read all intermediate certificates and supply them in an               |
+   |                      |    unspecified order                                                      |
+   |                      |                                                                           |
+   |                      | #. Validate each end-entity certificate at a fixed validation time        |
+   |                      |                                                                           |
+   |                      | #. Compare the validation result with the expected result from the        |
+   |                      |    accompanying expected.txt                                              |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Notes:**           | Files used for this test are located in:                                  |
+   |                      | data/x509/path_building/                                                  |
+   |                      |                                                                           |
+   |                      | The test results are included in the file expected.txt and used for       |
+   |                      | validation.                                                               |
+   |                      |                                                                           |
+   |                      | This test covers the incremental depth-first-search path building         |
+   |                      | introduced in Botan 3.12.0.                                               |
+   +----------------------+---------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +----------------------+---------------------------------------------------------------------------+
+   | **Test Case No.:**   | X509-CVE-2026-35580-1                                                     |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Type:**            | Negative Test                                                             |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Description:**     | Regression test for CVE-2026-35580 (test name                             |
+   |                      | ``x509_cve_2026_35580``)                                                  |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Preconditions:**   | None                                                                      |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Input Values:**    | An end-entity certificate and the accompanying root certificate           |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Expected Output:** | Out = Cannot establish trust                                              |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Steps:**           | #. Import the root certificate                                            |
+   |                      |                                                                           |
+   |                      | #. Validate the end-entity certificate at a fixed validation time         |
+   |                      |                                                                           |
+   |                      | #. Check the result of Botan certificate path validation                  |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Notes:**           | Files used for this test are located in:                                  |
+   |                      | data/x509/cve_2026_35580/                                                 |
+   |                      |                                                                           |
+   |                      | This test was added in Botan 3.12.0.                                      |
    +----------------------+---------------------------------------------------------------------------+
 
 Extended X.509 Name Constraints Test
@@ -194,11 +293,15 @@ constraints:
 -  Domain names
 -  DNS name
 -  email address
--  IP address
+-  IP address (IPv4 and IPv6)
 
 The following tables show example test cases with one valid and one
-invalid test vector. All test vectors are included as certificates in
-:srcref:`src/tests/data/x509/name_constraint`.
+invalid test vector. The test vectors for the first two test cases are
+included as certificates in :srcref:`src/tests/data/x509/name_constraint`;
+the certificates for the remaining test cases are located in
+:srcref:`src/tests/data/x509/name_constraint_san`,
+:srcref:`src/tests/data/x509/misc/name_constraint_ci`, and
+:srcref:`src/tests/data/x509/misc/nc_skip_self`.
 
 .. table::
    :class: longtable
@@ -422,22 +525,173 @@ invalid test vector. All test vectors are included as certificates in
    +----------------------+---------------------------------------------------------------------------+
    | **Notes:**           | The following files are used for this test:                               |
    |                      |                                                                           |
-   |                      | -  src/tests/data/x509/misc/name_constraint_ci/root.pem                   |
+   |                      | -  src/tests/data/x509/misc/nc_skip_self/root.pem                         |
    |                      |                                                                           |
-   |                      | -  src/tests/data/x509/misc/name_constraint_ci/int.pem                    |
+   |                      | -  src/tests/data/x509/misc/nc_skip_self/int.pem                          |
    |                      |                                                                           |
-   |                      | -  src/tests/data/x509/misc/name_constraint_ci/leaf.pem                   |
+   |                      | -  src/tests/data/x509/misc/nc_skip_self/leaf.pem                         |
+   +----------------------+---------------------------------------------------------------------------+
+
+The following test cases cover the IPv6 name constraint support and
+the related strict DER validation added in Botan 3.12.0 (GH #5534,
+#5537).
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +----------------------+---------------------------------------------------------------------------+
+   | **Test Case No.:**   | X509-name-constraint-6                                                    |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Type:**            | Positive and Negative Test                                                |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Description:**     | Tests IPv6 (and mixed IPv4/IPv6) name constraints in certificate          |
+   |                      | chain validation (test name ``x509_name_constraint_ipv6_chains``)         |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Preconditions:**   | None                                                                      |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Input Values:**    | Certificate chains covering the following scenarios, each with a          |
+   |                      | leaf certificate that is expected to pass and leaf certificates           |
+   |                      | that are expected to fail:                                                |
+   |                      |                                                                           |
+   |                      | -  an IPv6 permittedSubtree (2001:db8::/32) with a subject                |
+   |                      |    alternative name inside respectively outside the subtree               |
+   |                      |                                                                           |
+   |                      | -  an IPv6 excludedSubtree with a subject alternative name outside        |
+   |                      |    respectively inside the subtree                                        |
+   |                      |                                                                           |
+   |                      | -  a root certificate permitting only an IPv4 range (10.0.0.0/8),         |
+   |                      |    which must reject a leaf with an IPv6 subject alternative name         |
+   |                      |    (and vice versa for a root permitting only an IPv6 range),             |
+   |                      |    since iPAddress constraints of one address family constrain the        |
+   |                      |    entire iPAddress name form (RFC 5280, section 4.2.1.10)                |
+   |                      |                                                                           |
+   |                      | -  constraints across multiple issuers: the root permits                  |
+   |                      |    {10.0.0.0/8, 2001:db8::/32}, the intermediate narrows the              |
+   |                      |    permitted subtrees and adds excluded subtrees; leaves with one         |
+   |                      |    IPv4 and one IPv6 subject alternative name each violate the            |
+   |                      |    permitted or excluded subtrees of the root or the intermediate         |
+   |                      |    in all combinations                                                    |
+   |                      |                                                                           |
+   |                      | -  IPv4-mapped IPv6 subject alternative names tested against IPv4         |
+   |                      |    excluded and permitted subtrees (a mapped address inside an            |
+   |                      |    excluded IPv4 range is rejected; a mapped address inside a             |
+   |                      |    permitted IPv4-only range is also rejected, as RFC 5280 gives          |
+   |                      |    no clear guidance on matching mapped addresses across address          |
+   |                      |    families)                                                              |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Expected Output:** | Out = Verified for the leaves inside the permitted subtrees               |
+   |                      |                                                                           |
+   |                      | Out = Certificate does not pass name constraint for the other             |
+   |                      | leaves                                                                    |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Steps:**           | #. Import the root certificate                                            |
+   |                      |                                                                           |
+   |                      | #. Read the certificate chain                                             |
+   |                      |                                                                           |
+   |                      | #. Validate the certificate chain                                         |
+   |                      |                                                                           |
+   |                      | #. Check the result of Botan certificate path validation                  |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Notes:**           | The certificates used for this test are located in:                       |
+   |                      | src/tests/data/x509/name_constraint_ipv6                                  |
+   +----------------------+---------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +----------------------+---------------------------------------------------------------------------+
+   | **Test Case No.:**   | X509-name-constraint-7                                                    |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Type:**            | Positive and Negative Test                                                |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Description:**     | Tests the strict DER validation of ``GeneralName`` iPAddress              |
+   |                      | encodings (test name ``x509_name_constraint_ip_mask``)                    |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Preconditions:**   | None                                                                      |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Input Values:**    | Test vectors, each consisting of an address and a netmask; valid          |
+   |                      | vectors contain IPv4 or IPv6 addresses with contiguous netmasks,          |
+   |                      | invalid vectors contain, e.g., non-contiguous netmasks or invalid         |
+   |                      | lengths                                                                   |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Expected Output:** | Valid vectors are accepted; invalid vectors are rejected with a           |
+   |                      | ``Decoding_Error``                                                        |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Steps:**           | #. DER-encode the address and netmask as a ``GeneralName``                |
+   |                      |    iPAddress ([7] IMPLICIT OCTET STRING)                                  |
+   |                      |                                                                           |
+   |                      | #. Decode the encoding with strict DER limits                             |
+   |                      |                                                                           |
+   |                      | #. Check that the decoding succeeds respectively fails with a             |
+   |                      |    ``Decoding_Error`` as expected                                         |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Notes:**           | All test vectors are listed in                                            |
+   |                      | :srcref:`src/tests/data/x509/general_name_ip.vec`.                        |
+   +----------------------+---------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +----------------------+---------------------------------------------------------------------------+
+   | **Test Case No.:**   | X509-name-constraint-8                                                    |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Type:**            | Positive Test                                                             |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Description:**     | Tests a leaf certificate with an empty subject DN whose subject           |
+   |                      | alternative name is matched against a directoryName constraint            |
+   |                      | (test name ``x509_name_constraint_empty_subject``)                        |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Preconditions:**   | None                                                                      |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Input Values:**    | Intermediate CA certificate with a critical name constraints              |
+   |                      | extension containing a directoryName permittedSubtree; leaf               |
+   |                      | certificate with an empty subject DN and a critical subject               |
+   |                      | alternative name extension containing a directoryName inside the          |
+   |                      | permitted subtree                                                         |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Expected Output:** | Out = Verified                                                            |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Steps:**           | #. Import the certificates (root, intermediate, leaf) and set up          |
+   |                      |    the validation infrastructure                                          |
+   |                      |                                                                           |
+   |                      | #. Validate the certificate chain                                         |
+   |                      |                                                                           |
+   |                      | #. Check the result of Botan certificate path validation                  |
+   +----------------------+---------------------------------------------------------------------------+
+   | **Notes:**           | The certificates used for this test are located in:                       |
+   |                      | src/tests/data/x509/name_constraint_empty_subject                         |
    +----------------------+---------------------------------------------------------------------------+
 
 OCSP Tests
 ----------
 
 Botan's OCSP code is tested using different tests that parse OCSP
-requests and OCSP responses, validate OCSP responses (in terms of
-signature validation) and also using online tests for randombit.net.
-Online tests are only executed if BOTAN_HAS_ONLINE_REVOCATION_CHECKS is
-set. The tests are implemented in :srcref:`src/tests/test_ocsp.cpp`. All
-test data can be found in :srcref:`src/tests/data/x509/ocsp`.
+requests and OCSP responses (among others, responses for randombit.net),
+validate OCSP responses (in terms of signature validation) and also
+using an online test that checks the revocation status of a DigiCert
+intermediate CA certificate. Online tests are only executed if
+BOTAN_HAS_ONLINE_REVOCATION_CHECKS is set. The tests are implemented in
+:srcref:`src/tests/test_ocsp.cpp`. All test data can be found in
+:srcref:`src/tests/data/x509/ocsp`.
+
+The parsing tests also cover an OCSP response (generated with
+``openssl ocsp ... -resp_key_id``) that identifies the responder via the
+byKey ResponderID choice instead of a name: the parsed response must report
+an empty signer name, the signer key hash must equal the SHA-1 hash of the
+responder certificate's public key, and the responder certificate must be
+found via the key hash.
+
+Furthermore, it is tested that partial OCSP stapling preserves the per-slot
+gap for the online fallback: ``PKIX::check_ocsp`` is invoked on a
+three-certificate chain with a stapled response for only the intermediate
+(respectively only the end-entity) certificate, and it is verified that the
+returned status list keeps an empty entry exactly at the position of the
+certificate without a stapled response.
+
+Both tests were added in Botan 3.12.0.
 
 Limbo X.509 Tests
 -----------------
@@ -449,7 +703,7 @@ thousand certificate validation test cases.
 Botan's CI is running the entire Limbo test harness via the library's python
 binding to verify proper path building and validation. Less than 1% of the
 tests are either ignored, disabled or produce a different result than expected.
-See :srcref:`src/scripts/run_limbo_tests.py:18|tests_that_succeed_unexpectedly`
+See :srcref:`src/scripts/run_limbo_tests.py`
 for the full details of the irregular test results.
 
 .. [#limbo_url] Limbo X.509 test suite: https://x509-limbo.com/

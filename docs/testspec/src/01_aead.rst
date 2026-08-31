@@ -72,7 +72,7 @@ following.
    |                      | #. Calculate the ciphertext of input value *In* and compare the result    |
    |                      |    with the expected output value *Out*                                   |
    |                      |                                                                           |
-   |                      | #. If *In* is the empty message, Return                                   |
+   |                      | #. If *In* is the empty message, skip the following two steps             |
    |                      |                                                                           |
    |                      | #. If *In* is longer than the block size of the AEAD mode, calculate the  |
    |                      |    ciphertext of input value *In* by encrypting *In* in block size blocks |
@@ -123,8 +123,6 @@ following.
    |                      |                                                                           |
    |                      | #. Check that the AEAD output length matches the length of *Out*          |
    |                      |                                                                           |
-   |                      | #. Check that the AEAD mode accepts nonces of the default nonce length    |
-   |                      |                                                                           |
    |                      | #. Check that trying to decrypt a random value before setting a key       |
    |                      |    throws an exception                                                    |
    |                      |                                                                           |
@@ -132,18 +130,16 @@ following.
    |                      |    associated data, check that setting *AD* on the AEAD_Decryption object |
    |                      |    throws an exception                                                    |
    |                      |                                                                           |
-   |                      | #. Set the key *Key* on the AEAD_Encryption object                        |
-   |                      |                                                                           |
-   |                      | #. Check that trying to decrypt a random value before setting a nonce     |
-   |                      |    throws an exception                                                    |
-   |                      |                                                                           |
-   |                      | #. Set a modified version of nonce *Nonce* on the AEAD_Decryption object  |
+   |                      | #. Set the key *Key* on the AEAD_Decryption object                        |
    |                      |                                                                           |
    |                      | #. Set a modified version of associated data *AD* on the AEAD_Decryption  |
    |                      |    object                                                                 |
    |                      |                                                                           |
    |                      | #. Check that trying to decrypt a random value before setting a nonce     |
    |                      |    throws an exception                                                    |
+   |                      |                                                                           |
+   |                      | #. Check that trying to finalize the decryption of a random value before  |
+   |                      |    setting a nonce throws an exception                                    |
    |                      |                                                                           |
    |                      | #. Set a modified version of nonce *Nonce* on the AEAD_Decryption object  |
    |                      |                                                                           |
@@ -250,10 +246,11 @@ GCM
 
 GCM is tested with the following constraints:
 
--  Number of test cases: 43
+-  Number of test cases: 55
 -  Sources: NIST CAVP, generated using OpenSSL, Project Wycheproof
 
--  Block Cipher: AES-128 and AES-256
+-  Block Cipher: AES-128, AES-192, AES-256, ARIA-128, ARIA-192,
+   ARIA-256, SM4
 
 -  Key: 128 bits, 192 bits, 256 bits
 
@@ -264,9 +261,10 @@ GCM is tested with the following constraints:
 
    -  Extreme values: 128 bits, 480 bits [1]_
 
--  Out: 64 bits, 128 bits, 608 bits, 640 bits
+-  Out: 128 bits - 8320 bits, including known answer tests with long
+   messages
 
--  AD: 64 bits, 128 bits, 160 bits, 192 bits, no AD
+-  AD: 64 bits - 256 bits, no AD
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/aead/gcm.vec`.

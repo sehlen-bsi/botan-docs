@@ -27,23 +27,26 @@ important member functions that typically take ``std::span`` from C++20:
    extracts ``output.size()`` random bytes from the random number generator
    and writes them into ``output``.
 -  ``randomize_with_ts_input(output)``: First refreshes the random number
-   generator's entropy pool with a 64 bit system timestamp and, if a system
-   RNG is available, 96bits from the system's RNG. Otherwise, those 96bits
-   are filled with a 64 bit processor timestamp and the operating system's
-   process ID. It then extracts ``output.size()`` random bytes from the
-   random number generator and writes them into ``output``.
--  ``reseed(entropy_sources, poll_bits, poll_timeout)``: Polls the
-   ``entropy_sources`` for up to ``poll_bits`` bits of entropy or until the
-   ``poll_timeout`` expires, calls ``add_entropy()`` on this random
-   generator and returns an estimate of the number of bits collected.
-   The default value for ``poll_bits`` is ``BOTAN_RNG_RESEED_POLL_BITS``,
-   which defaults to 256. The default value for ``poll_timeout`` is
-   ``BOTAN_RNG_RESEED_DEFAULT_TIMEOUT``, which defaults to 50
-   milliseconds.
+   generator's entropy pool with a 32 byte additional input consisting of
+   a 64 bit high-resolution timestamp, the 32 bit process ID and, if the
+   System_RNG is available, 160 bits from the System_RNG (see the detailed
+   description in the :ref:`HMAC_DRBG <rng/hmac_drbg>` section). It then
+   extracts ``output.size()`` random bytes from the random number
+   generator and writes them into ``output``.
+-  ``reseed_from_sources(entropy_sources, poll_bits)``: Polls the
+   ``entropy_sources`` for up to ``poll_bits`` bits of entropy, whereby
+   each polled source adds its entropy to this random number generator
+   via ``add_entropy()``, and returns an estimate of the number of bits
+   collected. The default value for ``poll_bits`` is
+   ``RandomNumberGenerator::DefaultPollBits``, which is 256. The
+   deprecated wrapper ``reseed(entropy_sources, poll_bits, poll_timeout)``
+   additionally accepts a ``poll_timeout`` defaulting to
+   ``RandomNumberGenerator::DefaultPollTimeout`` (50 milliseconds), which
+   is however ignored: no timeout applies to the polling.
 -  ``reseed_from_rng(rng, poll_bits)``: Polls the ``rng`` for ``poll_bits``
    bits of entropy and calls ``add_entropy()`` on this random generator.
-   The default value for ``poll_bits`` is ``BOTAN_RNG_RESEED_POLL_BITS``,
-   which defaults to 256.
+   The default value for ``poll_bits`` is
+   ``RandomNumberGenerator::DefaultPollBits``, which is 256.
 
 Deterministic Generators
 ------------------------
@@ -138,7 +141,7 @@ The second constructor is implemented as follows:
    1. If (``reseed_interval`` = 0) or (``reseed_interval`` > 2^24), then Return
       "Invalid Argument"
    2. If (``max_number_of_bytes_per_request`` = 0) or
-      (``max_number_of_bytes_per_request`` >= 64*1024), then Return "Invalid
+      (``max_number_of_bytes_per_request`` > 64*1024), then Return "Invalid
       Argument"
    3. Set Stateful_RNG.\ ``underlying_rng`` = ``underlying_rng``
    4. Set Stateful_RNG.\ ``reseed_counter`` = 0
@@ -166,7 +169,7 @@ The third constructor is implemented as follows:
    1. If (``reseed_interval`` = 0) or (``reseed_interval`` > 2^24), then Return
       "Invalid Argument"
    2. If (``max_number_of_bytes_per_request`` = 0) or
-      (``max_number_of_bytes_per_request`` >= 64*1024), then Return "Invalid
+      (``max_number_of_bytes_per_request`` > 64*1024), then Return "Invalid
       Argument"
    3. Set Stateful_RNG.\ ``entropy_sources`` = ``entropy_sources``
    4. Set Stateful_RNG.\ ``reseed_counter`` = 0
@@ -196,7 +199,7 @@ The fourth constructor is implemented as follows:
    1. If (``reseed_interval`` = 0) or (``reseed_interval`` > 2^24), then Return
       "Invalid Argument"
    2. If (``max_number_of_bytes_per_request`` = 0) or
-      (``max_number_of_bytes_per_request`` >= 64*1024), then Return "Invalid
+      (``max_number_of_bytes_per_request`` > 64*1024), then Return "Invalid
       Argument"
    3. Set Stateful_RNG.\ ``underlying_rng`` = ``underlying_rng``
    4. Set Stateful_RNG.\ ``entropy_sources`` = ``entropy_sources``
@@ -245,7 +248,12 @@ security level of the hash function used in the PRF, given in
 [SP800-57-P1]_ Table 3. For SHA-1, a maximum of 128 bits is supported,
 for SHA-224 and SHA-512/224 a maximum of 192 bits is supported and for
 SHA-256, SHA-512/256, SHA-384, SHA-512 and SHA3-512 a maximum security
-level of 256 bits is supported.
+level of 256 bits is supported. Since Botan 3.12.0, the security level
+computation, which is invoked from every HMAC_DRBG constructor, rejects
+MACs with an output length of less than 160 bits with an
+Invalid_Argument exception. Consequently, an HMAC_DRBG can no longer be
+instantiated with a hash function with an output length below that of
+SHA-1.
 
 Function reset_reseed_counter():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -354,14 +362,14 @@ Random bytes can be requested from HMAC_DRBG using the public methods
 ``randomize()``, ``randomize_with_input()`` and ``randomize_with_ts_input()``
 functions. See above for further implementation details of those methods.
 
-In contrast to [SP800-90A]_ section 10.1.2.5, Botan's implementation of
+In contrast to [SP800-90A]_ Section 10.1.2.5, Botan's implementation of
 ``HMAC_DRBG`` will not output an error if a reseed is required, but instead
 perform an automatic reseed from the entropy source given during construction.
 Additionally, it will also not output an error if ``requested_number_of_bytes >
 max_number_of_bytes_per_request``, but instead treat such calls as if multiple
 subsequent calls to the random number generator were made.
 
-The automatic reseeding will also attempts to detect a fork of the process
+The automatic reseeding will also attempt to detect a fork of the process
 on Unix systems by comparing the process ID between calls. If the
 process ID changed, it will automatically perform a reseed. Seeding and
 reseeding is done in the Stateful_RNG's ``reseed_check()`` member
@@ -380,32 +388,54 @@ function.
    1. ``output``: The pseudorandom bits to be returned to the consuming
       application.
 
-   **Steps:**
+   **Implementation:**
 
-   1. Set ``bytes_to_generate = output.size()``
-   2. While (``bytes_to_generate`` > 0) do:
+   If ``output`` is empty, the call exclusively adds entropy: ``input`` is
+   incorporated into the internal state via ``update()`` and the reseed
+   counter is reset if at least ``security_level()`` bits were provided.
+   Otherwise, the request is delegated to
+   ``Stateful_RNG::generate_batched_output()``
+   (:srcref:`src/lib/rng/stateful_rng/stateful_rng.cpp`), which splits it
+   into chunks of at most ``max_number_of_bytes_per_request`` bytes and
+   serves each chunk with the [SP800-90A]_ generate function
+   ``generate_output()`` described above:
 
-      1. Set ``this_req = min(max_number_of_bytes_per_request, bytes_to_generate)``
-      2. Call Stateful_RNG's ``reseed_check()``
-      3. If ``input.size() != 0``, then ``update(input)`` (once per top-level request, see (7))
-      4. While (``this_req`` > 0) do:
+   .. code-block:: C++
 
-         1. ``to_copy = min(this_req, V.size())``
-         2. ``V = HMAC(Key, V)``
-         3. ``output = output || leftmost(V, to_copy)``
-         4. ``this_req = this_req - to_copy``
+      void Stateful_RNG::generate_batched_output(std::span<uint8_t> output, std::span<const uint8_t> input) {
+         BOTAN_ASSERT_NOMSG(!output.empty());
 
-      5. Call ``update(input)``
-      6. Set ``bytes_to_generate = bytes_to_generate - this_req``
-      7. Clear the input for the next inner loop: ``input = {}``
+         const size_t max_per_request = max_number_of_bytes_per_request();
 
-``randomize_with_ts_input()`` incorporates a 64 bit processor timestamp,
-using QueryPerformanceCounter's QuadPart value on Windows and an inline
-assembly to query the processor counter on other platforms. If
-System_RNG is available, it also incorporates 96 bit from it. Otherwise
-it additionally incorporates a system clock timestamp in nanoseconds
-precision (64 bit) and the 32 bit process ID (PID)
-It is implemented as follows.
+         if(max_per_request == 0) {
+            // no limit
+            reseed_check();
+            this->generate_output(output, input);
+         } else {
+            while(!output.empty()) {
+               const size_t this_req = std::min(max_per_request, output.size());
+
+               reseed_check();
+               this->generate_output(output.subspan(0, this_req), input);
+
+               // only include the input for the first iteration
+               input = {};
+
+               output = output.subspan(this_req);
+            }
+         }
+      }
+
+``randomize_with_ts_input()`` composes a 32 byte additional input and
+passes it together with the output buffer to ``fill_bytes_with_input()``.
+The first 8 bytes hold a 64 bit high-resolution timestamp queried via
+``OS::get_high_resolution_clock()``, which uses a processor cycle counter
+where available (QueryPerformanceCounter's QuadPart value on Windows, an
+inline assembly instruction such as ``rdtsc`` on other platforms) and
+otherwise falls back to the most precise available system clock. The
+following 4 bytes hold the 32 bit process ID (PID). The remaining 20
+bytes (160 bits) are filled from the System_RNG, if it is available;
+otherwise they remain zero. It is implemented as follows.
 
 .. admonition:: ``randomize_with_ts_input()``
 
@@ -417,15 +447,24 @@ It is implemented as follows.
 
    **Steps:**
 
-   1. Add a 64 bit processor timestamp to ``additional_input``
-   2. If System_RNG is available, get 96 bit from it by calling its
-      ``randomize()`` member function and add it to ``additional_input``
-   3. If System_RNG is not available
+   1. If this random number generator does not accept input (i.e.,
+      ``accepts_input()`` returns false), call
+      ``fill_bytes_with_input(output, {})`` without any additional input
+      and return
+   2. Initialize the 32 byte buffer ``additional_input`` with zeros
+   3. Write a 64 bit high-resolution timestamp
+      (``OS::get_high_resolution_clock()``) to bytes 0..7 of
+      ``additional_input``
+   4. Write the 32 bit process ID to bytes 8..11 of ``additional_input``
+   5. If the System_RNG is available, fill the remaining bytes 12..31 of
+      ``additional_input`` (160 bits) by calling its ``randomize()``
+      member function
+   6. Call ``fill_bytes_with_input(output, additional_input)``
 
-      1. Add a 64 bit system clock timestamp to ``additional_input``
-      2. Add the 32 bit process ID to ``additional_input``
-
-   4. Call ``fill_bytes_with_input(output, additional_input)``
+**Remark:** Steps 3 and 4 assume that the operating system utilities
+module is part of the build (the default). Without it, the timestamp and
+process ID are omitted and the System_RNG output (if available) fills the
+buffer starting at byte 0.
 
 Function ``Stateful_RNG::reseed_check()``:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -454,50 +493,88 @@ implemented as follows.
       3. If the HMAC_DRBG was constructed with at least an underlying
          RNG as an entropy source, ``security_level()`` bits of entropy
          are requested from the underlying RNG and added to HMAC_DRBG's
-         entropy pool by calling Stateful_RNG's ``reseed_from_rng()``,
-         which works as follows:
+         entropy pool by calling Stateful_RNG's ``reseed_from_rng()``
+         with ``poll_bits`` = ``security_level()``, which works as
+         follows:
 
-         1. Request ``security_level()`` bits of entropy from the
-            underlying RNG by calling its ``randomize()`` member
-            function, which returns a buffer and an entropy estimation
-         2. Mix the returned entropy bytes into HMAC_DRBG's entropy pool
-            by calling its ``add_entropy()`` member function (both steps
-            via an indirection to the RandomNumberGenerator's
+         1. Request ``poll_bits / 8`` bytes from the underlying RNG by
+            calling its ``random_vec()`` member function and mix the
+            returned bytes into HMAC_DRBG's entropy pool by calling
+            its ``add_entropy()`` member function (both steps via an
+            indirection to the RandomNumberGenerator's
             ``reseed_from_rng()`` member function)
-         3. If the returned entropy estimation is equal to or exceeds
-            ``security_level()`` then do call ``reset_reseed_counter()``
+         2. If the requested ``poll_bits`` are equal to or exceed
+            ``security_level()`` then do call ``reset_reseed_counter()``.
+            Note that no estimate of the actually collected entropy is
+            involved in this condition; since ``reseed_check()`` requests
+            exactly ``security_level()`` bits, the reseed counter is
+            always reset on this path.
 
       4. If the HMAC_DRBG was constructed with at least a collection of
          entropy sources, ``security_level()`` bits of entropy are
-         requested from the underlying RNG and added to HMAC_DRBG's
-         entropy pool by calling Stateful_RNG's ``reseed_from_rng()``,
+         requested from the entropy sources and added to HMAC_DRBG's
+         entropy pool by calling Stateful_RNG's ``reseed_from_sources()``,
          which works as follows:
 
          1. Request ``security_level()`` bits of entropy from the entropy
             sources by calling Entropy_Sources' ``poll()`` member
-            function, which mixes entropy bytes into HMAC_DRBG's entropy
-            pool by calling its ``add_entropy()`` member function and
-            returning the number of bits collected; ``poll()`` takes a
-            timeout value in milliseconds after which polling of the
-            entropy sources is stopped, the value used here is
-            ``BOTAN_RNG_RESEED_POLL_BITS``, which defaults to 50
-            milliseconds
+            function, which polls one source after another, whereby each
+            polled source mixes its entropy bytes into HMAC_DRBG's
+            entropy pool by calling its ``add_entropy()`` member
+            function; polling stops as soon as the accumulated entropy
+            estimate reaches ``poll_bits`` = ``security_level()`` bits.
+            No timeout applies to the polling; the ``poll()`` overload
+            invoked on this path takes no timeout parameter.
          2. If the returned number of bits collected is equal to or
-            exceeds ``security_level()`` bits then:
-
-            1. Call ``reset_reseed_counter()``
-            2. Return the number of bits collected
+            exceeds ``security_level()`` bits, call
+            ``reset_reseed_counter()``. Note that the number of bits
+            collected is the sum of the entropy estimates reported by
+            the polled sources; the actual entropy is not verified.
+         3. Return the number of bits collected
 
       5. If (``reseed_counter`` = 0) then do:
 
          1. If ((``last_pid`` > 0) And (``cur_pid`` != ``last_pid``)) then
-            output "Fork detected, but unable to reseed" Else output
-            "PRNG not seeded: HMAC_DRBG"
+            throw an ``Invalid_State`` exception with the message
+            "Detected use of fork but cannot reseed DRBG" Else throw a
+            ``PRNG_Unseeded`` exception with the message "PRNG not
+            seeded: " followed by the RNG name, e.g.,
+            "HMAC_DRBG(HMAC(SHA-256))"
 
    3. Else do:
 
-      1. If (``reseed_counter`` = 0) then output "RNG not seeded"
+      1. Assert that ``reseed_counter`` != 0, throwing an
+         ``Internal_Error`` on failure (a sanity check that cannot fail
+         in this branch, as the branch condition implies a non-zero
+         reseed counter)
       2. ``reseed_counter`` = ``reseed_counter`` + 1
+
+:numref:`rng/reseed_fig` summarizes the objects involved in the
+reseeding mechanism and the call hierarchy of ``reseed_check()``
+described above.
+
+.. _rng/reseed_fig:
+
+.. figure:: figures/rng_reseed.*
+   :align: center
+   :width: 100%
+
+   Object relations and call hierarchy of the reseed/entropy polling
+   mechanism of ``Stateful_RNG``/``HMAC_DRBG`` (arrow types are
+   explained in the legend). The numbered marks on the call arrows
+   encode the order of the control flow within one invocation of
+   ``reseed_check()``: a plain number *n* denotes the *n*-th step
+   taken by ``reseed_check()`` itself, and a mark with a letter
+   suffix (2a, 2b, ...) denotes a call nested below step *n*, with
+   the letters giving the execution order within that step. The
+   complete order is thus 1, 2, 2a-2d, 3, 3a-3d, 4, where the steps
+   2/2a-2d and 3/3a-3d are only taken if an underlying RNG
+   respectively a collection of entropy sources was supplied at
+   construction. The reseed counter is only reset (steps 2d/3d) if
+   the requested or collected bits reach ``security_level()``;
+   otherwise the DRBG remains unseeded and ``reseed_check()`` (step
+   4) throws an exception instead of allowing random output to be
+   generated from an insufficiently seeded state.
 
 **Conclusion:** HMAC_DRBG conforms to [SP800-90A]_, although it differs
 from the standard in two ways: It automatically reseeds if required
@@ -549,7 +626,7 @@ generator.
 +------------------------------------+----------------------------------+
 | ``arc4random()``                   | macOS, iOS, OpenBSD, ...         |
 +------------------------------------+----------------------------------+
-| ``getrandom()``                    | Linux (if explicitly enabled)    |
+| ``getrandom()``                    | Linux (enabled by default)       |
 +------------------------------------+----------------------------------+
 | ``/dev/random`` / ``/dev/urandom`` | Unix-like platforms              |
 +------------------------------------+----------------------------------+
@@ -761,8 +838,10 @@ getrandom
          1. If (errno = EINTR) do Continue
          2. Return with output "System_RNG getrandom failed"
 
-      3. ``buf`` = ``buf`` + ``got``
-      4. ``len`` = ``len`` - ``got``
+      3. If (``got`` = 0) then Return with output "System_RNG getrandom
+         unexpectedly returned 0"
+      4. ``buf`` = ``buf`` + ``got``
+      5. ``len`` = ``len`` - ``got``
 
 /dev/urandom
 ^^^^^^^^^^^^
@@ -790,11 +869,11 @@ getrandom
 
    **Steps:**
 
-   1. ``fd`` = **open**\ (``/dev/random``, O_RDWD \| O_NOCTTY)
+   1. ``fd`` = **open**\ (``/dev/random``, O_RDONLY \| O_NOCTTY)
    2. If (``fd`` < 0) then output "System_RNG failed to open RNG device"
    3. Read one byte from ``fd`` and close ``fd``.
       If reading failed then output "System_RNG failed to read blocking RNG device".
-   4. ``fd`` = **open**\ (``/dev/urandom``, O_RDWD \| O_NOCTTY)
+   4. ``fd`` = **open**\ (``/dev/urandom``, O_RDWR \| O_NOCTTY)
    5. If (``fd`` < 0) then do fd = **open**\ (``/dev/urandom``, O_RDONLY
       \| O_NOCTTY)
    6. If (``fd`` < 0) then output "System_RNG failed to open RNG device"
@@ -869,9 +948,14 @@ both a ``Botan::RandomNumberGenerator`` and a ``Botan::EntropySource``.
 
    **Steps:**
 
-   1. Initialize the JitterEntropy library via ``jent_entropy_init()``
+   1. Initialize the JitterEntropy library via ``jent_entropy_init_ex()``
+      with the default oversampling rate (0) and the ``JENT_FORCE_FIPS``
+      flag, which forces the [SP800-90B]_ startup and runtime health
+      tests independently of the operating system's FIPS configuration.
+      If the initialization fails, throw an ``Internal_Error`` exception.
    2. Instantiate a ``rand_data`` structure via ``jent_entropy_collector_alloc()``
-      with default flags and a default oversampling rate
+      with the same flags and oversampling rate. If the allocation fails,
+      throw an ``Internal_Error`` exception.
 
 .. admonition:: Randomize
 

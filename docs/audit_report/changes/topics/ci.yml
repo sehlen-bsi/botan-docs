@@ -1,0 +1,8 @@
+title: Continuous Integration and IDE / Editor Support
+
+description: |
+  Maintenance work on the library's continuous integration setup as well as the
+  underlying linting system and code editor support. None of these changes is
+  directly relevant to the security properties of the library.
+
+patches:

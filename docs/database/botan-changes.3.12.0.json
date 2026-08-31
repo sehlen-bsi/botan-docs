@@ -1,0 +1,1495 @@
+{
+  "meta": {
+    "botan_version": "3.12.0",
+    "botan_ref": "3.12.0",
+    "botan_base_ref": "3.11.0"
+  },
+  "changes": [
+    {
+      "title": "Fix some build issues caught by test_all_configs.py",
+      "author": "@randombit",
+      "pr": 5579,
+      "merge_commit": "13e5dbb03bb69d61d6b2f5009b58194a314966b6",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Add missing final annotations",
+      "author": "@randombit",
+      "pr": 5577,
+      "merge_commit": "1fe66cd7c9989c10fb95055fa9e21f01af0ceda2",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "chores"
+      ]
+    },
+    {
+      "title": "Bump FFI version for 3.12.0",
+      "author": "@randombit",
+      "pr": 5578,
+      "merge_commit": "1550ef152f8fde8957475708682012349b09de91",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "chores"
+      ]
+    },
+    {
+      "title": "Fix EC_Group::supports_named_group to check application registered groups",
+      "author": "@randombit",
+      "pr": 5575,
+      "merge_commit": "f5ba920bd56d425455da58d3941a96271a49d1db",
+      "classification": "info",
+      "comment": "Allow lookup of curves registered by name at run-time.",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes",
+        "test"
+      ]
+    },
+    {
+      "title": "Simplify and cleanup XMSS parameters types",
+      "author": "@randombit",
+      "pr": 5574,
+      "merge_commit": "1b346237d8ba93bf4eec1f44d3995774d8018bf8",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ],
+      "comment": "Introduce WOTS+ parameters class."
+    },
+    {
+      "title": "More ASN.1 and X.509 related bug fixes and hardening",
+      "author": "@randombit",
+      "pr": 5569,
+      "merge_commit": "5e3e3f97db6b733ea9bc700691516d908caef525",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes",
+        "pki"
+      ],
+      "comment": "Substantial PR adding more constraints on ASN.1 parsing in the context of X.509 and OCSP. See appendix for details."
+    },
+    {
+      "title": "Added ALPN support to Boost ASIO",
+      "author": "@fxdupont",
+      "pr": 5428,
+      "merge_commit": "690916ff21850bbcc1f431d1c11f24475d1a9efe",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "additions"
+      ]
+    },
+    {
+      "title": "Avoid a hidden dependency of <algorithm> in secmem.h",
+      "author": "@randombit",
+      "pr": 5572,
+      "merge_commit": "333ee1e3d413c09523ceeb95e51223bf0d2d39ff",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "chores",
+        "quality"
+      ]
+    },
+    {
+      "title": "Small RNG fixes",
+      "author": "@randombit",
+      "pr": 5570,
+      "merge_commit": "564ec01f3027f16d2be0381963ff89ef6fa96c21",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ],
+      "comment": "Move some sanity checks of RNG-ctor arguments from debug assertions to run-time errors."
+    },
+    {
+      "title": "Check for newline and null characters in HTTP inputs",
+      "author": "@randombit",
+      "pr": 5567,
+      "merge_commit": "d8188886beb8a856429afde3a9646d6c8e8450a5",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes",
+        "quality"
+      ]
+    },
+    {
+      "title": "Refactor: extract `specialize to<>` helper template",
+      "author": "@reneme",
+      "pr": 5566,
+      "merge_commit": "1a65f84e15e6adbb061832e194400aae7195d9b4",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "More minor TLS hardening/bug fixes",
+      "author": "@randombit",
+      "pr": 5568,
+      "merge_commit": "25fbec3fa89fd85f648ec65a18f33a2ad2845558",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ],
+      "comment": "Fix some security issues in TLS, for instance refuse session resumption across different virtual hosts."
+    },
+    {
+      "title": "Fixes for GCC 16",
+      "author": "@randombit",
+      "pr": 5564,
+      "merge_commit": "c3b808013146c430d175600057d4c4e6a05fa292",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ],
+      "comment": "Introduces XMSS_PublicKey_Internal"
+    },
+    {
+      "title": "Discard TLS handshake state after handshake has completed",
+      "author": "@randombit",
+      "pr": 5517,
+      "merge_commit": "424030807099e158f3da8c986e1f46719c689df4",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality",
+        "optimization"
+      ],
+      "comment": "Introduces a TLS Connection State class for TLS 1.2 and 1.3.\n"
+    },
+    {
+      "title": "Make EC_Scalar FFI serializable",
+      "author": "@arckoor",
+      "pr": 5565,
+      "merge_commit": "5897abf93ab95e3454bb2a53b55b3af12515f809",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "api"
+      ]
+    },
+    {
+      "title": "Various OCSP hardenings",
+      "author": "@randombit",
+      "pr": 5562,
+      "merge_commit": "971661b05233f8510433cff8ba9b861a4918ce53",
+      "classification": "critical",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ],
+      "comment": "Closes two security issues with OCSP responses: 1. Refusing of responses with unknown critical extensions. 2. Enforcing correct EKU for OCSP-signers.\n"
+    },
+    {
+      "title": "Add some missing calls to BER_Decoder::verify_end",
+      "author": "@randombit",
+      "pr": 5561,
+      "merge_commit": "d7cdbec4f8c1b9ada741caba9a3cc230f2e2dc1d",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes",
+        "quality"
+      ],
+      "comment": "Before this fix some DER constructs could have invalid trailing data in some constructed types that was not detected by Botan."
+    },
+    {
+      "title": "add test for point not on curve",
+      "author": "@falko-strenzke",
+      "pr": 5552,
+      "merge_commit": "f2074456d5818de6a5db4d4d9a3ed9fc8cd16e23",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test"
+      ]
+    },
+    {
+      "title": "Repin BoGo to BoringSSL main as of 2026-04-29",
+      "author": "@randombit",
+      "pr": 5556,
+      "merge_commit": "52a6e8345e29f19e6b7e1403eb2b42bc9fd16672",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test"
+      ]
+    },
+    {
+      "title": "Improve TLS::Ciphersuite::is_usable and fix autogenerated files",
+      "author": "@randombit",
+      "pr": 5551,
+      "merge_commit": "4dd1cc5eb1b88a873ccf10701b6b5c61df182a3f",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality",
+        "ci"
+      ]
+    },
+    {
+      "title": "Download sccache directly from Mozilla's release binaries on Github",
+      "author": "@randombit",
+      "pr": 5557,
+      "merge_commit": "3bdb4549cf598eb477fcd3816321212c05a39388",
+      "classification": "out of scope",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "ci"
+      ]
+    },
+    {
+      "title": "Tighten checks on DER class tags",
+      "author": "@randombit",
+      "pr": 5554,
+      "merge_commit": "5eb19dc0cfd8730f03dcf5ad13878c36eb8c2224",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ],
+      "comment": "Adds missing checks of the decoded ASN.1 tag bits against the expected type when decoding ASN.1 objects."
+    },
+    {
+      "title": "Some fixes for TLS-Anvil",
+      "author": "@randombit",
+      "pr": 5555,
+      "merge_commit": "76d84f093d9f81d68f5f3ba020c5667497768421",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Add some missing nullptr checks to ffi",
+      "author": "@randombit",
+      "pr": 5553,
+      "merge_commit": "defa401fcc99ae6a1bfcae8d10e14f4021dbc2a7",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "api",
+        "quality"
+      ]
+    },
+    {
+      "title": "TLS conformance, hardening, and performance fixes",
+      "author": "@randombit",
+      "pr": 5550,
+      "merge_commit": "9db7e5dd85078fcb5bd8a800ee56cab0ad42b190",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ],
+      "comment": "Huge PR addressing many at least robustness-related issues in TLS code. It remains unclear in how far this includes security -critical issues."
+    },
+    {
+      "title": "Feature: More configuration options for installation directory structure",
+      "author": "@reneme",
+      "pr": 5528,
+      "merge_commit": "e79f1f66b032f4d7b8da51cbc08316199163b9f2",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "build"
+      ]
+    },
+    {
+      "title": "refactor(streebog): Replace memcpy with typecast_copy",
+      "author": "@KaganCanSit",
+      "pr": 5548,
+      "merge_commit": "48d874d9fd3868a3160fc9a3c491eaba93bdb82a",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Fix some bugs relating to CRL distribution point handling",
+      "author": "@randombit",
+      "pr": 5546,
+      "merge_commit": "757a28492a9b076c684f954ca1f49028310cfc71",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ],
+      "comment": "Addresses among other things the scope of CRL via the issuing distributions points extension."
+    },
+    {
+      "title": "Fix bugs in handling of indefinite length BER data",
+      "author": "@randombit",
+      "pr": 5545,
+      "merge_commit": "44bf6e2721d21c8691714daa4c575ce5612c9d95",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Refactor and optimize Windows certificate store",
+      "author": "@randombit",
+      "pr": 5539,
+      "merge_commit": "d4191bc5ae8e8d0fc039b9d8f42420eef8f8b730",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization",
+        "quality"
+      ]
+    },
+    {
+      "title": "Add support for IPv6 name constraints",
+      "author": "@randombit",
+      "pr": 5537,
+      "merge_commit": "a9880548f7b05cf66914ef7e20eb10ebe0465312",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "additions"
+      ]
+    },
+    {
+      "title": "In timing_test shuffle the inputs before measurement",
+      "author": "@randombit",
+      "pr": 5538,
+      "merge_commit": "1c4c94543162744b3ef51e8309c47b52f9b93fef",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test"
+      ]
+    },
+    {
+      "title": "Various PKIX optimizations and bug fixes",
+      "author": "@randombit",
+      "pr": 5536,
+      "merge_commit": "dafca6824b7548a67435ca68999fb79c36bb59c1",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Add IPv6 parsing and formatting utilities",
+      "author": "@randombit",
+      "pr": 5534,
+      "merge_commit": "69e2f378fe8995ad3e4f2887eb5786bad567d329",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "additions"
+      ]
+    },
+    {
+      "title": "Optimize host_wildcard_match",
+      "author": "@randombit",
+      "pr": 5535,
+      "merge_commit": "880764db284ff66d3179fed7887ee2bf0368a0eb",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization"
+      ]
+    },
+    {
+      "title": "Add EC scalars and points to FFI",
+      "author": "@arckoor",
+      "pr": 5404,
+      "merge_commit": "e452c0b1c7b8297ac71b68b8cb5ea35ceba3cc32",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "api"
+      ]
+    },
+    {
+      "title": "Update BoGo shim, various TLS updates",
+      "author": "@randombit",
+      "pr": 5523,
+      "merge_commit": "e10ad9c01b8b64391d594d8c85e86b1eedf8c77b",
+      "classification": "critical",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes",
+        "additions",
+        "test"
+      ],
+      "comment": "Substantial changes to the TLS layer which fixes a security vulnerability in the TLS client with respect to ALPN. See appendix for an AI-generated summary."
+    },
+    {
+      "title": "Avoid buffering the entire file in memory in download_ci_dep.py",
+      "author": "@randombit",
+      "pr": 5530,
+      "merge_commit": "ea96b69d31d9420ad9761e232a07a52427722b01",
+      "classification": "out of scope",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "ci"
+      ]
+    },
+    {
+      "title": "Add script for running ACVP test vectors",
+      "author": "@randombit",
+      "pr": 5527,
+      "merge_commit": "c4e13cb91b68aef876f0fc4a9791d8c6a1965cba",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test",
+        "ci"
+      ]
+    },
+    {
+      "title": "Upgrade TLS-Anvil and add client-side testing",
+      "author": "@randombit",
+      "pr": 5503,
+      "merge_commit": "7ee5d80ce4fad66ac72f23b937bf2fe102bcd9a3",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test"
+      ]
+    },
+    {
+      "title": "Rewrite and extend the Wycheproof test script",
+      "author": "@randombit",
+      "pr": 5526,
+      "merge_commit": "7e69b76ca927d53df5ab7babde7739419db1a6cc",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test"
+      ]
+    },
+    {
+      "title": "CI hardening and config changes",
+      "author": "@randombit",
+      "pr": 5525,
+      "merge_commit": "3890e88c465aa01da2b100179b426e4d57535e74",
+      "classification": "out of scope",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "ci"
+      ]
+    },
+    {
+      "title": "Various TLS fixes",
+      "author": "@randombit",
+      "pr": 5522,
+      "merge_commit": "5183e74ba25e16736e99991a8cfca2aa3edaf141",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ],
+      "comment": "Substantial amount of fixes in the TLS layer. See appendix for details."
+    },
+    {
+      "title": "Rollup of small fixes",
+      "author": "@randombit",
+      "pr": 5521,
+      "merge_commit": "8a7f43563751b4ecdf490aa4c41879d441c18692",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ],
+      "comment": "Huge PR spanning 116 files. See appendix for details."
+    },
+    {
+      "title": "Skip consulting OCSP or CRLs on chains that we are rejecting anyway",
+      "author": "@randombit",
+      "pr": 5512,
+      "merge_commit": "417709dd7959316243c28678dceaa7b9b6e7f399",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization",
+        "quality",
+        "pki"
+      ]
+    },
+    {
+      "title": "Add a test of DFS certificate path search",
+      "author": "@randombit",
+      "pr": 5520,
+      "merge_commit": "352bda8c3eceb486747f7200ea55b11f4c8bfda6",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test",
+        "pki"
+      ]
+    },
+    {
+      "title": "Add BER_Decoder::Limits",
+      "author": "@randombit",
+      "pr": 5514,
+      "merge_commit": "143d0c257902915d69e24ada5f31f53996b4f972",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ],
+      "comment": "Quote from PR: \"Introduces configurable decoding limits for BER_Decoder and switches many ASN.1-consuming code paths to require canonical DER encodings by default.\"\n"
+    },
+    {
+      "title": "Add BigInt::signum",
+      "author": "@randombit",
+      "pr": 5519,
+      "merge_commit": "c4bf8cc35e7888a59ed6e104bbabe780862757f4",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality",
+        "api"
+      ]
+    },
+    {
+      "title": "Improve handling of X509 extensions which fail to parse",
+      "author": "@randombit",
+      "pr": 5518,
+      "merge_commit": "00c63a4d87c8fc6e5a7f86a903bec1d56f0596a1",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "pki",
+        "quality"
+      ],
+      "comment": "Refined modelling of known X.509 extensions which failed to be parsed."
+    },
+    {
+      "title": "Remove signature check for detecting self-signed vs self-issued certs",
+      "author": "@randombit",
+      "pr": 5515,
+      "merge_commit": "73b945e271934a844b01c9e9d7c4b0d67c60ed5a",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "pki",
+        "optimization"
+      ],
+      "comment": "Summary from Claude/Fable 5: For a certificate where subject DN == issuer DN but the SKID and AKID extensions are not both present, the parser previously loaded the certificate's own public key and cryptographically verified the certificate's signature with it — signature OK (or unknown algorithm) meant \"self-signed\", a failed verification meant \"self-issued but not self-signed\".  That verification was removed. Now such a certificate is unconditionally flagged as self-signed. The SKID == AKID comparison path (when both extensions are present) is unchanged.\n"
+    },
+    {
+      "title": "Add a regression test for CVE-2026-35580",
+      "author": "@randombit",
+      "pr": 5502,
+      "merge_commit": "eaf12915e3ba1246e4b4410294af293a0e548299",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test",
+        "pki"
+      ]
+    },
+    {
+      "title": "Make the X509 path building DFS incremental",
+      "author": "@randombit",
+      "pr": 5513,
+      "merge_commit": "fc221e72481fd67b0412fad782922f8fff6eaf8b",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization",
+        "pki"
+      ],
+      "comment": "Dynamic / on request generation of the next path (depth-first (DFS) search logic) makes the path validation more scalable."
+    },
+    {
+      "title": "Add an index of serial numbers to X509_CRL for fast lookups",
+      "author": "@randombit",
+      "pr": 5511,
+      "merge_commit": "021b73c3a2cb3684d0411cf18e6cce45f0f0b67f",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization",
+        "pki"
+      ]
+    },
+    {
+      "title": "Improve search and indexing in Certificate_Store implementations",
+      "author": "@randombit",
+      "pr": 5510,
+      "merge_commit": "ec092a57cb9d24093261ed4cac43c11723025b1f",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization",
+        "pki"
+      ]
+    },
+    {
+      "title": "Add X509_Certificate::Tag",
+      "author": "@randombit",
+      "pr": 5509,
+      "merge_commit": "87d9feb01c0747bd39a8d59e7516d6ed22e67175",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization",
+        "pki"
+      ],
+      "comment": "Introduce comparable and hashable only tags for X.509 certificates."
+    },
+    {
+      "title": "Use a shared_ptr pimpl for X509_Object",
+      "author": "@randombit",
+      "pr": 5504,
+      "merge_commit": "7e1cfb983a0fe13cb94d05daf52782ddea7f01bc",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Simplify BER_Decoder constructors",
+      "author": "@randombit",
+      "pr": 5507,
+      "merge_commit": "3275f63d57bae25176541c9e2b1dfbd77311c846",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Merge ocsp_types.cpp into ocsp.cpp",
+      "author": "@randombit",
+      "pr": 5508,
+      "merge_commit": "dce093f6fd58cee204e963ba6553286f1f49ef0b",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Use an iterator-style producer for X500 name comparisons",
+      "author": "@randombit",
+      "pr": 5505,
+      "merge_commit": "913b0003f72fb25d47a37ec55e937203b3be87eb",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Fix Certificate_Store::certificate_known",
+      "author": "@randombit",
+      "pr": 5500,
+      "merge_commit": "0bb8b3f407e9e5d887c84bbd9bda4b74e36d1587",
+      "classification": "critical",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes",
+        "pki"
+      ],
+      "comment": "This PR fixes the X.509 certification path validation bypass CVE-2026-34580."
+    },
+    {
+      "title": "In TLS 1.3 require that the handshake is completed prior to application data",
+      "author": "@randombit",
+      "pr": 5499,
+      "merge_commit": "d0c85903c7efdb0bdf6042008e63e3115fc34df4",
+      "classification": "critical",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ],
+      "comment": "Per AI-review, this PR closes a real vulnerability in the TLS layer. See appendix."
+    },
+    {
+      "title": "Add missing check on TLS 1.3 ClientHello legacy_version",
+      "author": "@randombit",
+      "pr": 5498,
+      "merge_commit": "8759fe96940965af7530e38ff68e64936d71759d",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Address various minor TLS 1.3 issues",
+      "author": "@randombit",
+      "pr": 5494,
+      "merge_commit": "839b455636a57e9b1df285c8a99e5610b5702e8e",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Remove SM4 iterations test",
+      "author": "@randombit",
+      "pr": 5492,
+      "merge_commit": "bbfa6f3053d75209838591bdc0d23149efd35c12",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test"
+      ]
+    },
+    {
+      "title": "Improve performance of SHA-512 AVX-512 codepath",
+      "author": "@randombit",
+      "pr": 5490,
+      "merge_commit": "507bbbfe3efa6e9beb218302a1e5fbfff6eca6b2",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization"
+      ]
+    },
+    {
+      "title": "Enable explicit_bzero, getentropy, getrandom on Hurd",
+      "author": "@pinotree",
+      "pr": 5488,
+      "merge_commit": "065f936463754b8d78e01c15c3dfe0d30adb619d",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "build"
+      ]
+    },
+    {
+      "title": "docs: update null cipher documentation in TLS::Policy [ci skip]",
+      "author": "@lars-du",
+      "pr": 5487,
+      "merge_commit": "70da5139bd26f6d96bd99a67335d658142670bef",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Interleave hw AES SM4 implementation",
+      "author": "@randombit",
+      "pr": 5485,
+      "merge_commit": "f4222026969b4c4e4544c591c40fc67622135dec",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization"
+      ]
+    },
+    {
+      "title": "Enable the macos-15-intel CI builds again",
+      "author": "@randombit",
+      "pr": 5483,
+      "merge_commit": "c96680a4f13b654f461b338dbac593f485aab6a3",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "build"
+      ]
+    },
+    {
+      "title": "Improve IDEA multiplication implementations",
+      "author": "@randombit",
+      "pr": 5484,
+      "merge_commit": "c050d37b41dd861e7916c12a9083412c0e61a769",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization"
+      ]
+    },
+    {
+      "title": "Fix: Amalgamated Windows Builds with PKCS 11",
+      "author": "@FAlbertDev",
+      "pr": 5486,
+      "merge_commit": "35787f547a25a0c4fcb7c2e7fa86a2a971fefc26",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes",
+        "build"
+      ]
+    },
+    {
+      "title": "Add Camellia implementation using hardware AES instructions",
+      "author": "@randombit",
+      "pr": 5481,
+      "merge_commit": "db4897d1b84afe2bdf06ec1e5bd8db933871f1ee",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "additions"
+      ]
+    },
+    {
+      "title": "Add SIMD_4x32 based counter increment and XOR for CTR",
+      "author": "@randombit",
+      "pr": 5480,
+      "merge_commit": "3a4ae17b0d48da54f380d47bdc33779340e6e3e7",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization"
+      ]
+    },
+    {
+      "title": "Add ARIA implementation using hardware AES instructions",
+      "author": "@randombit",
+      "pr": 5479,
+      "merge_commit": "2ddc528b11bb4e49119daca279208cac78d026bf",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "additions"
+      ]
+    },
+    {
+      "title": "Handle Not_Implemented in pwdhash tune_params test",
+      "author": "@KaganCanSit",
+      "pr": 5438,
+      "merge_commit": "4f8f699a3aa8de491089ecd0723af7663c2ef68d",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test",
+        "fixes"
+      ]
+    },
+    {
+      "title": "Add implementation of SEED using hardware AES instructions",
+      "author": "@randombit",
+      "pr": 5477,
+      "merge_commit": "e8ed80c84eb35c9da3deae4b347ec65b959cd16d",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "additions",
+        "optimization"
+      ]
+    },
+    {
+      "title": "Added utf8_to_ucs2 and utf8_to_ucs4",
+      "author": "@dmazzella",
+      "pr": 5459,
+      "merge_commit": "c868150bc35e1aa33a3e17225fe56255dfd38f4c",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "additions"
+      ]
+    },
+    {
+      "title": "Add implementation of SM4 using hardware AES instructions",
+      "author": "@randombit",
+      "pr": 5476,
+      "merge_commit": "282afd036a21393ead1e9d6aad7b63673f6d6dc5",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "additions",
+        "optimization"
+      ]
+    },
+    {
+      "title": "Fix the ML-DSA Wycheproof tests which were broken by a recent schema change",
+      "author": "@randombit",
+      "pr": 5475,
+      "merge_commit": "980f1561887854f18e947d9583fc84e00a41fbd4",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test",
+        "fixes"
+      ]
+    },
+    {
+      "title": "Add AVX2 implementation of Whirlpool compression",
+      "author": "@randombit",
+      "pr": 5473,
+      "merge_commit": "407ff8f65533aa4e07f5fa6b56e9d75fffd67c3b",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "additions",
+        "optimization"
+      ]
+    },
+    {
+      "title": "Avoid tables for GF(2^8) arithmetic in TSS",
+      "author": "@randombit",
+      "pr": 5470,
+      "merge_commit": "7258ed0280c9c774db51f6ba5f8ed7c6a4596362",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "sca"
+      ]
+    },
+    {
+      "title": "Add AVX2 codepath for CTR counter handling and XOR",
+      "author": "@randombit",
+      "pr": 5474,
+      "merge_commit": "0f222ba0fe750ef5be11ece1cce46f41642b2c7e",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization"
+      ]
+    },
+    {
+      "title": "Add AVX512+GFNI implementation of SEED",
+      "author": "@randombit",
+      "pr": 5472,
+      "merge_commit": "78cf4c1a9624de4435f14510be446c69d318f616",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization"
+      ]
+    },
+    {
+      "title": "Add AVX-512 execution of Argon2 function",
+      "author": "@randombit",
+      "pr": 5471,
+      "merge_commit": "d430f08deeca9da0cc394d98d84105c8c42abd0d",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization",
+        "additions"
+      ]
+    },
+    {
+      "title": "Remove SSE2 implementation of ZFEC encoding",
+      "author": "@randombit",
+      "pr": 5469,
+      "merge_commit": "9348bd7a29e7e9187f97c2a8c69ccbe121729401",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "chores"
+      ]
+    },
+    {
+      "title": "Refactor vperm AES to avoid global constants",
+      "author": "@randombit",
+      "pr": 5463,
+      "merge_commit": "0a06cccccae7902e07a37d930115baa501193625",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Disable the macos-15-intel CI jobs",
+      "author": "@randombit",
+      "pr": 5468,
+      "merge_commit": "acc941d5a1d4ffd29e3d81278ecf8bcb683f1ff0",
+      "classification": "out of scope",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "ci"
+      ]
+    },
+    {
+      "title": "Add Twofish AVX512+GFNI implementation",
+      "author": "@randombit",
+      "pr": 5465,
+      "merge_commit": "f33c6ad58bac9636a7cfc4cdc3b34d48de07d95e",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization",
+        "additions"
+      ]
+    },
+    {
+      "title": "Add some missing dependencies and includes",
+      "author": "@randombit",
+      "pr": 5464,
+      "merge_commit": "e4cc5ba4018b428650f7fe137a22a05569e30752",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "chores"
+      ]
+    },
+    {
+      "title": "Fix building FFI without bcrypt",
+      "author": "@randombit",
+      "pr": 5462,
+      "merge_commit": "05106c5878e9ae3862a0d63ef61359c40d1f57c3",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "chores"
+      ]
+    },
+    {
+      "title": "Fix various warnings from clang-tidy 22",
+      "author": "@randombit",
+      "pr": 5456,
+      "merge_commit": "a7cbacbd5fb755146e5ceffa9bd6684649b75ea4",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality",
+        "test"
+      ],
+      "comment": "Affects CLI tool and test suite, beyond that only one minor change in TLS."
+    },
+    {
+      "title": "When testing PK decryption, verify correct ciphertext decrypts after testing mutations",
+      "author": "@randombit",
+      "pr": 5457,
+      "merge_commit": "b542ed6768ad71962413d9f42723366d6fe98ff7",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test"
+      ]
+    },
+    {
+      "title": "Fix a bug in handling invalid DER ECDSA signatures",
+      "author": "@randombit",
+      "pr": 5455,
+      "merge_commit": "588516d8d8e6a6a0a48bbc9fdaec5086f4d90433",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "test and fix for Ed25519 good-after-bad verify problem",
+      "author": "@falko-strenzke",
+      "pr": 5454,
+      "merge_commit": "a2d9ecf60bf9a07250025ed7c90c46eae6829634",
+      "classification": "critical",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ],
+      "comment": "Fixes the \"good-after-bad signature verification\" issue for Ed25519: after an attempt to verify an invalid signature with a specific format, the verifier object remained in a state with a pending message in its internal hasher, thus enabling effectively signature forgeries in this state: the received message would be different from the verified message in this case.\n"
+    },
+    {
+      "title": "Add Whirlpool implementation using AVX-512",
+      "author": "@randombit",
+      "pr": 5453,
+      "merge_commit": "66b006cf991c4849393109324a1ab9ff8e3c9ad8",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "optimization"
+      ]
+    },
+    {
+      "title": "Update for 3.12.0 release",
+      "author": "Jack Lloyd",
+      "commit": "45d6f286c320b2f2efd5373d195ec88c367e3071",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Fix another formatting issue [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "0f9e5326ad584cf14ec0f62225abefecc59fe436",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "chores"
+      ]
+    },
+    {
+      "title": "Correct formatting in previous commit [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "3b29e816016d5b573fc2715aae6c30ac04e84c9b",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "chores"
+      ]
+    },
+    {
+      "title": "In TLS 1.3 verification of client certs, check the correct extension for OCSP",
+      "author": "Jack Lloyd",
+      "commit": "b5f41e29a30bce6a0f630dc02d2c793f97b8e29a",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ],
+      "comment": "Extended commit message is: This was checking if the client asked us (the server) for OCSP, instead of checking if we asked the client for OCSP when we sent the CertificateRequest.\n"
+    },
+    {
+      "title": "Avoid potential null deref in Truncated_Hash constructor",
+      "author": "Jack Lloyd",
+      "commit": "cd3c00cb542fb6a25bd99e9f9bdb790c3557418e",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Fix certificate verification test to not use local clock",
+      "author": "Jack Lloyd",
+      "commit": "3a181697cd4fe9b4b544ff0b8c23da6ed169c53a",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "test"
+      ]
+    },
+    {
+      "title": "Update release notes [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "916f9b582d1bdc5a77183faeb899e2e8dcfc914a",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Correct TLS::Record_Size_Limit to not use BOTAN_ASSERT for input validation",
+      "author": "Jack Lloyd",
+      "commit": "4f8daeb95d85228a0e0cda21f657325e56cfb0b9",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Avoid using BOTAN_ASSERT for input validation",
+      "author": "Jack Lloyd",
+      "commit": "40b24c3313358b5ec4e6ac0f4f2e865a7f46924b",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Update path for SDE [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "3ef943741342321a17827aca82fe72a16f021741",
+      "classification": "out of scope",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "ci"
+      ]
+    },
+    {
+      "title": "Update SDE download URL and hash to latest version",
+      "author": "Jack Lloyd",
+      "commit": "69b11ce066ec04ad540b7e6c645a87dc6b3341d8",
+      "classification": "out of scope",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "ci"
+      ]
+    },
+    {
+      "title": "Update release notes [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "e33e282671f84e55904ada1e0d4fedf4db689add",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Fix a warning when building for Emscripten",
+      "author": "Jack Lloyd",
+      "commit": "570b415e21d9874f13b0c753fa267f163748e23e",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "chores"
+      ]
+    },
+    {
+      "title": "Correct both CVE numbers from 3.11.1",
+      "author": "Jack Lloyd",
+      "commit": "cdc53c1ee381e6cf62ecc5973c8e49c10abb5e51",
+      "classification": "critical",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Update release notes, bump version 3.12.0",
+      "author": "Jack Lloyd",
+      "commit": "0fd0090521ad987c8b022d6b3ce7497d149a7076",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Add a RFC 5280 reference comment in GeneralSubtree::decode_from",
+      "author": "Jack Lloyd",
+      "commit": "042e5bd9885877408dfd43f00ff1b8d285ba6540",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Avoid a timing channel during SM2 decryption",
+      "author": "Jack Lloyd",
+      "commit": "f97a85b9b966e6565ebfab806a07165f320227cb",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "sca"
+      ],
+      "comment": "Not a real SCA vulnerability what is addressed here."
+    },
+    {
+      "title": "Remove unused member of Sphincs_Hash_Functions_Shake",
+      "author": "Jack Lloyd",
+      "commit": "dcbac288db4abd366dea21adf93230c68c0f9d5b",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Simplify the ICV check during unwrap of NIST keywrap with padding",
+      "author": "Jack Lloyd",
+      "commit": "6bc6c5fdea1e87d4d32e4242497cd675b1317dd8",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Simplify and clean up the SP800-56C One Step KDF implementation",
+      "author": "Jack Lloyd",
+      "commit": "9a78305aa05a72436ebf5b0e99c618375ec4c44e",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Return early if scrypt is invoked asking for 0 bytes of output",
+      "author": "Jack Lloyd",
+      "commit": "e3d827991498eab5e28694971c514249e365104c",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Check maximum output length for PBKDF2",
+      "author": "Jack Lloyd",
+      "commit": "3c8422fe1d23620c6c56227295b2440547205598",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Check maximum output length for X9.42 PRF",
+      "author": "Jack Lloyd",
+      "commit": "487731b10a6745a68db1612a3fc5b2318824245b",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "In pcurves check that the result in mul_x_only is not the identity",
+      "author": "Jack Lloyd",
+      "commit": "993d01b0cfad803182d5ba8d711fc103c8320bf8",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "quality"
+      ]
+    },
+    {
+      "title": "Use secure_vector for FrodoKEM's k_bar",
+      "author": "Jack Lloyd",
+      "commit": "fc7727a646d1efb482b69a2009bd239be0bccacd",
+      "classification": "relevant",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Update for 3.11.1",
+      "author": "Jack Lloyd",
+      "commit": "86d105523def181ae833e3aaaf773b1b0c20dda4",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Update release notes [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "11aa82ad14f902cea8a1249f54257f4a963113a1",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Update release notes [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "547c5d7d599ac79da8fea98adc7bf0b337b0d25f",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Update release notes [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "b79dd0e1761164ebec58861cfb4639e123448e43",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation",
+        "build"
+      ]
+    },
+    {
+      "title": "Properly use double backticks in the hardware accel doc [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "2b48f42a7334589106e0e11eeb0804333946b03a",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Update hardware support doc [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "75ed466c36ac80aa349d261d4c361d14eac162ee",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Fix os_utils.cpp compilation when PROT_MAX is supported",
+      "author": "Jack Lloyd",
+      "commit": "60de912fbb5f24bfdd4ddb1fa45ff137d81187df",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "fixes"
+      ]
+    },
+    {
+      "title": "Update release notes [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "ca567507d995c2f8eaebeae2bbcaf66c01d79b06",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Check off a few todo items [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "bbca7965e0b85ccabc5a8cec9392018906269a62",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Update release notes [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "8b66858c02f67e0f572f0a37a578059224658d74",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Update hardware acceleration doc [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "f93749a2093c674d35af7c62d315695768d0100d",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Note CBC's inability to process blocks in parallel when encrypting [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "4a3cb8cacf9fe7d1a7d2d7db17681e9f4c74db1d",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ]
+    },
+    {
+      "title": "Add the CVE IDs assigned to the issues fixed in 3.11.0 [ci skip]",
+      "author": "Jack Lloyd",
+      "commit": "4a421b525a46ccdc165a9646a46ed0fe7d651364",
+      "classification": "info",
+      "auditer": "falko-strenzke",
+      "categories": [
+        "documentation"
+      ],
+      "comment": "Adding 3 CVEs to release notes that have been fixed in 3.11 ."
+    }
+  ]
+}

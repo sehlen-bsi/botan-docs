@@ -29,10 +29,11 @@ The key generation process works as follows:
 
    **Steps:**
 
-   1. The algorithm initially checks if the passed key length is at least
-      1024. If this is not the case, the function terminates with an error
-      message. Thus, only keys with a desired length of at least 1024 bits
-      can be generated.
+   1. The algorithm initially checks the passed key length: it must be
+      at least 1024 bits, at most 16384 bits and a multiple of 8 bits
+      (the upper bound and the multiple-of-8 requirement were added in
+      Botan 3.12.0). If this is not the case, the function terminates
+      with an error message.
    2. Subsequently the passed exponent is validated, as it must be odd and
       larger than 2.
    3. If this step is reached the 10th time the generation fails.
@@ -66,6 +67,7 @@ The key generation process works as follows:
       -  :math:`d < 2`
       -  :math:`p < 3`
       -  :math:`q < 3`
+      -  :math:`p = q`
       -  :math:`{p \ast q} \neq N`
       -  :math:`{d_{1} \neq d}\bmod {({p - 1})}`
       -  :math:`{d_{2} \neq d}\bmod {({q - 1})}`
@@ -79,6 +81,16 @@ The key generation process works as follows:
          -  :math:`{e \ast d}\bmod \mathit{lcm}{{({{p - 1},{q - 1}})} \neq 1}`
          -  The creation and verification of a test signature fails
             (``signature_consistency_check()``)
+
+      Note that since Botan 3.12.0 a subset of these conditions is
+      already enforced whenever an RSA key is constructed or decoded: a
+      public key is rejected with a ``Decoding_Error`` unless ``N`` is
+      positive and odd with :math:`384 \leq len(N) \leq 16384` bits and
+      ``e`` is odd with :math:`1 < e < N` and :math:`len(e) \leq 256`
+      bits. A private key is additionally rejected unless
+      :math:`d \geq 2`, :math:`p \geq 3`, :math:`q \geq 3`,
+      :math:`p \neq q` and :math:`p \ast q = N`. In particular, RSA
+      public keys shorter than 384 bits can no longer be loaded at all.
 
 **Remark:**
 The algorithm slightly deviates from the method outlined in [TR-02102-1]_
@@ -141,8 +153,11 @@ The RSA decryption operation is implemented as follows:
    0. Before the first decryption: The random number generator ``rng`` is
       used to initialize the blinding values :math:`m_e` and its inverse :math:`m_d`. Their length
       is set to ``(m_modulus_bits - 1)``.
-   1. Blind ciphertext: :math:`ct' = ct*{m_e}^e \bmod N`
-   2. Use Chinese Remainder Theorem (CRT) to decrypt ``ct'`` and retrieve ``m'``
+   1. Verify that :math:`0 < ct < N`; otherwise the operation is
+      rejected with a ``Decoding_Error`` ("RSA input is not in the valid
+      range", added in Botan 3.12.0). 
+   2. Blind ciphertext: :math:`ct' = ct*{m_e}^e \bmod N`
+   3. Use Chinese Remainder Theorem (CRT) to decrypt ``ct'`` and retrieve ``m'``
 
       1. | Calculate :math:`S_p` and :math:`S_q` using constant-time Montgomery
            exponentiation and masking for :math:`d_1` and :math:`d_2` as:
@@ -157,7 +172,7 @@ The RSA decryption operation is implemented as follows:
            :math:`S_p - S_q` *that would otherwise have required handling with
            a leaking branch.*
 
-   3. Unblind message ::math:`m = m' * m_d \bmod N`
+   4. Unblind message ::math:`m = m' * m_d \bmod N`
 
 **Remarks:**
  - After each blinding step, the blinding values change:
@@ -193,7 +208,7 @@ The PKCS#1 v1.5 padding has the form:
                    (must be at least 8 bytes)
 
 The RSA-PKCS#1 v1.5 padding functionality is implemented in
-:srcref:`src/lib/pk_pad/eme_pkcs1/eme_pkcs.cpp`, in the methods ``pad`` and
+:srcref:`src/lib/pk_pad/enc_padding/eme_pkcs1/eme_pkcs.cpp`, in the methods ``pad`` and
 ``unpad``.
 
 Padding a message ``k`` for a maximum input length ``l`` works as follows:
@@ -215,7 +230,7 @@ Padding a message ``k`` for a maximum input length ``l`` works as follows:
    1. Check that :math:`len(k) <= l - 10`
    2. Create an output buffer matching the maximum raw input length: :math:`l`
    3. Set the first byte to ``0x02`` [#rsa_pkcs1_leading_zero]_
-   4. Fill the buffer with random non-zero values up to :math:`len(k) - 2`
+   4. Fill the buffer with :math:`l - len(k) - 2` random non-zero bytes
    5. Insert a ``0x00`` to separate padding and message bytes
    6. Append the message bytes in ``k`` -- fully filling up the buffer
 
@@ -252,13 +267,13 @@ timing constant validation. This method is implemented as follows:
    2. ``seen_zero_m = 0``
    3. ``delim_idx = 2``
    4. ``bad_input_m |= (m[0] != 0x00)``
-   5. ``bad_input_m |= (m[0] != 0x02)``
+   5. ``bad_input_m |= (m[1] != 0x02)``
    6. ``for (i = 2; i < |m|; i++)``
 
       -  ``delim_idx += (seen_zero_m == 0) & 1``
       -  ``seen_zero_m |= (m[i] == 0x00)``
 
-   7. ``bad_input_m |= ~seen_zero``
+   7. ``bad_input_m |= ~seen_zero_m``
    8. ``bad_input_m |= (delim_idx < 11)``
    9. ``valid_mask = ~bad_input_m;``
    10. Set ``k`` to the byte array behind the first ``0x00``
@@ -271,7 +286,7 @@ RSA-OAEP
 ^^^^^^^^
 
 The RSA-OAEP functionality is implemented in
-:srcref:`src/lib/pk_pad/eme_oaep/oaep.cpp`, in the functions ``pad()`` and
+:srcref:`src/lib/pk_pad/enc_padding/eme_oaep/oaep.cpp`, in the functions ``pad()`` and
 ``unpad()``.
 
 Padding a message ``k`` for a key length ``l`` works as follows:
@@ -372,10 +387,10 @@ Before a message can be signed it must be processed to achieve the bit
 length of the RSA modulus ``N``. Therefore, a padding scheme is applied to
 the message ``m``. Botan implements multiple padding schemes. For RSA
 signatures the probabilistic RSA-PSS scheme (EMSA4) implemented in
-:srcref:`src/lib/pk_pad/emsa_pssr/pssr.cpp` is recommended [TR-02102-1]_. The
+:srcref:`src/lib/pk_pad/sig_padding/emsa_pssr/pssr.cpp` is recommended [TR-02102-1]_. The
 RSA-PSS implementation follows the definition in [RFC3447]_. The ISO
 9796-2 DS2 and ISO 9796-2 DS3 padding schemes are implemented in
-:srcref:`src/lib/pk_pad/iso9796/iso9796.cpp`
+:srcref:`src/lib/pk_pad/sig_padding/iso9796/iso9796.cpp`
 Both implementations follow the specification [ISO-9796-2]_.
 Alternatively, Botan provides the deterministic PKCS#1 v1.5 RSA
 signature scheme (EMSA3), which is obsolete and thus not recommended [#sig_emsa3_disclaimer]_.
@@ -410,9 +425,10 @@ algorithm operates as follows:
 
    **Steps:**
 
-   1. Verify that :math:`m < N`.
-      If the message to sign exceeds the modulus of the RSA private key,
-      the algorithm terminates with error.
+   1. Verify that :math:`0 < m < N`.
+      If the message to sign is zero or exceeds the modulus of the RSA
+      private key, the algorithm terminates with a ``Decoding_Error``
+      (the rejection of zero input was added in Botan 3.12.0).
    2. Blind message m with random blinding nonce ``k``.
    3. Compute
       :math:`{x_{1} = m^{d_{1}}}\bmod p`

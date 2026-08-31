@@ -1,0 +1,11 @@
+title: Code Chores and Cleanups
+
+description: |
+  Generic maintenance of the library without changing its features or security
+  properties significantly. This includes removal of outdated code ensures
+  future-proofness or facilitates future extensions or adaptations of the API.
+  It further includes fixes of the code for specific tool chains or
+  architectures as well as other minor additions without a significant expected
+  effect on program execution.
+
+patches:

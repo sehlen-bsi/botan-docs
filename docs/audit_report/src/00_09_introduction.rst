@@ -5,7 +5,6 @@ This audit report summarizes the review results of changes to the Botan library 
 base between the tagged releases |botan_git_base_ref| and |botan_version|.
 They were examined by considering the BSI technical guidelines' recommendations.
 In the meantime, the development of Botan continues, e.g., new algorithms are added, or bugs are fixed.
-Rohde & Schwarz Cybersecurity is part of this maintenance process as a contractor for this project.
 
 Before switching to a new Botan version as part of the maintenance, all official and possibly hidden
 changes to the code must be thoroughly checked. For this purpose, each reviewed version comes with an
@@ -27,13 +26,16 @@ our review on the Git history between those revisions.
 
 Botan is developed publicly on GitHub; hence, we take all individual pull
 requests in the code base between the two revisions as the changeset
-granularity. Additionally, all commits added by the maintainer straight to the
+granularity. Additionally, all commits added to the
 *master* branch are considered changesets to be reviewed. We refer to these
 "atomic changesets" as *patches* in the remainder of this document.
 
 For each patch, the influence on the library's security guarantees is determined
-first. An in-depth review of the patch followed if the patch is considered
-relevant and touches parts of the code base that are in scope for this review.
+first. An thorough review of the patch was conducted if the patch touches parts
+of the code base that are in scope for this review, and is considered to be
+prone to affect security critical aspects of the code that are not assumed to be
+covered by the test suite. The audit method is further described in :ref:`sec-trace-changes`.
+
 This document lists *all* patches along with links to their representation on
 GitHub, our classification, and optionally noteworthy remarks from the
 in-depth review.
@@ -54,8 +56,8 @@ components. For the library implementation itself (``src/lib``), all modules
 that are *required* or *available* in the BSI build policy and their
 dependencies are in the scope of this document. Additionally, we review the
 following modules and its dependencies: ``certstor_flatfile``,
-``certstor_system``, ``classic_mceliece``, ``ml_dsa``, ``ffi``, ``frodokem``,
-``frodokem_aes``, ``hss_lms``, ``jitter_rng``, ``kmac``, ``ml_kem``,
+``certstor_system``, ``classic_mceliece``, ``ffi``, ``frodokem``,
+``frodokem_aes``, ``hss_lms``, ``jitter_rng``, ``kmac``,
 ``pcurves_brainpool256r1``, ``pcurves_brainpool384r1``,
 ``pcurves_brainpool512r1``, ``pcurves_secp256r1``, ``pcurves_secp256k1``,
 ``pcurves_secp384r1``, ``pcurves_secp521r1``, ``pkcs11``, ``shake``,
@@ -66,8 +68,6 @@ relevant modules are considered out-of-scope.
 
 Below is the full list of modules (from ``src/lib``) whose changes were
 reviewed:
-
-.. todo:: Update the module list below for the upcoming release
 
 .. For each new document version, the list below should be sanity checked
    and potentially adapted using the script in scripts/audited_modules_list.py
@@ -84,7 +84,9 @@ reviewed:
      7. Adapt the paragraph under the enumeration of audited modules
         to reflect notable changes.
 
+
 .. list-table::
+
 
    * - aead
      - aes
@@ -95,7 +97,7 @@ reviewed:
      - aes_vperm
      - argon2
    * - argon2_avx2
-     - argon2_ssse3
+     - argon2_simd64
      - argon2fmt
      - asn1
    * - auto_rng
@@ -117,135 +119,165 @@ reviewed:
    * - classic_mceliece
      - cmac
      - cpuid
-     - cshake_xof
-   * - ctr
+     - cpuid_x86
+   * - cshake_xof
+     - ctr
      - dh
      - dilithium_common
-     - dilithium_shake
-   * - dl_algo
+   * - dilithium_shake
+     - dl_algo
      - dl_group
      - dsa
-     - dyn_load
-   * - ec_group
+   * - dyn_load
+     - ec_group
      - ecc_key
      - ecdh
-     - ecdsa
-   * - ecgdsa
+   * - ecdsa
+     - ecgdsa
      - ecies
      - eckcdsa
-     - eme_oaep
-   * - eme_pkcs1
+   * - eme_oaep
+     - eme_pkcs1
      - eme_raw
      - emsa_pkcs1
-     - emsa_pssr
-   * - entropy
+   * - emsa_pssr
+     - enc_padding
+     - entropy
      - ffi
-     - frodokem
+   * - frodokem
      - frodokem_aes
-   * - frodokem_common
+     - frodokem_common
      - gcm
-     - getentropy
+   * - getentropy
      - ghash
-   * - ghash_cpu
+     - ghash_cpu
      - ghash_vperm
-     - gmac
+   * - gmac
      - hash
-   * - hash_id
+     - hash_id
      - hex
-     - hkdf
+   * - hkdf
      - hmac
-   * - hmac_drbg
+     - hmac_drbg
      - hss_lms
-     - http_util
+   * - http_util
+     - hybrid_kem
+     - ip_address
      - iso9796
    * - jitter_rng
      - kdf
      - kdf1_iso18033
      - keccak_perm
    * - keccak_perm_bmi2
+     - kex_to_kem_adapter
      - keypair
      - kmac
-     - kyber_common
-   * - locking_allocator
+   * - kyber_common
+     - locking_allocator
      - mac
      - mdx_hash
-     - mem_pool
-   * - mgf1
+   * - mem_pool
+     - mgf1
      - ml_dsa
      - ml_kem
-     - mode_pad
-   * - modes
+   * - mode_pad
+     - modes
      - mp
-     - numbertheory
+     - nist_keywrap
+   * - numbertheory
      - os_utils
-   * - pbkdf
+     - pbkdf
      - pcurves
-     - pcurves_brainpool256r1
+   * - pcurves_brainpool256r1
      - pcurves_brainpool384r1
-   * - pcurves_brainpool512r1
+     - pcurves_brainpool512r1
+     - pcurves_frp256v1
+   * - pcurves_generic
      - pcurves_impl
+     - pcurves_numsp512d1
      - pcurves_secp192r1
-     - pcurves_secp224r1
-   * - pcurves_secp256r1
+   * - pcurves_secp224r1
+     - pcurves_secp256k1
+     - pcurves_secp256r1
      - pcurves_secp384r1
-     - pcurves_secp521r1
+   * - pcurves_secp521r1
+     - pcurves_sm2p256v1
      - pem
-   * - pk_pad
      - pkcs11
-     - poly_dbl
+   * - poly_dbl
      - pqcrystals
-   * - prf_tls
+     - prf_tls
      - processor_rng
-     - pubkey
+   * - pubkey
      - rdseed
-   * - rng
+     - rng
      - rsa
-     - sha1
+   * - sha1
      - sha1_armv8
-   * - sha1_sse2
      - sha1_x86
      - sha2_32
-     - sha2_32_armv8
-   * - sha2_32_bmi2
+   * - sha2_32_armv8
+     - sha2_32_avx2
+     - sha2_32_simd
      - sha2_32_x86
-     - sha2_64
+   * - sha2_64
      - sha2_64_armv8
-   * - sha2_64_bmi2
+     - sha2_64_avx2
+     - sha2_64_avx512
+   * - sha2_64_x86
      - sha3
      - shake
      - shake_xof
-   * - simd
+   * - sig_padding
+     - simd_2x64
+     - simd_4x32
+     - simd_4x64
+   * - simd_8x64
+     - simd_avx2
      - slh_dsa_sha2
      - slh_dsa_shake
-     - socket
-   * - sp800_108
+   * - socket
+     - sp800_108
      - sp800_56c
      - sphincsplus_common
-     - sphincsplus_sha2_base
-   * - sphincsplus_shake_base
-     - stateful_rng
+   * - sphincsplus_sha2_base
+     - sphincsplus_shake_base
+     - sponge
+     - stateful_key_index
+   * - stateful_rng
      - stream
      - system_rng
-   * - tls
-     - tls12
+     - tls
+   * - tls12
      - tls13
      - tls13_pqc
-   * - tls_cbc
-     - tpm2
+     - tls_cbc
+   * - tpm2
      - tpm2_crypto_backend
      - tpm2_ecc
-   * - tpm2_rsa
-     - tree_hash
+     - tpm2_rsa
+   * - tree_hash
      - trunc_hash
      - utils
-   * - x509
-     - xmss
+     - x509
+   * - xmss
      - xof
      - xts
+     -
 
 Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
 
-.. todo:: Update this section for each new version of the document.
+.. When regenerating the module list above for the new audited version, list
+   the modules that were removed and added compared to |botan_git_base_ref|
+   here (see the instructions in the comment above the table).
+
+* The following modules were removed in Botan |botan_version|: None
+
+   
+
+* The following modules were added in Botan |botan_version|:
+
+  - ip_address
 
 Patch Description Content
 -------------------------
@@ -259,19 +291,19 @@ The table contains the pull request IDs on GitHub or individual commit hashes of
 For reference, a brief description or title of the patch is provided. Note that
 this description is usually just a summary and might not cover all patch changes in detail. Most
 pull requests and commits feature a sufficient description on GitHub that is not repeated in this document.
-Also, each patch within the table is assigned a security category, and information about the approvers
+Also, each patch within the table is assigned a security classification, and information about the approvers
 and auditors is given.
 
 
-Security Categories
-~~~~~~~~~~~~~~~~~~~
+Security Classification
+~~~~~~~~~~~~~~~~~~~~~~~
 
-For this audit, four security categories are distinguished. The category *critical* labels patches
+For this audit, four security classifications are distinguished. The classification *critical* labels patches
 that apply substantial changes to cryptographic functionality, e.g., implementing a new algorithm
 or updating an old one to a new standard. Patches labeled as *relevant* are changes to cryptographic
-algorithms without altering the algorithm's observable behavior. Mostly, this category contains
+algorithms without altering the algorithm's observable behavior. Mostly, this class contains
 optimizations or refactoring of cryptographic modules. All changes with no direct effect on
-cryptographic operations are categorized as *info*. The *out of scope* category identifies patches
+cryptographic operations are classified as *info*. The *out of scope* class identifies patches
 that only affect modules not in this review's scope. Patches of the last type are not reviewed
 in detail.
 
@@ -281,15 +313,18 @@ Approvals and Auditors
 
 The audit process is based on two requirements:
 
-* **The four-eye principle:** At least two individuals must inspect each patch
-* **Audit quality:** At least one of the inspectors must be involved in this audit process.
+* **The four-eye principle:** At least two individuals are involved in the
+  review in the following manner. The primary auditor, whose GitHub name is
+  listed in the report, reviewed the corresponding patch and decided the
+  appropriate degree of inspection.  The second auditor reviewed the list of the
+  changes of the primary auditor and decided which ones to inspect again and in
+  which detail. The name of the second auditor is not explicitly listed, but can
+  be uniquely inferred to be the one of the two auditors listed below who is not
+  given as the primary auditor.
 
-Therefore, pull requests that were either authored or reviewed on GitHub by one
-of the members of this audit project do not require an additional in-depth
-review for this particular audit process. Other patches are evaluated and
-reviewed by an auditor retrospectively, with the results stated
-in this document. The distinction between "approvers" (of pull requests on
+The distinction between "approvers" (of pull requests on
 GitHub) and "auditors" (in retrospect, explicitly for this project) is visualized
 by setting the latter into parenthesis in the patch tables below.
 
 Auditing members of this project and their GitHub handles are: |auditors_list|
+

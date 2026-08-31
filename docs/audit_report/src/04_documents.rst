@@ -14,7 +14,7 @@ Botan Reference Guide
 The reference guide [REFG]_ is a documentation manual for Botan users. Among other things, it describes the configuration of the library,
 its interfaces, and its functions. If changes have been made to parts of the library that are documented in the handbook,
 the documentation must be adapted accordingly. With this report,
-an up-to-date manual is provided.
+an up-to-date version of [REFG]_ is provided.
 
 
 Library Architecture Overview

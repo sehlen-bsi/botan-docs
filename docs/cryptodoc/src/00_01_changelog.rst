@@ -16,7 +16,7 @@ Changelog
    |         |          | | Replace top level chapter                 |            |
    |         |          |   "Certificates" by "X.509 Path             |            |
    |         |          |   Validation"                               |            |
-   |         |          | | Add introductary text and                 |            |
+   |         |          | | Add introductionary text and              |            |
    |         |          |   subsections to RNG chapter                |            |
    |         |          | | Fix wrong and add missing                 |            |
    |         |          |   paths to source files in RNG              |            |
@@ -129,7 +129,7 @@ Changelog
    |         |          | - Asymmetric algorithm chapters are now     |            |
    |         |          |   structured by algorithm not by operation  |            |
    |         |          | - XMSS with NIST's keygen and parameters    |            |
-   |         |          | - Hash trunction in ECKCDSA                 |            |
+   |         |          | - Hash truncation in ECKCDSA                |            |
    |         |          | - Implementation updates in the RNG and     |            |
    |         |          |   random generation of big integers         |            |
    |         |          | - New PQC algorithms                        |            |
@@ -157,7 +157,7 @@ Changelog
    +---------+----------+---------------------------------------------+------------+
    | 3.4.0   | FA, RM   | Update to 3.4.0:                            | 2024-04-08 |
    |         |          |                                             |            |
-   |         |          | - Detailed explaination of counter-measures |            |
+   |         |          | - Detailed explanation of counter-measures  |            |
    |         |          |   against KyberSlash side-channel attack    |            |
    |         |          | - X.509 path validation may optionally      |            |
    |         |          |   ignore the validity interval of a trusted |            |
@@ -192,4 +192,49 @@ Changelog
    |         |          | - Update blinding mechanism of RSA decrypt  |            |
    |         |          | - DSA signing now uses additional blinding  |            |
    |         |          | - Update NIST SP.800-108 KDF description    |            |
+   +---------+----------+---------------------------------------------+------------+
+   | 3.11.0  | JR, FS   | Update to 3.11.0:                           | 2026-05-28 |
+   |         |          |                                             |            |
+   |         |          | - Support ML-KEM expanded key format.       |            |
+   |         |          | - Update description of ECDSA side-         |            |
+   |         |          |   channel countermeasures.                  |            |
+   |         |          | - Update blinding size in                   |            |
+   |         |          |   "Multiplication of Scalar k and Point P". |            |
+   |         |          | - Transition to                             |            |
+   |         |          | - `Stateful_Key_Index_Registry`.            |            |
+   |         |          | - Annotate references to FIPS-186 due to    |            |
+   |         |          |   transition to FIPS-186-5. This outdates   |            |
+   |         |          |   the references to the paragraph A.1.1.2   |            |
+   |         |          |   in [FIPS-186-4] about prime generation    |            |
+   |         |          |   and the Lucas primality test as           |            |
+   |         |          |   implemented in Botan.                     |            |
+   |         |          |                                             |            |
+   |         |          |                                             |            |
+   +---------+----------+---------------------------------------------+------------+
+   | 3.12.0  | FS       | Update to 3.12.0:                           | 2026-08-26 |
+   |         |          |                                             |            |
+   |         |          | - X.509: strict DER decoding of PKIX        |            |
+   |         |          |   structures                                |            |
+   |         |          | - X.509: reworked path building with        |            |
+   |         |          |   bounded search (new status code           |            |
+   |         |          |   EXCEEDED_SEARCH_LIMITS)                   |            |
+   |         |          | - X.509: optional non-self-signed           |            |
+   |         |          |   trust anchors and trusted OCSP            |            |
+   |         |          |   responder certificates                    |            |
+   |         |          | - X.509: OCSP hardening, structural         |            |
+   |         |          |   CRLDP matching, IPv6 name                 |            |
+   |         |          |   constraints and SAN matching              |            |
+   |         |          | - Stricter public key checks at             |            |
+   |         |          |   construction/decoding and extended        |            |
+   |         |          |   ``check_key()`` descriptions              |            |
+   |         |          | - AEAD modes zeroize output on              |            |
+   |         |          |   authentication failure; GCM/CCM           |            |
+   |         |          |   message length limits enforced            |            |
+   |         |          | - HMAC_DRBG requires at least 160 bit       |            |
+   |         |          |   MAC output                                |            |
+   |         |          | - Entropy source platform defaults          |            |
+   |         |          |   updated; Jitter RNG available as an       |            |
+   |         |          |   entropy source                            |            |
+   |         |          | - New figure on the HMAC_DRBG reseed        |            |
+   |         |          |   mechanism                                 |            |
    +---------+----------+---------------------------------------------+------------+

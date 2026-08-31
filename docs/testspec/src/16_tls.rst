@@ -8,28 +8,30 @@ TLS client and server are tested with positive tests by performing TLS
 handshakes. In these tests basic credentials with TLS certificates and
 TLS policy are first created. Afterwards, the client and the server
 attempt to execute a TLS handshake with a specific TLS/DTLS protocol
-version, key exchange method, and cipher algorithm.
+version, key exchange method, and cipher algorithm. Each test explicitly
+asserts that both client and server have completed the handshake, so that
+a handshake aborting via an exception cannot be reported as a success;
+tests that intentionally drive a handshake abort suppress this assertion.
 
-The tests are implemented in :srcref:`src/tests/unit_tls.cpp`.
+The tests are implemented in :srcref:`src/tests/unit_tls.cpp`. Building
+the tests requires RSA support in the build configuration.
 
 The following TLS handshake tests are executed:
 
 -  TLS handshake with the following cipher suites, each once with and
-   once without Encrypt-then-MAC (for TLS 1.0, TLS 1.1, TLS 1.2, DTLS
-   1.0, DTLS 1.2):
+   once without Encrypt-then-MAC (for TLS 1.2, DTLS 1.2):
 
    -  RSA_WITH_AES_128_CBC_SHA
    -  RSA_WITH_AES_128_CBC_SHA256
    -  ECDHE_ECDSA_WITH_AES_128_CBC_SHA
    -  ECDHE_ECDSA_WITH_AES_128_CBC_SHA256
-   -  RSA_WITH_AES_256_CBC_SHA
-   -  ECDHE_ECDSA_WITH_AES_256_CBC_SHA
+   -  RSA_WITH_3DES_EDE_CBC_SHA
+   -  ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA
 
 -  TLS handshake with the following cipher suites (for TLS 1.2, DTLS
    1.2):
 
    -  DHE_RSA_WITH_AES_128_CBC_SHA256
-   -  DHE_DSS_WITH_AES_128_CBC_SHA256
 
 -  TLS handshake with the *Strict_Policy*
 
@@ -38,11 +40,10 @@ The following TLS handshake tests are executed:
 -  TLS handshake with the following GCM cipher suites (for TLS 1.2, DTLS
    1.2):
 
-   -  ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+   -  RSA_WITH_AES_128_GCM_SHA256
    -  ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
    -  ECDHE_RSA_WITH_AES_128_GCM_SHA256
-   -  DHE_DSS_WITH_AES_128_GCM_SHA256
-   -  DHE_DSS_WITH_AES_256_GCM_SHA384
+   -  DHE_RSA_WITH_AES_128_GCM_SHA256 (using the FFDHE-2048 group)
 
 -  TLS handshake using ECC point compression with the following cipher
    suites (for TLS 1.2, DTLS 1.2)
@@ -54,7 +55,8 @@ The following TLS handshake tests are executed:
 
    -  ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
 
--  TLS handshake using the specific curve brainpool256r1 with the
+-  TLS handshake using the specific curve brainpool256r1, executed only
+   if the curve is available in the build configuration, with the
    following cipher suites (for TLS 1.2, DTLS 1.2)
 
    -  ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
@@ -68,14 +70,19 @@ The following TLS handshake tests are executed:
    (for TLS 1.2 and DTLS 1.2):
 
    -  PSK_WITH_AES_128_GCM_SHA256
-   -  ECDHE_PSK_WITH_AES_128_CBC_SHA256
-   -  DHE_PSK_WITH_AES_128_CBC_SHA
+   -  PSK_WITH_AES_128_CCM
+   -  PSK_WITH_AES_128_CCM_8
+   -  ECDHE_PSK_WITH_AES_128_GCM_SHA256
 
--  If a house curve is defined: TLS handshake using a custom curve (in
-   this case, secp112r1) with the following cipher suites (for TLS 1.2,
+-  TLS handshake using an application-specific custom curve (in this
+   case, numsp256d1) with the following cipher suites (for TLS 1.2,
    DTLS 1.2):
 
    -  ECDHE_ECDSA_WITH_AES_256_GCM_SHA256
+
+   This test is disabled in Botan 3.12.0, since the TLS 1.2 server
+   implementation currently cannot negotiate application-specific group
+   codes (GH #5550).
 
 TLS Policy Verification
 -----------------------
@@ -84,20 +91,29 @@ TLS policy is used to validate correct cryptographic algorithms,
 protocol versions, or cipher suites. Many of these properties are
 already tested in the TLS handshake execution test described in the
 previous section. We extended the test suite with positive and negative
-tests validating correct certificate handling.
+tests validating correct peer key handling.
 
 The tests are implemented in :srcref:`src/tests/unit_tls_policy.cpp`.
 
-In the test different certificates with different key lengths are
-created and tested against the default TLS policy. Only certificates
-with appropriate key lengths can be accepted. Certificates with
+In the test different keys with different key lengths are created and
+tested against the peer key acceptance check of the default TLS policy.
+Only keys with appropriate key lengths can be accepted. Keys with
 insufficient key lengths must be rejected.
 
-In the test the following certificates are tested:
+In the test the following keys are tested:
 
 -  RSA (1024 / 2048 bits)
+-  ECDH (192 / 256 bits)
 -  ECDSA (192 / 256 bits)
--  DSA (1024 / 2048 bits)
+
+In addition, a negative test verifies that a DH key over a too-short
+custom DH group (with a 256-bit prime modulus) is rejected.
+
+In addition, the ``require_extended_master_secret`` policy option is
+verified (added in the review of 3.12.0): the default policy and the
+default text policy must require the extended master secret extension
+(RFC 7627), and a text policy override must be able to disable and
+re-enable the requirement.
 
 TLS Protocol Message Parsing
 ----------------------------
@@ -208,8 +224,7 @@ test vectors are listed in :srcref:`src/tests/data/tls/client_hello.vec`.
    |                        |                                                                         |
    |                        | Protocol = 0303                                                         |
    |                        |                                                                         |
-   |                        | Exception = Invalid argument Decoding error: Client_Hello: Packet       |
-   |                        | corrupted                                                               |
+   |                        | Exception = Client_Hello: Packet corrupted                              |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | The message cannot be parsed and the processing results into a “Packet  |
    |                        | corrupted” exception.                                                   |
@@ -242,8 +257,8 @@ test vectors are listed in :srcref:`src/tests/data/tls/server_hello.vec`.
    +========================+=========================================================================+
    | **Type:**              | Positive Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Parses a ServerHello message with session ticket, extended master       |
-   |                        | secret, and renegotiation info                                          |
+   | **Description:**       | Parses a ServerHello message with supported point formats, heartbeat,   |
+   |                        | extended master secret, session ticket, and renegotiation info          |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
@@ -255,13 +270,13 @@ test vectors are listed in :srcref:`src/tests/data/tls/server_hello.vec`.
    |                        |                                                                         |
    |                        | Ciphersuite = C030                                                      |
    |                        |                                                                         |
-   |                        | AdditionalData = 00170023FF01                                           |
+   |                        | AdditionalData = 000B000F00170023FF01                                   |
    |                        |                                                                         |
    |                        | Exception =                                                             |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | The message can be successfully parsed. The message contains the        |
-   |                        | session ticket, extended master secret, and renegotiation info          |
-   |                        | extensions.                                                             |
+   |                        | supported point formats, heartbeat, extended master secret, session     |
+   |                        | ticket, and renegotiation info extensions.                              |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | #. Parse the message bytes.                                             |
    |                        |                                                                         |
@@ -291,7 +306,7 @@ test vectors are listed in :srcref:`src/tests/data/tls/server_hello.vec`.
    |                        |                                                                         |
    |                        | AdditionalData = 00170023FF01                                           |
    |                        |                                                                         |
-   |                        | Exception = Invalid argument Decoding error: Bad extension size         |
+   |                        | Exception = Bad extension size                                          |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | The message cannot be parsed correctly and the processing results into  |
    |                        | a “Bad extension size” exception.                                       |
@@ -333,8 +348,6 @@ test vectors are listed in :srcref:`src/tests/data/tls/cert_verify.vec`.
    |                        | eecd350f6e9dc93662e4361053666e5a53c74fe11bd6cf86a9cf7a2488704c512191582 |
    |                        | 0973280ed6afa3e8b79dfb799bddffb52caa2d1a0a895a0e7505d841a882bdd92ec9141 |
    |                        |                                                                         |
-   |                        | Protocol = 0303                                                         |
-   |                        |                                                                         |
    |                        | Exception =                                                             |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | The message can be successfully parsed.                                 |
@@ -360,14 +373,12 @@ test vectors are listed in :srcref:`src/tests/data/tls/cert_verify.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Buffer = 06                                                             |
    |                        |                                                                         |
-   |                        | Protocol = 0303                                                         |
-   |                        |                                                                         |
-   |                        | Exception = Invalid argument Decoding error: Invalid CertificateVerify: |
-   |                        | Expected 1 bytes remaining, only 0 left                                 |
+   |                        | Exception = Invalid CertificateVerify: Expected 2 bytes remaining, only |
+   |                        | 1 left                                                                  |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | The message cannot be parsed correctly and the processing results into  |
-   |                        | an exception: “Invalid CertificateVerify: Expected 1 bytes remaining,   |
-   |                        | only 0 left”.                                                           |
+   |                        | an exception: “Invalid CertificateVerify: Expected 2 bytes remaining,   |
+   |                        | only 1 left”.                                                           |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | #. Parse the message bytes.                                             |
    |                        |                                                                         |
@@ -421,8 +432,7 @@ test vectors are listed in :srcref:`src/tests/data/tls/hello_request.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Buffer = 01                                                             |
    |                        |                                                                         |
-   |                        | Exception = Invalid argument Decoding error: Bad Hello_Request, has     |
-   |                        | non-zero size                                                           |
+   |                        | Exception = Bad Hello_Request, has non-zero size                        |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | The message cannot be parsed correctly and the processing results into  |
    |                        | an exception: “Bad Hello_Request, has non-zero size”.                   |
@@ -478,18 +488,16 @@ test vectors are listed in :srcref:`src/tests/data/tls/hello_verify.vec`.
    +========================+=========================================================================+
    | **Type:**              | Negative Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Parses a correct CertificateVerify message with an incomplete cookie.   |
+   | **Description:**       | Parses a HelloVerify message with an incomplete cookie.                 |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Buffer = FEFD0500                                                       |
    |                        |                                                                         |
-   |                        | Exception = Invalid argument Decoding error: Bad length in hello verify |
-   |                        | request                                                                 |
+   |                        | Exception = Bad length in hello verify request                          |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | The message cannot be parsed correctly and the processing results into  |
-   |                        | an exception: “Invalid CertificateVerify: Bad length in hello verify    |
-   |                        | request”.                                                               |
+   |                        | an exception: “Bad length in hello verify request”.                     |
    +------------------------+-------------------------------------------------------------------------+
    | **Steps:**             | #. Parse the message bytes.                                             |
    |                        |                                                                         |
@@ -548,8 +556,8 @@ test vectors are listed in :srcref:`src/tests/data/tls/new_session_ticket.vec`.
    +------------------------+-------------------------------------------------------------------------+
    | **Input Values:**      | Buffer = 00010203000500                                                 |
    |                        |                                                                         |
-   |                        | Exception = Invalid argument Decoding error: Invalid SessionTicket:     |
-   |                        | Expected 5 bytes remaining, only 1 left                                 |
+   |                        | Exception = Invalid SessionTicket: Expected 5 bytes remaining, only 1   |
+   |                        | left                                                                    |
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | The message cannot be parsed correctly and the processing results into  |
    |                        | an exception: “Invalid SessionTicket: Expected 5 bytes remaining, only  |
@@ -565,9 +573,11 @@ TLS Stream Integration
 
 *TLS::Stream* offers a boost-asio compatible wrapper around
 *TLS::Client* and *TLS::Server* and the integration of Client-Server
-communication is covered with four tests whereas each of them are
-executed in both asynchronous and synchronous ways, so as a result eight
-test cases exist.
+communication is covered with five test scenarios whereas each of them
+is executed in both asynchronous and synchronous ways. Together with an
+additional test case (*Test_Conversation_With_Move*) that repeats the
+*Test_Conversation* scenario with a Server stream object that is moved
+before the connection is accepted, eleven test cases exist.
 
 The tests are implemented in
 :srcref:`src/tests/test_tls_stream_integration.cpp`.
@@ -702,6 +712,36 @@ The tests are implemented in
    |                        | 6. The Client closes the socket.                                        |
    +------------------------+-------------------------------------------------------------------------+
 
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | Test_Handshake_Failure/Test_Handshake_Failure_Sync                      |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | The Server rejects the Client's ClientHello with a handshake_failure    |
+   |                        | alert, which the Client receives as the resulting error code.           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | The Client's handshake fails with an error code corresponding to the    |
+   |                        | handshake_failure alert.                                                |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | 1. The Server is configured to answer the Client's ClientHello with a   |
+   |                        |    handshake_failure alert.                                             |
+   |                        |                                                                         |
+   |                        | 2. A connection between Client and Server is established.               |
+   |                        |                                                                         |
+   |                        | 3. The Client starts a TLS handshake and receives the handshake_failure |
+   |                        |    alert as the resulting error code.                                   |
+   |                        |                                                                         |
+   |                        | 4. The Client closes the socket.                                        |
+   +------------------------+-------------------------------------------------------------------------+
+
 Additional TLS Tests
 --------------------
 
@@ -712,6 +752,20 @@ The tests are implemented in :srcref:`src/tests/test_tls.cpp`.
 
 -  Session handling: A test that encrypts and decrypts static session
    test data
+
+-  TLS 1.3 PSK import: A test vector based test for the external PSK
+   import interface according to RFC 9258 (added in Botan 3.12.0). For each
+   vector, an imported PSK is derived from an external PSK (consisting of
+   key, identity and optional context) for a given target KDF hash, and the
+   test checks that the PSK is marked as imported, uses the target hash as
+   its PRF algorithm, and that the derived key matches the expected output.
+   Test vectors are listed in :srcref:`src/tests/data/tls_13_psk_import.vec`.
+
+-  TLS 1.2 no_renegotiation alert during initial handshake: A test that a
+   no_renegotiation warning alert received during the initial handshake
+   (added in Botan 3.12.0) is delivered to the application but does not tear
+   down the pending handshake state: the client must neither become active
+   nor closed, and the pending handshake must survive.
 
 -  CBC padding: Tests that check TLS padding of a TLS CBC encrypted
    record. Test vectors are listed in

@@ -45,15 +45,15 @@ PBKDF2
 
 PBKDF2 from PKCS#5 is tested with the following constraints:
 
--  Number of test cases: 13
--  MAC: HMAC-SHA1, HMAC-SHA256, HMAC-SHA384, HMAC-SHA512
--  Salt: 64 bits, 160 bits, 240 bits
+-  Number of test cases: 15
+-  MAC: HMAC-SHA1, HMAC-SHA256, HMAC-SHA384, HMAC-SHA512, CMAC-Blowfish
+-  Salt: 32 bits - 240 bits
 
 -  Output Length: 80 bits - 512 bits
 
 -  Iterations: 1 - 10000
 
--  Passphrase: 3 - 20 characters
+-  Passphrase: 3 - 32 characters
 
    -  Extreme values: Empty passphrase
 

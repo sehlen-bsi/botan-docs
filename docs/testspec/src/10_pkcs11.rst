@@ -124,29 +124,6 @@ successfully.
    +---------------------+----------------------------------------------------------------------------+
    | **Test Case No.:**  | PKCS11-MODULE-5                                                            |
    +=====================+============================================================================+
-   | **Type:**           | Negative Test                                                              |
-   +---------------------+----------------------------------------------------------------------------+
-   | **Description:**    | Attempt to load the same module twice                                      |
-   +---------------------+----------------------------------------------------------------------------+
-   | **Preconditions:**  | None                                                                       |
-   +---------------------+----------------------------------------------------------------------------+
-   | **Input Values:**   | Module Path = *--pkcs11-lib path*                                          |
-   +---------------------+----------------------------------------------------------------------------+
-   | **Expected          | An error occurs                                                            |
-   | Output:**           |                                                                            |
-   +---------------------+----------------------------------------------------------------------------+
-   | **Steps:**          | #. Load a Module from *Module Path*                                        |
-   |                     |                                                                            |
-   |                     | #. Load a second Module from the same *Module Path*                        |
-   +---------------------+----------------------------------------------------------------------------+
-
-.. table::
-   :class: longtable
-   :widths: 20 80
-
-   +---------------------+----------------------------------------------------------------------------+
-   | **Test Case No.:**  | PKCS11-MODULE-6                                                            |
-   +=====================+============================================================================+
    | **Type:**           | Positive Test                                                              |
    +---------------------+----------------------------------------------------------------------------+
    | **Description:**    | Retrieve Module information                                                |
@@ -666,8 +643,10 @@ verification and encryption and decryption.
    |                     |                                                                            |
    |                     | #. Import the RSA private key into the token using the read-write session  |
    |                     |                                                                            |
-   |                     | #. Export the key from the token and compare it with the generated private |
-   |                     |    key                                                                     |
+   |                     | #. Check the validity of the key in the token (*check_key*)                |
+   |                     |                                                                            |
+   |                     | #. Export the key from the token and check the validity of the exported    |
+   |                     |    key (*check_key*)                                                       |
    |                     |                                                                            |
    |                     | #. Destroy the RSA key in the token                                        |
    +---------------------+----------------------------------------------------------------------------+
@@ -695,7 +674,7 @@ verification and encryption and decryption.
    | **Steps:**          | #. Generate a random 2048 bits RSA keypair                                 |
    |                     |                                                                            |
    |                     | #. Set the RSA key to be a token key, to not be a private token object and |
-   |                     |    to be a decryption key                                                  |
+   |                     |    to be an encryption key                                                 |
    |                     |                                                                            |
    |                     | #. Import the RSA public key into the token using the read-write session   |
    |                     |                                                                            |
@@ -1378,7 +1357,7 @@ and verification.
    |                     |                                                                            |
    |                     |    -  label = “Botan test ecdsa pub key”                                   |
    |                     |                                                                            |
-   |                     | 3. Export the public key and compare it with the generated public key      |
+   |                     | 3. Export the public key from the token                                    |
    |                     |                                                                            |
    |                     | 4. Destroy the ECDSA key in the token                                      |
    +---------------------+----------------------------------------------------------------------------+
@@ -1400,7 +1379,7 @@ and verification.
    +---------------------+----------------------------------------------------------------------------+
    | **Input Values:**   | Module Path = *--pkcs11-lib path*                                          |
    |                     |                                                                            |
-   |                     | Curve = secp256r1, brainpool512r1                                          |
+   |                     | Curve = secp256r1                                                          |
    +---------------------+----------------------------------------------------------------------------+
    | **Expected          | None                                                                       |
    | Output:**           |                                                                            |
@@ -1439,9 +1418,8 @@ and verification.
    | **Expected          | None                                                                       |
    | Output:**           |                                                                            |
    +---------------------+----------------------------------------------------------------------------+
-   | **Steps:**          | #. Generate an ECDSA keypair in the token with the following properties:   |
-   |                     |                                                                            |
-   |                     |    -  curve = secp256r1                                                    |
+   | **Steps:**          | #. Generate an ECDSA keypair in the token, once for each of the curves     |
+   |                     |    secp256r1 and brainpool512r1, with the following properties:            |
    |                     |                                                                            |
    |                     |    -  public key label = “BOTAN_TEST_ECDSA_PUB_KEY”                        |
    |                     |                                                                            |
@@ -1639,7 +1617,7 @@ ECDH Tests
    |                     |                                                                            |
    |                     |    -  private object = false                                               |
    |                     |                                                                            |
-   |                     |    -  label = “Botan test ecdh pub key”                                    |
+   |                     |    -  label = “Botan test ECDH pub key”                                    |
    |                     |                                                                            |
    |                     | 3. Destroy the ECDH key in the token                                       |
    +---------------------+----------------------------------------------------------------------------+
@@ -1675,7 +1653,7 @@ ECDH Tests
    |                     |                                                                            |
    |                     |    -  private object = false                                               |
    |                     |                                                                            |
-   |                     |    -  label = “Botan test ecdh pub key”                                    |
+   |                     |    -  label = “Botan test ECDH pub key”                                    |
    |                     |                                                                            |
    |                     | 3. Export the public key                                                   |
    |                     |                                                                            |
@@ -1841,7 +1819,7 @@ Random Generator Tests
    +---------------------+----------------------------------------------------------------------------+
    | **Preconditions:**  | At least one token must be connected                                       |
    |                     |                                                                            |
-   |                     | A read-only session is open with the token using the User PIN              |
+   |                     | A read-write session is open with the token using the User PIN             |
    +---------------------+----------------------------------------------------------------------------+
    | **Input Values:**   | Module Path = *--pkcs11-lib path*                                          |
    +---------------------+----------------------------------------------------------------------------+
@@ -1866,7 +1844,7 @@ Random Generator Tests
    +---------------------+----------------------------------------------------------------------------+
    | **Preconditions:**  | At least one token must be connected                                       |
    |                     |                                                                            |
-   |                     | A read-only session is open with the token using the User PIN              |
+   |                     | A read-write session is open with the token using the User PIN             |
    +---------------------+----------------------------------------------------------------------------+
    | **Input Values:**   | Module Path = *--pkcs11-lib path*                                          |
    +---------------------+----------------------------------------------------------------------------+
@@ -1897,23 +1875,23 @@ Random Generator Tests
    +=====================+============================================================================+
    | **Type:**           | Positive Test                                                              |
    +---------------------+----------------------------------------------------------------------------+
-   | **Description:**    | Use PKCS#11 random generator as seed generator for HMAC_DRBG               |
+   | **Description:**    | Use PKCS#11 random generator as seed generator for HMAC_DRBG(SHA-512)      |
    +---------------------+----------------------------------------------------------------------------+
    | **Preconditions:**  | At least one token must be connected                                       |
    |                     |                                                                            |
-   |                     | A read-only session is open with the token using the User PIN              |
+   |                     | A read-write session is open with the token using the User PIN             |
    +---------------------+----------------------------------------------------------------------------+
    | **Input Values:**   | Module Path = *--pkcs11-lib path*                                          |
    +---------------------+----------------------------------------------------------------------------+
    | **Expected          | None                                                                       |
    | Output:**           |                                                                            |
    +---------------------+----------------------------------------------------------------------------+
-   | **Steps:**          | #. Create an instance of the HMAC_DRBG with the PKCS#11 random generator   |
-   |                     |    as seed generator                                                       |
+   | **Steps:**          | #. Create an instance of the HMAC_DRBG(SHA-512) with the PKCS#11 random    |
+   |                     |    generator as seed generator                                             |
    |                     |                                                                            |
    |                     | #. Check that HMAC_DRBG is not seeded                                      |
    |                     |                                                                            |
-   |                     | #. Request 2048 random bits from HMAC_DRBG                                 |
+   |                     | #. Request 512 random bits (64 bytes) from HMAC_DRBG                       |
    |                     |                                                                            |
    |                     | #. Check that HMAC_DRBG is seeded                                          |
    |                     |                                                                            |
@@ -1943,11 +1921,11 @@ X.509 tests load an X.509 certificate into a token.
    +---------------------+----------------------------------------------------------------------------+
    | **Preconditions:**  | At least one token must be connected                                       |
    |                     |                                                                            |
-   |                     | A read-only session is open with the token using the User PIN              |
+   |                     | A read-write session is open with the token using the User PIN             |
    +---------------------+----------------------------------------------------------------------------+
    | **Input Values:**   | Module Path = *--pkcs11-lib path*                                          |
    |                     |                                                                            |
-   |                     | Certificate File = “src/tests/data/nist_x509/test01/end.crt”               |
+   |                     | Certificate File = “src/tests/data/x509/nist/test01/end.crt”               |
    +---------------------+----------------------------------------------------------------------------+
    | **Expected          | None                                                                       |
    | Output:**           |                                                                            |

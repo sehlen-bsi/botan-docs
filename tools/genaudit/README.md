@@ -60,6 +60,22 @@ other user's pull requests or an explicit "auditer" stated in the YAML file.
 Auditers from the YAML file are rendered in parenthesis along with potential
 approvers from GitHub in the final rendering. Use the auditer's GitHub handle!
 
+Each patch may carry an optional `categories` field whose value is a comma
+separated list of words. Each word has to match the file name (without the
+`.yml` extension) of a topic file in the same directory, and at least one valid
+entry must be present. For patches in the special topic file `uncategorized.yml`
+the first entry determines the topic under which the patch is rendered: it is
+placed exactly as if it was listed in that topic's YAML file and is omitted from
+the "uncategorized" section. Patches in all other topic files remain rendered
+under their containing topic regardless of the `categories` field.
+
+```yaml
+# Fix some build issues caught by test_all_configs.py  (@randombit)
+- pr: 5579
+  classification: unspecified
+  categories: build, fixes  # rendered under build.yml's topic (if listed in uncategorized.yml)
+```
+
 Eventually, the directory with all topic description YAML files is passed to
 the CLI to render them into rST documents to be consumed by Sphinx.
 
