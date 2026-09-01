@@ -7044,3 +7044,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: a962d2f919d701b31dbb02099e9eae8a7b858d2a  # https://github.com/randombit/botan/commit/a962d2f919d701b31dbb02099e9eae8a7b858d2a
   classification: unspecified
+
+# Optimize Whirlpool base implementation on ARM64 and x86-64
+#   Author:    @huven
+#   Approvals: (@randombit)
+- pr: 5892  # https://github.com/randombit/botan/pull/5892
+  merge_commit: 0bd1affa77f7e022f9fa1171c1a0eea286a5b823
+  classification: unspecified
