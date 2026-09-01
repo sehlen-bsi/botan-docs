@@ -110,8 +110,6 @@ class Audit:
                 remaining_patches.append(patch)
                 continue
             target.patches.append(patch)
-            if uncategorized.file not in target.extra_source_files:
-                target.extra_source_files.append(uncategorized.file)
             logging.debug("Relocated patch '%s' from '%s' to '%s'",
                           patch, uncategorized.reference, target.reference)
         uncategorized.patches = remaining_patches

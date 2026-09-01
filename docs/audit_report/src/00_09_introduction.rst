@@ -83,11 +83,9 @@ reviewed:
         modules listed in the script.
      7. Adapt the paragraph under the enumeration of audited modules
         to reflect notable changes.
-     (TODO: The list below still reflects Botan 3.12.0 and must be regenerated for 3.13.0.)
 
 
 .. list-table::
-
 
    * - aead
      - aes
@@ -128,7 +126,7 @@ reviewed:
    * - dilithium_shake
      - dl_algo
      - dl_group
-     - dsa
+     - dns_name
    * - dyn_load
      - ec_group
      - ecc_key
@@ -137,34 +135,34 @@ reviewed:
      - ecgdsa
      - ecies
      - eckcdsa
-   * - eme_oaep
+   * - email
+     - eme_oaep
      - eme_pkcs1
      - eme_raw
-     - emsa_pkcs1
-   * - emsa_pssr
+   * - emsa_pkcs1
+     - emsa_pssr
      - enc_padding
      - entropy
-     - ffi
-   * - frodokem
+   * - ffi
+     - frodokem
      - frodokem_aes
      - frodokem_common
-     - gcm
-   * - getentropy
+   * - gcm
+     - getentropy
      - ghash
      - ghash_cpu
-     - ghash_vperm
-   * - gmac
+   * - ghash_vperm
+     - gmac
      - hash
      - hash_id
-     - hex
-   * - hkdf
+   * - hex
+     - hkdf
      - hmac
      - hmac_drbg
-     - hss_lms
-   * - http_util
+   * - hss_lms
+     - http_util
      - hybrid_kem
      - ip_address
-     - iso9796
    * - jitter_rng
      - kdf
      - kdf1_iso18033
@@ -259,12 +257,12 @@ reviewed:
      - tpm2_rsa
    * - tree_hash
      - trunc_hash
+     - uri
      - utils
-     - x509
-   * - xmss
+   * - x509
+     - xmss
      - xof
      - xts
-     -
 
 Here are some notable module changes compared to the last review (Botan |botan_git_base_ref|):
 
@@ -274,11 +272,14 @@ Here are some notable module changes compared to the last review (Botan |botan_g
 
 * The following modules were removed in Botan |botan_version|:
 
-  - (TODO: to be determined during the review)
+  - dsa
+  - iso9796
 
 * The following modules were added in Botan |botan_version|:
 
-  - (TODO: to be determined during the review)
+  - dns_name
+  - email
+  - uri
 
 Patch Description Content
 -------------------------

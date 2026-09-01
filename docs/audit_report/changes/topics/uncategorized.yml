@@ -3,3 +3,1658 @@ title: Uncategorized Patches
 # Note: Regex for vim to insert auditer:
 # %s/\(\(merge_\|\)commit: *.*\)\_s\+classification:/\1\r  auditer: falko-strenzke\r  classification:/g
 patches:
+
+# Make TLS 1.3 record padding more configurable
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5843  # https://github.com/randombit/botan/pull/5843
+  merge_commit: 12d7f2e8bd986c0194e11605d1d4dbe68bc82ed9
+  auditer: falko-strenzke
+  categories: api
+  classification: relevant
+
+# In TLS 1.2 session summaries, report the pending PSK identity
+#   Author:    @randombit
+- pr: 5842  # https://github.com/randombit/botan/pull/5842
+  merge_commit: 64287363243071e843ed2e4c51d19d4c9efb34ad
+  auditer: falko-strenzke
+  categories: fixes, api
+  classification: info
+
+# add hss/lms test certificate from RFC 9802
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5840  # https://github.com/randombit/botan/pull/5840
+  merge_commit: 58719fc84c4f225eb7bb2775c7349b1ddc071047
+  auditer: falko-strenzke
+  categories: test
+  classification: info
+
+# In randomize_with_ts_input prefer system RNG if available
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5839  # https://github.com/randombit/botan/pull/5839
+  merge_commit: 96e37b3527a9ee6fe23e5f8c7f3ce26f877655b6
+  auditer: falko-strenzke
+  categories: optimization
+  comment : |
+    The function `randomize_with_ts_input()` does not actually use anymore a time stamp or the process ID as input for RNG output generation if a System_RNG is available. This is a potential security degradation if the System_RNG is badly implemented and for instance is not properly handling a process fork and does not itself perform hedging against the repeated-state problem by incorporating a time stamp as input.
+  classification: info
+
+# In DTLS distinguish a delayed or replayed handshake message from a current one
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5836  # https://github.com/randombit/botan/pull/5836
+  merge_commit: de876bbabc3b7c35b96e61304890e19cbef82563
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
+
+# Treat empty AutoSeeded_RNG requests as no-ops
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5838  # https://github.com/randombit/botan/pull/5838
+  merge_commit: 46a80949fe694e794a353f203a37586929f6f8d3
+  auditer: falko-strenzke
+  categories: optimization
+  classification: info
+
+# Correct and bound DTLS terminal-flight replay
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5835  # https://github.com/randombit/botan/pull/5835
+  merge_commit: 7544a87a69f227f55579b7f7435eee1ec7485a79
+  auditer: falko-strenzke
+  categories: fixes, test
+  classification: relevant
+
+# Test: Downgrade during TLS session resumption
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5833  # https://github.com/randombit/botan/pull/5833
+  merge_commit: d59f1b2789ca1469f6d8ece131410c5300654884
+  auditer: falko-strenzke
+  categories: test
+  classification: info
+
+# Add some further tests of X509 DN comparisons
+#   Author:    @randombit
+- pr: 5830  # https://github.com/randombit/botan/pull/5830
+  merge_commit: 3b07e0bee3c83803cbbf2705453f6137485e0a1c
+  auditer: falko-strenzke
+  categories: test
+  classification: info
+
+# Bound the HelloVerifyRequest messages a DTLS client acts on
+#   Author:    @randombit
+#   Approvals: (@atreiber94)
+- pr: 5834  # https://github.com/randombit/botan/pull/5834
+  merge_commit: 8440322c5f4103fdfc40ba122f3321f3d6d35a33
+  auditer: falko-strenzke
+  categories: fixes
+  classification: info
+
+# Fix some DTLS renegotiation handling bugs
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5829  # https://github.com/randombit/botan/pull/5829
+  merge_commit: a61f9334ff3255a257c229bbef2d461ba535b42f
+  auditer: falko-strenzke
+  categories: fixes
+  classification: relevant
+
+# Bound DTLS handshake reassembly memory and improve fragment handling
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5803  # https://github.com/randombit/botan/pull/5803
+  merge_commit: 6ee6d9a34fc022ace39871e75ee0ac2a16d9f325
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
+
+# In ECIES require a fresh nonce be created for each message
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5823  # https://github.com/randombit/botan/pull/5823
+  merge_commit: 87bc86dc3df09ede96f5de601664aa437322d812
+  auditer: falko-strenzke
+  comment : |
+    API-hardening against dangerous misuse. The problem of the previous implementation was: the ECIES ephemeral key pair is created in the ECIES_Encryptor constructor (ecies.cpp:282-302), so the derived DEM key is identical for every encrypt() call on the same object. Before this PR, m_iv persisted across calls — an application that reused one encryptor for several messages silently encrypted all of them with the same (key, IV) pair in the employed symmetric cipher.
+  categories: quality
+  classification: relevant
+
+# Add TLS Downgrading Tests
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 5817  # https://github.com/randombit/botan/pull/5817
+  merge_commit: 2445ace0b8f6b0902f86d646c9206d32b9adeba5
+  auditer: falko-strenzke
+  categories: test
+  classification: info
+
+# SCAN_Name improvements and tests
+#   Author:    @randombit
+- pr: 5831  # https://github.com/randombit/botan/pull/5831
+  merge_commit: 7aca23ff658e2934cb185b026bc8a7c20d6fb682
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
+
+# Add documentation for the hex, base32, base58 and base64 APIs
+#   Author:    @randombit
+- pr: 5827  # https://github.com/randombit/botan/pull/5827
+  merge_commit: b77d3688d8e5f4f96cbba384d8cde23a61a9e8b8
+  auditer: falko-strenzke
+  categories: documentation 
+  classification: info
+
+# In TLS 1.2 ensure sensitive state is cleared after a fatal alert
+#   Author:    @randombit
+- pr: 5810  # https://github.com/randombit/botan/pull/5810
+  merge_commit: 6ea60e144559ed99555fef78c5510b9d9e8349bf
+  auditer: falko-strenzke
+  categories: fixes, quality
+  comment: |
+    Adresses compliances gaps / security-harding. What the TLS 1.2 channel did wrong before:
+      1. Fatally-terminated sessions stayed resumable — the clearest security defect. RFC 5246 §7.2.2 says a connection terminated with a fatal alert "MUST NOT be resumed" and the parties "MUST forget any session-identifiers, keys, and secrets". The old code only removed the cache entry for the active state's non-empty session ID; ticket-backed sessions and the freshly negotiated resumption handle were never invalidated. The PR tracks the handle explicitly (note_resumption_handle() in client and server) and invalidates both handles on fatal alert, in both the receive and send paths.
+      2. Secrets outlived the connection — a fatal alert didn't call reset_state(), so cipher states, keys, and handshake state lingered; the channel wasn't marked closed, and e.g. key_material_export() remained callable (the PR adds an assert that it isn't). Now teardown happens immediately.
+      3. Ordering hardening — teardown now completes before the tls_alert application callback and before touching application-supplied session storage (whose remove() may throw), so a misbehaving callback or session manager can't observe or preserve a channel that is still is_active() with live keys.
+      4. Post-alert record handling — records after a fatal alert are no longer processed at all, and per RFC 5246 §7.2.1 non-alert data after a peer's close_notify is now ignored.
+      5. One deliberate non-change: a local teardown with Alert::None (triggered by unauthenticated input, e.g. off-path garbage, or timeouts) does not evict resumption state — otherwise anyone able to reach the address could destroy the session cache.
+  classification: relevant
+
+# Authenticate OCSP responses in ocsp_check
+#   Author:    @randombit
+- pr: 5825  # https://github.com/randombit/botan/pull/5825
+  merge_commit: 003ef4ad378bec897ae3830e266ae39ed99948a0
+  auditer: falko-strenzke
+  categories: quality
+  comment: |
+    Updates the ocsp_check CLI command to cryptographically authenticate OCSP responses (instead of trusting an unauthenticated “GOOD” status), and adds a CLI regression test that exercises unsigned vs issuer-authenticated OCSP responses.
+  classification: relevant
+
+# Add documentation for name types (URI, DNSName, etc)
+#   Author:    @randombit
+- pr: 5824  # https://github.com/randombit/botan/pull/5824
+  merge_commit: a88f81ec17d1e5daa2f368dc5d160886fe523a30
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
+
+# Refactor: TLS downgrade does not re-parse Client Hello
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5813  # https://github.com/randombit/botan/pull/5813
+  merge_commit: 82a09c7c401736f535cd3b80b9312352151bd459
+  auditer: falko-strenzke
+  categories: fixes
+  comment: |
+    Description from the PR author: "Before, the ClientHello message was passed from the 1.3-implementation to the 1.2-implementation in marshalled form (with its header). This is fine for TLS, where the handshake message protocol header is equivalent across both versions.
+    However, DTLS is handling this protocol header differently. DTLS 1.2's transcript hash is calculated over a fictious unfragmented version of the marshalled message, whereas in DTLS 1.3 the transcript hash omits the fragmentation information in the message protocol headers.
+    Also, this prepares some new API in the TLS 1.2 Handshake_IO for DTLS where the Datagram_Handshake_IO needs some state set-up after downgrading."
+  classification: info
+
+# Ignore unauthenticated epoch-zero input in active DTLS associations
+#   Author:    @randombit
+- pr: 5811  # https://github.com/randombit/botan/pull/5811
+  merge_commit: 76dd4bb986a13ccc3778c6ce90f0be64d1878cd9
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
+
+# Align the cost limits on PBES2 and PKCS12 decryption
+#   Author:    @randombit
+- pr: 5820  # https://github.com/randombit/botan/pull/5820
+  merge_commit: 3a1e7f35fc33a2f211f0741e173bc149c1bac26a
+  auditer: falko-strenzke
+  categories: chores
+  classification: relevant
+
+# Disable implicit redirects in the internal HTTP client
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5815  # https://github.com/randombit/botan/pull/5815
+  merge_commit: b635a1ded40a0d96183d6ad7b12b021689f2cd61
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
+
+# Reject embedded NULs at the Python C-string boundary
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5814  # https://github.com/randombit/botan/pull/5814
+  merge_commit: 95a7629762785d021d4607abc1991985eac5ad61
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
+
+# Refactor: Opportunistically disable TLS downgrade support entirely
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5812  # https://github.com/randombit/botan/pull/5812
+  merge_commit: 0a3d083f039ca479d06e3e938a26bba320af6405
+  auditer: falko-strenzke
+  categories: optimization
+  classification: info
+
+# Propagate Threaded_Fork branch exceptions
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5809  # https://github.com/randombit/botan/pull/5809
+  merge_commit: 7e314d021635bd747a4b1c6614081ef7ac7bf68c
+  classification: out of scope
+
+# Use the encoded byte length in Python PKSign.update
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5807  # https://github.com/randombit/botan/pull/5807
+  merge_commit: 7ffae689f89286ecddf5ffecb17803403ad96fde
+  auditer: falko-strenzke
+  categories: fixes
+  comment: |
+    When signing via the Python interface, the actually signed data was previously unknowingly cut off due to the mismatch of unicode code point vs. byte count. The amount of cut-off data at the end thereby depends on the accumulated size of multi-byte characters in the data intended to be signed.
+  classification: critical
+
+# Fix an integer overflow in botan_block_cipher_block_size
+#   Author:    @randombit
+- pr: 5805  # https://github.com/randombit/botan/pull/5805
+  merge_commit: 1846ba2f465735ae95b901f374f3aea040c00ed1
+  auditer: falko-strenzke
+  categories: fixes
+  comment: |
+    Release notes say:  "Fix an integer overflow in the FFI interface which might be exploitable in unusual scenarios involving attacker-control cipher specifiers and the raw block cipher (ECB) APIs. (GH #5805)". No CVE was assigned.
+  classification: relevant
+
+# Make OCSP "soft fail" conditions errors unless specifically opted into
+#   Author:    @randombit
+#   Approvals: (@FAlbertDev), (@reneme)
+- pr: 5804  # https://github.com/randombit/botan/pull/5804
+  merge_commit: 38bb4bff9873f69e285fad083e00a8f8699f407f
+  auditer: falko-strenzke
+  comment: |
+    flips Botan's OCSP failure semantics from soft-fail to hard-fail by default. Four concrete changes:
+    1. Soft-fail no longer satisfies revocation requirements. The core is in PKIX::merge_revocation_status(). Previously, the codes OCSP_NO_REVOCATION_URL and OCSP_SERVER_NOT_AVAILABLE counted as "had OCSP" — so with require_revocation_information=true, an unreachable responder or a certificate without an OCSP URL silently satisfied the revocation requirement. That's the classic soft-fail weakness: an attacker who can block the OCSP connection thereby disables revocation checking. Now the code distinguishes definitive outcomes (OCSP_RESPONSE_GOOD, CERT_IS_REVOKED) from soft-fail conditions (OCSP_NO_REVOCATION_URL, OCSP_SERVER_NOT_AVAILABLE, OCSP_NO_HTTP), and soft-fail only counts if the application explicitly set the new restriction flag. Otherwise had_ocsp stays false and — when revocation information is required — the chain gets NO_REVOCATION_DATA, i.e. validation fails.
+    2. Explicit opt-in via Path_Validation_Restrictions. Both constructors gained a trailing parameter accept_ocsp_softfail = false, documented with "Not recommended". Only setting it true restores the old lenient behavior. The flag is also propagated into the recursive validation of delegated OCSP responder certificates (verify_ocsp_signing_cert).
+    3. Unsigned OCSP error responses are treated as "server not available". In check_ocsp_online(), a response whose OCSP::Response_Status_Code is not Successful (e.g. tryLater, internalError — per RFC 6960 §2.3 these error messages are not signed) is no longer processed as a response at all; it's replaced by the dummy server-not-available response and therefore falls under the same soft-fail handling. Previously such a body was parsed and carried forward as a real Response object.
+    4. OCSP_NO_HTTP reclassified. This status (library built without HTTP support) sat in the success range of Certificate_Status_Code (value 4, below FIRST_WARNING_STATUS); it's moved to the warning range (506) and included in the soft-fail set — so "we couldn't even attempt the OCSP fetch" is no longer a success-flavored code.
+  categories: quality, pki
+  classification: relevant
+
+# In (D)TLS discard old cipher state, and prevent DTLS epoch wraparound
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5801  # https://github.com/randombit/botan/pull/5801
+  merge_commit: a8f6c6a59e850016f77dd2a1d3d10991d2610eba
+  auditer: falko-strenzke
+  categories: fixes
+  classification: relevant
+
+# Make legacy McEliece GF2m caches thread-safe
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5799  # https://github.com/randombit/botan/pull/5799
+  merge_commit: f60d8e6a5a489ac40efd49d841994b906573f362
+  auditer: falko-strenzke
+  categories: fixes
+  classification: out of scope
+
+# Avoid using the system clock to drive DTLS timeout tests
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5802  # https://github.com/randombit/botan/pull/5802
+  merge_commit: 30b4d7980648c80c1db39181fcfb64492e2928ae
+  auditer: falko-strenzke
+  categories: test
+  classification: info
+
+# Account for record expansion due to AEAD when fragmenting handshakes
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5800  # https://github.com/randombit/botan/pull/5800
+  merge_commit: 4695b4a661af36714c6a323d0c345b16ac2facc8
+  auditer: falko-strenzke
+  categories: quality
+  classification: relevant
+
+# Bound DTLS handshake retry attempts and properly abandon timed out states
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5793  # https://github.com/randombit/botan/pull/5793
+  merge_commit: 3c39759ec95f08cff95289fe2ba905241abd8512
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
+
+# Refuse unsafe ciphersuites in DTLS
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5791  # https://github.com/randombit/botan/pull/5791
+  merge_commit: 5b120d3342cd9e5b831fbf054aa6ec3ee08a4efb
+  auditer: falko-strenzke
+  categories: fixes, sca
+  comment: |
+    Lucky13 countermeasure for DTLS.
+  classification: relevant
+
+# Require address-bound cookies for DTLS servers
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5792  # https://github.com/randombit/botan/pull/5792
+  merge_commit: 26c557a07543056ab02fd41a52d98ce4a73dcf64
+  auditer: falko-strenzke
+  categories: quality
+  classification: relevant
+
+# Fix native ownership of Python SRP server sessions
+#   Author:    @fcasal
+#   Approvals: (@randombit)
+- pr: 5796  # https://github.com/randombit/botan/pull/5796
+  merge_commit: 30b3f5a74cc14412999afbe052675edb01a44873
+  auditer: falko-strenzke
+  categories: fixes
+  classification: relevant
+
+# Note in SemVer docs that we will break as needed for security
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5794  # https://github.com/randombit/botan/pull/5794
+  merge_commit: 544f38846764e8cd02eb7a582dd9c61296b79ca2
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
+
+# Properly ignore HelloRequest received during a TLS renegotiation
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5790  # https://github.com/randombit/botan/pull/5790
+  merge_commit: 2fd23a6bad77d5f8decfdcf59af2a316e5fd210e
+  auditer: falko-strenzke
+  categories: fixes 
+  comment: |
+    Makes the implementation RFC-compliant.
+  classification: info
+
+# Make DTLS retransmission timing deterministic
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5788  # https://github.com/randombit/botan/pull/5788
+  merge_commit: 940084bbecc1f5d4e678df9d82181d33f3a6018b
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
+
+# Refactor DTLS testing
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5787  # https://github.com/randombit/botan/pull/5787
+  merge_commit: 6084c18990eecab12b808b6a91713c75561ad169
+  auditer: falko-strenzke
+  categories: test, quality
+  classification: info
+
+# Add SPAKE2+ password authenticated key exchange (RFC 9383)
+#   Author:    @randombit
+- pr: 5711  # https://github.com/randombit/botan/pull/5711
+  merge_commit: 280670273e5682ca4f160c3b6d4640a5de1d9b15
+  auditer: falko-strenzke
+  categories: additions
+  classification: out of scope
+
+# Disable finite field DH key exchange in the default TLS policy
+#   Author:    @randombit
+#   Approvals: (@FAlbertDev), (@reneme)
+- pr: 5782  # https://github.com/randombit/botan/pull/5782
+  merge_commit: a1805ab2498064b3c9152f806c7341d7560f6a70
+  auditer: falko-strenzke
+  categories: policy
+  classification: info
+
+# Add PKCS#12
+#   Author:    @dmazzella
+#   Approvals: (@randombit)
+- pr: 5625  # https://github.com/randombit/botan/pull/5625
+  merge_commit: de22448f71dccc3b5665c41fcbbcd4dae33c92b5
+  auditer: falko-strenzke
+  categories: additions
+  comment: |
+    Proposed improvements based on a Fable 5 review are given in https://github.com/randombit/botan/issues/5894. Most notably, this encompasses enforcing the presence of a valid MAC during parsing. See also the Appendix.
+  classification: out of scope
+
+# Optimize SRP6's server step2
+#   Author:    @randombit
+- pr: 5781  # https://github.com/randombit/botan/pull/5781
+  merge_commit: d422f910081624adebfddeb267bb3ea4d15af650
+  auditer: falko-strenzke
+  categories: optimization
+  classification: out of scope 
+
+# Align documented and annotated deprecation markers
+#   Author:    @randombit
+- pr: 5780  # https://github.com/randombit/botan/pull/5780
+  merge_commit: 0367d0da0ef030146f7685a3cc5aeb8cc680313a
+  auditer: falko-strenzke
+  categories: build, documentation
+  classification: info
+
+# Add GCM-SIV from RFC 8452
+#   Author:    @randombit
+- pr: 5770  # https://github.com/randombit/botan/pull/5770
+  merge_commit: 11100d2e90f1ac158b8299d2751f463f83d25b65
+  auditer: falko-strenzke
+  categories: additions
+  comment: |
+    GCM-SIV itself is out of scope, but the PR also refactors existing GHASH code.
+  classification: relevant
+
+# Refactor: Use SIMD4x64 in the x86 SHA-512 compression function
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5779  # https://github.com/randombit/botan/pull/5779
+  merge_commit: 275ee240e175cabc65b0c282e51b4ea0db75ba79
+  auditer: falko-strenzke
+  categories: quality
+  comment: |
+    Generalization to Botan's SIMD4x64 framework.
+  classification: relevant
+
+# Explicitly state Signature_Scheme::ECDSA_SECPxxxR1_TLS13_SHAxxx
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5772  # https://github.com/randombit/botan/pull/5772
+  merge_commit: e39eca41e8c8eeb4571f222b1766edf767e93bc8
+  auditer: falko-strenzke
+  categories: chores
+  classification: info
+
+# Support ECDSA with brainpool in TLS 1.3
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5771  # https://github.com/randombit/botan/pull/5771
+  merge_commit: dae02dd5c2e730292ac3c602587a726d403a3a60
+  auditer: falko-strenzke
+  categories: additions
+  classification: relevant
+
+# FIX: `./botan tls_client` can drop outgoing alert records on error
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5776  # https://github.com/randombit/botan/pull/5776
+  merge_commit: 98adbc601e540a6b57ce16060e63adb3cd1d369f
+  auditer: falko-strenzke
+  categories: fixes
+  classification: info
+
+# Generate CRC tables at compile time
+#   Author:    @randombit
+- pr: 5775  # https://github.com/randombit/botan/pull/5775
+  merge_commit: 7cf3c36de9983d96a9dd656308f9c3c6cd4b9bbb
+  auditer: falko-strenzke
+  categories: quality
+  classification: out of scope
+
+# Add missing doc comments for various public interfaces
+#   Author:    @randombit
+- pr: 5774  # https://github.com/randombit/botan/pull/5774
+  merge_commit: 17de773e30eef8c220a425d6c8187c7796619291
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
+
+# `TLS::Text_Policy::allowed_signature_schemes()`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5773  # https://github.com/randombit/botan/pull/5773
+  merge_commit: 03c33e9bd83ac73ad50e2a0c0064bdbf5db1dd69
+  auditer: falko-strenzke
+  categories: policy
+  classification: info
+
+# Fix DTLS handshake retransmission edge cases
+#   Author:    @Thiesius
+#   Approvals: (@reneme), (@randombit)
+- pr: 5696  # https://github.com/randombit/botan/pull/5696
+  merge_commit: 480c535c9fe2c8ba39f5937965308a89889c049d
+  auditer: falko-strenzke
+  categories: fixes
+  classification: relevant
+
+# Improve validation of algorithm identifiers in keys and signatures
+#   Author:    @randombit
+- pr: 5689  # https://github.com/randombit/botan/pull/5689
+  merge_commit: 52166af681fa7ebc5dae1c543834ce42d1820a64
+  auditer: falko-strenzke
+  categories: quality
+  comment: |
+    Stricter parsing of AlgorithmIdentifiers for keys. Adds now tests for failure cases.
+  classification: relevant
+
+# Refactor: Handle TLS 1.3 Compat Mode via the TLS state machine
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5767  # https://github.com/randombit/botan/pull/5767
+  merge_commit: f5acc29ba6195d2337e4d54685f30eb19e467c5f
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
+
+# Add doc comments to Python bindings that had none
+#   Author:    @randombit
+- pr: 5765  # https://github.com/randombit/botan/pull/5765
+  merge_commit: 26a3decdc8fa4da36e2dd60d426d749bf8ef378e
+  classification: unspecified
+
+# Add doc comments to ASN.1 handling APIs that were missing them
+#   Author:    @randombit
+- pr: 5766  # https://github.com/randombit/botan/pull/5766
+  merge_commit: 7612378fb4a6f5eb0d4b9c182bbcfcfec38d8bf2
+  classification: unspecified
+
+# Add missing doc comments to types and functions in utils
+#   Author:    @randombit
+- pr: 5762  # https://github.com/randombit/botan/pull/5762
+  merge_commit: 42ff5a84a793f05ddbdedd092ad8f2be3660ad70
+  classification: unspecified
+
+# Add missing doc comments for EC_Group, EC_Scalar, and EC_AffinePoint
+#   Author:    @randombit
+- pr: 5764  # https://github.com/randombit/botan/pull/5764
+  merge_commit: 6a374ef738416a73c144674a5c768850f9eb1f4d
+  classification: unspecified
+
+# Add missing or fix incorrect doc comments in various base classes
+#   Author:    @randombit
+- pr: 5763  # https://github.com/randombit/botan/pull/5763
+  merge_commit: 4515e1401f05ceee3b08ab1b5b7798f0aea29a5f
+  classification: unspecified
+
+# Add SIMD implementations of Salsa
+#   Author:    @randombit
+- pr: 5759  # https://github.com/randombit/botan/pull/5759
+  merge_commit: 417465db10f418bdc945ed4a80d03b9d44bbf0d0
+  classification: unspecified
+
+# Add Doxygen comment blocks for all functions in ffi.h
+#   Author:    @randombit
+- pr: 5761  # https://github.com/randombit/botan/pull/5761
+  merge_commit: 647f0b66ea7bc4af53c0e09dd086c4256db855d3
+  classification: unspecified
+
+# Fix various documentation errors
+#   Author:    @randombit
+- pr: 5760  # https://github.com/randombit/botan/pull/5760
+  merge_commit: f02c4a9ef293a4a8bcefb6fde5e6603bc0153c2c
+  classification: unspecified
+
+# Generate python documentation with sphinx
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5233  # https://github.com/randombit/botan/pull/5233
+  merge_commit: 15a24199e105b7c6e6fcc1a75a35a26d761d0f1b
+  classification: unspecified
+
+# Add EC_Group::hash_to_curve_supported and enforce RFC 9380 hash requirements
+#   Author:    @randombit
+- pr: 5758  # https://github.com/randombit/botan/pull/5758
+  merge_commit: 3e1175bc5b51eb101a2c555f0033d188c22de335
+  classification: unspecified
+
+# Add getters for RFC 3779 extensions to FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5491  # https://github.com/randombit/botan/pull/5491
+  merge_commit: 26648176bda14322b75b12bf122a609ebfddb61d
+  classification: unspecified
+
+# Add support for hash2curve for brainpool{256,384,512}r1 and numsp512d1
+#   Author:    @randombit
+- pr: 5754  # https://github.com/randombit/botan/pull/5754
+  merge_commit: e10a26c2f3d11f2c73c5cf3c90b834dd6a7f3c86
+  classification: unspecified
+
+# Pin CI imports by version or git tag
+#   Author:    @randombit
+- pr: 5756  # https://github.com/randombit/botan/pull/5756
+  merge_commit: 3c1ea0d076a9b2c51d91e43319b96a09fe031d8a
+  classification: unspecified
+
+# Zeroize pcurves scalar objects on destruction
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5751  # https://github.com/randombit/botan/pull/5751
+  merge_commit: d4555a8f27c68d1505c18042a4a2a99c55b9a832
+  classification: unspecified
+
+# [TLS 1.3] Add TLS::Policy::minimum_record_size() to obfuscate plaintext lengths
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5752  # https://github.com/randombit/botan/pull/5752
+  merge_commit: 7cc2af762cee9ebbb5872dc7cd400ff8f0861ca1
+  classification: unspecified
+
+# [TLS 1.3] Extend `unit_tls` with support for TLS 1.3
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5729  # https://github.com/randombit/botan/pull/5729
+  merge_commit: 8c8ab6ca8c2a4e36c8169e606a130db439facbf3
+  classification: unspecified
+
+# Rename URI::parse to ::from_string
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 5750  # https://github.com/randombit/botan/pull/5750
+  merge_commit: 17fbf3483522158886d072c1813b16ebff94bcc9
+  classification: unspecified
+
+# Output filename and line number with deprecation messages on MSVC
+#   Author:    @lanurmi
+#   Approvals: (@randombit)
+- pr: 5749  # https://github.com/randombit/botan/pull/5749
+  merge_commit: 532971e3b2de436ba1ac44bb0f7a07611cf939b8
+  classification: unspecified
+
+# ZFEC optimizations and improvements
+#   Author:    @randombit
+- pr: 5747  # https://github.com/randombit/botan/pull/5747
+  merge_commit: c3f13bc82aba004ce6657833d4c09246f5de4e74
+  classification: unspecified
+
+# Extend ACVP testing
+#   Author:    @randombit
+- pr: 5748  # https://github.com/randombit/botan/pull/5748
+  merge_commit: 6f6aca19e7802f080f324a3be9e50fbced62554f
+  classification: unspecified
+
+# Add HashFunction::security_level
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5746  # https://github.com/randombit/botan/pull/5746
+  merge_commit: 06f0bec023b2a58930bca521edeb8916623c8e8b
+  classification: unspecified
+
+# Generalize `unit_tls` integration test
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5728  # https://github.com/randombit/botan/pull/5728
+  merge_commit: 9fd04cc1df8d2c3453559955a3884d80ef2da6ff
+  classification: unspecified
+
+# Various minor bug fixes in symmetric algorithm implementations
+#   Author:    @randombit
+- pr: 5742  # https://github.com/randombit/botan/pull/5742
+  merge_commit: 3367f82899dfb97316b534cd4f128b4c9675cbcf
+  classification: unspecified
+
+# Improve OCSP serialization and deserialization
+#   Author:    @randombit
+- pr: 5741  # https://github.com/randombit/botan/pull/5741
+  merge_commit: b1abe88c3102da1de6dabdfd72635ebd2442c9af
+  classification: unspecified
+
+# Support decoding of X509 authority key ID fields with a DN + serial
+#   Author:    @randombit
+- pr: 5737  # https://github.com/randombit/botan/pull/5737
+  merge_commit: af7d17a7714715a7955034ea62e318ab8a31c232
+  classification: unspecified
+
+# Remove a couple of unused functions in the tests
+#   Author:    @randombit
+- pr: 5744  # https://github.com/randombit/botan/pull/5744
+  merge_commit: fe57c66b11aa936677e7dbe8f34dda529a1fdf6a
+  classification: unspecified
+
+# Avoid possible UB in some ARMv8 code which casts byte pointers to word
+#   Author:    @randombit
+- pr: 5743  # https://github.com/randombit/botan/pull/5743
+  merge_commit: 29f523ae90bfc132a7e8dec953a29706956534d0
+  classification: unspecified
+
+# add parsing of ECC group from ECC parameters
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5532  # https://github.com/randombit/botan/pull/5532
+  merge_commit: 7566931afbe5f4c766ac0f63be78be9a3e312d5c
+  classification: unspecified
+
+# Add an explicit type for X509 certificate serial numbers
+#   Author:    @randombit
+- pr: 5740  # https://github.com/randombit/botan/pull/5740
+  merge_commit: b591e66d72b47ff227b690bd8bd97b6bd08137ed
+  classification: unspecified
+
+# Use RFC 5280's prescribed method for generating subject public key ID values
+#   Author:    @randombit
+- pr: 5735  # https://github.com/randombit/botan/pull/5735
+  merge_commit: b2360baddcbcecc5eb299078eac2dee80a2eaeae
+  classification: unspecified
+
+# Add support for encoding name constraints extensions
+#   Author:    @randombit
+- pr: 5734  # https://github.com/randombit/botan/pull/5734
+  merge_commit: 5dd87dd3c01a3608094f9acad9f76d0f17040f28
+  classification: unspecified
+
+# Fix CLI test port allocation woes
+#   Author:    @randombit
+- pr: 5738  # https://github.com/randombit/botan/pull/5738
+  merge_commit: d18ca1d401b4a2e971d97476c4f04b879022715f
+  classification: unspecified
+
+# Detect fork in Stateful_Key_Index
+#   Author:    @randombit
+- pr: 5723  # https://github.com/randombit/botan/pull/5723
+  merge_commit: 6b0b32f1ed05fa3ebb1fa7b27367eb623bc434ab
+  classification: unspecified
+
+# VSCode's bogo.py reads `repo_config.env` for BoGo branch
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5732  # https://github.com/randombit/botan/pull/5732
+  merge_commit: 1ca83828affe7e1bea105fed21d2b00c325797d9
+  classification: unspecified
+
+# In Ed25519 verification also reject the non-canonical identity
+#   Author:    @randombit
+- pr: 5731  # https://github.com/randombit/botan/pull/5731
+  merge_commit: 545d4328ec57be320e1df3a179c569a25da92194
+  classification: unspecified
+
+# Fix some issues in the compression wrappers
+#   Author:    @randombit
+- pr: 5733  # https://github.com/randombit/botan/pull/5733
+  merge_commit: 8b254582bd7c8d0ab098109686c92b13fb3743ce
+  classification: unspecified
+
+# Fix various bugs in the Pipe/Filter library
+#   Author:    @randombit
+- pr: 5724  # https://github.com/randombit/botan/pull/5724
+  merge_commit: 4956b874ab63cfbdf9cc73d16d1bcb4cdf04e343
+  classification: unspecified
+
+# Properly split EC_AffinePoint deserialization
+#   Author:    @randombit
+- pr: 5725  # https://github.com/randombit/botan/pull/5725
+  merge_commit: fd8b193028669739eea75e398e90ae9caaeda5f6
+  classification: unspecified
+
+# Various SLH-DSA fixes and improvements
+#   Author:    @randombit
+- pr: 5730  # https://github.com/randombit/botan/pull/5730
+  merge_commit: f829afbe0122568bfb92bb5a0c764e3988d53444
+  classification: unspecified
+
+# Prefer ECDSA over RSA signatures in the default TLS policy
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5727  # https://github.com/randombit/botan/pull/5727
+  merge_commit: 2eef1d8fe747df2920ae39e241e2953244220281
+  classification: unspecified
+
+# Remove dependency on `Public_Key` class hierachy in TLS 1.3
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5726  # https://github.com/randombit/botan/pull/5726
+  merge_commit: d1f4c45da786ddfc899486bd789e374cfdfa16d0
+  classification: unspecified
+
+# Fix some errors in the Python binding
+#   Author:    @randombit
+- pr: 5722  # https://github.com/randombit/botan/pull/5722
+  merge_commit: cfb533d3ab30bd386168b9b51c6c06e0147d6d32
+  classification: unspecified
+
+# FIX: Minor quirks in TLS 1.3
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5721  # https://github.com/randombit/botan/pull/5721
+  merge_commit: 5ee2510d1b11a5c2f47bf9f5c570d8b2269e5fc5
+  classification: unspecified
+
+# Add support for constructed OCTET STRING and BIT STRING during BER decoding
+#   Author:    @randombit
+- pr: 5720  # https://github.com/randombit/botan/pull/5720
+  merge_commit: b812336c9aac097fa9906d7ab440ee470b481815
+  classification: unspecified
+
+# Various fixes for SM2 signatures and encryption
+#   Author:    @randombit
+- pr: 5713  # https://github.com/randombit/botan/pull/5713
+  merge_commit: 707c2043d39cb84fa2bf123355cbbe293c305291
+  classification: unspecified
+
+# Add RFC 9909 test certificate for SLH-DSA
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5716  # https://github.com/randombit/botan/pull/5716
+  merge_commit: 768bb07d9ff6276425dc671cb1456bf8f056ceb4
+  classification: unspecified
+
+# Improve CDP, AIA and IDP extension decoding and handling
+#   Author:    @randombit
+- pr: 5712  # https://github.com/randombit/botan/pull/5712
+  merge_commit: 545a0ac246ac81a6b509302cb8050fbc48f1f4a2
+  classification: unspecified
+
+# Introduce PK_Decryptor(_EME)::ciphertext_length()
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5717  # https://github.com/randombit/botan/pull/5717
+  merge_commit: 7bf6146b33072b31357057d19200268810183144
+  classification: unspecified
+
+# Extend Blowfish to support keys up to 72 bytes in length
+#   Author:    @randombit
+- pr: 5714  # https://github.com/randombit/botan/pull/5714
+  merge_commit: fcaafca27bb1e2f5d91735c0252380289c49c318
+  classification: unspecified
+
+# ASN.1 hardenings and improved decoder strictness
+#   Author:    @randombit
+- pr: 5710  # https://github.com/randombit/botan/pull/5710
+  merge_commit: cbf80078e5cd7d849e2a0534ee3b72a09554a2de
+  classification: unspecified
+
+# Add brainpool back to the TLS-Anvil policy file
+#   Author:    @randombit
+- pr: 5709  # https://github.com/randombit/botan/pull/5709
+  merge_commit: 6372c0cbb08333b130e2b57b05f2efa843b3b235
+  classification: unspecified
+
+# Validate AlgorithmIdentifier parameters on decode
+#   Author:    @randombit
+- pr: 5703  # https://github.com/randombit/botan/pull/5703
+  merge_commit: d2e8b026f8e1e9a21b9adf52f2fb27b0416fac89
+  classification: unspecified
+
+# Avoid including brainpool TLS 1.3 curve points in the TLS-Anvil policy
+#   Author:    @randombit
+- pr: 5701  # https://github.com/randombit/botan/pull/5701
+  merge_commit: f2a10c26be9998c2385c3495858b344e013bd1a2
+  classification: unspecified
+
+# During CRL parsing, reject if a CRL entry reason is RemoveFromCrl
+#   Author:    @randombit
+- pr: 5697  # https://github.com/randombit/botan/pull/5697
+  merge_commit: 11ae2fc44c8180036bd211c6ac70375c10a1290b
+  classification: unspecified
+
+# Improve X509 certificate path building limits
+#   Author:    @randombit
+- pr: 5698  # https://github.com/randombit/botan/pull/5698
+  merge_commit: b2d983cbab3acfe86d50520cf06eb34b1fac4c04
+  classification: unspecified
+
+# [std::span] For TLS message and extension parsing and usage
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5700  # https://github.com/randombit/botan/pull/5700
+  merge_commit: 8cc9837fcd5afacd0b4ccb82d113a004cf55273c
+  classification: unspecified
+
+# Reduce runtime for the ISO 9796 padding test
+#   Author:    @randombit
+- pr: 5699  # https://github.com/randombit/botan/pull/5699
+  merge_commit: ed7e002149d983d7a5914b9cf776eb8c955d300e
+  classification: unspecified
+
+# Support CRL Numbers larger than 32 bits
+#   Author:    @randombit
+- pr: 5694  # https://github.com/randombit/botan/pull/5694
+  merge_commit: 626928ce6c14a3ef45e02161dc006705369397e7
+  classification: unspecified
+
+# In FFI use the CRL DP URI getter instead of iteration on the extension directly
+#   Author:    @randombit
+- pr: 5695  # https://github.com/randombit/botan/pull/5695
+  merge_commit: 2f4cfc4daa12a77e0aa5a2bfeaf099960377332b
+  classification: unspecified
+
+# Improve ASN.1 APIs for implicit tag and bitstring handling
+#   Author:    @randombit
+- pr: 5693  # https://github.com/randombit/botan/pull/5693
+  merge_commit: 850a57d0697b5e1ffcf0a50977ceabfe59f085b7
+  classification: unspecified
+
+# Update Limbo test suite
+#   Author:    @randombit
+- pr: 5692  # https://github.com/randombit/botan/pull/5692
+  merge_commit: ab51c38432049206127c8d881457f0ffd2c774f4
+  classification: unspecified
+
+# [TLS 1.3] Support for Brainpool ECDH code-points as defined in RFC8734
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5691  # https://github.com/randombit/botan/pull/5691
+  merge_commit: 98ff8446d05cae5684e63280a3b59cf5a67a524f
+  classification: unspecified
+
+# Improve X509 CRL decoding checks and encoding logic
+#   Author:    @randombit
+- pr: 5687  # https://github.com/randombit/botan/pull/5687
+  merge_commit: 7aae8ee7871180adf8f1e448500a7717136e1061
+  classification: unspecified
+
+# In random_prime require that equiv and modulo are relatively prime
+#   Author:    @randombit
+- pr: 5688  # https://github.com/randombit/botan/pull/5688
+  merge_commit: c17134b83625fbb59d21099e98a9e289f2a09087
+  classification: unspecified
+
+# Extend calendar_point/ASN1_Time to support timepoint conversions for 1950-1970
+#   Author:    @randombit
+- pr: 5685  # https://github.com/randombit/botan/pull/5685
+  merge_commit: 45a096ed8ac9015aec72a3b6974b36b6fc4306f3
+  classification: unspecified
+
+# Fix bugs in ISO 9796 signature verification, and deprecate it
+#   Author:    @randombit
+#   Approvals: (@FAlbertDev)
+- pr: 5680  # https://github.com/randombit/botan/pull/5680
+  merge_commit: bbae9e6a5239d3806dde4851a0eef01c80331a37
+  classification: unspecified
+
+# Add support for parsing URIs without an authority
+#   Author:    @randombit
+- pr: 5683  # https://github.com/randombit/botan/pull/5683
+  merge_commit: 21b08132307a8cd71552904a97e099ea8aba7bab
+  classification: unspecified
+
+# Improve X509_Certificate::to_string
+#   Author:    @randombit
+- pr: 5682  # https://github.com/randombit/botan/pull/5682
+  merge_commit: 8636e29f78e05e1c9de098074a51866923023e23
+  classification: unspecified
+
+# In PK_Ops::Encryption_with_Padding::encrypt use the correct length
+#   Author:    @randombit
+- pr: 5681  # https://github.com/randombit/botan/pull/5681
+  merge_commit: 2b40ba14a56f3fd75863dd3529a97a2cc2e01139
+  classification: unspecified
+
+# Reject use of UTCTime in OCSP responses
+#   Author:    @randombit
+- pr: 5678  # https://github.com/randombit/botan/pull/5678
+  merge_commit: fa1afadf6904e65ded1e8b97fa9e73949647de7b
+  classification: unspecified
+
+# Precheck length in raw variants of PSS and PKCS signature padding
+#   Author:    @randombit
+- pr: 5679  # https://github.com/randombit/botan/pull/5679
+  merge_commit: 6571f40ac76011162c9dff1642ee49dd82d4f67b
+  classification: unspecified
+
+# TLS 1.3 handshake hardenings
+#   Author:    @randombit
+- pr: 5664  # https://github.com/randombit/botan/pull/5664
+  merge_commit: 2fed129015ee6a28837c39ad16e9fc39dbe5710f
+  classification: unspecified
+
+# Add OID::registered_name
+#   Author:    @randombit
+- pr: 5677  # https://github.com/randombit/botan/pull/5677
+  merge_commit: 3b431cf195ed2f870ec8c99aa9779bb15cc81ded
+  classification: unspecified
+
+# Require that RSA ciphertexts are the exact length of the modulus
+#   Author:    @randombit
+- pr: 5675  # https://github.com/randombit/botan/pull/5675
+  merge_commit: ad7181fa68b6be38a8dc24a30945dbcb2824213c
+  classification: unspecified
+
+# Improve HyMES-based McEliece input validation and parameter verification
+#   Author:    @randombit
+- pr: 5676  # https://github.com/randombit/botan/pull/5676
+  merge_commit: 158d9c953e6895763f9de48e13c91752ba88122b
+  classification: unspecified
+
+# Refactor ASN1_Time and tweak rules on ASN.1 date formats accepted
+#   Author:    @randombit
+- pr: 5668  # https://github.com/randombit/botan/pull/5668
+  merge_commit: adf0cf6a2c36250aa5b916a13e1e08ffa1decfa1
+  classification: unspecified
+
+# Validate SQL table names
+#   Author:    @randombit
+- pr: 5673  # https://github.com/randombit/botan/pull/5673
+  merge_commit: 1d3b4ab64c5847baff536c25a5e08b76cec7e277
+  classification: unspecified
+
+# Fix various minor KDF bugs
+#   Author:    @randombit
+- pr: 5674  # https://github.com/randombit/botan/pull/5674
+  merge_commit: 695e153023e09385557be138f34c30f54e5d10ca
+  classification: unspecified
+
+# Fix message authentication code edge cases
+#   Author:    @randombit
+- pr: 5672  # https://github.com/randombit/botan/pull/5672
+  merge_commit: 5f03795123f4a572686824186077904088fb5301
+  classification: unspecified
+
+# In all public and private key classes, store data as a const shared_ptr
+#   Author:    @randombit
+- pr: 5671  # https://github.com/randombit/botan/pull/5671
+  merge_commit: dfa0010e72ef2e3a684ce3453a68e0d5b72c3f03
+  classification: unspecified
+
+# Avoid using `bool` for secret bits in Classic McEliece
+#   Author:    @randombit
+- pr: 5667  # https://github.com/randombit/botan/pull/5667
+  merge_commit: a888026696b32f24c280b4552555d9a3888e2869
+  classification: unspecified
+
+# Various small optimizations for X509 path validation
+#   Author:    @randombit
+- pr: 5670  # https://github.com/randombit/botan/pull/5670
+  merge_commit: 23d9ae9b4736d9803a376d1c7eb35b7a21bfc4c4
+  classification: unspecified
+
+# When decoding an HSS public key reject L = 0
+#   Author:    @randombit
+- pr: 5666  # https://github.com/randombit/botan/pull/5666
+  merge_commit: 49debfec54dd365934dfd3d315461e78dc5cb625
+  classification: unspecified
+
+# Fix a bug in SIV when AADs are set with a gap in the index
+#   Author:    @randombit
+- pr: 5665  # https://github.com/randombit/botan/pull/5665
+  merge_commit: 7b1ca99f2ecac24dac0b811d08e3226dac3d2777
+  classification: unspecified
+
+# Bugfixes and enhancements for DNSName, URI, IPv4Address, IPv6Address
+#   Author:    @randombit
+- pr: 5663  # https://github.com/randombit/botan/pull/5663
+  merge_commit: 85d438d4a484188ba9fcfba2f1f05deec18b10b7
+  classification: unspecified
+
+# Fix some stateful signature edge cases
+#   Author:    @randombit
+- pr: 5662  # https://github.com/randombit/botan/pull/5662
+  merge_commit: 602befe17687c6537ade6519e5f4acedad177a8d
+  classification: unspecified
+
+# Fix order of X.509 DFS iteration
+#   Author:    @randombit
+- pr: 5660  # https://github.com/randombit/botan/pull/5660
+  merge_commit: 10237a3b42025d02577397cb7780723cb76fc04a
+  classification: unspecified
+
+# Consistently zero output data if AEAD tag or CBC padding fails
+#   Author:    @randombit
+- pr: 5659  # https://github.com/randombit/botan/pull/5659
+  merge_commit: 76567fae89713d89f5488447181caa5727043880
+  classification: unspecified
+
+# Add X509_DN::parse and improve DN string parsing
+#   Author:    @randombit
+- pr: 5658  # https://github.com/randombit/botan/pull/5658
+  merge_commit: 0fa38ddcc435db5e4605a4e824e8c6c943869c76
+  classification: unspecified
+
+# Escape control characters in codec error reporting and DN printing
+#   Author:    @randombit
+- pr: 5657  # https://github.com/randombit/botan/pull/5657
+  merge_commit: 044d59fdbe63f7f96cc75a26dd99ea176369bccf
+  classification: unspecified
+
+# Add AVX-512/GFNI implementation of the Streebog compression function
+#   Author:    @randombit
+- pr: 5655  # https://github.com/randombit/botan/pull/5655
+  merge_commit: 0c389d688a2a78c8bba7d3745df455286a184904
+  classification: unspecified
+
+# Various small hardenings and improve input validation
+#   Author:    @randombit
+- pr: 5649  # https://github.com/randombit/botan/pull/5649
+  merge_commit: f21f6268e2fa25e60ade2054c8f1d46dad763c85
+  classification: unspecified
+
+# Faster X509_DN comparison and subtree checks using precomputed canonical bytes
+#   Author:    @randombit
+- pr: 5652  # https://github.com/randombit/botan/pull/5652
+  merge_commit: 630104e9a79aef08bab9cf49e478bfc04fafbd51
+  classification: unspecified
+
+# Add further name constraint test chains
+#   Author:    @randombit
+- pr: 5651  # https://github.com/randombit/botan/pull/5651
+  merge_commit: e503159ef55c88687d829df3783413bfee5bb6ff
+  classification: unspecified
+
+# Improve prefetching for table based implementations
+#   Author:    @randombit
+- pr: 5642  # https://github.com/randombit/botan/pull/5642
+  merge_commit: c048c9be97bb5412e24b1301f7fdc11ce371a4e3
+  classification: unspecified
+
+# Add more missing nullptr checks to ffi
+#   Author:    @randombit
+- pr: 5647  # https://github.com/randombit/botan/pull/5647
+  merge_commit: 73caf06ed9ec6558e379b21f26153a3c7e5eda7d
+  classification: unspecified
+
+# Improve EC_Scalar cross-group checks
+#   Author:    @randombit
+- pr: 5650  # https://github.com/randombit/botan/pull/5650
+  merge_commit: 1a6cc94cabd0c9b893772de1d1fde6d4c221ae91
+  classification: unspecified
+
+# Remove noexcept annotations from functions which might throw
+#   Author:    @randombit
+- pr: 5646  # https://github.com/randombit/botan/pull/5646
+  merge_commit: 09e82b015d80e65f2ed5e3b1811f4d5fa7f10649
+  classification: unspecified
+
+# Fix assumption in FrodoMatrix::pack that its output buffer was zero initialized
+#   Author:    @randombit
+- pr: 5648  # https://github.com/randombit/botan/pull/5648
+  merge_commit: be9676695d00bfa4c97221aa66878b68dac9f1b8
+  classification: unspecified
+
+# Consolidate string to integer parsing logic
+#   Author:    @randombit
+- pr: 5645  # https://github.com/randombit/botan/pull/5645
+  merge_commit: c57928be8fcc5deff8fa081bd2e9739eb75ce6d3
+  classification: unspecified
+
+# Improve validation of parameters field in algorithm identifiers
+#   Author:    @randombit
+- pr: 5643  # https://github.com/randombit/botan/pull/5643
+  merge_commit: 12a1a71ed5b8dd3dca65505ce4f5fd5a089aaba9
+  classification: unspecified
+
+# Fix various clang-tidy warnings
+#   Author:    @randombit
+- pr: 5644  # https://github.com/randombit/botan/pull/5644
+  merge_commit: b3972de4372fce4e4993c763ff4bde90d2d61263
+  classification: unspecified
+
+# Add hwaes hook for SM4 key schedule
+#   Author:    @randombit
+- pr: 5639  # https://github.com/randombit/botan/pull/5639
+  merge_commit: 9b33df19502052e40f273aed5ff64db89c79963f
+  classification: unspecified
+
+# Modify bitvector::resize to avoid a GCC 16 false positive warning
+#   Author:    @randombit
+- pr: 5641  # https://github.com/randombit/botan/pull/5641
+  merge_commit: ae1d021c584712ec993f4d32e22c349e88e97418
+  classification: unspecified
+
+# Fix cases where copy, move or clone resulted in incorrect states or incomplete copies
+#   Author:    @randombit
+- pr: 5632  # https://github.com/randombit/botan/pull/5632
+  merge_commit: 6e092bfca056a7efc6785584ed7e9eae4ea2207a
+  classification: unspecified
+
+# Add missing nullptr checks to FFI
+#   Author:    @randombit
+- pr: 5634  # https://github.com/randombit/botan/pull/5634
+  merge_commit: 559b8ff9a99c73765b2c8783d5327588ee19f97c
+  classification: unspecified
+
+# Fix some RNG fork/thread safety bugs
+#   Author:    @randombit
+- pr: 5635  # https://github.com/randombit/botan/pull/5635
+  merge_commit: fe00c82836600e9e52e7c4603dfc8f0833b916a3
+  classification: unspecified
+
+# Refactor password hashing in PBES2
+#   Author:    @randombit
+- pr: 5636  # https://github.com/randombit/botan/pull/5636
+  merge_commit: 53d878ae65b049932156a5877f4cb4915798a051
+  classification: unspecified
+
+# Add a few missing structural checks during ASN.1 decoding
+#   Author:    @randombit
+- pr: 5637  # https://github.com/randombit/botan/pull/5637
+  merge_commit: f92390016bd5f206ae66293db99efcb68c037313
+  classification: unspecified
+
+# Rewrite the SM4 key schedule to run in constant time
+#   Author:    @randombit
+- pr: 5638  # https://github.com/randombit/botan/pull/5638
+  merge_commit: 44ce2e2cc71027959d089d5b402f8be27caf63ae
+  classification: unspecified
+
+# Add iteration limits to X509 path building functions
+#   Author:    @randombit
+- pr: 5633  # https://github.com/randombit/botan/pull/5633
+  merge_commit: 9b5cb932e9aa40d475bdcf38b579305b8f63ad9b
+  classification: unspecified
+
+# Systematically eliminate any possible integer overflows
+#   Author:    @randombit
+- pr: 5631  # https://github.com/randombit/botan/pull/5631
+  merge_commit: 01c3438e3657b99d41ee95fa156ab57920d1a110
+  classification: unspecified
+
+# Upgrade to TLS-Anvil 1.5
+#   Author:    @randombit
+- pr: 5630  # https://github.com/randombit/botan/pull/5630
+  merge_commit: 6b88cc08cc443dd094e081a9d101f2032dac1d12
+  classification: unspecified
+
+# In Argon2 and Scrypt provide some reasonable upper bound on memory consumption
+#   Author:    @randombit
+- pr: 5629  # https://github.com/randombit/botan/pull/5629
+  merge_commit: 8a5dde2565785c74fbfbbf0cd9f245ecba6fce76
+  classification: unspecified
+
+# In StreamCipher avoid seeking or reading past the defined keystream
+#   Author:    @randombit
+- pr: 5628  # https://github.com/randombit/botan/pull/5628
+  merge_commit: 58464241065b87871ee9f9b596d4ee44928d78ae
+  classification: unspecified
+
+# OCSP optimizations and policy changes
+#   Author:    @randombit
+- pr: 5623  # https://github.com/randombit/botan/pull/5623
+  merge_commit: 9a97b324531d321a5ece669259db2261645bd020
+  classification: unspecified
+
+# chore(test): Resolve TODO in Roughtime_Request test
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5624  # https://github.com/randombit/botan/pull/5624
+  merge_commit: b801a751d0b96f40e4a3b3e1710447d05d89cacb
+  classification: unspecified
+
+# Add PKCS#12 KDF
+#   Author:    @dmazzella
+#   Approvals: (@randombit)
+- pr: 5478  # https://github.com/randombit/botan/pull/5478
+  merge_commit: c627228fe76cf8827fe995fa9da0949a949ba8c2
+  classification: unspecified
+
+# Fix various bugs in the PKCS11 wrapper
+#   Author:    @randombit
+- pr: 5602  # https://github.com/randombit/botan/pull/5602
+  merge_commit: a09371704741bbadbf395268cfc37e43f1ba9cec
+  classification: unspecified
+
+# Add typed add to AlternativeName for URL, DNSName, and EmailAddress
+#   Author:    @randombit
+- pr: 5622  # https://github.com/randombit/botan/pull/5622
+  merge_commit: 35d6e9521153292a03607c2d6bc0436da3bfbb60
+  classification: unspecified
+
+# Move the cli test TCP/UDP port range downward
+#   Author:    @randombit
+- pr: 5621  # https://github.com/randombit/botan/pull/5621
+  merge_commit: e0068e4354a93a5b98c3ba95d559d47c5ed40603
+  classification: unspecified
+
+# Modify DN decoding to capture RDN groupings
+#   Author:    @randombit
+- pr: 5618  # https://github.com/randombit/botan/pull/5618
+  merge_commit: e0aaa196e54d7ba925048981fcf3465ac07891da
+  classification: unspecified
+
+# refactor(aes_ni): Replace raw __m128i intrinsics with SIMD_4x32 in key schedules
+#   Author:    @KaganCanSit
+#   Approvals: (@randombit)
+- pr: 5549  # https://github.com/randombit/botan/pull/5549
+  merge_commit: b582133a8a1d1ebe4fb0933a00ab23f1cfc5f6b2
+  classification: unspecified
+
+# Require that X509 extensions match their context
+#   Author:    @randombit
+- pr: 5611  # https://github.com/randombit/botan/pull/5611
+  merge_commit: a3b983b3db6705b990197919578aca9384693f9b
+  classification: unspecified
+
+# Fix various cipher mode edge case bugs
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5610  # https://github.com/randombit/botan/pull/5610
+  merge_commit: cea55088d7788c2af8314a7c52643d760c032f79
+  classification: unspecified
+
+# Minor clarification in IntMod::pow_vartime()
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5619  # https://github.com/randombit/botan/pull/5619
+  merge_commit: 7aa361751bb1ac4cefb0d128d0fde819baac3fb9
+  classification: unspecified
+
+# Add more name constraint test cases
+#   Author:    @randombit
+- pr: 5616  # https://github.com/randombit/botan/pull/5616
+  merge_commit: 40857f656098da10cc646516f0ca7852a5340d0d
+  classification: unspecified
+
+# Improve the HTTP 1.0 client used for OCSP/CRL
+#   Author:    @randombit
+- pr: 5609  # https://github.com/randombit/botan/pull/5609
+  merge_commit: 3c50c5dfd5a759207d14662be6a9da11070f544b
+  classification: unspecified
+
+# In X509 use named types (URI, EmailAddress, DNSName, IPv4Address) rather than std::string or uint32_t
+#   Author:    @randombit
+- pr: 5601  # https://github.com/randombit/botan/pull/5601
+  merge_commit: 2373e9401752be09e7db24bdc8f97c5cab162158
+  classification: unspecified
+
+# Require that OCSP nocheck extension is only on OCSP responder certs
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5605  # https://github.com/randombit/botan/pull/5605
+  merge_commit: 3ec1d5e68326331a2fd5e8cddc3031b99e6e8b94
+  classification: unspecified
+
+# Improve Database interface, fix various Sqlite3 binding bugs
+#   Author:    @randombit
+- pr: 5607  # https://github.com/randombit/botan/pull/5607
+  merge_commit: b21dc82115274bc5c7d906cde108db97b235f9f3
+  classification: unspecified
+
+# Add URI and email name constraint processing
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5598  # https://github.com/randombit/botan/pull/5598
+  merge_commit: e4f123280cfa0cb7687f2e7eba55d397bb7abf57
+  classification: unspecified
+
+# Fix a KMAC padding edge case
+#   Author:    @randombit
+#   Approvals: @falko-strenzke
+- pr: 5584  # https://github.com/randombit/botan/pull/5584
+  merge_commit: 6a56d8b160231509bb1d02804cacd9f42b8b8c64
+  classification: unspecified
+
+# Check return value of sysctlbyname
+#   Author:    @randombit
+- pr: 5606  # https://github.com/randombit/botan/pull/5606
+  merge_commit: aa8f5456c3b11926287b1ab7bcc0b8e32108bab0
+  classification: unspecified
+
+# Add timeout to running apt-get update on Github Actions
+#   Author:    @randombit
+- pr: 5604  # https://github.com/randombit/botan/pull/5604
+  merge_commit: 1aea685295f0864998f770e0099b0361bd3558bc
+  classification: unspecified
+
+# Use span and string_view for function inputs in charset.h
+#   Author:    @randombit
+- pr: 5603  # https://github.com/randombit/botan/pull/5603
+  merge_commit: 4fa05db5758f58dc60ccc834191016eb964cd992
+  classification: unspecified
+
+# Add support for RFC 9608 No Revocation Available extension
+#   Author:    @randombit
+#   Approvals: (@reneme)
+- pr: 5595  # https://github.com/randombit/botan/pull/5595
+  merge_commit: ed0ced67c852c90134855139e3540fa4e44f56c6
+  classification: unspecified
+
+# Move IPv6 address parsing and formatting utils to ipv6_address.cpp
+#   Author:    @randombit
+- pr: 5597  # https://github.com/randombit/botan/pull/5597
+  merge_commit: 08e296e6ad246ac5e362e56b531dc04321b12a82
+  classification: unspecified
+
+# Temporarily revert the check on RSA signature sizes
+#   Author:    @randombit
+- pr: 5596  # https://github.com/randombit/botan/pull/5596
+  merge_commit: 8ef3c598995b13151c0411c206e8a2ef275c94dd
+  classification: unspecified
+
+# Various BigInt/mp related hardenings and bug fixes
+#   Author:    @randombit
+- pr: 5592  # https://github.com/randombit/botan/pull/5592
+  merge_commit: c5930e7087ca27ff21b3b5528dced4a2e9e8c82c
+  classification: unspecified
+
+# Various PKIX hardening and bug fixes
+#   Author:    @randombit
+- pr: 5593  # https://github.com/randombit/botan/pull/5593
+  merge_commit: 33a8037486904aa233454cba985e6225b97a3df6
+  classification: unspecified
+
+# In GH Actions clean up branch caches after the PRs are merged
+#   Author:    @randombit
+- pr: 5591  # https://github.com/randombit/botan/pull/5591
+  merge_commit: 29759d2e09f2b78ea3b3e59e712029cb5b2af44a
+  classification: unspecified
+
+# In Ed25519 and Ed448 reject the identity element as a public key
+#   Author:    @randombit
+- pr: 5590  # https://github.com/randombit/botan/pull/5590
+  merge_commit: 1a06a71c79239b96422fbd936b4721f4323b6f65
+  classification: unspecified
+
+# Throw the correct exception for a FrodoKEM private key decoding issue
+#   Author:    @randombit
+- pr: 5589  # https://github.com/randombit/botan/pull/5589
+  merge_commit: 35d85eaa7a28688502dacef689f2f817234e7618
+  classification: unspecified
+
+# Improve verification of EC group generators
+#   Author:    @randombit
+- pr: 5588  # https://github.com/randombit/botan/pull/5588
+  merge_commit: fbb82b80c510b06d27703410711776196939ad4b
+  classification: unspecified
+
+# Avoid possible integer overflow in BigInt left shift.
+#   Author:    @randombit
+- pr: 5586  # https://github.com/randombit/botan/pull/5586
+  merge_commit: 9c2370127a56e59214d09a886bc865ed6087e421
+  classification: unspecified
+
+# Fix BigInt division when both inputs are negative
+#   Author:    @randombit
+- pr: 5585  # https://github.com/randombit/botan/pull/5585
+  merge_commit: 9ca10c7b7115af54ac25ed7487f68af2f6c96077
+  classification: unspecified
+
+# In Win32 entropy source, check return values before passing to the RNG
+#   Author:    @randombit
+- pr: 5583  # https://github.com/randombit/botan/pull/5583
+  merge_commit: a1f28a1a0f22bd2288651dac07b362cf8ebcf28e
+  classification: unspecified
+
+# Prohibit a DH public key of p-1
+#   Author:    @randombit
+- pr: 5581  # https://github.com/randombit/botan/pull/5581
+  merge_commit: 2b8ed9e4283b04b774f9c8ee2f40869c5c1c6e9f
+  classification: unspecified
+
+# Update for 3.13.0 release
+#   Author: Jack Lloyd
+- commit: 2a81eef56c96c237e590c27f9a75e60317c9c700  # https://github.com/randombit/botan/commit/2a81eef56c96c237e590c27f9a75e60317c9c700
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 868a487afa89b758f70c1f1236252ad6626513d7  # https://github.com/randombit/botan/commit/868a487afa89b758f70c1f1236252ad6626513d7
+  classification: unspecified
+
+# Add missing module dependency [ci skip]
+#   Author: Jack Lloyd
+- commit: 980d0cb4aaa61a1cb76df480a9fcec5cf23fafb5  # https://github.com/randombit/botan/commit/980d0cb4aaa61a1cb76df480a9fcec5cf23fafb5
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: c6a6be802e6d93c0ffdb2bc16e417d8feee86ff8  # https://github.com/randombit/botan/commit/c6a6be802e6d93c0ffdb2bc16e417d8feee86ff8
+  classification: unspecified
+
+# Update goals document [ci skip]
+#   Author: Jack Lloyd
+- commit: 7c3ffe6ba4ad3382b95234e82fd7cd635b9b2c7a  # https://github.com/randombit/botan/commit/7c3ffe6ba4ad3382b95234e82fd7cd635b9b2c7a
+  classification: unspecified
+
+# Update the roadmap [ci skip]
+#   Author: Jack Lloyd
+- commit: b776d8ac394d9320ef5a609c8455c4a969b08fa8  # https://github.com/randombit/botan/commit/b776d8ac394d9320ef5a609c8455c4a969b08fa8
+  classification: unspecified
+
+# Fix a typo [ci skip]
+#   Author: Jack Lloyd
+- commit: f618c886ed2dafe2e59c9b6f06e36293408f0460  # https://github.com/randombit/botan/commit/f618c886ed2dafe2e59c9b6f06e36293408f0460
+  classification: unspecified
+
+# Fix some doc crossref typos [ci skip]
+#   Author: Jack Lloyd
+- commit: 6bf293b4366cb66e7daf2c3d9726ce316532dc63  # https://github.com/randombit/botan/commit/6bf293b4366cb66e7daf2c3d9726ce316532dc63
+  classification: unspecified
+
+# Fix bad doc link [ci skip]
+#   Author: Jack Lloyd
+- commit: 68459e748034bfe77e31d5b02777dca6a1cd565f  # https://github.com/randombit/botan/commit/68459e748034bfe77e31d5b02777dca6a1cd565f
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: b0b04139199798d463016f54b6d1e368e5b542c9  # https://github.com/randombit/botan/commit/b0b04139199798d463016f54b6d1e368e5b542c9
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 32556ae61220d4efc2314d43c8d4b3f7b8ff7aac  # https://github.com/randombit/botan/commit/32556ae61220d4efc2314d43c8d4b3f7b8ff7aac
+  classification: unspecified
+
+# Add missing include [ci skip]
+#   Author: Jack Lloyd
+- commit: c2ac22d5c8d49e91c96d36683c75dd0c71462806  # https://github.com/randombit/botan/commit/c2ac22d5c8d49e91c96d36683c75dd0c71462806
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 0f17f004d6f8bc1ed01a28d2a5b2a50236683522  # https://github.com/randombit/botan/commit/0f17f004d6f8bc1ed01a28d2a5b2a50236683522
+  classification: unspecified
+
+# Add docs for Python X509CRLReason codes [ci skip]
+#   Author: Jack Lloyd
+- commit: 164885cdcdc22526d3aa0fdb67da7189ed4df28c  # https://github.com/randombit/botan/commit/164885cdcdc22526d3aa0fdb67da7189ed4df28c
+  classification: unspecified
+
+# In CI also add a timeout to apt-get install [ci skip]
+#   Author: Jack Lloyd
+- commit: 6fe7c3e64d7e9814eada8564e168586a9f23daeb  # https://github.com/randombit/botan/commit/6fe7c3e64d7e9814eada8564e168586a9f23daeb
+  classification: unspecified
+
+# Update side channel document [ci skip]
+#   Author: Jack Lloyd
+- commit: b83b308ee008df1b77d1485506dc2c93aee162e8  # https://github.com/randombit/botan/commit/b83b308ee008df1b77d1485506dc2c93aee162e8
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: c395800f633a8f1a73d18bce2a8f855d07066396  # https://github.com/randombit/botan/commit/c395800f633a8f1a73d18bce2a8f855d07066396
+  classification: unspecified
+
+# Fix EC_Scalar_Data_BN::square_self
+#   Author: Jack Lloyd
+- commit: dee4717c3f3935a4c41dad40474eba00540489d5  # https://github.com/randombit/botan/commit/dee4717c3f3935a4c41dad40474eba00540489d5
+  classification: unspecified
+
+# Add a few more file types to .gitignore in the top level dir [ci skip]
+#   Author: Jack Lloyd
+- commit: 6d28ad63476e5db9d3434c5d1c2297b5feb28b13  # https://github.com/randombit/botan/commit/6d28ad63476e5db9d3434c5d1c2297b5feb28b13
+  classification: unspecified
+
+# Add some further notes for contributors [ci skip]
+#   Author: Jack Lloyd
+- commit: d9cbc958d153a48e8f62055fa944e43614388138  # https://github.com/randombit/botan/commit/d9cbc958d153a48e8f62055fa944e43614388138
+  classification: unspecified
+
+# Reference the threat model document from security.rst [ci skip]
+#   Author: Jack Lloyd
+- commit: a49695797afbcb6dc462ef91075a660bc2949d98  # https://github.com/randombit/botan/commit/a49695797afbcb6dc462ef91075a660bc2949d98
+  classification: unspecified
+
+# Add missing length check in RSA-KEM decryption
+#   Author: Jack Lloyd
+- commit: 78f5d5a343800318723ad45c90efdee65b921fee  # https://github.com/randombit/botan/commit/78f5d5a343800318723ad45c90efdee65b921fee
+  classification: unspecified
+
+# Add missing volatile specifiers in mp_asmi.h
+#   Author: Jack Lloyd
+- commit: 82e2c98d66f4e80a7a674fda008252fd95bfc825  # https://github.com/randombit/botan/commit/82e2c98d66f4e80a7a674fda008252fd95bfc825
+  classification: unspecified
+
+# Add missing length check in next_utf8_codepoint
+#   Author: Jack Lloyd
+- commit: 19e3653a080b0897d0968557b78bd773cd45ed26  # https://github.com/randombit/botan/commit/19e3653a080b0897d0968557b78bd773cd45ed26
+  classification: unspecified
+
+# Add missing check on return value of calloc in sodium_malloc
+#   Author: Jack Lloyd
+- commit: 4465153df7812b5c757156b421120ee06367eab0  # https://github.com/randombit/botan/commit/4465153df7812b5c757156b421120ee06367eab0
+  classification: unspecified
+
+# Escape control chars in X509_Certificate::to_string
+#   Author: Jack Lloyd
+- commit: b349eb3acffadb714404c6143e37518167cef721  # https://github.com/randombit/botan/commit/b349eb3acffadb714404c6143e37518167cef721
+  classification: unspecified
+
+# Initialize input_consumed in the base_decode helper
+#   Author: Jack Lloyd
+- commit: 89db4dee3be16cb2b12cd01b9393304eff93b45e  # https://github.com/randombit/botan/commit/89db4dee3be16cb2b12cd01b9393304eff93b45e
+  classification: unspecified
+
+# Remove unused member variable from Encrypted_PSK_Database
+#   Author: Jack Lloyd
+- commit: c41b50eafd8dd8038d52e040de7f163cc1f1acde  # https://github.com/randombit/botan/commit/c41b50eafd8dd8038d52e040de7f163cc1f1acde
+  classification: unspecified
+
+# Avoid possible null deref in DLIES_Encryptor::ciphertext_length
+#   Author: Jack Lloyd
+- commit: 8836eb52b19853204c1b54c997399965e73aa56a  # https://github.com/randombit/botan/commit/8836eb52b19853204c1b54c997399965e73aa56a
+  classification: unspecified
+
+# Avoid signed overflow in base58 decoding
+#   Author: Jack Lloyd
+- commit: 76e44760e34229270b5412192fd436c4aba179b9  # https://github.com/randombit/botan/commit/76e44760e34229270b5412192fd436c4aba179b9
+  classification: unspecified
+
+# Add volatile specifier to rdseed inline asm annotation
+#   Author: Jack Lloyd
+- commit: 625633fd4774620fe688abdaa356daf797ff11b4  # https://github.com/randombit/botan/commit/625633fd4774620fe688abdaa356daf797ff11b4
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 6cabfd2a562333a960c64ee7051536a589580ae1  # https://github.com/randombit/botan/commit/6cabfd2a562333a960c64ee7051536a589580ae1
+  classification: unspecified
+
+# Add support for randomized ML-DSA signing in Wycheproof test script
+#   Author: Jack Lloyd
+- commit: 9cd4c160e8a8759c0ae19ca9e4953a2d1725f9fa  # https://github.com/randombit/botan/commit/9cd4c160e8a8759c0ae19ca9e4953a2d1725f9fa
+  classification: unspecified
+
+# Use a mirror for Intel SDE [ci skip]
+#   Author: Jack Lloyd
+- commit: 89c6d2463eed803533102cb9a9daceb41adc47e9  # https://github.com/randombit/botan/commit/89c6d2463eed803533102cb9a9daceb41adc47e9
+  classification: unspecified
+
+# Downgrade null char check in dns_subtree_match to a debug assert
+#   Author: Jack Lloyd
+- commit: 975e319db3d70823952c11b7c06cb92bf240594f  # https://github.com/randombit/botan/commit/975e319db3d70823952c11b7c06cb92bf240594f
+  classification: unspecified
+
+# Fix RFC reference typo [ci skip]
+#   Author: Jack Lloyd
+- commit: a0e77f81390bcd2bcf2858526aacf98178aae235  # https://github.com/randombit/botan/commit/a0e77f81390bcd2bcf2858526aacf98178aae235
+  classification: unspecified
+
+# Fix a typo [ci skip]
+#   Author: Jack Lloyd
+- commit: ae4d04e7cefdf88047192ceb364a57e832f1d9b2  # https://github.com/randombit/botan/commit/ae4d04e7cefdf88047192ceb364a57e832f1d9b2
+  classification: unspecified
+
+# Bump version to 3.13.0-pre
+#   Author: Jack Lloyd
+- commit: 1375a05909d7eff7f03e31a48896eec180370236  # https://github.com/randombit/botan/commit/1375a05909d7eff7f03e31a48896eec180370236
+  classification: unspecified
+
+# Push security reports towards using Github's private issues flow [ci skip]
+#   Author: Jack Lloyd
+- commit: 3da752ccaf3f809ed142b5ba4f78071292cdd607  # https://github.com/randombit/botan/commit/3da752ccaf3f809ed142b5ba4f78071292cdd607
+  classification: unspecified
+
+# Correct documentation comment [ci skip]
+#   Author: Jack Lloyd
+- commit: d0c0223e281981c0ea8ceb9494e0b513c3a9251d  # https://github.com/randombit/botan/commit/d0c0223e281981c0ea8ceb9494e0b513c3a9251d
+  classification: unspecified

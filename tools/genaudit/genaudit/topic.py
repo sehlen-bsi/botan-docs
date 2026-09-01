@@ -12,9 +12,6 @@ from genaudit import refs, util
 class Topic:
     def __init__(self, topic_file: str):
         self.file = topic_file
-        # Topic files whose patches were relocated into this topic via their
-        # 'categories' field. Rendered output depends on those files as well.
-        self.extra_source_files = []
         with open(topic_file, 'r') as f:
             cfg = yaml.load(f, Loader=yaml.FullLoader)
             if not cfg:
