@@ -7051,3 +7051,22 @@ patches:
 - pr: 5892  # https://github.com/randombit/botan/pull/5892
   merge_commit: 0bd1affa77f7e022f9fa1171c1a0eea286a5b823
   classification: unspecified
+
+# Remove unused header includes
+#   Author:    @randombit
+- pr: 5897  # https://github.com/randombit/botan/pull/5897
+  merge_commit: 8b4aa17bb63e07f752082d97c7f7899dec8d93a2
+  classification: unspecified
+
+# Fix typo in FFI docs
+#   Author:    @tttuuu888
+#   Approvals: (@randombit)
+- pr: 5896  # https://github.com/randombit/botan/pull/5896
+  merge_commit: a96dd5dfccf8c605878435e97e6ced1eb5a6152f
+  classification: unspecified
+
+# Add support for precompiled headers
+#   Author:    @randombit
+- pr: 5298  # https://github.com/randombit/botan/pull/5298
+  merge_commit: 383836c0368db7ae7165e2889b25af2183426e0c
+  classification: unspecified
