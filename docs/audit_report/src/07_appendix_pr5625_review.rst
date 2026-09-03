@@ -208,7 +208,7 @@ F8 (Info) — Legacy algorithm surface and TR-02102 relevance
 For interoperability the implementation accepts (decrypt) and can produce
 (explicit ``legacy_compat()``/option only) ``PBE-SHA1-3DES`` and
 ``PBE-SHA1-2DES`` — SHA-1-based KDF, 8-byte salt, and in the 2DES case an
-effective security level around 80–112 bits (2-key 3DES, expanded K1‖K2‖K1 at
+effective security level around 80–112 bits (2-key 3DES, expanded K1||K2||K1 at
 ``pkcs12_pbe.cpp:83-86``). None of these mechanisms conform to BSI TR-02102-1
 recommendations; a BSI-context application must stick to the (default) PBES2
 AES + SHA-256 profile for produced files and should treat legacy-encrypted
