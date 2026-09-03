@@ -7070,3 +7070,27 @@ patches:
 - pr: 5298  # https://github.com/randombit/botan/pull/5298
   merge_commit: 383836c0368db7ae7165e2889b25af2183426e0c
   classification: unspecified
+
+# Add PKCS12::mac_protected to indicate if a MAC was used or not
+#   Author:    @randombit
+- pr: 5902  # https://github.com/randombit/botan/pull/5902
+  merge_commit: 85c197fb28a330668aa88ad6569d2898b2ecef56
+  classification: unspecified
+
+# Address some missing includes noticed by Clang 23
+#   Author:    @randombit
+- pr: 5901  # https://github.com/randombit/botan/pull/5901
+  merge_commit: a3538ddd561e0d4181e17a8bd75b67f21c0827fa
+  classification: unspecified
+
+# Refactor: TLS 1.3 Cipher_State (de)protects full Record objects
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5841  # https://github.com/randombit/botan/pull/5841
+  merge_commit: 2de7631508052412428df04e1161381cea77847d
+  classification: unspecified
+
+# Fix self-recursion in TPM2 HashFunction security_level implementation
+#   Author: Jack Lloyd
+- commit: 9b590526fb7be1769ff5d5824e72797694c47da1  # https://github.com/randombit/botan/commit/9b590526fb7be1769ff5d5824e72797694c47da1
+  classification: unspecified
