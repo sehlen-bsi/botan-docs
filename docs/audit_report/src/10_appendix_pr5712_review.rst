@@ -104,10 +104,14 @@ several CAs). Supporting them correctly requires machinery Botan's
    certificate with serial 1234 from CA-A could be flagged revoked because
    a different CA-B's certificate with serial 1234 is listed (false
    revocation), or an entry could fail to be attributed correctly (false
-   non-revocation). ``certificateIssuer`` is critical, but only at the
-   *entry* level — entry-level critical extensions do not flow into the
-   CRL-level unknown-critical check, so nothing would automatically catch
-   the misinterpretation.
+   non-revocation). In practice a second, independent mechanism catches
+   this case: ``certificateIssuer`` is a *critical* entry extension that
+   Botan does not recognize, and since PR #5611 (also in 3.13.0) unknown
+   critical extensions at the CRL *entry* level render the whole CRL
+   unusable (``CRL_HAS_UNKNOWN_CRITICAL_EXTENSION``), per RFC 5280 5.3.
+   So an indirect CRL that actually uses per-entry issuer attribution is
+   rejected twice over — by the IDP ``indirectCRL`` applicability check
+   reviewed here, and by the entry-level critical-extension gate.
 
 3. **Authorization/trust scoping.** Even with (1) and (2) in place, the
    verifier must decide that *this* cRLIssuer is legitimately entitled to

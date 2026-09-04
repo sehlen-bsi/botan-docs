@@ -1508,220 +1508,319 @@ patches:
 #   Author:    @randombit
 - pr: 5628  # https://github.com/randombit/botan/pull/5628
   merge_commit: 58464241065b87871ee9f9b596d4ee44928d78ae
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes, api, quality
+  comment: |
+    Among other things, prevent wrapping of counter in CTR mode.
+  classification: relevant
 
 # OCSP optimizations and policy changes
 #   Author:    @randombit
 - pr: 5623  # https://github.com/randombit/botan/pull/5623
   merge_commit: 9a97b324531d321a5ece669259db2261645bd020
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: policy, optimization
+  comment: |
+     Precomputed hashes for CertID::is_id_for;  Default max_ocsp_age: 0 (unbounded) → 7 days;  OCSP responder-certificate validation inherits trust-root options
+  classification: relevant
 
 # chore(test): Resolve TODO in Roughtime_Request test
 #   Author:    @KaganCanSit
 #   Approvals: (@randombit)
 - pr: 5624  # https://github.com/randombit/botan/pull/5624
   merge_commit: b801a751d0b96f40e4a3b3e1710447d05d89cacb
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: test, chores
+  classification: info
 
 # Add PKCS#12 KDF
 #   Author:    @dmazzella
 #   Approvals: (@randombit)
 - pr: 5478  # https://github.com/randombit/botan/pull/5478
   merge_commit: c627228fe76cf8827fe995fa9da0949a949ba8c2
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: additions
+  classification: relevant
 
 # Fix various bugs in the PKCS11 wrapper
 #   Author:    @randombit
 - pr: 5602  # https://github.com/randombit/botan/pull/5602
   merge_commit: a09371704741bbadbf395268cfc37e43f1ba9cec
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  comment: |
+    Fixes several security-issues in PKCS#11. See appendix.
+  classification: relevant
 
 # Add typed add to AlternativeName for URL, DNSName, and EmailAddress
 #   Author:    @randombit
 - pr: 5622  # https://github.com/randombit/botan/pull/5622
   merge_commit: 35d6e9521153292a03607c2d6bc0436da3bfbb60
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality, pki
+  classification: info
 
 # Move the cli test TCP/UDP port range downward
 #   Author:    @randombit
 - pr: 5621  # https://github.com/randombit/botan/pull/5621
   merge_commit: e0068e4354a93a5b98c3ba95d559d47c5ed40603
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: test
+  classification: info
 
 # Modify DN decoding to capture RDN groupings
 #   Author:    @randombit
 - pr: 5618  # https://github.com/randombit/botan/pull/5618
   merge_commit: e0aaa196e54d7ba925048981fcf3465ac07891da
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes, pki
+  classification: relevant
 
 # refactor(aes_ni): Replace raw __m128i intrinsics with SIMD_4x32 in key schedules
 #   Author:    @KaganCanSit
 #   Approvals: (@randombit)
 - pr: 5549  # https://github.com/randombit/botan/pull/5549
   merge_commit: b582133a8a1d1ebe4fb0933a00ab23f1cfc5f6b2
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
 
 # Require that X509 extensions match their context
 #   Author:    @randombit
 - pr: 5611  # https://github.com/randombit/botan/pull/5611
   merge_commit: a3b983b3db6705b990197919578aca9384693f9b
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  comment: |
+    Stop accepting extensions in containing objects for which they are not defined.
+  classification: relevant
 
 # Fix various cipher mode edge case bugs
 #   Author:    @randombit
 #   Approvals: (@reneme)
 - pr: 5610  # https://github.com/randombit/botan/pull/5610
   merge_commit: cea55088d7788c2af8314a7c52643d760c032f79
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes, quality
+  comment: |
+    Fix and harden cipher object state transitions.
+  classification: relevant
 
 # Minor clarification in IntMod::pow_vartime()
 #   Author:    @falko-strenzke
 #   Approvals: (@randombit)
 - pr: 5619  # https://github.com/randombit/botan/pull/5619
   merge_commit: 7aa361751bb1ac4cefb0d128d0fde819baac3fb9
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Add more name constraint test cases
 #   Author:    @randombit
 - pr: 5616  # https://github.com/randombit/botan/pull/5616
   merge_commit: 40857f656098da10cc646516f0ca7852a5340d0d
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: test
+  classification: info
 
 # Improve the HTTP 1.0 client used for OCSP/CRL
 #   Author:    @randombit
 - pr: 5609  # https://github.com/randombit/botan/pull/5609
   merge_commit: 3c50c5dfd5a759207d14662be6a9da11070f544b
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
 
 # In X509 use named types (URI, EmailAddress, DNSName, IPv4Address) rather than std::string or uint32_t
 #   Author:    @randombit
 - pr: 5601  # https://github.com/randombit/botan/pull/5601
   merge_commit: 2373e9401752be09e7db24bdc8f97c5cab162158
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality, pki
+  classification: relevant
 
 # Require that OCSP nocheck extension is only on OCSP responder certs
 #   Author:    @randombit
 #   Approvals: (@reneme)
 - pr: 5605  # https://github.com/randombit/botan/pull/5605
   merge_commit: 3ec1d5e68326331a2fd5e8cddc3031b99e6e8b94
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  classification: relevant
 
 # Improve Database interface, fix various Sqlite3 binding bugs
 #   Author:    @randombit
 - pr: 5607  # https://github.com/randombit/botan/pull/5607
   merge_commit: b21dc82115274bc5c7d906cde108db97b235f9f3
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes, api
+  classification: relevant
 
 # Add URI and email name constraint processing
 #   Author:    @randombit
 #   Approvals: (@reneme)
 - pr: 5598  # https://github.com/randombit/botan/pull/5598
   merge_commit: e4f123280cfa0cb7687f2e7eba55d397bb7abf57
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: additions
+  comment: |
+    This PR was not reviewed in detail. This is compensated by the general review and overhaul of NameConstraint processing and tests in a future PR based on the branch https://github.com/falko-strenzke/botan/tree/fix-name-constraint-tests.
+  classification: relevant
 
 # Fix a KMAC padding edge case
 #   Author:    @randombit
 #   Approvals: @falko-strenzke
 - pr: 5584  # https://github.com/randombit/botan/pull/5584
   merge_commit: 6a56d8b160231509bb1d02804cacd9f42b8b8c64
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  classification: relevant
 
 # Check return value of sysctlbyname
 #   Author:    @randombit
 - pr: 5606  # https://github.com/randombit/botan/pull/5606
   merge_commit: aa8f5456c3b11926287b1ab7bcc0b8e32108bab0
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
 
 # Add timeout to running apt-get update on Github Actions
 #   Author:    @randombit
 - pr: 5604  # https://github.com/randombit/botan/pull/5604
   merge_commit: 1aea685295f0864998f770e0099b0361bd3558bc
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: ci
+  classification: out of scope
 
 # Use span and string_view for function inputs in charset.h
 #   Author:    @randombit
 - pr: 5603  # https://github.com/randombit/botan/pull/5603
   merge_commit: 4fa05db5758f58dc60ccc834191016eb964cd992
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
 
 # Add support for RFC 9608 No Revocation Available extension
 #   Author:    @randombit
 #   Approvals: (@reneme)
 - pr: 5595  # https://github.com/randombit/botan/pull/5595
   merge_commit: ed0ced67c852c90134855139e3540fa4e44f56c6
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: additions, pki
+  classification: relevant
 
 # Move IPv6 address parsing and formatting utils to ipv6_address.cpp
 #   Author:    @randombit
 - pr: 5597  # https://github.com/randombit/botan/pull/5597
   merge_commit: 08e296e6ad246ac5e362e56b531dc04321b12a82
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
 
 # Temporarily revert the check on RSA signature sizes
 #   Author:    @randombit
 - pr: 5596  # https://github.com/randombit/botan/pull/5596
   merge_commit: 8ef3c598995b13151c0411c206e8a2ef275c94dd
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  comment: |
+    Temporary workaround to compensate a bug in a test tool.  Fable 5.1: "The revert landed 19 days later: commit 4201b7399 ("Reintroduce requirement that RSA values are exactly the modulus length", 2026-05-31), merged via PR #5630 (branch jack/tls-anvil-15, i.e. the TLS-Anvil update that resolved the tool bug). The commit is contained in the 3.13.0 tag."
+  classification: relevant
 
 # Various BigInt/mp related hardenings and bug fixes
 #   Author:    @randombit
 - pr: 5592  # https://github.com/randombit/botan/pull/5592
   merge_commit: c5930e7087ca27ff21b3b5528dced4a2e9e8c82c
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  comment: |
+    Various critical fixes in the arithmetic layer. See appendix.
+  classification: critical
 
 # Various PKIX hardening and bug fixes
 #   Author:    @randombit
 - pr: 5593  # https://github.com/randombit/botan/pull/5593
   merge_commit: 33a8037486904aa233454cba985e6225b97a3df6
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes, pki
+  comment: |
+    Most notable fix is adding the missing enforcement that a delegated OCSP responder must be signed by the same key.
+  classification: critical
 
 # In GH Actions clean up branch caches after the PRs are merged
 #   Author:    @randombit
 - pr: 5591  # https://github.com/randombit/botan/pull/5591
   merge_commit: 29759d2e09f2b78ea3b3e59e712029cb5b2af44a
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: ci
+  classification: out of scope
 
 # In Ed25519 and Ed448 reject the identity element as a public key
 #   Author:    @randombit
 - pr: 5590  # https://github.com/randombit/botan/pull/5590
   merge_commit: 1a06a71c79239b96422fbd936b4721f4323b6f65
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  classification: out of scope
 
 # Throw the correct exception for a FrodoKEM private key decoding issue
 #   Author:    @randombit
 - pr: 5589  # https://github.com/randombit/botan/pull/5589
   merge_commit: 35d85eaa7a28688502dacef689f2f817234e7618
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
 
 # Improve verification of EC group generators
 #   Author:    @randombit
 - pr: 5588  # https://github.com/randombit/botan/pull/5588
   merge_commit: fbb82b80c510b06d27703410711776196939ad4b
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes, quality
+  comment: |
+    Most notable fix: off-curve generators are rejected at group construction regardless of build configuration. See appendix for a review by Fable 5.
+  classification: relevant
 
 # Avoid possible integer overflow in BigInt left shift.
 #   Author:    @randombit
 - pr: 5586  # https://github.com/randombit/botan/pull/5586
   merge_commit: 9c2370127a56e59214d09a886bc865ed6087e421
+  auditer: falko-strenzke
+  categories: fixes
+  comment: |
+    Most notable fix: BigInt::operator<<= and operator<< computed the result size as sig_words + (shift + 63) / 64. For a shift count near SIZE_MAX, shift + 63 wraps around, yielding a tiny new_size; the subsequently called bigint_shl2 then writes at y + shift/64 — an enormous offset into a small allocation. So a hostile or buggy shift count produced an out-of-bounds heap write.
   classification: unspecified
 
 # Fix BigInt division when both inputs are negative
 #   Author:    @randombit
 - pr: 5585  # https://github.com/randombit/botan/pull/5585
   merge_commit: 9ca10c7b7115af54ac25ed7487f68af2f6c96077
+  auditer: falko-strenzke
+  categories: fixes
+  comment: |
+    Botan's division convention is Euclidean: the remainder is always non-negative, 0 <= r < abs(y), with the identity x = q*y + r. sign_fixup (shared by both the variable-time divide and ct_divide — so the fix applies to both) adjusts the magnitude-division results (q0 = abs(x)/abs(y), r0 = abs(x) mod abs(y)) for signs. Working through the four sign cases:
+      - x >= 0: no adjustment needed; correct before and after.
+      - x < 0, y > 0, r0 != 0: correct result is q = -q0 - 1, r = abs(y) - r0. The old q -= 1 (after the sign flip) produced exactly this — correct.
+      - x < 0, y < 0, r0 != 0: here the quotient is positive (signs equal, no flip) and the correct adjustment is q = q0 + 1 (check: (q0+1)*(-abs(y)) + (abs(y) - r0) = -q0*abs(y) - r0 = x (correct)). The old code still did q -= 1, giving q0 - 1 — wrong by 2. Example from the new vectors: -129 / -2 returned 63 (63*(-2) + 1 = -125 != -129) instead of the correct 65.
   classification: unspecified
 
 # In Win32 entropy source, check return values before passing to the RNG
 #   Author:    @randombit
 - pr: 5583  # https://github.com/randombit/botan/pull/5583
   merge_commit: a1f28a1a0f22bd2288651dac07b362cf8ebcf28e
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: relevant
 
 # Prohibit a DH public key of p-1
 #   Author:    @randombit
 - pr: 5581  # https://github.com/randombit/botan/pull/5581
   merge_commit: 2b8ed9e4283b04b774f9c8ee2f40869c5c1c6e9f
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  comment: |
+    Fable 5: p-1 = -1 (mod p) is the generator of the order-2 subgroup {1, p-1}, which exists in every DH group (p odd). A peer sending v = p-1 forces the shared secret to (-1)^x = +/-1 — a two-element set — which (a) confines the "secret" to values the attacker can enumerate, and (b) leaks the parity of the victim's private exponent, the textbook small-subgroup contribution that can't be avoided by choosing a nice group. This is precisely why NIST SP 800-56A and RFC 2631 specify the acceptance range 2 <= y <= p-2; Botan previously implemented 2 <= y <= p-1.
+  classification: relevant
 
 # Update for 3.13.0 release
 #   Author: Jack Lloyd
