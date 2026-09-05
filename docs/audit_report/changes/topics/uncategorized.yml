@@ -7094,3 +7094,36 @@ patches:
 #   Author: Jack Lloyd
 - commit: 9b590526fb7be1769ff5d5824e72797694c47da1  # https://github.com/randombit/botan/commit/9b590526fb7be1769ff5d5824e72797694c47da1
   classification: unspecified
+
+# Chore: use `std::enable_shared_from_this` for internal TLS impls
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5916  # https://github.com/randombit/botan/pull/5916
+  merge_commit: 7ed9dbf4ca22004e1eaa0e69d1a41131c6cd3afc
+  classification: unspecified
+
+# Measure password hashing tuning using a CPU or monotonic clock
+#   Author:    @randombit
+- pr: 5898  # https://github.com/randombit/botan/pull/5898
+  merge_commit: 1596edd44bc8a6da7fd9be33578098090e82a457
+  classification: unspecified
+
+# Address some issues identified in #5913
+#   Author:    @randombit
+- pr: 5920  # https://github.com/randombit/botan/pull/5920
+  merge_commit: fb44cd92e163d968be833c4378218884ea1f35a2
+  classification: unspecified
+
+# FIX: always scrub sponge state memory on destruction
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5919  # https://github.com/randombit/botan/pull/5919
+  merge_commit: 9973b92fb5c67bae48feea94cab0866e1f9624a2
+  classification: unspecified
+
+# Bump wycheproof pin
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5918  # https://github.com/randombit/botan/pull/5918
+  merge_commit: 444ecf47436b928240f5627f9092da100e6e02d2
+  classification: unspecified
