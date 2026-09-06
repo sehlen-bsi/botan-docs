@@ -7127,3 +7127,9 @@ patches:
 - pr: 5918  # https://github.com/randombit/botan/pull/5918
   merge_commit: 444ecf47436b928240f5627f9092da100e6e02d2
   classification: unspecified
+
+# Optimize and clean up the Ed25519 implementation
+#   Author:    @randombit
+- pr: 5893  # https://github.com/randombit/botan/pull/5893
+  merge_commit: 3fc99471c0c28c142ae3160c1b5a9a08f65bd207
+  classification: unspecified
