@@ -1789,7 +1789,7 @@ patches:
   categories: fixes
   comment: |
     Most notable fix: BigInt::operator<<= and operator<< computed the result size as sig_words + (shift + 63) / 64. For a shift count near SIZE_MAX, shift + 63 wraps around, yielding a tiny new_size; the subsequently called bigint_shl2 then writes at y + shift/64 — an enormous offset into a small allocation. So a hostile or buggy shift count produced an out-of-bounds heap write.
-  classification: unspecified
+  classification: relevant
 
 # Fix BigInt division when both inputs are negative
 #   Author:    @randombit
@@ -1802,7 +1802,7 @@ patches:
       - x >= 0: no adjustment needed; correct before and after.
       - x < 0, y > 0, r0 != 0: correct result is q = -q0 - 1, r = abs(y) - r0. The old q -= 1 (after the sign flip) produced exactly this — correct.
       - x < 0, y < 0, r0 != 0: here the quotient is positive (signs equal, no flip) and the correct adjustment is q = q0 + 1 (check: (q0+1)*(-abs(y)) + (abs(y) - r0) = -q0*abs(y) - r0 = x (correct)). The old code still did q -= 1, giving q0 - 1 — wrong by 2. Example from the new vectors: -129 / -2 returned 63 (63*(-2) + 1 = -125 != -129) instead of the correct 65.
-  classification: unspecified
+  classification: relevant
 
 # In Win32 entropy source, check return values before passing to the RNG
 #   Author:    @randombit
@@ -1825,199 +1825,281 @@ patches:
 # Update for 3.13.0 release
 #   Author: Jack Lloyd
 - commit: 2a81eef56c96c237e590c27f9a75e60317c9c700  # https://github.com/randombit/botan/commit/2a81eef56c96c237e590c27f9a75e60317c9c700
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Update release notes [ci skip]
 #   Author: Jack Lloyd
 - commit: 868a487afa89b758f70c1f1236252ad6626513d7  # https://github.com/randombit/botan/commit/868a487afa89b758f70c1f1236252ad6626513d7
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documented
+  classification: info
 
 # Add missing module dependency [ci skip]
 #   Author: Jack Lloyd
 - commit: 980d0cb4aaa61a1cb76df480a9fcec5cf23fafb5  # https://github.com/randombit/botan/commit/980d0cb4aaa61a1cb76df480a9fcec5cf23fafb5
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: build
+  classification: info
 
 # Update release notes [ci skip]
 #   Author: Jack Lloyd
 - commit: c6a6be802e6d93c0ffdb2bc16e417d8feee86ff8  # https://github.com/randombit/botan/commit/c6a6be802e6d93c0ffdb2bc16e417d8feee86ff8
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Update goals document [ci skip]
 #   Author: Jack Lloyd
 - commit: 7c3ffe6ba4ad3382b95234e82fd7cd635b9b2c7a  # https://github.com/randombit/botan/commit/7c3ffe6ba4ad3382b95234e82fd7cd635b9b2c7a
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Update the roadmap [ci skip]
 #   Author: Jack Lloyd
 - commit: b776d8ac394d9320ef5a609c8455c4a969b08fa8  # https://github.com/randombit/botan/commit/b776d8ac394d9320ef5a609c8455c4a969b08fa8
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Fix a typo [ci skip]
 #   Author: Jack Lloyd
 - commit: f618c886ed2dafe2e59c9b6f06e36293408f0460  # https://github.com/randombit/botan/commit/f618c886ed2dafe2e59c9b6f06e36293408f0460
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Fix some doc crossref typos [ci skip]
 #   Author: Jack Lloyd
 - commit: 6bf293b4366cb66e7daf2c3d9726ce316532dc63  # https://github.com/randombit/botan/commit/6bf293b4366cb66e7daf2c3d9726ce316532dc63
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Fix bad doc link [ci skip]
 #   Author: Jack Lloyd
 - commit: 68459e748034bfe77e31d5b02777dca6a1cd565f  # https://github.com/randombit/botan/commit/68459e748034bfe77e31d5b02777dca6a1cd565f
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Update release notes [ci skip]
 #   Author: Jack Lloyd
 - commit: b0b04139199798d463016f54b6d1e368e5b542c9  # https://github.com/randombit/botan/commit/b0b04139199798d463016f54b6d1e368e5b542c9
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Update release notes [ci skip]
 #   Author: Jack Lloyd
 - commit: 32556ae61220d4efc2314d43c8d4b3f7b8ff7aac  # https://github.com/randombit/botan/commit/32556ae61220d4efc2314d43c8d4b3f7b8ff7aac
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Add missing include [ci skip]
 #   Author: Jack Lloyd
 - commit: c2ac22d5c8d49e91c96d36683c75dd0c71462806  # https://github.com/randombit/botan/commit/c2ac22d5c8d49e91c96d36683c75dd0c71462806
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: chores
+  classification: info
 
 # Update release notes [ci skip]
 #   Author: Jack Lloyd
 - commit: 0f17f004d6f8bc1ed01a28d2a5b2a50236683522  # https://github.com/randombit/botan/commit/0f17f004d6f8bc1ed01a28d2a5b2a50236683522
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Add docs for Python X509CRLReason codes [ci skip]
 #   Author: Jack Lloyd
 - commit: 164885cdcdc22526d3aa0fdb67da7189ed4df28c  # https://github.com/randombit/botan/commit/164885cdcdc22526d3aa0fdb67da7189ed4df28c
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # In CI also add a timeout to apt-get install [ci skip]
 #   Author: Jack Lloyd
 - commit: 6fe7c3e64d7e9814eada8564e168586a9f23daeb  # https://github.com/randombit/botan/commit/6fe7c3e64d7e9814eada8564e168586a9f23daeb
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: ci
+  classification: out of scope
 
 # Update side channel document [ci skip]
 #   Author: Jack Lloyd
 - commit: b83b308ee008df1b77d1485506dc2c93aee162e8  # https://github.com/randombit/botan/commit/b83b308ee008df1b77d1485506dc2c93aee162e8
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Update release notes [ci skip]
 #   Author: Jack Lloyd
 - commit: c395800f633a8f1a73d18bce2a8f855d07066396  # https://github.com/randombit/botan/commit/c395800f633a8f1a73d18bce2a8f855d07066396
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Fix EC_Scalar_Data_BN::square_self
 #   Author: Jack Lloyd
 - commit: dee4717c3f3935a4c41dad40474eba00540489d5  # https://github.com/randombit/botan/commit/dee4717c3f3935a4c41dad40474eba00540489d5
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  comment: |
+    EC_Scalar_Data_BN::square_self() was a no-op before this fix.
+  classification: relevant
 
 # Add a few more file types to .gitignore in the top level dir [ci skip]
 #   Author: Jack Lloyd
 - commit: 6d28ad63476e5db9d3434c5d1c2297b5feb28b13  # https://github.com/randombit/botan/commit/6d28ad63476e5db9d3434c5d1c2297b5feb28b13
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: chores
+  classification: out of scope
 
 # Add some further notes for contributors [ci skip]
 #   Author: Jack Lloyd
 - commit: d9cbc958d153a48e8f62055fa944e43614388138  # https://github.com/randombit/botan/commit/d9cbc958d153a48e8f62055fa944e43614388138
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Reference the threat model document from security.rst [ci skip]
 #   Author: Jack Lloyd
 - commit: a49695797afbcb6dc462ef91075a660bc2949d98  # https://github.com/randombit/botan/commit/a49695797afbcb6dc462ef91075a660bc2949d98
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Add missing length check in RSA-KEM decryption
 #   Author: Jack Lloyd
 - commit: 78f5d5a343800318723ad45c90efdee65b921fee  # https://github.com/randombit/botan/commit/78f5d5a343800318723ad45c90efdee65b921fee
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: relevant
 
 # Add missing volatile specifiers in mp_asmi.h
 #   Author: Jack Lloyd
 - commit: 82e2c98d66f4e80a7a674fda008252fd95bfc825  # https://github.com/randombit/botan/commit/82e2c98d66f4e80a7a674fda008252fd95bfc825
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  classification: relevant
 
 # Add missing length check in next_utf8_codepoint
 #   Author: Jack Lloyd
 - commit: 19e3653a080b0897d0968557b78bd773cd45ed26  # https://github.com/randombit/botan/commit/19e3653a080b0897d0968557b78bd773cd45ed26
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
 
 # Add missing check on return value of calloc in sodium_malloc
 #   Author: Jack Lloyd
 - commit: 4465153df7812b5c757156b421120ee06367eab0  # https://github.com/randombit/botan/commit/4465153df7812b5c757156b421120ee06367eab0
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  classification: out of scope
 
 # Escape control chars in X509_Certificate::to_string
 #   Author: Jack Lloyd
 - commit: b349eb3acffadb714404c6143e37518167cef721  # https://github.com/randombit/botan/commit/b349eb3acffadb714404c6143e37518167cef721
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
 
 # Initialize input_consumed in the base_decode helper
 #   Author: Jack Lloyd
 - commit: 89db4dee3be16cb2b12cd01b9393304eff93b45e  # https://github.com/randombit/botan/commit/89db4dee3be16cb2b12cd01b9393304eff93b45e
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality
+  classification: info
 
 # Remove unused member variable from Encrypted_PSK_Database
 #   Author: Jack Lloyd
 - commit: c41b50eafd8dd8038d52e040de7f163cc1f1acde  # https://github.com/randombit/botan/commit/c41b50eafd8dd8038d52e040de7f163cc1f1acde
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: chores
+  classification: info
 
 # Avoid possible null deref in DLIES_Encryptor::ciphertext_length
 #   Author: Jack Lloyd
 - commit: 8836eb52b19853204c1b54c997399965e73aa56a  # https://github.com/randombit/botan/commit/8836eb52b19853204c1b54c997399965e73aa56a
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: quality 
+  classification: out of scope
 
 # Avoid signed overflow in base58 decoding
 #   Author: Jack Lloyd
 - commit: 76e44760e34229270b5412192fd436c4aba179b9  # https://github.com/randombit/botan/commit/76e44760e34229270b5412192fd436c4aba179b9
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  classification: info
 
 # Add volatile specifier to rdseed inline asm annotation
 #   Author: Jack Lloyd
 - commit: 625633fd4774620fe688abdaa356daf797ff11b4  # https://github.com/randombit/botan/commit/625633fd4774620fe688abdaa356daf797ff11b4
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: fixes
+  classification: relevant
 
 # Update release notes [ci skip]
 #   Author: Jack Lloyd
 - commit: 6cabfd2a562333a960c64ee7051536a589580ae1  # https://github.com/randombit/botan/commit/6cabfd2a562333a960c64ee7051536a589580ae1
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Add support for randomized ML-DSA signing in Wycheproof test script
 #   Author: Jack Lloyd
 - commit: 9cd4c160e8a8759c0ae19ca9e4953a2d1725f9fa  # https://github.com/randombit/botan/commit/9cd4c160e8a8759c0ae19ca9e4953a2d1725f9fa
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: test
+  classification: info
 
 # Use a mirror for Intel SDE [ci skip]
 #   Author: Jack Lloyd
 - commit: 89c6d2463eed803533102cb9a9daceb41adc47e9  # https://github.com/randombit/botan/commit/89c6d2463eed803533102cb9a9daceb41adc47e9
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: ci
+  classification: out of scope
 
 # Downgrade null char check in dns_subtree_match to a debug assert
 #   Author: Jack Lloyd
 - commit: 975e319db3d70823952c11b7c06cb92bf240594f  # https://github.com/randombit/botan/commit/975e319db3d70823952c11b7c06cb92bf240594f
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: optimization
+  classification: info
 
 # Fix RFC reference typo [ci skip]
 #   Author: Jack Lloyd
 - commit: a0e77f81390bcd2bcf2858526aacf98178aae235  # https://github.com/randombit/botan/commit/a0e77f81390bcd2bcf2858526aacf98178aae235
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Fix a typo [ci skip]
 #   Author: Jack Lloyd
 - commit: ae4d04e7cefdf88047192ceb364a57e832f1d9b2  # https://github.com/randombit/botan/commit/ae4d04e7cefdf88047192ceb364a57e832f1d9b2
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Bump version to 3.13.0-pre
 #   Author: Jack Lloyd
 - commit: 1375a05909d7eff7f03e31a48896eec180370236  # https://github.com/randombit/botan/commit/1375a05909d7eff7f03e31a48896eec180370236
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Push security reports towards using Github's private issues flow [ci skip]
 #   Author: Jack Lloyd
 - commit: 3da752ccaf3f809ed142b5ba4f78071292cdd607  # https://github.com/randombit/botan/commit/3da752ccaf3f809ed142b5ba4f78071292cdd607
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info
 
 # Correct documentation comment [ci skip]
 #   Author: Jack Lloyd
 - commit: d0c0223e281981c0ea8ceb9494e0b513c3a9251d  # https://github.com/randombit/botan/commit/d0c0223e281981c0ea8ceb9494e0b513c3a9251d
-  classification: unspecified
+  auditer: falko-strenzke
+  categories: documentation
+  classification: info

@@ -14,6 +14,14 @@ The review in this section was entirely written by Anthropic's Fable 5 model. Pl
 - **Audit scope status:** module ``x509`` is in the audit scope. The PR
   changes DN equality semantics used throughout path validation, CRL
   association, name constraints, and certificate stores.
+- **CVE:** the defect this PR fixes was later assigned
+  **CVE-2026-48057** ("Bypass of DN nameConstraint enforcement", credit
+  Haruki Oyama; advisory dated 2026-08-22 in ``doc/security.rst``:
+  "The decoding of X509 distinguished names lost some relevant
+  structure, which could allow bypassing name constraint enforcement
+  for DNs" — i.e. the flattened-RDN representation reviewed below).
+  It is the only CVE assigned for the 3.13.0 release; the release
+  notes reference it only as an unnumbered security item.
 
 What the PR does
 ----------------
