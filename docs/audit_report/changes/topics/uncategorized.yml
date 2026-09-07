@@ -7133,3 +7133,9 @@ patches:
 - pr: 5893  # https://github.com/randombit/botan/pull/5893
   merge_commit: 3fc99471c0c28c142ae3160c1b5a9a08f65bd207
   classification: unspecified
+
+# Improve validation of EC parameters in the EC_Group constructor and decoding paths
+#   Author:    @randombit
+- pr: 5921  # https://github.com/randombit/botan/pull/5921
+  merge_commit: 9bce628ffbe90d1cb9242ae0efcbf3bc2fb0123d
+  classification: unspecified
