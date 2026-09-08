@@ -10,11 +10,10 @@ Before switching to a new Botan version as part of the maintenance, all official
 changes to the code must be thoroughly checked. For this purpose, each reviewed version comes with an
 audit report prepared by the contractor and submitted to the BSI with the source code.
 This examination applies, in particular, to cryptography-related changes. The BSI needs a well-founded decision
-basis for recommending a new Botan version. [PRM]_ describes the audit method that differs from the previous one.
+basis for recommending a new Botan version. :ref:`sec-trace-changes` describes the audit method that differs from the previous one.
 
 This document contains the audit report of the changes between the Botan versions |botan_git_base_ref| and
-|botan_version|. Evaluated are the changes to relevant parts of the source code, the results of the side-channel
-analysis for Botan |botan_version|, and a list of updated documents.
+|botan_version|.
 
 
 Review Method
@@ -31,7 +30,7 @@ granularity. Additionally, all commits added to the
 "atomic changesets" as *patches* in the remainder of this document.
 
 For each patch, the influence on the library's security guarantees is determined
-first. An thorough review of the patch was conducted if the patch touches parts
+first. A thorough review of the patch was conducted if the patch touches parts
 of the code base that are in scope for this review, and is considered to be
 prone to affect security critical aspects of the code that are not assumed to be
 covered by the test suite. The audit method is further described in :ref:`sec-trace-changes`.
@@ -270,12 +269,12 @@ Here are some notable module changes compared to the last review (Botan |botan_g
    the modules that were removed and added compared to |botan_git_base_ref|
    here (see the instructions in the comment above the table).
 
-* The following modules were removed in Botan |botan_version|:
+* The following modules were removed from the audit scope in Botan |botan_version|:
 
   - dsa
   - iso9796
 
-* The following modules were added in Botan |botan_version|:
+* The following modules were added into the audit scope of Botan |botan_version|:
 
   - dns_name
   - email
@@ -293,14 +292,14 @@ The table contains the pull request IDs on GitHub or individual commit hashes of
 For reference, a brief description or title of the patch is provided. Note that
 this description is usually just a summary and might not cover all patch changes in detail. Most
 pull requests and commits feature a sufficient description on GitHub that is not repeated in this document.
-Also, each patch within the table is assigned a security classification, and information about the approvers
+Also, each patch within the table is assigned a classification with respect the criticality of the update to the core cryptographic functionality that is in scope, and information about the approvers
 and auditors is given.
 
 
 Security Classification
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-For this audit, four security classifications are distinguished. The classification *critical* labels patches
+For this audit, four criticality classifications are distinguished. The classification *critical* labels patches
 that apply substantial changes to cryptographic functionality, e.g., implementing a new algorithm
 or updating an old one to a new standard. Patches labeled as *relevant* are changes to cryptographic
 algorithms without altering the algorithm's observable behavior. Mostly, this class contains

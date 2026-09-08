@@ -127,6 +127,10 @@ neither OpenSSL's presence query nor NSS's strict mode, so an application
 cannot implement the stricter policies on top of the current API at all —
 which is the substance of this finding.
 
+*Follow-up:* addressed upstream after the 3.13.0 release by
+`#5902 <https://github.com/randombit/botan/pull/5902>`_, see
+`Upstream follow-up`_ below.
+
 F2 (Low/Medium, application-dependent) — Unauthenticated CBC decryption when the MAC is absent
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -144,6 +148,11 @@ whenever the MAC is present and verified — which is why F1 (making MAC
 presence visible/enforceable) is the practical fix. Application guidance:
 treat all parse failures uniformly; do not run repeated parse attempts on
 externally modified files.
+
+*Follow-up:* the key-malleability consequence of this finding is addressed by
+the private key consistency check proposed in
+`#5925 <https://github.com/randombit/botan/pull/5925>`_, see
+`Upstream follow-up`_ below.
 
 F3 (Low) — CPU-exhaustion amplification across multiple KDF invocations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -228,6 +237,38 @@ format but actionable in the API: the caller cannot detect a stripped MAC
 weakness (F2); plus a memory-hygiene slip on the unencrypted-KeyBag path (F4)
 and a DoS-amplification documentation gap (F3). F1 and F4 are concrete,
 low-effort improvements worth raising upstream.
+
+Upstream follow-up
+------------------
+
+Two changes were raised upstream as a result of this review; both postdate the
+3.13.0 release and are therefore not part of the audited version.
+
+- `#5902 <https://github.com/randombit/botan/pull/5902>`_ ("Add
+  ``PKCS12::mac_protected`` to indicate if a MAC was used or not", merged
+  2026-09-02, expected in 3.14.0) adds the accessor recommended in F1, so an
+  application can now reject MAC-less bundles. This is the presence query
+  OpenSSL offers; a strict parse option in the style of NSS is still absent.
+
+- `#5925 <https://github.com/randombit/botan/pull/5925>`_ ("Pkcs12 keyloading
+  check", opened by the P663 auditor, open at the time of writing) adds a
+  consistency check to every private key loaded from a ``KeyBag`` or a
+  decrypted ``PKCS8ShroudedKeyBag``: after PKCS#8 decoding the key is passed
+  through ``Private_Key::check_key`` (non-strong mode, without an RNG), and
+  the parse fails with ``Decoding_Error`` if the check fails. This targets the
+  concrete consequence of F2 that a review-driven test exposed: with the MAC
+  absent, the CBC-encrypted key is malleable, and a ciphertext modification
+  that lands inside the private scalar of an EC key yields a key that still
+  decodes, still carries the original public point, and still matches the
+  end-entity certificate, but signs with a different scalar. The check
+  detects this class of corruption for all key types whose private/public
+  relation can be verified (for EC keys at the cost of one fixed-base
+  multiplication); key types whose check requires randomness are accepted
+  without it. The pull request also contributes the PKCS#12 test cases
+  developed during this audit (RSA, EC, and ML-KEM manipulation tests). The
+  padding-oracle aspect of F2 is unaffected by this change and remains
+  mitigated only by a verified MAC (F1) and by uniform error handling in the
+  application.
 
 Scope recommendation
 --------------------

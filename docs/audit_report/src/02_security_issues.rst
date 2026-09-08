@@ -59,6 +59,12 @@ respective GitHub issues.
      - 3.13.0
      - 3.14.0 (unreleased), partially addressed by `#5920 <https://github.com/randombit/botan/issues/5920>`__, merged 2026-09-04
      - The strict EC point deserialization introduced with `#5725 <https://github.com/randombit/botan/issues/5725>`__ rejects the hybrid point encoding that the encoder can still be configured to emit (round-trip break), changes TLS 1.2 interoperability for peers sending hybrid points without a release note, and leaves several decoding paths (ECIES, FFI raw point loaders, PKCS #11 ``CKA_EC_POINT``, ECDH ``raw_agree``) permissive, so that the C and C++ APIs disagree on accepted encodings.
+   * - `#5924 <https://github.com/randombit/botan/issues/5924>`__
+     - P663 Audit
+     - security (low severity)
+     - 3.13.0
+     -
+     - Information loss in ``RandomNumberGenerator::randomize_with_ts_input()``: on the fallback path taken in builds without a System_RNG, the expression computing the length of the additional input (``8 + (pid != 0) ? 4 : 0``) is affected by an operator precedence error and always yields 4. Only the least significant 32 bits of the timestamp are passed to the DRBG and the process ID is dropped, which weakens the hedge against duplicated generator states after a ``fork()`` or a virtual machine rollback. Introduced by `#5839 <https://github.com/randombit/botan/issues/5839>`__. Seeding and the security of a correctly seeded generator are not affected, and default builds with a System_RNG do not take this path; the severity is therefore rated low. Identified during the update of the cryptographic documentation for 3.13.0. The issue is still open upstream.
    * - `#5921 <https://github.com/randombit/botan/issues/5921>`__
      - Botan master
      - security

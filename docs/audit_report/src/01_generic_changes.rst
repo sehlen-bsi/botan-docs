@@ -35,109 +35,203 @@ DTLS 1.2 handshake fixes and TLS policy changes. New functionality comprises
 SPAKE2+ (RFC 9383), PKCS #12, GCM-SIV (RFC 8452), the RFC 9608 "No Revocation
 Available" extension, and several new optimized implementations
 (Salsa20, Streebog, ZFEC, SM4). Furthermore, the SM4 key schedule was converted
-to constant-time code.
+to constant-time code. Of particular relevance for the audited configuration,
+the BSI module policy was reduced by two modules: finite field DSA and the ISO
+9796-2 signature padding are no longer part of the BSI build (see
+`Changes to the BSI Module Policy`_ below).
 
 The following overview is derived from the official Botan release notes and
 groups the changes into security relevant fixes, other fixes, and additions of
 new features. A per-patch classification with the associated auditors is found
-in the detailed change tables (see :ref:`changes`); the security issues are
-described in more detail in the chapter on Security and Vulnerabilities.
+in the detailed change tables (see :ref:`changes`).
 
 
 Security Relevant Fixes
 -----------------------
 
-* CVE-2026-48057: fix a bug where certain DN name constraints were not
-  correctly enforced. Not referenced by a dedicated pull request in the release
-  notes; addressed by the DN parsing rework in
+This section lists the fixes of actual vulnerabilities, i.e. defects that
+allowed an attacker to bypass a security check, corrupt memory, cause a denial
+of service, or that led to cryptographically wrong results. Fixes of a purely
+hardening or compliance nature are listed under "Other Fixes".
+
+* CVE-2026-48057: bypass of DN name constraint enforcement. The decoding of
+  X.509 distinguished names lost the grouping of attributes into relative
+  distinguished names, so that a DN could be constructed which passed a name
+  constraint check it should have failed. Not referenced by a dedicated pull
+  request in the release notes; addressed by the DN parsing rework in
   `#5618 <https://github.com/randombit/botan/issues/5618>`__.
 
-* Fix a blind SSRF during OCSP request processing. A malicious OCSP responder
-  or network attacker could cause the application to perform a blind GET
-  request to an internal service
-  (`#5815 <https://github.com/randombit/botan/issues/5815>`__).
+* Blind server-side request forgery during OCSP request processing. The OCSP
+  HTTP client followed a single redirect, so a malicious OCSP responder or
+  network attacker could cause the application to perform a bodyless GET
+  request to an internal service; the response was not available to the
+  attacker (`#5815 <https://github.com/randombit/botan/issues/5815>`__).
 
-* Fix a bug in ``AutoSeeded_RNG``, affecting only platforms without a system
-  RNG, where calling ``clear`` followed by ``randomize`` into an empty buffer
-  resulted in the RNG object being considered seeded even though it was not
+* ``AutoSeeded_RNG`` could be reinitialized from predictable data: calling
+  ``clear`` followed by ``randomize`` into an empty buffer marked the RNG as
+  seeded without consulting the configured entropy sources. On platforms
+  without a system RNG the resulting state was derived only from a clock value
+  and the process ID
   (`#5838 <https://github.com/randombit/botan/issues/5838>`__,
   `#5839 <https://github.com/randombit/botan/issues/5839>`__).
 
-* Fix an integer overflow in Scrypt parameter handling, affecting 32-bit
-  platforms
+* Heap overflow in Scrypt on 32-bit platforms: an unchecked multiplication in
+  the parameter handling led to an undersized buffer, with approximately 4 GB
+  of output written past its end when hostile parameters were supplied, for
+  example via a malicious encrypted private key
   (`#5629 <https://github.com/randombit/botan/issues/5629>`__,
   `#5820 <https://github.com/randombit/botan/issues/5820>`__).
 
-* Fix an integer overflow in the FFI interface which might be exploitable in
-  unusual scenarios involving attacker-controlled cipher specifiers and the raw
-  block cipher (ECB) APIs
+* Integer overflow in the FFI function ``botan_block_cipher_block_size``,
+  which reported the block size as ``int``; with the variable length block
+  cipher Lion and attacker-controlled cipher specifiers this could lead to
+  memory corruption when using the raw block cipher (ECB) FFI APIs
   (`#5805 <https://github.com/randombit/botan/issues/5805>`__).
 
-* Fix several errors in the Python binding, including the truncation of
-  passwords containing NUL characters in the bcrypt API, which is listed as a
-  security advisory upstream
-  (`#5722 <https://github.com/randombit/botan/issues/5722>`__,
-  `#5796 <https://github.com/randombit/botan/issues/5796>`__,
-  `#5807 <https://github.com/randombit/botan/issues/5807>`__,
-  `#5814 <https://github.com/randombit/botan/issues/5814>`__).
+* Python binding: data passed to the signing API was silently truncated due
+  to a confusion of Unicode code points and byte counts, so that only a prefix
+  of the intended message was signed
+  (`#5807 <https://github.com/randombit/botan/issues/5807>`__); strings
+  containing NUL characters were truncated at the C string boundary, which in
+  the ``bcrypt`` and ``check_bcrypt`` functions allowed bypassing application
+  password policies with a weaker equivalent password
+  (`#5814 <https://github.com/randombit/botan/issues/5814>`__).
+
+* The ``ocsp_check`` command line utility accepted OCSP responses without
+  verifying their signature or authorizing the signer, so a malicious responder
+  or network attacker could return an accepted "good" response for a revoked
+  certificate (`#5825 <https://github.com/randombit/botan/issues/5825>`__;
+  not referenced in the release notes, listed in the upstream advisories).
+
+* A delegated OCSP responder certificate was accepted based on DN equality
+  with the CA rather than on being signed by the CA's key, as required by
+  RFC 6960. Wherever two CA keys share a subject DN (key rollover, cross
+  signing, an unrelated trusted hierarchy with the same name), the holder of
+  the other key could produce accepted OCSP responses, including "good"
+  answers for revoked certificates. In the same pull request, critical name
+  constraints of a form Botan cannot evaluate were previously silently ignored
+  and now fail closed
+  (`#5593 <https://github.com/randombit/botan/issues/5593>`__).
+
+* URI and email address name constraints were previously not evaluated at all
+  during path validation and are now enforced
+  (`#5598 <https://github.com/randombit/botan/issues/5598>`__).
+
+* By default OCSP no longer accepts soft-fail conditions: previously an
+  unreachable responder or a certificate without an OCSP URL satisfied a
+  configured revocation requirement, so an attacker able to block the OCSP
+  connection could disable revocation checking
+  (`#5785 <https://github.com/randombit/botan/issues/5785>`__,
+  `#5804 <https://github.com/randombit/botan/issues/5804>`__).
+
+* Denial of service in certificate path building: the work limit of the path
+  search was reset on every call, so the total effort grew with the number of
+  candidate paths, and an attacker supplying many intermediate certificates
+  could cause excessive CPU consumption. Iteration limits were added to the
+  path building functions
+  (`#5633 <https://github.com/randombit/botan/issues/5633>`__,
+  `#5698 <https://github.com/randombit/botan/issues/5698>`__).
+
+* TLS 1.2 sessions that were terminated with a fatal alert remained resumable,
+  contrary to RFC 5246; ticket-based sessions and the freshly negotiated
+  resumption handle were not invalidated
+  (`#5810 <https://github.com/randombit/botan/issues/5810>`__).
+
+* DTLS 1.2 servers now require the cookie exchange bound to the peer address,
+  unless the application explicitly opts out, closing the use of the server as
+  an amplification vector for spoofed handshake requests
+  (`#5792 <https://github.com/randombit/botan/issues/5792>`__).
+
+* Diffie-Hellman accepted the peer public value p-1, the generator of the
+  order-2 subgroup. Such a value confines the shared secret to two values and
+  leaks the parity of the victim's private exponent; the accepted range is now
+  2 <= y <= p-2 as required by NIST SP 800-56A
+  (`#5581 <https://github.com/randombit/botan/issues/5581>`__).
+
+* Memory corruption and wrong-arithmetic defects in the multiprecision layer:
+  ``BigInt`` left shift computed the result size with a wrapping addition, so
+  a hostile shift count produced an out-of-bounds heap write
+  (`#5586 <https://github.com/randombit/botan/issues/5586>`__); the P-521
+  field reduction missed the value equal to the modulus, several inline
+  assembly blocks lacked ``volatile`` or ``"memory"`` clobbers and could be
+  miscompiled into silently wrong results, a ``BigInt`` self-assignment and a
+  shrinking resize produced wrong values, and a carry could be dropped in a
+  constant-time conditional addition
+  (`#5592 <https://github.com/randombit/botan/issues/5592>`__); the
+  ``pcurves`` backend accepted an off-curve generator for explicitly specified
+  EC domain parameters, and ``verify_group`` skipped the base point checks in
+  builds without the legacy EC backend, enabling invalid-curve attacks against
+  applications that load untrusted domain parameters
+  (`#5588 <https://github.com/randombit/botan/issues/5588>`__); division with
+  two negative operands returned a wrong quotient
+  (`#5585 <https://github.com/randombit/botan/issues/5585>`__).
+
+* One-time key reuse in stateful hash-based signatures: an exhausted XMSS or
+  LMS key would eventually wrap its counter and reuse a leaf, and a corrupted
+  HSS-LMS private key with an out-of-range index was accepted and reused leaf
+  zero on the second signing attempt
+  (`#5662 <https://github.com/randombit/botan/issues/5662>`__). The stateful
+  key index now detects ``fork`` and refuses to issue further indices, since
+  both processes would otherwise sign with the same one-time key
+  (`#5723 <https://github.com/randombit/botan/issues/5723>`__).
+
+* The CTR mode counter could wrap around, leading to keystream reuse, and
+  stream ciphers could seek or read past the defined keystream
+  (`#5628 <https://github.com/randombit/botan/issues/5628>`__). Message
+  authentication code objects failed to reset their state when ``start`` was
+  called a second time or when the object was re-keyed
+  (`#5672 <https://github.com/randombit/botan/issues/5672>`__). Related
+  state transition errors in cipher modes were fixed in
+  `#5610 <https://github.com/randombit/botan/issues/5610>`__.
+
+
+Other Fixes
+-----------
+
+Hardening and compliance fixes without an associated vulnerability:
 
 * Reject RSA signature and ciphertext values which are not exactly the length
-  of the modulus
+  of the modulus, as required by RFC 8017
   (`#5592 <https://github.com/randombit/botan/issues/5592>`__,
   `#5630 <https://github.com/randombit/botan/issues/5630>`__,
   `#5675 <https://github.com/randombit/botan/issues/5675>`__).
 
-* Various BigInt and number-theoretic hardening and bug fixes, including
-  ``volatile`` annotations of inline assembly to prevent miscompilation
-  (`#5581 <https://github.com/randombit/botan/issues/5581>`__,
-  `#5585 <https://github.com/randombit/botan/issues/5585>`__,
-  `#5586 <https://github.com/randombit/botan/issues/5586>`__,
-  `#5588 <https://github.com/randombit/botan/issues/5588>`__,
-  `#5592 <https://github.com/randombit/botan/issues/5592>`__,
-  `#5650 <https://github.com/randombit/botan/issues/5650>`__,
-  `#5688 <https://github.com/randombit/botan/issues/5688>`__).
-
-* In Ed25519 verification also reject the non-canonical encoding of the
-  identity element
-  (`#5731 <https://github.com/randombit/botan/issues/5731>`__).
-
 * Fix several bugs in ISO 9796-2 signature verification, and deprecate the
-  ``iso9796`` module
+  ``iso9796`` module. The verifier accepted either trailer format regardless
+  of the configured implicit/explicit mode, and it rejected roughly one in 128
+  valid signatures due to mishandling of leading zero bytes in the recovered
+  message representative. Since the verifier always uses its configured hash,
+  the trailer confusion did not enable a hash substitution. The module is
+  removed from the BSI module policy
   (`#5680 <https://github.com/randombit/botan/issues/5680>`__).
 
-* Fix several edge cases in stateful hash-based signatures, including
-  rejecting HSS public keys with L = 0 and detecting ``fork`` in the stateful
-  key index
-  (`#5662 <https://github.com/randombit/botan/issues/5662>`__,
-  `#5666 <https://github.com/randombit/botan/issues/5666>`__,
-  `#5723 <https://github.com/randombit/botan/issues/5723>`__).
+* In Ed25519 verification also reject the non-canonical encoding of the
+  identity element, as required by RFC 8032. This only matters where a
+  signature under an attacker-supplied public key is given meaning
+  (`#5731 <https://github.com/randombit/botan/issues/5731>`__).
+
+* When decoding an HSS public key reject L = 0
+  (`#5666 <https://github.com/randombit/botan/issues/5666>`__).
 
 * Improve input validation in the McEliece implementations, and avoid using
   ``bool`` for secret data in Classic McEliece
   (`#5667 <https://github.com/randombit/botan/issues/5667>`__,
   `#5676 <https://github.com/randombit/botan/issues/5676>`__).
 
-* Convert the SM4 key schedule to constant time code, including the hardware
-  AES based variant
-  (`#5638 <https://github.com/randombit/botan/issues/5638>`__,
-  `#5639 <https://github.com/randombit/botan/issues/5639>`__).
-
 * The hash to curve and hash to scalar functions now enforce RFC 9380's rules
-  on hash function security, namely that the hash must have a security level
-  at least as strong as the curve itself
+  on hash function security
   (`#5758 <https://github.com/randombit/botan/issues/5758>`__).
 
-* Add URI and email name constraint processing to X.509 path validation
-  (`#5598 <https://github.com/randombit/botan/issues/5598>`__).
+* Various further BigInt and number-theoretic hardening
+  (`#5650 <https://github.com/randombit/botan/issues/5650>`__,
+  `#5688 <https://github.com/randombit/botan/issues/5688>`__).
 
 * Various X509/PKIX hardenings, optimizations, bug fixes, and additional sanity
-  checks, among them the binding of delegated OCSP responder certificates to
-  the issuing CA
-  (`#5593 <https://github.com/randombit/botan/issues/5593>`__,
-  `#5598 <https://github.com/randombit/botan/issues/5598>`__,
-  `#5605 <https://github.com/randombit/botan/issues/5605>`__,
+  checks, such as restricting the OCSP nocheck extension to responder
+  certificates, rejecting extensions in objects for which they are not
+  defined, and stricter parsing of algorithm identifiers and dates
+  (`#5605 <https://github.com/randombit/botan/issues/5605>`__,
   `#5611 <https://github.com/randombit/botan/issues/5611>`__,
-  `#5633 <https://github.com/randombit/botan/issues/5633>`__,
   `#5637 <https://github.com/randombit/botan/issues/5637>`__,
   `#5643 <https://github.com/randombit/botan/issues/5643>`__,
   `#5660 <https://github.com/randombit/botan/issues/5660>`__,
@@ -145,8 +239,7 @@ Security Relevant Fixes
   `#5670 <https://github.com/randombit/botan/issues/5670>`__,
   `#5682 <https://github.com/randombit/botan/issues/5682>`__,
   `#5685 <https://github.com/randombit/botan/issues/5685>`__,
-  `#5689 <https://github.com/randombit/botan/issues/5689>`__,
-  `#5698 <https://github.com/randombit/botan/issues/5698>`__).
+  `#5689 <https://github.com/randombit/botan/issues/5689>`__).
 
 * Various ASN.1 hardening and decoder strictness improvements
   (`#5693 <https://github.com/randombit/botan/issues/5693>`__,
@@ -155,45 +248,16 @@ Security Relevant Fixes
   `#5720 <https://github.com/randombit/botan/issues/5720>`__).
 
 * During path validation, by default require that OCSP responses are no more
-  than seven days old. Previously any age was accepted as long as it preceded
-  the response's ``nextUpdate``
+  than seven days old
   (`#5623 <https://github.com/randombit/botan/issues/5623>`__).
 
-* By default OCSP no longer accepts soft-fail conditions such as network
-  failure
-  (`#5785 <https://github.com/randombit/botan/issues/5785>`__,
-  `#5804 <https://github.com/randombit/botan/issues/5804>`__).
-
-* The default policy for TLS no longer lists finite field Diffie-Hellman. If
-  required for compatibility it must be enabled by the application
+* The default policy for TLS no longer lists finite field Diffie-Hellman
   (`#5782 <https://github.com/randombit/botan/issues/5782>`__).
-
-* DTLS 1.2 servers now must either set a DTLS cookie secret and provide the
-  peer network identity, or explicitly opt out of the cookie exchange by
-  overriding ``dtls_server_require_cookie_exchange`` to return false
-  (`#5792 <https://github.com/randombit/botan/issues/5792>`__).
 
 * TLS 1.3 handshake hardening and various minor TLS fixes
   (`#5664 <https://github.com/randombit/botan/issues/5664>`__,
   `#5721 <https://github.com/randombit/botan/issues/5721>`__,
-  `#5767 <https://github.com/randombit/botan/issues/5767>`__,
-  `#5810 <https://github.com/randombit/botan/issues/5810>`__).
-
-* Fix various edge case bugs in AEAD, cipher mode, stream cipher, MACs, and
-  KDFs
-  (`#5610 <https://github.com/randombit/botan/issues/5610>`__,
-  `#5628 <https://github.com/randombit/botan/issues/5628>`__,
-  `#5642 <https://github.com/randombit/botan/issues/5642>`__,
-  `#5659 <https://github.com/randombit/botan/issues/5659>`__,
-  `#5665 <https://github.com/randombit/botan/issues/5665>`__,
-  `#5672 <https://github.com/randombit/botan/issues/5672>`__,
-  `#5674 <https://github.com/randombit/botan/issues/5674>`__,
-  `#5742 <https://github.com/randombit/botan/issues/5742>`__,
-  `#5743 <https://github.com/randombit/botan/issues/5743>`__).
-
-
-Other Fixes
------------
+  `#5767 <https://github.com/randombit/botan/issues/5767>`__).
 
 * Fix DTLS 1.2 handshake edge cases, including pacing of repeated timeout
   checks, replay of final flights after local activation, partial server-flight
@@ -205,7 +269,6 @@ Other Fixes
   `#5696 <https://github.com/randombit/botan/issues/5696>`__,
   `#5790 <https://github.com/randombit/botan/issues/5790>`__,
   `#5791 <https://github.com/randombit/botan/issues/5791>`__,
-  `#5792 <https://github.com/randombit/botan/issues/5792>`__,
   `#5793 <https://github.com/randombit/botan/issues/5793>`__,
   `#5800 <https://github.com/randombit/botan/issues/5800>`__,
   `#5801 <https://github.com/randombit/botan/issues/5801>`__,
@@ -216,6 +279,15 @@ Other Fixes
   `#5834 <https://github.com/randombit/botan/issues/5834>`__,
   `#5835 <https://github.com/randombit/botan/issues/5835>`__,
   `#5836 <https://github.com/randombit/botan/issues/5836>`__).
+
+* Fix various further edge case bugs in AEAD, cipher mode, stream cipher,
+  MAC, and KDF implementations
+  (`#5642 <https://github.com/randombit/botan/issues/5642>`__,
+  `#5659 <https://github.com/randombit/botan/issues/5659>`__,
+  `#5665 <https://github.com/randombit/botan/issues/5665>`__,
+  `#5674 <https://github.com/randombit/botan/issues/5674>`__,
+  `#5742 <https://github.com/randombit/botan/issues/5742>`__,
+  `#5743 <https://github.com/randombit/botan/issues/5743>`__).
 
 * Improve OCSP request and response serialization
   (`#5678 <https://github.com/randombit/botan/issues/5678>`__,
@@ -254,6 +326,10 @@ Other Fixes
 * Fix several issues in the compression wrappers
   (`#5733 <https://github.com/randombit/botan/issues/5733>`__).
 
+* Fix further errors in the Python binding
+  (`#5722 <https://github.com/randombit/botan/issues/5722>`__,
+  `#5796 <https://github.com/randombit/botan/issues/5796>`__).
+
 * Add missing, or correct erroneous, documentation comments in many headers
   (`#5760 <https://github.com/randombit/botan/issues/5760>`__,
   `#5761 <https://github.com/randombit/botan/issues/5761>`__,
@@ -268,6 +344,29 @@ Other Fixes
 
 * Upgrade to TLS-Anvil 1.5
   (`#5630 <https://github.com/randombit/botan/issues/5630>`__).
+
+
+Changes to the BSI Module Policy
+--------------------------------
+
+The audited configuration is built with the BSI module policy
+(``src/build-data/policy/bsi.txt``). Two modules were removed from that policy
+in this release; neither change is mentioned in the release notes.
+
+* The finite field ``dsa`` module is removed from the BSI policy. DSA had
+  already been documented as deprecated in |botan_git_base_ref| (the
+  deprecation notice states that finite field DSA is slow, rarely used, and no
+  longer approved by NIST), but the module itself lacked the deprecation
+  annotation and was still listed among the recommended signature algorithms
+  of the policy. The pull request aligns the module annotations with the
+  documented deprecations and comments ``dsa`` out of the policy file
+  (`#5780 <https://github.com/randombit/botan/issues/5780>`__). As a
+  consequence, DSA is no longer available in the audited build.
+
+* The ``iso9796`` module (ISO 9796-2 DS2/DS3 RSA signature padding) is
+  deprecated and removed from the BSI policy together with the verification
+  fixes described under "Other Fixes"
+  (`#5680 <https://github.com/randombit/botan/issues/5680>`__).
 
 
 New Features and Additions
@@ -369,7 +468,12 @@ APIs, bindings, and build system:
   (`#5233 <https://github.com/randombit/botan/issues/5233>`__,
   `#5765 <https://github.com/randombit/botan/issues/5765>`__).
 
-New optimized algorithm implementations:
+New optimized and constant-time algorithm implementations:
+
+* Convert the SM4 key schedule to constant time code, including the hardware
+  AES based variant
+  (`#5638 <https://github.com/randombit/botan/issues/5638>`__,
+  `#5639 <https://github.com/randombit/botan/issues/5639>`__).
 
 * Add an AVX-512/GFNI implementation of the Streebog compression function
   (`#5655 <https://github.com/randombit/botan/issues/5655>`__).
