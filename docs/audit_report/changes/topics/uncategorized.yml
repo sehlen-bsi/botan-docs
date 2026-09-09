@@ -7139,3 +7139,16 @@ patches:
 - pr: 5921  # https://github.com/randombit/botan/pull/5921
   merge_commit: 9bce628ffbe90d1cb9242ae0efcbf3bc2fb0123d
   classification: unspecified
+
+# Add EC_Group::register_custom_group
+#   Author:    @randombit
+- pr: 5922  # https://github.com/randombit/botan/pull/5922
+  merge_commit: db3ba9ee198e66c1edcee71d4a703af88b0117b7
+  classification: unspecified
+
+# rng information loss fix and test
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5926  # https://github.com/randombit/botan/pull/5926
+  merge_commit: 18f569173b190049c5384f29df8c76666a1c28d7
+  classification: unspecified
