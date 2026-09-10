@@ -34,7 +34,8 @@ The function ``miller_rabin_test_iterations()`` is implemented in
 
    **Steps:**
 
-   1. Compute the worst case ``base`` with :math:`{({\mathit{prob} + 2})}/2`.
+   1. Limit ``prob`` to at most 512 (introduced in Botan 3.13.0) and compute
+      the worst case ``base`` with :math:`{({\mathit{prob} + 2})}/2`.
    2. If ``random`` is false return ``base``.
    3. If ``prob`` is 128 or lower
 
@@ -218,7 +219,9 @@ The function ``random_prime()`` operates as follows:
       requires a positive ``coprime`` that has less bits than ``bits``. It is
       also checked that ``coprime`` is odd or zero. The ``modulo`` must be
       between zero and 100000 [#prime_coprime_limit]_, and the ``equiv`` modulo
-      the ``modulo`` must also not be zero.
+      the ``modulo`` must also not be zero. Since Botan 3.13.0 it is
+      additionally required that ``equiv`` and ``modulo`` are relatively
+      prime, as otherwise no prime can satisfy the requested congruence.
       Furthermore, the algorithm terminates if a length of 1 is passed, as
       no primes with that bit-length exist.
 
@@ -253,8 +256,8 @@ The function ``random_prime()`` operates as follows:
       to it. Note that ``equiv`` defaults to 1 and ``modulo`` to 2. In that
       case the condition is always met as the candidate is odd.
 
-   6. To eliminate non-prime candidates, three primality and two additional
-      tests are conducted consecutively. If the candidate fails one of the
+   6. To eliminate non-prime candidates, the following sieving, primality and
+      auxiliary tests are conducted consecutively. If the candidate fails one of the
       tests, it is incremented by ``modulo`` to preserve the equivalence
       modulo ``modulo`` and tested again. Note that the candidate is
       incremented by ``modulo`` a single time prior to the first test. Thus,
@@ -269,12 +272,19 @@ The function ``random_prime()`` operates as follows:
          applies for one of the primes :math:`q_{i}`
          . If that is the case, the candidate is composite and thus not
          prime.
-      -  Check for the first :math:`\lfloor bits \rfloor` of 6541 included
-         precomputed primes :math:`q_i` (without
-         2) if the equation :math:`p\bmod{q_i}=(q_i-1)/2` holds for one
-         of the primes :math:`q_i`. If that is the
-         case, :math:`2*p+1` is composite and thus not prime, which means ``p``
-         is not a Sophie Germain prime. [#random_prime_sophie_germain]_
+      -  Only when generating the prime ``q`` for a safe prime in
+         ``random_safe_prime()`` (see below): check for the first
+         :math:`\lfloor bits \rfloor` of 6541 included precomputed primes
+         :math:`q_i` (without 2) if the equation
+         :math:`p\bmod{q_i}=(q_i-1)/2` holds for one of the primes
+         :math:`q_i`. If that is the case, :math:`2*p+1` is composite and
+         thus not prime, which means ``p`` is not a Sophie Germain prime.
+         [#random_prime_sophie_germain]_ Prior to Botan 3.13.0 this filter
+         was applied unconditionally by ``random_prime()``. Since it rejects
+         every candidate for certain ``equiv``/``modulo`` combinations (e.g.
+         ``equiv=1``, ``modulo=3``), the sieving loop was moved to the
+         internal helper ``random_prime_with_sieve()`` and the filter is
+         now only enabled by ``random_safe_prime()``.
       -  If ``coprime`` is bigger than one, do a single Miller-Rabin
          iteration (for performance reasons) before checking if
          :math:`\mathit{\gcd}{{({{p - 1},\mathit{coprime}})} = 1}` [#gcd_impl]_.
@@ -321,9 +331,13 @@ The function ``random_safe_prime()`` generates a safe prime:
 
    **Steps:**
 
-   1. Call ``random_prime()`` to sample a prime ``q`` of length :math:`bits-1`. The probability
+   1. Sample a prime ``q`` of length :math:`bits-1` with :math:`q \equiv 2 \pmod 3`
+      using the sieving algorithm of ``random_prime()`` described above
+      (since Botan 3.13.0 via the internal helper ``random_prime_with_sieve()``)
+      with the Sophie Germain sieve filter enabled. The probability
       is set to 128
       (i.e chance of a composite return value is at most :math:`\sfrac{1}{2^{128}}`).
+      Note that ``bits`` must be larger than 64.
    2. Compute candidate ``p`` as :math:`{q \ast 2} + 1`
    3. Check ``p`` with ``is_prime()`` for random numbers with probability set
       to 128 and random set to true. If the candidate fails the test, go

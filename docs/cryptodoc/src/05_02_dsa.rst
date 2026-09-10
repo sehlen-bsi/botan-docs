@@ -6,6 +6,8 @@ DSA
 The Digital Signature Algorithm (DSA) is implemented in
 :srcref:`src/lib/pubkey/dsa/dsa.cpp`.
 The DSA signature scheme is no longer approved by [FIPS-186-5]_.
+Since Botan 3.13.0 the ``dsa`` module is marked as deprecated and is no
+longer enabled by the BSI build policy.
 The implementation generally follows [FIPS-186-4]_. It uses deterministic nonces according to  [RFC6979]_ if the
 corresponding compilation module `rfc6979` in Botan is enabled.
 
@@ -23,17 +25,21 @@ The DSA implementation offers the DSA Key classes ``DSA_PrivateKey`` and
 of a discrete logarithmic group (DH parameter) and a public value ``y``.
 The associated private key contains an additional private parameter ``x``.
 A ``DSA_PrivateKey`` can be generated with the constructor
-``DSA_PrivateKey(RandomNumberGenerator& rng, const DL_Group& grp, const
-BigInt& x_arg)``. The implementation operates as follows:
+``DSA_PrivateKey(RandomNumberGenerator& rng, const DL_Group& group)``;
+the constructor ``DSA_PrivateKey(const DL_Group& group, const BigInt&
+x)`` loads an existing private value. Since Botan 3.13.0 all DSA key
+constructors, including the decoding constructors, reject a group
+without subgroup order ``q`` or with a ``q`` shorter than 160 bits
+(``check_dsa_group()``). The implementation operates as follows:
 
 .. admonition:: ``DSA_PrivateKey()``
 
-   **Input:**
+   **Input (summary of different overload of the constructor):**
 
    -  ``rng``: random number generator
    -  ``grp``: DL_Group (**Z**/*p*\ **Z**)\* : ``p``, generator ``g`` with order
       ``q``
-   -  ``x_arg``: private DSA parameter
+   -  ``x``: private DSA parameter (optional)
 
    **Output:**
 
@@ -42,9 +48,11 @@ BigInt& x_arg)``. The implementation operates as follows:
 
    **Steps:**
 
-   1. If private value ``x_arg`` was provided, set ``x`` to ``x_arg``. Otherwise,
-      sample ``x`` as a random number :math:`1<x<q-1` from ``rng`` using the algorithm
-      described in Section :ref:`pubkey_param/rng`.
+   1. If the private value ``x`` was provided, use it. Otherwise,
+      sample ``x`` as a random number :math:`2 \leq x<q` from ``rng`` using the algorithm
+      described in Section :ref:`pubkey_param/rng` (see the
+      :ref:`DH key generation section <pubkey/dh>` for the case of a ``q``
+      outside the range of 160 to 384 bits).
    2. Compute public value ``y`` as :math:`g^x \bmod{p}`
 
       Optional verification of the generated key with

@@ -13,6 +13,17 @@ The general functionality of this construction is implemented in class
 This class handles splitting data into appropriate blocks and invocation
 of hash compression methods.
 
+Since Botan 3.13.0 every hash function reports an estimate of its collision
+resistance in bits via ``HashFunction::security_level()`` (declared in
+:srcref:`src/lib/hash/hash.h`). The default implementation returns half of
+the output length, corresponding to the generic birthday bound. It is
+overridden for hash functions with a known collision attack (SHA-1 reports
+61 bits) and for the SHAKE XOFs, which cap the estimate at 128 (SHAKE128)
+respectively 256 (SHAKE256) bits regardless of the requested output length.
+The value is used by other parts of the library to enforce minimum hash
+strength requirements, e.g. in the hash-to-curve implementation (see the
+respective section in the elliptic curve chapter).
+
 SHA-1
 -----
 
@@ -73,14 +84,18 @@ SHA-3
 -----
 
 SHA-3 does not rely on a Merkle-Damgard construction, as it uses a sponge
-construction to perform data compression. Botan provides two implementations of
-the Keccak sponge construction: software and BMI2 (Bit Manipulation Instruction
-Set 2).
+construction to perform data compression. Botan provides three implementations of
+the Keccak sponge construction: software, BMI2 (Bit Manipulation Instruction
+Set 2) and, since Botan 3.11.0, AVX-512.
 
 The software implementation is located in
 :srcref:`src/lib/permutations/keccak_perm/keccak_perm.cpp`. The BMI2
 implementation is located in
-:srcref:`src/lib/permutations/keccak_perm/keccak_perm_bmi2/keccak_perm_bmi2.cpp`.
+:srcref:`src/lib/permutations/keccak_perm/keccak_perm_bmi2/keccak_perm_bmi2.cpp`,
+the AVX-512 implementation in
+:srcref:`src/lib/permutations/keccak_perm/keccak_perm_avx512/keccak_perm_avx512.cpp`.
+The AVX-512 implementation is preferred over the BMI2 implementation if the
+processor supports it.
 
 Based on the generic Keccak construction Botan implements SHA-3 as defined in
 [FIPS-202]_ and thus supports output lengths of 224, 256, 384 and 512 bits. The

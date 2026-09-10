@@ -192,9 +192,14 @@ Algorithm 10 in [XMSS]_ and it works as follows:
 
    **Notes:**
 
-   - The generation procedure is implemented in :srcref:`[src/lib/pubkey/xmss]/xmss_privatekey.cpp`
-     in the ``XMSS_PrivateKey()`` constructor and ``XMSS_PrivateKey::tree_hash()``
-     as well as ``XMSS_PrivateKey::tree_hash_subtree()``
+   - The generation procedure is implemented in :srcref:`[src/lib/pubkey/xmss]/xmss_privatekey.cpp`.
+     Since Botan 3.13.0, the ``XMSS_PrivateKey()`` constructor delegates the
+     generation of the seeds and of the root node to
+     ``XMSS_PrivateKey::generate_keygen_material()``, so that the public key
+     part is constructed immutably from the result. The tree hashing is
+     performed by the internal helper class ``XMSS_Tree_Builder`` in its methods
+     ``tree_hash()`` and ``tree_hash_subtree()``; ``XMSS_PrivateKey::tree_hash()``
+     is a thin wrapper around this helper that is also used during signing.
 
 **Remark:** Note that Botan does not store the whole XMSS keys in
 memory. Only ``public_seed``, ``private_seed``, and ``SK_PRF`` are stored, and
@@ -418,9 +423,12 @@ The ``Stateful_Key_Index_Registry`` singleton provides the following methods::
    uint64_t current_index(const KeyId& key_id);
 
    /**
-   * Return a new counter
+   * Reserve and return the next counter value, or nullopt if the counter
+   * has already reached the key's maximum. The counter never increments
+   * past the maximum, so it cannot wrap, and an exhausted key remains
+   * exhausted.
    */
-   uint64_t reserve_next_index(const KeyId& key_id);
+   std::optional<uint64_t> reserve_next_index(const KeyId& key_id);
 
    /**
    * Set the counter to at least min (but if already higher it will retain its current value)
@@ -428,9 +436,9 @@ The ``Stateful_Key_Index_Registry`` singleton provides the following methods::
    void set_index_lower_bound(const KeyId& key_id, uint64_t min);
 
    /**
-   * If the current counter is >= max returns 0, otherwise max - counter
+   * If the current counter is >= the key's maximum returns 0, otherwise maximum - counter
    */
-   uint64_t remaining_operations(const KeyId& key_id, uint64_t max);
+   uint64_t remaining_operations(const KeyId& key_id);
 
 Here the ``KeyId`` is defined as follows::
 
@@ -440,32 +448,69 @@ Here the ``KeyId`` is defined as follows::
          * Create a KeyId for some kind of key material
          *
          * @param algo_name     Algorithm name (ex "XMSS", "HSS-LMS")
-         * @param algo_params   Algorithm specific parameters
+         * @param algo_params   Encoding of the algorithm parameters
+         * @param max_operations Maximum number of operations the key supports.
+         *                       This must be derived from algo_params; equal
+         *                       identities must have equal maximums.
          * @param key_material_1 First part of key identifying material
          * @param key_material_2 Second part of key identifying material (can be omitted)
          */
          KeyId(std::string_view algo_name,
-               uint32_t algo_params,
+               std::span<const uint8_t> algo_params,
+               uint64_t max_operations,
                std::span<const uint8_t> key_material_1,
                std::span<const uint8_t> key_material_2);
 
+         // A default constructed KeyId permits no operations
          KeyId() = default;
 
-         auto operator<=>(const KeyId& other) const = default;
+         uint64_t max_operations() const { return m_max_operations; }
+
+         auto operator<=>(const KeyId& other) const { return m_val <=> other.m_val; }
+
+         bool operator==(const KeyId& other) const { return m_val == other.m_val; }
 
       private:
-         std::array<uint8_t, 32> m_val;
+         std::array<uint8_t, 32> m_val{};
+         uint32_t m_process_id = 0;
+         uint64_t m_max_operations = 0;
    };
 
-For XMSS, the ``algo_name`` is ``"XMSS"``, the ``algo_params`` is the OID value, and ``key_material_1`` is the private seed, and ``key_material_2`` is the PRF.
+The identity ``m_val`` is the SHA-256 hash over the length-prefixed inputs
+``algo_name``, ``algo_params``, ``key_material_1`` and ``key_material_2``.
+For XMSS, the ``algo_name`` is ``"XMSS"``, the ``algo_params`` is the big-endian
+encoding of the 32-bit OID value, ``max_operations`` is the total number of
+signatures :math:`2^h` of the parameter set, ``key_material_1`` is the private
+seed, and ``key_material_2`` is the PRF.
 The parameters uniquely identify the managed XMSS private key and the ``Stateful_Key_Index_Registry::reserve_next_index()`` method
-returns a safe-to-use leaf index and ensures atomic incrementation of the state for the next call.
-The signing algorithm now manipulates the XMSS state as needed *before* actually
+returns a safe-to-use leaf index and increments the state for the next call.
+The signing algorithm manipulates the XMSS state as needed *before* actually
 signing with the respective WOTS+ leaf.
-Since the state is manipulated with atomic memory access operations, it is safe
+Since all accesses to the registry are serialized by a mutex, it is safe
 to use the same XMSS private key in multiple threads of the same process. A new
 private key calling ``Stateful_Key_Index_Registry::reserve_next_index()`` for the first time lazily initializes the state
 variable to "0".
+
+Since Botan 3.13.0, the registry enforces the following additional rules:
+
+- The counter never increments past ``max_operations``. Once the counter has
+  reached this maximum, ``reserve_next_index()`` returns an empty optional and
+  the XMSS signing operation throws an ``Invalid_State`` exception ("one time
+  signatures exhausted"); an exhausted key remains exhausted. Accordingly,
+  a serialized private key whose stored leaf index equals :math:`2^h` is
+  accepted and denotes an exhausted key, whereas a larger index is rejected
+  with a ``Decoding_Error``.
+- If the same key identity is registered with a differing
+  ``max_operations``, the registry throws an ``Internal_Error`` instead of
+  sharing the counter.
+- The registry detects a ``fork()`` of the process: both the registry and each
+  ``KeyId`` record the process ID at their creation. If either does not match
+  the current process ID during a registry access, the registry latches
+  closed for the remainder of the process and every subsequent access
+  (including read-only queries such as ``current_index()``) throws an
+  ``Invalid_State`` exception. This prevents the reuse of a leaf index in
+  the parent and the child process, which share copy-on-write duplicates of
+  the counters.
 
 When serializing private keys (using ``XMSS_PrivateKey::private_key_bits()``),
 the next unused WOTS+ leaf index is persisted (using ``Stateful_Key_Index_Registry::current_index()``) along with the private key data.

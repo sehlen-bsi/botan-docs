@@ -46,7 +46,11 @@ The following entropy sources are currently defined:
 
 -  ``Win32_EntropySource``: This entropy source is available on Windows,
    Cygwin and MinGW. It gathers entropy from the following Win32 API
-   functions. These inputs are not counted.
+   functions. These inputs are not counted. Since Botan 3.13.0, the
+   results of ``GlobalMemoryStatusEx()``, ``GetCursorPos()`` and
+   ``GetCaretPos()`` are only added if the respective call reported
+   success; previously the output structures were added even if the
+   call had failed.
 
    -  ``GetTickCount()``
    -  ``GetMessagePos()``
@@ -97,7 +101,11 @@ returns a reference to the default sources, which are hardcoded in
       {"rdseed", "hwrng", "getentropy", "system_rng", "system_stats"});
 
 These sources are used by the ``AutoSeeded_RNG`` if no system RNG is
-available.
+available. Note that the global ``Entropy_Sources`` object is not
+synchronized: adding a source via ``add_source()`` concurrently with a
+poll is a data race. The ``poll()`` implementations of the individual
+sources, in contrast, are expected to be thread safe, since multiple
+stateful generators may reseed concurrently from different threads.
 
 RNGs can use an underlying RNG, entropy sources or both for reseeding.
 If they use the entropy sources they call the ``poll()`` method of the

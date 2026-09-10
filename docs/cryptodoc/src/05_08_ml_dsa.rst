@@ -257,6 +257,12 @@ if ``strong`` is set, a sign/verify pairwise consistency check
 ``check_key()`` performs no checks, since all length and range checks are
 already enforced during decoding.
 
+Since Botan 3.13.0, the constructors of ``Dilithium_PublicKey`` and
+``Dilithium_PrivateKey`` that take an ``AlgorithmIdentifier`` (i.e., decoding
+from X.509 ``SubjectPublicKeyInfo`` or PKCS#8 structures) reject with a
+``Decoding_Error`` any algorithm identifier whose parameters field is not
+empty, as the ML-DSA parameter set is identified solely by the OID.
+
 Explicitly note that Botan's ML-DSA implementation does not support encoding or
 decoding the private key in the partially expanded format.
 
@@ -326,7 +332,7 @@ Key Generation
 
 Generating a fresh ML-DSA key pair as specified in [FIPS-204]_ Section 5.1
 Algorithm 1, is available in the constructor of :srcref:`Dilithium_PrivateKey
-<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:413|Dilithium_PrivateKey>`.
+<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:426|Dilithium_PrivateKey>`.
 This mostly delegates the actual key generation to the internal function
 :srcref:`expand_keypair
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:668|expand_keypair>`
@@ -373,7 +379,7 @@ Signing
 
 Signature generation as specified in [FIPS-204]_ Algorithms 2 and 7 are
 implemented in :srcref:`Dilithium_Signature_Operation::sign
-<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:154|sign>` with the
+<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:162|sign>` with the
 preparation of the message representative ``mu`` being done in
 :srcref:`DilithiumMessageHash
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_symmetric_primitives.h:28|DilithiumMessageHash>`.
@@ -421,10 +427,10 @@ preparation of the message representative ``mu`` being done in
      expansion of ``A_hat``, as well as the NTT for ``s_1``,
      ``s_2``, and ``t_0`` are done :srcref:`prior to the actual signing
      operation
-     <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:132|Dilithium_Signature_Operation>`
+     <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:138|Dilithium_Signature_Operation>`
      to amortize the complexity of these operations across multiple consecutive
      signature generations. The same applies to the calculation of ``tr``.
-   - Step 1: Botan (as of version 3.12.0) does not yet support the
+   - Step 1: Botan (up to and including version 3.13.0) does not yet support the
      application-defined context string as specified in [FIPS-204]_
      Algorithm 2; the context is always empty. See `GitHub #4376
      <https://github.com/randombit/botan/issues/4376>`_.
@@ -440,7 +446,7 @@ Signature Verification
 
 Signature verification as specified in [FIPS-204]_ Algorithms 3 and 8 is
 implemented in :srcref:`Dilithium_Verification_Operation::is_valid_signature
-<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:270|is_valid_signature>`
+<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:278|is_valid_signature>`
 with the preparation of the message representative ``mu`` being done in
 :srcref:`DilithiumMessageHash
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_symmetric_primitives.h:28|DilithiumMessageHash>`.
@@ -476,7 +482,7 @@ with the preparation of the message representative ``mu`` being done in
      expansion of ``A_hat``, as well as the preparation of
      ``t_1'_hat = ntt(t_1 * 2^d)`` are done :srcref:`prior to the actual
      verification operation
-     <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:252|Dilithium_Verification_Operation>`
+     <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:258|Dilithium_Verification_Operation>`
      to amortize the complexity of these operations across multiple consecutive
      signature verification.
    - The check in Step 3 is redundant, because it is not possible to encode a

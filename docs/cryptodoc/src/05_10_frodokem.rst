@@ -168,7 +168,7 @@ Key Generation
 --------------
 
 FrodoKEM key generation follows Section 8.1 of [FrodoKEM-ISO]_ and is
-implemented within ``FrodoKEM_PrivateKey`` constructor (see: :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:327|FrodoKEM_PrivateKey`).
+implemented within ``FrodoKEM_PrivateKey`` constructor (see: :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:332|FrodoKEM_PrivateKey`).
 It works as follows:
 
 .. admonition:: FrodoKEM Key Generation
@@ -210,6 +210,16 @@ Since Botan 3.12.0, ``FrodoKEM_PrivateKey::check_key(rng, strong)``
 performs, if ``strong`` is set, a pairwise consistency check: it runs one
 encapsulate/decapsulate roundtrip (with the "Raw" KDF) and returns true
 only if the encapsulated and decapsulated shared secrets are equal.
+
+When a private key is decoded from its byte encoding
+``SK = {s, seed_a, pack(b), s_trans, pkh}``, the public key hash ``pkh``
+is recomputed from the embedded public key and compared to the stored value.
+Since Botan 3.13.0, a mismatch is reported as a ``Decoding_Error`` (previously,
+it triggered an internal state check failure). Also since Botan 3.13.0, the
+constructors of ``FrodoKEM_PublicKey`` and ``FrodoKEM_PrivateKey`` that take
+an ``AlgorithmIdentifier`` reject with a ``Decoding_Error`` any algorithm
+identifier whose parameters field is not empty, as the FrodoKEM parameter set
+is identified solely by the OID.
 
 ..  _pubkey/frodokem/encapsulation:
 

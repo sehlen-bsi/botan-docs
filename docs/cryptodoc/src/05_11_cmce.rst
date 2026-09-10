@@ -347,6 +347,13 @@ the checks for the weight of :math:`e` and the syndrome comparison are designed
 to avoid early abortion if any check fails. This ensures that no information about
 the decoding success is leaked.
 
+Since Botan 3.13.0, secret-dependent bits within the decoding subroutine and
+the parity check matrix arithmetic (e.g., the entries of the reconstructed
+error vector :math:`e` and the code word bits used in the syndrome
+computation) are represented as ``CT::Choice`` values instead of ``bool``.
+This avoids that the compiler converts operations on these values into
+secret-dependent conditional branches.
+
 
 .. _pubkey/cmce/params:
 
@@ -357,10 +364,16 @@ The ``Classic_McEliece_Parameter_Set`` enum contains all instances of the
 Classic McEliece algorithm listed in Table :ref:`Supported Classic McEliece
 Parameter Sets <pubkey/cmce/parameter_table>`. These parameter sets serve as
 the basis for deriving all the necessary parameters used within the algorithm.
-They are collected in a ``Classic_McElice_Parameters`` object, which includes
+They are collected in a ``Classic_McEliece_Parameters`` object, which includes
 all the parameters defined in the specifications [CMCE-ISO]_ and [CMCE-R4]_.
 This object is passed to all algorithm components, ensuring consistent
 parameter usage.
+
+Since Botan 3.13.0, the constructors of ``Classic_McEliece_PublicKey`` and
+``Classic_McEliece_PrivateKey`` that take an ``AlgorithmIdentifier`` (i.e.,
+decoding from X.509 ``SubjectPublicKeyInfo`` or PKCS#8 structures) reject with
+a ``Decoding_Error`` any algorithm identifier whose parameters field is not
+empty, as the parameter set is identified solely by the OID.
 
 
 .. _pubkey/cmce/key_gen:

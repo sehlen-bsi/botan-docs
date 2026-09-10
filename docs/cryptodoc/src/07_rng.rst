@@ -27,12 +27,14 @@ important member functions that typically take ``std::span`` from C++20:
    extracts ``output.size()`` random bytes from the random number generator
    and writes them into ``output``.
 -  ``randomize_with_ts_input(output)``: First refreshes the random number
-   generator's entropy pool with a 32 byte additional input consisting of
-   a 64 bit high-resolution timestamp, the 32 bit process ID and, if the
-   System_RNG is available, 160 bits from the System_RNG (see the detailed
-   description in the :ref:`HMAC_DRBG <rng/hmac_drbg>` section). It then
-   extracts ``output.size()`` random bytes from the random number
-   generator and writes them into ``output``.
+   generator's entropy pool with a system specific additional input of
+   at most 128 bits. If the System_RNG is available, the additional
+   input consists of 128 bits from the System_RNG; otherwise it is
+   derived from a 64 bit high-resolution timestamp and the 32 bit
+   process ID (see the detailed description in the
+   :ref:`HMAC_DRBG <rng/hmac_drbg>` section). It then extracts
+   ``output.size()`` random bytes from the random number generator and
+   writes them into ``output``.
 -  ``reseed_from_sources(entropy_sources, poll_bits)``: Polls the
    ``entropy_sources`` for up to ``poll_bits`` bits of entropy, whereby
    each polled source adds its entropy to this random number generator
@@ -259,7 +261,12 @@ Function reset_reseed_counter():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Stateful_RNG's ``reset_reseed_counter()`` is used to reset the reseed
-counter from derived classes.
+counter from derived classes. Since Botan 3.13.0 it additionally records
+the current process ID, so that a fork of the process is also detected
+(see ``reseed_check()`` below) if the generator was seeded manually via
+``initialize_with()`` or ``add_entropy()`` and never passed through the
+automatic reseeding path, which previously left ``last_pid`` at zero and
+thereby disabled the fork detection for such instances.
 
 .. admonition:: ``reset_reseed_counter()``
 
@@ -270,6 +277,31 @@ counter from derived classes.
    **Steps:**
 
    1. Set ``reseed_counter = 1``
+   2. Set ``last_pid`` = **Get\_Current\_Process\_ID()**
+
+**Remark:** Recording the process ID in ``reset_reseed_counter()`` has a
+downside for generators that already carried a process ID from the
+automatic reseeding path. ``add_entropy()`` calls
+``reset_reseed_counter()`` whenever its input has at least
+``security_level()`` bits (see ``fill_bytes_with_input()`` below), as such
+an input is treated as a full reseed. If a process forks and both the
+parent and the child subsequently call ``add_entropy()`` with the *same*
+input (e.g. a fixed personalization string or a seed buffer inherited from
+the parent), the child overwrites ``last_pid`` with its own process ID and
+the following ``reseed_check()`` no longer detects the fork. Both processes
+then continue with identical generator states until the reseed interval
+elapses. Before Botan 3.13.0, ``last_pid`` was left unchanged in this
+situation, so that the fork was detected at the next output request. This
+concerns Stateful_RNG instances that are used directly; the
+``AutoSeeded_RNG`` (see below) mixes System_RNG output into every
+request on default builds (see ``randomize_with_ts_input()`` below), so
+that its outputs still diverge although the fork remains undetected. The
+library cannot distinguish fresh from duplicated input; applications must
+therefore ensure that entropy added after a fork is process-unique. A
+cheap library-side mitigation would be to always mix the current process
+ID into the state (e.g. as part of the additional input) whenever
+``reset_reseed_counter()`` is invoked, so that duplicated states diverge
+even if the supplied input is identical.
 
 Function initialize_with():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -426,16 +458,20 @@ function.
          }
       }
 
-``randomize_with_ts_input()`` composes a 32 byte additional input and
-passes it together with the output buffer to ``fill_bytes_with_input()``.
-The first 8 bytes hold a 64 bit high-resolution timestamp queried via
+``randomize_with_ts_input()`` composes a system specific additional
+input of at most 16 bytes and passes it together with the output buffer
+to ``fill_bytes_with_input()``. Since Botan 3.13.0, the composition
+depends on the build configuration: if the System_RNG is available, the
+additional input consists exclusively of 128 bits read from the
+System_RNG, i.e. neither a timestamp nor the process ID is used
+anymore. Only if the System_RNG is not available but the operating
+system utilities module is, the additional input is derived from a 64
+bit high-resolution timestamp queried via
 ``OS::get_high_resolution_clock()``, which uses a processor cycle counter
 where available (QueryPerformanceCounter's QuadPart value on Windows, an
 inline assembly instruction such as ``rdtsc`` on other platforms) and
-otherwise falls back to the most precise available system clock. The
-following 4 bytes hold the 32 bit process ID (PID). The remaining 20
-bytes (160 bits) are filled from the System_RNG, if it is available;
-otherwise they remain zero. It is implemented as follows.
+otherwise falls back to the most precise available system clock, and
+the 32 bit process ID (PID). It is implemented as follows.
 
 .. admonition:: ``randomize_with_ts_input()``
 
@@ -451,20 +487,39 @@ otherwise they remain zero. It is implemented as follows.
       ``accepts_input()`` returns false), call
       ``fill_bytes_with_input(output, {})`` without any additional input
       and return
-   2. Initialize the 32 byte buffer ``additional_input`` with zeros
-   3. Write a 64 bit high-resolution timestamp
-      (``OS::get_high_resolution_clock()``) to bytes 0..7 of
-      ``additional_input``
-   4. Write the 32 bit process ID to bytes 8..11 of ``additional_input``
-   5. If the System_RNG is available, fill the remaining bytes 12..31 of
-      ``additional_input`` (160 bits) by calling its ``randomize()``
-      member function
-   6. Call ``fill_bytes_with_input(output, additional_input)``
+   2. Initialize the 16 byte buffer ``additional_input`` with zeros
+   3. If the System_RNG is available, fill all 16 bytes of
+      ``additional_input`` (128 bits) by calling its ``randomize()``
+      member function and set ``written`` = 16
+   4. Otherwise, if the operating system utilities module is part of the
+      build, write a 64 bit high-resolution timestamp
+      (``OS::get_high_resolution_clock()``) to bytes 0..7 and the 32 bit
+      process ID to bytes 8..11 of ``additional_input`` and set
+      ``written`` = 4 (see the remark below)
+   5. Otherwise, set ``written`` = 0
+   6. Call ``fill_bytes_with_input(output, additional_input[0..written-1])``
 
-**Remark:** Steps 3 and 4 assume that the operating system utilities
-module is part of the build (the default). Without it, the timestamp and
-process ID are omitted and the System_RNG output (if available) fills the
-buffer starting at byte 0.
+**Remark:** In step 4 the implementation intends to pass 12 bytes
+(timestamp and PID), or only the 8 timestamp bytes if the platform does
+not provide process IDs. However, the expression computing ``written``
+in :srcref:`src/lib/rng/rng.cpp` is affected by an operator precedence
+error (``8 + (pid != 0) ? 4 : 0`` evaluates as
+``(8 + (pid != 0)) ? 4 : 0``), so that ``written`` is always 4 on this
+path. Consequently, only the least significant 32 bits of the timestamp
+are passed as additional input, and the process ID is not used. This
+path is only taken in builds without the System_RNG. It affects neither
+the seeding nor the security of a correctly seeded generator, since the
+additional input of ``randomize_with_ts_input()`` is merely a hedge
+against duplicated generator states (e.g. after a fork or a virtual
+machine rollback); the hedge is however weakened on such builds. The
+issue has been reported upstream as `GitHub #5924
+<https://github.com/randombit/botan/issues/5924>`_.
+
+**Remark:** With the System_RNG available (the default on all major
+platforms), the additional input contains no timestamp and no process
+ID anymore. The divergence of duplicated generator states therefore
+relies entirely on the System_RNG returning different output in the
+duplicated processes or virtual machine instances.
 
 Function ``Stateful_RNG::reseed_check()``:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -534,7 +589,9 @@ implemented as follows.
 
       5. If (``reseed_counter`` = 0) then do:
 
-         1. If ((``last_pid`` > 0) And (``cur_pid`` != ``last_pid``)) then
+         1. If a fork was detected in the condition of step 2 (i.e.,
+            (``last_pid`` > 0) And (``cur_pid`` != ``last_pid``) held
+            before ``last_pid`` was overwritten in step 2.2) then
             throw an ``Invalid_State`` exception with the message
             "Detected use of fork but cannot reseed DRBG" Else throw a
             ``PRNG_Unseeded`` exception with the message "PRNG not
@@ -598,6 +655,18 @@ it uses a default [#System_RNG_default]_ set of entropy sources. As the name imp
 AutoSeeded_RNG is automatically seeded (and reseeded) from these
 sources. The AutoSeeded_RNG is provided in
 :srcref:`src/lib/rng/auto_rng/auto_rng.cpp`.
+
+AutoSeeded_RNG's ``fill_bytes_with_input()`` delegates to the internal
+HMAC_DRBG as follows: if an ``input`` is given, it calls the HMAC_DRBG's
+``randomize_with_input(output, input)``; otherwise it calls its
+``randomize_with_ts_input(output)`` described above. Since Botan
+3.13.0, a call with both an empty ``output`` and an empty ``input``
+(e.g. ``randomize()`` with an empty buffer or ``add_entropy()`` with
+empty input) is a no-operation. Previously such a call passed the
+additional input composed by ``randomize_with_ts_input()`` to the
+HMAC_DRBG as entropy, which, on platforms without a System_RNG, could
+mark an unseeded HMAC_DRBG (e.g. after a call to ``clear()``) as seeded
+without any actual reseeding from the configured entropy sources.
 
 .. [#System_RNG_available]
    Note that the System_RNG is available on most platforms, including
@@ -973,6 +1042,17 @@ both a ``Botan::RandomNumberGenerator`` and a ``Botan::EntropySource``.
    2. If the call to ``jent_read_entropy_safe()`` fails, throw an ``Internal_Error``
       exception, containing an error message derived from the JitterEntropy-library's
       error code.
+
+.. admonition:: Reseeding and Clearing
+
+   The Jitter_RNG does not accept input (``accepts_input()`` returns
+   false), thus any additional input is ignored. Since Botan 3.13.0,
+   ``clear()`` is a no-operation as well; previously it re-created the
+   internal ``rand_data`` structure. Also since Botan 3.13.0, all
+   accesses to the ``rand_data`` structure are serialized by a mutex,
+   so that a single Jitter_RNG instance can be used concurrently from
+   multiple threads (e.g. when it serves as an entropy source for
+   several stateful generators).
 
 
 .. _rng/esdm_rng:

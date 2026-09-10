@@ -71,15 +71,29 @@ parameters:
 
  - :math:`(4a^3 + 27b^2) \bmod p \neq 0` must hold.
 
+ - The base point :math:`G` must satisfy the curve equation
+   :math:`G_y^2 = G_x^3 + a \cdot G_x + b \bmod p`.
+
  - The cofactor of the group must be :math:`h = 1`.
 
 These restrictions are compatible with the main recommendations from [ReqEC]_
 and checked during the construction of any custom `EC_Group` (see
-:srcref:`[src/lib/pubkey/ec_group]/ec_group.cpp:533|EC_Group`). Previous
+:srcref:`[src/lib/pubkey/ec_group]/ec_group.cpp:564|EC_Group`). Previous
 versions of the library had more liberal restrictions on the custom group
 parameters, but those are now deprecated. Particularly, the restriction on
 the cofactor is new and in the future custom curves with a cofactor not
 equal to `1` will no longer be allowed.
+
+Since Botan 3.13.0, the check that the base point lies on the curve is
+performed on every path that creates an ``EC_Group`` (i.e., also when decoding
+explicit domain parameters from DER and in the deprecated constructor that
+accepts a cofactor), independently of whether the "pcurves" or the legacy
+implementation is used. The deprecated constructor additionally verifies that
+:math:`p` and :math:`n` are (probable) primes, that the discriminant is
+non-zero, and that :math:`a`, :math:`b`, :math:`G_x` and :math:`G_y` are
+reduced modulo :math:`p`. Furthermore, ``EC_Group::verify_group()`` now checks
+that :math:`G` lies on the curve and has order :math:`n` (by verifying
+:math:`(n-1) \cdot G = -G`) without relying on the legacy implementation.
 
 .. [#supported_curves]
    Botan's :srcref:`src/lib/math/pcurves/` directory contains a subdirectory for
@@ -111,6 +125,24 @@ not considered stable.
    | ``EC_AffinePoint``                                       |                                                                                                                     |
    | (:srcref:`code <[src/lib/pubkey/ec_group]/ec_apoint.h>`) | An affine curve point in the context of an ``EC_Group``. Ensures that the contained point is always "on the curve". |
    +----------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+
+The following properties of these types were introduced in Botan 3.13.0:
+
+ - ``EC_AffinePoint`` provides the dedicated deserialization functions
+   ``deserialize_compressed()`` and ``deserialize_uncompressed()`` that accept
+   exactly one SEC1 encoding (header byte ``0x02``/``0x03`` or ``0x04``,
+   respectively) of the correct length. The generic ``deserialize()`` function
+   additionally accepts, for backward compatibility, the deprecated hybrid
+   encoding and the single zero byte encoding the point at infinity. Public
+   points of EC keys decoded from an X.509 or PKCS #8 structure are accepted
+   only in the compressed or uncompressed encoding, as required by RFC 5480.
+
+ - Arithmetic operations, assignments and comparisons that involve
+   ``EC_Scalar`` objects belonging to different groups are rejected with an
+   error (or compare as unequal).
+
+ - The curve-specific scalar objects of the "pcurves" implementation are
+   zeroized on destruction.
 
 Private Data Structures
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -221,12 +253,30 @@ currently not used in the elliptic curve algorithms outlined below.
 
 For links to the implementation, see ``WindowedMul2Table`` in the table above.
 
+Hash to Curve
+~~~~~~~~~~~~~
+
+Botan implements the hash-to-curve and hash-to-scalar functions of RFC 9380
+(``EC_AffinePoint::hash_to_curve_ro()``, ``EC_AffinePoint::hash_to_curve_nu()``
+and ``EC_Scalar::hash()``) using the ``expand_message_xmd`` message expansion
+and the simplified SWU mapping. These functions are not used by any of the
+algorithms described in this chapter. Hash to curve is supported for the
+"pcurves" implementations of secp256r1, secp384r1 and secp521r1 and, since
+Botan 3.13.0, for brainpool256r1, brainpool384r1, brainpool512r1 and
+numsp512d1. Since Botan 3.13.0, the rules of RFC 9380 on the hash function
+are enforced: the collision resistance of the hash function must be at least
+:math:`\min(\lceil bitlength(n)/2 \rceil, 256)` bits (e.g., SHA-256 is
+rejected for secp384r1) and the hash output length must not exceed its block
+size. XOF-based message expansion is not implemented. Applications can query
+``EC_Group::hash_to_curve_supported()`` to determine whether a given
+combination of group and hash function is supported.
+
 Key Generation
 --------------
 
 Botan provides the elliptic curve private key class ``EC_PrivateKey``, the
 respective public key class ``EC_PublicKey``, and the key generation algorithm
-in :srcref:`src/lib/pubkey/ecc_key/ecc_key.cpp:142|EC_PrivateKey`. To generate a
+in :srcref:`src/lib/pubkey/ecc_key/ecc_key.cpp:154|EC_PrivateKey`. To generate a
 private key the constructor ``EC_PrivateKey(RandomNumberGenerator& rng, const
 EC_Group& ec_group, bool with_modular_inverse)`` is called. The constructor
 operates as follows:
@@ -276,6 +326,12 @@ a pairwise consistency check: it recomputes the public point from the
 private scalar (as :math:`d \cdot G`, or :math:`d^{-1} \cdot G` for
 ECKCDSA/ECGDSA) and returns false if the result does not equal the
 stored public point.
+
+Since Botan 3.13.0, when decoding a private key from its PKCS #8 encoding, the
+domain parameters may be taken from the optional ``parameters`` field of the
+``ECPrivateKey`` structure (RFC 5915) if the ``AlgorithmIdentifier`` does not
+carry them. If both are present, they must denote the same group; otherwise
+the decoding fails with an error.
 
 **Conclusion:** The algorithm fulfills all requirements of [TR-03111]_.
 The public key validation follows the requirements described in [ReqEC]_.
@@ -404,7 +460,7 @@ Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
 The signature verification algorithm works as follows (see
-:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:232|verify`):
+:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:244|verify`):
 
 .. admonition:: ``ECDSA_Verification_Operation::verify()``
 
@@ -454,7 +510,7 @@ Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
 The signature generation algorithm works as follows (see
-:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:164|raw_sign`):
+:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:166|raw_sign`):
 
 .. admonition:: ``ECKCDSA_Signature_Operation::raw_sign()``
 
@@ -488,7 +544,7 @@ Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
 The signature verification algorithm works as follows (see
-:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:236|verify`):
+:srcref:`[src/lib/pubkey/eckcdsa]/eckcdsa.cpp:238|verify`):
 
 .. admonition:: ``ECKCDSA_Verification_Operation::verify()``
 

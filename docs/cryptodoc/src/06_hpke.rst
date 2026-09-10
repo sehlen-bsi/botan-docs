@@ -14,7 +14,8 @@ DLIES
 .. warning::
 
    As of Botan 3.5.0 the DLIES implementation is considered deprecated and
-   will be removed in a future release.
+   will be removed in a future release. Since Botan 3.13.0, the constructors
+   of ``DLIES_Encryptor`` and ``DLIES_Decryptor`` are annotated as deprecated.
 
 The Discrete Logarithm Integrated Encryption Scheme (DLIES) utilizes the
 Diffie-Hellman key exchange as the asymmetric component of the scheme.
@@ -147,8 +148,8 @@ a Cipher and a MAC algorithm. The class offers the following functions:
 -  ``enc(plaintext, plaintext length)``:
 
    1. Ensure that the other parties ECDH public point has been set
-      correctly and is not the point at infinity. If not terminate with
-      respective error.
+      correctly and is not the point at infinity, and that an ``IV`` has
+      been set. If not terminate with respective error.
    2. Compute the ECDH secret ``s`` using the provided ECDH private key
       and the other parties public point. This operation honors the
       defined ECIES flags. Thus the implementation uses either the ECDH
@@ -165,6 +166,16 @@ a Cipher and a MAC algorithm. The class offers the following functions:
    6. Return the concatenation of the own encoded ECDH public point, the
       ciphertext and the computed tag.
 
+   Since Botan 3.13.0, the ``IV`` is consumed by each call to ``enc()``, i.e.,
+   a fresh ``IV`` must be set via ``set_initialization_vector()`` before each
+   message. Otherwise, ``enc()`` terminates with an error. Note that the
+   ephemeral ECDH key pair is generated in the constructor of
+   ``ECIES_Encryptor``, so that all messages encrypted with the same object
+   are encrypted under the same derived symmetric key. Previous versions
+   silently reused the ``IV`` for all messages, which for most cipher modes
+   results in a key/nonce pair reuse. The ``IV`` is not part of the
+   serialized ciphertext and must be conveyed separately.
+
 The ECIES_Decryptor of the integrated scheme requires similar
 parameters. The class offers the following functions:
 
@@ -172,7 +183,8 @@ parameters. The class offers the following functions:
    ciphertext decryption.
 -  ``do_decrypt(input, input length)``:
 
-   1. Peform preliminary length checks of the input.
+   1. Perform preliminary length checks of the input and ensure that an
+      ``IV`` has been set. If not terminate with respective error.
    2. Extract the public point from input and compute the ECDH secret
       ``s`` using the provided ECDH private key and the other parties
       public point. This operation honors the defined ECIES flags. Thus
@@ -189,6 +201,10 @@ parameters. The class offers the following functions:
       equal. If they are not equal, return an uninitialized plaintext
       vector.
    6. Decrypt the ciphertext using the derived cipher key.
+
+   Since Botan 3.13.0, the ``IV`` is consumed by each call to
+   ``do_decrypt()`` (also if the tag validation fails), i.e., a fresh ``IV``
+   must be set before each message.
 
 **Conclusion:** The algorithms for encryption and decryption comply with [TR-02102-1]_.
 Botan however does not restrict the used ``KDF``, ``MAC`` and ``cipher`` to the ones allowed in [TR-02102-1]_.

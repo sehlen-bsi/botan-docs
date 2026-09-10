@@ -35,9 +35,20 @@ extensions that are named as crucial in [TR-02103]_.
 * CertificatePolicies
 * AutorityInformationAccess
 * CRLDistributionPoints
+* OCSP NoCheck (*id-pkix-ocsp-nocheck*, [RFC6960]_)
+* NoRevAvail (RFC 9608, since Botan 3.13.0)
+* IPAddressBlocks and ASBlocks (RFC 3779)
+* TNAuthList (RFC 8226)
 
 Unknown extensions are not parsed but their DER encoded content is provided to
-the application via the certificate API. [TR-02103]_ provides a separate list of
+the application via the certificate API. Since Botan 3.13.0, each recognized
+extension is bound to the PKIX structures in which it is defined
+(``Extension_Context``: certificate, CRL, CRL entry, OCSP request or OCSP
+response); an extension appearing in a structure for which it is not
+defined (e.g. a CRLNumber extension in a certificate) causes the decoding of
+the structure to fail. Likewise, since Botan 3.13.0 a structure containing
+two extensions with the same OID is rejected during decoding ([RFC5280]_,
+Section 4.2). [TR-02103]_ provides a separate list of
 certificate extensions that might be useful in "some contexts". Only the
 "FreshestCRL" extension is not supported by Botan: meaning that delta-CRLs are
 not supported either. Since Botan 3.12.0, an extension whose OID is
@@ -55,6 +66,49 @@ determined heuristically during parsing (equal subject and issuer
 distinguished names and, if both are present, equal subject and
 authority key identifiers); the certificate's self-signature is no
 longer verified during parsing, but only during path validation.
+
+Botan 3.13.0 further tightened the decoding of PKIX structures:
+
+* Distinguished names are decoded preserving the grouping of attributes
+  into relative distinguished names (RDNs). Previously, the RDN
+  structure was flattened into a list of attributes, so that the name
+  constraint and issuer/subject comparison could not distinguish a
+  multi-valued RDN from a sequence of single-valued RDNs
+  (CVE-2026-48057). Two distinguished names are compared (function
+  ``operator==`` of ``X509_DN``) by their canonical encoding
+  (``X509_DN::_canonical_bytes()``): attribute values are compared
+  case-insensitively with leading, trailing and repeated whitespace
+  removed, and the attributes within an RDN are compared as a set,
+  while the order of the RDNs is significant.
+* The parameters field of ``AlgorithmIdentifier`` structures in keys
+  and signatures is validated against the requirements of the
+  respective algorithm (e.g. absent or NULL parameters for RSA keys and
+  RSA PKCS #1 v1.5 signatures, a valid ``RSASSA-PSS-params`` structure
+  for RSA-PSS signatures, absent parameters for the keys of the
+  post-quantum schemes and of Ed25519/Ed448). A public key with
+  invalid parameters cannot be loaded (CERT_PUBKEY_INVALID during path
+  validation); a signature algorithm identifier with invalid
+  parameters is reported with the status code
+  SIGNATURE_ALGO_BAD_PARAMS (a hard failure like SIGNATURE_ERROR).
+* ASN.1 time values (``ASN1_Time``) are validated at decoding: a
+  UTCTime must denote a year between 1950 and 2049, a GeneralizedTime
+  a year between 1950 and 9999, and all date and time fields must be in
+  range. In OCSP responses, the fields *producedAt*, *thisUpdate*,
+  *nextUpdate* and *revocationTime* must be encoded as GeneralizedTime
+  as required by [RFC6960]_; a UTCTime in these fields causes the
+  response to be rejected.
+* The certificate serial number is stored as an explicit type
+  ``X509_Serial_Number`` that preserves the sign of the DER INTEGER, so
+  that negative serial numbers (reported as the warning
+  CERT_SERIAL_NEGATIVE) are no longer conflated with their absolute
+  value when serial numbers are compared, e.g. in OCSP responses.
+* The signature and public key BIT STRINGs must be octet-aligned (no
+  unused bits), and BIT STRINGs representing named bit lists (KeyUsage,
+  ReasonFlags) are decoded with the DER rule that trailing zero bits
+  must be omitted.
+* CRL entries with the reason code *removeFromCRL* (which is only
+  defined for delta CRLs) are rejected during CRL parsing. CRL numbers
+  larger than 32 bit are supported.
 
 Note that the requirements for specific certificate types (i.e. "CA", "TLS Server",
 "S/MIME", ..) layed out in [TR-02103]_ are not explicitly enforced during
@@ -97,7 +151,13 @@ the first checked candidate. To bound the work performed on maliciously
 constructed inputs, since Botan 3.12.0 at most 50 candidate paths and at
 most 200 certificate validations are attempted per call; if these limits
 are exceeded, the validation fails with the hard-failure status code
-``EXCEEDED_SEARCH_LIMITS``.
+``EXCEEDED_SEARCH_LIMITS``. Since Botan 3.13.0, additionally the total
+number of depth-first search steps performed during one validation is
+bounded by 300 (``PathBuildingDfsBudget``; previously, 1000 steps were
+permitted per resumption of the search, so that the total work was not
+bounded) and candidate paths longer than 16 certificates
+(``PathBuildingMaximumChainLength``) are discarded without being
+validated.
 
 **Conclusion:** X.509 path validation is implemented according to the crucial
 recommendations of [TR-02103]_. Some extended validation recommendations are not
@@ -127,7 +187,8 @@ restrictions on path validation, namely the following:
 -  Make OCSP requests for all CAs as well as the end entity certificate
    or only for the end entity certificate
 -  Maximum age of OCSP responses that do not include the ``next_update``
-   field
+   field (``max_ocsp_age()``; since Botan 3.13.0 the default is seven
+   days, previously the age was unbounded by default)
 -  Only allow specific hash functions used in all certificates in the
    chain
 -  Require a minimum key strength for all keys in the certificate chain
@@ -139,6 +200,11 @@ restrictions on path validation, namely the following:
 -  Provide a ``Certificate_Store`` of trusted OCSP responder certificates
    (``trusted_ocsp_responders()``, default: an empty in-memory store);
    see the description of ``check_ocsp()`` below
+-  Accept OCSP "soft-fail" conditions (``accept_ocsp_softfail()``,
+   since Botan 3.13.0, default: false): if enabled, a missing OCSP
+   responder URL, an unreachable OCSP responder or a build without HTTP
+   support satisfy the revocation requirement, as it was unconditionally
+   the case before Botan 3.13.0; see ``merge_revocation_status()`` below
 
 All variants of ``x509_path_validate()`` take an object of class
 ``Certificate_Store``. Such a ``Certificate_Store`` is used to store
@@ -159,10 +225,16 @@ subset of status codes that are considered warnings can be queried with
 the ``warnings()`` member function. At the time of writing, only the
 occurrence of negative certificate serial numbers, distinguished names
 that do not adhere to the length limitations, a missing OCSP URL or
-unreachable OCSP server, and validity-period violations of the trust
-root when the restrictions are configured to ignore them
-(TRUSTED_CERT_HAS_EXPIRED, TRUSTED_CERT_NOT_YET_VALID) produce
-warnings. To quickly check whether an
+unreachable OCSP server, a library built without HTTP support when an
+online OCSP check is requested (OCSP_NO_HTTP, a warning since Botan
+3.13.0, previously classified as a success code; like the other OCSP
+"soft-fail" codes it does not satisfy a revocation requirement unless
+``accept_ocsp_softfail()`` is set, so that a required but impossible
+online check still fails with NO_REVOCATION_DATA, see
+``merge_revocation_status()`` below), and validity-period
+violations of the trust root when the restrictions are configured to
+ignore them (TRUSTED_CERT_HAS_EXPIRED, TRUSTED_CERT_NOT_YET_VALID)
+produce warnings. To quickly check whether an
 X.509 path validation was successful or whether it produced any
 warnings, the member functions ``successful_validation()`` and
 ``no_warnings()`` will return a boolean. All certificate validation status
@@ -218,16 +290,19 @@ needed.
 
    6. While the builder yields another candidate path ``cert_path`` do:
 
-      a) Increment ``paths_checked`` by one and ``certs_checked`` by the
+      a) If ``cert_path`` contains more than 16 certificates, continue
+         with the next candidate path (since Botan 3.13.0)
+
+      b) Increment ``paths_checked`` by one and ``certs_checked`` by the
          number of certificates in ``cert_path``. If (``paths_checked`` >
          50) or (``certs_checked`` > 200), set ``first_path_error =
          Path_Validation_Result(EXCEEDED_SEARCH_LIMITS)`` and exit the
          loop. // bound the search on maliciously constructed inputs
 
-      b) Set ``status = check_chain(cert_path, ref_time, hostname, usage,
+      c) Set ``status = check_chain(cert_path, ref_time, hostname, usage,
          restrictions)`` // check the certificate chain, but not rev. data
 
-      c) If the most severe status code in ``status`` is below
+      d) If the most severe status code in ``status`` is below
          ``FIRST_ERROR_STATUS_TO_SKIP_REVOCATION`` (3000) then do: //
          revocation checks are skipped on chains that are already
          bound to be rejected
@@ -249,9 +324,14 @@ needed.
                  certificate) // chain positions that require an OCSP
                  status
 
-              2. If any of the first ``to_online`` entries of
-                 ``ocsp_status`` is empty or missing, obtain OCSP
-                 responses online by calling
+              2. Determine whether an online request is needed: for
+                 each of the first ``to_online`` chain positions, unless
+                 (since Botan 3.13.0) the certificate at that position
+                 carries the NoRevAvail or the OCSP NoCheck extension
+                 (see RFC 9608, Section 4), check whether its entry in
+                 ``ocsp_status`` is empty or
+                 missing. If this is the case for at least one position,
+                 obtain OCSP responses online by calling
                  ``check_ocsp_online(cert_path, trusted_roots, ref_time,
                  ocsp_timeout, restrictions)`` and copy its results into
                  the *empty* entries of ``ocsp_status`` only; the
@@ -264,11 +344,17 @@ needed.
               ocsp_status, restrictions)`` // merge all revocation
               information
 
-      d) Set ``pvd = Path_Validation_Result(status, cert_path)``
+         v.   Since Botan 3.13.0: for each certificate in ``cert_path``
+              except the trust anchor that carries the NoRevAvail
+              (RFC 9608) or OCSP NoCheck extension, remove NO_REVOCATION_DATA
+              from its status set // no revocation information is
+              available for such certificates by definition
 
-      e) If ``pvd.successful_validation()`` then return ``pvd``
+      e) Set ``pvd = Path_Validation_Result(status, cert_path)``
 
-      f) Else if ``first_path_error`` is empty, set
+      f) If ``pvd.successful_validation()`` then return ``pvd``
+
+      g) Else if ``first_path_error`` is empty, set
          ``first_path_error = pvd``.
 
    7. If ``first_path_error`` is set, return ``first_path_error`` // at
@@ -323,6 +409,11 @@ not already contained in a trusted store into an in-memory certificate
 store ``ee_extras``, and initializes the DFS ``stack`` with
 ``(end_entity, trusted?)``, where ``trusted?`` indicates whether the end
 entity certificate itself is contained in one of the trusted stores.
+Since Botan 3.13.0, the builder additionally receives a DFS budget
+(``dfs_budget``, 300 for all callers) that bounds the total number of
+search steps over all calls to ``next()``; before, each call to
+``next()`` was allowed up to 1000 steps, so that the total work was
+proportional to the number of candidate paths requested.
 Errors encountered during the search are recorded; the first recorded
 error is reported via ``error()`` if no path is found at all. Each call
 to ``next()`` operates as follows:
@@ -336,14 +427,12 @@ to ``next()`` operates as follows:
 
    **Steps:**
 
-   i.   Set ``steps = 0``
+   i.   While ``stack`` is not empty do:
 
-   ii.  While ``stack`` is not empty do:
-
-        a)  Increment ``steps``. If (``steps`` > 1000), record
-            CERT_ISSUER_NOT_FOUND as the builder error (intentionally
-            overwriting any previously recorded error) and Return
-            nothing. // bound the work per call on maliciously
+        a)  If ``dfs_budget`` = 0, record CERT_ISSUER_NOT_FOUND as the
+            builder error (intentionally overwriting any previously
+            recorded error) and Return nothing; otherwise decrement
+            ``dfs_budget`` // bound the total work on maliciously
             constructed inputs
 
         b)  Pop ``<last,trusted>`` from the ``stack``
@@ -386,12 +475,16 @@ to ``next()`` operates as follows:
             4) Add ``last``'s tag to ``certs_seen``
             5) Append ``last`` to ``path_so_far``
             6) Push a deletion marker on the ``stack``
-            7) For each ``issuer`` in ``trusted_issuers``, push
-               ``<issuer,true>`` on the ``stack``
-            8) For each ``issuer`` in ``misc_issuers``, push
+            7) For each ``issuer`` in ``misc_issuers``, push
                ``<issuer,false>`` on the ``stack``
+            8) For each ``issuer`` in ``trusted_issuers``, push
+               ``<issuer,true>`` on the ``stack`` // since Botan 3.13.0
+               the trusted issuers are pushed last and thus explored
+               first, so that the search does not wander through
+               cross-signed CAs if the trust anchor issued the
+               certificate directly; before, the order was reversed
 
-   iii. Return nothing // search space exhausted
+   ii.  Return nothing // search space exhausted
 
 .. [#tag]
    The certificate tag (``X509_Certificate::Tag``, added in Botan
@@ -413,7 +506,14 @@ could be built, the status code is ``OK``. Otherwise, the first error
 encountered during path building (one of CANNOT_ESTABLISH_TRUST,
 CERT_CHAIN_LOOP or CERT_ISSUER_NOT_FOUND) is returned. Note that since
 Botan 3.12.0 this function is no longer used by
-``x509_path_validate()``, which consumes the builder directly.
+``x509_path_validate()``, which consumes the builder directly. Since
+Botan 3.13.0, both ``build_all_certificate_paths()`` and
+``build_certificate_path()`` accept an optional parameter ``max_paths``;
+if it is set and the builder yields more candidate paths than
+permitted, ``build_all_certificate_paths()`` returns
+EXCEEDED_SEARCH_LIMITS, while ``build_certificate_path()`` stops
+examining further candidates. In addition, the DFS budget of 300 steps
+described above applies to both functions.
 
 Function build_certificate_path()
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -438,26 +538,39 @@ path built and a certificate status code.
    -  ``end_entity``: The end entity certificate to be validated.
    -  ``end_entity_extra``: An optional list of additional untrusted
       certificates for path building.
+   -  ``max_paths``: An optional bound on the number of candidate paths
+      to examine (since Botan 3.13.0; default: unbounded).
 
    **Output:**
 
    -  The certificate path built
-   -  A certificate status code: OK if a path could be built, one of
-      CANNOT_ESTABLISH_TRUST, CERT_CHAIN_LOOP or CERT_ISSUER_NOT_FOUND,
-      otherwise
+   -  A certificate status code:
+
+      -  OK, if a path could be built;
+      -  EXCEEDED_SEARCH_LIMITS, if ``max_paths`` was passed as 0, in
+         which case no path building is attempted at all;
+      -  otherwise the error recorded by the ``CertificatePathBuilder``
+         while it exhausted the search space without finding a path,
+         i.e. one of CANNOT_ESTABLISH_TRUST, CERT_CHAIN_LOOP or
+         CERT_ISSUER_NOT_FOUND (the latter is also recorded if the DFS
+         budget was exhausted, see above).
 
    **Steps:**
 
    1. Initialize a ``CertificatePathBuilder`` with
       ``trusted_certstores``, ``end_entity`` and ``end_entity_extra``
-      (with ``require_self_signed = false``)
+      (with ``require_self_signed = false`` and, since Botan 3.13.0,
+      ``dfs_budget = 300``)
 
    2. While the builder yields another candidate path ``path`` do:
 
-      a) If the last certificate of ``path`` is self-signed, set
+      a) If ``max_paths`` is set and already ``max_paths`` candidate
+         paths have been examined, exit the loop (since Botan 3.13.0)
+
+      b) If the last certificate of ``path`` is self-signed, set
          ``cert_path = path`` and Return OK // prefer paths ending in a
          self-signed certificate
-      b) Else, if no path has been saved yet, save ``path`` as
+      c) Else, if no path has been saved yet, save ``path`` as
          ``first_path``
 
    3. If a ``first_path`` was saved, set ``cert_path = first_path`` and
@@ -494,8 +607,9 @@ should manually filter the certificates before calling ``x509_path_validate()``.
 
 **Conclusion:** The certificate path validation is implemented in accordance
 with the crucial guidelines in [TR-02103]_. This includes the extended validation
-of the NameConstraints extension. There is, however, no support for the extended
-validation of the CertificatePolicies extension.
+of the NameConstraints extension (see :ref:`x509/name_constraints`). There
+is, however, no support for the extended validation of the CertificatePolicies
+extension.
 
 .. admonition:: ``check_chain()``
 
@@ -535,7 +649,11 @@ validation of the CertificatePolicies extension.
 
       4. If the signature on ``subject`` can not be verified using
          ``issuer``'s public key, Append the corresponding error to
-         ``cert_status[i]``
+         ``cert_status[i]`` (SIGNATURE_ERROR; SIGNATURE_ALGO_UNKNOWN if
+         no verifier can be instantiated for the signature algorithm;
+         since Botan 3.13.0 SIGNATURE_ALGO_BAD_PARAMS if the parameters
+         of the signature algorithm identifier are malformed, e.g. an
+         invalid ``RSASSA-PSS-params`` structure)
 
       5. If (``restrictions.trusted_hashes()`` is not empty AND
          ``at_self_signed_root = false`` AND the hash function used in
@@ -563,17 +681,33 @@ validation of the CertificatePolicies extension.
 
       2.  Set ``subject = cert_path[i]``
 
-      3.  If ``at_self_signed_root`` then set ``issuer = cert_path[i]``, else
-          set ``issuer = cert_path[i+1]``
+      3.  Determine the ``issuer`` certificate against which ``subject``
+          is checked:
 
-      4.  If (``at_self_signed_root = true`` AND ``cert_path[i]`` is not
-          self-signed AND ``restrictions.require_self_signed_trust_anchors()``
+          a) If ``at_self_signed_root`` is false (``subject`` is not the
+             last certificate of the chain): set
+             ``issuer = cert_path[i+1]``, i.e. the next certificate in
+             the chain.
+
+          b) Else, if ``subject`` is self-signed: set
+             ``issuer = cert_path[i]``, i.e. the trust anchor is checked
+             against itself.
+
+          c) Else (the chain ends in a certificate that is not
+             self-signed, which is only possible if the trust anchor
+             was accepted as such by the path builder): leave ``issuer``
+             unset. The issuer-dependent checks in steps 4, 5 and 10
+             below are then skipped or replaced as described there.
+
+      4.  If (``issuer`` is unset AND
+          ``restrictions.require_self_signed_trust_anchors()``
           is set (the default)) then do Append ``CHAIN_LACKS_TRUST_ROOT``
           to ``cert_status[i]`` // if non-self-signed trust anchors are
           permitted, a trusted non-self-signed chain end is accepted
 
-      5.  If (issuer DN of ``subject`` NOT EQUAL TO subject DN of ``issuer``)
-          Append CHAIN_NAME_MISMATCH to *cert_status[i]*
+      5.  If (``issuer`` is set AND issuer DN of ``subject`` NOT EQUAL TO
+          subject DN of ``issuer``) Append CHAIN_NAME_MISMATCH to
+          *cert_status[i]*
 
       6.  If ``subject.is_serial_negative()``, Append CERT_SERIAL_NEGATIVE to
           ``cert_status[i]``
@@ -592,8 +726,10 @@ validation of the CertificatePolicies extension.
           a self-signed root cert and the ``restrictions`` allow it, append
           the warning TRUSTED_CERT_HAS_EXPIRED to ``cert_status[i]``
 
-      10. If ``issuer`` does not have the BasicConstraints.CA bit set AND
-          ``cert_path`` contains more than one certificate, Append
+      10. If ``issuer`` is set AND ``issuer`` is not a CA certificate
+          (``is_CA_cert()``: BasicConstraints.cA set and, if a KeyUsage
+          extension is present, keyCertSign set) AND ``cert_path``
+          contains more than one certificate, Append
           CA_CERT_NOT_FOR_CERT_ISSUER to ``cert_status[i]``
 
       11. If (``x509_version`` of ``subject`` is 1 AND
@@ -607,10 +743,24 @@ validation of the CertificatePolicies extension.
 
           i. ``ext.validate(subject, issuer, cert_path, cert_status, i)`` //
              ``ext`` tries validating itself and modifies ``cert_status`` as
-             appropriate
+             appropriate. Besides the checks of the BasicConstraints,
+             KeyUsage, ExtendedKeyUsage and NameConstraints extensions,
+             an unrecognized critical extension yields
+             UNKNOWN_CRITICAL_EXTENSION, a recognized extension whose
+             body failed to decode yields EXTENSION_ENCODING_ERROR, and
+             since Botan 3.13.0 an OCSP NoCheck extension in a
+             certificate that is not permitted for the usage *OCSP
+             Responder* yields INVALID_OCSP_NOCHECK, and a NoRevAvail
+             extension (RFC 9608) in a CA certificate or in a
+             certificate that also carries a CRLDistributionPoints,
+             FreshestCRL or an AuthorityInformationAccess extension
+             with an OCSP access method yields NO_REV_AVAIL_INVALID_USE
+             (RFC 9608, Section 3).
 
       14. If there ``subject.extensions()`` contains two extensions with
-          identical OIDs then do Append DUPLICATE_CERT_EXTENSION
+          identical OIDs then do Append DUPLICATE_CERT_EXTENSION (since
+          Botan 3.13.0, this condition cannot occur, as such certificates
+          are already rejected during decoding)
 
    f) set ``max_path_length = n`` // path length check
 
@@ -627,14 +777,114 @@ validation of the CertificatePolicies extension.
 
    h) Return ``cert_status``
 
+.. _x509/name_constraints:
+
+Name Constraints Processing
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The NameConstraints extension ([RFC5280]_, Section 4.2.1.10) is evaluated
+during ``check_chain()`` (step e) 13.) by the ``validate()`` member
+function of the extension object (class ``Cert_Extension::Name_Constraints``
+in :srcref:`src/lib/x509/x509_ext.cpp`); the matching of the individual name
+forms is implemented in :srcref:`src/lib/x509/name_constraint.cpp`. This
+section describes to which extent this processing fulfills the requirements
+of [RFC5280]_, Sections 4.2.1.10 and 6.1.4.
+
+**Scope of application.** The constraints of a CA certificate are applied to
+the subject distinguished name (if non-empty) and to all names in the
+SubjectAlternativeName extension of every subsequent certificate in the
+path, as required by [RFC5280]_, Section 6.1.4 (g). Self-issued
+intermediate certificates are exempt, while a self-issued end entity
+certificate is subject to the constraints ([RFC5280]_, Section 6.1.3 (b)).
+Rather than maintaining the *permitted_subtrees* and *excluded_subtrees*
+state variables of the RFC's path processing algorithm, Botan evaluates
+the constraints of each CA certificate separately against all of its
+subordinate certificates and requires that every applicable name is
+permitted by each of these constraint sets and excluded by none. This is
+equivalent to the intersection of the permitted subtrees and the union of
+the excluded subtrees prescribed by the RFC. A NameConstraints extension in
+a certificate that is not a CA certificate is reported as an error
+(NAME_CONSTRAINT_ERROR), as is any violation of a constraint.
+
+**Supported name forms.** [RFC5280]_ requires conforming implementations to
+process constraints of the *directoryName* form and recommends processing
+of the *rfc822Name*, *uniformResourceIdentifier*, *dNSName* and
+*iPAddress* forms. Botan processes all five forms and, in addition, the
+*SmtpUTF8Mailbox* other-name form of RFC 9598 under the *rfc822Name*
+constraints. Support for the *rfc822Name* and *uniformResourceIdentifier*
+forms was added in Botan 3.13.0. For any other name form (e.g.
+*x400Address*, *ediPartyName*, *registeredID*, and *otherName* types other
+than *SmtpUTF8Mailbox*), Botan follows the rule of [RFC5280]_,
+Section 4.2.1.10 for constraints it cannot process: if the extension is
+marked critical and a subsequent certificate contains a name of that form,
+the certificate is rejected; if the extension is not critical, such
+constraints are ignored.
+
+**Semantics of the individual name forms.**
+
+-  *directoryName*: a name is matched if the constraint's RDN sequence is
+   a prefix of the name's RDN sequence, with the attribute values compared
+   according to the rules of [RFC5280]_, Section 7.1 (case-insensitive,
+   with leading, trailing and repeated whitespace removed). Since Botan
+   3.13.0 the comparison respects the grouping of attributes into RDNs; in
+   earlier versions the RDN structure was flattened, which allowed a
+   constraint to be circumvented by regrouping the attributes
+   (CVE-2026-48057).
+-  *dNSName*: a constraint of the form ``host.example.com`` is satisfied by
+   the host itself and by any name formed by prepending labels, as
+   specified in the RFC. As an extension beyond the RFC, a constraint with
+   a leading dot (``.example.com``) is accepted and matches proper
+   subdomains only. Label comparison is case-insensitive.
+-  *iPAddress*: constraints are interpreted as address and mask in CIDR
+   style as required by the RFC, for IPv4 and (since Botan 3.12.0) IPv6.
+   Botan is stricter than the RFC's encoding rule in that a mask which is
+   not a contiguous prefix causes the extension to fail decoding.
+-  *rfc822Name*: the three constraint forms of the RFC are supported: a
+   particular mailbox (``user@example.com``), all mailboxes at a host
+   (``example.com``) and all mailboxes in a domain (``.example.com``). As
+   required by the RFC, if a certificate has no SubjectAlternativeName
+   extension, the constraints are applied to the *emailAddress* attributes
+   of the subject distinguished name.
+-  *uniformResourceIdentifier*: the constraint is applied to the host part
+   of the URI, with the host and domain forms (with and without leading
+   dot) as specified in the RFC. A URI in a subsequent certificate whose
+   authority component does not contain a fully qualified domain name (an
+   IP address literal or a missing authority) leads to the rejection of the
+   certificate whenever a URI constraint is in effect, as required by the
+   RFC.
+
+**Extensions beyond RFC 5280.** If a certificate has no
+SubjectAlternativeName extension, Botan additionally subjects those *CN*
+attributes of the subject distinguished name that parse as an IPv4 address
+or as a DNS name containing a dot to the *iPAddress* and *dNSName*
+constraints, mirroring the fallback to the common name in host name
+verification. A wildcard *dNSName* entry (``*.example.com``) is treated as
+excluded if any of its possible expansions falls into an excluded subtree.
+Both measures only make the processing stricter.
+
+**Restrictions and deviations.** The *minimum* field of a *GeneralSubtree*
+must be zero and the *maximum* field must be absent, as mandated by the
+RFC; the extension fails to decode otherwise. To bound the work on
+maliciously constructed inputs, a certificate is rejected if the product of
+its number of names and the number of constraints exceeds 2\ :sup:`16`;
+this is an implementation limit not foreseen by the RFC, which only affects
+certificates of implausible size. The *otherName* constraint forms defined
+outside RFC 5280 (e.g. SRVName of RFC 4985 or Microsoft's user principal
+name) are not processed; as described above, they lead to rejection only
+if the extension is critical.
+
 Function host_wildcard_match()
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The function free ``host_wildcard_match()`` checks if a given concrete
-hostname matches a hostname containing a wildcard (``*``). [RFC6125]_
-allows one wildcard in the left-most label of a hostname.
-``host_wilcard_match()`` is called by ``matches_dns_name()`` which will be
-discussed subsequently. The separation is inteded to improve readabilty.
+The function ``host_wildcard_match()`` (since Botan 3.13.0 a static
+member function of the class ``DNSName`` in
+:srcref:`src/lib/utils/dns_name/dns_name.cpp`, previously a free
+function) checks if a given concrete hostname matches a hostname
+possibly containing a wildcard (``*``). [RFC6125]_ allows one wildcard
+in the left-most label of a hostname. All character comparisons in the
+function are case-insensitive for ASCII letters. ``host_wildcard_match()`` is
+called by ``matches_dns_name()`` which will be discussed subsequently.
+The separation is intended to improve readability.
 
 For a string ``s = s[0] || … || s[s.size()-1]``, let ``s[i..j]`` be the
 substring ``s[i] || … || s[j]``, where ``||`` denotes concatenation.
@@ -643,21 +893,22 @@ substring ``s[i] || … || s[j]``, where ``||`` denotes concatenation.
 
    **Input:**
 
-   -  ``issued``: A hostname that contains a wilcard.
-   -  ``name``: The hostname to check.
+   -  ``issued``: A hostname that may contain a wildcard.
+   -  ``host``: The hostname to check.
 
    **Output:** true, if ``issued`` is a valid hostname, potentially
-   containing a wildcard according to [RFC6125]_, and if ``name`` matches
+   containing a wildcard according to [RFC6125]_, and if ``host`` matches
    ``issued``, false otherwise
 
    **Steps:**
 
-   1.  issued ← lowercase(issued); host ← lowercase(host)
+   1.  If ``(host.empty() Or issued.empty())`` then do Return ``false``
 
-   2.  If ``(host.empty() Or issued.empty())`` then do Return ``false``
+   2.  If ``host.size() > 253`` then do Return ``false`` // maximum
+       length of a DNS name (since Botan 3.13.0)
 
-   3.  If ``issued`` contains embedded ``'\0'`` characters then do Return
-       ``false``
+   3.  If ``issued`` or ``host`` contains embedded ``'\0'`` characters
+       then do Return ``false``
 
    4.  If ``issued`` contains more than one ``*`` then do Return ``false``
 
@@ -675,10 +926,17 @@ substring ``s[i] || … || s[j]``, where ``||`` denotes concatenation.
    10. If issued does not contain exactly one ``*`` character then to Return
        ``false`` \\\\ no exact match here as of 8.
 
-   11. ``dots_seen ← 0; host_idx ← 0`` // match the characters one by one;
+   11. Since Botan 3.13.0: If the left-most label of ``issued`` starts
+       with ``xn--``, or if the left-most label of ``issued`` is not
+       exactly ``*`` and the left-most label of ``host`` starts with
+       ``xn--``, then do Return ``false`` // no wildcard matching within
+       internationalized (A-label) domain labels, [RFC6125]_, Section
+       6.4.3
+
+   12. ``dots_seen ← 0; host_idx ← 0`` // match the characters one by one;
        "expand" the single ``*`` in the first component
 
-   12. For ``i = 0..issued.size()-1``
+   13. For ``i = 0..issued.size()-1``
 
        a) If ``(issued[i] = '.')`` then do ``dots_seen ← dots_seen + 1``
 
@@ -706,10 +964,10 @@ substring ``s[i] || … || s[j]``, where ``||`` denotes concatenation.
           1) If ``(issued[i] != host[host_idx])`` then do Return ``false``
           2) ``host_idx ← host_idx + 1``
 
-   13. If ``(dots_seen < 2)`` then do Return ``false`` // expect at least 3
+   14. If ``(dots_seen < 2)`` then do Return ``false`` // expect at least 3
        components
 
-   14. return ``true``
+   15. return ``true``
 
 Function matches_dns_name()
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -736,19 +994,30 @@ name, according to [RFC6125]_.
       *iPAddress* entries of the SubjectAlternativeName extension, false
       otherwise
 
-   3. Set ``issued_names`` = all entries in the *DNS* field of the
-      SubjectAlternativeName extension or subject DN
+   3. Since Botan 3.13.0: If ``name`` does not parse as a valid DNS
+      name (``DNSName::from_string()``: at most 253 characters, labels
+      of at most 63 characters consisting of ASCII letters, digits and
+      non-leading/non-trailing hyphens, no empty labels, not entirely
+      numeric, no ``*``), Return ``false``. Otherwise, continue with
+      the lowercased canonical form of ``name``.
 
-   4. If no subject alternative names extension is available then do set
+   4. Set ``issued_names`` = all entries in the *DNS* field of the
+      SubjectAlternativeName extension
+
+   5. If no subject alternative names extension is available then do set
       ``issued_names`` = all entries in the *CN* field of subject DN // fall
-      back to CN only if no DNS names are set, RFC 6125 sec. 6.4.4
+      back to CN only if no DNS names are set, RFC 6125 sec. 6.4.4. Since
+      Botan 3.13.0, only CN values that parse as a valid DNS name
+      (``DNSName::from_san_string()``, which additionally permits a
+      single ``*`` in the left-most label of a name with at least three
+      labels, not within an ``xn--`` label) are considered.
 
-   5. For ``i=0..n`` do:
+   6. For ``i=0..n`` do:
 
       a) If (``host_wildcard_match(issued_names[i], name) = true``) then do
          Return ``true``
 
-   6. Return ``false``
+   7. Return ``false``
 
 **Remark:** Botan checks against the "DNS" field in the SubjectAlternativeName
 extension. If the name to match parses as an IPv4 address, it is instead
@@ -784,6 +1053,26 @@ Note that in the code, two functions ``check_crl()`` are present that call each
 other, whereas in the following description, both are combined into one
 function for readability.
 
+Since Botan 3.13.0, before a CRL found for a certificate is used, its
+applicability to the certificate is determined according to [RFC5280]_,
+Section 6.3.3 (b) (internal function ``crl_applicability_for()``): the
+CRL must match one of the certificate's distribution points (or, if
+the certificate has no CRLDistributionPoints extension, the implicit
+distribution point consisting of the certificate issuer's name, see
+:ref:`the distribution point matching <x509/dp_match>`), the scope indicated by the CRL's
+IssuingDistributionPoint extension must cover the certificate
+(*onlyContainsUserCerts* and *onlyContainsCACerts* are checked against
+the certificate's BasicConstraints, *onlyContainsAttributeCerts* must
+not be set), and the CRL must not be an indirect CRL. A CRL that is
+not applicable is ignored as if no CRL had been found. Furthermore, a
+CRL is only accepted as positive evidence of non-revocation
+(VALID_CRL_CHECKED) if it covers all revocation reasons, i.e. if the
+matching distribution point of the certificate has no *reasons* field
+and the IssuingDistributionPoint extension has no *onlySomeReasons*
+field; a reason-limited CRL can still prove that a certificate is
+revoked. The accumulation of reason masks over several CRLs
+([RFC5280]_, Section 6.3.3 (d)-(l)) is not implemented.
+
 **Remark:** Botan does neither support indirect CRLs nor delta CRLs. Support for
 indirect CRLs is suggested as an "extended validation" in [TR-02103]_. Note that
 [RFC5280]_ claims that support for both those CRL types is optional:
@@ -817,46 +1106,68 @@ of [TR-02103]_ for handling certificate revocation checks using CRLs.
 
    3. Try to find a CRL for each certificate in ``cert_path`` in each
       certificate store in ``certstores`` and Append them to ``crls``
+      (since Botan 3.13.0, no CRL is looked up for certificates carrying
+      the NoRevAvail or OCSP NoCheck extension)
 
    4. For ``i=0..n-2`` in ``cert_path`` do:
 
-      a) If ``crls[i]`` does not contain a CRL then do continue with the next
+      a) If ``cert_path[i].skip_revocation_check()`` then do continue
+         with the next ``i`` (since Botan 3.13.0)
+      b) If ``crls[i]`` does not contain a CRL then do continue with the next
          ``i``
-      b) Set ``subject = cert_path[i]``
-      c) Set ``ca = cert_path[i+1]``
-      d) If ca does not have the CRL_SIGN key usage bit set, Append
+      c) Set ``subject = cert_path[i]``
+      d) Set ``ca = cert_path[i+1]``
+      e) Since Botan 3.13.0: determine the applicability of ``crls[i]``
+         to ``subject`` as described above; if ``crls[i]`` is not
+         usable for ``subject``, continue with the next ``i``
+      f) If ca does not have the CRL_SIGN key usage bit set, Append
          CA_CERT_NOT_FOR_CRL_ISSUER to ``cert_status[i]``
-      e) If ``ref_time < crls[i].this_update()``, Append CRL_NOT_YET_VALID
+      g) If ``ref_time < crls[i].this_update()``, Append CRL_NOT_YET_VALID
          to ``cert_status[i]``
-      f) If ``crls[i]`` has a ``next_update`` time set and ``ref_time >
+      h) If ``crls[i]`` has a ``next_update`` time set and ``ref_time >
          crls[i].next_update()``, Append CRL_HAS_EXPIRED to
          ``cert_status[i]``
-      g) If the signature on the ``crls[i]`` cannot be verified with ``ca``'s
+      i) If the signature on the ``crls[i]`` cannot be verified with ``ca``'s
          public key, Append CRL_BAD_SIGNATURE to ``cert_status[i]``.
          Else do: // since Botan 3.12.0, the contents of a CRL whose
          signature does not verify are ignored
 
-         1. Append VALID_CRL_CHECKED to ``cert_status[i]``
-         2. If crls[i] lists subject as REVOKED, Append CERT_IS_REVOKED
-            to ``cert_status[i]``
-         3. If ``crls[i].has_matching_distribution_point(subject)``
-            returns false then do Append NO_MATCHING_CRLDP to
-            ``cert_status[i]``. Since Botan 3.12.0 the matching is
-            performed structurally: if ``subject`` has no (or an empty)
-            CRLDistributionPoints extension, the check passes; if
-            ``subject`` has distribution points but ``crls[i]`` carries
-            no IssuingDistributionPoint extension, the check fails;
-            otherwise the check passes if the GeneralNames of any
-            distribution point of ``subject`` overlap with those of the
-            CRL's IssuingDistributionPoint (previously, the URL strings
-            were compared for equality).
-         4. If ``crls[i]`` contains an unrecognized critical extension
-            then do Append CERT_IS_REVOKED to ``cert_status[i]`` //
-            according to [ISO-9594-8]_
+         1. If ``crls[i]`` or one of its entries contains an
+            unrecognized critical extension then do Append
+            CRL_HAS_UNKNOWN_CRITICAL_EXTENSION to ``cert_status[i]``
+            (an error code, the CRL is not used to determine the
+            revocation status, [RFC5280]_, Sections 5.2 and 5.3, and
+            [ISO-9594-8]_)
+         2. Else if crls[i] lists subject as REVOKED, Append
+            CERT_IS_REVOKED to ``cert_status[i]``
+         3. Else if ``crls[i]`` covers all revocation reasons for
+            ``subject`` (see above), Append VALID_CRL_CHECKED to
+            ``cert_status[i]`` // otherwise no positive evidence is
+            recorded, so that the revocation requirement in
+            ``merge_revocation_status()`` decides the outcome
+
 
    5. Remove all trailing empty sets from ``cert_status``
 
    6. Return ``cert_status``
+
+.. _x509/dp_match:
+
+Since Botan 3.13.0, the matching of a CRL against the distribution
+points of a certificate (internal function
+``distribution_point_match()`` in :srcref:`src/lib/x509/x509_crl.cpp`)
+implements [RFC5280]_, Section 6.3.3 (b)(1) and (b)(2)(i): for each
+distribution point of the certificate, the CRL issuer must equal the
+certificate issuer (distribution points with a *cRLIssuer* field, i.e.
+indirect CRLs, are not matched), and if the CRL's
+IssuingDistributionPoint extension contains a distribution point name,
+one of its names must equal one of the names of the certificate's
+distribution point. If the certificate has no CRLDistributionPoints
+extension, or if none of its distribution points matches and the CRL's
+IssuingDistributionPoint extension contains no distribution point name,
+an implicit distribution point consisting of the certificate's issuer
+name and issuer alternative names is assumed ([RFC5280]_, Section
+6.3.3, last paragraph).
 
 .. _x509/check_ocsp:
 
@@ -912,10 +1223,15 @@ not implemented in Botan [#ocsp_extension]_.
 
       2. Set ``ca = cert_path[i+1]``
 
-      3. If ``ocsp_responses[i]`` does not contain a successfully parsed
-         OCSP response, then do continue with the next ``i``
+      3. If ``subject.skip_revocation_check()`` (NoRevAvail or OCSP
+         NoCheck extension present), then do continue with the next
+         ``i`` (since Botan 3.13.0)
 
-      4. Set ``cert_status[i]`` to the result of
+      4. If ``ocsp_responses[i]`` does not contain a successfully parsed
+         OCSP response with the *responseStatus* value *successful*,
+         then do continue with the next ``i``
+
+      5. Set ``cert_status[i]`` to the result of
          ``evaluate_ocsp_response(ocsp_responses[i], subject, ca, cert_path,
          certstores, ref_time, restrictions)`` (see below). If the
          evaluation throws an exception, Append OCSP_RESPONSE_INVALID to
@@ -996,7 +1312,17 @@ see below).
          subject DN but use different keys, e.g. re-keyed or
          cross-certified CAs). If either precondition fails, Return the
          single status code OCSP_ISSUER_NOT_TRUSTED (without performing a
-         path validation). Otherwise, the path validation is performed by
+         path validation). Since Botan 3.13.0, additionally the
+         signature on ``signing_cert`` is verified directly with the
+         public key of ``ca``; if this verification fails (or the key
+         of ``ca`` cannot be loaded), Return OCSP_ISSUER_NOT_TRUSTED.
+         This enforces the requirement of [RFC6960]_, Section 4.2.2.2,
+         that a delegation certificate is only recognized if it was
+         signed by the same key as the certificate being checked;
+         before Botan 3.13.0 a responder certificate issued under the
+         same distinguished name by a different, trusted CA key (with
+         no key identifiers present) could pass this check. Otherwise, the path
+         validation is performed by
          calling ``x509_path_validate()`` with ``signing_cert`` as the
          end entity certificate, the certificates delivered with the OCSP
          response and the certificates in ``cert_path`` as additional
@@ -1038,7 +1364,14 @@ see below).
 **Remark 1:** For the path validation of a delegated OCSP responder certificate
 in Step 3c), the revocation-related restrictions are relaxed: no revocation
 information is required for the responder certificate and no OCSP requests
-are made for it, as discussed at the beginning of this section.
+are made for it, as discussed at the beginning of this section. The
+minimum key strength and the trusted hash functions are taken over from
+the caller's ``restrictions``; since Botan 3.13.0, also the settings
+``ignore_trusted_root_time_range()``,
+``require_self_signed_trust_anchors()`` and ``accept_ocsp_softfail()``
+are inherited (before, the defaults applied, so that e.g. a
+non-self-signed trust anchor accepted for the main path was not accepted
+for the responder certificate's path).
 
 **Remark 2:** The function evaluate_ocsp_response() is called from the following API functions:
 
@@ -1062,7 +1395,9 @@ an appropriate OCSP status code.
    -  ``subject``: The subject certificate.
    -  ``ref_time``: The time to perform validation against.
    -  ``max_age``: maximum age of OCSP responses without ``next_update``. 0 for
-      no maximum.
+      no maximum. ``x509_path_validate()`` passes
+      ``restrictions.max_ocsp_age()``, which defaults to seven days since
+      Botan 3.13.0 (previously 0).
 
    **Output:**
 
@@ -1138,15 +1473,32 @@ responses and then passes them to ``check_ocsp()``.
 
       b) Set ``issuer = cert_path[i+1]``
 
-      c) If subject's OCSP responder field is empty then do:
+      c) Since Botan 3.13.0: If ``subject.skip_revocation_check()``
+         then do Append an empty entry to ``ocsp_responses`` and
+         continue with the next ``i``
+
+      d) If subject's AuthorityInformationAccess extension contains no
+         OCSP responder location with an ``http`` URI (since Botan
+         3.13.0 the URIs are parsed and filtered by scheme; before, the
+         first OCSP responder string was used as is) then do:
 
          i. Append a OCSP response with OCSP_NO_REVOCATION_URL to
             ``ocsp_responses``
 
-      d) If subject's OCSP responder field is not empty then do:
+      e) Else do:
 
-         i. Make a OCSP request via HTTP for ``issuer`` and ``subject`` using
-            ``timeout`` and Append the OCSP response to ``ocsp_responses``
+         i. Make a OCSP request via HTTP POST to the first such URI for
+            ``issuer`` and ``subject`` using ``timeout`` and Append the
+            OCSP response to ``ocsp_responses``. Since Botan 3.13.0,
+            the response body is limited to 64 KiB, HTTP redirects are
+            not followed (before, one redirect was followed, which
+            allowed a malicious responder to trigger a request to an
+            arbitrary internal address), and a response whose
+            *responseStatus* is not *successful* (such error responses
+            are unsigned, [RFC6960]_, Section 2.3) is replaced by a
+            placeholder response with OCSP_SERVER_NOT_AVAILABLE. An HTTP
+            status other than 200 or any exception likewise yields a
+            placeholder response with OCSP_SERVER_NOT_AVAILABLE.
 
    6. Return the value returned by calling ``check_ocsp(cert_path,
       ocsp_responses, trusted_certstores, ref_time, restrictions)``
@@ -1193,8 +1545,11 @@ certificate status codes for the certificate chain validated.
 
       d) For ``j=0..k-1`` do: // where ``k = crl_status[i].size()``
 
-         i.  If (crl_status[i][j] = VALID_CRL_CHECKED) then do set had_crl
-             = true
+         i.  If (``crl_status[i][j]`` = VALID_CRL_CHECKED) Or
+             (``crl_status[i][j]`` = CERT_IS_REVOKED) then do set
+             ``had_crl = true`` // both a valid check with negative
+             result and a positive revocation constitute revocation
+             information for the certificate
          ii. Append ``crl_status[i][j]`` to ``chain_status[i]``
 
       e) If ``ocsp_status[i]`` contains an empty set then do continue with
@@ -1203,8 +1558,16 @@ certificate status codes for the certificate chain validated.
       f) For ``j=0..k-1`` do: // where ``k = ocsp_status[i].size()``
 
          i.  If (``ocsp_status[i][j]`` in (OCSP_RESPONSE_GOOD,
-             OCSP_NO_REVOCATION_URL, OCSP_SERVER_NOT_AVAILABLE)) then do
-             set ``had_ocsp = true``
+             CERT_IS_REVOKED)) OR (``ocsp_status[i][j]`` in
+             (OCSP_NO_REVOCATION_URL, OCSP_SERVER_NOT_AVAILABLE,
+             OCSP_NO_HTTP) AND ``restrictions.accept_ocsp_softfail()``)
+             then do set ``had_ocsp = true`` // before Botan 3.13.0,
+             the "soft-fail" codes OCSP_NO_REVOCATION_URL and
+             OCSP_SERVER_NOT_AVAILABLE unconditionally counted as
+             revocation information, so that an attacker able to block
+             the connection to the OCSP responder could suppress the
+             revocation check even if
+             ``require_revocation_information()`` was set
          ii. Append ``ocsp_status[i][j]`` to ``chain_status[i]``
 
       g) If (``had_crl = false`` AND ``had_ocsp = false``) then do:
@@ -1213,6 +1576,15 @@ certificate status codes for the certificate chain validated.
             ``i = 0``) OR (``restrictions.ocsp_all_intermediates() = true``
             AND ``i > 0``) then do Append NO_REVOCATION_DATA to
             ``chain_status[i]``
+
+**Remark:** The set of hash functions trusted by default
+(``restrictions.trusted_hashes()``, used in ``check_chain()`` and in the
+OCSP signature verification) consists of SHA-224, SHA-256, SHA-384, SHA-512, the
+SHAKE-256 output lengths used by ML-DSA and Ed448, and, since Botan
+3.13.0, the SHAKE-256 output lengths used by the SLH-DSA-SHAKE parameter
+sets, so that certificates signed with SLH-DSA-SHAKE validate with the
+default restrictions. SHA-1 is only trusted if the minimum key strength
+is configured to be at most 80 bits.
 
 
 Building a PKI-Hierarchy via Botan's CLI Tool

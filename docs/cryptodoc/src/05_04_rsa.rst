@@ -91,6 +91,9 @@ The key generation process works as follows:
       :math:`d \geq 2`, :math:`p \geq 3`, :math:`q \geq 3`,
       :math:`p \neq q` and :math:`p \ast q = N`. In particular, RSA
       public keys shorter than 384 bits can no longer be loaded at all.
+      Since Botan 3.13.0, decoding a key whose algorithm identifier is
+      ``rsaEncryption`` additionally fails with a ``Decoding_Error`` if
+      the parameters field is neither NULL nor absent.
 
 **Remark:**
 The algorithm slightly deviates from the method outlined in [TR-02102-1]_
@@ -153,9 +156,12 @@ The RSA decryption operation is implemented as follows:
    0. Before the first decryption: The random number generator ``rng`` is
       used to initialize the blinding values :math:`m_e` and its inverse :math:`m_d`. Their length
       is set to ``(m_modulus_bits - 1)``.
-   1. Verify that :math:`0 < ct < N`; otherwise the operation is
-      rejected with a ``Decoding_Error`` ("RSA input is not in the valid
-      range", added in Botan 3.12.0). 
+   1. Verify that the ciphertext has exactly the byte length of the
+      modulus ``N`` (required since Botan 3.13.0 in accordance with RFC
+      8017, the successor of [RFC3447]_, Sections 7.1.2 and 7.2.2;
+      previously only longer inputs were rejected) and that
+      :math:`0 < ct < N`; otherwise the operation is rejected with a
+      ``Decoding_Error`` (the range check was added in Botan 3.12.0).
    2. Blind ciphertext: :math:`ct' = ct*{m_e}^e \bmod N`
    3. Use Chinese Remainder Theorem (CRT) to decrypt ``ct'`` and retrieve ``m'``
 
@@ -177,9 +183,9 @@ The RSA decryption operation is implemented as follows:
 **Remarks:**
  - After each blinding step, the blinding values change:
    :math:`m_e = m_e * m_e \bmod N`, :math:`m_d = m_d * m_d \bmod N`.
-   This is performed at most 64 times (defined in
-   ``BOTAN_BLINDING_REINIT_INTERVAL``). Afterwards, ``rng`` is used to
-   generate new blinding values.
+   This is performed at most 64 times (defined by ``Blinder::ReinitInterval``
+   in :srcref:`[src/lib/pubkey/blinding]/blinding.h:37|ReinitInterval`).
+   Afterwards, ``rng`` is used to generate new blinding values.
  - For reduction during exponentiation in combination with the CRT-based
    exponentiation approach, the constant-time Smooth CRT-RSA algorithm
    [SmoothCrtRsa]_ is used.
@@ -392,6 +398,15 @@ RSA-PSS implementation follows the definition in [RFC3447]_. The ISO
 9796-2 DS2 and ISO 9796-2 DS3 padding schemes are implemented in
 :srcref:`src/lib/pk_pad/sig_padding/iso9796/iso9796.cpp`
 Both implementations follow the specification [ISO-9796-2]_.
+Since Botan 3.13.0 the ``iso9796`` module is marked as deprecated and is
+no longer enabled by the BSI build policy. The same release fixed several
+defects in the ISO 9796-2 verification routine: the trailer type (implicit
+``0xBC`` or explicit hash identifier followed by ``0xCC``) must now match
+the configured scheme instead of being inferred from the signature, a
+message representative shorter than the modulus is padded with leading
+zero bytes before parsing, the unused leading bits of the representative
+are required to be zero, and the message capacity used for recovery is
+computed consistently with the encoder.
 Alternatively, Botan provides the deterministic PKCS#1 v1.5 RSA
 signature scheme (EMSA3), which is obsolete and thus not recommended [#sig_emsa3_disclaimer]_.
 
@@ -402,12 +417,13 @@ signature scheme (EMSA3), which is obsolete and thus not recommended [#sig_emsa3
 Signature Creation
 ^^^^^^^^^^^^^^^^^^
 
-To sign data, the function ``secure_vector<byte> raw_sign(const byte
-msg[], size_t msg_len,RandomNumberGenerator&)`` is called. The bytes to
-sign ``m`` and its length is passed to the function. The RSA signature
-algorithm operates as follows:
+To sign data, the function ``std::vector<uint8_t> sign(RandomNumberGenerator&
+rng)`` is called after the message has been fed into the padding scheme via
+``update()``. It applies the padding scheme to obtain the message
+representative ``m`` and passes it to the internal function ``raw_op()``.
+The RSA signature algorithm operates as follows:
 
-.. admonition:: ``RSA_Signature_Operation::raw_sign()``
+.. admonition:: ``RSA_Signature_Operation::sign()``
 
    **Input:**
 
@@ -452,10 +468,12 @@ Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
 To verify a RSA signature the signature value is passed to the function
-``secure_vector<byte> verify_mr(const byte msg[], size_t msg_len)``. This
-function proceeds as follows:
+``bool is_valid_signature(std::span<const uint8_t> sig)``, which recovers
+the message representative via the internal function
+``recover_message_repr()`` and hands it to the padding scheme for
+verification. The recovery proceeds as follows:
 
-.. admonition:: ``RSA_Verify_Operation::verify_mr()``
+.. admonition:: ``RSA_Verify_Operation::recover_message_repr()``
 
    **Input:**
 
@@ -468,7 +486,9 @@ function proceeds as follows:
 
    **Steps:**
 
-   1. Verify that the signature is smaller than the modulus of the public
-      key.
-      I.e., if :math:`x \geq N`, then the algorithm throws an invalid argument error.
+   1. Verify that the signature has exactly the byte length of the
+      modulus ``N`` and that it is smaller than the modulus of the public
+      key. I.e., if :math:`len(x) \neq len(N)` or :math:`x \geq N`, the
+      algorithm throws a ``Decoding_Error``. The exact-length requirement
+      stems from RFC 8017, Sections 8.1.2 and 8.2.2.
    2. Compute :math:`v=x^e \bmod n`

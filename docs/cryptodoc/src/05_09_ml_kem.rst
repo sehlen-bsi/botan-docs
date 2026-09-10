@@ -186,13 +186,13 @@ summary of these functions and their specific purposes.
    +------------------------------+---------------------------------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
    | ``expand_keypair``           | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:323|expand_keypair`            | Create public and secret keys from the seeds :math:`d` and :math:`z` | 13, 16                    |
    +------------------------------+---------------------------------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
-   | ``compress_ciphertext``      | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:354|compress_ciphertext`       | Compress, byte encode, and concatenate polynomial vector             | 5, Formula 4.7            |
+   | ``compress_ciphertext``      | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:359|compress_ciphertext`       | Compress, byte encode, and concatenate polynomial vector             | 5, Formula 4.7            |
    |                              |                                                                                             | :math:`\mathbf{u}` and polynomial :math:`\mathbf{v}`                 |                           |
    +------------------------------+---------------------------------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
-   | ``decompress_ciphertext``    | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:364|decompress_ciphertext`     | Split, byte decode, and decompress bytes to polynomial vector        | 6, Formula 4.8            |
+   | ``decompress_ciphertext``    | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:369|decompress_ciphertext`     | Split, byte decode, and decompress bytes to polynomial vector        | 6, Formula 4.8            |
    |                              |                                                                                             | :math:`\mathbf{u'}` and polynomial :math:`\mathbf{v'}`               |                           |
    +------------------------------+---------------------------------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
-   | ``sample_matrix``            | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:382|sample_matrix`             | Samples a matrix from a secret seed                                  | 7, 13                     |
+   | ``sample_matrix``            | :srcref:`[src/lib/pubkey/kyber/kyber_common]/kyber_algos.cpp:387|sample_matrix`             | Samples a matrix from a secret seed                                  | 7, 13                     |
    +------------------------------+---------------------------------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
 
 
@@ -264,6 +264,12 @@ The ``Kyber_PublicKey`` and ``Kyber_PrivateKey`` classes serve as Botan's
 public API for public and private ML-KEM keys, respectively. The ``KyberMode``
 class is used to select the desired parameter set.
 
+Since Botan 3.13.0, the constructors of these classes that take an
+``AlgorithmIdentifier`` (i.e., decoding from X.509 ``SubjectPublicKeyInfo``
+or PKCS#8 structures) reject with a ``Decoding_Error`` any algorithm
+identifier whose parameters field is not empty, as the ML-KEM parameter set
+is identified solely by the OID.
+
 
 .. _pubkey/kyber/kyber:
 
@@ -287,7 +293,7 @@ Key Generation
 --------------
 
 The high-level ML-KEM key generation (Algorithm 19) is implemented in
-:srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:219|Kyber_PrivateKey::Kyber_PrivateKey`
+:srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:232|Kyber_PrivateKey::Kyber_PrivateKey`
 within the ``Kyber_PrivateKey`` constructor. It delegates to the
 internal and K-PKE key generation algorithms (Algorithms 16 and 13 of
 [FIPS-203]_) implemented in
@@ -320,7 +326,7 @@ In combination, Botan does the following:
    **Notes:**
 
    - Step 1 is part of Algorithm 19 of [FIPS-203]_ and is performed in
-     :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:219|Kyber_PrivateKey::Kyber_PrivateKey`.
+     :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber.cpp:232|Kyber_PrivateKey::Kyber_PrivateKey`.
    - Steps 2-7 correspond to Algorithms 16 and 13 of [FIPS-203]_ and are
      performed in :srcref:`[src/lib/pubkey/kyber]/kyber_common/kyber_algos.cpp:323|expand_keypair`.
    - Botan supports the seed format as well as the expanded encoding specified by [FIPS-203]_.

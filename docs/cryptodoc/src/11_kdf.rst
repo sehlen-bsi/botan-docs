@@ -42,7 +42,9 @@ Mode always use the optional counter *i*.
 
 The encoding bit widths of the desired output length :math:`[L]_2` and counter
 value :math:`[i]_2` (the value ``r``) can be configured to be 8, 16, 24, or 32
-bits in all implemented modes.
+bits in all implemented modes. The requested output length is rejected if it
+does not fit into the :math:`[L]_2` field or if it would require more than
+:math:`2^r - 1` PRF invocations, since the counter starts at one.
 
 NIST SP800-56Cr2 One-Step KDM
 -----------------------------

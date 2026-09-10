@@ -163,7 +163,7 @@ Botan provides such a "crypto backend" to form a self-contained TPM wrapper that
 does not depend on any other cryptographic library.
 
 See
-:srcref:`[src/lib/prov/tpm2/tpm2_crypto_backend]/tpm2_crypto_backend_impl.cpp:861|set_crypto_callbacks`
+:srcref:`[src/lib/prov/tpm2/tpm2_crypto_backend]/tpm2_crypto_backend_impl.cpp:862|set_crypto_callbacks`
 for the implementation of the crypto backend.
 
 
@@ -224,7 +224,7 @@ overview of the functionality without distinguishing between RSA and ECC keys.
 
    **Code:**
 
-   - :srcref:`TPM2::PrivateKey::load_transient <src/lib/prov/tpm2/tpm2_key.cpp:192|load_transient>`
+   - :srcref:`TPM2::PrivateKey::load_transient <src/lib/prov/tpm2/tpm2_key.cpp:195|load_transient>`
 
    **Input:**
 
@@ -249,7 +249,7 @@ overview of the functionality without distinguishing between RSA and ECC keys.
 
    **Code:**
 
-   - :srcref:`TPM2::PrivateKey::load_persistent <src/lib/prov/tpm2/tpm2_key.cpp:182|load_persistent>`
+   - :srcref:`TPM2::PrivateKey::load_persistent <src/lib/prov/tpm2/tpm2_key.cpp:185|load_persistent>`
 
    **Input:**
 

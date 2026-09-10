@@ -238,3 +238,56 @@ Changelog
    |         |          | - New figure on the HMAC_DRBG reseed        |            |
    |         |          |   mechanism                                 |            |
    +---------+----------+---------------------------------------------+------------+
+   | 3.13.0  | FS       | Update to 3.13.0:                           | 2026-09-07 |
+   |         |          |                                             |            |
+   |         |          | - X.509: DN decoding preserves RDN          |            |
+   |         |          |   grouping, canonical DN comparison         |            |
+   |         |          |   (CVE-2026-48057); new section on name     |            |
+   |         |          |   constraints processing incl. URI and      |            |
+   |         |          |   e-mail constraints                        |            |
+   |         |          | - X.509: OCSP hardening: soft-fail no       |            |
+   |         |          |   longer accepted by default, OCSP          |            |
+   |         |          |   responses at most seven days old by       |            |
+   |         |          |   default, delegated responder bound to the |            |
+   |         |          |   CA key, GeneralizedTime required, no HTTP |            |
+   |         |          |   redirects                                 |            |
+   |         |          | - X.509: CRL applicability and distribution |            |
+   |         |          |   point matching, NoRevAvail (RFC 9608) and |            |
+   |         |          |   OCSP NoCheck handling, extension context  |            |
+   |         |          |   enforcement, stricter ASN.1 and           |            |
+   |         |          |   AlgorithmIdentifier decoding, DFS budget  |            |
+   |         |          |   and chain length bound in path building   |            |
+   |         |          | - RSA: signatures and ciphertexts must have |            |
+   |         |          |   exactly the modulus length; ISO 9796-2    |            |
+   |         |          |   and DSA modules deprecated and removed    |            |
+   |         |          |   from the BSI build policy                 |            |
+   |         |          | - DH: public value p-1 rejected. ECC: on-   |            |
+   |         |          |   curve check of the base point on all      |            |
+   |         |          |   group creation paths, EC keys with        |            |
+   |         |          |   explicit domain parameters, new hash-to-  |            |
+   |         |          |   curve section                             |            |
+   |         |          | - Stateful signatures: bounded counters and |            |
+   |         |          |   fork detection in the                     |            |
+   |         |          |   Stateful_Key_Index_Registry, HSS L=0      |            |
+   |         |          |   rejected. SLH-DSA: strong check_key, RFC  |            |
+   |         |          |   9909 AlgorithmIdentifier check            |            |
+   |         |          | - Symmetric: cipher mode and MAC state      |            |
+   |         |          |   enforcement, KMAC bytepad fix, CBC output |            |
+   |         |          |   zeroization on padding failure; corrected |            |
+   |         |          |   XTS/CMAC block sizes and HMAC key limit   |            |
+   |         |          | - RNG: randomize_with_ts_input uses         |            |
+   |         |          |   System_RNG output only (with a note on a  |            |
+   |         |          |   defect in the fallback path), empty       |            |
+   |         |          |   AutoSeeded_RNG requests are no-ops, fork  |            |
+   |         |          |   detection for manually seeded generators, |            |
+   |         |          |   Jitter_RNG thread safety                  |            |
+   |         |          | - Prime generation: Sophie Germain sieve    |            |
+   |         |          |   confined to random_safe_prime, equiv and  |            |
+   |         |          |   modulo must be coprime                    |            |
+   |         |          | - Argon2 memory bound per platform,         |            |
+   |         |          |   SP800-108 output length checks            |            |
+   |         |          | - Source references updated to 3.13.0;      |            |
+   |         |          |   several pre-existing inaccuracies         |            |
+   |         |          |   corrected (RSA operation names, DH        |            |
+   |         |          |   generator fallback, XMSS/HSS identifiers) |            |
+   +---------+----------+---------------------------------------------+------------+
