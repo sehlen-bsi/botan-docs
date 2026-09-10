@@ -39,6 +39,7 @@ patches:
   categories: optimization
   comment : |
     The function `randomize_with_ts_input()` does not actually use anymore a time stamp or the process ID as input for RNG output generation if a System_RNG is available. This is a potential security degradation if the System_RNG is badly implemented and for instance is not properly handling a process fork and does not itself perform hedging against the repeated-state problem by incorporating a time stamp as input.
+    Furthermore, on the fallback path without a System_RNG (`BOTAN_HAS_OS_UTILS` only), the expression `8 + (pid != 0) ? 4 : 0` computing the length of the additional input is affected by an operator precedence error and always yields 4, so that only the least significant 32 bits of the timestamp are used and the process ID is dropped. Reported as https://github.com/randombit/botan/issues/5924.
   classification: info
 
 # In DTLS distinguish a delayed or replayed handshake message from a current one
@@ -417,7 +418,7 @@ patches:
   auditer: falko-strenzke
   categories: additions
   comment: |
-    Proposed improvements based on a Fable 5 review are given in https://github.com/randombit/botan/issues/5894. Most notably, this encompasses enforcing the presence of a valid MAC during parsing. See also the Appendix.
+    Proposed improvements based on a Fable 5 review are given in https://github.com/randombit/botan/issues/5894. Most notably, this encompasses enforcing the presence of a valid MAC during parsing (a MAC indicator was added upstream in #5902). See also the two appendices: the review of this PR, and the security review and test campaign for the PKCS#12 implementation, which adds a scrypt memory-exhaustion DoS (P1), silent private key alteration in MAC-less files (P2), and a list of errors in the reference documentation.
   classification: out of scope
 
 # Optimize SRP6's server step2
@@ -1833,7 +1834,7 @@ patches:
 #   Author: Jack Lloyd
 - commit: 868a487afa89b758f70c1f1236252ad6626513d7  # https://github.com/randombit/botan/commit/868a487afa89b758f70c1f1236252ad6626513d7
   auditer: falko-strenzke
-  categories: documented
+  categories: documentation
   classification: info
 
 # Add missing module dependency [ci skip]

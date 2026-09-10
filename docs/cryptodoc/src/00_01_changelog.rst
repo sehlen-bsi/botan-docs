@@ -238,7 +238,7 @@ Changelog
    |         |          | - New figure on the HMAC_DRBG reseed        |            |
    |         |          |   mechanism                                 |            |
    +---------+----------+---------------------------------------------+------------+
-   | 3.13.0  | FS       | Update to 3.13.0:                           | 2026-09-07 |
+   | 3.13.0  | FS       | Update to 3.13.0:                           | 2026-09-10 |
    |         |          |                                             |            |
    |         |          | - X.509: DN decoding preserves RDN          |            |
    |         |          |   grouping, canonical DN comparison         |            |
