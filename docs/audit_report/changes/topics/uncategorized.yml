@@ -7152,3 +7152,10 @@ patches:
 - pr: 5926  # https://github.com/randombit/botan/pull/5926
   merge_commit: 18f569173b190049c5384f29df8c76666a1c28d7
   classification: unspecified
+
+# Optimize macOS certificate store
+#   Author:    @moritzschmitt
+#   Approvals: @reneme
+- pr: 5929  # https://github.com/randombit/botan/pull/5929
+  merge_commit: 85207728a75aeedf669655f5874fbef0c2fa11b4
+  classification: unspecified
