@@ -16,10 +16,21 @@ tests that intentionally drive a handshake abort suppress this assertion.
 The tests are implemented in :srcref:`src/tests/unit_tls.cpp`. Building
 the tests requires RSA support in the build configuration.
 
+Up to Botan 3.12.0 the cipher-suite-specific handshake tests listed
+below were executed for both TLS 1.2 and DTLS 1.2. Since Botan 3.13.0
+these tests are executed for stream-based TLS only, as Botan's TLS
+policy now refuses CBC-based cipher suites and cipher suites with a
+shortened authentication tag (CCM-8) for DTLS 1.2 (see the following
+section), and the DTLS 1.2 protocol testing was moved into dedicated
+test suites (see the section on DTLS 1.2 protocol tests below). Where
+the configured algorithms permit it, the handshake tests are since
+Botan 3.13.0 additionally executed for TLS 1.3, which is beyond the
+scope of this description.
+
 The following TLS handshake tests are executed:
 
 -  TLS handshake with the following cipher suites, each once with and
-   once without Encrypt-then-MAC (for TLS 1.2, DTLS 1.2):
+   once without Encrypt-then-MAC (for TLS 1.2):
 
    -  RSA_WITH_AES_128_CBC_SHA
    -  RSA_WITH_AES_128_CBC_SHA256
@@ -28,8 +39,7 @@ The following TLS handshake tests are executed:
    -  RSA_WITH_3DES_EDE_CBC_SHA
    -  ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA
 
--  TLS handshake with the following cipher suites (for TLS 1.2, DTLS
-   1.2):
+-  TLS handshake with the following cipher suites (for TLS 1.2):
 
    -  DHE_RSA_WITH_AES_128_CBC_SHA256
 
@@ -37,8 +47,7 @@ The following TLS handshake tests are executed:
 
 -  TLS handshake with the *NSA_Suite_B_128* policy
 
--  TLS handshake with the following GCM cipher suites (for TLS 1.2, DTLS
-   1.2):
+-  TLS handshake with the following GCM cipher suites (for TLS 1.2):
 
    -  RSA_WITH_AES_128_GCM_SHA256
    -  ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
@@ -46,28 +55,28 @@ The following TLS handshake tests are executed:
    -  DHE_RSA_WITH_AES_128_GCM_SHA256 (using the FFDHE-2048 group)
 
 -  TLS handshake using ECC point compression with the following cipher
-   suites (for TLS 1.2, DTLS 1.2)
+   suites (for TLS 1.2)
 
    -  ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
 
 -  TLS handshake using the specific curve secp521r1 with the following
-   cipher suites (for TLS 1.2, DTLS 1.2)
+   cipher suites (for TLS 1.2)
 
    -  ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
 
 -  TLS handshake using the specific curve brainpool256r1, executed only
    if the curve is available in the build configuration, with the
-   following cipher suites (for TLS 1.2, DTLS 1.2)
+   following cipher suites (for TLS 1.2)
 
    -  ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
 
 -  TLS handshake with TLS client authentication with the following
-   cipher suites (for TLS 1.2, DTLS 1.2):
+   cipher suites (for TLS 1.2):
 
    -  ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
 
 -  TLS handshake with pre-shared key with the following cipher suites
-   (for TLS 1.2 and DTLS 1.2):
+   (for TLS 1.2):
 
    -  PSK_WITH_AES_128_GCM_SHA256
    -  PSK_WITH_AES_128_CCM
@@ -75,14 +84,13 @@ The following TLS handshake tests are executed:
    -  ECDHE_PSK_WITH_AES_128_GCM_SHA256
 
 -  TLS handshake using an application-specific custom curve (in this
-   case, numsp256d1) with the following cipher suites (for TLS 1.2,
-   DTLS 1.2):
+   case, numsp256d1) with the following cipher suites (for TLS 1.2):
 
    -  ECDHE_ECDSA_WITH_AES_256_GCM_SHA256
 
-   This test is disabled in Botan 3.12.0, since the TLS 1.2 server
-   implementation currently cannot negotiate application-specific group
-   codes (GH #5550).
+   This test is disabled since Botan 3.12.0 (and remains disabled in
+   Botan 3.13.0), since the TLS 1.2 server implementation currently
+   cannot negotiate application-specific group codes (GH #5550).
 
 TLS Policy Verification
 -----------------------
@@ -114,6 +122,107 @@ verified (added in the review of 3.12.0): the default policy and the
 default text policy must require the extended master secret extension
 (RFC 7627), and a text policy override must be able to disable and
 re-enable the requirement.
+
+Furthermore, a test added in Botan 3.13.0 verifies that the policy's
+cipher suite selection for DTLS 1.2 refuses CBC-based cipher suites as
+well as cipher suites with a shortened authentication tag (CCM-8),
+which RFC 9147, Section 4.5.3 forbids for DTLS in the absence of
+additional forgery countermeasures, while both kinds of cipher suites
+remain available for stream-based TLS. Using a permissive policy that
+allows CCM-8, CCM, GCM, and CBC cipher suites, the test checks that the
+resulting TLS 1.2 cipher suite list still contains CCM-8 and CBC cipher
+suites, whereas the DTLS 1.2 cipher suite list contains neither of
+them, but is not empty.
+
+DTLS 1.2 Protocol Tests
+-----------------------
+
+Since Botan 3.13.0, DTLS 1.2-specific protocol behaviour is covered by
+dedicated tests that simulate an unreliable datagram transport in
+memory: the bytes emitted by client and server are collected in buffers
+and delivered to the respective peer, whereby a test may drop,
+duplicate, reorder, split, delay, or tamper with the buffered
+datagrams. The DTLS 1.2 handshakes are performed with PSK key exchange
+and AEAD cipher suites, and the DTLS retransmission timers run on a
+synthetic clock controlled by the test. The tests are implemented in
+:srcref:`src/tests/test_dtls12.cpp` and comprise:
+
+-  A regression test suite for the DTLS core covering, among others:
+
+   -  retransmission and timeout handling: pacing of retransmissions,
+      retransmitted flights include the ChangeCipherSpec message, loss
+      of the HelloVerifyRequest, of the server flight, and of the final
+      flights triggers retransmission, a partial server flight does not
+      let the client advance prematurely, a duplicated server flight
+      does not trigger an immediate replay of the client's flight, a
+      timed-out initial handshake closes the channel, whereas a
+      timed-out renegotiation keeps the established association
+
+   -  cookie handling: a duplicate HelloVerifyRequest is tolerated, a
+      rotated cookie secret produces a fresh HelloVerifyRequest, and
+      the server's HelloVerifyRequest responses to a flood of
+      ClientHello messages are bounded
+
+   -  robustness against forged epoch-0 records, handshake messages,
+      and application data during a renegotiation, against application
+      data reordered ahead of the Finished message, and against stale
+      or retransmitted ClientHello messages
+
+   -  handling of the no_renegotiation alert before and after the
+      ChangeCipherSpec message
+
+   -  session resumption and renegotiation scenarios, including
+      retransmitted or reordered final flights and application data
+      arriving together with the final flight
+
+-  A DTLS reconnection test (present in earlier Botan versions as part
+   of :srcref:`src/tests/unit_tls.cpp`): after a first client has
+   connected and exchanged application data with the server, a second
+   client connects from the same source address; following RFC 6347,
+   Section 4.2.8, the server performs an epoch-0 restart and completes
+   a handshake with the new client.
+
+-  DTLS renegotiation tests: an established association performs a
+   client-initiated and a server-initiated renegotiation, and
+   application data must flow before and after the renegotiation under
+   each set of keys in turn. An additional test checks that a delayed
+   datagram carrying the previous handshake's client Finished message
+   does not stall a subsequent renegotiation.
+
+-  Epoch-0 injection tests: an unauthenticated epoch-0 record injected
+   into an established association (towards the client as well as
+   towards the server) must neither terminate the association nor
+   disturb the replay window, and application data must still flow
+   afterwards. Similarly, a spoofed epoch-0 record at the top of the
+   48-bit sequence number space, injected during the handshake, must
+   not advance the receiver's replay window past records the legitimate
+   peer can still send, so that the handshake still completes.
+
+-  Connection teardown tests (executed over a DTLS 1.2 association):
+   following RFC 5246, Sections 7.2.1 and 7.2.2, a received fatal alert
+   must destroy the connection state (the channel becomes closed and
+   inactive, key material export is refused, and a ticket-backed
+   session becomes unresumable), whereas key material export must still
+   work after a clean close_notify. The fatal-alert teardown must
+   complete even if the session manager throws during it, and
+   application data reordered behind a close_notify alert must be
+   ignored.
+
+In addition, Botan 3.13.0 adds unit tests for the DTLS 1.2 handshake
+message reassembly and retransmission layer, implemented in
+:srcref:`src/tests/test_tls_handshake_io.cpp`. These tests feed
+hand-crafted DTLS handshake records directly into the handshake I/O
+layer and verify, among others: in-order and out-of-order reassembly of
+fragmented handshake messages; rejection of fragments with inconsistent
+metadata, of overlapping fragments with inconsistent contents, of
+fragments past the end of a message, of messages exceeding the policy's
+maximum handshake message size, and of messages beyond the reassembly
+window; bounds on the memory consumed by fragments of future messages,
+so that a peer cannot exhaust the reassembly buffers or starve the
+expected message; abandonment of the handshake once the retransmission
+cap is reached, as well as bounded flight replays in response to
+retransmitted peer messages; and refusal of a DTLS epoch counter
+wrap-around as well as pruning of stale epoch state.
 
 TLS Protocol Message Parsing
 ----------------------------

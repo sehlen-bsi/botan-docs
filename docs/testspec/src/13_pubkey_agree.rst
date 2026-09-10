@@ -339,8 +339,8 @@ test vectors are listed in :srcref:`src/tests/data/pubkey/dh.vec`.
    |                        |    compare the result with the expected output value *K*                |
    +------------------------+-------------------------------------------------------------------------+
 
-Additional two unit tests check that DH only accepts public key values
-Y with 1 < Y < P.
+Additional four unit tests check that DH only accepts public key values
+Y with 1 < Y < P-1.
 
 .. table::
    :class: longtable
@@ -351,8 +351,8 @@ Y with 1 < Y < P.
    +========================+=========================================================================+
    | **Type:**              | Negative Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Makes sure Diffie Hellman Key Agreement Scheme does not accept a public |
-   |                        | key value Y > P-1                                                       |
+   | **Description:**       | Makes sure Diffie Hellman Key Agreement Scheme does not accept the      |
+   |                        | public key value Y = P                                                  |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
@@ -364,7 +364,7 @@ Y with 1 < Y < P.
    |                        |    X = 4620566309358961266874616386087096391222637913119081216351934984 |
    |                        |    8291472898748                                                        |
    |                        |    Y = 5845800209553609465868375525852336296142120075143945615975616419 |
-   |                        |    14945762794672                                                       |
+   |                        |    1494576279467                                                        |
    |                        |    Output Length = 128 bits                                             |
    |                        |    KDF = None                                                           |
    +------------------------+-------------------------------------------------------------------------+
@@ -385,8 +385,8 @@ Y with 1 < Y < P.
    +========================+=========================================================================+
    | **Type:**              | Negative Test                                                           |
    +------------------------+-------------------------------------------------------------------------+
-   | **Description:**       | Makes sure Diffie Hellman Key Agreement Scheme does not accept a public |
-   |                        | key value Y <= 1                                                        |
+   | **Description:**       | Makes sure Diffie Hellman Key Agreement Scheme does not accept the      |
+   |                        | public key value Y = 1                                                  |
    +------------------------+-------------------------------------------------------------------------+
    | **Preconditions:**     | None                                                                    |
    +------------------------+-------------------------------------------------------------------------+
@@ -398,6 +398,73 @@ Y with 1 < Y < P.
    |                        |    X = 4620566309358961266874616386087096391222637913119081216351934984 |
    |                        |    8291472898748                                                        |
    |                        |    Y = 1                                                                |
+   |                        |    Output Length = 128 bits                                             |
+   |                        |    KDF = None                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | DH outputs an error                                                     |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create the DH object (input *P*, *G*, *X*)                           |
+   |                        |                                                                         |
+   |                        | #. Input *Output Length* and *P*, *G*, *Y* into the DH and compute the  |
+   |                        |    shared secret                                                        |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | KA-DH-4                                                                 |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Makes sure Diffie Hellman Key Agreement Scheme does not accept the      |
+   |                        | public key value Y = P - 1                                              |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | .. code-block:: none                                                    |
+   |                        |                                                                         |
+   |                        |    P = 5845800209553609465868375525852336296142120075143945615975616419 |
+   |                        |    1494576279467                                                        |
+   |                        |    G = 2                                                                |
+   |                        |    X = 4620566309358961266874616386087096391222637913119081216351934984 |
+   |                        |    8291472898748                                                        |
+   |                        |    Y = 5845800209553609465868375525852336296142120075143945615975616419 |
+   |                        |    1494576279466                                                        |
+   |                        |    Output Length = 128 bits                                             |
+   |                        |    KDF = None                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | DH outputs an error                                                     |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create the DH object (input *P*, *G*, *X*)                           |
+   |                        |                                                                         |
+   |                        | #. Input *Output Length* and *P*, *G*, *Y* into the DH and compute the  |
+   |                        |    shared secret                                                        |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | KA-DH-5                                                                 |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Makes sure Diffie Hellman Key Agreement Scheme does not accept the      |
+   |                        | public key value Y = 0                                                  |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | .. code-block:: none                                                    |
+   |                        |                                                                         |
+   |                        |    P = 5845800209553609465868375525852336296142120075143945615975616419 |
+   |                        |    1494576279467                                                        |
+   |                        |    G = 2                                                                |
+   |                        |    X = 4620566309358961266874616386087096391222637913119081216351934984 |
+   |                        |    8291472898748                                                        |
+   |                        |    Y = 0                                                                |
    |                        |    Output Length = 128 bits                                             |
    |                        |    KDF = None                                                           |
    +------------------------+-------------------------------------------------------------------------+
@@ -707,4 +774,55 @@ constraints for all the key-related test cases are:
    |                        |                                                                         |
    |                        | #. Check that the public key is valid by checking that the public point |
    |                        |    is on the *Curve*                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+
+Additionally, unit tests verify the decoding of ECDH private keys whose
+domain parameters may be supplied inside the BER-encoded private key
+structure and/or in the parameters field of an externally supplied
+AlgorithmIdentifier. Valid combinations (domain parameters only in the
+key encoding, only in the AlgorithmIdentifier, or identical parameters
+in both places) must decode successfully, while invalid combinations
+(conflicting parameters or no parameters at all) must be rejected. These
+tests are implemented in :srcref:`src/tests/test_ecdh.cpp` with the
+following constraints:
+
+-  Number of test cases: 5
+
+All test vectors are listed in
+:srcref:`src/tests/data/pubkey/ecc-key-and-param.vec`.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | KA-KEY-ECDH-2                                                           |
+   +========================+=========================================================================+
+   | **Type:**              | Positive/Negative Test                                                  |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Decode an ECDH private key with domain parameters given in the key      |
+   |                        | encoding and/or in an external AlgorithmIdentifier                      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | -  Key: The BER-encoded ECPrivateKey structure, optionally containing   |
+   |                        |    the named curve OID as domain parameters                             |
+   |                        |                                                                         |
+   |                        | -  Param: The named curve OID for the parameters field of the           |
+   |                        |    AlgorithmIdentifier (optional)                                       |
+   |                        |                                                                         |
+   |                        | -  Valid: Whether the combination must decode successfully              |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | The key decodes successfully if *Valid* is true; otherwise an           |
+   |                        | exception is thrown                                                     |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create an AlgorithmIdentifier with the OID 1.3.132.1.12 (id-ecDH);   |
+   |                        |    if *Param* is given, use the BER-encoded OID *Param* as the          |
+   |                        |    parameters field, otherwise use an empty parameters field            |
+   |                        |                                                                         |
+   |                        | #. Create an ECDH_PrivateKey object from the AlgorithmIdentifier and    |
+   |                        |    *Key*                                                                |
+   |                        |                                                                         |
+   |                        | #. If *Valid* is true, check that the key decodes successfully;         |
+   |                        |    otherwise check that an exception is thrown                          |
    +------------------------+-------------------------------------------------------------------------+

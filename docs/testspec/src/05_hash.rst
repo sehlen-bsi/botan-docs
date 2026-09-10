@@ -32,6 +32,10 @@ following.
    |                       |                                                                          |
    |                       | #. Test the hash function's name                                         |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Repeat three times in a loop:                                         |
    |                       |                                                                          |
    |                       |    #. Feed the input value *In* into the hash function                   |
@@ -178,6 +182,46 @@ Some hash functions are also tested with very long inputs.
    |                       | #. Calculate the message digest and check that the digest matches *Out*  |
    +-----------------------+--------------------------------------------------------------------------+
 
+Additionally, the security levels reported by the hash functions are
+verified against expected reference values (added in Botan 3.13.0).
+
+-  Number of test cases: 1 (covering 36 hash function instantiations)
+-  Hash Functions: Adler32, CRC24, CRC32, MD4, MD5, SHA-1, SHA-224,
+   SHA-256, SHA-384, SHA-512, SHA-512-256, SHA-3(224), SHA-3(256),
+   SHA-3(384), SHA-3(512), Keccak-1600(512), SHAKE-128(128),
+   SHAKE-128(256), SHAKE-128(1024), SHAKE-256(256), SHAKE-256(512),
+   SHAKE-256(2048), Ascon-Hash256, Blake2b(512), Blake2s(256),
+   GOST-R-34.11-94, RIPEMD-160, SM3, Skein-512(512), Streebog-256,
+   Streebog-512, Whirlpool, Truncated(SHA-256,64),
+   Truncated(SHA-512,300), Parallel(MD5,SHA-256), Comb4P(MD4,MD5)
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Test Case No.:**    | HASH-5                                                                   |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Type:**             | Positive Test                                                            |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Description:**      | Unit test that verifies the security level reported by hash functions    |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Preconditions:**    | None                                                                     |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Input Values:**     | -  Name: The hash function name                                          |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Expected Output:**  | -  Level: The expected security level in bits                            |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Steps:**            | #. For each pair (*Name*, *Level*) from a fixed list of hash function    |
+   |                       |    names and their expected security levels:                             |
+   |                       |                                                                          |
+   |                       |    #. Create the HashFunction object *Name* (skipped if the hash         |
+   |                       |       function is not available in the build)                            |
+   |                       |                                                                          |
+   |                       |    #. Check that the security level reported by the hash function        |
+   |                       |       equals *Level*                                                     |
+   +-----------------------+--------------------------------------------------------------------------+
+
 MD-5
 ~~~~
 
@@ -216,6 +260,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/md5.vec`.
    | **Steps:**            | #. Create an MD5 object                                                  |
    |                       |                                                                          |
    |                       | #. Test MD5's name                                                       |
+   |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
    |                       |                                                                          |
    |                       | #. Feed the input value *In* into the MD5                                |
    |                       |                                                                          |
@@ -287,6 +335,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha1.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA1's name                                                      |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA1                               |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -357,6 +409,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
    | **Steps:**            | #. Create a SHA224 object                                                |
    |                       |                                                                          |
    |                       | #. Test SHA224's name                                                    |
+   |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
    |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA224                             |
    |                       |                                                                          |
@@ -430,6 +486,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA256's name                                                    |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA256                             |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -501,6 +561,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
    | **Steps:**            | #. Create a SHA384 object                                                |
    |                       |                                                                          |
    |                       | #. Test SHA384's name                                                    |
+   |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
    |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA384                             |
    |                       |                                                                          |
@@ -575,6 +639,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA512's name                                                    |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA512                             |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -642,6 +710,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
    | **Steps:**            | #. Create a SHA512_256 object                                            |
    |                       |                                                                          |
    |                       | #. Test SHA512_256's name                                                |
+   |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
    |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA512_256                         |
    |                       |                                                                          |
@@ -768,6 +840,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA3_256's name                                                  |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA3_256                           |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -837,6 +913,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    | **Steps:**            | #. Create a SHA3_384 object                                              |
    |                       |                                                                          |
    |                       | #. Test SHA3_384's name                                                  |
+   |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
    |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA3_384                           |
    |                       |                                                                          |
@@ -910,6 +990,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA3_512's name                                                  |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA3_512                           |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -977,6 +1061,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/shake.vec`.
    | **Steps:**            | #. Create a SHAKE-128(128) object                                        |
    |                       |                                                                          |
    |                       | #. Test SHAKE-128(128)'s name                                            |
+   |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
    |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHAKE-128(128)                     |
    |                       |                                                                          |
@@ -1050,6 +1138,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/blake2b.vec`.
    | **Steps:**            | #. Create a Blake2b(384) object                                          |
    |                       |                                                                          |
    |                       | #. Test Blake2b(384)'s name                                              |
+   |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
    |                       |                                                                          |
    |                       | #. Feed the input value *In* into the Blake2b(384)                       |
    |                       |                                                                          |

@@ -49,6 +49,16 @@ following.
    |                        |    #. Input *In* into the MAC, calculate the tag and compare it with    |
    |                        |       the expected output value *Out*                                   |
    |                        |                                                                         |
+   |                        | #. Set the key *Key*, input a random message fragment into the MAC and  |
+   |                        |    restart the MAC computation; input *In*, calculate the tag and       |
+   |                        |    compare it with the expected output value *Out* (restarting the      |
+   |                        |    computation discards a partially processed message)                  |
+   |                        |                                                                         |
+   |                        | #. Set the key *Key*, input a random message fragment into the MAC and  |
+   |                        |    set the key *Key* again; input *In*, calculate the tag and compare   |
+   |                        |    it with the expected output value *Out* (setting the key discards a  |
+   |                        |    partially processed message)                                         |
+   |                        |                                                                         |
    |                        | #. For MACs that do not require a fresh key for every message\ *        |
    |                        |    (cf.* *fresh_key_required_per_message())*                            |
    |                        |                                                                         |
@@ -340,9 +350,15 @@ KMAC
 
 KMAC is tested with the following constraints:
 
--  Number of test cases: 6
+-  Number of test cases: 14
 
--  Key: 256 bits
+-  Key: varying length
+
+   -  Range: 256 bits - 1312 bits
+   -  Extreme values: overlong keys of 1296 bits, 1304 bits and 1312 bits
+      (KMAC-128) and of 1040 bits, 1048 bits and 1056 bits (KMAC-256),
+      around the block-size alignment boundary of the internal key
+      encoding
 
 -  Nonce: varying length
 
@@ -350,8 +366,8 @@ KMAC is tested with the following constraints:
 
 -  In: varying length
 
-   -  Range: 32 bits – 1600 bits
-   -  Extreme values: 896 bits
+   -  Range: 0 bits – 1600 bits
+   -  Extreme values: empty message
 
 -  Out: varying length
 
@@ -362,6 +378,8 @@ The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/mac/kmac.vec`.
 
 The tests are taken from NIST's `KMAC_samples.pdf <https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/KMAC_samples.pdf>`_.
+The test vectors with overlong keys were generated using OpenSSL (added
+in Botan 3.13.0).
 
 .. table::
    :class: longtable

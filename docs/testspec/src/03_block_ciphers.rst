@@ -78,6 +78,8 @@ Block ciphers are tested using (1) unit tests and known answer tests that (2) en
    |                       |                                                                          |
    |                       | #. Check that cloned object has the same block cipher name               |
    |                       |                                                                          |
+   |                       | #. Check that the cloned object has no key set                           |
+   |                       |                                                                          |
    |                       | #. Set a random key on the cloned object                                 |
    |                       |                                                                          |
    |                       | #. Encrypt the input value *In* and compare the result with the expected |
@@ -86,7 +88,7 @@ Block ciphers are tested using (1) unit tests and known answer tests that (2) en
    |                       | #. Decrypt the result from the previous step and compare with the input  |
    |                       |    value *In*                                                            |
    |                       |                                                                          |
-   |                       | #. Perform steps 10-11 with input value In, but prepend a zero byte to   |
+   |                       | #. Perform steps 11-12 with input value In, but prepend a zero byte to   |
    |                       |    simulate a misaligned input buffer                                    |
    +-----------------------+--------------------------------------------------------------------------+
 

@@ -287,6 +287,9 @@ RSA
    |                        | #. Encrypt the plaintext message "feedc0debaadcafe" using RSA-OAEP      |
    |                        |    on the TPM                                                           |
    |                        |                                                                         |
+   |                        | #. Check that the ciphertext is not longer than the encryption          |
+   |                        |    operation's ciphertext length estimate                               |
+   |                        |                                                                         |
    |                        | #. Decrypt the ciphertext using RSA-OAEP on the TPM                     |
    |                        |                                                                         |
    |                        | #. Check that the plaintext and the decrypted ciphertext match          |
@@ -294,6 +297,11 @@ RSA
    |                        | #. Encrypt the plaintext message "feedface" using RSA-OAEP in software  |
    |                        |                                                                         |
    |                        | #. Decrypt the ciphertext using RSA-OAEP on the TPM                     |
+   |                        |                                                                         |
+   |                        | #. Check that the plaintext is not longer than the decryption           |
+   |                        |    operation's plaintext length estimate and that the ciphertext is     |
+   |                        |    not longer than the encryption operation's ciphertext length         |
+   |                        |    estimate                                                             |
    |                        |                                                                         |
    |                        | #. Slightly alter the ciphertext                                        |
    |                        |                                                                         |

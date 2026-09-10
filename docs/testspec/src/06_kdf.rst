@@ -36,6 +36,11 @@ following.
    |                        | #. *InputSalt* *(optional)*, *Secret*, and *Label* *(optional)* into    |
    |                        |    the KDF and compare the result with the expected output value *Out*  |
    |                        |                                                                         |
+   |                        | #. Derive the key again into a caller-provided output buffer and        |
+   |                        |    compare the result with the expected output value *Out*; check       |
+   |                        |    that bytes in the buffer beyond the requested output length are      |
+   |                        |    not overwritten                                                      |
+   |                        |                                                                         |
    |                        | #. Clone the KDF object and check that it points to a different memory  |
    |                        |    location                                                             |
    +------------------------+-------------------------------------------------------------------------+

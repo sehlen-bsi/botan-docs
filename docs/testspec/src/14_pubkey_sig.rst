@@ -1385,6 +1385,194 @@ the (already extensive) generic tests.
    |                        | #. Check that the creation of further signatures fails                  |
    +------------------------+-------------------------------------------------------------------------+
 
+Further tests verify the bounds checking of the private key's signature
+index and the behavior of the process-wide index registry that tracks
+the state of stateful keys.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-HSS/LMS-3                                                         |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | The signature index of a private key is bound-checked when loading      |
+   |                        | the key                                                                 |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create a valid HSS/LMS private key with a single LMS tree of         |
+   |                        |    height 5, i.e., with a maximum signature count of 32                 |
+   |                        |                                                                         |
+   |                        | #. Set the signature index field in the encoded private key to 32 and   |
+   |                        |    load the key from this encoding. Check that the key loads            |
+   |                        |    successfully, that its number of remaining signatures is 0, and      |
+   |                        |    that signing with it fails                                           |
+   |                        |                                                                         |
+   |                        | #. Set the signature index to 33 and check that loading the key fails   |
+   |                        |    with a ``Decoding_Error``                                            |
+   |                        |                                                                         |
+   |                        | #. Set the signature index to 2\ :sup:`64` - 1 and check that loading   |
+   |                        |    the key fails with a ``Decoding_Error``                              |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-HSS/LMS-4                                                         |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | An exhausted private key stays exhausted                                |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create an HSS/LMS private key with a total tree height of at         |
+   |                        |    least 64, for which the maximum signature count is clamped to        |
+   |                        |    2\ :sup:`64` - 1                                                     |
+   |                        |                                                                         |
+   |                        | #. Set the signature index field in the encoded private key to          |
+   |                        |    2\ :sup:`64` - 1 and load the key from this encoding. Check that     |
+   |                        |    the number of remaining signatures is 0                              |
+   |                        |                                                                         |
+   |                        | #. Check that signing with the key fails                                |
+   |                        |                                                                         |
+   |                        | #. Check that the number of remaining signatures is still 0, i.e.,      |
+   |                        |    the failed signing attempt did not wrap the signature index back     |
+   |                        |    to zero                                                              |
+   |                        |                                                                         |
+   |                        | #. Check that another signing attempt fails as well                     |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-HSS/LMS-5                                                         |
+   +========================+=========================================================================+
+   | **Type:**              | Positive Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | The HSS/LMS parameters are part of the key identity used by the         |
+   |                        | index registry                                                          |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create an HSS/LMS private key with parameters                        |
+   |                        |    Truncated(SHA-256,192),HW(5,8), i.e., with a maximum signature       |
+   |                        |    count of 32                                                          |
+   |                        |                                                                         |
+   |                        | #. Patch the LM-OTS algorithm type in the encoded private key from      |
+   |                        |    SHA256_N24_W8 to SHA256_N24_W4 and load the patched key, so that     |
+   |                        |    the same key material and identifier are tracked under different     |
+   |                        |    parameters                                                           |
+   |                        |                                                                         |
+   |                        | #. Sign a message with the original key                                 |
+   |                        |                                                                         |
+   |                        | #. Check that the original key's number of remaining signatures         |
+   |                        |    decreased to 31, while that of the patched key remained at 32,       |
+   |                        |    i.e., the index registry tracks both keys independently              |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-HSS/LMS-6                                                         |
+   +========================+=========================================================================+
+   | **Type:**              | Positive Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Separately loaded copies of the same private key share their state      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create an HSS/LMS private key with a maximum signature count of      |
+   |                        |    32 and load two copies of it from the same encoding                  |
+   |                        |                                                                         |
+   |                        | #. Sign a message with the first copy                                   |
+   |                        |                                                                         |
+   |                        | #. Check that the number of remaining signatures of the second copy     |
+   |                        |    also decreased to 31                                                 |
+   |                        |                                                                         |
+   |                        | #. Sign a message with the second copy                                  |
+   |                        |                                                                         |
+   |                        | #. Check that the first signature used leaf index 0 and the second      |
+   |                        |    signature used leaf index 1                                          |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-HSS/LMS-7                                                         |
+   +========================+=========================================================================+
+   | **Type:**              | Negative Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | A forked process cannot reuse a signature index                         |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | The test only runs on POSIX systems and only if the tests are           |
+   |                        | executed single-threaded                                                |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Create an HSS/LMS private key                                        |
+   |                        |                                                                         |
+   |                        | #. Fork the test process                                                |
+   |                        |                                                                         |
+   |                        | #. In the child process, attempt to sign a message and check that       |
+   |                        |    this fails with an ``Invalid_State`` exception, i.e., the index      |
+   |                        |    registry detects the fork and refuses to emit a signature index      |
+   |                        |                                                                         |
+   |                        | #. In the parent process, check that signing still succeeds             |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-HSS/LMS-8                                                         |
+   +========================+=========================================================================+
+   | **Type:**              | Positive Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Verify the example X.509 certificate from RFC 9802                      |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | :srcref:`[src/tests/data/x509]/hss-lms/hss-lms-rfc-9802-cert.pem`       |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Load the HSS/LMS example certificate from RFC 9802 Appendix A        |
+   |                        |                                                                         |
+   |                        | #. Check that the certificate's signature verifies under the            |
+   |                        |    certificate's own subject public key                                 |
+   +------------------------+-------------------------------------------------------------------------+
+
 RSA
 ---
 
@@ -1526,6 +1714,46 @@ PKSIG-RSA-3 are listed in :srcref:`src/tests/data/pubkey/rsa_invalid.vec`.
    | **Steps:**             | #. Create the RSA_PublicKey object from *E, N*                          |
    |                        |                                                                         |
    |                        | #. Check that the signature *InvalidSignature* does not verify          |
+   +------------------------+-------------------------------------------------------------------------+
+
+An additional test verifies that signatures created with the ISO 9796-2
+message recovery schemes verify with the same padding configuration,
+in particular for RSA moduli whose bit length is not a multiple of
+eight.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-RSA-4                                                             |
+   +========================+=========================================================================+
+   | **Type:**              | Positive Test                                                           |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | Sign/verify roundtrip for the ISO 9796-2 signature schemes with         |
+   |                        | message recovery, including moduli whose bit length is not a multiple   |
+   |                        | of eight                                                                |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Generate a random 1024 bit RSA key                                   |
+   |                        |                                                                         |
+   |                        | #. For each of the padding schemes ISO_9796_DS2(SHA-256) and            |
+   |                        |    ISO_9796_DS3(SHA-256): sign 256 random messages of 0 to 255 bytes    |
+   |                        |    length and check that every signature verifies                       |
+   |                        |                                                                         |
+   |                        | #. Generate RSA keys with E = 65537 and moduli of 1025 to 1031 bits     |
+   |                        |    (from a 512 bit prime P and a prime Q of corresponding size),        |
+   |                        |    i.e., moduli whose bit length is not a multiple of eight             |
+   |                        |                                                                         |
+   |                        | #. For each such key and each of the two padding schemes: sign random   |
+   |                        |    messages of 0 to 127 bytes length, covering lengths below, at, and   |
+   |                        |    above the capacity of the recoverable message part, and check that   |
+   |                        |    every signature verifies                                             |
    +------------------------+-------------------------------------------------------------------------+
 
 The following example shows an RSA-specific PKSIG-KEY-1 test case. The
@@ -1709,6 +1937,42 @@ therefore not discussed in detail in this chapter.
    |                        |                                                                         |
    |                        | #. From the generated FORS signature, recreate the FORS public key and  |
    |                        |    validate it against the one provided in the test data.               |
+   +------------------------+-------------------------------------------------------------------------+
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +------------------------+-------------------------------------------------------------------------+
+   | **Test Case No.:**     | PKSIG-SLH-DSA-4                                                         |
+   +========================+=========================================================================+
+   | **Type:**              | Positive and Negative Tests                                             |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Description:**       | X.509 certificates with SLH-DSA keys and signatures (RFC 9909)          |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Preconditions:**     | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Input Values:**      | Certificates in:                                                        |
+   |                        |                                                                         |
+   |                        | * :srcref:`[src/tests/data/x509]/slh-dsa/slh-dsa-rfc-9909-cert.pem`     |
+   |                        | * :srcref:`[src/tests/data/x509]/slh-dsa/slh-dsa-root.pem`              |
+   |                        | * :srcref:`[src/tests/data/x509]/slh-dsa/slh-dsa-leaf.pem`              |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Expected Output:**   | None                                                                    |
+   +------------------------+-------------------------------------------------------------------------+
+   | **Steps:**             | #. Load the SLH-DSA example certificate from RFC 9909 and check that    |
+   |                        |    its signature verifies under the certificate's own subject public    |
+   |                        |    key                                                                  |
+   |                        |                                                                         |
+   |                        | #. Create an AlgorithmIdentifier holding the certificate public         |
+   |                        |    key's OID together with an explicit ASN.1 NULL parameter field       |
+   |                        |    and check that constructing a verifier from it is rejected with a    |
+   |                        |    ``Decoding_Error`` (RFC 9909 requires absent parameters)             |
+   |                        |                                                                         |
+   |                        | #. If the SLH-DSA-SHAKE-128f parameter set is available in the          |
+   |                        |    build: validate the certificate path from the SLH-DSA-SHAKE leaf     |
+   |                        |    certificate to the SLH-DSA-SHAKE root certificate and check that     |
+   |                        |    the path validation succeeds                                         |
    +------------------------+-------------------------------------------------------------------------+
 
 Extended Hash-Based Signatures (XMSS)

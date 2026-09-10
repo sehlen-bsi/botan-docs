@@ -277,6 +277,17 @@ for initialization, seeding and reseeding.
    |                       |    reseed                                                                |
    |                       |                                                                          |
    |                       | #. Check that the AutoSeeded_RNG is seeded                               |
+   |                       |                                                                          |
+   |                       | #. Create an AutoSeeded_RNG object with a request-counting RNG as the    |
+   |                       |    underlying RNG and record the underlying RNG's invocation count       |
+   |                       |                                                                          |
+   |                       | #. Clear the AutoSeeded_RNG and request an empty (zero-byte) output;     |
+   |                       |    check that the AutoSeeded_RNG remains unseeded and that the           |
+   |                       |    underlying RNG was not invoked                                        |
+   |                       |                                                                          |
+   |                       | #. Extract one random byte from the AutoSeeded_RNG; check that the       |
+   |                       |    AutoSeeded_RNG is now seeded and that the underlying RNG was          |
+   |                       |    invoked exactly once more                                             |
    +-----------------------+--------------------------------------------------------------------------+
 
 System_RNG
