@@ -1,192 +1,187 @@
 .. _sec-trace-changes:
 
-Verfolgen der Änderungen
-========================
+Tracking Changes
+================
 
-Einsatz von Git und GitHub bei der Entwicklung der Bibliothek
--------------------------------------------------------------
+Use of Git and GitHub in the Development of the Library
+-------------------------------------------------------
 
-Die Bibliothek wird öffentlich auf GitHub [#botangithub]_ entwickelt. Größere
-Änderungen am Code werden in der Regel über themenspezifische "Pull Requests"
-[#botanpulls]_ nach einem technischen Review-Prozess durch einen der
-Kern-Entwickler der Bibliothek (GitHub "Collaborator") vorgenommen. In
-Ausnahmefällen pflegt der Hauptentwickler (Jack Lloyd) kleinere Änderungen
-direkt in den Entwicklungszweig der Bibliothek ein. Insbesondere diese direkten
-Änderungen sind stets vom Hauptentwickler mittels GPG signiert [#jackgpg]_.
+The library is developed publicly on GitHub [#botangithub]_. Larger changes to
+the code are usually made via topic-specific "pull requests" [#botanpulls]_
+after a technical review process by one of the library's core developers
+(GitHub "collaborators"). In exceptional cases the main developer (Jack Lloyd)
+commits smaller changes directly to the library's development branch. These
+direct changes in particular are always signed by the main developer using GPG
+[#jackgpg]_.
 
-In beiden Fällen erlauben die "Pull Requests" und die direkten Änderungen eine
-transparente und verhältnismäßig leicht nach Themen klassifizierbare
-Nachverfolgung aller Änderungen in der Bibliothek. Im Folgenden bezieht sich der
-Begriff "Patch" sowohl auf Änderungen die mittels eines Pull Requests
-eingeflossen sind als auch auf direkte Änderungen durch den Hauptentwickler.
+In both cases, the pull requests and the direct changes allow all changes to
+the library to be tracked transparently and to be classified by topic with
+comparatively little effort. In the following, the term "patch" refers both to
+changes that were merged by means of a pull request and to direct changes made
+by the main developer.
 
-Das Datenmodell von "Git" stellt dabei sicher, dass die Anwendung aller Patches
-zwischen zwei Quelltext-Versionen eindeutig von der älteren zur neueren Version
-führt. Damit sind alle tatsächlichen Änderungen zwischen zwei Versionen mit der
-Gesamtheit aller Patches abgebildet, die von der älteren zur neueren Version
-geführt haben.
+The data model of Git ensures that applying all patches between two source code
+versions leads unambiguously from the older to the newer version. Thus all
+actual changes between two versions are captured by the entirety of the patches
+that led from the older to the newer version.
 
-Dieser Auditierungs-Ansatz setzt die Vertrauenswürdigkeit von "Git" und dessen
-Datenmodell voraus. Am Ende dieses Kapitels findet sich daher eine kurze
-Erläuterung zur Vertrauenswürdigkeit von Git (siehe :ref:`about_git`).
+This audit approach presupposes the trustworthiness of Git and its data model.
+The end of this chapter therefore contains a brief discussion of the
+trustworthiness of Git (see :ref:`about_git`).
 
 .. [#botangithub] `github.com/randombit/botan <https://github.com/randombit/botan>`_
 .. [#botanpulls] `github.com/randombit/botan/pulls <https://github.com/randombit/botan/pulls>`_
-.. [#jackgpg] GPG Schlüssel ID von Jack Lloyd: ``9F:FD:59:6F:AB:50:F9:0D``
+.. [#jackgpg] GPG key ID of Jack Lloyd: ``9F:FD:59:6F:AB:50:F9:0D``
 
-Nachträgliche Änderungsverfolgung
----------------------------------
+Retrospective Change Tracking
+-----------------------------
 
-Die Bibliothek wurde für einzelne Versionen bereits in der Vergangenheit einem
-Audit unterzogen. Ziel der Änderungsverfolgung ist es, alle Änderungen an der
-Bibliothek zu identifizieren die seit dem letzten Audit hinzugekommen sind,
-diese nach ihrer Relevanz zu klassifizieren und relevante Änderungen genauer zu
-untersuchen.
+Individual versions of the library have already been audited in the past. The
+goal of change tracking is to identify all changes to the library that have
+been added since the last audit, to classify them according to their relevance,
+and to examine relevant changes in more detail.
 
-Dazu werden wie oben beschrieben mithilfe von "Git" alle Patches der Bibliothek
-identifiziert, die von einer bereits auditierten Version zur neuen Zielversion
-geführt haben. Einzelne Patches haben dabei meist einen thematischen Bezug und
-eine technische Beschreibung ("Commit" Nachricht oder "Pull Request"
-Beschreibung). Beispielsweise: "Add XMSS Parameter sets defined in NIST
-SP.800-208" [#xmssparams]_ enthält die Quelltext-Änderungen um die XMSS
-Implementierung um die vom NIST spezifizierten Parameter zu erweitern.
+For this purpose, as described above, Git is used to identify all patches to
+the library that led from an already audited version to the new target version.
+Individual patches usually have a topical focus and a technical description
+(commit message or pull request description). For example, "Add XMSS Parameter
+sets defined in NIST SP.800-208" [#xmssparams]_ contains the source code
+changes that extend the XMSS implementation by the parameters specified by
+NIST.
 
-Jeder Patch kann dabei prinzipiell beliebige Komponenten der Bibliothek
-betreffen. Die hier betrachteten Komponenten sind die Bibliothek selbst
-(Verzeichnis *src/lib*), die Testsuite (Verzeichnis *src/tests*), das Command Line
-Interface (Verzeichnis *src/cli*), der Python-Wrapper (Verzeichnis *src/python*),
-das Buildsystem (Skript *configure.py* und Verzeichnis *src/build-data*) sowie die
-Dokumentation (Verzeichnis *doc*).
+In principle, each patch can affect arbitrary components of the library. The
+components considered here are the library itself (directory *src/lib*), the
+test suite (directory *src/tests*), the command line interface (directory
+*src/cli*), the Python wrapper (directory *src/python*), the build system
+(script *configure.py* and directory *src/build-data*), and the documentation
+(directory *doc*).
 
-Alle identifizierten Patches werden manuell thematisch vorsortiert und danach
-einzeln analysiert, nach Sicherheitsrelevanz klassifiziert und die enthaltenen
-Änderungen dokumentiert. Das Ergebnis ist ein detailierter themenbezogener
-Änderungsbericht mit Referenzen zu allen relevanten Patches. Eine spätere
-Nachvollziehbarkeit (etwa durch Dritte) ist damit leicht zu gewährleisten.
+All identified patches are manually pre-sorted by topic and then analyzed
+individually, classified according to their security relevance, and the
+contained changes are documented. The result is a detailed, topic-oriented
+change report with references to all relevant patches. This makes it easy to
+ensure later traceability (for instance by third parties).
 
-.. [#xmssparams] GitHub Pull Request: `#3292 <https://github.com/randombit/botan/pull/3292>`_
+.. [#xmssparams] GitHub pull request: `#3292 <https://github.com/randombit/botan/pull/3292>`_
 
-Klassifizierung
----------------
+Classification
+--------------
 
-Ob eine Änderung sicherheitsrelevant ist wird anhand von verschiedenen Kriterien
-entschieden. Bei Änderungen am Buildsystem hängt es von der Natur der Änderungen
-ab ob sie kritisch sind. Das Buildsystem stellt unter Anderem sicher, dass nur
-die Module im Kompilat vorhanden sind, die während der Konfiguration des Builds
-angewählt wurden, ist also bei Änderungen an dieser Logik als kritisch zu
-betrachten. Änderungen an der Testsuite sind als kritisch zu betrachten, sobald
-sie Module betreffen die in der BSI-Modulpolicy enthalten sind oder sobald sie
-abhängige Module betreffen. Auch Änderungen an Modulen der Bibliothek die in der
-BSI-Modulpolicy enthalten sind oder die abhängige Module betreffen können als
-kritisch betrachtet werden.
+Whether a change is security-relevant is decided based on several criteria. For
+changes to the build system, whether they are critical depends on the nature of
+the changes. Among other things, the build system ensures that only those
+modules are present in the compiled artifact that were selected during the
+configuration of the build, so changes to this logic are to be regarded as
+critical. Changes to the test suite are to be regarded as critical as soon as
+they affect modules that are contained in the BSI module policy or as soon as
+they affect dependent modules. Likewise, changes to modules of the library that
+are contained in the BSI module policy or that affect dependent modules can be
+regarded as critical.
 
-.. Unklar wie zu verstehen, daher auskommentiert:
-  Jede Änderung wird in eine von drei Kategorien eingeordnet. Änderungen der
-  Kategorie I bezeichnen dabei sicherheitskritische Änderungen, d.h., Änderungen
-  die den ordnungsgemäßen Betrieb der kryptographischen Funktionen
-  beeinträchtigen. Änderungen der Kategorie II bezeichnen sicherheitsrelevante
-  Änderungen, d.h., Änderungen die die Effizienz oder Effektivität der
-  kryptographischen Funktionen erhöhen. Änderungen der Kategorie III bezeichnen
-  weitere, nicht-sicherheitskritische Änderungen, d.h., Änderungen aus anderen
-  Gründen als bezogen auf die Sicherheit.
+.. Unclear how this is to be understood, therefore commented out by Falko Strenzke:
+  Each change is assigned to one of three categories. Changes of category I
+  denote security-critical changes, i.e., changes that impair the proper
+  operation of the cryptographic functions. Changes of category II denote
+  security-relevant changes, i.e., changes that increase the efficiency or
+  effectiveness of the cryptographic functions. Changes of category III denote
+  further, non-security-critical changes, i.e., changes made for reasons other
+  than security.
 
-Thematische Einordnung
-----------------------
+Topical Grouping
+----------------
 
-Zur besseren Übersicht und zur Vereinfachung des Audit-Prozesses werden Patches
-soweit möglich thematisch sortiert. Dabei besteht ausdrücklich keine
-eins-zu-eins Beziehung von Patches und Themen. Ein Patch kann durchaus Relevanz
-für mehr als ein betrachtetes Thema haben und damit mehrmals zugeordnet werden.
+For a better overview and to simplify the audit process, patches are sorted by
+topic wherever possible. There is explicitly no one-to-one relationship between
+patches and topics. A patch may well be relevant to more than one of the topics
+considered and thus be assigned more than once.
 
-.. Hier ggf. besser die vordefinierten Kategorien angeben
-  Denkbare Themen sind etwa "Hinzufügen einer Implementierung von CRYSTALS-Kyber",
-  "Schließen einer Sicherheitslücke in der Validierung von X.509 Zertifikaten"
-  oder "Beschleunigung der Continuous Integration Pipeline". Für jedes Thema
-  werden die relevanten Patches aufgezählt und die enthaltenen Änderungen
-  übergreifend dokumentiert.
+.. Possibly better to list the predefined categories here instead
+  Conceivable topics are, for example, "Adding an implementation of
+  CRYSTALS-Kyber", "Closing a security vulnerability in the validation of
+  X.509 certificates", or "Speeding up the continuous integration pipeline".
+  For each topic, the relevant patches are enumerated and the contained
+  changes are documented collectively.
 
-Themen können ebenfalls eine Klassifizierung der Sicherheitsrelevanz erhalten.
-Danach richtet sich gegebenenfalls die Betrachtungstiefe der Patches im Kontext
-des Themas.
+Topics may also receive a classification of their security relevance. Where
+applicable, the depth of examination of the patches in the context of the topic
+is determined by this classification.
 
 .. _about_git:
 
-Sicherheit und Vertrauenswürdigkeit von Git
--------------------------------------------
+Security and Trustworthiness of Git
+-----------------------------------
 
-Git verwendet für die Datenverwaltung und Integritätsprüfung von Repositorys
-eine kryptographische Hashfunktion. Aus historischen Gründen wird dafür nach wie
-vor SHA-1 verwendet. Da SHA-1 nicht mehr als grundsätzlich sicher angesehen wird
-begründen die folgenden Ausführungen warum Git zum aktuellen Zeitpunkt trotzdem
-vertrauenswürdig einsetzbar ist.
+Git uses a cryptographic hash function for the data management and integrity
+verification of repositories. For historical reasons, SHA-1 is still used for
+this purpose. Since SHA-1 is no longer regarded as fundamentally secure, the
+following explains why Git can nevertheless be used in a trustworthy manner at
+the present time.
 
-Der SHA-1 Hash eines Git Commits berechnet sich aus dem Source-Tree des Commits
-(dem Delta) und diversen Header Informationen, wie dem Commit SHA-1 Hash des
-Vorgängercommits, der Autoren Informationen, den Committer Informationen und der
-Commit Beschreibung.
+The SHA-1 hash of a Git commit is computed from the source tree of the commit
+(the delta) and various header information, such as the SHA-1 commit hash of
+the predecessor commit, the author information, the committer information, and
+the commit description.
 
-Die Integrität des Repositories wird über den Commit SHA-1 Hash des
-Vorgängercommits sichergestellt. Da im Header des Vorgängercommits dessen
-Vorgängercommit SHA-1 Hash vorhanden ist kann die Kette bis zum initialen Commit
-gebildet und sichergestellt werden. Das heißt, dass die Veränderung eines
-Commits dazu führt, dass sich alle nachfolgenden Commit Hashes ändern und diese
-Veränderung erkannt wird. Um sicherzustellen, dass eine lokale Repository-Kopie
-nicht verändert wurde, muss daher der SHA-1 Hash des letzten bzw. aktuellsten
-Commits des lokalen Repositories mit dem entfernten Repository (bspw. auf
-GitHub) verglichen werden.
+The integrity of the repository is ensured via the SHA-1 commit hash of the
+predecessor commit. Since the header of the predecessor commit contains the
+SHA-1 hash of its own predecessor, the chain can be constructed and verified
+back to the initial commit. This means that modifying a commit changes all
+subsequent commit hashes, and this modification is detected. To ensure that a
+local copy of a repository has not been modified, the SHA-1 hash of the last,
+i.e. most recent, commit of the local repository must therefore be compared
+with the remote repository (e.g. on GitHub).
 
-Git ist also inhärent von der Kollisionsresistenz in SHA-1 abhängig. Durch eine
-Hash-Kollision könnten Commit-Paare mit gleichem SHA-1 Hash verwendet werden, um
-Schadcode unbemerkt vom oben beschriebenen Audit-Prozess in ein Repository
-einzuschleusen. Ein Angreifer müsste dafür ein Paar von validen Git Commit
-Objekten mit einerseits harmlosen (aber funktionsfähigen) Änderungen und
-andererseits einem Schadcode erzeugen, die denselben Commit Hash besitzen. Eine
-2017 von Stevens et al. veröffentlichte Schwachstelle in SHA-1 [SHATRD]_
-ermöglicht dies zwar theoretisch; es ist uns zum aktuellen Zeitpunkt aber kein
-Beispiel bekannt, wo dies erfolgreich für Git Commit Objekte demonstriert wurde.
+Git is thus inherently dependent on the collision resistance of SHA-1. Using a
+hash collision, pairs of commits with the same SHA-1 hash could be used to
+inject malicious code into a repository unnoticed by the audit process
+described above. To do so, an attacker would have to create a pair of valid Git
+commit objects, one with harmless (but functional) changes and the other with
+malicious code, that have the same commit hash. A weakness in SHA-1 published
+by Stevens et al. in 2017 [SHATRD]_ makes this possible in theory; however, at
+the present time we are not aware of any example where this has been
+successfully demonstrated for Git commit objects.
 
-Dabei ist es wichtig zu wissen, dass für eine erfolgreiche Kollision beide
-Commits (der Harmlose wie auch der Manipulierte) vom Angreifer erzeugt werden
-müssten. Es ist also ausdrücklich *nicht* möglich einen existierenden legitimen
-Commit des Repositorys nachträglich auszutauschen. Der Angreifer müsste den
-harmlosen Commit also schon frühzeitig in Botan einschleusen.
+It is important to note that for a successful collision, both commits (the
+harmless one as well as the manipulated one) would have to be created by the
+attacker. It is thus explicitly *not* possible to retroactively replace an
+existing legitimate commit of the repository. The attacker would therefore have
+to inject the harmless commit into Botan early on.
 
-Mittels Counter-Kryptoanalyse lassen sich Objekte die Teil eines solchen
-Angriffs sind aber sicher erkennen (siehe SHA-1-DC [SHA1DC]_). Seit
-Bekanntwerden der Schwachstelle verwenden sowohl GitHub [#githubsha1]_ als auch
-Git [#gitsha1]_ SHA-1-DC und lehnen Objekte ab die Teil einer so erzeugten
-Kollision sind. Das Einschleusen würde also nicht unentdeckt bleiben und damit
-einen erfolgreichen Angriff verhindern.
+Using counter-cryptanalysis, objects that are part of such an attack can be
+detected reliably (see SHA-1-DC [SHA1DC]_). Since the weakness became known,
+both GitHub [#githubsha1]_ and Git [#gitsha1]_ use SHA-1-DC and reject objects
+that are part of a collision created in this way. The injection would thus not
+go unnoticed, which prevents a successful attack.
 
-Langfristig sollte selbstverständlich eine Migration auf eine sichere
-Hashfunktion angestrebt werden. Dies liegt aber mangels Unterstützung der Git
-Hosting-Provider (wie etwa GitHub) [#lwngitsha1]_ nicht in der Hand der
-Botan-Entwickler oder den Auditoren in diesem Projekt. Durch die wirksamen
-Gegenmaßnahmen mittels SHA-1-DC ist es zum gegebenen Zeitpunkt aber vertretbar
-Git für den beschriebenen Audit-Prozess zu vertrauen.
+In the long term, a migration to a secure hash function should of course be
+pursued. However, due to the lack of support by Git hosting providers (such as
+GitHub) [#lwngitsha1]_, this is not in the hands of the Botan developers or the
+auditors in this project. Given the effective countermeasures provided by
+SHA-1-DC, it is nevertheless justifiable at the present time to trust Git for
+the audit process described here.
 
-Weiterhin bietet Git die Möglichkeit einzelne Commits mittels GPG zu signieren.
-Auf diese Weise wird die Authentizität der Commits sichergestellt. Die Botan
-Entwickler machen von dieser Möglichkeit weitestgehend Gebrauch.
+Furthermore, Git offers the possibility to sign individual commits using GPG.
+In this way the authenticity of the commits is ensured. The Botan developers
+make use of this possibility to a large extent.
 
-Teil des Abgabe-Paketes jedes Audits ist ein signiertes
-Quellcode-Archiv der auditierten Bibliotheksversion. Nutzer der Bibliothek haben
-somit auch ohne die Verwendung von Git Zugriff auf den gesamten Quellcode.
+Part of the delivery package of each audit is a signed source code archive of
+the audited library version. Users of the library thus have access to the
+complete source code even without using Git.
 
 
-Liefergegenstände
------------------
+Deliverables
+------------
 
-Nach der Prüfung der zu untersuchenden Version wird dem BSI der Prüfbericht
-vorgelegt. Dazu werden die folgenden Dokumente vorgelegt:
+After the examination of the version under review, the audit report is
+presented to the BSI. The following documents are submitted for this purpose:
 
--  Das vorliegende Dokument „Audit-Report“
--  Botan Reference Documentation  
--  Dokument „Architecture Description“
--  Dokument „Test Specification“
--  Dokument „Cryptographic Documentation“
--  Signiertes Archiv des Quelltextes
--  Das Dokument „Test Report“ (wird innerhalb der CI eine PR automatisiert erstellt)
+-  The present document "Audit Report"
+-  Botan Reference Documentation
+-  Document "Architecture Description"
+-  Document "Test Specification"
+-  Document "Cryptographic Documentation"
+-  Signed archive of the source code
+-  The document "Test Report" (generated automatically by the CI within a pull request)
 
 .. [#githubsha1] `github.blog/2017-03-20-sha-1-collision-detection-on-github-com <https://github.blog/2017-03-20-sha-1-collision-detection-on-github-com>`_
 .. [#gitsha1] `github.blog/2017-05-10-git-2-13-has-been-released <https://github.blog/2017-05-10-git-2-13-has-been-released/#sha-1-collision-detection>`_
