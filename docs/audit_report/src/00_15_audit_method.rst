@@ -57,10 +57,10 @@ test suite (directory *src/tests*), the command line interface (directory
 (directory *doc*).
 
 All identified patches are manually pre-sorted by topic and then analyzed
-individually, classified according to their security relevance, and the
-contained changes are documented. The result is a detailed, topic-oriented
-change report with references to all relevant patches. This makes it easy to
-ensure later traceability (for instance by third parties).
+individually, classified according to their security relevance in relation to
+the audit scope, and the contained changes are documented. The result is a
+detailed, topic-oriented change report with references to all relevant patches.
+This makes it easy to ensure later traceability (for instance by third parties).
 
 .. [#xmssparams] GitHub pull request: `#3292 <https://github.com/randombit/botan/pull/3292>`_
 
