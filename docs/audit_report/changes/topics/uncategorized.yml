@@ -7180,3 +7180,37 @@ patches:
 - pr: 5931  # https://github.com/randombit/botan/pull/5931
   merge_commit: 88ccbe4fd89e459cc5b1a306a57d87702566cd94
   classification: unspecified
+
+# Chore: `BER_Decoder::decode()` et al. can deal with strong typed buffers
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5935  # https://github.com/randombit/botan/pull/5935
+  merge_commit: 13ebf313e82a9211b965efb88ad934bf9b336732
+  classification: unspecified
+
+# Remove unnecessary Unicode characters
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5944  # https://github.com/randombit/botan/pull/5944
+  merge_commit: 070abe6dbcf6fa5fab5a903e9e043b38cf399542
+  classification: unspecified
+
+# Remove the cli sandboxing code
+#   Author:    @randombit
+- pr: 5942  # https://github.com/randombit/botan/pull/5942
+  merge_commit: fe00d6df5c5f2e21fa34964a7e4f10ec175dab00
+  classification: unspecified
+
+# Extract strong_type_helpers.h from strong_type.h
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5938  # https://github.com/randombit/botan/pull/5938
+  merge_commit: 39869b529ef458560fae01451847000b42e69cc3
+  classification: unspecified
+
+# Validate and canonicalize the received server name in TLS SNI
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5937  # https://github.com/randombit/botan/pull/5937
+  merge_commit: 831a370b4d90a5a86571f309c55030334ae8b2a1
+  classification: unspecified
