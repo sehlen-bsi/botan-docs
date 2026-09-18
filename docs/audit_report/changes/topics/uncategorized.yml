@@ -7214,3 +7214,22 @@ patches:
 - pr: 5937  # https://github.com/randombit/botan/pull/5937
   merge_commit: 831a370b4d90a5a86571f309c55030334ae8b2a1
   classification: unspecified
+
+# Add BLS12-381
+#   Author:    @randombit
+- pr: 5718  # https://github.com/randombit/botan/pull/5718
+  merge_commit: 18c9d8e6274b988e178940ac7499f73a3175e731
+  classification: unspecified
+
+# Add a script checking feature macro names in conditionals
+#   Author:    @randombit
+- pr: 5943  # https://github.com/randombit/botan/pull/5943
+  merge_commit: 805bb3ab63f057163fa3feb8fa7373307fc5c8b4
+  classification: unspecified
+
+# BER_Decoder::decode() can handle byte-oriented strong types (follow-up)
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5946  # https://github.com/randombit/botan/pull/5946
+  merge_commit: 536b19d53b53ddd91e8afe7ade2a6bf63f5ba3b1
+  classification: unspecified
