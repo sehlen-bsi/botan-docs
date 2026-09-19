@@ -7233,3 +7233,15 @@ patches:
 - pr: 5946  # https://github.com/randombit/botan/pull/5946
   merge_commit: 536b19d53b53ddd91e8afe7ade2a6bf63f5ba3b1
   classification: unspecified
+
+# Promote reverse_all_bytes onto SIMD_4x32
+#   Author:    @randombit
+- pr: 5947  # https://github.com/randombit/botan/pull/5947
+  merge_commit: c9d88577575912d9558d2b9f9b5ddea49ffd4371
+  classification: unspecified
+
+# Add EC_Scalar::group and EC_AffinePoint::group returning EC_Group
+#   Author:    @randombit
+- pr: 5948  # https://github.com/randombit/botan/pull/5948
+  merge_commit: 4d8ee9154900fcf21edd70bbe90c47894931952b
+  classification: unspecified
