@@ -7270,3 +7270,22 @@ patches:
 - pr: 5951  # https://github.com/randombit/botan/pull/5951
   merge_commit: 77774ca0f9a9ffa42c8e04a90fa2f6659b167e18
   classification: unspecified
+
+# Don't inline the definitions of the TPM2 algorithm mappings
+#   Author:    @randombit
+- pr: 5955  # https://github.com/randombit/botan/pull/5955
+  merge_commit: 1d8276783db7b5ac51188133c4e2516f5a698955
+  classification: unspecified
+
+# Add PK_Encryption_Options, PK_KEM_Options, and PK_Key_Agreement_Options
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5864  # https://github.com/randombit/botan/pull/5864
+  merge_commit: 31995065b28b07a50c001e56ea9df5fd1c3fb533
+  classification: unspecified
+
+# Fix MinGW/clang builds with libc++ >= 19
+#   Author:    @randombit
+- pr: 5954  # https://github.com/randombit/botan/pull/5954
+  merge_commit: a57eccd02c8285dc1084ee29d75f78bd2037f8e9
+  classification: unspecified
