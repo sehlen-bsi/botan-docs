@@ -7289,3 +7289,10 @@ patches:
 - pr: 5954  # https://github.com/randombit/botan/pull/5954
   merge_commit: a57eccd02c8285dc1084ee29d75f78bd2037f8e9
   classification: unspecified
+
+# Add support for shared_ptr objects in FFI
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5959  # https://github.com/randombit/botan/pull/5959
+  merge_commit: 523677fdf1e50ae69a6d05cbdbc623deac9bddaf
+  classification: unspecified
