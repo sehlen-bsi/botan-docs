@@ -7296,3 +7296,52 @@ patches:
 - pr: 5959  # https://github.com/randombit/botan/pull/5959
   merge_commit: 523677fdf1e50ae69a6d05cbdbc623deac9bddaf
   classification: unspecified
+
+# Add an experimental TLS FFI module with a policy handle
+#   Author:    @moritzschmitt
+#   Approvals: @reneme
+- pr: 5941  # https://github.com/randombit/botan/pull/5941
+  merge_commit: 9021748f0747cbdb98cf96706885435523710a86
+  classification: unspecified
+
+# Refactor entropy collection for stateful RNGs
+#   Author:    @randombit
+#   Approvals: (@falko-strenzke)
+- pr: 5945  # https://github.com/randombit/botan/pull/5945
+  merge_commit: d8dbbfeba546b231c7bed794fbcc99274f1e2cba
+  classification: unspecified
+
+# Retry CLI invocations in test_cli_crypt.py that exit with an error or produce no output
+#   Author:    @moritzschmitt
+#   Approvals: (@randombit)
+- pr: 5962  # https://github.com/randombit/botan/pull/5962
+  merge_commit: c0a0999e3c42f22db54ee64a9e413c10b0bc9980
+  classification: unspecified
+
+# Add direct test of Kyber/ML-KEM NTT and mul computations
+#   Author:    @randombit
+- pr: 5961  # https://github.com/randombit/botan/pull/5961
+  merge_commit: ba575888a448bc283f8ec1c6c0723b396c457924
+  classification: unspecified
+
+# Override find_cert_chain instead of the deprecated cert_chain in the TLS examples
+#   Author:    @moritzschmitt
+#   Approvals: @reneme, (@randombit)
+- pr: 5960  # https://github.com/randombit/botan/pull/5960
+  merge_commit: 9ec3dd337fde124471817326a2b531781669dead
+  classification: unspecified
+
+# Add missing flush at end of test runner stdout reporter
+#   Author: Jack Lloyd
+- commit: 0494d449f07a94322a2b162ade8cadf07191e19f  # https://github.com/randombit/botan/commit/0494d449f07a94322a2b162ade8cadf07191e19f
+  classification: unspecified
+
+# Remove no longer used variable in test
+#   Author: Jack Lloyd
+- commit: 294676c7b135c8f958d9cd0c0e7be8c7c382d055  # https://github.com/randombit/botan/commit/294676c7b135c8f958d9cd0c0e7be8c7c382d055
+  classification: unspecified
+
+# Remove flaky test of the thread CPU timer
+#   Author: Jack Lloyd
+- commit: 77a499739e1b6cdb07927731f36f6419c8f8411b  # https://github.com/randombit/botan/commit/77a499739e1b6cdb07927731f36f6419c8f8411b
+  classification: unspecified
