@@ -7345,3 +7345,22 @@ patches:
 #   Author: Jack Lloyd
 - commit: 77a499739e1b6cdb07927731f36f6419c8f8411b  # https://github.com/randombit/botan/commit/77a499739e1b6cdb07927731f36f6419c8f8411b
   classification: unspecified
+
+# Use `pk_options.h` consistently in examples
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5965  # https://github.com/randombit/botan/pull/5965
+  merge_commit: d1e9338b8dc760fad0f6a136efd63c811952aa5f
+  classification: unspecified
+
+# Fix various bugs affecting the RFC 3779 RPKI extensions
+#   Author:    @randombit
+#   Approvals: (@arckoor)
+- pr: 5957  # https://github.com/randombit/botan/pull/5957
+  merge_commit: de55ca8753fa46eaef11c4b1ecb536e839909648
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 593273501d5bde935162b83f2d16551a4f60096e  # https://github.com/randombit/botan/commit/593273501d5bde935162b83f2d16551a4f60096e
+  classification: unspecified
