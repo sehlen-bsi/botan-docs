@@ -6,7 +6,7 @@ Introduction
 
 Botan consists of three main parts: the library itself, a CLI tool, and the test suite.
 The library itself is divided into separate modules.
-Botan uses a homebrew build system allowing for fine-grained configuration of the desired algorithms being built.
+Botan uses a custom build system allowing for fine-grained configuration of the desired algorithms being built.
 This document relies heavily on Botan's public documentation merely providing guidance and pointers to get accustomed to the library and its architecture.
 
 Repository Anatomy
@@ -17,7 +17,7 @@ Repository Anatomy
 ================ ===============================================================
 File/Dir. Name   Description
 ================ ===============================================================
-doc              The handbook and more general information, like a roadmap
+doc              The Botan Reference Guide [REFG]_ and more general information, like a roadmap
 src              The actual source code for all provided software artefacts
 configure.py     Build system configuration script
 license.txt      BSD-2-Clause license information
@@ -26,7 +26,7 @@ readme.rst       The repository landing page with pointers to the documentation
 ================ ===============================================================
 
 
-The ``src`` directory contains further sub-structure
+The ``src`` directory contains the following sub-structure:
 
 ================ ===============================================================
 File/Dir. Name   Description
@@ -47,15 +47,15 @@ tests            Test suite and test data
 
 
 The ``lib`` directory has a fine-grained structure into modules and sub-modules.
-Botan's `online documentation <https://botan.randombit.net/doxygen/topics.html>`_ provides a comprehensive overview of those modules and their inter-dependency.
-For further details, please see the Handbook section 18.1 or the online documentation:
-`Notes for New Contributers <https://botan.randombit.net/handbook/dev_ref/contributing.html#library-layout>`_
+Botan's `online documentation <https://botan.randombit.net/doxygen/topics.html>`_ provides a comprehensive overview of those modules and their interdependencies.
+For further details, please see [REFG]_ Section 19.1 or the online documentation:
+`Notes for New Contributors <https://botan.randombit.net/handbook/dev_ref/contributing.html#library-layout>`_
 
 Botan Build System
 ==================
 
 The library follows the usual configure, build, test, install compilation workflow.
-Though, Botan does rely on its own homebrew build system implemented in python.
+Though, Botan does rely on its own custom build system implemented in python.
 This enables the library to provide a flexible module system as well as advanced build features like an amalgamation build.
 
 Users can specify fine-grained selections on which cryptographic algorithms,
@@ -66,8 +66,9 @@ E.g. the BSI build policy :srcref:`src/build-data/policy/bsi.txt` can be used to
 
 Further details on the usage and implementation of Botan's build system are available here:
 
- * Handbook sections 4 and 18.2 or
+ * [REFG]_, Sections 4 and 19.2 or
  * the online documentation
+
    * `Building the library <https://botan.randombit.net/handbook/building.html>`_
    * `Understanding configure.py <https://botan.randombit.net/handbook/dev_ref/configure.html>`_
 
@@ -79,21 +80,8 @@ Abstract Base Classes and Algorithm Instantiation
 -------------------------------------------------
 
 Usually, Botan groups algorithms behind generic interfaces.
-This allows implementations to instatiate different algorithms at runtime via a simple algorithm identifier.
-
-For example, instantiating an AEAD for encrypting some data in-place might look like that:
-
-.. code-block:: C++
-
-  auto cipher = Botan::Cipher_Mode::create("AES-128/GCM", Botan::ENCRYPTION);
-  cipher->start(nonce_buffer);
-  cipher->finish(message_buffer);
-
-Similar interfaces exist; e.g. ``HashFunction``, ``MessageAuthenticationCode``, and so forth.
-
-Other concepts like random number generators, public/private keys, block/stream ciphers or asymmetric operations are also clustered with similar abstract base classes.
-
-Further details can be found in the handbook (section 8), the API reference documentation or online:
+This allows implementations to instantiate different algorithms at runtime via a simple algorithm identifier.
+Details can be found in the [REFG]_, Section 8, the API reference documentation or online:
 
  * `API Reference Handbook <https://botan.randombit.net/handbook/api_ref/contents.html>`_
  * `Doxygen Documentation <https://botan.randombit.net/doxygen/>`_
@@ -109,9 +97,9 @@ Further details can be found in the handbook (section 8), the API reference docu
 Providers
 ---------
 
-Both the abstract factory methods above as well as various constructors allow to specify a "provider".
-This allows to exchange certain implementations in Botan with either other software implementations from 3rd party libraries as well as hardware-backed implementations such as HSMs, smart cards or TPMs.
-Currently, Botan ships three providers: PKCS #11, TPM and CommonCrypto.
+Both the abstract factory methods above as well as various constructors allow specifying a "provider".
+This allows exchanging certain implementations in Botan with either other software implementations from 3rd party libraries or hardware-backed implementations such as HSMs, smart cards or TPMs.
+Currently, Botan ships four providers: PKCS #11, TPM 2.0, CommonCrypto and a deprecated TPM 1.2 provider.
 Previous versions of Botan also supported OpenSSL but this was dropped when OpenSSL 3.0 was released with significant API changes.
 
 
@@ -123,7 +111,7 @@ Note that the implementations of those CLI commands usually serve as good usage 
 
 The command line tool is invoked with ``./botan <cmd> <cmd-options>``.
 
-Further details about the available commands and functionality can be found in the handbook section 7 or the online documentation:
+Further details about the available commands and functionality can be found in [REFG]_ Section 9 or the online documentation:
 `Command Line Interface <https://botan.randombit.net/handbook/cli.html>`_
 
 
@@ -134,9 +122,9 @@ Unit and Integration Tests
 --------------------------
 
 Botan contains an extensive test suite that aims to cover the library source code with positive and negative tests.
-The test framework is homebrew and provides functionality for both typical "Arrange-Act-Assert"-style unit tests as well as more elaborate integration tests and external test-vector based KAT tests.
+The test framework is homegrown and provides functionality for both typical "Arrange-Act-Assert"-style unit tests as well as more elaborate integration tests and external test-vector based KAT tests.
 
-Further details are in the handbook section 18.3 or the online documentation:
+Further details are in the [REFG]_ section 19.3 or the online documentation:
 `Test Framework <https://botan.randombit.net/handbook/dev_ref/test_framework.html>`_
 
 

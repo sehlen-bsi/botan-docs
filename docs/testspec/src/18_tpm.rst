@@ -287,6 +287,9 @@ RSA
    |                        | #. Encrypt the plaintext message "feedc0debaadcafe" using RSA-OAEP      |
    |                        |    on the TPM                                                           |
    |                        |                                                                         |
+   |                        | #. Check that the ciphertext is not longer than the encryption          |
+   |                        |    operation's ciphertext length estimate                               |
+   |                        |                                                                         |
    |                        | #. Decrypt the ciphertext using RSA-OAEP on the TPM                     |
    |                        |                                                                         |
    |                        | #. Check that the plaintext and the decrypted ciphertext match          |
@@ -294,6 +297,11 @@ RSA
    |                        | #. Encrypt the plaintext message "feedface" using RSA-OAEP in software  |
    |                        |                                                                         |
    |                        | #. Decrypt the ciphertext using RSA-OAEP on the TPM                     |
+   |                        |                                                                         |
+   |                        | #. Check that the plaintext is not longer than the decryption           |
+   |                        |    operation's plaintext length estimate and that the ciphertext is     |
+   |                        |    not longer than the encryption operation's ciphertext length         |
+   |                        |    estimate                                                             |
    |                        |                                                                         |
    |                        | #. Slightly alter the ciphertext                                        |
    |                        |                                                                         |
@@ -437,10 +445,11 @@ ECDSA
    +------------------------+-------------------------------------------------------------------------+
    | **Expected Output:**   | n/a                                                                     |
    +------------------------+-------------------------------------------------------------------------+
-   | **Steps:**             | #. Create a TPM2 context and an authenticated session via the Storage   |
-   |                        |    Root Key                                                             |
+   | **Steps:**             | #. Create a TPM2 context and an authenticated session via a persistent  |
+   |                        |    ECC key stored on the TPM                                            |
    |                        |                                                                         |
-   |                        | #. Create a transient unrestricted key with the auth_value "secret"     |
+   |                        | #. Create a transient unrestricted key with the auth_value "secret",    |
+   |                        |    using the Storage Root Key as its parent                             |
    |                        |                                                                         |
    |                        | #. Sign a random message using the new private key on the TPM           |
    |                        |                                                                         |

@@ -107,7 +107,7 @@ def determine_flags(target, target_os, target_cc, ccache,
              '--build-tool=%s' % make_tool]
 
     if ccache is not None:
-        flags += ['--no-store-vc-rev', '--compiler-cache=%s' % (ccache)]
+        flags += ['--compiler-cache=%s' % (ccache)]
 
     if target_os == 'windows':
         # Workaround for https://github.com/actions/runner-images/issues/10004
@@ -120,6 +120,14 @@ def determine_flags(target, target_os, target_cc, ccache,
         #
         # TODO: remove after 3.7.1 review is done
         flags += ['--extra-cxxflags=/wd4702']
+
+        # src/tests/runner/test_runner.cpp uses std::all_of without including
+        # <algorithm>. GCC/Clang's standard headers pull it in transitively,
+        # MSVC's do not, so only the Windows build fails with C2039/C3861.
+        # Present as of Botan 3.11.0, 3.11.1 and master.
+        #
+        # TODO: remove once upstream adds the missing #include <algorithm>
+        flags += ['--extra-cxxflags=/FIalgorithm']
 
     flags += ['--werror-mode']
 

@@ -15,7 +15,7 @@ import re
 # missing, the script fails. This is to make sure that the packaged elements are
 # always selected deliberately.
 
-TO_IGNORE = ['.git', '.github', '.gitignore', '.clang-format', '.codecov.yml', '.lgtm.yml']
+TO_IGNORE = ['.git', '.github', '.gitignore', '.clang-format', '.codecov.yml', '.lgtm.yml', '.devcontainer']
 TO_PACKAGE = ['doc', 'src', 'configure.py',
               'license.txt', 'news.rst', 'readme.rst']
 

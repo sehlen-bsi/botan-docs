@@ -12,7 +12,10 @@ The maximum parallelism in Botan is more restricted than specified in [RFC9106]_
 Botan allows a maximum of 128 threads.
 
 The maximum memory size in Botan is more restricted than specified in [RFC9106]_.
-Botan allows a maximum of :math:`2^{23}` KiB.
+Botan allows a maximum of :math:`2^{23}` KiB (8 GiB) on 64-bit platforms and
+:math:`2^{21}` KiB (2 GiB) on 32-bit platforms. The same bound applies to the
+automatic parameter tuning. Additionally, the memory parameter must be at least
+eight times the parallelism parameter.
 
 The default parameter choice and tuning of parameters does not follow [RFC9106]_.
 Instead a less secure default is used for the default values.

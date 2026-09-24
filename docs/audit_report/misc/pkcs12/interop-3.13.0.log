@@ -1,0 +1,341 @@
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=empty key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=short key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=unicode key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES256 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBES2-SHA256-AES128 cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-3DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=none mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=none mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=none mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=none mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=none mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=none mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBE-SHA1-3DES mac=SHA-512 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-1 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-256 iter=2048
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=1
+PASS botan->ossl pw=long70 key=PBE-SHA1-2DES cert=PBES2-SHA256-AES128 mac=SHA-512 iter=2048
+PASS botan->ossl no-mac pw=empty
+PASS botan->ossl no-mac pw=short
+PASS ossl->botan pw=empty default
+FAIL ossl->botan pw=empty legacy (botan parse failed: Error: Unsupported PKCS#12 PBE algorithm: 1.2.840.113549.1.12.1.6)
+PASS ossl->botan pw=empty 3des-3des-sha1
+PASS ossl->botan pw=empty 2des-2des-sha1
+PASS ossl->botan pw=empty aes128-none-sha384
+PASS ossl->botan pw=empty aes256-aes256-sha512
+PASS ossl->botan pw=empty aes256-3des-sha224
+PASS ossl->botan pw=empty iter1
+PASS ossl->botan pw=empty nomaciter
+PASS ossl->botan pw=empty nomac
+PASS ossl->botan pw=empty aes-nomac-emptycertpbe
+PASS ossl->botan pw=empty maciter100k
+PASS ossl->botan pw=short default
+FAIL ossl->botan pw=short legacy (botan parse failed: Error: Unsupported PKCS#12 PBE algorithm: 1.2.840.113549.1.12.1.6)
+PASS ossl->botan pw=short 3des-3des-sha1
+PASS ossl->botan pw=short 2des-2des-sha1
+PASS ossl->botan pw=short aes128-none-sha384
+PASS ossl->botan pw=short aes256-aes256-sha512
+PASS ossl->botan pw=short aes256-3des-sha224
+PASS ossl->botan pw=short iter1
+PASS ossl->botan pw=short nomaciter
+PASS ossl->botan pw=short nomac
+PASS ossl->botan pw=short aes-nomac-emptycertpbe
+PASS ossl->botan pw=short maciter100k
+PASS ossl->botan pw=unicode default
+FAIL ossl->botan pw=unicode legacy (botan parse failed: Error: Unsupported PKCS#12 PBE algorithm: 1.2.840.113549.1.12.1.6)
+PASS ossl->botan pw=unicode 3des-3des-sha1
+PASS ossl->botan pw=unicode 2des-2des-sha1
+PASS ossl->botan pw=unicode aes128-none-sha384
+PASS ossl->botan pw=unicode aes256-aes256-sha512
+PASS ossl->botan pw=unicode aes256-3des-sha224
+PASS ossl->botan pw=unicode iter1
+PASS ossl->botan pw=unicode nomaciter
+PASS ossl->botan pw=unicode nomac
+PASS ossl->botan pw=unicode aes-nomac-emptycertpbe
+PASS ossl->botan pw=unicode maciter100k
+PASS ossl->botan pw=long70 default
+FAIL ossl->botan pw=long70 legacy (botan parse failed: Error: Unsupported PKCS#12 PBE algorithm: 1.2.840.113549.1.12.1.6)
+PASS ossl->botan pw=long70 3des-3des-sha1
+PASS ossl->botan pw=long70 2des-2des-sha1
+PASS ossl->botan pw=long70 aes128-none-sha384
+PASS ossl->botan pw=long70 aes256-aes256-sha512
+PASS ossl->botan pw=long70 aes256-3des-sha224
+PASS ossl->botan pw=long70 iter1
+PASS ossl->botan pw=long70 nomaciter
+PASS ossl->botan pw=long70 nomac
+PASS ossl->botan pw=long70 aes-nomac-emptycertpbe
+PASS ossl->botan pw=long70 maciter100k
+----
+PASS: 334  FAIL: 4
+workdir: /tmp/tmp.XqFSkywDIZ

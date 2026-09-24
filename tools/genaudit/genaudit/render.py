@@ -11,6 +11,7 @@ from jinja2 import Environment, PackageLoader
 
 from genaudit.refs import *
 from genaudit import Audit, GitRepo, Topic
+from genaudit.audit import UNCATEGORIZED_TOPIC_REFERENCE
 
 
 class RenderError(RuntimeError):
@@ -58,7 +59,7 @@ class Renderer:
         if not os.path.isdir(outdir):
             os.makedirs(outdir)
 
-        def needs_update(target, src):
+        def needs_update(target, srcs):
             # if update is not explicitly requested -> render everything
             if not update:
                 return True
@@ -66,16 +67,24 @@ class Renderer:
             if not os.path.isfile(target):
                 return True
             t = os.path.getmtime(target)
-            return t < os.path.getmtime(src) or t < os.path.getmtime(self.audit.config_file)
+            return any(t < os.path.getmtime(src) for src in srcs + [self.audit.config_file])
 
         topic_files = []
         rendered = 0
+
+        # Patches may be relocated from the 'uncategorized' topic into any
+        # other topic via their 'categories' field, so every topic's rendered
+        # output depends on the uncategorized topic file as well — including
+        # topics that just *lost* a relocated patch and would otherwise keep
+        # their stale output.
+        uncategorized_files = [topic.file for topic in self.audit.topics
+                               if topic.reference == UNCATEGORIZED_TOPIC_REFERENCE]
 
         for topic in self.audit.topics:
             start = time.time()
             topic_files.append(topic.reference)
             rst_file = os.path.join(outdir, topic.reference + '.rst')
-            if not needs_update(rst_file, topic.file):
+            if not needs_update(rst_file, [topic.file] + uncategorized_files):
                 continue
             rendered += 1
             with open(rst_file, 'w') as f:

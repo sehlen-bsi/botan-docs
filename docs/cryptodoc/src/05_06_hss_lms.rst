@@ -207,14 +207,14 @@ LMS parameter sets from [RFC8554]_ and [draft-fluhrer-11]_, collected in Table
 In addition to its LMS parameters, an LMS instance (class ``LMS_Instance``) is
 defined by its identifier ``I`` and the LM-OTS parameters used for all
 contained LM-OTS instances.
-We can create a keypair with a secret key (class ``LMS_Private_Key``) and a
-public key (class ``LMS_Public_Key``) for each LMS instance. The secret
+We can create a keypair with a secret key (class ``LMS_PrivateKey``) and a
+public key (class ``LMS_PublicKey``) for each LMS instance. The secret
 key contains the value ``SEED`` used for LM-OTS secret key derivation, while the
 public key contains the root node of the LMS tree. The public key is derived from the
-secret key in the constructor of ``LMS_Public_Key``.
+secret key in the constructor of ``LMS_PublicKey``.
 
 For creating an LMS signature, Botan offers the method
-``LMS_Private_Key::sign_and_pk_gen``, which signs the message and computes the
+``LMS_PrivateKey::sign_and_get_pk``, which signs the message and computes the
 public key associated with the LMS instance according to Section 5.3. and 5.4.
 of [RFC8554]_. For verification of a signature-message pair, Botan provides
 ``LMS_PublicKey::verify_signature``, implementing  Algorithm 5 of [RFC8554]_.
@@ -263,6 +263,23 @@ for each level as defined in Tables :ref:`Supported LM-OTS parameter sets
 <pubkey/hss_lms/lms-params>`. Finally, ``SEED`` and ``I`` of the root LMS tree
 are given. The classes ``HSS_LMS_PublicKeyInternal`` and
 ``HSS_LMS_PrivateKeyInternal`` realize the public and secret keys, respectively.
+When decoding public or private keys, a value of ``L`` outside the range
+:math:`1,2,\dots,8` is rejected with a ``Decoding_Error``; the rejection of
+``L = 0`` was added in Botan 3.13.0. A decoded private key index ``idx``
+larger than the maximum signature count :math:`2^{h_0 + \dots + h_{L-1}}` of
+the parameter set is rejected as well, while an index equal to that maximum is
+accepted and denotes an exhausted key.
+
+As for XMSS, the signature index ``idx`` of a private key is managed by the
+process-wide ``Stateful_Key_Index_Registry`` (see
+:ref:`pubkey_signature/xmss/stateful_key_index_registry`). Since Botan
+3.13.0, the ``KeyId`` of an HSS/LMS private key is derived from the algorithm
+name ``"HSS-LMS"``, the encoding of ``L`` followed by the LMS and LM-OTS
+algorithm identifiers of all levels as ``algo_params``, the maximum signature
+count as ``max_operations``, ``SEED`` as ``key_material_1`` and ``I`` as
+``key_material_2``. Previously, the algorithm parameters were not part of the
+key identity. The same rules on exhaustion and fork detection as described for
+XMSS apply.
 
 Botan's HSS implementation derives LMS seeds and identifiers
 using the same method Cisco's reference implementation applies. This approach
@@ -298,8 +315,8 @@ Key Generation
 --------------
 
 HSS key generation follows Section 6.1. of [RFC8554]_ and is implemented
-within the ``HSS_LMS_PrivateKeyInternal`` constructor (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:121|HSS_LMS_PrivateKeyInternal`)
-and ``HSS_LMS_PublicKeyInternal::create`` (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:305|HSS_LMS_PublicKeyInternal::create`).
+within the ``HSS_LMS_PrivateKeyInternal`` constructor (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:143|HSS_LMS_PrivateKeyInternal`)
+and ``HSS_LMS_PublicKeyInternal::create`` (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:340|HSS_LMS_PublicKeyInternal::create`).
 
 Note that [RFC8554]_ and [SP800-208]_ require that all LMS instances' public/private key
 pairs must be created independently from each other. Since Botan applies the seed
@@ -357,7 +374,7 @@ Signature Creation
 ------------------
 
 An HSS signature is created using ``HSS_LMS_Signature_Operation::sign``,
-which follows Section 6.2. of [RFC8554]_ (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:228|HSS_LMS_PrivateKeyInternal::sign`).
+which follows Section 6.2. of [RFC8554]_ (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:263|HSS_LMS_PrivateKeyInternal::sign`).
 It works as follows:
 
 .. admonition:: HSS Signature Creation
@@ -375,16 +392,16 @@ It works as follows:
    **Steps:**
 
    1. If ``idx`` denotes that ``SK`` is exhausted, the signature creation is
-      aborted.
+      aborted with an ``Invalid_State`` exception.
    2. Derive the LMS signing leaf indices ``q[0], ..., q[L-1]`` from ``idx`` and
       the LMS parameters.
    3. Derive the LMS secret keys ``lms-sk[i]`` for HSS levels
       ``i = 1, ..., (L-1)`` using the seed and identifier derivation method
       described in :ref:`HSS <pubkey/hss_lms/hss>`.
-   4. ``lms-sig[L-1], lms-pk[L-1] = lms-sk[L-1].sign_and_pk_gen(msg, q[L-1])``
+   4. ``lms-sig[L-1], lms-pk[L-1] = lms-sk[L-1].sign_and_get_pk(msg, q[L-1])``
       creates the bottom layer LMS signature and the public key bytes of the
       signing LMS tree.
-   5. ``lms-sig[i], lms-pk[i] = lms-sk[i].sign_and_pk_gen(lms-pk[i+1], q[i])``
+   5. ``lms-sig[i], lms-pk[i] = lms-sk[i].sign_and_get_pk(lms-pk[i+1], q[i])``
       creates the higher level public key signatures and public keys for
       ``i = L-2, ..., 0``.
    6. | ``sig = u32str(L-1) || lms-sig[0] || lms-pk[1] || lms-sig[1] || ...``
@@ -401,7 +418,7 @@ Signature Verification
 
 Botan's method ``HSS_LMS_Verification_Operation::is_valid_signature`` verifies a
 signature-message pair by implementing the method of Section 6.3. of [RFC8554]_
-(see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:350|HSS_LMS_PublicKeyInternal::verify_signature`).
+(see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:385|HSS_LMS_PublicKeyInternal::verify_signature`).
 It does the following:
 
 .. admonition:: HSS Signature Verification
@@ -427,7 +444,7 @@ It does the following:
    3. Verify that ``lms-pk[i].verify_signature`` returns ``true`` for signature
       ``lms-sig[i]`` of message ``lms-pk[i+1]`` for ``i = 0, ..., Nspk-1``.
       Return ``false`` otherwise.
-   4. Return ``true`` iff ``lms-pk[Nspk-1].verify_signature`` returns ``true``
+   4. Return ``true`` iff ``lms-pk[Nspk].verify_signature`` returns ``true``
       for signature ``lms-sig[Nspk]`` of message ``m``.
 
    **Notes:**

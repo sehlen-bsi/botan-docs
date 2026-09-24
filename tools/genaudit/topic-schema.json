@@ -15,6 +15,10 @@
                 "relevant",
                 "info"
             ]
+        },
+        "categories": {
+            "type": "string",
+            "description": "Comma separated list of topic file names (without the .yml extension). The first entry determines the topic under which a patch from uncategorized.yml is rendered."
         }
     },
     "properties": {
@@ -49,6 +53,9 @@
                             },
                             "comment": {
                                 "type": "string"
+                            },
+                            "categories": {
+                                "$ref": "#/$defs/categories"
                             }
                         },
                         "required": [
@@ -70,6 +77,9 @@
                             },
                             "comment": {
                                 "type": "string"
+                            },
+                            "categories": {
+                                "$ref": "#/$defs/categories"
                             }
                         },
                         "required": [

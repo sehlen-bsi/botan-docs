@@ -16,7 +16,7 @@ Changelog
    |         |          | | Replace top level chapter                 |            |
    |         |          |   "Certificates" by "X.509 Path             |            |
    |         |          |   Validation"                               |            |
-   |         |          | | Add introductary text and                 |            |
+   |         |          | | Add introductionary text and              |            |
    |         |          |   subsections to RNG chapter                |            |
    |         |          | | Fix wrong and add missing                 |            |
    |         |          |   paths to source files in RNG              |            |
@@ -129,7 +129,7 @@ Changelog
    |         |          | - Asymmetric algorithm chapters are now     |            |
    |         |          |   structured by algorithm not by operation  |            |
    |         |          | - XMSS with NIST's keygen and parameters    |            |
-   |         |          | - Hash trunction in ECKCDSA                 |            |
+   |         |          | - Hash truncation in ECKCDSA                |            |
    |         |          | - Implementation updates in the RNG and     |            |
    |         |          |   random generation of big integers         |            |
    |         |          | - New PQC algorithms                        |            |
@@ -157,7 +157,7 @@ Changelog
    +---------+----------+---------------------------------------------+------------+
    | 3.4.0   | FA, RM   | Update to 3.4.0:                            | 2024-04-08 |
    |         |          |                                             |            |
-   |         |          | - Detailed explaination of counter-measures |            |
+   |         |          | - Detailed explanation of counter-measures  |            |
    |         |          |   against KyberSlash side-channel attack    |            |
    |         |          | - X.509 path validation may optionally      |            |
    |         |          |   ignore the validity interval of a trusted |            |
@@ -192,4 +192,102 @@ Changelog
    |         |          | - Update blinding mechanism of RSA decrypt  |            |
    |         |          | - DSA signing now uses additional blinding  |            |
    |         |          | - Update NIST SP.800-108 KDF description    |            |
+   +---------+----------+---------------------------------------------+------------+
+   | 3.11.0  | JR, FS   | Update to 3.11.0:                           | 2026-05-28 |
+   |         |          |                                             |            |
+   |         |          | - Support ML-KEM expanded key format.       |            |
+   |         |          | - Update description of ECDSA side-         |            |
+   |         |          |   channel countermeasures.                  |            |
+   |         |          | - Update blinding size in                   |            |
+   |         |          |   "Multiplication of Scalar k and Point P". |            |
+   |         |          | - Transition to                             |            |
+   |         |          | - `Stateful_Key_Index_Registry`.            |            |
+   |         |          | - Annotate references to FIPS-186 due to    |            |
+   |         |          |   transition to FIPS-186-5. This outdates   |            |
+   |         |          |   the references to the paragraph A.1.1.2   |            |
+   |         |          |   in [FIPS-186-4] about prime generation    |            |
+   |         |          |   and the Lucas primality test as           |            |
+   |         |          |   implemented in Botan.                     |            |
+   |         |          |                                             |            |
+   |         |          |                                             |            |
+   +---------+----------+---------------------------------------------+------------+
+   | 3.12.0  | FS       | Update to 3.12.0:                           | 2026-08-26 |
+   |         |          |                                             |            |
+   |         |          | - X.509: strict DER decoding of PKIX        |            |
+   |         |          |   structures                                |            |
+   |         |          | - X.509: reworked path building with        |            |
+   |         |          |   bounded search (new status code           |            |
+   |         |          |   EXCEEDED_SEARCH_LIMITS)                   |            |
+   |         |          | - X.509: optional non-self-signed           |            |
+   |         |          |   trust anchors and trusted OCSP            |            |
+   |         |          |   responder certificates                    |            |
+   |         |          | - X.509: OCSP hardening, structural         |            |
+   |         |          |   CRLDP matching, IPv6 name                 |            |
+   |         |          |   constraints and SAN matching              |            |
+   |         |          | - Stricter public key checks at             |            |
+   |         |          |   construction/decoding and extended        |            |
+   |         |          |   ``check_key()`` descriptions              |            |
+   |         |          | - AEAD modes zeroize output on              |            |
+   |         |          |   authentication failure; GCM/CCM           |            |
+   |         |          |   message length limits enforced            |            |
+   |         |          | - HMAC_DRBG requires at least 160 bit       |            |
+   |         |          |   MAC output                                |            |
+   |         |          | - Entropy source platform defaults          |            |
+   |         |          |   updated; Jitter RNG available as an       |            |
+   |         |          |   entropy source                            |            |
+   |         |          | - New figure on the HMAC_DRBG reseed        |            |
+   |         |          |   mechanism                                 |            |
+   +---------+----------+---------------------------------------------+------------+
+   | 3.13.0  | FS       | Update to 3.13.0:                           | 2026-09-10 |
+   |         |          |                                             |            |
+   |         |          | - X.509: DN decoding preserves RDN          |            |
+   |         |          |   grouping, canonical DN comparison         |            |
+   |         |          |   (CVE-2026-48057); new section on name     |            |
+   |         |          |   constraints processing incl. URI and      |            |
+   |         |          |   e-mail constraints                        |            |
+   |         |          | - X.509: OCSP hardening: soft-fail no       |            |
+   |         |          |   longer accepted by default, OCSP          |            |
+   |         |          |   responses at most seven days old by       |            |
+   |         |          |   default, delegated responder bound to the |            |
+   |         |          |   CA key, GeneralizedTime required, no HTTP |            |
+   |         |          |   redirects                                 |            |
+   |         |          | - X.509: CRL applicability and distribution |            |
+   |         |          |   point matching, NoRevAvail (RFC 9608) and |            |
+   |         |          |   OCSP NoCheck handling, extension context  |            |
+   |         |          |   enforcement, stricter ASN.1 and           |            |
+   |         |          |   AlgorithmIdentifier decoding, DFS budget  |            |
+   |         |          |   and chain length bound in path building   |            |
+   |         |          | - RSA: signatures and ciphertexts must have |            |
+   |         |          |   exactly the modulus length; ISO 9796-2    |            |
+   |         |          |   and DSA modules deprecated and removed    |            |
+   |         |          |   from the BSI build policy                 |            |
+   |         |          | - DH: public value p-1 rejected. ECC: on-   |            |
+   |         |          |   curve check of the base point on all      |            |
+   |         |          |   group creation paths, EC keys with        |            |
+   |         |          |   explicit domain parameters, new hash-to-  |            |
+   |         |          |   curve section                             |            |
+   |         |          | - Stateful signatures: bounded counters and |            |
+   |         |          |   fork detection in the                     |            |
+   |         |          |   Stateful_Key_Index_Registry, HSS L=0      |            |
+   |         |          |   rejected. SLH-DSA: strong check_key, RFC  |            |
+   |         |          |   9909 AlgorithmIdentifier check            |            |
+   |         |          | - Symmetric: cipher mode and MAC state      |            |
+   |         |          |   enforcement, KMAC bytepad fix, CBC output |            |
+   |         |          |   zeroization on padding failure; corrected |            |
+   |         |          |   XTS/CMAC block sizes and HMAC key limit   |            |
+   |         |          | - RNG: randomize_with_ts_input uses         |            |
+   |         |          |   System_RNG output only (with a note on a  |            |
+   |         |          |   defect in the fallback path), empty       |            |
+   |         |          |   AutoSeeded_RNG requests are no-ops, fork  |            |
+   |         |          |   detection for manually seeded generators, |            |
+   |         |          |   Jitter_RNG thread safety                  |            |
+   |         |          | - Prime generation: Sophie Germain sieve    |            |
+   |         |          |   confined to random_safe_prime, equiv and  |            |
+   |         |          |   modulo must be coprime                    |            |
+   |         |          | - Argon2 memory bound per platform,         |            |
+   |         |          |   SP800-108 output length checks            |            |
+   |         |          | - Source references updated to 3.13.0;      |            |
+   |         |          |   several pre-existing inaccuracies         |            |
+   |         |          |   corrected (RSA operation names, DH        |            |
+   |         |          |   generator fallback, XMSS/HSS identifiers) |            |
    +---------+----------+---------------------------------------------+------------+

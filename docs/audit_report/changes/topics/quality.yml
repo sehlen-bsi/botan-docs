@@ -1,0 +1,9 @@
+title: Measures for Code Quality
+
+description: |
+  Here we collect changes that mainly improve the code quality, such as
+  refactoring code, introducing more modern programming language features or
+  fixing linter warnings. The changes in this section may also affect API
+  behaviour for corner cases.
+
+patches:

@@ -13,3 +13,5 @@ in src/tests/data.
 
 Tests of the TLS configuration using external tools such as TLS Attacker and
 side channel tests are not covered by this document.
+
+Note that this specification does not necessarily list all tests that are implemented in Botan's test suite.

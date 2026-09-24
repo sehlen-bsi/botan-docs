@@ -46,6 +46,10 @@ in the following.
    |                     |                                                                            |
    |                     | #. Set the key *Key* on the Cipher_Mode encryption object                  |
    |                     |                                                                            |
+   |                     | #. Test that finalizing the encryption before setting a nonce throws an    |
+   |                     |    exception and leaves the passed data buffer unmodified, also for an     |
+   |                     |    input length that triggers the mode's partial-block handling            |
+   |                     |                                                                            |
    |                     | #. Set the nonce *Nonce* on the Cipher_Mode encryption object              |
    |                     |                                                                            |
    |                     | #. Calculate the ciphertext of input value *In* and compare the result     |
@@ -59,6 +63,20 @@ in the following.
    |                     |    ciphertext of input value *In* by encrypting *In* in multiples of block |
    |                     |    size blocks and comparing the result with the expected output value     |
    |                     |    *Out*                                                                   |
+   |                     |                                                                            |
+   |                     | #. Calculate the ciphertext of input value *In* in one go on a buffer      |
+   |                     |    with a non-zero offset and check that the bytes before the offset       |
+   |                     |    remain untouched and the ciphertext equals the expected output *Out*    |
+   |                     |                                                                            |
+   |                     | #. Calculate the ciphertext of input value *In* incrementally on           |
+   |                     |    buffers with a non-zero offset and check that the bytes before the      |
+   |                     |    offset remain untouched and the ciphertext equals the expected          |
+   |                     |    output *Out*                                                            |
+   |                     |                                                                            |
+   |                     | #. Set the key *Key* and the nonce *Nonce* again and process some data;    |
+   |                     |    then set a different key and test that processing further data          |
+   |                     |    without setting a new nonce throws an exception (re-keying drops the    |
+   |                     |    message state)                                                          |
    |                     |                                                                            |
    |                     | #. Clear the Cipher_Mode encryption object                                 |
    |                     |                                                                            |
@@ -103,12 +121,16 @@ in the following.
    |                     |                                                                            |
    |                     | #. Test that large nonce sizes are rejected by throwing an exception       |
    |                     |                                                                            |
-   |                     | #. Set the key *Key* on the Cipher_Mode encryption object                  |
+   |                     | #. Set the key *Key* on the Cipher_Mode decryption object                  |
+   |                     |                                                                            |
+   |                     | #. Test that finalizing the decryption before setting a nonce throws an    |
+   |                     |    exception and leaves the passed data buffer unmodified, also for an     |
+   |                     |    input length that triggers the mode's partial-block handling            |
    |                     |                                                                            |
    |                     | #. Set the nonce *Nonce* on the Cipher_Mode decryption object              |
    |                     |                                                                            |
-   |                     | #. Calculate the plaintext of output value *In* and compare the result     |
-   |                     |    with the output value *In*                                              |
+   |                     | #. Calculate the plaintext of input value *Out* and compare the result     |
+   |                     |    with the expected output value *In*                                     |
    |                     |                                                                            |
    |                     | #. If *Out* is longer than the block size of the mode, calculate the       |
    |                     |    plaintext of input value *Out* by decrypting *Out* in block size blocks |
@@ -118,6 +140,20 @@ in the following.
    |                     |    plaintext of input value *Out* by decrypting *Out* in multiples of      |
    |                     |    block size blocks and comparing the result with the expected output     |
    |                     |    value *In*                                                              |
+   |                     |                                                                            |
+   |                     | #. Calculate the plaintext of input value *Out* in one go on a buffer      |
+   |                     |    with a non-zero offset and check that the bytes before the offset       |
+   |                     |    remain untouched and the plaintext equals the expected output *In*      |
+   |                     |                                                                            |
+   |                     | #. Calculate the plaintext of input value *Out* incrementally on           |
+   |                     |    buffers with a non-zero offset and check that the bytes before the      |
+   |                     |    offset remain untouched and the plaintext equals the expected           |
+   |                     |    output *In*                                                             |
+   |                     |                                                                            |
+   |                     | #. Set the key *Key* and the nonce *Nonce* again and process some data;    |
+   |                     |    then set a different key and test that processing further data          |
+   |                     |    without setting a new nonce throws an exception (re-keying drops the    |
+   |                     |    message state)                                                          |
    |                     |                                                                            |
    |                     | #. Clear the Cipher_Mode decryption object                                 |
    |                     |                                                                            |
@@ -129,13 +165,15 @@ CBC
 
 CBC is tested with the following constraints:
 
--  Number of test cases: 3
+-  Number of test cases: 281
 
--  Block Cipher: AES-128, AES-192 and AES-256
--  Key: 128 bits, 192 and 256 bits
--  Nonce: 128 bits
--  In: 512 bits
--  Out: 512 bits
+-  Block Cipher: AES-128, AES-192, AES-256, ARIA-256, Blowfish, CAST-128,
+   DES, TripleDES and Noekeon
+-  Padding: NoPadding, PKCS7 and OneAndZeros
+-  Key: 64 bits to 256 bits (depending on the block cipher)
+-  Nonce: 64 bits or 128 bits (matching the block size of the block cipher)
+-  In: 0 bits to 1280 bits
+-  Out: 64 bits to 1280 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/modes/cbc.vec`.
@@ -191,19 +229,63 @@ test vectors are listed in :srcref:`src/tests/data/modes/cbc.vec`.
    |                     | #. Test that calculating the ciphertext after clearing throws an exception |
    +---------------------+----------------------------------------------------------------------------+
 
+The following test case, added in Botan 3.13.0, verifies that CBC
+decryption rejects invalid PKCS#7 padding and does not reveal the
+decrypted plaintext in that case.
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +---------------------+----------------------------------------------------------------------------+
+   | **Test Case No.:**  | MODE-CBC-2                                                                 |
+   +=====================+============================================================================+
+   | **Type:**           | Negative Test                                                              |
+   +---------------------+----------------------------------------------------------------------------+
+   | **Description:**    | Test that CBC decryption with PKCS#7 padding rejects invalid padding       |
+   |                     | and zeroizes the unverified plaintext                                      |
+   +---------------------+----------------------------------------------------------------------------+
+   | **Preconditions:**  | None                                                                       |
+   +---------------------+----------------------------------------------------------------------------+
+   | **Input Values:**   | Block Cipher = AES-128                                                     |
+   |                     |                                                                            |
+   |                     | Key = 0xABABABABABABABABABABABABABABABAB (128 bits)                        |
+   |                     |                                                                            |
+   |                     | Nonce = 0xCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCD (128 bits)                      |
+   |                     |                                                                            |
+   |                     | In = 32 bytes with value 0x42, except for the last byte, which is set      |
+   |                     | to 0x00 (a final plaintext byte of 0x00 is never valid PKCS#7 padding)     |
+   +---------------------+----------------------------------------------------------------------------+
+   | **Expected          | Decryption shall output an error (throw an exception); the decrypted       |
+   | Output:**           | but unverified plaintext in the output buffer shall be zeroized            |
+   +---------------------+----------------------------------------------------------------------------+
+   | **Steps:**          | #. Create an AES-128/CBC/NoPadding encryption object and an                |
+   |                     |    AES-128/CBC/PKCS7 decryption object                                     |
+   |                     |                                                                            |
+   |                     | #. Set the key *Key* and the nonce *Nonce* on the encryption object and    |
+   |                     |    encrypt *In*                                                            |
+   |                     |                                                                            |
+   |                     | #. Set the key *Key* and the nonce *Nonce* on the decryption object        |
+   |                     |                                                                            |
+   |                     | #. Check that decrypting the resulting ciphertext throws an exception      |
+   |                     |                                                                            |
+   |                     | #. Check that the size of the output buffer is unchanged and that its      |
+   |                     |    content was zeroized before the exception was thrown                    |
+   +---------------------+----------------------------------------------------------------------------+
+
 CBC-CTS (CBC-CS3)
 -----------------
 
 CBC-CTS is tested with the following constraints:
 
--  Number of test cases: 6
--  Source: RFC 3962
+-  Number of test cases: 48 (6 with AES-128, 42 with DES)
+-  Source: RFC 3962 (AES-128 test cases)
 
--  Block Cipher: AES-128
--  Key: 128 bits
--  Nonce: 128 bits
--  In: 136 bits, 248 bits, 256 bits, 376 bits, 384 bits, 512 bits
--  Out: 136 bits, 248 bits, 256 bits, 376 bits, 384 bits, 512 bits
+-  Block Cipher: AES-128, DES
+-  Key: 128 bits (AES-128), 64 bits (DES)
+-  Nonce: 128 bits (AES-128), 64 bits (DES)
+-  In: 136 bits - 512 bits (AES-128), 72 bits - 400 bits (DES)
+-  Out: 136 bits - 512 bits (AES-128), 72 bits - 400 bits (DES)
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/modes/cbc.vec`.
@@ -264,13 +346,16 @@ stream cipher modes of operation tests are implemented in
 :srcref:`src/tests/test_stream.cpp`. CTR mode is tested with the following
 constraints:
 
--  Number of test cases: 6
+-  Number of test cases: 821
 
--  Block Cipher: AES-128, AES-192, AES-256
--  Key: 128 bits, 192 bits, 256 bits
--  Nonce: 128 bits
--  In: 384 bits, 512 bits, 5720 bits, 65536 bits
--  Out: 384 bits, 512 bits, 5720 bits, 65536 bits
+-  Block Cipher: AES-128, AES-192, AES-256, ARIA, Blowfish, DES, TripleDES,
+   Noekeon and Serpent
+-  AES-128 is additionally tested with restricted counter widths of 32 bits,
+   40 bits, 48 bits and 64 bits
+-  Key: 64 bits to 256 bits (depending on the block cipher)
+-  Nonce: 64 bits, 120 bits or 128 bits
+-  In: 8 bits to 65536 bits
+-  Out: 8 bits to 65536 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/stream/ctr.vec`.

@@ -32,7 +32,11 @@ following.
    |                       |                                                                          |
    |                       | #. Test the hash function's name                                         |
    |                       |                                                                          |
-   |                       | #. Repeat five times in a loop:                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
+   |                       | #. Repeat three times in a loop:                                         |
    |                       |                                                                          |
    |                       |    #. Feed the input value *In* into the hash function                   |
    |                       |                                                                          |
@@ -50,14 +54,18 @@ following.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state                                |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions                                                             |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 .. table::
@@ -69,9 +77,9 @@ following.
    +-----------------------+--------------------------------------------------------------------------+
    | **Type:**             | Positive Test                                                            |
    +-----------------------+--------------------------------------------------------------------------+
-   | **Description:**      | Known Answer Test that hashes a message in two chunks                    |
+   | **Description:**      | Known Answer Test that hashes a message in randomly sized chunks         |
    +-----------------------+--------------------------------------------------------------------------+
-   | **Preconditions:**    | *In* must be of length n > 1 byte                                        |
+   | **Preconditions:**    | *In* must be of length n > 5 bytes                                       |
    +-----------------------+--------------------------------------------------------------------------+
    | **Input Values:**     | -  In: The test message to be hashed (varying length)                    |
    +-----------------------+--------------------------------------------------------------------------+
@@ -80,6 +88,7 @@ following.
    | **Steps:**            | #. Feed the first byte of the input value *In* into the hash function    |
    |                       |                                                                          |
    |                       | #. Feed the bytes 2..n of the input value *In* into the hash function    |
+   |                       |    in successive chunks of random size                                   |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
@@ -162,14 +171,55 @@ Some hash functions are also tested with very long inputs.
    +-----------------------+--------------------------------------------------------------------------+
    | **Input Values:**     | -  In: The test message to be hashed (varying length)                    |
    |                       |                                                                          |
-   |                       | -  TotalLength: The number of times *In* should be processed by the hash |
-   |                       |    function                                                              |
+   |                       | -  TotalLength: The total length in bytes of the message to be hashed,   |
+   |                       |    which is formed by repeating *In*                                     |
    +-----------------------+--------------------------------------------------------------------------+
    | **Expected Output:**  | -  Out: Message digest (varying length depending on the hash function)   |
    +-----------------------+--------------------------------------------------------------------------+
-   | **Steps:**            | #. Feed *In* *TotalLength* times into the hash function                  |
+   | **Steps:**            | #. Feed *In* repeatedly into the hash function until *TotalLength*       |
+   |                       |    bytes have been processed (the last repetition may be truncated)      |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and check that the digest matches *Out*  |
+   +-----------------------+--------------------------------------------------------------------------+
+
+Additionally, the security levels reported by the hash functions are
+verified against expected reference values (added in Botan 3.13.0).
+
+-  Number of test cases: 1 (covering 36 hash function instantiations)
+-  Hash Functions: Adler32, CRC24, CRC32, MD4, MD5, SHA-1, SHA-224,
+   SHA-256, SHA-384, SHA-512, SHA-512-256, SHA-3(224), SHA-3(256),
+   SHA-3(384), SHA-3(512), Keccak-1600(512), SHAKE-128(128),
+   SHAKE-128(256), SHAKE-128(1024), SHAKE-256(256), SHAKE-256(512),
+   SHAKE-256(2048), Ascon-Hash256, Blake2b(512), Blake2s(256),
+   GOST-R-34.11-94, RIPEMD-160, SM3, Skein-512(512), Streebog-256,
+   Streebog-512, Whirlpool, Truncated(SHA-256,64),
+   Truncated(SHA-512,300), Parallel(MD5,SHA-256), Comb4P(MD4,MD5)
+
+.. table::
+   :class: longtable
+   :widths: 20 80
+
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Test Case No.:**    | HASH-5                                                                   |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Type:**             | Positive Test                                                            |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Description:**      | Unit test that verifies the security level reported by hash functions    |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Preconditions:**    | None                                                                     |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Input Values:**     | -  Name: The hash function name                                          |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Expected Output:**  | -  Level: The expected security level in bits                            |
+   +-----------------------+--------------------------------------------------------------------------+
+   | **Steps:**            | #. For each pair (*Name*, *Level*) from a fixed list of hash function    |
+   |                       |    names and their expected security levels:                             |
+   |                       |                                                                          |
+   |                       |    #. Create the HashFunction object *Name* (skipped if the hash         |
+   |                       |       function is not available in the build)                            |
+   |                       |                                                                          |
+   |                       |    #. Check that the security level reported by the hash function        |
+   |                       |       equals *Level*                                                     |
    +-----------------------+--------------------------------------------------------------------------+
 
 MD-5
@@ -177,11 +227,11 @@ MD-5
 
 MD-5 is tested with the following constraints:
 
--  Number of test cases: 76
+-  Number of test cases: 78
 
 -  In: varying length
 
-   -  Range: 1 byte - 67 bytes
+   -  Range: 1 byte - 128 bytes
    -  Extreme values: empty message, 1029 bytes
 
 -  Out: 128 bits
@@ -211,6 +261,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/md5.vec`.
    |                       |                                                                          |
    |                       | #. Test MD5's name                                                       |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the MD5                                |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -227,14 +281,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/md5.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state                                |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHA-1
@@ -242,12 +300,13 @@ SHA-1
 
 SHA-1 is tested with the following constraints:
 
--  Number of test cases: 76
+-  Number of test cases: 80
 
 -  In: varying length
 
    -  Range: 8 bits - 536 bits
-   -  Extreme values: empty message, 8232 bits
+   -  Extreme values: empty message, 1688 bits, 4248 bits, 8232 bits,
+      21752 bits
 
 -  Out: 160 bits
 
@@ -276,6 +335,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha1.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA1's name                                                      |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA1                               |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -292,14 +355,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha1.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHA-224
@@ -307,17 +374,18 @@ SHA-224
 
 SHA-224 is tested with the following constraints:
 
--  Number of test cases: 2
+-  Number of test cases: 3
 
 -  In: varying length
 
-   -  Range: 0 bits, 8 bits
-   -  Extreme values: empty message, 8 bits message
+   -  Range: 0 bits, 8 bits, 112 bits
+   -  Extreme values: empty message, 112 bits message
 
 -  Out: 224 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
+
 
 .. table::
    :class: longtable
@@ -342,6 +410,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA224's name                                                    |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA224                             |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -358,14 +430,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHA-256
@@ -373,12 +449,12 @@ SHA-256
 
 SHA-256 is tested with the following constraints:
 
--  Number of test cases: 262
+-  Number of test cases: 392
 
 -  In: varying length
 
-   -  Range: 8 byte - 256 bits
-   -  Extreme values: empty message, 640 bits, only one bit set
+   -  Range: 8 bits - 1024 bits
+   -  Extreme values: empty message, 4088 bits, 21104 bits
 
 -  Out: 256 bits
 
@@ -410,6 +486,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA256's name                                                    |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA256                             |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -426,14 +506,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_32.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHA-384
@@ -478,6 +562,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA384's name                                                    |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA384                             |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -494,14 +582,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHA-512
@@ -509,12 +601,12 @@ SHA-512
 
 SHA-512 is tested with the following constraints:
 
--  Number of test cases: 7
+-  Number of test cases: 138
 
 -  In: varying length
 
-   -  Range: 8 bits - 640 bits
-   -  Extreme values: empty message, 896 bits
+   -  Range: 8 bits - 1024 bits
+   -  Extreme values: empty message, 1816 bits, 10528 bits, 102400 bits
 
 -  Out: 512 bits
 
@@ -547,6 +639,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA512's name                                                    |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA512                             |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -563,14 +659,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHA-512/256
@@ -578,9 +678,9 @@ SHA-512/256
 
 SHA-512/256 is tested with the following constraints:
 
--  Number of test cases: 1
+-  Number of test cases: 2
 
--  In: empty message
+-  In: empty message, 112 bits message
 -  Out: 256 bits
 
 The following table shows an example test case with one test vector. All
@@ -611,6 +711,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA512_256's name                                                |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA512_256                         |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -627,14 +731,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha2_64.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHA-3/224
@@ -678,14 +786,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       |    SHA3_224Calculate the message digest and compare with the expected    |
    |                       |    output value *Out*                                                    |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHA-3/256
@@ -728,6 +840,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA3_256's name                                                  |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA3_256                           |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -744,14 +860,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHA-3/384
@@ -794,6 +914,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA3_384's name                                                  |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA3_384                           |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -810,14 +934,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 .. _section-1:
@@ -862,6 +990,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       |                                                                          |
    |                       | #. Test SHA3_512's name                                                  |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHA3_512                           |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -878,14 +1010,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/sha3.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 SHAKE
@@ -926,6 +1062,10 @@ test vectors are listed in :srcref:`src/tests/data/hash/shake.vec`.
    |                       |                                                                          |
    |                       | #. Test SHAKE-128(128)'s name                                            |
    |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
+   |                       |                                                                          |
    |                       | #. Feed the input value *In* into the SHAKE-128(128)                     |
    |                       |                                                                          |
    |                       | #. Calculate the message digest and compare with the expected output     |
@@ -943,14 +1083,18 @@ test vectors are listed in :srcref:`src/tests/data/hash/shake.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 Blake2b
@@ -958,14 +1102,17 @@ Blake2b
 
 Blake2b having a configurable output length it is being tested with the following constraints:
 
+-  Number of test cases: 771
+
 -  In: varying length
 
-   -  Range: 0 bytes - 255 bytes
+   -  Range: 0 bytes - 256 bytes
 
--  Out: 224 bits, 256 bits, 384 bits, 512 bits
+-  Out: 256 bits, 384 bits, 512 bits
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/hash/blake2b.vec`.
+
 
 .. table::
    :class: longtable
@@ -981,16 +1128,20 @@ test vectors are listed in :srcref:`src/tests/data/hash/blake2b.vec`.
    +-----------------------+--------------------------------------------------------------------------+
    | **Preconditions:**    | None                                                                     |
    +-----------------------+--------------------------------------------------------------------------+
-   | **Input Values:**     | In = 0xd8dc8fdefbdce9d44e4cbafe78447bae3b5436102a (168 bits)             |
+   | **Input Values:**     | In = 0x000102030405060708090A0B0C0D0E0F1011121314 (168 bits)             |
    +-----------------------+--------------------------------------------------------------------------+
    | **Expected Output:**  | .. code-block:: none                                                     |
    |                       |                                                                          |
-   |                       |    Out = 0x6b27923e5a298cfc27c65daaedb95ad14eb60921f32ec921d75304cdcb70a |
-   |                       |          2f03c4b679b648b95bb3de654f99cc18a40 (384 bits)                  |
+   |                       |    Out = 0x195AED3C477C98901175BFABAAB4834D559C3E93B6849B6C7006F2E44C73B |
+   |                       |          30985C56BAB7415B4AB7F872913605C4993 (384 bits)                  |
    +-----------------------+--------------------------------------------------------------------------+
    | **Steps:**            | #. Create a Blake2b(384) object                                          |
    |                       |                                                                          |
    |                       | #. Test Blake2b(384)'s name                                              |
+   |                       |                                                                          |
+   |                       | #. Check that the security level reported by the hash function does not  |
+   |                       |    exceed the generic birthday-attack bound, i.e., half of the output    |
+   |                       |    length in bits                                                        |
    |                       |                                                                          |
    |                       | #. Feed the input value *In* into the Blake2b(384)                       |
    |                       |                                                                          |
@@ -1009,96 +1160,39 @@ test vectors are listed in :srcref:`src/tests/data/hash/blake2b.vec`.
    |                       | #. Calculate the message digest and compare with the expected output     |
    |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Feed one byte from *In* into the hash function                        |
+   |                       | #. If *In* is longer than five bytes (length n):                         |
    |                       |                                                                          |
-   |                       | #. Copy HashFunction object and its state.                               |
+   |                       |    #. Feed the first byte of *In* into the hash function                 |
    |                       |                                                                          |
-   |                       | #. Feed rest of *In* into both the original and the copied hash          |
-   |                       |    functions.                                                            |
+   |                       |    #. Copy the HashFunction object and its state                         |
    |                       |                                                                          |
-   |                       | #. Verify that both hash functions return same result                    |
+   |                       |    #. Feed the bytes 2..n-1 of *In* into the copied hash function        |
+   |                       |                                                                          |
+   |                       |    #. Feed the last byte of *In* into the copied hash function           |
+   |                       |                                                                          |
+   |                       |    #. Calculate the message digest of the copied hash function and       |
+   |                       |       compare with the expected output value *Out*                       |
    +-----------------------+--------------------------------------------------------------------------+
 
 Parallel Hash Function Tests
 ----------------------------
 
-.. table::
-   :class: longtable
-   :widths: 20 80
+The Parallel hash function combiner, which concatenates the digests of
+multiple hash functions computed over the same message, is tested with
+the generic hash function tests described above with the following
+constraints:
 
-   +----------------------------------+---------------------------------------------------------------+
-   | **Test Case No.:**               | H-PHASH-1                                                     |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Type:**                        | Positive Test                                                 |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Description:**                 | Unit test for cloning of a Parallel hash object               |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Preconditions:**               | None                                                          |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Input Values:**                | In = Input value of length zero                               |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Expected Output:**             | .. code-block:: none                                          |
-   |                                  |                                                               |
-   |                                  |    Out = 0xD41D8CD98F00B204E9800998ECF8427EDA39A3EE5E6B4B0D32 |
-   |                                  |    55BFEF95601890AFD80709 (288 bits)                          |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Steps:**                       | #. Create a Parallel hash object with MD5 and SHA-160         |
-   |                                  |                                                               |
-   |                                  | #. Feed an input value of length zero into the hash function  |
-   |                                  |                                                               |
-   |                                  | #. Calculate the message digest and compare with the expected |
-   |                                  |    output value *Out*                                         |
-   |                                  |                                                               |
-   |                                  | #. Clone the parallel hash function object                    |
-   |                                  |                                                               |
-   |                                  | #. Reset the cloned parallel hash function object             |
-   |                                  |                                                               |
-   |                                  | #. Feed an input value of length zero into the hash function  |
-   |                                  |                                                               |
-   |                                  | #. Calculate the message digest and compare with the expected |
-   |                                  |    output value *Out*                                         |
-   +----------------------------------+---------------------------------------------------------------+
+-  Number of test cases: 4
 
-.. table::
-   :class: longtable
-   :widths: 20 80
+-  Hash Functions: Parallel(MD5,SHA-1), Parallel(SHA-256,SHA-512)
 
-   +----------------------------------+---------------------------------------------------------------+
-   | **Test Case No.:**               | H-PHASH-2                                                     |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Type:**                        | Positive Test                                                 |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Description:**                 | Unit test for construction of a Parallel hash object          |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Preconditions:**               | None                                                          |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Input Values:**                | In = Input value of length zero                               |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Expected Output:**             | .. code-block:: none                                          |
-   |                                  |                                                               |
-   |                                  |    Out = 0xE3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA4 |
-   |                                  |    95991B7852B855CF83E1357EEFB8BDF1542850D66D8007D620E4050B57 |
-   |                                  |    15DC83F4A921D36CE9CE47D0D13C5D85F2B0FF8318D2877EEC2F63B931 |
-   |                                  |    BD47417A81A538327AF927DA3E (1536 bits)                     |
-   +----------------------------------+---------------------------------------------------------------+
-   | **Steps:**                       | #. Create a SHA-256 object                                    |
-   |                                  |                                                               |
-   |                                  | #. Create a SHA-512 object                                    |
-   |                                  |                                                               |
-   |                                  | #. Create a Parallel hash object with the SHA-256 and SHA-512 |
-   |                                  |    objects                                                    |
-   |                                  |                                                               |
-   |                                  | #. Feed an input value of length zero into the hash function  |
-   |                                  |                                                               |
-   |                                  | #. Calculate the message digest and compare with the expected |
-   |                                  |    output value *Out*                                         |
-   |                                  |                                                               |
-   |                                  | #. Clone the parallel hash function object                    |
-   |                                  |                                                               |
-   |                                  | #. Reset the cloned parallel hash function object             |
-   |                                  |                                                               |
-   |                                  | #. Feed an input value of length zero into the hash function  |
-   |                                  |                                                               |
-   |                                  | #. Calculate the message digest and compare with the expected |
-   |                                  |    output value *Out*                                         |
-   +----------------------------------+---------------------------------------------------------------+
+-  In: varying length
+
+   -  Range: 0 bytes - 14 bytes
+   -  Extreme values: empty message
+
+-  Out: 288 bits for Parallel(MD5,SHA-1), 768 bits for
+   Parallel(SHA-256,SHA-512)
+
+All test vectors are listed in
+:srcref:`src/tests/data/hash/parallel.vec`.

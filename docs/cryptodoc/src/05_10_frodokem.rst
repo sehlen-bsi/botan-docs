@@ -1,7 +1,7 @@
 .. _pubkey/frodokem:
 
 FrodoKEM
-=================
+========
 
 Botan's FrodoKEM implementation is found in
 :srcref:`src/lib/pubkey/frodokem/` and follows [FrodoKEM-ISO]_.
@@ -63,7 +63,7 @@ The parameter sets shown in the tables below are supported.
 
 BSI's [TR-02102-1]_ recommends using either FrodoKEM-976 or FrodoKEM-1344 to meet
 its desired security levels. Additionally, it recommends using all modes of
-FrodoKEM in a hybrid form in a suitable combination with a classical key agreement
+FrodoKEM in a hybrid form in a suitable combination with a traditional key agreement
 mechanism such as RSA or ECDH.
 
 The implementation consists of several components; these are shown in the table below.
@@ -168,7 +168,7 @@ Key Generation
 --------------
 
 FrodoKEM key generation follows Section 8.1 of [FrodoKEM-ISO]_ and is
-implemented within ``FrodoKEM_PrivateKey`` constructor (see: :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:319|FrodoKEM_PrivateKey`).
+implemented within ``FrodoKEM_PrivateKey`` constructor (see: :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:332|FrodoKEM_PrivateKey`).
 It works as follows:
 
 .. admonition:: FrodoKEM Key Generation
@@ -206,12 +206,27 @@ It works as follows:
    - The creation of a ``FrodoKEM_PublicKey`` is conducted using the
      ``public_key`` method of the private key.
 
+Since Botan 3.12.0, ``FrodoKEM_PrivateKey::check_key(rng, strong)``
+performs, if ``strong`` is set, a pairwise consistency check: it runs one
+encapsulate/decapsulate roundtrip (with the "Raw" KDF) and returns true
+only if the encapsulated and decapsulated shared secrets are equal.
+
+When a private key is decoded from its byte encoding
+``SK = {s, seed_a, pack(b), s_trans, pkh}``, the public key hash ``pkh``
+is recomputed from the embedded public key and compared to the stored value.
+Since Botan 3.13.0, a mismatch is reported as a ``Decoding_Error`` (previously,
+it triggered an internal state check failure). Also since Botan 3.13.0, the
+constructors of ``FrodoKEM_PublicKey`` and ``FrodoKEM_PrivateKey`` that take
+an ``AlgorithmIdentifier`` reject with a ``Decoding_Error`` any algorithm
+identifier whose parameters field is not empty, as the FrodoKEM parameter set
+is identified solely by the OID.
+
 ..  _pubkey/frodokem/encapsulation:
 
 Key Encapsulation
 -----------------
 
-The FrodoKEM encapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:91|raw_kem_encrypt`) follows Section 8.2 of [FrodoKEM-ISO]_ and
+The FrodoKEM encapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:93|raw_kem_encrypt`) follows Section 8.2 of [FrodoKEM-ISO]_ and
 works as follows:
 
 .. admonition:: FrodoKEM Encapsulation
@@ -257,7 +272,7 @@ works as follows:
 Key Decapsulation
 -----------------
 
-The FrodoKEM decapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:162|raw_kem_decrypt`) follows Section 8.3 of [FrodoKEM-ISO]_ and
+The FrodoKEM decapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:164|raw_kem_decrypt`) follows Section 8.3 of [FrodoKEM-ISO]_ and
 works as follows:
 
 .. admonition:: FrodoKEM Decapsulation
