@@ -12,6 +12,9 @@ from genaudit import refs, util
 class Topic:
     def __init__(self, topic_file: str):
         self.file = topic_file
+        # Topic files whose patches were relocated into this topic via their
+        # 'categories' field. Rendered output depends on those files as well.
+        self.extra_source_files = []
         with open(topic_file, 'r') as f:
             cfg = yaml.load(f, Loader=yaml.FullLoader)
             if not cfg:
@@ -44,13 +47,24 @@ class Topic:
             def get_auditer():
                 return patch.get("auditer", None)
 
-            util.check_keys("Patch", patch.keys(), ['pr', 'commit', 'merge_commit', 'classification', 'comment', 'auditer'])
+            def get_categories():
+                if 'categories' not in patch:
+                    return None
+                value = patch['categories']
+                if not isinstance(value, str):
+                    raise RuntimeError("'categories' must be a comma separated string in patch: '%s'" % patch)
+                categories = [c.strip() for c in value.split(',') if c.strip()]
+                if not categories:
+                    raise RuntimeError("'categories' must contain at least one entry in patch: '%s'" % patch)
+                return categories
+
+            util.check_keys("Patch", patch.keys(), ['pr', 'commit', 'merge_commit', 'classification', 'comment', 'auditer', 'categories'])
 
             ref_type, value = get_ref()
             if ref_type == "pr":
-                return refs.PullRequest(int(value), patch.get('merge_commit', None), self._load_classification(patch), get_auditer(), get_comment())
+                return refs.PullRequest(int(value), patch.get('merge_commit', None), self._load_classification(patch), get_auditer(), get_comment(), get_categories())
             elif ref_type == "commit":
-                return refs.Commit(value, self._load_classification(patch), get_auditer(), get_comment())
+                return refs.Commit(value, self._load_classification(patch), get_auditer(), get_comment(), get_categories())
             else:
                 raise RuntimeError("Patch is neither a Pull Request nor a Commit: %s" % patch)
 

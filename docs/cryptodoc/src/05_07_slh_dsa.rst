@@ -8,10 +8,10 @@ Botan's implementation of the Stateless Hash-Based Digital Signature Standard
 :srcref:`src/lib/pubkey/sphincsplus/` and follows [FIPS-205]_.
 
 BSI's [TR-02102-1]_ recommends using SLH-DSA in "hedged" mode with the parameter
-sets that fulfill NIST's category 3 and 5 ("192" or "256", with botn SHA2 or
+sets that fulfill NIST's category 3 and 5 ("192" or "256", with both SHA2 or
 SHAKE and either fast or small). Hash-based signatures are considered secure for
 long-term secure authentication and are not required to be used in a hybrid form
-with a classical signature method.
+with a traditional signature method.
 
 Algorithm Internals
 -------------------
@@ -115,8 +115,6 @@ constructor according to Sections 11.1 and 11.2 of [FIPS-205]_. The specific
 child classes for the SHA2 and SHAKE modules are given in
 :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus_sha2_base/sp_hash_sha2.h` and
 :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus_shake_base/sp_hash_shake.h`.
-
-respectively.
 
 The specification defines three tweaked hash functions that share similarities.
 :math:`\mathbf{T_\ell}` is a tweaked hash function with a message input length
@@ -319,7 +317,7 @@ An overview is provided in Table
    +-------------------------+-----------+-----------+-----------+------------+-----------+-----------+--------------+-----------+
 
 SLH-DSA key generation follows Sections 9.1 and 10.1 of [FIPS-205]_ and is
-implemented in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:311|SphincsPlus_PrivateKey`
+implemented in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:317|SphincsPlus_PrivateKey`
 within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
 
 .. admonition:: SLH-DSA Key Generation
@@ -343,7 +341,7 @@ within the ``SphincsPlus_PrivateKey`` constructor. It works as follows:
 
    **Notes:**
 
-   - Step 1 corresponds to Algorithm 21, and Steps 2-3 correspond to Algorithm 18 of [FIPS-205]_. All are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:311|SphincsPlus_PrivateKey`.
+   - Step 1 corresponds to Algorithm 21, and Steps 2-3 correspond to Algorithm 18 of [FIPS-205]_. All are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:317|SphincsPlus_PrivateKey`.
    - The creation of a public key is conducted using the
      ``public_key`` method of the private key.
    - The addresses are set according to Algorithm 18 of [FIPS-205]_.
@@ -367,7 +365,7 @@ supported in Botan. Support for the pre-hash variant (HashSLH-DSA) of SLH-DSA is
 available.
 
 An SLH-DSA signature is created in the following manner, following
-Algorithm 22 of [FIPS-205]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:361|sign`):
+Algorithm 22 of [FIPS-205]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:369|sign`):
 
 .. admonition:: SLH-DSA Signature Creation
 
@@ -397,8 +395,8 @@ Algorithm 22 of [FIPS-205]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplu
 
    **Notes:**
 
-   - Steps 1-3 correspond to Algorithm 22 of [FIPS-205]_ and are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:361|sign`.
-   - Steps 4-9 correspond to Algorithm 19 of [FIPS-205]_ and are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:381|slh_sign_internal`.
+   - Steps 1-3 correspond to Algorithm 22 of [FIPS-205]_ and are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:369|sign`.
+   - Steps 4-9 correspond to Algorithm 19 of [FIPS-205]_ and are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:389|slh_sign_internal`.
    - Steps 3.3, 3.5, 3.6: ``SK.pub_seed`` is omitted as an input because the hash functions are already instantiated with a corresponding member variable.
    - ``SK`` is passed to ``slh_sign_internal`` via member variables.
 
@@ -410,7 +408,7 @@ supported in Botan. Support for the pre-hash variant of SLH-DSA is also not yet
 available.
 
 An SLH-DSA signature is verified in the following manner, following
-Algorithm 24 of [FIPS-205]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:206|is_valid_signature`):
+Algorithm 24 of [FIPS-205]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:210|is_valid_signature`):
 
 .. admonition:: SLH-DSA Signature Verification
 
@@ -440,8 +438,8 @@ Algorithm 24 of [FIPS-205]_ (see :srcref:`[src/lib/pubkey/sphincsplus/sphincsplu
 
    **Notes:**
 
-   - Steps 1-2 correspond to Algorithm 24 of [FIPS-205]_ and are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:206|is_valid_signature`.
-   - Steps 3-10 correspond to Algorithm 20 of [FIPS-205]_ and are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:215|slh_verify_internal`.
+   - Steps 1-2 correspond to Algorithm 24 of [FIPS-205]_ and are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:210|is_valid_signature`.
+   - Steps 3-10 correspond to Algorithm 20 of [FIPS-205]_ and are performed in :srcref:`[src/lib/pubkey/sphincsplus/sphincsplus_common]/sphincsplus.cpp:219|slh_verify_internal`.
    - Steps 2.3, 2.6, 2.8: ``PK.pub_seed`` is omitted as an input because the hash functions are already instantiated with a corresponding member variable.
    - ``PK`` is passed to ``slh_verify_internal`` via member variables.
    - The lengths of the FORS and the hypertree signatures are precomputed in the ``Sphincs_Parameters`` object.

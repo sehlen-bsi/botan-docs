@@ -15,6 +15,8 @@ from genaudit import util
 
 import auditinfo
 
+UNCATEGORIZED_TOPIC_REFERENCE = "uncategorized"
+
 class Audit:
     def __init__(self, audit_dir: str):
         self.config_file = os.path.join(audit_dir, "config.yml")
@@ -45,6 +47,7 @@ class Audit:
         self.topics = self._load_topics(self.topics_dir)
         logging.info("Read %d topic files for '%s'",
                      len(self.topics), self.project_name)
+        self._resolve_patch_categories()
 
 
     def patch_ignored(self, patch: PullRequest|Commit) -> bool:
@@ -65,6 +68,53 @@ class Audit:
                 return Commit(commit)
             raise RuntimeError("Unexpected patch type in ignore list: %s" % str(key_value))
         return [load_list_entry(kv) for kv in ignore_list] if ignore_list else []
+
+
+    def _resolve_patch_categories(self):
+        """ Validates the optional 'categories' field of all patches against the
+            available topic file names. Patches in the 'uncategorized' topic
+            that carry a 'categories' field are relocated into the topic
+            identified by the first entry of their category list. """
+
+        topics_by_ref = {topic.reference: topic for topic in self.topics}
+
+        def report_error(msg: str):
+            logging.error(msg)
+            if self.fail_on_load_error:
+                raise RuntimeError(msg)
+
+        def validated_categories(topic: Topic, patch) -> list[str]:
+            valid = [c for c in patch.categories if c in topics_by_ref]
+            invalid = [c for c in patch.categories if c not in topics_by_ref]
+            if invalid:
+                report_error("Unknown category entries '%s' in patch '%s' of topic '%s'" % (
+                    ','.join(invalid), patch, topic.reference))
+            if not valid:
+                report_error("No valid entry in 'categories' of patch '%s' in topic '%s'" % (
+                    patch, topic.reference))
+            return valid
+
+        for topic in self.topics:
+            for patch in topic.patches:
+                if patch.categories is not None:
+                    patch.categories = validated_categories(topic, patch)
+
+        uncategorized = topics_by_ref.get(UNCATEGORIZED_TOPIC_REFERENCE)
+        if not uncategorized:
+            return
+
+        remaining_patches = []
+        for patch in uncategorized.patches:
+            target = topics_by_ref[patch.categories[0]] if patch.categories else uncategorized
+            if target is uncategorized:
+                remaining_patches.append(patch)
+                continue
+            target.patches.append(patch)
+            if uncategorized.file not in target.extra_source_files:
+                target.extra_source_files.append(uncategorized.file)
+            logging.debug("Relocated patch '%s' from '%s' to '%s'",
+                          patch, uncategorized.reference, target.reference)
+        uncategorized.patches = remaining_patches
 
 
     def _load_topics(self, topics_dir) -> list[Topic]:

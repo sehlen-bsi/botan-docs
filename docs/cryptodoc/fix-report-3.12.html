@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cryptodoc fix report: update to Botan 3.12.0</title>
+<style>
+  :root { --bg:#ffffff; --fg:#1a1d21; --muted:#5b6470; --line:#d8dee6;
+          --old:#fdf3f3; --oldb:#e0b4b4; --new:#f1f9f1; --newb:#a9d3a9;
+          --code:#f6f8fa; --codeb:#d0d7de; --link:#0b5cad; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--fg); margin:0;
+         font:16px/1.55 "Segoe UI",system-ui,sans-serif; }
+  main { max-width:70rem; margin:0 auto; padding:2rem 1.25rem 5rem; }
+  h1 { font-size:1.7rem; border-bottom:2px solid var(--line); padding-bottom:.4rem; }
+  h2 { font-size:1.25rem; margin-top:2.2rem; }
+  h3 { font-size:1.12rem; border-bottom:1px solid var(--line); padding-bottom:.3rem; margin-top:0; }
+  h4 { font-size:.95rem; margin:1.1rem 0 .35rem; color:var(--muted); font-weight:600; }
+  h4 .f { font-weight:400; }
+  a { color:var(--link); }
+  section { margin:2.5rem 0; padding:1.25rem 1.25rem .75rem; border:1px solid var(--line); border-radius:8px; }
+  .ch { display:inline-block; background:#eef2f7; border:1px solid var(--line); border-radius:4px;
+        font-size:.75rem; padding:.05rem .45rem; vertical-align:middle; margin-right:.4rem; color:var(--muted); }
+  .kind { font-size:.85rem; color:var(--muted); font-style:italic; margin:.2rem 0 .6rem; }
+  pre { overflow-x:auto; border-radius:6px; padding: .75rem .9rem; font:13px/1.45 "SFMono-Regular",Consolas,monospace; }
+  pre.doc { white-space:pre-wrap; }
+  pre.doc.old { background:var(--old); border:1px solid var(--oldb); }
+  pre.doc.new { background:var(--new); border:1px solid var(--newb); }
+  pre.code { background:var(--code); border:1px solid var(--codeb); }
+  pre.code .ln { color:#8a939e; user-select:none; display:inline-block; min-width:3.2em; text-align:right;
+                 margin-right: .9em; }
+  .note { font-size:.85rem; color:var(--muted); margin:.15rem 0 .4rem; }
+  .toc { columns:1; border:1px solid var(--line); border-radius:8px; padding:1rem 1.5rem; background:#fafbfc; }
+  .toc ul { margin:.2rem 0 .6rem 1rem; padding:0; }
+  .toc li { list-style:none; margin:.15rem 0; }
+  .toc-ch { font-weight:600; margin-top:.5rem; }
+  .fail { color:#a33; }
+  .meta { color:var(--muted); font-size:.9rem; }
+</style>
+</head>
+<body>
+<main>
+<h1>Cryptodoc fix report &mdash; update to Botan 3.12.0</h1>
+<p class="meta">Date: 2026-08-12 &middot; Document: BSI project P663 cryptodoc
+(<code>docs/cryptodoc/src/</code>, branch <code>release-3.12-update</code>) &middot;
+Reference: <code>review-cryptodoc-3.12-2026-08-11.md</code></p>
+<p>This report documents every change applied to the cryptodoc in the course of
+updating it from Botan 3.11.0 to Botan 3.12.0. For each change it shows the
+previous documentation text, the new documentation text, and the relevant Botan
+source code in the audited revisions. The source code snippets are fetched live
+from GitHub (<code>raw.githubusercontent.com</code>) at the pinned release tags
+<code>3.11.0</code> and <code>3.12.0</code>; if your browser blocks these
+requests, use the accompanying permalinks instead. Changes labeled
+&ldquo;pre-existing&rdquo; correct statements that were already inaccurate for
+Botan 3.11.0; all other changes track behavior introduced in 3.12.0.</p>
+<h2>Contents</h2>
+<div class="toc"><ul><li class="toc-ch">01_hash.rst<ul><li><a href="#s5-shake">SHAKE: zero output length rejected</a></li></ul></li><li class="toc-ch">02_sym_enc.rst<ul><li><a href="#s1-gcm-limit">GCM: maximum message length now enforced</a></li><li><a href="#s2-aead-zeroize">AEAD: output buffer zeroized on authentication failure</a></li><li><a href="#s3-ccm-limit">CCM: message length limit corrected (off-by-one) and enforced early</a></li><li><a href="#s4-ghash-macro">GHASH provider macro name corrected</a></li></ul></li><li class="toc-ch">05_01_dh.rst<ul><li><a href="#p1-dh-checkkey">DH check_key(): condition list rewritten for 3.12.0</a></li><li><a href="#p2-dl-load">DL group/key validation at construction and decoding time</a></li></ul></li><li class="toc-ch">05_02_dsa.rst<ul><li><a href="#p3-dsa-checkkey">DSA check_key(): stale cross-reference replaced by actual behavior</a></li></ul></li><li class="toc-ch">05_03_ecc.rst<ul><li><a href="#p8-ec-checkkey">EC private key: pairwise consistency check documented</a></li></ul></li><li class="toc-ch">05_04_rsa.rst<ul><li><a href="#p4-rsa-keygen">RSA key generation: upper bound and multiple-of-8 requirement</a></li><li><a href="#p5-rsa-zeroinput">RSA private operations: zero input rejected</a></li><li><a href="#p6-rsa-init">RSA key material validated at decoding time</a></li><li><a href="#p5b-rsa-decrypt">RSA decryption: input range check added to admonition</a></li></ul></li><li class="toc-ch">05_05_xmss.rst<ul><li><a href="#x2-keymask">ADRS Key_Mask enum values corrected</a></li><li><a href="#x1-wots-names">WOTS class names corrected</a></li><li><a href="#x3-xmss-der">XMSS key decoding: strict DER enforced</a></li></ul></li><li class="toc-ch">05_08_ml_dsa.rst<ul><li><a href="#m1-mldsa-checkkey">ML-DSA: private-key consistency check and seed length validation</a></li><li><a href="#m2-mldsa-ctx">ML-DSA context string remark: version reference updated</a></li></ul></li><li class="toc-ch">05_10_frodokem.rst<ul><li><a href="#f1-frodo-checkkey">FrodoKEM: private-key consistency check documented</a></li></ul></li><li class="toc-ch">07_rng.rst<ul><li><a href="#r1-interface">RNG interface: nonexistent reseed macros and phantom timeout removed</a></li><li><a href="#r2-tsinput">randomize_with_ts_input(): admonition rewritten</a></li><li><a href="#r3-maxbytes">HMAC_DRBG: max_number_of_bytes_per_request bound corrected</a></li><li><a href="#r4-seclevel">HMAC_DRBG: MACs with output below 160 bits rejected</a></li><li><a href="#r5-reseedcheck">reseed_check(): steps 2.3/2.4 corrected (functions, sources, no timeout)</a></li><li><a href="#r6-getrandom">getrandom backend: zero-return check added; default on Linux</a></li><li><a href="#r7-devrandom">/dev/random opened read-only</a></li><li><a href="#r8-jitter">Jitter_RNG: initialization uses jent_entropy_init_ex with JENT_FORCE_FIPS</a></li></ul></li><li class="toc-ch">08_entropy.rst<ul><li><a href="#e1-rdseed">Intel_Rdseed: retry count corrected (1024, not 512)</a></li><li><a href="#e2-sources">Entropy sources: getentropy availability, jitter_rng source, hardcoded default list, poll() overloads</a></li></ul></li><li class="toc-ch">09_x509.rst<ul><li><a href="#c1-overview">Path validation overview: incremental building, revocation skip, search limits</a></li><li><a href="#c2-restrictions">Path_Validation_Restrictions: missing options documented</a></li><li><a href="#c3-validate-steps">x509_path_validate(): admonition steps rewritten (lazy builder, per-certificate online OCSP)</a></li><li><a href="#c4-pathbuilder">Path building sections rewritten: CertificatePathBuilder, build_all_certificate_paths, build_certificate_path</a></li><li><a href="#c5-checkchain">check_chain() signature loop: status code name and skip semantics</a></li><li><a href="#c6-checkcrl">check_crl(): content checks gated on signature validity; CRLDP matching semantics</a></li><li><a href="#c7-ocsp">OCSP: responder pre-checks, failure comparison, verify_signature outcomes, fixed-size check_ocsp result</a></li><li><a href="#c8-statusfor-dns">status_for() output list and matches_dns_name() IP matching</a></li><li><a href="#c9-parsing">Certificate parsing: strict DER, extension decode errors, self-signed heuristic</a></li></ul></li></ul></div>
+<section id="s5-shake"><h3><span class="ch">01_hash.rst</span> SHAKE: zero output length rejected</h3><p class="kind">Behavior changed in 3.12.0</p><p>Since 3.12.0 the SHAKE_128/SHAKE_256 constructors reject a zero output length with Invalid_Argument (previously only lengths not divisible by 8 were rejected). The doc claimed &#x27;arbitrary output lengths&#x27;.</p><h4>Previous documentation text <span class="f">(src/01_hash.rst)</span></h4><pre class="doc old">implementation using a padding that is specific to SHAKE. In contrast to SHA-3
+it allows arbitrary output lengths which are provided to the constructor
+of the class.</pre><h4>New documentation text</h4><pre class="doc new">implementation using a padding that is specific to SHAKE. In contrast to SHA-3
+it allows variable output lengths which are provided to the constructor
+of the class. The output length must be a non-zero multiple of eight
+bits; since Botan 3.12.0 a zero output length is rejected with an
+``Invalid_Argument`` exception.</pre><h4>Botan 3.11.0: SHAKE_128 constructor &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/hash/shake/shake.cpp#L15-L21">src/lib/hash/shake/shake.cpp:15&ndash;21 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/hash/shake/shake.cpp" data-lo="15" data-hi="21" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/hash/shake/shake.cpp#L15-L21"><pre class="code">Loading src/lib/hash/shake/shake.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: SHAKE_128 constructor &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/hash/shake/shake.cpp#L15-L21">src/lib/hash/shake/shake.cpp:15&ndash;21 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/hash/shake/shake.cpp" data-lo="15" data-hi="21" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/hash/shake/shake.cpp#L15-L21"><pre class="code">Loading src/lib/hash/shake/shake.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="s1-gcm-limit"><h3><span class="ch">02_sym_enc.rst</span> GCM: maximum message length now enforced</h3><p class="kind">Behavior changed in 3.12.0 (GH #5521)</p><p>GHASH::update() now throws Invalid_State once the processed message exceeds (2^39 - 256)/8 bytes (the NIST SP 800-38D limit, i.e. 2^32 - 2 blocks). The doc claimed Botan does not check the plaintext length, and stated the limit as 2^32 - 1 blocks.</p><h4>Previous documentation text <span class="f">(src/02_sym_enc.rst)</span></h4><pre class="doc old">**Remark:** AES-GCM specification prescribes the maximum length of the
+message to be encrypted to (2^32 - 1) blocks. Botan does not
+check the plaintext length explicitly. It is currently up to the
+application developer to choose correct data lengths.</pre><h4>New documentation text</h4><pre class="doc new">**Remark:** The AES-GCM specification [GCM]_ prescribes a maximum
+length of (2^39 - 256) bits, i.e. (2^32 - 2) blocks,
+for the message to be encrypted. Since Botan 3.12.0 this limit is
+enforced: the GHASH computation throws an ``Invalid_State`` exception
+(&quot;GCM message length limit exceeded&quot;) once the processed plaintext or
+ciphertext exceeds (2^39 - 256) / 8 bytes. The limit applies to
+the message only, not to the associated data. In earlier versions Botan
+did not check the plaintext length explicitly and it was up to the
+application developer to choose correct data lengths.</pre><h4>Botan 3.11.0: GHASH::update() (no length check) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/utils/ghash/ghash.cpp#L185-L195">src/lib/utils/ghash/ghash.cpp:185&ndash;195 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/utils/ghash/ghash.cpp" data-lo="185" data-hi="195" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/utils/ghash/ghash.cpp#L185-L195"><pre class="code">Loading src/lib/utils/ghash/ghash.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: GHASH::update() with SP 800-38D limit &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/utils/ghash/ghash.cpp#L188-L206">src/lib/utils/ghash/ghash.cpp:188&ndash;206 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/utils/ghash/ghash.cpp" data-lo="188" data-hi="206" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/utils/ghash/ghash.cpp#L188-L206"><pre class="code">Loading src/lib/utils/ghash/ghash.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="s2-aead-zeroize"><h3><span class="ch">02_sym_enc.rst</span> AEAD: output buffer zeroized on authentication failure</h3><p class="kind">Behavior changed in 3.12.0</p><p>All AEAD decryption modes (CCM, GCM, EAX, SIV, ChaCha20Poly1305) now clear the output buffer before throwing Invalid_Authentication_Tag. The doc&#x27;s CCM remark stated the opposite (that partial plaintext may remain in the buffer).</p><h4>Previous documentation text <span class="f">(src/02_sym_enc.rst)</span></h4><pre class="doc old">**Remark:** If the decryption in Botan fails, the output buffer can
+still contain parts of the decrypted ciphertext. It is up to the
+application developer to ensure it is not leaked.</pre><h4>New documentation text</h4><pre class="doc new">**Remark:** Since Botan 3.12.0, if the decryption fails due to an
+invalid authentication tag, the output buffer is zeroized before the
+``Invalid_Authentication_Tag`` exception is thrown. This applies to all
+AEAD modes (CCM, GCM, EAX, SIV, ChaCha20Poly1305). In earlier versions
+the output buffer could still contain parts of the decrypted ciphertext
+and it was up to the application developer to ensure it was not leaked.</pre><h4>Botan 3.11.0: CCM_Decryption::finish_msg (no zeroization) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/modes/aead/ccm/ccm.cpp#L266-L278">src/lib/modes/aead/ccm/ccm.cpp:266&ndash;278 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/modes/aead/ccm/ccm.cpp" data-lo="266" data-hi="278" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/modes/aead/ccm/ccm.cpp#L266-L278"><pre class="code">Loading src/lib/modes/aead/ccm/ccm.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: CCM_Decryption::finish_msg with clear_mem() &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/modes/aead/ccm/ccm.cpp#L275-L290">src/lib/modes/aead/ccm/ccm.cpp:275&ndash;290 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/modes/aead/ccm/ccm.cpp" data-lo="275" data-hi="290" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/modes/aead/ccm/ccm.cpp#L275-L290"><pre class="code">Loading src/lib/modes/aead/ccm/ccm.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="s3-ccm-limit"><h3><span class="ch">02_sym_enc.rst</span> CCM: message length limit corrected (off-by-one) and enforced early</h3><p class="kind">Pre-existing off-by-one; early enforcement new in 3.12.0</p><p>The CCM limit is 2^(8L) - 1 bytes, not 2^(8L) (pre-existing doc error). Since 3.12.0 an over-long message is rejected with Invalid_State already while being buffered in process(), instead of only at finish() time.</p><h4>Previous documentation text <span class="f">(src/02_sym_enc.rst)</span></h4><pre class="doc old">**Remark:** In Botan the default maximum length of the message is
+2^24 bytes (with a nonce size of 12 byte).
+The maximum length can be configured to be 2^(8*L) by initializing L with a value between 2 and 8.
+Note that this parameter is denoted q in [CCM]_.
+The size of the nonce is then (15-L) bytes.</pre><h4>New documentation text</h4><pre class="doc new">**Remark:** In Botan the default maximum length of the message is
+2^24 - 1 bytes (with a nonce size of 12 byte).
+The maximum length can be configured to be 2^(8*L) - 1 by initializing L with a value between 2 and 8.
+Note that this parameter is denoted q in [CCM]_.
+The size of the nonce is then (15-L) bytes. Since Botan 3.12.0, a
+message exceeding this limit is already rejected with an
+``Invalid_State`` exception while it is buffered in ``process()``;
+previously the overflow was only detected when the length was encoded
+during ``finish()``.</pre><h4>Botan 3.12.0: CCM_Mode::process_msg early limit check &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/modes/aead/ccm/ccm.cpp#L113-L127">src/lib/modes/aead/ccm/ccm.cpp:113&ndash;127 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/modes/aead/ccm/ccm.cpp" data-lo="113" data-hi="127" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/modes/aead/ccm/ccm.cpp#L113-L127"><pre class="code">Loading src/lib/modes/aead/ccm/ccm.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="s4-ghash-macro"><h3><span class="ch">02_sym_enc.rst</span> GHASH provider macro name corrected</h3><p class="kind">Pre-existing correction</p><p>The macro BOTAN_HAS_GCM_CLMUL_CPU does not exist; the actual define is BOTAN_HAS_GHASH_CLMUL_CPU.</p><h4>Previous documentation text <span class="f">(src/02_sym_enc.rst)</span></h4><pre class="doc old">-  ``BOTAN_HAS_GCM_CLMUL_CPU``
+-  ``BOTAN_HAS_GHASH_CLMUL_VPERM``</pre><h4>New documentation text</h4><pre class="doc new">-  ``BOTAN_HAS_GHASH_CLMUL_CPU``
+-  ``BOTAN_HAS_GHASH_CLMUL_VPERM``</pre><h4>Botan 3.12.0: actual macro in ghash.cpp &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/utils/ghash/ghash.cpp#L27-L35">src/lib/utils/ghash/ghash.cpp:27&ndash;35 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/utils/ghash/ghash.cpp" data-lo="27" data-hi="35" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/utils/ghash/ghash.cpp#L27-L35"><pre class="code">Loading src/lib/utils/ghash/ghash.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="p1-dh-checkkey"><h3><span class="ch">05_01_dh.rst</span> DH check_key(): condition list rewritten for 3.12.0</h3><p class="kind">Behavior changed in 3.12.0 (commit 3d7119818)</p><p>DH_PrivateKey::check_key() now delegates to DL_PrivateKey::check_key() = verify_group() &amp;&amp; verify_private_element(x). The public-value conditions are no longer part of the private-key check; x &gt; q (if q is set) is now rejected; and y = g^x mod p is not verified by either check. The Miller-Rabin description was also corrected (error probability 2^-128, 65 iterations for external groups).</p><h4>Previous documentation text <span class="f">(src/05_01_dh.rst)</span></h4><pre class="doc old">      Optionally the generated parameters and the DL_Group parameters can
+      be verified with a call to ``check_key(RandomNumberGenerator&amp; rng,
+      bool strong)``. The generated values and the used discrete logarithm
+      group ``fail`` the check if one of the following conditions is met.
+
+      -  y &lt; 2
+      -  y &gt;= p
+      -  x &lt; 2
+      -  x &gt;= p
+      -  g &lt; 2
+      -  p &lt; 3
+      -  q &lt; 0
+      -  q != 0 and (p - 1) mod q != 0
+      -  q != 0 and g^q mod p != 1
+      -  Miller-Rabin primality test for ``p`` or ``q`` fails with 6 (65 if
+         ``strong`` is true) test iterations. The test is performed with the
+         function ``is_prime()`` for non random numbers.
+      -  Lucas primality test of ``p`` or ``q`` fails.
+      -  y != g^x mod p</pre><h4>New documentation text</h4><pre class="doc new">      Optionally the generated parameters and the DL_Group parameters can
+      be verified with a call to ``check_key(RandomNumberGenerator&amp; rng,
+      bool strong)``. Since Botan 3.12.0, ``DH_PrivateKey::check_key()``
+      verifies the group (see below) and the private value ``x``
+      (``DL_Group::verify_private_element()``); it fails if one of the
+      following conditions is met:
+
+      -  x &lt;= 1
+      -  x &gt;= p
+      -  q &gt; 0  and  x &gt; q
+
+      ``DH_PublicKey::check_key()`` verifies the group and the public
+      value ``y`` (``DL_Group::verify_public_element()``); it fails if
+      one of the following conditions is met:
+
+      -  y &lt;= 1
+      -  y &gt;= p
+      -  q != 0  and  g^q mod p != 1
+
+      Note that neither check verifies the consistency of the key pair,
+      i.e. y = g^x mod p is not checked.
+
+      The group verification (``DL_Group::verify_group()``) is skipped
+      for Botan&#x27;s builtin named groups unless ``strong`` is set. It fails
+      if one of the following conditions is met:
+
+      -  g &lt; 2
+      -  p &lt; 3
+      -  q &lt; 0
+      -  q != 0  and  (p - 1) mod q != 0
+      -  q != 0  and  g^q mod p != 1
+      -  Miller-Rabin primality test of ``p`` or ``q`` (if ``q`` is set)
+         fails. The test is performed with the function ``is_prime()``
+         with an error probability of 2^-128, resulting in 65
+         test iterations for groups obtained from an external source and
+         a reduced, bit-size-dependent iteration count for randomly
+         generated groups.
+      -  Lucas primality test of ``p`` or ``q`` fails.
+      -  q = 0 and the group stems from an external source and
+         g^i mod p = 1 for some 2 &lt;= i &lt; 100
+         (2 &lt;= i &lt; 1000 if ``strong`` is set), i.e. the group
+         order is very small.</pre><h4>Botan 3.11.0: only DH_PublicKey::check_key (private key inherits it) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/dh/dh.cpp#L50-L60">src/lib/pubkey/dh/dh.cpp:50&ndash;60 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/pubkey/dh/dh.cpp" data-lo="50" data-hi="60" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/dh/dh.cpp#L50-L60"><pre class="code">Loading src/lib/pubkey/dh/dh.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: DH_PrivateKey::check_key added &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dh/dh.cpp#L52-L80">src/lib/pubkey/dh/dh.cpp:52&ndash;80 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dh/dh.cpp" data-lo="52" data-hi="80" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dh/dh.cpp#L52-L80"><pre class="code">Loading src/lib/pubkey/dh/dh.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: DL_PublicKey/DL_PrivateKey::check_key &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_algo/dl_scheme.cpp#L60-L99">src/lib/pubkey/dl_algo/dl_scheme.cpp:60&ndash;99 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dl_algo/dl_scheme.cpp" data-lo="60" data-hi="99" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_algo/dl_scheme.cpp#L60-L99"><pre class="code">Loading src/lib/pubkey/dl_algo/dl_scheme.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: DL_Group::verify_public_element / verify_private_element &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_group/dl_group.cpp#L417-L447">src/lib/pubkey/dl_group/dl_group.cpp:417&ndash;447 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dl_group/dl_group.cpp" data-lo="417" data-hi="447" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_group/dl_group.cpp#L417-L447"><pre class="code">Loading src/lib/pubkey/dl_group/dl_group.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: DL_Group::verify_group &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_group/dl_group.cpp#L466-L513">src/lib/pubkey/dl_group/dl_group.cpp:466&ndash;513 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dl_group/dl_group.cpp" data-lo="466" data-hi="513" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_group/dl_group.cpp#L466-L513"><pre class="code">Loading src/lib/pubkey/dl_group/dl_group.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="p2-dl-load"><h3><span class="ch">05_01_dh.rst</span> DL group/key validation at construction and decoding time</h3><p class="kind">New behavior in 3.12.0, now documented (commit 2086d4526)</p><p>Every DL_Group construction now validates p, q, g ranges (Decoding_Error on failure) and DL public keys are rejected at load time unless 1 &lt; y &lt; p; only the subgroup check y^q = 1 remains in check_key(). A note was appended to the manual-check_key advice.</p><h4>Previous documentation text <span class="f">(src/05_01_dh.rst)</span></h4><pre class="doc old">To avoid potentially malicious system parameters from computational
+peers, the ``check_key`` function should be manually called before the key
+from the peer has been accepted.</pre><h4>New documentation text</h4><pre class="doc new">To avoid potentially malicious system parameters from computational
+peers, the ``check_key`` function should be manually called before the key
+from the peer has been accepted. Note that since Botan 3.12.0 basic
+validity checks are already enforced when a key or group is constructed
+or decoded: every ``DL_Group`` construction rejects parameters unless
+``p`` is positive and odd with 3 &lt;= len(p) &lt;= 16384 bits,
+2 &lt;= g &lt; p, and, if ``q`` is present, ``q`` is positive and
+odd with len(q) &lt; len(p). Public keys are rejected at
+construction/decoding time unless 1 &lt; y &lt; p; only the subgroup
+membership check y^q mod p = 1 is deferred to ``check_key()``.</pre><h4>Botan 3.11.0: DL_PublicKey constructor (no range check) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/dl_algo/dl_scheme.cpp#L36-L48">src/lib/pubkey/dl_algo/dl_scheme.cpp:36&ndash;48 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/pubkey/dl_algo/dl_scheme.cpp" data-lo="36" data-hi="48" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/dl_algo/dl_scheme.cpp#L36-L48"><pre class="code">Loading src/lib/pubkey/dl_algo/dl_scheme.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: DL_PublicKey constructor with BOTAN_ARG_CHECK &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_algo/dl_scheme.cpp#L37-L48">src/lib/pubkey/dl_algo/dl_scheme.cpp:37&ndash;48 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dl_algo/dl_scheme.cpp" data-lo="37" data-hi="48" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_algo/dl_scheme.cpp#L37-L48"><pre class="code">Loading src/lib/pubkey/dl_algo/dl_scheme.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: check_dl_group_params() &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_group/dl_group.cpp#L26-L60">src/lib/pubkey/dl_group/dl_group.cpp:26&ndash;60 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dl_group/dl_group.cpp" data-lo="26" data-hi="60" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dl_group/dl_group.cpp#L26-L60"><pre class="code">Loading src/lib/pubkey/dl_group/dl_group.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="p3-dsa-checkkey"><h3><span class="ch">05_02_dsa.rst</span> DSA check_key(): stale cross-reference replaced by actual behavior</h3><p class="kind">Pre-existing correction</p><p>The doc referred to the (now-rewritten) DH check list. DSA_PrivateKey::check_key additionally requires x &lt; q and performs a SHA-256 sign/verify consistency check. Code unchanged between 3.11.0 and 3.12.0.</p><h4>Previous documentation text <span class="f">(src/05_02_dsa.rst)</span></h4><pre class="doc old">      Optional verification of the generated key with
+      ``check_key(RandomNumberGenerator&amp; rng, bool strong)``. See DH key
+      generation check.</pre><h4>New documentation text</h4><pre class="doc new">      Optional verification of the generated key with
+      ``check_key(RandomNumberGenerator&amp; rng, bool strong)``.
+      ``DSA_PrivateKey::check_key()`` performs the DL private key check
+      described in the :ref:`DH key generation section &lt;pubkey/dh&gt;`
+      (group verification and private element check), additionally
+      requires x &lt; q and performs a sign/verify pairwise
+      consistency check with SHA-256
+      (``KeyPair::signature_consistency_check()``).</pre><h4>Botan 3.12.0: DSA_PrivateKey::check_key (same in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dsa/dsa.cpp#L93-L103">src/lib/pubkey/dsa/dsa.cpp:93&ndash;103 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dsa/dsa.cpp" data-lo="93" data-hi="103" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dsa/dsa.cpp#L93-L103"><pre class="code">Loading src/lib/pubkey/dsa/dsa.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="p8-ec-checkkey"><h3><span class="ch">05_03_ecc.rst</span> EC private key: pairwise consistency check documented</h3><p class="kind">New behavior in 3.12.0, now documented (commit 3d7119818)</p><p>EC_PrivateKey::check_key() now recomputes the public point from the private scalar (d*G, or d^-1*G for ECKCDSA/ECGDSA) and compares it with the stored public point.</p><h4>Previous documentation text <span class="f">(src/05_03_ecc.rst)</span></h4><pre class="doc old">   3. Assure that the public point Q is not the point at infinity.
+
+**Conclusion:** The algorithm fulfills all requirements of [TR-03111]_.</pre><h4>New documentation text</h4><pre class="doc new">   3. Assure that the public point Q is not the point at infinity.
+
+Since Botan 3.12.0, ``EC_PrivateKey::check_key()`` additionally performs
+a pairwise consistency check: it recomputes the public point from the
+private scalar (as d * G, or d^-1 * G for
+ECKCDSA/ECGDSA) and returns false if the result does not equal the
+stored public point.
+
+**Conclusion:** The algorithm fulfills all requirements of [TR-03111]_.</pre><h4>Botan 3.11.0: EC_PrivateKey::check_key (no pairwise check) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/ecc_key/ecc_key.cpp#L199-L207">src/lib/pubkey/ecc_key/ecc_key.cpp:199&ndash;207 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/pubkey/ecc_key/ecc_key.cpp" data-lo="199" data-hi="207" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/ecc_key/ecc_key.cpp#L199-L207"><pre class="code">Loading src/lib/pubkey/ecc_key/ecc_key.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: EC_PrivateKey::check_key with pairwise check &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/ecc_key/ecc_key.cpp#L206-L219">src/lib/pubkey/ecc_key/ecc_key.cpp:206&ndash;219 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/ecc_key/ecc_key.cpp" data-lo="206" data-hi="219" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/ecc_key/ecc_key.cpp#L206-L219"><pre class="code">Loading src/lib/pubkey/ecc_key/ecc_key.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="p4-rsa-keygen"><h3><span class="ch">05_04_rsa.rst</span> RSA key generation: upper bound and multiple-of-8 requirement</h3><p class="kind">Behavior changed in 3.12.0 (commit 3904fccd1)</p><p>Key generation now rejects bit lengths above 16384 and lengths that are not a multiple of 8, in addition to the pre-existing 1024-bit minimum.</p><h4>Previous documentation text <span class="f">(src/05_04_rsa.rst)</span></h4><pre class="doc old">   1. The algorithm initially checks if the passed key length is at least
+      1024. If this is not the case, the function terminates with an error
+      message. Thus, only keys with a desired length of at least 1024 bits
+      can be generated.</pre><h4>New documentation text</h4><pre class="doc new">   1. The algorithm initially checks the passed key length: it must be
+      at least 1024 bits, at most 16384 bits and a multiple of 8 bits
+      (the upper bound and the multiple-of-8 requirement were added in
+      Botan 3.12.0). If this is not the case, the function terminates
+      with an error message.</pre><h4>Botan 3.11.0: only minimum length check &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/rsa/rsa.cpp#L324-L332">src/lib/pubkey/rsa/rsa.cpp:324&ndash;332 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/pubkey/rsa/rsa.cpp" data-lo="324" data-hi="332" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/rsa/rsa.cpp#L324-L332"><pre class="code">Loading src/lib/pubkey/rsa/rsa.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: MIN/MAX/MOD_RSA_BITS checks &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L335-L350">src/lib/pubkey/rsa/rsa.cpp:335&ndash;350 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/rsa/rsa.cpp" data-lo="335" data-hi="350" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L335-L350"><pre class="code">Loading src/lib/pubkey/rsa/rsa.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="p5-rsa-zeroinput"><h3><span class="ch">05_04_rsa.rst</span> RSA private operations: zero input rejected</h3><p class="kind">Behavior changed in 3.12.0 (commit 6202258d3)</p><p>RSA_Private_Operation (signing and decryption) now throws Decoding_Error if the input integer is zero or &gt;= N. Documented in the raw_sign step 1 and as a new step in the decryption admonition.</p><h4>Previous documentation text <span class="f">(src/05_04_rsa.rst)</span></h4><pre class="doc old">   1. Verify that m &lt; N.
+      If the message to sign exceeds the modulus of the RSA private key,
+      the algorithm terminates with error.</pre><h4>New documentation text</h4><pre class="doc new">   1. Verify that 0 &lt; m &lt; N.
+      If the message to sign is zero or exceeds the modulus of the RSA
+      private key, the algorithm terminates with a ``Decoding_Error``
+      (the rejection of zero input was added in Botan 3.12.0).</pre><h4>Botan 3.12.0: input range check in RSA_Private_Operation &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L555-L568">src/lib/pubkey/rsa/rsa.cpp:555&ndash;568 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/rsa/rsa.cpp" data-lo="555" data-hi="568" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L555-L568"><pre class="code">Loading src/lib/pubkey/rsa/rsa.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="p6-rsa-init"><h3><span class="ch">05_04_rsa.rst</span> RSA key material validated at decoding time</h3><p class="kind">New behavior in 3.12.0, now documented (commits 3904fccd1, 89fecf072)</p><p>RSA_PublicKey::init now enforces 384 &lt;= len(N) &lt;= 16384, N odd, e odd, 1 &lt; e &lt; N, len(e) &lt;= 256; RSA_PrivateKey::init additionally enforces d &gt;= 2, p,q &gt;= 3, p != q, p*q = N. A note was added after the check_key list; the check_key list itself gained the (pre-existing) p = q condition.</p><h4>Previous documentation text <span class="f">(src/05_04_rsa.rst)</span></h4><pre class="doc old">      -  d &lt; 2
+      -  p &lt; 3
+      -  q &lt; 3
+      -  p * q != N</pre><h4>New documentation text</h4><pre class="doc new">      -  d &lt; 2
+      -  p &lt; 3
+      -  q &lt; 3
+      -  p = q
+      -  p * q != N
+
+      [...]
+
+      Note that since Botan 3.12.0 a subset of these conditions is
+      already enforced whenever an RSA key is constructed or decoded: a
+      public key is rejected with a ``Decoding_Error`` unless ``N`` is
+      positive and odd with 384 &lt;= len(N) &lt;= 16384 bits and
+      ``e`` is odd with 1 &lt; e &lt; N and len(e) &lt;= 256
+      bits. A private key is additionally rejected unless
+      d &gt;= 2, p &gt;= 3, q &gt;= 3,
+      p != q and p * q = N. In particular, RSA
+      public keys shorter than 384 bits can no longer be loaded at all.</pre><h4>Botan 3.11.0: RSA_PublicKey::init (minimal checks) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/rsa/rsa.cpp#L156-L166">src/lib/pubkey/rsa/rsa.cpp:156&ndash;166 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/pubkey/rsa/rsa.cpp" data-lo="156" data-hi="166" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/rsa/rsa.cpp#L156-L166"><pre class="code">Loading src/lib/pubkey/rsa/rsa.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: RSA_PublicKey::init (strict checks) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L156-L185">src/lib/pubkey/rsa/rsa.cpp:156&ndash;185 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/rsa/rsa.cpp" data-lo="156" data-hi="185" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L156-L185"><pre class="code">Loading src/lib/pubkey/rsa/rsa.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: RSA_PrivateKey::init (strict checks) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L263-L290">src/lib/pubkey/rsa/rsa.cpp:263&ndash;290 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/rsa/rsa.cpp" data-lo="263" data-hi="290" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L263-L290"><pre class="code">Loading src/lib/pubkey/rsa/rsa.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: RSA_PrivateKey::check_key incl. p == q (same check in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L428-L455">src/lib/pubkey/rsa/rsa.cpp:428&ndash;455 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/rsa/rsa.cpp" data-lo="428" data-hi="455" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L428-L455"><pre class="code">Loading src/lib/pubkey/rsa/rsa.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="p5b-rsa-decrypt"><h3><span class="ch">05_04_rsa.rst</span> RSA decryption: input range check added to admonition</h3><p class="kind">Behavior changed in 3.12.0 (commit 6202258d3)</p><p>The decryption admonition previously documented no input-range check at all; the same 0 &lt; ct &lt; N check as for signing now applies.</p><h4>Previous documentation text <span class="f">(src/05_04_rsa.rst)</span></h4><pre class="doc old">   1. Blind ciphertext: ct&#x27; = ct * m_e^e mod N</pre><h4>New documentation text</h4><pre class="doc new">   1. Verify that 0 &lt; ct &lt; N; otherwise the operation is
+      rejected with a ``Decoding_Error`` (&quot;RSA input is not in the valid
+      range&quot;, added in Botan 3.12.0). Blind ciphertext:
+      ct&#x27; = ct * m_e^e mod N</pre><h4>Botan 3.12.0: shared input check for sign/decrypt &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L555-L568">src/lib/pubkey/rsa/rsa.cpp:555&ndash;568 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/rsa/rsa.cpp" data-lo="555" data-hi="568" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/rsa/rsa.cpp#L555-L568"><pre class="code">Loading src/lib/pubkey/rsa/rsa.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="x2-keymask"><h3><span class="ch">05_05_xmss.rst</span> ADRS Key_Mask enum values corrected</h3><p class="kind">Pre-existing correction</p><p>The doc had Mask_LSB_Mode and Mask_MSB_Mode swapped; the actual values are Mask_MSB_Mode = 1, Mask_LSB_Mode = 2 (unchanged between 3.11.0 and 3.12.0).</p><h4>Previous documentation text <span class="f">(src/05_05_xmss.rst)</span></h4><pre class="doc old">-  ``set_key_mask_mode(Key_Mode=0 / Mask_Mode=1, Mask_LSB_Mode=1,
+   Mask_MSB_Mode=2)``</pre><h4>New documentation text</h4><pre class="doc new">-  ``set_key_mask_mode(Key_Mode=0 / Mask_Mode=1, Mask_MSB_Mode=1,
+   Mask_LSB_Mode=2)``</pre><h4>Botan 3.12.0: Key_Mask enum (same in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/xmss/xmss_address.h#L40-L44">src/lib/pubkey/xmss/xmss_address.h:40&ndash;44 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/xmss/xmss_address.h" data-lo="40" data-hi="44" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/xmss/xmss_address.h#L40-L44"><pre class="code">Loading src/lib/pubkey/xmss/xmss_address.h @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="x1-wots-names"><h3><span class="ch">05_05_xmss.rst</span> WOTS class names corrected</h3><p class="kind">Pre-existing correction</p><p>The classes are named XMSS_WOTS_PublicKey / XMSS_WOTS_PrivateKey, not WOTS_Public_Key / WOTS_Private_Key (the doc used the correct names elsewhere).</p><h4>Previous documentation text <span class="f">(src/05_05_xmss.rst)</span></h4><pre class="doc old">   - All referenced methods above are implemented in the constructors of
+     ``WOTS_Public_Key`` and ``WOTS_Private_Key`` in
+     :srcref:`[src/lib/pubkey/xmss]/xmss_wots.cpp`.</pre><h4>New documentation text</h4><pre class="doc new">   - All referenced methods above are implemented in the constructors of
+     ``XMSS_WOTS_PublicKey`` and ``XMSS_WOTS_PrivateKey`` in
+     :srcref:`[src/lib/pubkey/xmss]/xmss_wots.cpp`.</pre><h4>Botan 3.12.0: xmss_wots.h class declarations &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/xmss/xmss_wots.h#L1-L40">src/lib/pubkey/xmss/xmss_wots.h:1&ndash;40 @ 3.12.0</a></h4><p class="note">See the XMSS_WOTS_PublicKey / XMSS_WOTS_PrivateKey declarations in this header.</p><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/xmss/xmss_wots.h" data-lo="1" data-hi="40" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/xmss/xmss_wots.h#L1-L40"><pre class="code">Loading src/lib/pubkey/xmss/xmss_wots.h @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="x3-xmss-der"><h3><span class="ch">05_05_xmss.rst</span> XMSS key decoding: strict DER enforced</h3><p class="kind">Behavior changed in 3.12.0 (BER_Decoder::Limits, GH #5507/#5514)</p><p>Decoding of encoded XMSS keys now uses BER_Decoder::Limits::DER(); non-canonical BER encodings of the OCTET STRING wrapper are rejected. The remark on the key storage format was extended accordingly (it also silently assumed &#x27;plain byte arrays&#x27; where the encoded formats actually use an OCTET STRING wrapper).</p><h4>Previous documentation text <span class="f">(src/05_05_xmss.rst)</span></h4><pre class="doc old">**Remark:** XMSS does not specify any format for the storage of
+private and public keys. Currently, Botan serializes keys as plain byte
+arrays.</pre><h4>New documentation text</h4><pre class="doc new">**Remark:** XMSS does not specify any format for the storage of
+private and public keys. Currently, Botan serializes keys as plain byte
+arrays, wrapped in an ASN.1 OCTET STRING for the encoded key formats.
+Since Botan 3.12.0, decoding of encoded keys enforces a strict DER
+encoding of this OCTET STRING wrapper (``BER_Decoder::Limits::DER()``);
+non-canonical BER encodings are rejected.</pre><h4>Botan 3.11.0: extract_raw_public_key (plain BER_Decoder) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/xmss/xmss_publickey.cpp#L44-L58">src/lib/pubkey/xmss/xmss_publickey.cpp:44&ndash;58 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/pubkey/xmss/xmss_publickey.cpp" data-lo="44" data-hi="58" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/pubkey/xmss/xmss_publickey.cpp#L44-L58"><pre class="code">Loading src/lib/pubkey/xmss/xmss_publickey.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: extract_raw_public_key with Limits::DER() &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/xmss/xmss_publickey.cpp#L44-L58">src/lib/pubkey/xmss/xmss_publickey.cpp:44&ndash;58 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/xmss/xmss_publickey.cpp" data-lo="44" data-hi="58" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/xmss/xmss_publickey.cpp#L44-L58"><pre class="code">Loading src/lib/pubkey/xmss/xmss_publickey.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="m1-mldsa-checkkey"><h3><span class="ch">05_08_ml_dsa.rst</span> ML-DSA: private-key consistency check and seed length validation</h3><p class="kind">New behavior in 3.12.0, now documented (commits 3d7119818, 3c8469cd7)</p><p>Dilithium_PrivateKey::check_key(rng, strong) now performs a sign/verify roundtrip when strong is set; expand_keypair rejects seeds of wrong length with Decoding_Error.</p><h4>Previous documentation text <span class="f">(src/05_08_ml_dsa.rst)</span></h4><pre class="doc old">differ between ML-DSA ([FIPS-204]_; xi only) and Dilithium (round 3;
+partially expanded key format as specified in [FIPS-204]_). By *always*
+expanding the private key from the secret seed xi, sanity checks during
+decoding of the key pair can be omitted.</pre><h4>New documentation text</h4><pre class="doc new">differ between ML-DSA ([FIPS-204]_; xi only) and Dilithium (round 3;
+partially expanded key format as specified in [FIPS-204]_). By *always*
+expanding the private key from the secret seed xi, structural sanity
+checks during decoding of the key pair can be omitted. Since Botan 3.12.0, the
+key expansion explicitly rejects seeds whose length does not match the expected
+32 bytes with a ``Decoding_Error``.
+
+Since Botan 3.12.0, ``Dilithium_PrivateKey::check_key(rng, strong)`` performs,
+if ``strong`` is set, a sign/verify pairwise consistency check
+(``KeyPair::signature_consistency_check()``). The public key
+``check_key()`` performs no checks, since all length and range checks are
+already enforced during decoding.</pre><h4>Botan 3.12.0: Dilithium_PrivateKey::check_key &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp#L454-L466">src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:454&ndash;466 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp" data-lo="454" data-hi="466" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp#L454-L466"><pre class="code">Loading src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: seed length check in expand_keypair &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp#L665-L675">src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:665&ndash;675 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp" data-lo="665" data-hi="675" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp#L665-L675"><pre class="code">Loading src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="m2-mldsa-ctx"><h3><span class="ch">05_08_ml_dsa.rst</span> ML-DSA context string remark: version reference updated</h3><p class="kind">Pre-existing correction (claim re-verified for 3.12.0)</p><p>The remark cited Botan 3.6.0. The claim itself still holds at 3.12.0: the application-defined context string is not supported and the context is always empty (TODO comments remain in both the signing and verification operations).</p><h4>Previous documentation text <span class="f">(src/05_08_ml_dsa.rst)</span></h4><pre class="doc old">   - Step 1: Botan 3.6.0 does not yet support the application-defined context
+     string as specified in [FIPS-204]_ Algorithm 2. See `GitHub #4376
+     &lt;https://github.com/randombit/botan/issues/4376&gt;`_.</pre><h4>New documentation text</h4><pre class="doc new">   - Step 1: Botan (as of version 3.12.0) does not yet support the
+     application-defined context string as specified in [FIPS-204]_
+     Algorithm 2; the context is always empty. See `GitHub #4376
+     &lt;https://github.com/randombit/botan/issues/4376&gt;`_.</pre><h4>Botan 3.12.0: TODO comment in the signature operation &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp#L145-L160">src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:145&ndash;160 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp" data-lo="145" data-hi="160" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp#L145-L160"><pre class="code">Loading src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="f1-frodo-checkkey"><h3><span class="ch">05_10_frodokem.rst</span> FrodoKEM: private-key consistency check documented</h3><p class="kind">New behavior in 3.12.0, now documented (commit 3d7119818)</p><p>FrodoKEM_PrivateKey::check_key(rng, strong) now performs one encapsulate/decapsulate roundtrip (Raw KDF) when strong is set and compares the shared secrets.</p><h4>Previous documentation text <span class="f">(src/05_10_frodokem.rst)</span></h4><pre class="doc old">   - The creation of a ``FrodoKEM_PublicKey`` is conducted using the
+     ``public_key`` method of the private key.</pre><h4>New documentation text</h4><pre class="doc new">   - The creation of a ``FrodoKEM_PublicKey`` is conducted using the
+     ``public_key`` method of the private key.
+
+Since Botan 3.12.0, ``FrodoKEM_PrivateKey::check_key(rng, strong)``
+performs, if ``strong`` is set, a pairwise consistency check: it runs one
+encapsulate/decapsulate roundtrip (with the &quot;Raw&quot; KDF) and returns true
+only if the encapsulated and decapsulated shared secrets are equal.</pre><h4>Botan 3.12.0: FrodoKEM_PrivateKey::check_key &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/frodokem/frodokem_common/frodokem.cpp#L386-L410">src/lib/pubkey/frodokem/frodokem_common/frodokem.cpp:386&ndash;410 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/pubkey/frodokem/frodokem_common/frodokem.cpp" data-lo="386" data-hi="410" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/pubkey/frodokem/frodokem_common/frodokem.cpp#L386-L410"><pre class="code">Loading src/lib/pubkey/frodokem/frodokem_common/frodokem.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="r1-interface"><h3><span class="ch">07_rng.rst</span> RNG interface: nonexistent reseed macros and phantom timeout removed</h3><p class="kind">Pre-existing correction (also corrects an earlier editing pass)</p><p>Neither BOTAN_RNG_RESEED_POLL_BITS nor BOTAN_RNG_RESEED_DEFAULT_TIMEOUT exists in any Botan 3.x release; the actual constants are RandomNumberGenerator::DefaultPollBits = 256 and DefaultPollTimeout = 50 ms. Moreover the reseed path has no timeout logic: reseed() is deprecated, its timeout parameter is literally named /*unused_timeout*/, and reseeding goes through the timeout-free two-argument Entropy_Sources::poll() overload. The randomize_with_ts_input summary was also corrected (32-byte additional input: 64-bit timestamp + 32-bit PID always, plus 160 bits from System_RNG if available; not 96 bits with a fallback branch).</p><h4>Previous documentation text <span class="f">(src/07_rng.rst)</span></h4><pre class="doc old">-  ``randomize_with_ts_input(output)``: First refreshes the random number
+   generator&#x27;s entropy pool with a 64 bit system timestamp and, if a system
+   RNG is available, 96bits from the system&#x27;s RNG. Otherwise, those 96bits
+   are filled with a 64 bit processor timestamp and the operating system&#x27;s
+   process ID. It then extracts ``output.size()`` random bytes from the
+   random number generator and writes them into ``output``.
+-  ``reseed(entropy_sources, poll_bits, poll_timeout)``: Polls the
+   ``entropy_sources`` for up to ``poll_bits`` bits of entropy or until the
+   ``poll_timeout`` expires, calls ``add_entropy()`` on this random
+   generator and returns an estimate of the number of bits collected.
+   The default value for ``poll_bits`` is ``BOTAN_RNG_RESEED_POLL_BITS``,
+   which defaults to 256. The default value for ``poll_timeout`` is
+   ``BOTAN_RNG_RESEED_DEFAULT_TIMEOUT``, which defaults to 50
+   milliseconds.
+-  ``reseed_from_rng(rng, poll_bits)``: Polls the ``rng`` for ``poll_bits``
+   bits of entropy and calls ``add_entropy()`` on this random generator.
+   The default value for ``poll_bits`` is ``BOTAN_RNG_RESEED_POLL_BITS``,
+   which defaults to 256.</pre><h4>New documentation text</h4><pre class="doc new">-  ``randomize_with_ts_input(output)``: First refreshes the random number
+   generator&#x27;s entropy pool with a 32 byte additional input. This
+   additional input is composed of a 64 bit high-resolution processor
+   timestamp, the operating system&#x27;s 32 bit process ID and, if a system RNG
+   is available, 160 bits from the system&#x27;s RNG. The remaining bytes are
+   zero if no system RNG is available. It then extracts ``output.size()``
+   random bytes from the random number generator and writes them into
+   ``output``.
+-  ``reseed_from_sources(entropy_sources, poll_bits)``: Polls the
+   ``entropy_sources`` for up to ``poll_bits`` bits of entropy, calls
+   ``add_entropy()`` on this random generator and returns an estimate of
+   the number of bits collected. The default value for ``poll_bits`` is
+   ``RandomNumberGenerator::DefaultPollBits``, which is defined as 256.
+   The deprecated predecessor ``reseed(entropy_sources, poll_bits,
+   poll_timeout)`` forwards to this function; its ``poll_timeout``
+   parameter is unused, i.e. the entropy polling is not subject to any
+   timeout.
+-  ``reseed_from_rng(rng, poll_bits)``: Requests ``poll_bits`` bits from
+   the ``rng`` and calls ``add_entropy()`` on this random generator.
+   The default value for ``poll_bits`` is
+   ``RandomNumberGenerator::DefaultPollBits``, which is defined as 256.</pre><h4>Botan 3.12.0: DefaultPollBits (identical in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/rng.h#L48-L52">src/lib/rng/rng.h:48&ndash;52 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/rng.h" data-lo="48" data-hi="52" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/rng.h#L48-L52"><pre class="code">Loading src/lib/rng/rng.h @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: deprecated reseed() with unused timeout (identical in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/rng.h#L277-L302">src/lib/rng/rng.h:277&ndash;302 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/rng.h" data-lo="277" data-hi="302" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/rng.h#L277-L302"><pre class="code">Loading src/lib/rng/rng.h @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: randomize_with_ts_input() (identical in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/rng.cpp#L28-L51">src/lib/rng/rng.cpp:28&ndash;51 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/rng.cpp" data-lo="28" data-hi="51" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/rng.cpp#L28-L51"><pre class="code">Loading src/lib/rng/rng.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="r2-tsinput"><h3><span class="ch">07_rng.rst</span> randomize_with_ts_input(): admonition rewritten</h3><p class="kind">Pre-existing correction</p><p>The admonition steps described a control flow (96 bits from System_RNG, or clock+PID as fallback) that does not match the code: timestamp and PID are always included (when os_utils is available) and System_RNG contributes the remaining 20 bytes. All of this is gated on accepts_input().</p><h4>Previous documentation text <span class="f">(src/07_rng.rst)</span></h4><pre class="doc old">   1. Add a 64 bit processor timestamp to ``additional_input``
+   2. If System_RNG is available, get 96 bit from it by calling its
+      ``randomize()`` member function and add it to ``additional_input``
+   3. If System_RNG is not available
+
+      1. Add a 64 bit system clock timestamp to ``additional_input``
+      2. Add the 32 bit process ID to ``additional_input``
+
+   4. Call ``fill_bytes_with_input(output, additional_input)``</pre><h4>New documentation text</h4><pre class="doc new">   1. If the random number generator does not accept input
+      (``accepts_input()`` returns false), call
+      ``fill_bytes_with_input(output, {})`` and return
+   2. Initialize the 32 byte buffer ``additional_input`` with zero bytes
+   3. Store a 64 bit high-resolution timestamp at byte offset 0 of
+      ``additional_input``
+   4. Store the 32 bit process ID at byte offset 8 of
+      ``additional_input``
+   5. If System_RNG is available, fill the remaining 20 bytes of
+      ``additional_input`` with output of its ``randomize()`` member
+      function
+   6. Call ``fill_bytes_with_input(output, additional_input)``</pre><h4>Botan 3.12.0: randomize_with_ts_input() (identical in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/rng.cpp#L28-L51">src/lib/rng/rng.cpp:28&ndash;51 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/rng.cpp" data-lo="28" data-hi="51" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/rng.cpp#L28-L51"><pre class="code">Loading src/lib/rng/rng.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="r3-maxbytes"><h3><span class="ch">07_rng.rst</span> HMAC_DRBG: max_number_of_bytes_per_request bound corrected</h3><p class="kind">Pre-existing correction</p><p>The code rejects only values strictly greater than 64*1024; the doc claimed &gt;= 64*1024 is invalid, which would contradict the default value of exactly 64*1024. Fixed in all three affected constructor admonitions.</p><h4>Previous documentation text <span class="f">(src/07_rng.rst)</span></h4><pre class="doc old">   2. If (``max_number_of_bytes_per_request`` = 0) or
+      (``max_number_of_bytes_per_request`` &gt;= 64*1024), then Return &quot;Invalid
+      Argument&quot;</pre><h4>New documentation text</h4><pre class="doc new">   2. If (``max_number_of_bytes_per_request`` = 0) or
+      (``max_number_of_bytes_per_request`` &gt; 64*1024), then Return &quot;Invalid
+      Argument&quot;</pre><h4>Botan 3.11.0: check_limits() &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/rng/hmac_drbg/hmac_drbg.cpp#L38-L48">src/lib/rng/hmac_drbg/hmac_drbg.cpp:38&ndash;48 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/rng/hmac_drbg/hmac_drbg.cpp" data-lo="38" data-hi="48" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/rng/hmac_drbg/hmac_drbg.cpp#L38-L48"><pre class="code">Loading src/lib/rng/hmac_drbg/hmac_drbg.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: check_limits() &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/hmac_drbg/hmac_drbg.cpp#L43-L53">src/lib/rng/hmac_drbg/hmac_drbg.cpp:43&ndash;53 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/hmac_drbg/hmac_drbg.cpp" data-lo="43" data-hi="53" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/hmac_drbg/hmac_drbg.cpp#L43-L53"><pre class="code">Loading src/lib/rng/hmac_drbg/hmac_drbg.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="r4-seclevel"><h3><span class="ch">07_rng.rst</span> HMAC_DRBG: MACs with output below 160 bits rejected</h3><p class="kind">Behavior changed in 3.12.0 (commit b6cb264c2)</p><p>hmac_drbg_security_level(), invoked from every constructor, now throws Invalid_Argument for MAC output lengths below 20 bytes. SHA-1 remains permitted; the documented security-level table is unaffected.</p><h4>Previous documentation text <span class="f">(src/07_rng.rst)</span></h4><pre class="doc old">security level of the hash function used in the PRF, given in
+[SP800-57-P1]_ Table 3. For SHA-1, a maximum of 128 bits is supported,
+for SHA-224 and SHA-512/224 a maximum of 192 bits is supported and for
+SHA-256, SHA-512/256, SHA-384, SHA-512 and SHA3-512 a maximum security
+level of 256 bits is supported.</pre><h4>New documentation text</h4><pre class="doc new">security level of the hash function used in the PRF, given in
+[SP800-57-P1]_ Table 3. For SHA-1, a maximum of 128 bits is supported,
+for SHA-224 and SHA-512/224 a maximum of 192 bits is supported and for
+SHA-256, SHA-512/256, SHA-384, SHA-512 and SHA3-512 a maximum security
+level of 256 bits is supported. Since Botan 3.12.0, the security level
+computation, which is invoked from every HMAC_DRBG constructor, rejects
+MACs with an output length of less than 160 bits with an
+Invalid_Argument exception. Consequently, an HMAC_DRBG can no longer be
+instantiated with a hash function with an output length below that of
+SHA-1.</pre><h4>Botan 3.11.0: hmac_drbg_security_level (no minimum) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/rng/hmac_drbg/hmac_drbg.cpp#L18-L36">src/lib/rng/hmac_drbg/hmac_drbg.cpp:18&ndash;36 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/rng/hmac_drbg/hmac_drbg.cpp" data-lo="18" data-hi="36" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/rng/hmac_drbg/hmac_drbg.cpp#L18-L36"><pre class="code">Loading src/lib/rng/hmac_drbg/hmac_drbg.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: hmac_drbg_security_level with minimum-length check &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/hmac_drbg/hmac_drbg.cpp#L19-L42">src/lib/rng/hmac_drbg/hmac_drbg.cpp:19&ndash;42 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/hmac_drbg/hmac_drbg.cpp" data-lo="19" data-hi="42" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/hmac_drbg/hmac_drbg.cpp#L19-L42"><pre class="code">Loading src/lib/rng/hmac_drbg/hmac_drbg.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="r5-reseedcheck"><h3><span class="ch">07_rng.rst</span> reseed_check(): steps 2.3/2.4 corrected (functions, sources, no timeout)</h3><p class="kind">Pre-existing correction</p><p>Step 2.3 claimed randomize() returns an entropy estimation that controls the counter reset; actually reseed_from_rng() resets the counter based on the *requested* poll_bits. Step 2.4 named the wrong function (reseed_from_rng instead of reseed_from_sources), the wrong source (&#x27;underlying RNG&#x27; instead of the entropy sources) and a 50 ms poll timeout that does not exist. The error messages in step 2.5.1 were aligned with the actual exceptions.</p><h4>Previous documentation text <span class="f">(src/07_rng.rst)</span></h4><pre class="doc old">      3. If the HMAC_DRBG was constructed with at least an underlying
+         RNG as an entropy source, [...] by calling Stateful_RNG&#x27;s
+         ``reseed_from_rng()``, which works as follows:
+
+         1. Request ``security_level()`` bits of entropy from the
+            underlying RNG by calling its ``randomize()`` member
+            function, which returns a buffer and an entropy estimation
+         2. Mix the returned entropy bytes into HMAC_DRBG&#x27;s entropy pool
+            by calling its ``add_entropy()`` member function [...]
+         3. If the returned entropy estimation is equal to or exceeds
+            ``security_level()`` then do call ``reset_reseed_counter()``
+
+      4. If the HMAC_DRBG was constructed with at least a collection of
+         entropy sources, ``security_level()`` bits of entropy are
+         requested from the underlying RNG and added to HMAC_DRBG&#x27;s
+         entropy pool by calling Stateful_RNG&#x27;s ``reseed_from_rng()``,
+         which works as follows:
+
+         1. Request ``security_level()`` bits of entropy from the entropy
+            sources by calling Entropy_Sources&#x27; ``poll()`` member
+            function, [...] ``poll()`` takes a
+            timeout value in milliseconds after which polling of the
+            entropy sources is stopped, the value used here is
+            ``BOTAN_RNG_RESEED_DEFAULT_TIMEOUT``, which defaults to 50
+            milliseconds
+         2. If the returned number of bits collected is equal to or
+            exceeds ``security_level()`` bits then: [...]</pre><h4>New documentation text</h4><pre class="doc new">      3. If the HMAC_DRBG was constructed with at least an underlying
+         RNG as an entropy source, [...] by calling Stateful_RNG&#x27;s
+         ``reseed_from_rng()``, which works as follows:
+
+         1. Request ``security_level()`` bits from the underlying RNG by
+            calling its ``random_vec()`` member function and mix the
+            returned bytes into HMAC_DRBG&#x27;s entropy pool by calling its
+            ``add_entropy()`` member function [...]
+         2. If the requested number of bits ``poll_bits`` is equal to or
+            exceeds ``security_level()``, call ``reset_reseed_counter()``.
+            Note that no entropy estimation takes place here; since
+            ``reseed_check()`` requests exactly ``security_level()``
+            bits, this condition is always fulfilled on this path.
+
+      4. If the HMAC_DRBG was constructed with at least a collection of
+         entropy sources, ``security_level()`` bits of entropy are
+         requested from the entropy sources and added to HMAC_DRBG&#x27;s
+         entropy pool by calling Stateful_RNG&#x27;s
+         ``reseed_from_sources()``, which works as follows:
+
+         1. Request ``security_level()`` bits of entropy from the entropy
+            sources by calling Entropy_Sources&#x27; ``poll()`` member
+            function, [...] the polling is
+            not subject to any timeout
+         2. If the returned number of bits collected is equal to or
+            exceeds ``security_level()`` bits then: [...]</pre><h4>Botan 3.12.0: reseed_from_sources / reseed_from_rng / reseed_check (identical in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/stateful_rng/stateful_rng.cpp#L78-L136">src/lib/rng/stateful_rng/stateful_rng.cpp:78&ndash;136 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/stateful_rng/stateful_rng.cpp" data-lo="78" data-hi="136" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/stateful_rng/stateful_rng.cpp#L78-L136"><pre class="code">Loading src/lib/rng/stateful_rng/stateful_rng.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="r6-getrandom"><h3><span class="ch">07_rng.rst</span> getrandom backend: zero-return check added; default on Linux</h3><p class="kind">Behavior changed in 3.12.0 (commit 6900638fe); availability statement pre-existing</p><p>System_RNG&#x27;s getrandom backend now throws if getrandom() returns 0. Also, getrandom is a default Linux target feature, not something that must be explicitly enabled (pre-existing error in the System Generators table).</p><h4>Previous documentation text <span class="f">(src/07_rng.rst)</span></h4><pre class="doc old">      1. ``got`` = **getrandom** (``buf``, ``len``, 0)
+      2. If (``got`` &lt; 0 ) then do:
+
+         1. If (errno = EINTR) do Continue
+         2. Return with output &quot;System_RNG getrandom failed&quot;
+
+      3. ``buf`` = ``buf`` + ``got``
+      4. ``len`` = ``len`` - ``got``
+
+[table] | ``getrandom()`` | Linux (if explicitly enabled) |</pre><h4>New documentation text</h4><pre class="doc new">      1. ``got`` = **getrandom** (``buf``, ``len``, 0)
+      2. If (``got`` &lt; 0 ) then do:
+
+         1. If (errno = EINTR) do Continue
+         2. Return with output &quot;System_RNG getrandom failed&quot;
+
+      3. If (``got`` = 0) then Return with output &quot;System_RNG getrandom
+         unexpectedly returned 0&quot;
+      4. ``buf`` = ``buf`` + ``got``
+      5. ``len`` = ``len`` - ``got``
+
+[table] | ``getrandom()`` | Linux (enabled by default) |</pre><h4>Botan 3.11.0: getrandom loop (no zero check) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/rng/system_rng/system_rng.cpp#L218-L240">src/lib/rng/system_rng/system_rng.cpp:218&ndash;240 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/rng/system_rng/system_rng.cpp" data-lo="218" data-hi="240" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/rng/system_rng/system_rng.cpp#L218-L240"><pre class="code">Loading src/lib/rng/system_rng/system_rng.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: getrandom loop with zero check &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/system_rng/system_rng.cpp#L218-L245">src/lib/rng/system_rng/system_rng.cpp:218&ndash;245 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/system_rng/system_rng.cpp" data-lo="218" data-hi="245" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/system_rng/system_rng.cpp#L218-L245"><pre class="code">Loading src/lib/rng/system_rng/system_rng.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="r7-devrandom"><h3><span class="ch">07_rng.rst</span> /dev/random opened read-only</h3><p class="kind">Pre-existing correction</p><p>The initial blocking read of /dev/random uses O_RDONLY | O_NOCTTY; only /dev/urandom is opened O_RDWR (with an O_RDONLY fallback). The doc had &#x27;O_RDWD&#x27; (a typo) for both.</p><h4>Previous documentation text <span class="f">(src/07_rng.rst)</span></h4><pre class="doc old">   1. ``fd`` = **open** (``/dev/random``, O_RDWD | O_NOCTTY)
+   [...]
+   4. ``fd`` = **open** (``/dev/urandom``, O_RDWD | O_NOCTTY)</pre><h4>New documentation text</h4><pre class="doc new">   1. ``fd`` = **open** (``/dev/random``, O_RDONLY | O_NOCTTY)
+   [...]
+   4. ``fd`` = **open** (``/dev/urandom``, O_RDWR | O_NOCTTY)</pre><h4>Botan 3.12.0: device open calls (identical in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/system_rng/system_rng.cpp#L253-L285">src/lib/rng/system_rng/system_rng.cpp:253&ndash;285 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/system_rng/system_rng.cpp" data-lo="253" data-hi="285" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/system_rng/system_rng.cpp#L253-L285"><pre class="code">Loading src/lib/rng/system_rng/system_rng.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="r8-jitter"><h3><span class="ch">07_rng.rst</span> Jitter_RNG: initialization uses jent_entropy_init_ex with JENT_FORCE_FIPS</h3><p class="kind">Pre-existing correction; exception behavior changed in 3.12.0 (commit 7d4ea22de)</p><p>Construction calls jent_entropy_init_ex(0, JENT_FORCE_FIPS) - not jent_entropy_init() with default flags. JENT_FORCE_FIPS forces the SP 800-90B health tests. Since 3.12.0, failures throw Internal_Error instead of asserting.</p><h4>Previous documentation text <span class="f">(src/07_rng.rst)</span></h4><pre class="doc old">   1. Initialize the JitterEntropy library via ``jent_entropy_init()``
+   2. Instantiate a ``rand_data`` structure via ``jent_entropy_collector_alloc()``
+      with default flags and a default oversampling rate</pre><h4>New documentation text</h4><pre class="doc new">   1. Initialize the JitterEntropy library via ``jent_entropy_init_ex()``
+      with the default oversampling rate (0) and the ``JENT_FORCE_FIPS``
+      flag, which forces the [SP800-90B]_ startup and runtime health
+      tests independently of the operating system&#x27;s FIPS configuration.
+      If the initialization fails, throw an ``Internal_Error`` exception.
+   2. Instantiate a ``rand_data`` structure via ``jent_entropy_collector_alloc()``
+      with the same flags and oversampling rate. If the allocation fails,
+      throw an ``Internal_Error`` exception.</pre><h4>Botan 3.11.0: Jitter_RNG initialization &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/rng/jitter_rng/jitter_rng.cpp#L24-L48">src/lib/rng/jitter_rng/jitter_rng.cpp:24&ndash;48 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/rng/jitter_rng/jitter_rng.cpp" data-lo="24" data-hi="48" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/rng/jitter_rng/jitter_rng.cpp#L24-L48"><pre class="code">Loading src/lib/rng/jitter_rng/jitter_rng.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: Jitter_RNG initialization with Internal_Error &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/jitter_rng/jitter_rng.cpp#L24-L52">src/lib/rng/jitter_rng/jitter_rng.cpp:24&ndash;52 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/rng/jitter_rng/jitter_rng.cpp" data-lo="24" data-hi="52" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/rng/jitter_rng/jitter_rng.cpp#L24-L52"><pre class="code">Loading src/lib/rng/jitter_rng/jitter_rng.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="e1-rdseed"><h3><span class="ch">08_entropy.rst</span> Intel_Rdseed: retry count corrected (1024, not 512)</h3><p class="kind">Pre-existing correction</p><p>RDSEED_RETRIES is 1024 in both 3.11.0 and 3.12.0; on retry exhaustion the poll is aborted early, which is now stated explicitly.</p><h4>Previous documentation text <span class="f">(src/08_entropy.rst)</span></h4><pre class="doc old">   random number generator. Internally it polls RdSeed 256 times,
+   whereas each poll generates 32 bit of entropy. Each poll is retried
+   on failure at most 512 times because RdSeed is not guaranteed to
+   generate a random number within a specific number of retries. If each
+   try was successful 1024 bytes are gathered.</pre><h4>New documentation text</h4><pre class="doc new">   random number generator. Internally it polls RdSeed 256 times,
+   whereas each poll generates 32 bit of entropy. Each poll is retried
+   on failure at most 1024 times because RdSeed is not guaranteed to
+   generate a random number within a specific number of retries. If a
+   poll exhausts all retries, the entropy gathering is aborted early.
+   If each try was successful 1024 bytes are gathered.</pre><h4>Botan 3.12.0: RDSEED_RETRIES (identical in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/rdseed/rdseed.cpp#L33-L52">src/lib/entropy/rdseed/rdseed.cpp:33&ndash;52 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/entropy/rdseed/rdseed.cpp" data-lo="33" data-hi="52" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/rdseed/rdseed.cpp#L33-L52"><pre class="code">Loading src/lib/entropy/rdseed/rdseed.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="e2-sources"><h3><span class="ch">08_entropy.rst</span> Entropy sources: getentropy availability, jitter_rng source, hardcoded default list, poll() overloads</h3><p class="kind">Pre-existing corrections</p><p>Four related corrections: (1) getentropy is available by default on Linux/Android and further OSes, not only OpenBSD/macOS; (2) the jitter_rng entropy source (counted, 256 bits per poll) was missing from the source list; (3) the macro BOTAN_ENTROPY_DEFAULT_SOURCES does not exist - the default list is hardcoded in Entropy_Sources::global_sources(); (4) the RNG reseeding logic uses the two-argument, timeout-free poll() overload.</p><h4>Previous documentation text <span class="f">(src/08_entropy.rst)</span></h4><pre class="doc old">-  ``Getentropy``: This entropy source is available on OpenBSD and macOS
+   by default. It can be enabled for Linux and Android. [...]
+   This call is guaranteed to never block or fail.
+
+[...]
+
+returns a reference to the default sources which are defined in build.h
+as follows:
+
+   #define BOTAN_ENTROPY_DEFAULT_SOURCES \
+   { &quot;rdseed&quot;, &quot;hwrng&quot;, &quot;getentropy&quot;, &quot;system_rng&quot;, &quot;system_stats&quot; }
+
+[...]
+
+   size_t Entropy_Sources::poll (RandomNumberGenerator&amp; rng, size_t
+   poll_bits, std::chrono::milliseconds timeout)
+
+All sources that are configured in the ``Entropy_Sources`` object are
+polled until ``poll_bits`` entropy bits are collected or the timeout is
+reached.</pre><h4>New documentation text</h4><pre class="doc new">-  ``Getentropy``: This entropy source is available by default on
+   operating systems that declare the ``getentropy`` target feature,
+   among them OpenBSD, macOS, Linux, Android, FreeBSD and Solaris. [...]
+   On OpenBSD this call is guaranteed to never block or fail.
+
+-  ``Jitter_RNG_EntropySource``: If the ``jitter_rng`` module is enabled,
+   the JitterEntropy-based RNG is additionally
+   available as an entropy source. Each poll reseeds the target RNG from
+   the Jitter_RNG and returns
+   ``RandomNumberGenerator::DefaultPollBits`` (256), i.e. in contrast to
+   the other hardware-based sources this source&#x27;s entropy is counted.
+   Note that this source is not part of the default source list used by
+   ``Entropy_Sources::global_sources()``.
+
+[...]
+
+returns a reference to the default sources, which are hardcoded in
+src/lib/entropy/entropy_srcs.cpp as follows:
+
+   static Entropy_Sources global_entropy_sources(
+      {&quot;rdseed&quot;, &quot;hwrng&quot;, &quot;getentropy&quot;, &quot;system_rng&quot;, &quot;system_stats&quot;});
+
+[...]
+
+   size_t Entropy_Sources::poll(RandomNumberGenerator&amp; rng, size_t bits)
+
+All sources that are configured in the ``Entropy_Sources`` object are
+polled until ``poll_bits`` entropy bits are collected. [...] A second
+overload additionally takes a ``std::chrono::milliseconds timeout``
+parameter after which the (cooperative) polling is stopped; this
+overload is not used by the RNG reseeding logic, which polls without a
+timeout.</pre><h4>Botan 3.12.0: Jitter_RNG_EntropySource (present since 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/entropy_srcs.cpp#L92-L110">src/lib/entropy/entropy_srcs.cpp:92&ndash;110 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/entropy/entropy_srcs.cpp" data-lo="92" data-hi="110" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/entropy_srcs.cpp#L92-L110"><pre class="code">Loading src/lib/entropy/entropy_srcs.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: hardcoded default source list (identical in 3.11.0) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/entropy_srcs.cpp#L218-L224">src/lib/entropy/entropy_srcs.cpp:218&ndash;224 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/entropy/entropy_srcs.cpp" data-lo="218" data-hi="224" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/entropy_srcs.cpp#L218-L224"><pre class="code">Loading src/lib/entropy/entropy_srcs.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: the two poll() overloads &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/entropy_srcs.cpp#L169-L202">src/lib/entropy/entropy_srcs.cpp:169&ndash;202 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/entropy/entropy_srcs.cpp" data-lo="169" data-hi="202" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/entropy_srcs.cpp#L169-L202"><pre class="code">Loading src/lib/entropy/entropy_srcs.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="c1-overview"><h3><span class="ch">09_x509.rst</span> Path validation overview: incremental building, revocation skip, search limits</h3><p class="kind">Behavior changed in 3.12.0 (GH #5512, #5513, #5520, #5521)</p><p>Three structural changes: candidate paths are now enumerated lazily and validated as discovered (CertificatePathBuilder); CRL/OCSP checks are skipped for chains whose status already contains an error &gt;= FIRST_ERROR_STATUS_TO_SKIP_REVOCATION (3000); and the search is bounded (50 paths / 200 certificate validations, else EXCEEDED_SEARCH_LIMITS).</p><h4>Previous documentation text <span class="f">(src/09_x509.rst)</span></h4><pre class="doc old">First, all possible certificate paths are built from the end entity
+certificate to a trusted root certificate. [...]
+
+Candidate paths are validated by checking signatures, validity periods,
+key usages and other extensions. Any failures in the validation of each
+candidate path are recorded and do not result in an early exit. Instead,
+Botan collects all error codes and merges them in the last step. Before,
+CRLs and OCSP responses are checked on the candidate path.
+
+The algorithm returns the first candidate path that is validated
+successfully. All errors recorded for the candidate paths checked
+previously are discarded. If no candidate path can be validated
+successfully, the algorithm arbitrarily returns the errors recorded for
+the first checked candidate.</pre><h4>New documentation text</h4><pre class="doc new">Certificate paths are built from the end entity certificate to a
+trusted root certificate. [...] Since Botan 3.12.0, path
+building and validation are interleaved: the candidate paths are
+enumerated lazily by an internal depth-first search (class
+``CertificatePathBuilder``) and each candidate path is validated as soon
+as it is discovered, before the search continues.
+
+Candidate paths are validated by checking signatures, validity periods,
+key usages and other extensions. [...] Afterwards, CRLs and OCSP responses
+are checked on the candidate path.
+Since Botan 3.12.0, these revocation checks are skipped for a candidate
+path whose recorded status already contains an error of severity equal
+to or above ``FIRST_ERROR_STATUS_TO_SKIP_REVOCATION`` (numeric value
+3000), i.e. for chains that are already bound to be rejected.
+
+The algorithm returns the first candidate path that is validated
+successfully. [...] To bound the work performed on maliciously
+constructed inputs, since Botan 3.12.0 at most 50 candidate paths and at
+most 200 certificate validations are attempted per call; if these limits
+are exceeded, the validation fails with the hard-failure status code
+``EXCEEDED_SEARCH_LIMITS``.</pre><h4>Botan 3.11.0: x509_path_validate (build-all first, unconditional revocation checks) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L868-L953">src/lib/x509/x509path.cpp:868&ndash;953 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/x509/x509path.cpp" data-lo="868" data-hi="953" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L868-L953"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: x509_path_validate (lazy builder, skip threshold, search limits) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L933-L1039">src/lib/x509/x509path.cpp:933&ndash;1039 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.cpp" data-lo="933" data-hi="1039" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L933-L1039"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: new status codes &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/pkix_enums.h#L55-L106">src/lib/x509/pkix_enums.h:55&ndash;106 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/pkix_enums.h" data-lo="55" data-hi="106" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/pkix_enums.h#L55-L106"><pre class="code">Loading src/lib/x509/pkix_enums.h @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="c2-restrictions"><h3><span class="ch">09_x509.rst</span> Path_Validation_Restrictions: missing options documented</h3><p class="kind">Pre-existing correction</p><p>The restrictions list omitted require_self_signed_trust_anchors() (default true; when disabled, trusted non-self-signed certificates may terminate a path and CHAIN_LACKS_TRUST_ROOT is not inserted) and trusted_ocsp_responders(). The check_chain step for CHAIN_LACKS_TRUST_ROOT and the trusted-end-entity paragraph were adjusted accordingly, and the warnings enumeration was completed with TRUSTED_CERT_HAS_EXPIRED / TRUSTED_CERT_NOT_YET_VALID.</p><h4>Previous documentation text <span class="f">(src/09_x509.rst)</span></h4><pre class="doc old">-  Require a minimum key strength for all keys in the certificate chain
+-  Optionally ignore the validity period of the root certificate
+
+[...]
+
+The path validation logic assumes that the end certificate to be checked
+is not trusted directly as, in this case, no validation is necessary at
+all.
+
+[...]
+
+      4.  If (``at_self_signed_root = true`` AND ``cert_path[i]`` is not
+          self-signed) then do Append ``CHAIN_LACKS_TRUST_ROOT`` to
+          ``cert_status[i]``</pre><h4>New documentation text</h4><pre class="doc new">-  Require a minimum key strength for all keys in the certificate chain
+-  Optionally ignore the validity period of the root certificate
+-  Require trust anchors to be self-signed
+   (``require_self_signed_trust_anchors()``, default: true); if disabled,
+   a trusted non-self-signed certificate (e.g. an intermediate CA
+   deployed as trust anchor) may terminate a valid path
+-  Provide a ``Certificate_Store`` of trusted OCSP responder certificates
+   (``trusted_ocsp_responders()``, default: an empty in-memory store)
+
+[...]
+
+If the end certificate to be checked is itself contained in one of the
+trusted certificate stores, it can constitute a valid candidate path of
+length one (provided it is self-signed or self-signed trust anchors are
+not required).
+
+[...]
+
+      4.  If (``at_self_signed_root = true`` AND ``cert_path[i]`` is not
+          self-signed AND ``restrictions.require_self_signed_trust_anchors()``
+          is set (the default)) then do Append ``CHAIN_LACKS_TRUST_ROOT``
+          to ``cert_status[i]`` // if non-self-signed trust anchors are
+          permitted, a trusted non-self-signed chain end is accepted</pre><h4>Botan 3.12.0: Path_Validation_Restrictions options &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.h#L55-L145">src/lib/x509/x509path.h:55&ndash;145 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.h" data-lo="55" data-hi="145" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.h#L55-L145"><pre class="code">Loading src/lib/x509/x509path.h @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: conditional CHAIN_LACKS_TRUST_ROOT &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L316-L340">src/lib/x509/x509path.cpp:316&ndash;340 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.cpp" data-lo="316" data-hi="340" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L316-L340"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="c3-validate-steps"><h3><span class="ch">09_x509.rst</span> x509_path_validate(): admonition steps rewritten (lazy builder, per-certificate online OCSP)</h3><p class="kind">Behavior changed in 3.12.0 (incl. commit 61b45486c)</p><p>Steps 4-8 were rewritten: build_all_certificate_paths is no longer called; the revocation-skip threshold and search limits are new; and online OCSP is now triggered per certificate position (fetching only the missing slots and keeping stapled/delivered results) instead of the previous all-or-nothing &#x27;if ocsp_status.empty()&#x27; condition.</p><h4>Previous documentation text <span class="f">(src/09_x509.rst)</span></h4><pre class="doc old">   4. Set ``path_building_result = build_all_certificate_paths(cert_paths,
+      trusted_roots, end_entity, end_entity_extra)``
+
+   5. If (``path_building_result`` != Certificate_Status_Code::OK), then do
+      Return Path_Validation_Result(``path_building_result``)
+
+   6. Set ``error_results`` to an empty vector.
+
+   7. For each ``cert_path`` in ``cert_paths`` do:
+
+      a) Set ``status = check_chain(cert_path, ref_time, hostname, usage,
+         restrictions)``
+
+      b) Set ``crl_status = check_crl(cert_path, trusted_roots, ref_time)``
+
+      c) If (``!ocsp_responses.empty()``) then do:
+
+         i. ``ocsp_status = check_ocsp(cert_path, ocsp_resp, trusted_roots,
+            ref_time, restrictions)``
+
+      d) If (``ocsp_status.empty()`` AND ``ocsp_timeout`` != 0) then do:
+
+         i. ``ocsp_status = check_ocsp_online(cert_path, trusted_roots,
+            ref_time, ocsp_timeout, restrictions)``
+
+      e) Call ``merge_revocation_status(status, crl_status, ocsp_status,
+         restrictions)``
+
+      f) Set ``pvd = Path_Validation_Result(status, cert_path)``
+
+      g) If ``pvd.successful_validation()`` then return ``pvd``
+
+      h) Else append ``pvd`` to ``error_results``.
+
+   8. Return ``error_results[0]``</pre><h4>New documentation text</h4><pre class="doc new">   4. Initialize an internal ``CertificatePathBuilder`` with
+      ``trusted_roots``, ``end_entity``, ``end_entity_extra`` and
+      ``require_self_signed =
+      restrictions.require_self_signed_trust_anchors()``. [...]
+
+   5. Set ``first_path_error`` to empty, ``paths_checked = 0`` and
+      ``certs_checked = 0``.
+
+   6. While the builder yields another candidate path ``cert_path`` do:
+
+      a) Increment ``paths_checked`` by one and ``certs_checked`` by the
+         number of certificates in ``cert_path``. If (``paths_checked`` &gt;
+         50) or (``certs_checked`` &gt; 200), set ``first_path_error =
+         Path_Validation_Result(EXCEEDED_SEARCH_LIMITS)`` and exit the
+         loop.
+
+      b) Set ``status = check_chain(cert_path, ref_time, hostname, usage,
+         restrictions)``
+
+      c) If the most severe status code in ``status`` is below
+         ``FIRST_ERROR_STATUS_TO_SKIP_REVOCATION`` (3000) then do:
+
+         i.   Set ``crl_status = check_crl(...)``
+         ii.  If (``!ocsp_responses.empty()``) then do:
+              ``ocsp_status = check_ocsp(...)``
+         iii. If (``ocsp_timeout`` != 0) then do:
+
+              1. Set ``to_online = n - 1`` [...] if
+                 ``restrictions.ocsp_all_intermediates()`` is set,
+                 otherwise ``to_online = 1`` [...]
+
+              2. If any of the first ``to_online`` entries of
+                 ``ocsp_status`` is empty or missing, obtain OCSP
+                 responses online by calling ``check_ocsp_online(...)``
+                 and copy its results into the *empty* entries of
+                 ``ocsp_status`` only; the statuses obtained from the
+                 delivered OCSP responses in the previous step are kept.
+                 If Botan was built without HTTP support, the status code
+                 OCSP_NO_HTTP is inserted into the empty entries instead.
+
+         iv.  Call ``merge_revocation_status(...)``
+
+      d) Set ``pvd = Path_Validation_Result(status, cert_path)``
+
+      e) If ``pvd.successful_validation()`` then return ``pvd``
+
+      f) Else if ``first_path_error`` is empty, set
+         ``first_path_error = pvd``.
+
+   7. If ``first_path_error`` is set, return ``first_path_error``
+
+   8. Return ``Path_Validation_Result(builder.error())``</pre><h4>Botan 3.11.0: x509_path_validate &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L868-L953">src/lib/x509/x509path.cpp:868&ndash;953 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/x509/x509path.cpp" data-lo="868" data-hi="953" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L868-L953"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: x509_path_validate &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L933-L1039">src/lib/x509/x509path.cpp:933&ndash;1039 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.cpp" data-lo="933" data-hi="1039" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L933-L1039"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="c4-pathbuilder"><h3><span class="ch">09_x509.rst</span> Path building sections rewritten: CertificatePathBuilder, build_all_certificate_paths, build_certificate_path</h3><p class="kind">Behavior changed in 3.12.0; DFS admonition also corrected (pre-existing errors)</p><p>The DFS admonition previously contained an upfront self-signed-end-entity rejection that never existed, and misdescribed the handling of trusted certificates (any trusted certificate terminates a candidate path, and the DFS continues extending through it). New in 3.12.0: the DFS is capped at 1000 iterations per next() call, the loop-detection uses X509_Certificate::Tag, and build_certificate_path/build_all_certificate_paths are wrappers over the builder.</p><h4>Previous documentation text <span class="f">(src/09_x509.rst)</span></h4><pre class="doc old">   i.   If the ``end_entity`` certificate is self-signed, Return
+        CANNOT_ESTABLISH_TRUST
+
+   ii.  Initialize empty ``certs_seen`` and ``path_so_far``
+
+   iii. Initialize the ``stack`` with ``(end_entity, false)``
+
+   [...]
+
+            3)  If ``trusted`` and ``last.is_self_signed()``, add ``path_so_far``
+                extended by ``last`` to ``cert_paths`` and return to Step v.
+            4)  Else if ``not trusted`` and ``last.is_self_signed()``, append
+                CANNOT_ESTABLISH_TRUST to ``stats`` and return to Step v.</pre><h4>New documentation text</h4><pre class="doc new">(rewritten as ``CertificatePathBuilder::next()``; excerpt:)
+
+   ii.  While ``stack`` is not empty do:
+
+        a)  Increment ``steps``. If (``steps`` &gt; 1000), record
+            CERT_ISSUER_NOT_FOUND as the builder error [...] and Return
+            nothing.
+
+        [...]
+
+        e)  If ``trusted`` then do:
+
+            1) Set ``path`` = ``path_so_far`` extended by ``last``
+            2) Push the issuers of ``last`` for further exploration [...]
+            3) If ``require_self_signed`` is not set or
+               ``last.is_self_signed()``, Return ``path``
+            4) Else record CANNOT_ESTABLISH_TRUST [...]
+
+        f)  Else if ``last.is_self_signed()``, record
+            CANNOT_ESTABLISH_TRUST and continue with step ii.</pre><h4>Botan 3.11.0: build_all_certificate_paths (DFS inline) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L680-L744">src/lib/x509/x509path.cpp:680&ndash;744 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/x509/x509path.cpp" data-lo="680" data-hi="744" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L680-L744"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: CertificatePathBuilder &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L50-L202">src/lib/x509/x509path.cpp:50&ndash;202 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.cpp" data-lo="50" data-hi="202" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L50-L202"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: build_certificate_path / build_all_certificate_paths wrappers &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L814-L869">src/lib/x509/x509path.cpp:814&ndash;869 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.cpp" data-lo="814" data-hi="869" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L814-L869"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="c5-checkchain"><h3><span class="ch">09_x509.rst</span> check_chain() signature loop: status code name and skip semantics</h3><p class="kind">Pre-existing corrections plus 3.12.0 trust-anchor skip</p><p>The status code is SIGNATURE_ALGO_UNKNOWN (not SIGNATURE_ALGORITHM_UNKNOWN), and on an unknown OID the key-loading and signature checks are skipped, as they are when the issuer key cannot be loaded (the old step had a dangling &#x27;continue with step l)&#x27;). New in 3.12.0: signature verification of a non-self-signed trust anchor is skipped when such anchors are permitted.</p><h4>Previous documentation text <span class="f">(src/09_x509.rst)</span></h4><pre class="doc old">      1. If ``subject.signature_algorithm().oid`` is unknown then do Append
+         SIGNATURE_ALGORITHM_UNKNOWN to ``cert_status[i]``
+
+      2. If the ``issuer`` public key cannot be loaded from the ``issuer``
+         certificate, then do Append CERT_PUBKEY_INVALID to
+         ``cert_status[i]`` and continue with step l)</pre><h4>New documentation text</h4><pre class="doc new">      0. If ``restrictions.require_self_signed_trust_anchors()`` is not
+         set and ``cert_path[i]`` is the trust anchor and is not
+         self-signed, continue with the next ``i`` // the signature of a
+         non-self-signed trust anchor cannot be verified
+
+      1. If ``subject.signature_algorithm().oid`` is unknown then do Append
+         SIGNATURE_ALGO_UNKNOWN to ``cert_status[i]`` and continue with
+         the next ``i`` // the following sub-steps are only performed for
+         known signature algorithms
+
+      2. If the ``issuer`` public key cannot be loaded from the ``issuer``
+         certificate, then do Append CERT_PUBKEY_INVALID to
+         ``cert_status[i]`` and continue with the next ``i``</pre><h4>Botan 3.12.0: check_chain signature loop &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L228-L280">src/lib/x509/x509path.cpp:228&ndash;280 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.cpp" data-lo="228" data-hi="280" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L228-L280"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="c6-checkcrl"><h3><span class="ch">09_x509.rst</span> check_crl(): content checks gated on signature validity; CRLDP matching semantics</h3><p class="kind">Behavior changed in 3.12.0 (commits 2b246f477, f2d898887 / GH #5546)</p><p>VALID_CRL_CHECKED, the revocation lookup, the distribution-point check and the critical-extension check now run only if the CRL signature verified. The CRLDP check uses the new X509_CRL::has_matching_distribution_point() with structural GeneralNames matching instead of URL string comparison. Also corrected (pre-existing): CRL_HAS_EXPIRED only applies when nextUpdate is set, and only trailing empty status sets are removed.</p><h4>Previous documentation text <span class="f">(src/09_x509.rst)</span></h4><pre class="doc old">      f) If ``ref_time &gt; crls[i].next_update()``, Append CRL_HAS_EXPIRED
+         to ``cert_status[i]``
+      g) If the signature on the ``crls[i]`` cannot be verified with ``ca``&#x27;s
+         public key, Append CRL_BAD_SIGNATURE to ``cert_status[i]``
+      h) Append VALID_CRL_CHECKED to ``cert_status[i]``
+      i) If crls[i] lists subject as REVOKED, Append CERT_IS_REVOKED to
+         ``cert_status[i]``
+      j) If ``subject.crl_distribution_point`` not in
+         ``crls[i].issuing_distribution_points()`` then do Append
+         NO_MATCHING_CRLDP to ``cert_status[i]``
+      k) If ``crls[i]`` contains an unknown critical extension then do Append
+         CERT_IS_REVOKED to ``cert_status[i]``
+
+   5. Remove all empty sets from ``cert_status``</pre><h4>New documentation text</h4><pre class="doc new">      f) If ``crls[i]`` has a ``next_update`` time set and ``ref_time &gt;
+         crls[i].next_update()``, Append CRL_HAS_EXPIRED to
+         ``cert_status[i]``
+      g) If the signature on the ``crls[i]`` cannot be verified with ``ca``&#x27;s
+         public key, Append CRL_BAD_SIGNATURE to ``cert_status[i]``.
+         Else do: // since Botan 3.12.0, the contents of a CRL whose
+         signature does not verify are ignored
+
+         1. Append VALID_CRL_CHECKED to ``cert_status[i]``
+         2. If crls[i] lists subject as REVOKED, Append CERT_IS_REVOKED
+            to ``cert_status[i]``
+         3. If ``crls[i].has_matching_distribution_point(subject)``
+            returns false then do Append NO_MATCHING_CRLDP to
+            ``cert_status[i]``. Since Botan 3.12.0 the matching is
+            performed structurally [...]
+         4. If ``crls[i]`` contains an unrecognized critical extension
+            then do Append CERT_IS_REVOKED to ``cert_status[i]``
+
+   5. Remove all trailing empty sets from ``cert_status``</pre><h4>Botan 3.11.0: check_crl (flat step sequence) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L390-L460">src/lib/x509/x509path.cpp:390&ndash;460 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/x509/x509path.cpp" data-lo="390" data-hi="460" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L390-L460"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: check_crl (else-gated content checks) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L579-L643">src/lib/x509/x509path.cpp:579&ndash;643 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.cpp" data-lo="579" data-hi="643" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L579-L643"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: X509_CRL::has_matching_distribution_point &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509_crl.cpp#L296-L315">src/lib/x509/x509_crl.cpp:296&ndash;315 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509_crl.cpp" data-lo="296" data-hi="315" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509_crl.cpp#L296-L315"><pre class="code">Loading src/lib/x509/x509_crl.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="c7-ocsp"><h3><span class="ch">09_x509.rst</span> OCSP: responder pre-checks, failure comparison, verify_signature outcomes, fixed-size check_ocsp result</h3><p class="kind">Behavior changed in 3.12.0 (commits 4274164a1, a5b1a0e9b, 83d4c6dae, 68f2e4281, 61b45486c)</p><p>verify_ocsp_signing_cert() now pre-checks issuer DN and AKID/SKID before the delegated-responder path validation and returns OCSP_ISSUER_NOT_TRUSTED alone on mismatch; the failure comparison changed from &gt; to &gt;= FIRST_ERROR_STATUS (so SIGNATURE_METHOD_TOO_WEAK now rejects); anyExtendedKeyUsage no longer satisfies id-kp-OCSPSigning; verify_signature(issuer, restrictions) can additionally return UNKNOWN_CRITICAL_EXTENSION, UNTRUSTED_HASH and SIGNATURE_METHOD_TOO_WEAK; and check_ocsp() no longer strips empty status sets (fixed-size result).</p><h4>Previous documentation text <span class="f">(src/09_x509.rst)</span></h4><pre class="doc old">      c) It passes a full X.509 path validation, performed by calling
+         ``x509_path_validate()`` with ``signing_cert`` as the end entity
+         certificate, [...]
+
+      If the path validation in criterion c) fails, Return a set containing
+      two status codes: the most severe status code of that path validation
+      (``Path_Validation_Result::result()``, e.g. CERT_HAS_EXPIRED or
+      OCSP_RESPONSE_MISSING_KEYUSAGE) and OCSP_ISSUER_NOT_TRUSTED. [...]
+
+   4. If the signature on the OCSP response cannot be verified with
+      ``signing_cert``&#x27;s public key (function ``verify_signature()``),
+      Return the respective status code (e.g. OCSP_SIGNATURE_ERROR)
+
+[check_ocsp:]
+   3. Remove all empty sets from ``cert_status``
+   4. Return ``cert_status``</pre><h4>New documentation text</h4><pre class="doc new">      c) It carries the *id-kp-OCSPSigning* extended key usage, is issued
+         by the CA that issued the certificate in question, and passes a
+         full X.509 path validation. Since Botan 3.12.0, before the path
+         validation is attempted, two preconditions are checked: the
+         issuer distinguished name of ``signing_cert`` must equal the
+         subject distinguished name of ``ca``, and, if both are present,
+         the authority key identifier of ``signing_cert`` must equal the
+         subject key identifier of ``ca`` [...]. If either precondition
+         fails, Return the single status code OCSP_ISSUER_NOT_TRUSTED
+         (without performing a path validation). [...] Since Botan 3.12.0,
+         the *id-kp-OCSPSigning* requirement is no longer satisfied by an
+         *anyExtendedKeyUsage* entry.
+
+      If the path validation in criterion c) fails, i.e. its most severe
+      status code (``Path_Validation_Result::result()``) is an error code
+      (numeric value &gt;= FIRST_ERROR_STATUS = 1000; before Botan 3.12.0
+      the comparison was strictly greater, so that
+      SIGNATURE_METHOD_TOO_WEAK = 1000 did not count as a failure),
+      Return a set containing two status codes [...]
+
+   4. If the signature on the OCSP response cannot be verified with
+      ``signing_cert``&#x27;s public key (function ``verify_signature()``),
+      Return the respective status code (e.g. OCSP_SIGNATURE_ERROR).
+      Since Botan 3.12.0 this step takes the ``restrictions`` into
+      account and can also fail with: UNKNOWN_CRITICAL_EXTENSION [...];
+      UNTRUSTED_HASH [...]; or SIGNATURE_METHOD_TOO_WEAK [...]
+
+[check_ocsp:]
+   3. Return ``cert_status`` // since Botan 3.12.0 the returned list has
+      the fixed size ``n-1``; entries for which no OCSP response was
+      available remain empty sets</pre><h4>Botan 3.11.0: verify_ocsp_signing_cert / evaluate_ocsp_response &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L261-L356">src/lib/x509/x509path.cpp:261&ndash;356 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/x509/x509path.cpp" data-lo="261" data-hi="356" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509path.cpp#L261-L356"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: verify_ocsp_signing_cert with pre-checks &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L437-L546">src/lib/x509/x509path.cpp:437&ndash;546 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.cpp" data-lo="437" data-hi="546" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L437-L546"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: check_ocsp with fixed-size result &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L550-L577">src/lib/x509/x509path.cpp:550&ndash;577 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509path.cpp" data-lo="550" data-hi="577" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509path.cpp#L550-L577"><pre class="code">Loading src/lib/x509/x509path.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: Response::verify_signature(issuer, restrictions) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/ocsp.cpp#L383-L430">src/lib/x509/ocsp.cpp:383&ndash;430 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/ocsp.cpp" data-lo="383" data-hi="430" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/ocsp.cpp#L383-L430"><pre class="code">Loading src/lib/x509/ocsp.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="c8-statusfor-dns"><h3><span class="ch">09_x509.rst</span> status_for() output list and matches_dns_name() IP matching</h3><p class="kind">Behavior changed in 3.12.0 (commits 160fffb0a, 45d307bb0/da7307b48); IPv4 part pre-existing</p><p>status_for() can now also return OCSP_RESPONSE_INVALID when a response time cannot be represented. matches_dns_name() matches IPv4 addresses against SAN iPAddress entries since before 3.11.0 (the doc claimed no IPAddress support at all) and additionally matches IPv6 addresses since 3.12.0.</p><h4>Previous documentation text <span class="f">(src/09_x509.rst)</span></h4><pre class="doc old">   -  An OCSP status code, one of CERT_IS_REVOKED, OCSP_NOT_YET_VALID,
+      OCSP_HAS_EXPIRED, OCSP_IS_TOO_OLD, OCSP_RESPONSE_GOOD,
+      OCSP_BAD_STATUS or OCSP_CERT_NOT_LISTED.
+
+[matches_dns_name remark:]
+**Remark:** Botan checks against the &quot;DNS&quot; field in the SubjectAlternativeName
+extension. It does however not support matching &quot;IPAddress&quot; or &quot;URI&quot; fields as
+recommended by [TR-02103]_.</pre><h4>New documentation text</h4><pre class="doc new">   -  An OCSP status code, one of CERT_IS_REVOKED, OCSP_NOT_YET_VALID,
+      OCSP_HAS_EXPIRED, OCSP_IS_TOO_OLD, OCSP_RESPONSE_GOOD,
+      OCSP_BAD_STATUS, OCSP_CERT_NOT_LISTED or OCSP_RESPONSE_INVALID
+      (the latter since Botan 3.12.0, if a thisUpdate/nextUpdate time in
+      the response cannot be represented and the time comparison throws).
+
+[matches_dns_name remark:]
+**Remark:** Botan checks against the &quot;DNS&quot; field in the SubjectAlternativeName
+extension. If the name to match parses as an IPv4 address, it is instead
+matched against the &quot;IPAddress&quot; (iPAddress) entries of the
+SubjectAlternativeName extension; since Botan 3.12.0 this also applies
+to IPv6 addresses. Matching &quot;URI&quot; fields as recommended by [TR-02103]_
+is not supported. (A corresponding step was also added to the
+``matches_dns_name()`` admonition.)</pre><h4>Botan 3.12.0: status_for with try/catch around time checks &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/ocsp.cpp#L463-L505">src/lib/x509/ocsp.cpp:463&ndash;505 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/ocsp.cpp" data-lo="463" data-hi="505" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/ocsp.cpp#L463-L505"><pre class="code">Loading src/lib/x509/ocsp.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.11.0: matches_dns_name (IPv4 only) &mdash; <a href="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509cert.cpp#L667-L692">src/lib/x509/x509cert.cpp:667&ndash;692 @ 3.11.0</a></h4><div class="embed" data-tag="3.11.0" data-file="src/lib/x509/x509cert.cpp" data-lo="667" data-hi="692" data-gh="https://github.com/randombit/botan/blob/3.11.0/src/lib/x509/x509cert.cpp#L667-L692"><pre class="code">Loading src/lib/x509/x509cert.cpp @ 3.11.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: matches_dns_name (IPv4 + IPv6) &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509cert.cpp#L708-L738">src/lib/x509/x509cert.cpp:708&ndash;738 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509cert.cpp" data-lo="708" data-hi="738" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509cert.cpp#L708-L738"><pre class="code">Loading src/lib/x509/x509cert.cpp @ 3.12.0 from GitHub&hellip;</pre></div></section><section id="c9-parsing"><h3><span class="ch">09_x509.rst</span> Certificate parsing: strict DER, extension decode errors, self-signed heuristic</h3><p class="kind">New behavior in 3.12.0, now documented (GH #5515, #5518, #5521)</p><p>Three additions to the certificate-formats section: PKIX types are parsed with strict DER limits (BER_Decoder::Limits::DER()); a recognized extension whose body fails to decode is kept as an unknown extension and yields the new status EXTENSION_ENCODING_ERROR during check_chain; and self-signedness is determined heuristically during parsing, with the self-signature verified only during path validation.</p><h4>Previous documentation text <span class="f">(src/09_x509.rst)</span></h4><pre class="doc old">Unknown extensions are not parsed but their DER encoded content is provided to
+the application via the certificate API. [...] Only the
+&quot;FreshestCRL&quot; extension is not supported by Botan: meaning that delta-CRLs are
+not supported either.</pre><h4>New documentation text</h4><pre class="doc new">Unknown extensions are not parsed but their DER encoded content is provided to
+the application via the certificate API. [...] Since Botan 3.12.0, an
+extension whose OID is recognized but whose body fails to decode is retained
+as an unknown extension and reported with the new status code
+EXTENSION_ENCODING_ERROR during path validation (``check_chain()``),
+regardless of whether the extension is marked critical.
+
+Since Botan 3.12.0, PKIX structures (certificates, CRLs, certificate
+requests and OCSP responses) are decoded with strict DER limits
+(``BER_Decoder::Limits::DER()``): non-canonical BER encodings, e.g.
+indefinite-length or non-minimal-length encodings, are rejected at parse
+time. Furthermore, whether a certificate is considered self-signed is
+determined heuristically during parsing (equal subject and issuer
+distinguished names and, if both are present, equal subject and
+authority key identifiers); the certificate&#x27;s self-signature is no
+longer verified during parsing, but only during path validation.</pre><h4>Botan 3.12.0: self-signed heuristic in parse_x509_cert_body &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509cert.cpp#L283-L305">src/lib/x509/x509cert.cpp:283&ndash;305 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/x509cert.cpp" data-lo="283" data-hi="305" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/x509cert.cpp#L283-L305"><pre class="code">Loading src/lib/x509/x509cert.cpp @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: EXTENSION_ENCODING_ERROR status code &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/pkix_enums.h#L90-L98">src/lib/x509/pkix_enums.h:90&ndash;98 @ 3.12.0</a></h4><div class="embed" data-tag="3.12.0" data-file="src/lib/x509/pkix_enums.h" data-lo="90" data-hi="98" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/x509/pkix_enums.h#L90-L98"><pre class="code">Loading src/lib/x509/pkix_enums.h @ 3.12.0 from GitHub&hellip;</pre></div><h4>Botan 3.12.0: BER_Decoder::Limits &mdash; <a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/asn1/ber_dec.h#L1-L60">src/lib/asn1/ber_dec.h:1&ndash;60 @ 3.12.0</a></h4><p class="note">The Limits class controlling accepted BER/DER syntax (added in 3.12.0).</p><div class="embed" data-tag="3.12.0" data-file="src/lib/asn1/ber_dec.h" data-lo="1" data-hi="60" data-gh="https://github.com/randombit/botan/blob/3.12.0/src/lib/asn1/ber_dec.h#L1-L60"><pre class="code">Loading src/lib/asn1/ber_dec.h @ 3.12.0 from GitHub&hellip;</pre></div></section>
+</main>
+<script>
+(function() {
+  const cache = new Map();
+  async function fileLines(tag, file) {
+    const key = tag + "|" + file;
+    if(!cache.has(key)) {
+      cache.set(key, fetch("https://raw.githubusercontent.com/randombit/botan/" + tag + "/" + file)
+        .then(r => { if(!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+        .then(t => t.split("\n")));
+    }
+    return cache.get(key);
+  }
+  function escapeHtml(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  document.querySelectorAll(".embed").forEach(async div => {
+    const pre = div.querySelector("pre");
+    const lo = parseInt(div.dataset.lo, 10), hi = parseInt(div.dataset.hi, 10);
+    try {
+      const lines = await fileLines(div.dataset.tag, div.dataset.file);
+      const slice = lines.slice(lo - 1, hi);
+      pre.innerHTML = slice.map((l, i) =>
+        '<span class="ln">' + (lo + i) + '</span>' + escapeHtml(l)).join("\n");
+    } catch(e) {
+      pre.innerHTML = '<span class="fail">Could not load the snippet from GitHub (' +
+        escapeHtml(String(e)) + '). View it directly: </span>' +
+        '<a href="' + div.dataset.gh + '">' + escapeHtml(div.dataset.gh) + '</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

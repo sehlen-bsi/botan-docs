@@ -35,6 +35,10 @@ while the negative test vectors are in
 size of the other values, all values except the KAT seeds and the ciphertexts
 are hashed.
 
+**Remark from review of 3.12.0:** No substantial change in the test code
+referenced here (only a trivial namespace refactoring). No change in the test
+vectors referenced here.
+
 .. table::
    :class: longtable
    :widths: 20 80
@@ -136,6 +140,9 @@ therefore not discussed in detail in this chapter.
 All FrodoKEM-specific test code can be found in
 :srcref:`src/tests/test_frodokem.cpp`. Relevant test data vectors for the KAT
 tests are in *src/tests/data/pubkey/frodokem_kat.vec*.
+
+**Remark from review of 3.12.0:** No change in the test code or test vectors
+referenced here.
 
 .. table::
    :class: longtable
@@ -244,6 +251,11 @@ therefore not discussed in detail in this chapter.
 
 All ML-KEM-specific test code can be found in
 :srcref:`src/tests/test_kyber.cpp`.
+
+**Remark from review of 3.12.0:** No substantial change in the test code
+referenced here (only a trivial namespace refactoring). No change in the test
+vectors referenced here.
+
 Relevant test data vectors for the ML-KEM KAT tests are in
 :srcref:`[src/tests/data/pubkey]/kyber_encodings.vec`,
 :srcref:`[src/tests/data/pubkey]/ml_kem.vec`,
@@ -251,6 +263,9 @@ Relevant test data vectors for the ML-KEM KAT tests are in
 :srcref:`[src/tests/data/pubkey]/ml_kem_acvp_encap.vec`. Additionally, the
 vectors for testing the still supported Kyber (NIST Round 3 submission)
 instances are in :srcref:`[src/tests/data/pubkey]/kyber_kat.vec`.
+
+**Remark from review of 3.12.0:** No change in the test vectors referenced
+here.
 
 .. table::
    :class: longtable
@@ -483,6 +498,9 @@ following constraints:
 All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. The
 following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/rsa_kem.vec`.
+
+**Remark from review of 3.12.0:** No change in the test code or test vectors
+referenced here.
 
 .. table::
    :class: longtable

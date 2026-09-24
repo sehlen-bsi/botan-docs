@@ -198,8 +198,8 @@ overview of the functionality without distinguishing between RSA and ECC keys.
 
    **Code:**
 
-   - RSA: :srcref:`TPM2::RSA_PrivateKey::create_unrestricted_transient <src/lib/prov/tpm2/tpm2_rsa/tpm2_rsa.cpp:68|create_unrestricted_transient>`
-   - ECDSA: :srcref:`TPM2::ECDSA_PrivateKey::create_unrestricted_transient <src/lib/prov/tpm2/tpm2_ecc/tpm2_ecc.cpp:61|create_unrestricted_transient>`
+   - RSA: :srcref:`TPM2::RSA_PrivateKey::create_unrestricted_transient <src/lib/prov/tpm2/tpm2_rsa/tpm2_rsa.cpp:57|create_unrestricted_transient>`
+   - ECDSA: :srcref:`TPM2::ECDSA_PrivateKey::create_unrestricted_transient <src/lib/prov/tpm2/tpm2_ecc/tpm2_ecc.cpp:63|create_unrestricted_transient>`
 
    **Input:**
 
@@ -224,7 +224,7 @@ overview of the functionality without distinguishing between RSA and ECC keys.
 
    **Code:**
 
-   - :srcref:`TPM2::PrivateKey::load_transient <src/lib/prov/tpm2/tpm2_key.cpp:187|load_transient>`
+   - :srcref:`TPM2::PrivateKey::load_transient <src/lib/prov/tpm2/tpm2_key.cpp:192|load_transient>`
 
    **Input:**
 
@@ -249,7 +249,7 @@ overview of the functionality without distinguishing between RSA and ECC keys.
 
    **Code:**
 
-   - :srcref:`TPM2::PrivateKey::load_persistent <src/lib/prov/tpm2/tpm2_key.cpp:177|load_persistent>`
+   - :srcref:`TPM2::PrivateKey::load_persistent <src/lib/prov/tpm2/tpm2_key.cpp:182|load_persistent>`
 
    **Input:**
 
@@ -350,7 +350,7 @@ supported at the moment.
 
    **Steps:**
 
-   1. ``ciphertext = Esys_RSA_Encrypt(ctx, key, sessions, padding, plaintext)`` (see :srcref:`[src/lib/prov/tpm2]/tpm2_rsa/tpm2_rsa.cpp:269|encrypt`)
+   1. ``ciphertext = Esys_RSA_Encrypt(ctx, key, sessions, padding, plaintext)`` (see :srcref:`[src/lib/prov/tpm2]/tpm2_rsa/tpm2_rsa.cpp:257|encrypt`)
    2. Return the ciphertext
 
 .. admonition:: Decryption
@@ -369,5 +369,5 @@ supported at the moment.
 
    **Steps:**
 
-   1. ``plaintext = Esys_RSA_Decrypt(ctx, key, sessions, padding, ciphertext)`` (see :srcref:`[src/lib/prov/tpm2]/tpm2_rsa/tpm2_rsa.cpp:352|decrypt`)
+   1. ``plaintext = Esys_RSA_Decrypt(ctx, key, sessions, padding, ciphertext)`` (see :srcref:`[src/lib/prov/tpm2]/tpm2_rsa/tpm2_rsa.cpp:340|decrypt`)
    2. Return the plaintext
