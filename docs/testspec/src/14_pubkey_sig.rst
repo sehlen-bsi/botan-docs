@@ -16,8 +16,8 @@ in :srcref:`src/tests/test_pubkey.cpp`.
 signature and randomly perturbed signatures (now 24 instead of 20 iterations
 with long tests, 9 instead of 5 otherwise), a set of deterministic malformed
 signatures is now always tested (an empty signature, all-zero signatures of
-lengths one and two, a signature truncated by one byte, and a signature with
-the first bit flipped). Furthermore, after every rejected invalid signature
+lengths one and two, an all-zero signature one byte shorter than the valid
+signature, and a signature with the first bit flipped). Furthermore, after every rejected invalid signature
 the test now re-verifies that the valid signature still verifies. The latter
 serves as regression coverage for the Ed25519 and ECDSA verifier-state issues
 fixed in Botan 3.11.1 (GH #5454, #5455), where an invalid signature could

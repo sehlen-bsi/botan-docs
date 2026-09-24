@@ -18,8 +18,11 @@ completed the handshake, so that a handshake aborting via an exception can no
 longer be reported as a success (tests that intentionally drive a handshake
 abort suppress this assertion). Furthermore, the brainpool256r1 handshake
 test is now guarded by a build-configuration check, and RSA support is
-required for building the tests. No substantial change to the test logic
-otherwise.
+required for building the tests. In the course of this hardening the
+handshake test with an application-specific curve (numsp256d1) was found to
+be non-functional and is disabled in 3.12.0, since the TLS 1.2 server
+implementation currently cannot negotiate application-specific group codes
+(GH #5550). No substantial change to the test logic otherwise.
 
 The following TLS handshake tests are executed:
 

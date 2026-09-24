@@ -123,8 +123,12 @@ span) that are relevant to the test specification
 (<code>docs/testspec/src/*.rst</code>, branch <code>release-3.12-update</code>). For each change
 area this page shows the new/changed test code as of tag <code>3.12.0</code> with a GitHub source
 link, followed by the testspec section covering the change with a link to the document on GitHub.
-Document excerpts reflect the working state of the concurrently updated testspec on 2026-08-11.</p>
-<p class="meta">Date: 2026-08-11</p>
+Document excerpts reflect the working state of the concurrently updated testspec on 2026-08-11.
+<strong>Part II</strong> (sections 14–23, added 2026-08-18) additionally covers test-suite changes
+made between Botan <strong>3.7.1</strong> and <strong>3.11.0</strong> that were found — during a
+full verification of the test specification against Botan 3.12.0 — to not yet be reflected in the
+test specification.</p>
+<p class="meta">Date: 2026-08-11 (part I) / 2026-08-18 (part II)</p>
 <nav class="toc">
 <h2>Contents</h2>
 <ol style="list-style: none;">
@@ -141,6 +145,17 @@ Document excerpts reflect the working state of the concurrently updated testspec
 <li><a href="#ecdh">11. ECDH: negative test for off-curve peer public point</a></li>
 <li><a href="#certstor">12. Certificate store: contains() cross-checks</a></li>
 <li><a href="#modes">13. Cipher modes / AEAD and CTR test vectors</a></li>
+<li style="list-style:none; margin-top:.5rem;"><strong>Part II — changes 3.7.1 → 3.11.0</strong></li>
+<li><a href="#aes-long">14. Long-input block cipher KATs (GH #4649, #5339)</a></li>
+<li><a href="#gcm-long">15. Additional long GCM test vectors (GH #5273)</a></li>
+<li><a href="#gmac-vec">16. GMAC test vector expansion (GH #5257, #5418)</a></li>
+<li><a href="#cmac-aria">17. CMAC(ARIA-128) test vector (GH #5440)</a></li>
+<li><a href="#sha-simd-vec">18. SHA-1/SHA-256 vectors for new SIMD implementations (GH #4852, #4818)</a></li>
+<li><a href="#blake2b-vec">19. BLAKE2b test vectors replaced (GH #4748)</a></li>
+<li><a href="#entropy-defaults">20. Default entropy source list hardcoded (GH #4639)</a></li>
+<li><a href="#certstor-finders">21. Certificate store: search by issuer DN and serial number (GH #5072)</a></li>
+<li><a href="#ecdsa-forgery">22. ECDSA chosen-key verification forgery regression vectors (GH #5412)</a></li>
+<li><a href="#tls-stream-hsfail">23. TLS ASIO stream: handshake-failure scenario (GH #3795)</a></li>
 </ol>
 </nav>
 </header>
@@ -1432,8 +1447,8 @@ Find Certificate by SHA-1 Hash of its Public Key
 exercises <code>finish()</code> and <code>update()</code>+<code>finish()</code> with a non-zero
 buffer offset (random 1–32 byte prefix that must remain untouched).
 <code>src/tests/data/aead/gcm.vec</code> gained new KATs with larger inputs (≈ 1 KiB, generated
-with OpenSSL 3.6), added in the context of the new GHASH/GCM maximum input length enforcement
-(GH #5521), and <code>src/tests/data/stream/ctr.vec</code> gained long multi-block vectors
+with OpenSSL 3.6), added together with the AVX2 CTR code path introduced in Botan 3.11.1
+(GH #5474), and <code>src/tests/data/stream/ctr.vec</code> gained long multi-block vectors
 (up to 8 KiB) plus a <code>#test cpuid avx2</code> directive covering the new SIMD CTR paths.
 Long hex lines in the vector file snippets below are truncated for display; follow the GitHub
 links for the full data.</p>
@@ -1560,15 +1575,584 @@ test vectors are listed in :srcref:`src/tests/data/aead/gcm.vec`.
 
 **Remark from review of 3.12.0:** No change in the AEAD test code. The GCM
 test vectors have only received additions: several known answer tests with
-long messages (generated with OpenSSL 3.6) were added in the course of
-introducing maximum input length enforcement for GHASH/GCM and
-ChaCha20Poly1305 (GH #5521).
+long messages (generated with OpenSSL 3.6) were added together with the
+AVX2 code path for CTR counter handling introduced in Botan 3.11.1
+(GH #5474).
 
 .. table::
    :class: longtable
    :widths: 20 80</code></pre>
 <p class="src-link">Testspec document on GitHub:
 <a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/01_aead.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/01_aead.rst</a></p>
+</figure>
+</section>
+<section id="part2">
+<h2>Part II — Test-suite changes between Botan 3.7.1 and 3.11.0 not yet reflected in the testspec</h2>
+<p class="summary">The sections in this part document changes to Botan’s test suite that were made
+between releases <strong>3.7.1</strong> and <strong>3.11.0</strong> — i.e. before the
+3.11.0 → 3.12.0 span covered by part I — and that a full verification of the test specification
+against Botan 3.12.0 found to not yet be reflected in the test specification. For each change the
+affected test code or test data is shown as of tag <code>3.12.0</code>, followed by the testspec
+passage that still reflects the pre-change state. Each section summary names the commit subject,
+the GitHub pull request, and the first release tag containing the change.</p>
+</section>
+<section id="aes-long">
+<h2>14. Long-input block cipher KATs (GH #4649, #5339)</h2>
+<p class="summary">The AES known answer test vectors were extended with long-input KATs in two steps:
+commit “Fix AES test” (GH #4649, first released in Botan 3.8.0) added one 1152-bit (9-block)
+input per key size to cover the AVX2/VAES implementation, and commit
+“Add long input test vectors for various block ciphers” (GH #5339, first released in Botan 3.11.0)
+added one 8576-bit input per key size (the latter commit also extended
+<code>aria.vec</code>, <code>blowfish.vec</code>, <code>camellia.vec</code>, <code>des.vec</code>
+and <code>seed.vec</code>). All six new AES vectors are marked “# Generated by OpenSSL”;
+<code>src/tests/data/block/aes.vec</code> thereby grew from 1347 to 1353 vectors
+(AES-128: 385, AES-192: 452, AES-256: 516). The testspec still states
+“Number of test cases: 1350” and lists only 128-bit and 1024-bit In/Out lengths for AES-128, so
+neither the current vector count nor the new 1152-bit and 8576-bit input lengths are reflected.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/block/aes.vec (lines 1539–1547)</span> — the two long AES-128 vectors (1152-bit input from GH #4649, 8576-bit input from GH #5339; hex truncated for display)</figcaption>
+<pre><code># Generated by OpenSSL
+Key = 9FCFB037623F4B9A3F7FF3DD87CE6E41
+In = C15BC160670CBDF94167AE26F17EAD140C85107A1DCD15E534D6C000A65372805D0CEBE902D6B699 …[+208 chars]
+Out = 09F0329649975583F8B55763246988A9BF0DD3FAAF60EC074E85626BAE7EC57585C51DDAE5F0D66F …[+208 chars]
+
+# Generated by OpenSSL
+Key = 00112233445566778899aabbccddeeff
+In = 000100020003000400050006000700080009000a000b000c000d000e000f00100011001200130014 …[+2064 chars]
+Out = b0e1e4b69f7a344211d24e017715e5dc3f9da1a4af0c2a9470975ebf48d354a5942c04169bb67bcc …[+2064 chars]</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/block/aes.vec#L1539-L1547">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/block/aes.vec#L1539-L1547</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">03_block_ciphers.rst</span> — section
+“AES” constraint list (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>AES-128 is tested with the following constraints:
+
+-  Number of test cases: 1350
+-  Source: NIST CAVP AESAVS
+
+-  Key: 128 bits
+
+   -  Extreme values: 128 bits all zero, only one bit set
+
+-  In: 128 bits, 1024 bits
+
+   -  Extreme values: 128 bits all zero, only one bit set, 1024 bits
+
+-  Out: 128 bits, 1024 bits</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/03_block_ciphers.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/03_block_ciphers.rst</a></p>
+</figure>
+</section>
+<section id="gcm-long">
+<h2>15. Additional long GCM test vectors (GH #5273)</h2>
+<p class="summary">Commit “Add a couple of longer GCM test cases generated by OpenSSL” (GH #5273, first
+released in Botan 3.11.0) added two long test cases to <code>src/tests/data/aead/gcm.vec</code>: a
+565-byte-input vector in the <code>[AES-128/GCM]</code> section and a second vector appended at
+the end of the file, which thereby lands in the <code>[SM4/GCM]</code> section. The testspec’s
+GCM constraint list (“Number of test cases: 43”) matched the 43 AES-GCM vectors of Botan 3.7.1
+exactly; at tag 3.12.0 the file holds 47 AES-GCM vectors (55 in total, together with the
+vectors added in Botan 3.11.1, cf. section 13), so the count and the In/Out lengths in the
+constraint list are outdated.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/aead/gcm.vec (lines 65–71)</span> — long AES-128/GCM vector added by GH #5273 (hex truncated for display)</figcaption>
+<pre><code># Random test cases generated by OpenSSL
+
+Nonce  = 3c448dc2a2a2d83052adab78
+Key = e59f190cd7467b1555b1e71f7770f97f
+AD = 642b9ab7507f90dbde359441364a8f1e3d16cbd9b05b5626df991f4e00b6f600
+In  = ef3a91cba6e7da6d22fb673f781db723fe34f2879c68c9e6013678550c5b6321cd541732aaa75e0d …[+1050 chars]
+Out = 55d4ddd8d0df6b24adc0ddacd371eed45485d4553e2de648ad0e7ed417ffbd7afb0c4c3b887fe766 …[+1082 chars]</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/aead/gcm.vec#L65-L71">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/aead/gcm.vec#L65-L71</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">01_aead.rst</span> — section
+“GCM” constraint list (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>GCM is tested with the following constraints:
+
+-  Number of test cases: 43
+-  Sources: NIST CAVP, generated using OpenSSL, Project Wycheproof
+
+-  Block Cipher: AES-128 and AES-256
+
+-  Key: 128 bits, 192 bits, 256 bits
+
+   -  Extreme values: 128 bits all zero, 192 bits all zero, 256 bits all
+      zero
+
+-  Nonce: 64 bits, 96 bits, 128 bits and 480 bits
+
+   -  Extreme values: 128 bits, 480 bits [1]_
+
+-  Out: 64 bits, 128 bits, 608 bits, 640 bits
+
+-  AD: 64 bits, 128 bits, 160 bits, 192 bits, no AD</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/01_aead.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/01_aead.rst</a></p>
+</figure>
+</section>
+<section id="gmac-vec">
+<h2>16. GMAC test vector expansion (GH #5257, #5418)</h2>
+<p class="summary"><code>src/tests/data/mac/gmac.vec</code> grew from 15 to 143 vectors: commit
+“Add more test vectors for GMAC” (GH #5257, first released in Botan 3.11.0) appended a large set
+of new vectors marked “# Generated by OpenSSL” (totals now AES-128: 135, AES-192: 4, AES-256: 4;
+inputs up to 624 bytes), and commit “Add AVX-512 CLMUL GHASH” (GH #5418, also first released in
+Botan 3.11.0) extended the <code>#test cpuid</code> directive by <code>avx512_clmul</code> so the
+vectors also exercise the new AVX-512 CLMUL GHASH implementation. The testspec’s GMAC constraint
+list — 15 test cases, generated with BouncyCastle, inputs 0–400 bits — matched Botan 3.7.1
+exactly, so this is pure post-3.7.1 drift; count, source and input lengths are outdated.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/mac/gmac.vec (lines 84–95)</span> — beginning of the OpenSSL-generated additions (the “#test cpuid avx512_clmul …” directive is at line 1)</figcaption>
+<pre><code>[GMAC(AES-128)]
+# Generated by OpenSSL
+
+IV  = d0442700e2bf1bc92bb27b96
+Key = 1aa0239e0e3ab4882f7e2aa691c55c5a
+In  = 3bad
+Out = 473f2d493b464daecb2bd72536259648
+
+IV  = 442700e2bf1bc92bb27b963a
+Key = a0239e0e3ab4882f7e2aa691c55c5adf
+In  = ad24142520db7c3edb76
+Out = 8507f9e22c72a8670ac14ea9b407b4a1</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/mac/gmac.vec#L84-L95">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/mac/gmac.vec#L84-L95</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">07_mac.rst</span> — section
+“GMAC” constraint list (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>GMAC is tested with the following constraints:
+
+-  Number of test cases: 15
+-  Source: Generated with BouncyCastle
+
+-  Cipher: AES-128, AES-192, AES-256
+-  Key: 128 bits, 192 bits, 256 bits
+
+-  In: varying length
+
+   -  Range: 0 bits – 400 bits
+
+-  IV: different 96 bit values, one 32 bit value
+
+-  Out: varying length
+
+The following table shows an example test case with one test vector. All
+test vectors are listed in :srcref:`src/tests/data/mac/gmac.vec`.
+
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
+
+The test vectors were generated with Bouncy Castle Crypto 1.54.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/07_mac.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/07_mac.rst</a></p>
+</figure>
+</section>
+<section id="cmac-aria">
+<h2>17. CMAC(ARIA-128) test vector (GH #5440)</h2>
+<p class="summary">Commit “Add ARIA implementation using AVX-512 GFNI” (GH #5440, first released in
+Botan 3.11.0) appended a <code>[CMAC(ARIA-128)]</code> section with one Wycheproof-derived vector
+to <code>src/tests/data/mac/cmac.vec</code> (lines 158–162); the file now holds 39 vectors. The
+testspec still states 36 test cases with block ciphers AES-128/192/256 only — that count
+corresponds to the AES-only vectors that were present at Botan 3.7.1 (the
+<code>[CMAC(Blowfish)]</code> and <code>[CMAC(Threefish-512)]</code> vectors predate 3.7.1) — so
+the new ARIA vector is not reflected.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/mac/cmac.vec (lines 153–162)</span> — end of the file with the appended [CMAC(ARIA-128)] section</figcaption>
+<pre><code>[CMAC(Threefish-512)]
+Key = 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+In = 0000000000000000000000000000000000000000000000000000000000000000
+Out = C07C71A284C7A63023146376F895E83543EA3547A9268861CD00B7AC405AFC34A9EC86A30622D38C7E765521B148AAB5DEDD3AE80496ED56BCCB17B2E3D18009
+
+[CMAC(ARIA-128)]
+# Wycheproof
+Key = e34f15c7bd819930fe9d66e0c166e61c
+In =
+Out = 9572121a969370034390cd00d6a89130</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/mac/cmac.vec#L153-L162">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/mac/cmac.vec#L153-L162</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">07_mac.rst</span> — section
+“CMAC” constraint list (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>CMAC is tested with the following constraints:
+
+-  Number of test cases: 36
+
+-  Block Cipher: AES-128, AES-192, AES-256
+-  Key: 128 bits, 192 bits and 256 bits
+
+-  In: varying length
+
+   -  Range: 8 bits - 960 bits
+   -  Extreme values: empty message, 960 bits
+
+-  Out: varying length
+
+The following table shows an example test case with one test vector. All
+test vectors are listed in :srcref:`src/tests/data/mac/cmac.vec`.
+
+
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/07_mac.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/07_mac.rst</a></p>
+</figure>
+</section>
+<section id="sha-simd-vec">
+<h2>18. SHA-1/SHA-256 vectors for new SIMD implementations (GH #4852, #4818)</h2>
+<p class="summary">Commit “Add SHA-1 using AVX2 for message expansion plus BMI2” (GH #4852, first
+released in Botan 3.9.0) added two vectors with 211-byte (1688-bit) and 531-byte (4248-bit)
+inputs to <code>src/tests/data/hash/sha1.vec</code>, growing it from 78 to 80 vectors, and commit
+“New SHA-256 using AVX2 for message expansion” (GH #4818, first released in Botan 3.8.0) added
+one SHA-256 vector with a 511-byte input to <code>src/tests/data/hash/sha2_32.vec</code> (the
+<code>[SHA-256]</code> section now holds 392 vectors); both commits also extended the
+<code>#test cpuid</code> directives to cover the new SIMD code paths. The testspec’s SHA-1
+constraint list still states 76 test cases with an input range of 8–536 bits (plus the 8232-bit
+extreme value), so neither the count nor the new long inputs are reflected.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/hash/sha1.vec (lines 232–236)</span> — the two vectors added by GH #4852 (211- and 531-byte inputs; hex truncated for display)</figcaption>
+<pre><code>In = 4142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768 …[+342 chars]
+Out = 37b8028971b947f73330f2e06b9a8d71da2f79b7
+
+In = 4142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768 …[+982 chars]
+Out = ec39d968e7c137cb52e0b001ffd5cbbe057c3bfa</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/hash/sha1.vec#L232-L236">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/hash/sha1.vec#L232-L236</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/hash/sha2_32.vec (lines 1190–1191)</span> — the SHA-256 vector added by GH #4818 (511-byte input; hex truncated for display)</figcaption>
+<pre><code>In = DEADBEEFDFAEBFF0E0AFC0F1E1B0C1F2E2B1C2F3E3B2C3F4E4B3C4F5E5B4C5F6E6B5C6F7E7B6C7F8 …[+942 chars]
+Out = 67164ECE34A972047522004FC6DF409C39C4276679E1535C90E8945CB99ACC60</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/hash/sha2_32.vec#L1190-L1191">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/hash/sha2_32.vec#L1190-L1191</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">05_hash.rst</span> — section
+“SHA-1” constraint list (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>SHA-1
+~~~~~
+
+SHA-1 is tested with the following constraints:
+
+-  Number of test cases: 76
+
+-  In: varying length
+
+   -  Range: 8 bits - 536 bits
+   -  Extreme values: empty message, 8232 bits
+
+-  Out: 160 bits
+
+The following table shows an example test case with one test vector. All
+test vectors are listed in :srcref:`src/tests/data/hash/sha1.vec`.
+
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/05_hash.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/05_hash.rst</a></p>
+</figure>
+</section>
+<section id="blake2b-vec">
+<h2>19. BLAKE2b test vectors replaced (GH #4748)</h2>
+<p class="summary">Commit “Replace the BLAKE2b test vectors” (GH #4748, first released in Botan 3.8.0)
+replaced the contents of <code>src/tests/data/hash/blake2b.vec</code> entirely: the
+<code>[BLAKE2b(224)]</code> section was dropped, and the new libsodium-generated set holds 257
+vectors each for <code>BLAKE2b(256)</code>, <code>BLAKE2b(384)</code> and <code>BLAKE2b(512)</code>
+(771 in total) with input lengths 0–256 bytes. The testspec still lists 224 bits among the
+output lengths and an input range of 0–255 bytes, and the example test case HASH-BLAKE2B-384
+quotes an input vector (<code>In&nbsp;=&nbsp;0xd8dc8fdefbdce9d44e4cbafe78447bae3b5436102a</code>,
+168 bits) that no longer exists in the vector file.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/hash/blake2b.vec (lines 2–13)</span> — beginning of the replaced vector file ([BLAKE2b(384)] follows at line 780, [BLAKE2b(512)] at line 1553; no [BLAKE2b(224)] section)</figcaption>
+<pre><code># The official BLAKE2 test vectors all uses a key; these are tested
+# in mac/blake2bmac.vec
+#
+# These test vectors were generated by libsodium
+
+[BLAKE2b(256)]
+
+In =
+Out = 0E5751C026E543B2E8AB2EB06099DAA1D1E5DF47778F7787FAAB45CDF12FE3A8
+
+In = 00
+Out = 03170A2E7597B7B7E3D84C05391D139A62B157E78786D8C082F29DCF4C111314</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/hash/blake2b.vec#L2-L13">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/hash/blake2b.vec#L2-L13</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">05_hash.rst</span> — section
+“Blake2b” constraint list (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>Blake2b
+~~~~~~~
+
+Blake2b having a configurable output length it is being tested with the following constraints:
+
+-  In: varying length
+
+   -  Range: 0 bytes - 255 bytes
+
+-  Out: 224 bits, 256 bits, 384 bits, 512 bits
+
+The following table shows an example test case with one test vector. All
+test vectors are listed in :srcref:`src/tests/data/hash/blake2b.vec`.
+
+
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/05_hash.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/05_hash.rst</a></p>
+</figure>
+</section>
+<section id="entropy-defaults">
+<h2>20. Default entropy source list hardcoded (GH #4639)</h2>
+<p class="summary">Commit “Remove most toggles from build.h” (GH #4639, first released in Botan 3.8.0)
+removed the build-time configuration macro <code>BOTAN_ENTROPY_DEFAULT_SOURCES</code>; the default
+entropy source list <code>{"rdseed", "hwrng", "getentropy", "system_rng", "system_stats"}</code>
+is now hardcoded in <code>Entropy_Sources::global_sources()</code> in
+<code>src/lib/entropy/entropy_srcs.cpp</code>. The testspec still describes the tested entropy
+sources via the removed macro and additionally lists a Botan-2-era default source list
+(“rdseed”, “rdrand”, “darwin_secrandom”, “dev_random”, “win32_cryptoapi”, “proc_walk”,
+“system_stats”) that matches neither Botan 3.7.1 nor 3.12.0.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/lib/entropy/entropy_srcs.cpp (lines 214–224)</span> — hardcoded default source list in Entropy_Sources::global_sources()</figcaption>
+<pre><code>Entropy_Sources::Entropy_Sources(const std::vector&lt;std::string&gt;&amp; sources) {
+   for(auto&amp;&amp; src_name : sources) {
+      add_source(Entropy_Source::create(src_name));
+   }
+}
+
+Entropy_Sources&amp; Entropy_Sources::global_sources() {
+   static Entropy_Sources global_entropy_sources({&quot;rdseed&quot;, &quot;hwrng&quot;, &quot;getentropy&quot;, &quot;system_rng&quot;, &quot;system_stats&quot;});
+
+   return global_entropy_sources;
+}</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/entropy_srcs.cpp#L214-L224">https://github.com/randombit/botan/blob/3.12.0/src/lib/entropy/entropy_srcs.cpp#L214-L224</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">04_entropy_srcs.rst</span> — section
+“Entropy Sources” (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>Entropy Sources
+===============
+
+Entropy sources are tested using a system test that polls the entropy
+source for entropy and checks that entropy was added to given random
+number generator&#x27;s entropy pool. Additionally, the entropy returned by
+the entropy sources is compressed using different compression algorithms
+and the compressed byte size is compared to the number of entropy bytes
+returned by the entropy source. All entropy sources in the build-time
+configuration variable BOTAN_ENTROPY_DEFAULT_SOURCES are tested. In the
+default configuration these are &quot;rdseed&quot;, &quot;rdrand&quot;, &quot;darwin_secrandom&quot;,
+&quot;dev_random&quot;, &quot;win32_cryptoapi&quot;, &quot;proc_walk&quot; and &quot;system_stats&quot;. Note
+that some entropy sources are not available on all platforms and
+therefore tests are skipped on unsupported platforms.
+
+All the tests are implemented in *src/tests/test\_entropy.cpp*.
+
+**Remark from review of 3.12.0:** No change in the test code addressed here.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/04_entropy_srcs.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/04_entropy_srcs.rst</a></p>
+</figure>
+</section>
+<section id="certstor-finders">
+<h2>21. Certificate store: search by issuer DN and serial number (GH #5072)</h2>
+<p class="summary">Commit “Extend Certificate_Store interface to support searching by issuer DN and
+serial number” (GH #5072, first released in Botan 3.10.0) added
+<code>find_cert_by_issuer_dn_and_serial_number()</code> to the <code>Certificate_Store</code>
+interface. The in-memory certificate store test in <code>src/tests/test_certstor.cpp</code> was
+renamed from <code>test_certstor_find_hash_subject</code> to
+<code>test_certstor_all_finders</code> (lines 268–320 at tag 3.12.0) and now additionally
+retrieves every certificate by issuer DN and serial number, and
+<code>src/tests/test_certstor_system.cpp</code> gained the corresponding test
+<code>find_cert_by_issuer_dn_and_serial_number</code> (lines 233–253). The testspec’s
+CERTSTOR-SCH-1 (02_cert_store.rst) still describes only the search by the hashed subject DN; the
+new search operation is not covered.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_certstor.cpp (lines 294–307)</span> — new search step in test_certstor_all_finders (function spans lines 268–320)</figcaption>
+<pre><code>         // find by issuer dn and serial number
+         {
+            const auto&amp; issuer_dn = cert.issuer_dn();
+            const auto&amp; serial_number = cert.serial_number();
+
+            const auto found = store.find_cert_by_issuer_dn_and_serial_number(issuer_dn, serial_number);
+            if(!found) {
+               result.test_failure(&quot;Can&#x27;t retrieve certificate &quot; + cert.fingerprint(&quot;SHA-1&quot;));
+               return result;
+            }
+
+            result.test_bin_eq(&quot;Got wrong certificate&quot;, serial_number, found-&gt;serial_number());
+         }
+      }</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_certstor.cpp#L294-L307">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_certstor.cpp#L294-L307</a></p>
+</figure>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_certstor_system.cpp (lines 233–253)</span> — corresponding system certificate store test</figcaption>
+<pre><code>Test::Result find_cert_by_issuer_dn_and_serial_number(Botan::Certificate_Store&amp; certstore) {
+   Test::Result result(&quot;System Certificate Store - Find Certificate by issuer DN and serial number&quot;);
+
+   try {
+      result.start_timer();
+      auto cert = certstore.find_cert_by_issuer_dn_and_serial_number(get_dn(), get_serial_number());
+      result.end_timer();
+
+      if(result.test_opt_not_null(&quot;found certificate&quot;, cert)) {
+         auto cns = cert-&gt;subject_dn().get_attribute(&quot;CN&quot;);
+         result.test_sz_eq(&quot;exactly one CN&quot;, cns.size(), 1);
+         result.test_str_eq(&quot;CN&quot;, cns.front(), get_subject_cn());
+         result.test_bin_eq(&quot;serial number&quot;, cert-&gt;serial_number(), get_serial_number());
+         result.test_is_true(&quot;returned cert is considered contained&quot;, certstore.contains(cert.value()));
+      }
+   } catch(std::exception&amp; e) {
+      result.test_failure(e.what());
+   }
+
+   return result;
+}</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_certstor_system.cpp#L233-L253">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_certstor_system.cpp#L233-L253</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">02_cert_store.rst</span> — section
+“Finding Certificate by hashed Subject DN” / CERTSTOR-SCH-1 (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>Finding Certificate by hashed Subject DN
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+These unit tests test search certificates by the hashed subject DN. The tests are executed with the following constraints:
+
+    - Number of test cases: 1
+    - Cert: X.509v3
+
+The following table shows an example test case with one test vector. All test vectors are listed in :srcref:`src/tests/data/x509/certstor/`.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/02_cert_store.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/02_cert_store.rst</a></p>
+</figure>
+</section>
+<section id="ecdsa-forgery">
+<h2>22. ECDSA chosen-key verification forgery regression vectors (GH #5412)</h2>
+<p class="summary">Commit “Fix ECDSA chosen-key verification forgery” (merged via GH #5412, fixing the
+issue reported in GH #5211; first released in Botan 3.11.0) added 16 negative test vectors to
+<code>src/tests/data/pubkey/ecdsa_verify.vec</code>, growing it from 15 to 31 entries. These are
+security-relevant regression tests: signatures crafted for a chosen public key that must not
+verify, for the curves reported in GH #5211 (secp160k1, secp224k1) and further affected curves.
+The testspec’s ECDSA constraint list (4156 test cases; curves secp224r1/secp256r1/secp384r1;
+signature lengths 448–568 bits), which references <code>ecdsa_verify.vec</code> among the vector
+files, does not reflect these additions.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/data/pubkey/ecdsa_verify.vec (lines 103–117)</span> — first two of the added negative vectors</figcaption>
+<pre><code># Reported in GH #5211
+Group = secp160k1
+Valid = 0
+Msg = 8b3ee52dc99beae3c8329e7f5380abce5d557cb0
+Px = 0xa3dffaeb7710d664c4df0f333aa26d1dbd79d4c4
+Py = 0x20d221ce0377d4d98ea09944ed9b2913688a368
+Signature = 0100000000000000000001b5d96f650a6238165653000000000000000000000000000000000000000001
+
+# Reported in GH #5211
+Group = secp224k1
+Valid = 0
+Msg = b750b49f96f1f7a708560d988a306aace7c9e26a4ff42f37d106b520
+Px = 0xaf06fb109bbb988acbafd8bcbd037d51423306ba7359b4c72da876
+Py = 0x54b6424aff6f8a1f0ca719a5f85a480873cc4a96898480a07883c769
+Signature = 010000000000000000000000000001dce8d2ec6184b4f11b68d0a6671200dd4c63dbffffffffffffc95ba5968afb7b80265aa7a7efef60618484</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/data/pubkey/ecdsa_verify.vec#L103-L117">https://github.com/randombit/botan/blob/3.12.0/src/tests/data/pubkey/ecdsa_verify.vec#L103-L117</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">14_pubkey_sig.rst</span> — section
+“ECDSA” constraint list (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>ECDSA
+-----
+
+The Elliptic Curve Digital Signature Algorithm (ECDSA) is tested with
+the following constraints:
+
+-  Number of test cases: 4156
+-  Source: NIST CAVP (NIST CAVS file 11.2), OpenSSL, Wycheproof
+-  Hash Function: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512
+-  Curve: secp224r1, secp256r1, secp384r1
+-  Msg: 1024 bits
+-  Signature: 448 bits, 512 bits, 568 bits
+
+All the tests are implemented in :srcref:`src/tests/test_ecdsa.cpp`. The
+following table shows an example test case with one test vector. All
+test vectors are listed in
+:srcref:`src/tests/data/pubkey/ecdsa_prob.vec`, :srcref:`src/tests/data/pubkey/ecdsa_verify.vec` and :srcref:`src/tests/data/pubkey/ecdsa_wycheproof.vec`.
+
+**Remark from review of 3.12.0:** No change in the test code or test vectors
+referenced here.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/14_pubkey_sig.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/14_pubkey_sig.rst</a></p>
+</figure>
+</section>
+<section id="tls-stream-hsfail">
+<h2>23. TLS ASIO stream: handshake-failure scenario (GH #3795)</h2>
+<p class="summary">Commit “FIX: alert handling during handshake” (GH #3795, first released in Botan 3.3.0)
+added the scenarios <code>Test_Handshake_Failure</code> and <code>Test_Handshake_Failure_Sync</code>
+to the TLS ASIO stream integration test in
+<code>src/tests/test_tls_stream_integration.cpp</code>. Together with
+<code>Test_Conversation_With_Move</code> (GH #2655, first released in Botan 3.0.0) the suite now
+runs eleven test cases per configuration. The testspec (16_tls.rst) still describes the suite as
+“four tests whereas each of them are executed in both asynchronous and synchronous ways, so as a
+result eight test cases exist”.</p>
+
+<figure class="snippet code-snippet">
+<figcaption><span class="path">src/tests/test_tls_stream_integration.cpp (lines 942–955)</span> — test case registration list in Tls_Stream_Integration_Tests::run()</figcaption>
+<pre><code>         auto configs = get_configurations();
+         for(auto&amp; config : configs) {
+            config.run&lt;Test_Conversation&gt;(results);
+            config.run&lt;Test_Eager_Close&gt;(results);
+            config.run&lt;Test_Close_Without_Shutdown&gt;(results);
+            config.run&lt;Test_No_Shutdown_Response&gt;(results);
+            config.run&lt;Test_Handshake_Failure&gt;(results);
+            config.run&lt;Test_Conversation_Sync&gt;(results);
+            config.run&lt;Test_Eager_Close_Sync&gt;(results);
+            config.run&lt;Test_Close_Without_Shutdown_Sync&gt;(results);
+            config.run&lt;Test_No_Shutdown_Response_Sync&gt;(results);
+            config.run&lt;Test_Handshake_Failure_Sync&gt;(results);
+            config.run&lt;Test_Conversation_With_Move&gt;(results);
+         }</code></pre>
+<p class="src-link">Source on GitHub (tag 3.12.0):
+<a href="https://github.com/randombit/botan/blob/3.12.0/src/tests/test_tls_stream_integration.cpp#L942-L955">https://github.com/randombit/botan/blob/3.12.0/src/tests/test_tls_stream_integration.cpp#L942-L955</a></p>
+</figure>
+
+<figure class="snippet doc-snippet">
+<figcaption><span class="path">16_tls.rst</span> — section
+“TLS Stream Integration” (spec passage still reflecting the pre-change state; excerpt as of 2026-08-18, branch release-3.12-update)</figcaption>
+<pre><code>TLS Stream Integration
+----------------------
+
+*TLS::Stream* offers a boost-asio compatible wrapper around
+*TLS::Client* and *TLS::Server* and the integration of Client-Server
+communication is covered with four tests whereas each of them are
+executed in both asynchronous and synchronous ways, so as a result eight
+test cases exist.
+
+The tests are implemented in
+:srcref:`src/tests/test_tls_stream_integration.cpp`.
+
+**Remark from review of 3.12.0:** No change in the test code referenced
+here.</code></pre>
+<p class="src-link">Testspec document on GitHub:
+<a href="https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/16_tls.rst">https://github.com/sehlen-bsi/botan-docs/blob/release-3.12-update/docs/testspec/src/16_tls.rst</a></p>
 </figure>
 </section>
 </main>
