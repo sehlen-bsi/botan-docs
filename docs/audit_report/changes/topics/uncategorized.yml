@@ -7364,3 +7364,13 @@ patches:
 #   Author: Jack Lloyd
 - commit: 593273501d5bde935162b83f2d16551a4f60096e  # https://github.com/randombit/botan/commit/593273501d5bde935162b83f2d16551a4f60096e
   classification: unspecified
+
+# Minor doc reformatting changes
+#   Author: Jack Lloyd
+- commit: e81f7ae07af31f79c1e7e1d6d0c36ffd9ad2e939  # https://github.com/randombit/botan/commit/e81f7ae07af31f79c1e7e1d6d0c36ffd9ad2e939
+  classification: unspecified
+
+# Fix some invalid quoting marks in doc comments
+#   Author: Jack Lloyd
+- commit: 6dc386dbbdfaf2653248a55addfd244a4e89f926  # https://github.com/randombit/botan/commit/6dc386dbbdfaf2653248a55addfd244a4e89f926
+  classification: unspecified
