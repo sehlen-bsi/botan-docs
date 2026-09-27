@@ -7374,3 +7374,21 @@ patches:
 #   Author: Jack Lloyd
 - commit: 6dc386dbbdfaf2653248a55addfd244a4e89f926  # https://github.com/randombit/botan/commit/6dc386dbbdfaf2653248a55addfd244a4e89f926
   classification: unspecified
+
+# Fix a bug in XOF affecting cSHAKE
+#   Author:    @randombit
+- pr: 5968  # https://github.com/randombit/botan/pull/5968
+  merge_commit: 86df8cabed72bf8fecb5832b4aa198b4e2edeed3
+  classification: unspecified
+
+# Fix some libsodium incompatabilities
+#   Author:    @randombit
+- pr: 5966  # https://github.com/randombit/botan/pull/5966
+  merge_commit: 855015d290dff77038647d9484ab2370e437b850
+  classification: unspecified
+
+# Fix Dynamically_Loaded_Library move operators
+#   Author:    @randombit
+- pr: 5967  # https://github.com/randombit/botan/pull/5967
+  merge_commit: f5dc3c11f752209d0d9424398d333b1caa215e43
+  classification: unspecified
