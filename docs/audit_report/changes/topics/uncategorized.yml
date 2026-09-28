@@ -7392,3 +7392,28 @@ patches:
 - pr: 5967  # https://github.com/randombit/botan/pull/5967
   merge_commit: f5dc3c11f752209d0d9424398d333b1caa215e43
   classification: unspecified
+
+# Properly document RNG expected lifetimes with PK operations
+#   Author:    @randombit
+- pr: 5973  # https://github.com/randombit/botan/pull/5973
+  merge_commit: 1963c53344f025d111f3f1091fbaf20ec61efff9
+  classification: unspecified
+
+# Fix some sqlite3/database edge cases
+#   Author:    @randombit
+- pr: 5972  # https://github.com/randombit/botan/pull/5972
+  merge_commit: 80e2a1c9d142a0e48a35a38a1c2476b1dfa6aa01
+  classification: unspecified
+
+# Feature: `TLS::Callbacks::tls_register_deferred_operation`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5915  # https://github.com/randombit/botan/pull/5915
+  merge_commit: 5ae430b37b01dbe3355405e5324134fbcaf1374e
+  classification: unspecified
+
+# Fix a number of bugs in the Python binding
+#   Author:    @randombit
+- pr: 5969  # https://github.com/randombit/botan/pull/5969
+  merge_commit: 1342ef45b3adecbd5e9e00ad95f5caed5ed00c91
+  classification: unspecified
