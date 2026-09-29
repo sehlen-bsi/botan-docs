@@ -19,6 +19,9 @@ This document specifies test cases implemented in the library's test suite.
 The following persons are authors of previous versions of this document pertaining to earlier Botan releases. Parts of the document text and the tooling used to create the version at hand have been authored by them.
 
 | Fabian Albert (FA), Rohde & Schwarz Cybersecurity
+| René Fischer (RK), Rohde & Schwarz Cybersecurity
+| Juraj Somorovsky (JSo), Hackmanit GmbH
+| Sergii Cherkavskyi (SC), Rohde & Schwarz Cybersecurity
 | René Meusel (RM), Rohde & Schwarz Cybersecurity
 | Tudor Soroceanu (TS), Fraunhofer AISEC
 | Amos Treiber (AT), Rohde & Schwarz Cybersecurity
