@@ -379,7 +379,7 @@ The signature generation algorithm works as follows (see
    7. Compute :math:`s = k'^{-1} \cdot u` which amounts to :math:`(b_i \cdot k )^{-1} \cdot (d \cdot r + e) \cdot b_i = k^{-1} \cdot (d \cdot r + e)`.
 
    8. Square the blinding value :math:`b_i` to
-      obtain new a blinding value :math:`b_{i+1}` which replaces :math:`b_i` in
+      obtain a new blinding value :math:`b_{i+1}` which replaces :math:`b_i` in
       the next signature generation with the same signature operation instance. This
       is done to avoid re-sampling/re-inverting the blinding value. This is useful when using
       [RFC6979]_ as then there might not be a seeded random number generator available during the signature creation.
