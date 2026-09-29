@@ -20,7 +20,7 @@ patches:
   auditer: falko-strenzke
   classification:  info
   comment: |
-    Botan 4 will completely remove explicit encoding of EC domain parameters and will only support named curves. This change introduces the for choice for encoding them as named curves and adds a warning to the API doc that the explicit encoding will be removed.
+    Botan 4 will completely remove explicit encoding of EC domain parameters and will only support named curves. This change introduces the choice of encoding them as named curves and adds a warning to the API doc that the explicit encoding will be removed.
 
 # Further BigInt API deprecations
 #   Author:    @randombit
