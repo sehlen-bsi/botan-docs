@@ -7417,3 +7417,15 @@ patches:
 - pr: 5969  # https://github.com/randombit/botan/pull/5969
   merge_commit: 1342ef45b3adecbd5e9e00ad95f5caed5ed00c91
   classification: unspecified
+
+# In Twofish avoid the scalar path entirely if AVX-512/GFNI is available
+#   Author:    @randombit
+- pr: 5975  # https://github.com/randombit/botan/pull/5975
+  merge_commit: 0db35fc667ca44f357ebef70b30f32ceb40dff93
+  classification: unspecified
+
+# Validate bit rates and rounds in the sponge permutations
+#   Author:    @randombit
+- pr: 5974  # https://github.com/randombit/botan/pull/5974
+  merge_commit: 7cb92a4afce4836c88f88b8de48c4a9de0d348f9
+  classification: unspecified
