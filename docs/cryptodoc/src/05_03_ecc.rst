@@ -355,7 +355,7 @@ The signature generation algorithm works as follows (see
 
    **Steps:**
 
-   1. During the initialization the signature operation, sample a random blinding scalar :math:`1 \leq b_i < n` from ``rng``
+   1. During the initialization of the signature operation, sample a random blinding scalar :math:`1 \leq b_i < n` from ``rng``
 
    2. :math:`e = H` and truncate :math:`e` to be at most bitlength(:math:`n`) bits long.
 
