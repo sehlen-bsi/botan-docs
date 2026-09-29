@@ -37,11 +37,10 @@ prone to affect security critical aspects of the code that are not assumed to be
 covered by the test suite.
 
 Due to the fact that the present review spans four Botan releases and more than
-700 patches that have accumulated over the time frame of one year, many of the
-patches were only superficially reviewed. This has been compensated by a
-detailed review of security critical aspects of the ECC implementations, which
-forms the most complex part of the core cryptographic functionality in the code
-base. Here, an analysis of the side channel countermeasures and
+700 patches that have accumulated over the time frame of one year. Numerous of these patches bring  modifications to the code to comply with newly introduced requirements from CI-checks regarding coding style and best practices. Some of the patches of this type introduce numerous minor modifications in more than 100 files. Such patches  are assumed to have only a neglibile risk of introducing errors into the code that are not caught by the existing tests and thus were only partially reviewed.
+
+Due to the ECC implementations having been subject of various changes during the audited period, their security critical aspects underwent a focussed and detailed review.
+ Here, an analysis of the side channel countermeasures and
 security-critical parameter checks was verified by adding corresponding trace
 logging to the implementation.
 
