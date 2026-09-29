@@ -5,7 +5,9 @@ DSA
 
 The Digital Signature Algorithm (DSA) is implemented in
 :srcref:`src/lib/pubkey/dsa/dsa.cpp`.
-The implementation follows [FIPS-186-4]_ or [RFC6979]_ if the corresponding module is enabled.
+The DSA signature scheme is no longer approved by [FIPS-186-5]_.
+The implementation generally follows [FIPS-186-4]_. It uses deterministic nonces according to  [RFC6979]_ if the
+corresponding compilation module `rfc6979` in Botan is enabled.
 
 Parameter Generation
 --------------------
@@ -41,7 +43,7 @@ BigInt& x_arg)``. The implementation operates as follows:
    **Steps:**
 
    1. If private value ``x_arg`` was provided, set ``x`` to ``x_arg``. Otherwise,
-      sample ``x`` as a random number :math:`r<x<q-1` from ``rng`` using the algorithm
+      sample ``x`` as a random number :math:`1<x<q-1` from ``rng`` using the algorithm
       described in Section :ref:`pubkey_param/rng`.
    2. Compute public value ``y`` as :math:`g^x \bmod{p}`
 
@@ -147,5 +149,5 @@ parameters. The algorithm operates as follows:
    5. Compute
       :math:`{v = {v_{i} \ast v_{r}}}\bmod p`
    6. Return ``true``, if
-      :math:`{v \equiv r}\bmod p`
+      :math:`{v \bmod q = r}`
       applies and ``false`` otherwise.

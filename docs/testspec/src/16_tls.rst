@@ -12,6 +12,9 @@ version, key exchange method, and cipher algorithm.
 
 The tests are implemented in :srcref:`src/tests/unit_tls.cpp`.
 
+**Remark from review of 3.11.0:** No substantial change in the test code
+referenced here except to the addition of new tests.
+
 The following TLS handshake tests are executed:
 
 -  TLS handshake with the following cipher suites, each once with and
@@ -87,6 +90,9 @@ previous section. We extended the test suite with positive and negative
 tests validating correct certificate handling.
 
 The tests are implemented in :srcref:`src/tests/unit_tls_policy.cpp`.
+
+**Remark from review of 3.11.0:** No substantial change in the test code
+referenced here.
 
 In the test different certificates with different key lengths are
 created and tested against the default TLS policy. Only certificates
@@ -572,6 +578,9 @@ test cases exist.
 The tests are implemented in
 :srcref:`src/tests/test_tls_stream_integration.cpp`.
 
+**Remark from review of 3.11.0:** No substantial change in the test code
+referenced here.
+
 .. table::
    :class: longtable
    :widths: 20 80
@@ -709,6 +718,9 @@ TLS is further tested using various system tests, as listed in the
 following.
 
 The tests are implemented in :srcref:`src/tests/test_tls.cpp`.
+
+**Remark from review of 3.11.0:** No substantial change in the test code
+referenced here, except for the addition of further tests.
 
 -  Session handling: A test that encrypts and decrypts static session
    test data

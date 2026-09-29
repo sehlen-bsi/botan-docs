@@ -14,8 +14,6 @@ Contents
 
    02_security_issues
 
-   side_channels/index
-
    03_testsuite
    04_documents
    05_summary

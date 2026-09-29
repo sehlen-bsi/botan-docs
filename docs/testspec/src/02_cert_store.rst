@@ -54,6 +54,7 @@ The following table shows an example test case with one test vector. All test ve
    |                     | #. Look up Key by Cert                                                     |
    +---------------------+----------------------------------------------------------------------------+
 
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
 
 Revocation
 ~~~~~~~~~~
@@ -101,6 +102,9 @@ The following table shows an example test case with one test vector. All test ve
    |                     | #. Check that no CRL exists for *Cert[3]*                                  |
    +---------------------+----------------------------------------------------------------------------+
 
+
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
+
 Subject DN Listing
 ~~~~~~~~~~~~~~~~~~
 
@@ -132,6 +136,9 @@ The following table shows an example test case with one test vector. All test ve
    |                      |    store and compare each subject DN with the subject DN from *Certs*    |
    +----------------------+--------------------------------------------------------------------------+
 
+
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
+
 Finding all Certificates
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -162,6 +169,9 @@ The following table shows an example test case with one test vector. All test ve
    | **Steps:**           | #. Look up Certs by subject DN and subject key ID                                |
    |                      | #.  Check that only one match is found                                           |
    +----------------------+----------------------------------------------------------------------------------+
+
+
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
 
 Finding Certificate by hashed Subject DN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -197,6 +207,8 @@ The following table shows an example test case with one test vector. All test ve
    |                      |    hash.                                                                 |
    +----------------------+--------------------------------------------------------------------------+
 
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here. The test vectors under `src/tests/data/x509/certstor/` have not changed.
+
 System Certificate Store
 ------------------------
 
@@ -219,6 +231,9 @@ Note that the tests are relying on certain (common) certificates to be installed
 .. |RFC-3280-link| replace:: *the respective suggestion in RFC 3280*
 
 All tests are implemented in :srcref:`src/tests/test_certstor_system.cpp`.
+
+
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here. There is only an additional test in 3.11.0.
 
 Find Certificate by SHA-1 Hash of its Public Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

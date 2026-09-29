@@ -65,12 +65,12 @@
    https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210208.pdf
 
 .. [FIPS-186-4] Federal Information Processing Standards Publication 186-4.
-   Digital Signature Standard (DSS).
+   Digital Signature Standard (DSS). Superseded by [FIPS-186-5]_
    http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf
 
-.. [FIPS-186-5-draft]  Federal Information Processing Standards Publication 186-5 (Draft).
+.. [FIPS-186-5]  Federal Information Processing Standards Publication 186-5.
    Digital Signature Standard (DSS).
-   https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5-draft.pdf
+   https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf
 
 .. [FIPS-202] Federal Information Processing Standards Publication 202.
    SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions.
@@ -223,7 +223,12 @@
    "Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)",
    http://tools.ietf.org/html/rfc6125, March 2011
 
-.. [RFC6979] Internet Engineering Task Force: RF6979:
+.. [RFC6960] S. Santesson, M. Myers, R. Ankney, A. Malpani, S. Galperin, C. Adams: RFC 6960:
+   "X.509 Internet Public Key Infrastructure Online Certificate Status Protocol - OCSP",
+   https://www.rfc-editor.org/info/rfc6960,
+   June 2013
+
+.. [RFC6979] Internet Engineering Task Force: RFC6979:
    "Deterministic Usage of the Digital Signature Algorithm (DSA) and Elliptic Curve Digital Signature Algorithm (ECDSA)",
    August 2013
 
@@ -241,6 +246,11 @@
    "Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications",
    https://www.rfc-editor.org/info/rfc9106,
    September 2021
+
+.. [RFC9881] J. Massimo, P. Kampanakis, S. Turner, and B. E. Westerbaan: RFC 9881:
+   "Internet X.509 Public Key Infrastructure -- Algorithm Identifiers for the
+   Module-Lattice-Based Digital Signature Algorithm (ML-DSA)"
+   https://datatracker.ietf.org/doc/html/rfc9881
 
 .. [draft-fluhrer-11] S. Fluhrer, Q. Dang, Cisco Systems, NIST: Internet-Draft draft-fluhrer-lms-more-parm-sets-11:
    "Additional Parameter sets for HSS/LMS Hash-Based Signatures",
@@ -295,11 +305,11 @@
 
 .. [TR-02102-1] BSI Technical Guideline BSI TR-02102-1:
    "Cryptographic Mechanisms: Recommendations and Key Lengths",
-   Version 2025-01, 31.01.2025
+   Version 2026-01, 23.01.2026
 
 .. [TR-02102-2] BSI Technical Guideline BSI TR-02102-2:
    "Cryptographic Mechanisms: Recommandations and Key Lengths: Use of Transport Layer Security (TLS)",
-   Version 2025-01, 21.01.2025
+   Version 2026-01, 27.01.2026
 
 .. [TR-02103] BSI Technische Richtlinie BSI TR-02103
    "X.509 Zertifikate und Zertifikatspfadvalidierung"
@@ -307,7 +317,7 @@
 
 .. [TR-03111] BSI Technical Guideline TR-03111:
    "Elliptic Curve Cryptography",
-   Version 2.1, 01.06.2018
+   Version 2.10, 01.06.2018
 
 .. [X9.62] ANSI X9.62.
    Public Key Cryptography for the Financial Services Industry:

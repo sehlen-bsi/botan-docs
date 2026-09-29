@@ -6,6 +6,8 @@ Block cipher modes of operation are tested using known answer tests that
 implemented in :srcref:`src/tests/test_modes.cpp`. The test cases are described
 in the following.
 
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here.
+
 .. table::
    :class: longtable
    :widths: 20 80
@@ -139,6 +141,8 @@ CBC is tested with the following constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/modes/cbc.vec`.
+
+**Remark from review of 3.11.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -274,6 +278,8 @@ constraints:
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/stream/ctr.vec`.
+
+**Remark from review of 3.11.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable

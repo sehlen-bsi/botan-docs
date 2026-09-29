@@ -311,7 +311,7 @@ follows:
 
 **Remark:** Due to the complexity of managing the XMSS private key state it is
 generally discouraged to use software for performing XMSS private key operations
-in production. See also :ref:`pubkey_signature/xmss/leaf_index_registry`.
+in production. See also :ref:`pubkey_signature/xmss/stateful_key_index_registry`.
 
 
 Signature Verification
@@ -394,29 +394,78 @@ The algorithm for signature verification follows methods
 private and public keys. Currently, Botan serializes keys as plain byte
 arrays.
 
-.. _pubkey_signature/xmss/leaf_index_registry:
+.. _pubkey_signature/xmss/stateful_key_index_registry:
 
-Leaf Index Registry
--------------------
+Stateful_Key_Index_Registry
+---------------------------
 
 Handling the safe and persistent state update of XMSS private keys is crucial.
-Botan manages the XMSS private key states in an ``XMSS_Index_Registry``, a
+Botan manages the XMSS private key states in a ``Stateful_Key_Index_Registry``, a
 thread-safe "Singleton" object. That way, XMSS private key states are kept in
-a centrally managed location during application execution.
+a centrally managed location during application execution. The implementations is found in the files
 
-The ``XMSS_Index_Registry`` singleton provides exactly one method:
-``::get(private_seed, prf) -> std::shared_ptr<Atomic<size_t>>``.
-The parameters uniquely identify the managed XMSS private key and the method
-returns a pointer to an atomic variable keeping the respective leaf index state.
+- :srcref:`src/lib/pubkey/stateful_key_index/stateful_key_index_registry.h`
+- :srcref:`src/lib/pubkey/stateful_key_index/stateful_key_index_registry.cpp`
+
+The ``Stateful_Key_Index_Registry`` singleton provides the following methods::
+
+   /**
+   * Return the current counter
+   */
+   uint64_t current_index(const KeyId& key_id);
+
+   /**
+   * Return a new counter
+   */
+   uint64_t reserve_next_index(const KeyId& key_id);
+
+   /**
+   * Set the counter to at least min (but if already higher it will retain its current value)
+   */
+   void set_index_lower_bound(const KeyId& key_id, uint64_t min);
+
+   /**
+   * If the current counter is >= max returns 0, otherwise max - counter
+   */
+   uint64_t remaining_operations(const KeyId& key_id, uint64_t max);
+
+Here the ``KeyId`` is defined as follows::
+
+   class KeyId {
+      public:
+         /**
+         * Create a KeyId for some kind of key material
+         *
+         * @param algo_name     Algorithm name (ex "XMSS", "HSS-LMS")
+         * @param algo_params   Algorithm specific parameters
+         * @param key_material_1 First part of key identifying material
+         * @param key_material_2 Second part of key identifying material (can be omitted)
+         */
+         KeyId(std::string_view algo_name,
+               uint32_t algo_params,
+               std::span<const uint8_t> key_material_1,
+               std::span<const uint8_t> key_material_2);
+
+         KeyId() = default;
+
+         auto operator<=>(const KeyId& other) const = default;
+
+      private:
+         std::array<uint8_t, 32> m_val;
+   };
+
+For XMSS, the ``algo_name`` is ``"XMSS"``, the ``algo_params`` is the OID value, and ``key_material_1`` is the private seed, and ``key_material_2`` is the PRF.
+The parameters uniquely identify the managed XMSS private key and the ``Stateful_Key_Index_Registry::reserve_next_index()`` method
+returns a safe-to-use leaf index and ensures atomic incrementation of the state for the next call.
 The signing algorithm now manipulates the XMSS state as needed *before* actually
 signing with the respective WOTS+ leaf.
 Since the state is manipulated with atomic memory access operations, it is safe
 to use the same XMSS private key in multiple threads of the same process. A new
-private key calling ``::get()`` for the first time lazily initializes the state
+private key calling ``Stateful_Key_Index_Registry::reserve_next_index()`` for the first time lazily initializes the state
 variable to "0".
 
-When serializing private keys (using ``XMSS_PrivateKey::private_key_bits()``)
-the next unused WOTS+ leaf index is persisted along with the private key data.
+When serializing private keys (using ``XMSS_PrivateKey::private_key_bits()``),
+the next unused WOTS+ leaf index is persisted (using ``Stateful_Key_Index_Registry::current_index()``) along with the private key data.
 Loading a private key from a serialized buffer will initialize the leaf index in
 the registry object.
 No further infrastructure is provided to maintain persistent private XMSS state.

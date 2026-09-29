@@ -9,7 +9,14 @@ validates the correctness of the HMAC-DRBG random number generator
 (*hmac_drbg_unit*).
 
 All unit tests for various RNGs are implemented in
-:srcref:`src/tests/test_rngs.cpp`.
+:srcref:`src/tests/test_rng_behavior.cpp`.
+
+**Remark from review of 3.11.0:** The above statement was incorrect in the base
+version as it claimed
+"All unit tests for various RNGs are implemented in
+:srcref:`src/tests/test_rngs.cpp`.".
+The file `src/tests/test_rngs.cpp` does not implement any unit tests, but only
+methods of specific RNGs.
 
 All Known-Answer tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`.
 
@@ -33,6 +40,10 @@ SHA-384, SHA-512, and SHA-512-256.
 The following table shows an example test case with one test vector.
 Tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`. All test vectors
 are listed in :srcref:`src/tests/data/rng/hmac_drbg.vec`.
+
+**Remark from review of 3.11.0:** No substantial change in the test code
+referenced here.
+No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -77,7 +88,7 @@ Unit Test for HMAC-DRBG
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 The unit tests for HMAC-DRBG (**hmac_drbg_unit**) are implemented in
-:srcref:`src/tests/test_rngs.cpp`. They extend the **hmac_drbg** test suite with
+:srcref:`src/tests/test_rng_behavior.cpp`. They extend the **hmac_drbg** test suite with
 negative tests. The following additional properties of HMAC-DRBG are
 tested:
 
@@ -236,7 +247,7 @@ for initialization, seeding and reseeding.
    |                       | #. Create an AutoSeeded_RNG object with a Null_RNG as the entropy source |
    |                       |    and check that it throws a PRNG_Unseeded exception                    |
    |                       |                                                                          |
-   |                       | #. Create an AutoSeeded_RNG object with a an empty set of entropy        |
+   |                       | #. Create an AutoSeeded_RNG object with an empty set of entropy          |
    |                       |    sources and a Null_RNG as the entropy source and check that it throws |
    |                       |    a PRNG_Unseeded exception                                             |
    |                       |                                                                          |
@@ -326,6 +337,6 @@ The system RNG is tested for basic consistency and functionality.
    |                       |    #. Pull 4 GiB + 1024 bytes from the RNG into the prepared output      |
    |                       |       buffer                                                             |
    |                       |                                                                          |
-   |                       |    #. Confirm that the prepared 1024bytes at the end of the buffer were  |
+   |                       |    #. Confirm that the prepared 1024 bytes at the end of the buffer were |
    |                       |       overwritten as expected                                            |
    +-----------------------+--------------------------------------------------------------------------+

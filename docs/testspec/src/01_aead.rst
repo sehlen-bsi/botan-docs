@@ -271,6 +271,8 @@ GCM is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/aead/gcm.vec`.
 
+**Remark from review of 3.11.0:** No substantial change in AEAD test code. GCM test vectors have only received additions.
+
 .. table::
    :class: longtable
    :widths: 20 80
