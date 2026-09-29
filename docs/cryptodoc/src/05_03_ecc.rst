@@ -213,7 +213,7 @@ cached tables, the window size is 3 bits. For generic one-shot precomputations, 
 is 2 bits.
 
 The online phase of this 2-ary multiplication table *is not side-channel
-silent*. However, it is used for only operations that don't handle secret values
+silent*. However, it is used for only operations that do not handle secret values
 such as signature verification. An additional implementation applying the same
 countermeasures as the ordinary scalar multiplication is available. This may be
 useful when implementing cryptographic schemes such as SPAKE, but it is
