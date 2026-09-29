@@ -20,7 +20,7 @@ The security issues that were identified between |botan_git_base_ref| and
    * - CVE-2026-35582
      - Earliest affected version is unknown
      - 3.11.1
-     - TLS 1.3 client authentication can by trivially bypassed.
+     - TLS 1.3 client authentication can be trivially bypassed.
    * - `#5454 <https://github.com/randombit/botan/issues/5454>`_, `#5455 <https://github.com/randombit/botan/issues/5455>`_
      - Earliest affected version is unknown
      - 3.11.1
