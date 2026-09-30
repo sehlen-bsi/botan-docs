@@ -6,7 +6,7 @@ Renders the JSON change database files into a self-contained HTML page.
 By default all JSON database files in docs/database (relative to this script's
 location in the repository) are collected into a single table that can be
 filtered live by category, classification and free text on title, comment,
-link and auditor.
+link, author and auditor.
 """
 
 import argparse
@@ -64,6 +64,7 @@ def load_databases(database_dir: str) -> list[dict]:
                 "classification": entry.get('classification', 'unspecified'),
                 "categories": entry.get('categories', []),
                 "comment": entry.get('comment'),
+                "author": entry.get('author'),
                 "auditer": entry.get('auditer'),
                 "pr": entry.get('pr'),
                 "commit": entry.get('commit'),
@@ -124,7 +125,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
   <div class="filter" id="filter-category"></div>
   <div class="filter" id="filter-classification"></div>
   <div>
-    <label for="text">Title / comment / link / auditor text</label>
+    <label for="text">Title / comment / link / author / auditor text</label>
     <input id="text" type="search" placeholder="filter words&hellip;">
   </div>
 </div>
@@ -137,6 +138,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
       <th>Categories</th>
       <th>Title / comment</th>
       <th>Link</th>
+      <th>Author</th>
       <th>Auditor</th>
     </tr>
   </thead>
@@ -237,7 +239,7 @@ function matches(row) {
       return false;
     }
   }
-  const haystack = `${row.title || ''} ${row.comment || ''} ${linkSearchText(row)} ${row.auditer || ''}`
+  const haystack = `${row.title || ''} ${row.comment || ''} ${linkSearchText(row)} ${row.author || ''} ${row.auditer || ''}`
     .toLowerCase();
   return searchTerms().every(word => haystack.includes(word));
 }
@@ -329,6 +331,7 @@ function render() {
     } else {
       cell(tr, '');
     }
+    cell(tr, highlighted(row.author || ''), 'nowrap');
     cell(tr, highlighted(row.auditer || ''), 'nowrap');
     tbody.appendChild(tr);
   }

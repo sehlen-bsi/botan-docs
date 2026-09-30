@@ -106,3 +106,8 @@ latex_elements = {
 # -- Options for extensions --------------------------------------------------
 
 todo_include_todos = True
+
+# Number figures and tables so they can be cross-referenced with :numref:
+# (e.g. "Table 5.1"). The LaTeX builder numbers captioned tables anyway;
+# this makes the HTML output consistent with it.
+numfig = True

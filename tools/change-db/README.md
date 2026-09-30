@@ -72,9 +72,10 @@ page with a table of all changes. The table shows the columns "Audit version"
 (the targeted Botan version from the database meta information),
 "Classification", "Categories", "Title / comment" (the entry's title followed
 by its audit comment), "Link" (pointing to the GitHub pull request or commit,
-configured via `BOTAN_REPO` in `config/botan.env`) and "Auditor". The page supports live filtering by audit version, by category, by
+configured via `BOTAN_REPO` in `config/botan.env`), "Author" (the GitHub handle of
+the patch author) and "Auditor". The page supports live filtering by audit version, by category, by
 classification and by free text matching words of the entries' title, comment,
-link (PR number or commit hash) or auditor. The version, category and classification selectors accept multiple
+link (PR number or commit hash), author or auditor. The version, category and classification selectors accept multiple
 selections (checkbox dropdowns); values selected within one selector combine
 as "or", the different filters combine as "and". An empty selection means "no
 filtering".
