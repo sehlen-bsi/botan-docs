@@ -4,21 +4,24 @@ Preface
 
 **Summary**
 
-This document is a direct result of Projects 481 and 197 of the German Federal
-Office for Information Security (BSI) with the aim to support
-`Botan <https://github.com/randombit/botan>`_ - a secure, maintained and
-well-documented cryptographic library. Botan provides building blocks for a wide
-range of modern cryptographic applications that may have to protect their data
-against the upcoming threat of a quantum computer.
+This document provides the result of the audit review of the Botan releases following version 3.11 up to and including 3.12 as part of Project P663 issued by
+the German Federal
+Office for Information Security (BSI). It is based on the previous versions of the Audit Report that
+were created in the scope of the projects P197 and P481.
+The aim of this project is the enhancement and maintenance of the cryptographic library
+`Botan <https://github.com/randombit/botan>`_.
+Botan provides building blocks for a wide
+range of modern cryptographic applications.
 
-Botan may be used by manufacturers of VS-NfD products and this document will help
-the BSI to evaluate these products.
+As Botan may be used by manufacturers of VS-NfD products according to German national requirements, one purpose of this document is to facilitate the evaluation of such products by the BSI.
 
 This document tracks the changes and their audit results between two library
 revisions. Typically audit iterations are performed starting from the previous
 audit target revision to establish a new audited revision.
 
-**Authors**
+**Historical Authors**
+
+The following persons are authors of previous versions of this document pertaining to earlier Botan releases. Parts of the document text and the tooling used to create the version at hand have been authored by them.
 
 | Fabian Albert (FA), Rohde & Schwarz Cybersecurity
 | René Meusel (RM), Rohde & Schwarz Cybersecurity
@@ -26,6 +29,13 @@ audit target revision to establish a new audited revision.
 | Amos Treiber (AT), Rohde & Schwarz Cybersecurity
 | Andreas Seelos-Zankl (ASZ), Fraunhofer AISEC
 | Alexander Wagner (AW), Fraunhofer AISEC
+
+**Authors**
+
+The authors of the present document version are listed in the table below.
+
+| Johannes Roth,  MTG AG
+| Falko Strenzke, MTG AG
 
 **Document Revision**
 
