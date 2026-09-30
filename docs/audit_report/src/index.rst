@@ -4,6 +4,7 @@ Contents
 
 .. toctree::
    :maxdepth: 2
+   :numbered: 3
    :includehidden:
 
    00_00_preface

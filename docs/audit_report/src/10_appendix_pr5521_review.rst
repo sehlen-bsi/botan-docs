@@ -1,3 +1,5 @@
+.. _appendix-pr5521:
+
 Appendix: Review of Botan PR #5521
 ==================================
 

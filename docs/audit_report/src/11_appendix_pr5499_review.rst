@@ -1,3 +1,5 @@
+.. _appendix-pr5499:
+
 Appendix: Review of Botan PR #5499
 ==================================
 
