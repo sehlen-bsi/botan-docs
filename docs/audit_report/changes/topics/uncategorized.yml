@@ -7429,3 +7429,15 @@ patches:
 - pr: 5974  # https://github.com/randombit/botan/pull/5974
   merge_commit: 7cb92a4afce4836c88f88b8de48c4a9de0d348f9
   classification: unspecified
+
+# Check CRL signatures against the trusted hashes policy
+#   Author:    @randombit
+- pr: 5981  # https://github.com/randombit/botan/pull/5981
+  merge_commit: f73eab936f5aac4dc767466049fbebab66671a6d
+  classification: unspecified
+
+# Minor SPAKE2+ hardenings
+#   Author:    @randombit
+- pr: 5976  # https://github.com/randombit/botan/pull/5976
+  merge_commit: b9b1de62db3f4f670296a593e27dc28dda553337
+  classification: unspecified
