@@ -5,7 +5,8 @@ Renders the JSON change database files into a self-contained HTML page.
 
 By default all JSON database files in docs/database (relative to this script's
 location in the repository) are collected into a single table that can be
-filtered live by category, classification and free text on title and comment.
+filtered live by category, classification and free text on title, comment,
+link and auditor.
 """
 
 import argparse
@@ -123,7 +124,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
   <div class="filter" id="filter-category"></div>
   <div class="filter" id="filter-classification"></div>
   <div>
-    <label for="text">Title / comment / auditor text</label>
+    <label for="text">Title / comment / link / auditor text</label>
     <input id="text" type="search" placeholder="filter words&hellip;">
   </div>
 </div>
@@ -216,6 +217,16 @@ function link(row) {
   return null;
 }
 
+function linkSearchText(row) {
+  // The displayed label plus the bare PR number and the full commit hash, so
+  // that a pasted full SHA or a prefix longer than the label matches as well.
+  const ref = link(row);
+  if (!ref) {
+    return '';
+  }
+  return [ref.label, row.pr, row.commit].filter(v => v !== null && v !== undefined).join(' ');
+}
+
 function searchTerms() {
   return textInput.value.toLowerCase().split(/\\s+/).filter(Boolean);
 }
@@ -226,7 +237,8 @@ function matches(row) {
       return false;
     }
   }
-  const haystack = `${row.title || ''} ${row.comment || ''} ${row.auditer || ''}`.toLowerCase();
+  const haystack = `${row.title || ''} ${row.comment || ''} ${linkSearchText(row)} ${row.auditer || ''}`
+    .toLowerCase();
   return searchTerms().every(word => haystack.includes(word));
 }
 
@@ -311,7 +323,7 @@ function render() {
     if (ref) {
       const a = document.createElement('a');
       a.href = ref.url;
-      a.textContent = ref.label;
+      append(a, highlighted(ref.label));
       a.title = row.title || '';
       cell(tr, a, 'nowrap');
     } else {
