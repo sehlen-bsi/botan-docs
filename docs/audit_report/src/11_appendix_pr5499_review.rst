@@ -116,9 +116,10 @@ Severity assessment
   immune. However, nothing in the callback API contract warns that
   ``tls_record_received`` could fire pre-authentication, so applications
   reasonably treat every delivery as authenticated peer data.
-- No CVE was assigned. (The regression test for CVE-2026-35580 merged in the
-  same window concerns an unrelated X.509 path-validation issue and should not
-  be confused with this fix.)
+- No CVE was assigned. (The regression test for CVE-2026-34580, merged in the
+  same window under the originally published number CVE-2026-35580, concerns
+  an unrelated X.509 path-validation issue and should not be confused with
+  this fix.)
 - The flaw is of the same class as the historical "early application data"
   state-machine bugs (e.g. the SMACK family), which were treated as genuine
   vulnerabilities in other TLS stacks.

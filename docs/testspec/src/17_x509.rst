@@ -221,8 +221,10 @@ following tables shows an example test case with one test vector.
    result (``Verified`` for all seven chains) from the accompanying
    ``expected.txt``. This ensures that the path builder finds a valid path
    through the ambiguous intermediate certificates.
--  A regression test (test name ``x509_cve_2026_35580``) for CVE-2026-35580:
-   an end-entity certificate from
+-  A regression test (test name ``x509_cve_2026_35580``) for CVE-2026-34580
+   (the test and its data directory are named after the CVE number originally
+   published in the Botan 3.11.1 release notes, later corrected upstream to
+   CVE-2026-34580): an end-entity certificate from
    `src/tests/data/x509/cve_2026_35580` is validated against the
    accompanying root certificate at a fixed validation time, and the test
    asserts that path validation fails with ``Cannot establish trust``.

@@ -13,7 +13,7 @@ The security issues that were identified between |botan_git_base_ref| and
      - Affected versions
      - Fixed in Version
      - Description
-   * - CVE-2026-35580
+   * - CVE-2026-34580
      - Regarding general certification path validation only 3.11 is affected. Regarding certificate matching in a certificate store, the issue affects earlier versions as well. Earliest affected version is not known.
      - 3.11.1
      - The certificate store's function to search for a given certificate within the store returns any certificate whose SubjectDN matches that of the sought certificate.
