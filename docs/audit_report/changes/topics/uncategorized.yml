@@ -256,9 +256,11 @@ patches:
 #   Author:    @randombit
 - pr: 5545  # https://github.com/randombit/botan/pull/5545
   merge_commit: 44bf6e2721d21c8691714daa4c575ce5612c9d95
-  classification: relevant
+  classification: critical
   auditer: falko-strenzke
   categories: fixes
+  comment: |
+    Fixes the BER decoder bugs behind CVE-2026-44378 (quadratic run time on certain indefinite length encodings). See the security chapter. 
 
 # Refactor and optimize Windows certificate store
 #   Author:    @randombit
