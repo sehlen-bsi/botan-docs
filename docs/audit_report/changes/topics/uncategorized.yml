@@ -7441,3 +7441,9 @@ patches:
 - pr: 5976  # https://github.com/randombit/botan/pull/5976
   merge_commit: b9b1de62db3f4f670296a593e27dc28dda553337
   classification: unspecified
+
+# Add TelephoneNumber and TelephoneNumberRange types
+#   Author:    @randombit
+- pr: 5979  # https://github.com/randombit/botan/pull/5979
+  merge_commit: 4d4c257079039762d15ff4207d0c60bdda6c8dce
+  classification: unspecified
