@@ -7447,3 +7447,48 @@ patches:
 - pr: 5979  # https://github.com/randombit/botan/pull/5979
   merge_commit: 4d4c257079039762d15ff4207d0c60bdda6c8dce
   classification: unspecified
+
+# Improvements and fixes for RFC 8226/9060 STIR extensions
+#   Author:    @randombit
+- pr: 5977  # https://github.com/randombit/botan/pull/5977
+  merge_commit: 7473de9b711dd75fb498a7cacfd5f9d04f1ab13a
+  classification: unspecified
+
+# Refactor: Internal plumbing for `TLS::Callbacks::tls_ssl_key_log_data`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5988  # https://github.com/randombit/botan/pull/5988
+  merge_commit: d10a583ce1594846823973c8d1edbb6c0bbbfff6
+  classification: unspecified
+
+# Modify RPKI extension IP types to prepare for using the usual name types
+#   Author:    @randombit
+#   Approvals: (@arckoor)
+- pr: 5978  # https://github.com/randombit/botan/pull/5978
+  merge_commit: 07ecca490fd52331ea6816b0fee574b72355035a
+  classification: unspecified
+
+# When verifying X509 chains, check signatures from the trust root down
+#   Author:    @randombit
+- pr: 5982  # https://github.com/randombit/botan/pull/5982
+  merge_commit: 506f989567a1ea504ca6e16ce8993953e39517d1
+  classification: unspecified
+
+# Fix a number of bugs in the PKCS11 binding
+#   Author:    @randombit
+#   Approvals: @FAlbertDev
+- pr: 5983  # https://github.com/randombit/botan/pull/5983
+  merge_commit: 1b3cc90eddcfcde7cf6659e61aa551fe1ce5f9eb
+  classification: unspecified
+
+# Add `bitvector<>::set_range`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 5985  # https://github.com/randombit/botan/pull/5985
+  merge_commit: 52fe638dea074d5a29416ee1fd8093764676797d
+  classification: unspecified
+
+# Fix a typo [ci skip]
+#   Author: Jack Lloyd
+- commit: e4037d71ea8fe1a7aadd4b74002de58113f504b0  # https://github.com/randombit/botan/commit/e4037d71ea8fe1a7aadd4b74002de58113f504b0
+  classification: unspecified
