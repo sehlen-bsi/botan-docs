@@ -7492,3 +7492,14 @@ patches:
 #   Author: Jack Lloyd
 - commit: e4037d71ea8fe1a7aadd4b74002de58113f504b0  # https://github.com/randombit/botan/commit/e4037d71ea8fe1a7aadd4b74002de58113f504b0
   classification: unspecified
+
+# Fix (or silence) issues from LLVM 23's clang-tidy
+#   Author:    @randombit
+- pr: 5991  # https://github.com/randombit/botan/pull/5991
+  merge_commit: e1166b22729bf540b95c1b6fc3cac7da460e1a01
+  classification: unspecified
+
+# Use the correct variable type in redc_crandall
+#   Author: Jack Lloyd
+- commit: 45225701caddfddebe76d22ab566712c6b626686  # https://github.com/randombit/botan/commit/45225701caddfddebe76d22ab566712c6b626686
+  classification: unspecified
