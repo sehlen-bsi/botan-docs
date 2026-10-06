@@ -4,8 +4,8 @@ Public Key Algorithms
 =====================
 
 This chapter outlines the relevant public key algorithms offered by Botan. Both
-classical and quantum-secure algorithms are available. Depending on the concrete
-algorithm the sub-chapters look at parameter generation, key generation,
+traditional and quantum-secure algorithms are available. Depending on the concrete
+algorithm, the sub-chapters look at parameter generation, key generation,
 signature generation and verification, asymmetric encryption and decryption, key
 encapsulation and decapsulation or the key exchange mechanism.
 
@@ -21,6 +21,8 @@ encapsulation and decapsulation or the key exchange mechanism.
    05_06_hss_lms
    05_07_slh_dsa
    05_08_ml_dsa
+   05_08b_mldsa-composite
    05_09_ml_kem
+   05_09b_mlkem-composite
    05_10_frodokem
    05_11_cmce
