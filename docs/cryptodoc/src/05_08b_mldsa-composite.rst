@@ -351,4 +351,4 @@ implementations in Botan.
    +-----------------------------------------------------------------------+-----------------------------------------+
 
 Note that the context parameter is not available as an input parameter and thus
-signature and verification operations will always use the empty context.,
+signature and verification operations will always use the empty context.
