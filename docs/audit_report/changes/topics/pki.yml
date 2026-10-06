@@ -1,0 +1,5 @@
+title: PKI-related Functionality
+
+description: |
+  This section describes changes to the PKI functionality of Botan, i.e., that has to do with X.509 certificates, CRLs, and OCSP as well as their use in security protocols.
+patches:

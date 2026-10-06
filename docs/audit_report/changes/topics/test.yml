@@ -1,0 +1,6 @@
+title: Tests
+
+description: |
+  This section describes changes that exclusively affect test code. This encompasses the performance tests built into Botan's CLI tool.
+
+patches:

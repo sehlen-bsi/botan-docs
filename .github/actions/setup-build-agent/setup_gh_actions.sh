@@ -85,10 +85,33 @@ else
         setup_softhsm_macos
     fi
 
-    if [ -d '/Applications/Xcode_15.4.app/Contents/Developer' ]; then
-        sudo xcrun xcode-select --switch '/Applications/Xcode_15.4.app/Contents/Developer'
-    else
-        sudo xcrun xcode-select --switch '/Applications/Xcode_15.2.app/Contents/Developer'
+    # Detect and switch to an available Xcode installation rather than hardcoding a single path.
+    XCODE_CANDIDATES=(
+      "/Applications/Xcode_15.5.app/Contents/Developer"
+      "/Applications/Xcode_15.4.app/Contents/Developer"
+      "/Applications/Xcode_15.3.app/Contents/Developer"
+      "/Applications/Xcode_15.2.app/Contents/Developer"
+      "/Applications/Xcode.app/Contents/Developer"
+    )
+
+    SWITCHED=false
+    for d in "${XCODE_CANDIDATES[@]}"; do
+      if [ -d "$d" ]; then
+        echo "Switching Xcode to $d"
+        sudo xcrun xcode-select --switch "$d"
+        SWITCHED=true
+        break
+      fi
+    done
+
+    if [ "$SWITCHED" = false ]; then
+      echo "No expected Xcode installations found in /Applications."
+      echo "Contents of /Applications (for debugging):"
+      ls -1 /Applications || true
+      echo "Current xcode-select path (if any):"
+      xcode-select -p || true
+      # Fail early so the logs show the available Xcode installs and we can adjust candidates.
+      exit 1
     fi
 fi
 
