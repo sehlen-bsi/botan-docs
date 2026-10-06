@@ -301,7 +301,7 @@ In summary, the following deviations of Botan's ML-KEM-composite implementation 
 - Dropping of the ML-KEM ciphertext as an input. This is justified in
   [draft-ietf-lamps-pq-composite-kem]_ with reference to [XWING]_.
 - Dropping the ML-KEM public-key. 
-- As the function KeyCombine(), the construction in [draft-ietf-lamps-pq-composite-kem]_ uses SHA3-256. [TR-02102-1]_ approves the use of KMAC as the key combiner but not specifically SHA3-256; 
+- [draft-ietf-lamps-pq-composite-kem]_ uses SHA3-256 for the function KeyCombine(). [TR-02102-1]_ approves the use of KMAC as the key combiner but not specifically SHA3-256.
 
 In so far, [draft-ietf-lamps-pq-composite-kem]_ deviates from the requirements
 for multi-algorithm KEM constructions in the current
