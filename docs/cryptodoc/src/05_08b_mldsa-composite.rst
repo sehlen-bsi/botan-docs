@@ -13,7 +13,7 @@ algorithms remains secure.
 
 .. note::
 
- **Key reuse is forbidden.**  According to [draft-ietf-lamps-pq-composite-sigs]_ both component keys MUST be freshly generated;
+ **Key reuse is forbidden.**  According to [draft-ietf-lamps-pq-composite-sigs]_, both component keys MUST be freshly generated;
  component keys MUST NOT be reused standalone or across composites. This has
  relevance to the security of the scheme, since for the case where the
  traditional component keys are reused, principal cross-algorithm EUF-CMA
