@@ -288,7 +288,7 @@ implementations in Botan.
 Conformance to TR-02102
 -----------------------
 
-For PQ/T hybrid solutions for ML-KEM [TR-02102-1]_ makes specific requirements as to how the component algorithms have to be combined. As one option, [TR-02102-1]_ refers to the key combiner construction given in [SP-800-227]_ of the form 
+For PQ/T hybrid solutions for ML-KEM, [TR-02102-1]_ makes specific requirements as to how the component algorithms have to be combined. As one option, [TR-02102-1]_ refers to the key combiner construction given in [SP-800-227]_ of the form 
 
 .. math::
 
