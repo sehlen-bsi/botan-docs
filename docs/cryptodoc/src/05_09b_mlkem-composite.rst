@@ -303,10 +303,6 @@ In summary, the following deviations of Botan's ML-KEM-composite implementation 
 - Dropping the ML-KEM public-key. 
 - [draft-ietf-lamps-pq-composite-kem]_ uses SHA3-256 for the function KeyCombine(). [TR-02102-1]_ approves the use of KMAC as the key combiner but not specifically SHA3-256.
 
-In so far, [draft-ietf-lamps-pq-composite-kem]_ deviates from the requirements
-for multi-algorithm KEM constructions in the current
-version of [TR-02102-1]_.
-
 Note that placing both shared secrets first lets the remaining inputs be treated as
 ``OtherInput`` under the NIST SP 800-227 key-combiner form, and the SP 800-56C
 counter may be omitted because the hash is invoked exactly once
