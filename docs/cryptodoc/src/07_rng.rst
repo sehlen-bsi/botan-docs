@@ -47,6 +47,7 @@ important member functions that typically take ``std::span`` from C++20:
    bits of entropy and calls ``add_entropy()`` on this random generator.
    The default value for ``poll_bits`` is
    ``RandomNumberGenerator::DefaultPollBits``, which is 256.
+
 Deterministic Generators
 ------------------------
 
