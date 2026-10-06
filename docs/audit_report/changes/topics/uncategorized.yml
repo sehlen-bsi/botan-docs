@@ -7541,3 +7541,43 @@ patches:
 #   Author: Jack Lloyd
 - commit: bd6f6c55481125b876d1ef3e4720eab87a422d17  # https://github.com/randombit/botan/commit/bd6f6c55481125b876d1ef3e4720eab87a422d17
   classification: unspecified
+
+# Tighten DL key range checks and make weak check_key cheaper
+#   Author:    @randombit
+- pr: 5997  # https://github.com/randombit/botan/pull/5997
+  merge_commit: 7bc0802c866e78c095ed392366318dcd30728168
+  classification: unspecified
+
+# In AutoSeeded_RNG prefer SHA-256 if hardware support is available
+#   Author:    @randombit
+- pr: 6003  # https://github.com/randombit/botan/pull/6003
+  merge_commit: 5dfd2afe63cb0be974178ff52f1b0fef7befe0eb
+  classification: unspecified
+
+# Fix various RNG and entropy collection bugs and corner cases
+#   Author:    @randombit
+#   Approvals: (@falko-strenzke)
+- pr: 5987  # https://github.com/randombit/botan/pull/5987
+  merge_commit: e9dbf19ceb739d32cb680facf2b8314a9f2f3adf
+  classification: unspecified
+
+# Revert making TLS 1.3's padding removal loop constant time
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6002  # https://github.com/randombit/botan/pull/6002
+  merge_commit: d741092aca7f85c74a0f95c5fa385a737389eeb0
+  classification: unspecified
+
+# Avoid heap churn in TLS 1.2 record processing
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5887  # https://github.com/randombit/botan/pull/5887
+  merge_commit: d47e1df87ac4f2266e3142470802b599b738307d
+  classification: unspecified
+
+# [DTLS 1.3] Prepare (D)TLS 1.2 implementation
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6001  # https://github.com/randombit/botan/pull/6001
+  merge_commit: fda1644eb695d726f205798ebd4928daf0e2ff08
+  classification: unspecified
