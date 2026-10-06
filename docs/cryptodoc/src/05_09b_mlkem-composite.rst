@@ -296,7 +296,7 @@ For PQ/T hybrid solutions for ML-KEM, [TR-02102-1]_ makes specific requirements 
 
 where :math:`K_i` refers to the shared keys, :math:`c_i` to the ciphertexts, :math:`ek_i` to the encapsulation (i.e., public) keys and :math:`p = (p_1, p_2)` to 
 the parameters of component schemes 1 and 2, respectively. The construction [draft-ietf-lamps-pq-composite-kem]_ as implemented in Botan deviates from this form by omitting :math:`c_\textrm{mlkem}` and :math:`ek_\textrm{mlkem}`, where the subscript `mlkem` refers to the index of the ML-KEM component algorithm.
-In summary, the following deviations of ML-KEM-composite specification can be identified:
+In summary, the following deviations of Botan's ML-KEM-composite implementation from the recommendations of TR-02102 can be identified:
 
 - Dropping of the ML-KEM ciphertext as an input. This is justified in
   [draft-ietf-lamps-pq-composite-kem]_ with reference to [XWING]_.
