@@ -64,7 +64,7 @@
    NIST PQC Challenge Round 3 Submission, 2021,
    https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210208.pdf
 
-.. [draft-ietf-lamps-pq-composite-kem] Mike Ounsworth, John Gray, Massimiliano Pala, Jan Klaußner, Scott Fluhrer: "Composite ML-KEM for use in X.509 Public Key Infrastructure" (draft-ietf-lamps-pq-composite-kem-18), 23 July 2026, https://datatracker.ietf.org/doc/draft-ietf-lamps-pq-composite-kem/18/
+.. [draft-ietf-lamps-pq-composite-kem] Mike Ounsworth, John Gray, Massimiliano Pala, Jan Klaußner, Scott Fluhrer: "Composite ML-KEM for use in X.509 Public Key Infrastructure" (draft-ietf-lamps-pq-composite-kem-18), 23 July 2026, https://datatracker.ietf.org/doc/draft-ietf-lamps-pq-composite-kem/21/
 
 .. [draft-ietf-lamps-pq-composite-sigs] Mike Ounsworth, John Gray, Massimiliano Pala, Jan Klaußner, Scott Fluhrer: "Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) for use in X.509 Public Key Infrastructure"
   (draft-ietf-lamps-pq-composite-sigs-19), 21 April 2026, https://datatracker.ietf.org/doc/draft-ietf-lamps-pq-composite-sigs/19/
