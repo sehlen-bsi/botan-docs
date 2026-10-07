@@ -7581,3 +7581,34 @@ patches:
 - pr: 6001  # https://github.com/randombit/botan/pull/6001
   merge_commit: fda1644eb695d726f205798ebd4928daf0e2ff08
   classification: unspecified
+
+# Make EC_Group::verify_group less expensive
+#   Author:    @randombit
+- pr: 6009  # https://github.com/randombit/botan/pull/6009
+  merge_commit: 909857ae6a737c8f943bf802bfa878d11db2c259
+  classification: unspecified
+
+# [DTLS 1.3] Prep the `Transcript_Hash_state` + introduce strong record types
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6006  # https://github.com/randombit/botan/pull/6006
+  merge_commit: 156dd909e920a1c697d0d76da52dbf796844e865
+  classification: unspecified
+
+# Add some more tests for modular inverses
+#   Author:    @randombit
+- pr: 6005  # https://github.com/randombit/botan/pull/6005
+  merge_commit: fd2cdd8f48cebb79dd97840f0f9b7199d397b895
+  classification: unspecified
+
+# Add support for injecting a thread pool executor into the library
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5990  # https://github.com/randombit/botan/pull/5990
+  merge_commit: b4ec922119b5a65ed21a5f66fd0d84f765999970
+  classification: unspecified
+
+# Avoid excess over-reservation during OID decoding
+#   Author: Jack Lloyd
+- commit: b6550f8bb23bef2b1158ad0252799ee71de2376e  # https://github.com/randombit/botan/commit/b6550f8bb23bef2b1158ad0252799ee71de2376e
+  classification: unspecified
