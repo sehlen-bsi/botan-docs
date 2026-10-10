@@ -7705,3 +7705,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: 93a87e4e52a058d1620908e3053722c0d7c90115  # https://github.com/randombit/botan/commit/93a87e4e52a058d1620908e3053722c0d7c90115
   classification: unspecified
+
+# Use a randomized curve shared-Z algorithm for variable point EC mul
+#   Author:    @randombit
+- pr: 6024  # https://github.com/randombit/botan/pull/6024
+  merge_commit: f745ae9cb39829a4f3219d8873ff53b8b6c24d0f
+  classification: unspecified
+
+# Workaround GCC 14 with -O1 inserting an undesirable conditional jump
+#   Author:    @randombit
+- pr: 6023  # https://github.com/randombit/botan/pull/6023
+  merge_commit: a17003f40342b4718415b59a337076b73e62ab54
+  classification: unspecified
