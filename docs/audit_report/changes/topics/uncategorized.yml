@@ -7717,3 +7717,9 @@ patches:
 - pr: 6023  # https://github.com/randombit/botan/pull/6023
   merge_commit: a17003f40342b4718415b59a337076b73e62ab54
   classification: unspecified
+
+# In ASN1 pretty printer use decimal for any integer under 32 bits
+#   Author:    @randombit
+- pr: 6025  # https://github.com/randombit/botan/pull/6025
+  merge_commit: 9e77f3d520ff1baebe6468c2aed2ba112796853f
+  classification: unspecified
