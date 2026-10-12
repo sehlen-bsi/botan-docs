@@ -7723,3 +7723,9 @@ patches:
 - pr: 6025  # https://github.com/randombit/botan/pull/6025
   merge_commit: 9e77f3d520ff1baebe6468c2aed2ba112796853f
   classification: unspecified
+
+# Consistently warn in the API docs regarding known side channel issues
+#   Author:    @randombit
+- pr: 6007  # https://github.com/randombit/botan/pull/6007
+  merge_commit: 7fa1542d3c2f456fe8dd7f4e26087a0e4918ec95
+  classification: unspecified
