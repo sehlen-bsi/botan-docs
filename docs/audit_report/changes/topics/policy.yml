@@ -1,0 +1,6 @@
+title: Botan Configuration Policies and related Cryptographic Aspects
+
+description: |
+  This section describes changes to the cryptographic policies in Botan, i.e., changes to the defined policies. Furthermore, it also encompasses changes to cryptographic parameters that are realized anywhere in the code base.
+
+patches:

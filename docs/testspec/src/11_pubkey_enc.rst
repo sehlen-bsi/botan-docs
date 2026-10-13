@@ -6,6 +6,14 @@ encryption schemes and public key encryption schemes. Some public
 key-based encryption algorithms use test classes implemented in
 :srcref:`src/tests/test_pubkey.cpp`.
 
+**Remark from review of 3.12.0:** The generic test for invalid ciphertexts
+in `test_pubkey.cpp` (cf. e.g. PKENC-DLIES-2, PKENC-RSAES-2) was extended:
+after the decryption attempts on the corrupted ciphertexts, the test now
+additionally verifies that the ``PK_Decryptor`` object still correctly
+decrypts the original valid ciphertext, i.e. that failed decryptions do not
+poison the decryptor state. No substantial change in the test code addressed
+here otherwise.
+
 Hybrid Encryption Schemes
 -------------------------
 
@@ -31,6 +39,8 @@ with the following constraints:
 All the tests are implemented in :srcref:`src/tests/test_dlies.cpp`. The
 following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/dlies.vec`.
+
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -163,6 +173,9 @@ time, the test cases where two or more of these modes are enabled do not
 encrypt/decrypt, but instead only check that the combination of these
 modes lead to an exception (negative test). In the following one
 positive and one negative test is shown.
+
+
+**Remark from review of 3.12.0:** No change in the test code or test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -369,6 +382,9 @@ All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. The
 following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/rsaes.vec` and
 :srcref:`src/tests/data/pubkey/rsa_decrypt.vec`.
+
+
+**Remark from review of 3.12.0:** No change in the test code or test vectors referenced here.
 
 .. table::
    :class: longtable

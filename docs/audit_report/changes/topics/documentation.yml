@@ -1,0 +1,6 @@
+title: Documentation
+
+description: |
+  This section lists patches that update only the documentation of Botan. This also encompasses compiled code examples or source code comments.
+
+patches:

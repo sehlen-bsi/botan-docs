@@ -3,23 +3,36 @@ Preface
 
 **Summary**
 
-This document is a direct result of Projects 481 and 197 of the German Federal
-Office for Information Security (BSI) with the aim to support
-`Botan <https://github.com/randombit/botan>`_ - a secure, maintained and
-well-documented cryptographic library. Botan provides building blocks for a wide
-range of modern cryptographic applications that may have to protect their data
-against the upcoming threat of a quantum computer.
+This document has been created as part of Project P663 issued by the German Federal Office for
+Information Security (BSI) and is based on the cryptographic documentation written as part of the previous Projects P197 and P481 of BSI. 
+The aim of this project is the enhancement and maintenance of the
+`Botan <https://github.com/randombit/botan>`_ cryptographic library.  Botan provides building blocks
+for a wide range of modern cryptographic applications.
 
-Botan may be used by manufacturers of VS-NfD products and this document will help
-the BSI to evaluate these products.
+As Botan may be used by manufacturers of VS-NfD products according to German national requirements,
+one purpose of this document is to facilitate the evaluation of such products by the BSI.
 
 This document provides a high-level overview of the library's architecture and
 refers to various places of its documentation. It is meant to act as a starting
 point for users that are new to Botan.
 
+**Historical Authors**
+
+The following persons are authors of previous versions of this document pertaining to earlier Botan releases. Parts of the document text and the tooling used to create the version at hand have been authored by them.
+
+| Fabian Albert (FA), Rohde & Schwarz Cybersecurity
+| René Meusel (RM), Rohde & Schwarz Cybersecurity
+| Tudor Soroceanu (TS), Fraunhofer AISEC
+| Amos Treiber (AT), Rohde & Schwarz Cybersecurity
+| Andreas Seelos-Zankl (ASZ), Fraunhofer AISEC
+| Alexander Wagner (AW), Fraunhofer AISEC
+
 **Authors**
 
-| René Meusel (RM), Rohde & Schwarz Cybersecurity
+The authors of the present document version are listed below.
+
+| Falko Strenzke, MTG AG
+
 
 **Document Revision**
 

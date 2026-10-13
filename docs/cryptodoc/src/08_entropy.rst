@@ -38,10 +38,11 @@ The following entropy sources are currently defined:
    the ``RdSeed`` instruction. It polls entropy from the on-chip hardware
    random number generator. Internally it polls RdSeed 256 times,
    whereas each poll generates 32 bit of entropy. Each poll is retried
-   on failure at most 512 times because RdSeed is not guaranteed to
-   generate a random number within a specific number of retries. If each
-   try was successful 1024 bytes are gathered. Botan does not trust
-   ``RdSeed`` so ``Intel_Rdseed::poll()`` always returns 0.
+   on failure at most 1024 times because RdSeed is not guaranteed to
+   generate a random number within a specific number of retries. If a
+   poll exhausts all retries, the entropy gathering is aborted early.
+   If each try was successful 1024 bytes are gathered. Botan does not
+   trust ``RdSeed`` so ``Intel_Rdseed::poll()`` always returns 0.
 
 -  ``Win32_EntropySource``: This entropy source is available on Windows,
    Cygwin and MinGW. It gathers entropy from the following Win32 API
@@ -58,12 +59,22 @@ The following entropy sources are currently defined:
    -  ``GetCursorPos()``
    -  ``GetCaretPos()``
 
--  ``Getentropy``: This entropy source is available on OpenBSD and macOS
-   by default. It can be enabled for Linux and Android. It gathers 256
-   bytes of entropy using the ``getentropy(2)`` system call first
-   introduced in OpenBSD 5.6. Note that the maximum buffer size of the
-   buffer provided ``getentropy(2)`` is limited to 256 bytes. This call is
-   guaranteed to never block or fail.
+-  ``Getentropy``: This entropy source is available by default on
+   operating systems that declare the ``getentropy`` target feature,
+   among them OpenBSD, macOS, Linux, Android, FreeBSD and Solaris. It
+   gathers 256 bytes of entropy using the ``getentropy(2)`` system call
+   first introduced in OpenBSD 5.6. Note that the maximum buffer size of
+   the buffer provided ``getentropy(2)`` is limited to 256 bytes. On
+   OpenBSD this call is guaranteed to never block or fail.
+
+-  ``Jitter_RNG_EntropySource``: If the ``jitter_rng`` module is enabled,
+   the :ref:`JitterEntropy-based RNG <rng/jitter_rng>` is additionally
+   available as an entropy source. Each poll reseeds the target RNG from
+   the Jitter_RNG and returns
+   ``RandomNumberGenerator::DefaultPollBits`` (256), i.e. in contrast to
+   the other hardware-based sources this source's entropy is counted.
+   Note that this source is not part of the default source list used by
+   ``Entropy_Sources::global_sources()``.
 
 .. [#intel_drng]
 
@@ -76,13 +87,13 @@ This class manages the available sources. The static method
 
 ``Entropy_Sources& Entropy_Sources::global_sources()``
 
-returns a reference to the default sources which are defined in build.h
-as follows:
+returns a reference to the default sources, which are hardcoded in
+:srcref:`src/lib/entropy/entropy_srcs.cpp` as follows:
 
 .. code-block:: C++
 
-   #define BOTAN_ENTROPY_DEFAULT_SOURCES \
-   { "rdseed", "hwrng", "getentropy", "system_rng", "system_stats" }
+   static Entropy_Sources global_entropy_sources(
+      {"rdseed", "hwrng", "getentropy", "system_rng", "system_stats"});
 
 These sources are used by the ``AutoSeeded_RNG`` if no system RNG is
 available.
@@ -93,11 +104,13 @@ available and configured sources:
 
 .. code-block:: C++
 
-   size_t Entropy_Sources::poll (RandomNumberGenerator& rng, size_t
-   poll_bits, std::chrono::milliseconds timeout)
+   size_t Entropy_Sources::poll(RandomNumberGenerator& rng, size_t bits)
 
 All sources that are configured in the ``Entropy_Sources`` object are
-polled until ``poll_bits`` entropy bits are collected or the timeout is
-reached. So, the order in which the Entropy Sources were added to the
-``Entropy_Sources`` is important here. The collected bits are returned
-after the poll is finished.
+polled until ``poll_bits`` entropy bits are collected. So, the order in
+which the Entropy Sources were added to the ``Entropy_Sources`` is
+important here. The collected bits are returned after the poll is
+finished. A second overload additionally takes a
+``std::chrono::milliseconds timeout`` parameter after which the
+(cooperative) polling is stopped; this overload is not used by the RNG
+reseeding logic, which polls without a timeout.

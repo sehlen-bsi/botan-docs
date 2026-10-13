@@ -1,0 +1,112 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="s1H1Xx754iqMu0NNcjaz">
+    <mxGraphModel dx="1587" dy="1190" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="ECDH_KA_Operation::&lt;div&gt;raw_agree(Point p)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="470" width="140" x="60" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-8" edge="1" parent="1" source="_dGVXtFYWZ1XbbZ8Xn8D-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="_dGVXtFYWZ1XbbZ8Xn8D-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="227" y="170" />
+              <mxPoint x="227" y="175" />
+            </Array>
+            <mxPoint x="127" y="170" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-6" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="EC_AffinePoint" vertex="1">
+          <mxGeometry height="470" width="140" x="240" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-2" parent="1" style="html=1;whiteSpace=wrap;" value="is_identity()" vertex="1">
+          <mxGeometry height="50" width="110" x="255" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-9" parent="1" style="html=1;whiteSpace=wrap;" value="if p is identity, abort with error" vertex="1">
+          <mxGeometry height="50" width="110" x="80" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-10" parent="1" style="html=1;whiteSpace=wrap;" value="&lt;div&gt;mul_x_only()&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="110" x="258" y="258" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="100" x="85" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-14" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="ECDH_KA_Operation::&lt;div&gt;constructor(rng)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="470" width="140" x="-100" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-16" edge="1" parent="1" source="_dGVXtFYWZ1XbbZ8Xn8D-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="_dGVXtFYWZ1XbbZ8Xn8D-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="255" y="283" />
+            </Array>
+            <mxPoint x="130" y="282.5" as="sourcePoint" />
+            <mxPoint x="255" y="287.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-19" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="EC_AffinePoint_Data::&lt;div&gt;mul_x_only&lt;/div&gt;" vertex="1">
+          <mxGeometry height="470" width="140" x="400" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-21" parent="1" style="html=1;whiteSpace=wrap;" value="Botan::EC_AffinePoint_Data_BN" vertex="1">
+          <mxGeometry height="50" width="210" x="-160" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-22" parent="1" style="html=1;whiteSpace=wrap;" value="Botan::EC_AffinePoint_Data_PC" vertex="1">
+          <mxGeometry height="45" width="200" x="100" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="EC_AffinePoint_Data_PC(std::shared_ptr&amp;lt;const EC_Group_Data&amp;gt; group, PCurve::PrimeOrderCurve::AffinePoint pt);" vertex="1">
+          <mxGeometry height="30" width="60" x="190" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-25" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="EC_AffinePoint_Data_BN(std::shared_ptr&amp;lt;const EC_Group_Data&amp;gt; group, EC_Point pt);" vertex="1">
+          <mxGeometry height="30" width="220" x="-165" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-26" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;src/lib/pubkey/ec_group/legacy_ec_point/ec_inner_bn.cpp:&lt;/div&gt;&lt;div&gt;secure_vector&amp;lt;uint8_t&amp;gt; EC_AffinePoint_Data_BN::mul_x_only(const EC_Scalar_Data&amp;amp; scalar,&lt;/div&gt;&lt;div&gt;&amp;nbsp;RandomNumberGenerator&amp;amp; rng) const&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="350" x="110" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-27" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; const PCurve::PrimeOrderCurve&amp;amp; pcurve() const {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;BOTAN_ASSERT_NONNULL(m_pcurve);&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;return *m_pcurve;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; }&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="330" x="110" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-28" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;br&gt;&lt;table class=&quot;memname&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;memname&quot;&gt;virtual secure_vector&amp;lt; uint8_t &amp;gt; Botan::PCurve::PrimeOrderCurve::mul_x_only &lt;/td&gt;          &lt;td&gt;(&lt;/td&gt;          &lt;td class=&quot;paramtype&quot;&gt;const &lt;a class=&quot;el&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1PrimeOrderCurve_1_1AffinePoint.html&quot;&gt;AffinePoint&lt;/a&gt; &amp;amp;&amp;nbsp;&lt;/td&gt;          &lt;td class=&quot;paramname&quot;&gt;&lt;em&gt;pt&lt;/em&gt;, &lt;/td&gt;        &lt;/tr&gt;        &lt;tr&gt;          &lt;td class=&quot;paramkey&quot;&gt;&lt;/td&gt;          &lt;td&gt;&lt;/td&gt;          &lt;td class=&quot;paramtype&quot;&gt;const &lt;a class=&quot;el&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1PrimeOrderCurve_1_1Scalar.html&quot;&gt;Scalar&lt;/a&gt; &amp;amp;&amp;nbsp;&lt;/td&gt;          &lt;td class=&quot;paramname&quot;&gt;&lt;em&gt;scalar&lt;/em&gt;, &lt;/td&gt;        &lt;/tr&gt;        &lt;tr&gt;          &lt;td class=&quot;paramkey&quot;&gt;&lt;/td&gt;          &lt;td&gt;&lt;/td&gt;          &lt;td class=&quot;paramtype&quot;&gt;RandomNumberGenerator &amp;amp;&amp;nbsp;&lt;/td&gt;          &lt;td class=&quot;paramname&quot;&gt;&lt;em&gt;rng&lt;/em&gt;&amp;nbsp;&lt;/td&gt;        &lt;/tr&gt;        &lt;tr&gt;          &lt;td&gt;&lt;/td&gt;          &lt;td&gt;)&lt;/td&gt;          &lt;td&gt;&lt;/td&gt;&lt;td&gt; const&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;Implemented in &lt;a class=&quot;el&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1GenericPrimeOrderCurve.html#a992c471301992b94a654ef94cca58200&quot;&gt;Botan::PCurve::GenericPrimeOrderCurve&lt;/a&gt;, and &lt;a class=&quot;el&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1PrimeOrderCurveImpl.html#ac92e2f35b5a0fad654d5a77144341365&quot;&gt;Botan::PCurve::PrimeOrderCurveImpl&amp;lt; C &amp;gt;&lt;/a&gt;." vertex="1">
+          <mxGeometry height="190" width="400" x="100" y="1050" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-29" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div class=&quot;line&quot;&gt;      &lt;a class=&quot;code hl_class&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1GenericProjectivePoint.html&quot;&gt;GenericProjectivePoint&lt;/a&gt; &lt;a class=&quot;code hl_function&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1anonymous__namespace_02pcurves__generic_8cpp_03_1_1GenericWindowedMul.html#a4e52e976a7fc9a6933735090497cf576&quot;&gt;mul&lt;/a&gt;(&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;a class=&quot;code hl_class&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1GenericScalar.html&quot;&gt;GenericScalar&lt;/a&gt;&amp;amp; s, RandomNumberGenerator&amp;amp; rng) {&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;a id=&quot;l01320&quot; name=&quot;l01320&quot;&gt;&lt;/a&gt;         &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;a class=&quot;code hl_class&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1anonymous__namespace_02pcurves__generic_8cpp_03_1_1GenericBlindedScalarBits.html&quot;&gt;GenericBlindedScalarBits&lt;/a&gt; &lt;a class=&quot;code hl_variable&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#acbf847dcf710005795c5bd18dd0c7f3e&quot;&gt;bits&lt;/a&gt;(s, &lt;a class=&quot;code hl_variable&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#a838f4d4451f27c8322d8434779828ac6&quot;&gt;rng&lt;/a&gt;, WindowBits);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keywordflow&quot;&gt;return&lt;/span&gt; varpoint_exec&amp;lt;GenericCurve, WindowBits&amp;gt;(m_table, &lt;a class=&quot;code hl_variable&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#acbf847dcf710005795c5bd18dd0c7f3e&quot;&gt;bits&lt;/a&gt;, &lt;a class=&quot;code hl_variable&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#a838f4d4451f27c8322d8434779828ac6&quot;&gt;rng&lt;/a&gt;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;a id=&quot;l01323&quot; name=&quot;l01323&quot;&gt;&lt;/a&gt;      }&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="350" x="160" y="1250" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-30" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;&lt;a class=&quot;code hl_function&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1anonymous__namespace_02pcurves__generic_8cpp_03_1_1GenericBlindedScalarBits.html#ac5c91967729d0f7aaa324899365d4bda&quot;&gt;GenericBlindedScalarBits&lt;/a&gt;(&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;a class=&quot;code hl_class&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1GenericScalar.html&quot;&gt;GenericScalar&lt;/a&gt;&amp;amp; scalar, RandomNumberGenerator&amp;amp; rng, &lt;span class=&quot;keywordtype&quot;&gt;size_t&lt;/span&gt; wb) {&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;[...]&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;keywordtype&quot;&gt;size_t&lt;/span&gt; blinder_bits = &lt;a class=&quot;code hl_function&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#a31069a565c6e733549e9846a15abd7f0&quot;&gt;scalar_blinding_bits&lt;/a&gt;(order_bits);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keywordflow&quot;&gt;if&lt;/span&gt;(blinder_bits &amp;gt; 0 &amp;amp;&amp;amp; &lt;a class=&quot;code hl_variable&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#a838f4d4451f27c8322d8434779828ac6&quot;&gt;rng&lt;/a&gt;.is_seeded()) {&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="410" x="220" y="1390" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-31" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div class=&quot;line&quot;&gt;&lt;div class=&quot;line&quot;&gt;constexpr size_t scalar_blinding_bits(size_t scalar_bits) {&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;nbsp; // For blinding use 1/8 the order length for most curves; for P-521 we round down a bit&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;nbsp; // so the masked scalar fits exactly in 9 or 18 words.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;nbsp; if(scalar_bits == 521) {&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;nbsp; &amp;nbsp; return 55;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;nbsp; } else {&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;nbsp; &amp;nbsp; return scalar_bits / 8;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;nbsp; }&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="370" x="210" y="1470" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-32" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Problem:&lt;br&gt;implicit choice of blinding dep. on whether RNG is seeded" vertex="1">
+          <mxGeometry height="80" width="120" x="550" y="1380" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-33" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="256 bit curve =&amp;gt; 32 bits blinding&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;AIS: &quot;&lt;span style=&quot;background-color: transparent;&quot;&gt;The size of the blinding factor r depends on the used curve. In [SW14] it is shown that for some&lt;/span&gt;&lt;/div&gt;&lt;div&gt;curves not even 64 bits blinding are sufcient, depending on the error rate of the measurements.&quot;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="150" width="310" x="580" y="1460" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-34" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="185" y="1680" as="sourcePoint" />
+            <mxPoint x="610" y="1680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-35" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="GenericPrimeOrderCurve:" vertex="1">
+          <mxGeometry height="30" width="60" x="110" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-36" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;a class=&quot;el&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1PCurve_1_1PrimeOrderCurveImpl.html#ac92e2f35b5a0fad654d5a77144341365&quot;&gt;PrimeOrderCurveImpl&amp;lt; C &amp;gt;&lt;/a&gt;." vertex="1">
+          <mxGeometry height="30" width="200" x="80" y="1690" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-37" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div class=&quot;line&quot;&gt;&lt;div class=&quot;line&quot;&gt;secure_vector&amp;lt;uint8_t&amp;gt; mul_x_only(const AffinePoint&amp;amp; pt,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;const Scalar&amp;amp; scalar,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;RandomNumberGenerator&amp;amp; rng) const override {&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;auto tbl = WindowedBoothMulTable&amp;lt;C, VarPointWindowBits&amp;gt;(from_stash(pt));&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;auto result = tbl.mul(from_stash(scalar), rng);&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="430" x="190" y="1754" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-38" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div class=&quot;line&quot;&gt;   &lt;a class=&quot;code hl_typedef&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1WindowedBoothMulTable.html#a0b12d8d4e11cc0820405a917aa88f720&quot;&gt;ProjectivePoint&lt;/a&gt; &lt;a class=&quot;code hl_function&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1WindowedBoothMulTable.html#ab6a5b5cda86d4df787eaa0ce85b5ea10&quot;&gt;mul&lt;/a&gt;(&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;a class=&quot;code hl_typedef&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1WindowedBoothMulTable.html#a17425d97a9ef22a728ff2afc352aef31&quot;&gt;Scalar&lt;/a&gt;&amp;amp; s, RandomNumberGenerator&amp;amp; &lt;a class=&quot;code hl_variable&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#a838f4d4451f27c8322d8434779828ac6&quot;&gt;rng&lt;/a&gt;)&lt;span class=&quot;keyword&quot;&gt; const &lt;/span&gt;{&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;a class=&quot;code hl_class&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1BlindedScalarBits.html&quot;&gt;BlindedScalar&lt;/a&gt; &lt;a class=&quot;code hl_variable&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#acbf847dcf710005795c5bd18dd0c7f3e&quot;&gt;bits&lt;/a&gt;(s, &lt;a class=&quot;code hl_variable&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#a838f4d4451f27c8322d8434779828ac6&quot;&gt;rng&lt;/a&gt;);&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="500" x="240" y="1810" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-39" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span class=&quot;keyword&quot; style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;static&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt; &lt;/span&gt;&lt;span class=&quot;keyword&quot; style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;constexpr&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt; &lt;/span&gt;&lt;span class=&quot;keywordtype&quot; style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;size_t&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt; &lt;/span&gt;&lt;a class=&quot;code hl_variable&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/classBotan_1_1BlindedScalarBits.html#ab3958844d1ae42c68c8fa3c3d0554565&quot; style=&quot;background-color: transparent;&quot;&gt;BlindingBits&lt;/a&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt; = &lt;/span&gt;&lt;a class=&quot;code hl_function&quot; href=&quot;file:///home/fstrenzke/dev/p663/botan/doxygen/html/namespaceBotan.html#a31069a565c6e733549e9846a15abd7f0&quot; style=&quot;background-color: transparent;&quot;&gt;scalar_blinding_bits&lt;/a&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;(C::OrderBits);&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="240" x="250" y="1870" as="geometry" />
+        </mxCell>
+        <mxCell id="_dGVXtFYWZ1XbbZ8Xn8D-40" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="OK, uses blinding-bits = order-bits" vertex="1">
+          <mxGeometry height="80" width="120" x="580" y="1845" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
