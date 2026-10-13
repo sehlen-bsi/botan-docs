@@ -168,7 +168,7 @@ Key Generation
 --------------
 
 FrodoKEM key generation follows Section 8.1 of [FrodoKEM-ISO]_ and is
-implemented within ``FrodoKEM_PrivateKey`` constructor (see: :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:322|FrodoKEM_PrivateKey`).
+implemented within ``FrodoKEM_PrivateKey`` constructor (see: :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:327|FrodoKEM_PrivateKey`).
 It works as follows:
 
 .. admonition:: FrodoKEM Key Generation
@@ -216,7 +216,7 @@ only if the encapsulated and decapsulated shared secrets are equal.
 Key Encapsulation
 -----------------
 
-The FrodoKEM encapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:92|raw_kem_encrypt`) follows Section 8.2 of [FrodoKEM-ISO]_ and
+The FrodoKEM encapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:93|raw_kem_encrypt`) follows Section 8.2 of [FrodoKEM-ISO]_ and
 works as follows:
 
 .. admonition:: FrodoKEM Encapsulation
@@ -262,7 +262,7 @@ works as follows:
 Key Decapsulation
 -----------------
 
-The FrodoKEM decapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:163|raw_kem_decrypt`) follows Section 8.3 of [FrodoKEM-ISO]_ and
+The FrodoKEM decapsulation procedure of Botan (see :srcref:`[src/lib/pubkey/frodokem/frodokem_common]/frodokem.cpp:164|raw_kem_decrypt`) follows Section 8.3 of [FrodoKEM-ISO]_ and
 works as follows:
 
 .. admonition:: FrodoKEM Decapsulation

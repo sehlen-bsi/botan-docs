@@ -188,19 +188,19 @@ encoding functionality from [FIPS-204]_ Section 7.1.
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
    | :srcref:`expand_keypair <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:668|expand_keypair>`                         | Expand a private key from a seed :math:`\xi`                                               | Alg. 6      |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`expand_A <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:698|expand_A>`                                     | Expand matrix :math:`A` from a seed :math:`\rho`                                           | Alg. 32     |
+   | :srcref:`expand_A <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:701|expand_A>`                                     | Expand matrix :math:`A` from a seed :math:`\rho`                                           | Alg. 32     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`expand_s <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:711|expand_s>`                                     | Expand vectors :math:`s_1` and :math:`s_2` from a seed :math:`\rho`                        | Alg. 33     |
+   | :srcref:`expand_s <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:714|expand_s>`                                     | Expand vectors :math:`s_1` and :math:`s_2` from a seed :math:`\rho`                        | Alg. 33     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`expand_mask <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:731|expand_mask>`                               | Samples a vector :math:`y` from a seed :math:`\rho'` and a nonce :math:`\kappa`            | Alg. 34     |
+   | :srcref:`expand_mask <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:734|expand_mask>`                               | Samples a vector :math:`y` from a seed :math:`\rho'` and a nonce :math:`\kappa`            | Alg. 34     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`decompose <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:822|decompose>`                                   | Decompose coefficients in a vector :math:`w` into high and low bits                        | Alg. 36     |
+   | :srcref:`decompose <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:825|decompose>`                                   | Decompose coefficients in a vector :math:`w` into high and low bits                        | Alg. 36     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`make_hint <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:846|make_hint>`                                   | Allows the signer to compress the signature                                                | Alg. 39     |
+   | :srcref:`make_hint <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:849|make_hint>`                                   | Allows the signer to compress the signature                                                | Alg. 39     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`use_hint <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:921|use_hint>`                                     | Lets the verifier decompress the signature                                                 | Alg. 40     |
+   | :srcref:`use_hint <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:924|use_hint>`                                     | Lets the verifier decompress the signature                                                 | Alg. 40     |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
-   | :srcref:`infinity_norm_within_bound <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:939|infinity_norm_within_bound>` | Given vector :math:`v` and :math:`bound`, validates that :math:`\|v\|_{\infty} \geq bound` | n/a         |
+   | :srcref:`infinity_norm_within_bound <[src/lib/pubkey/dilithium/dilithium_common]/dilithium_algos.cpp:942|infinity_norm_within_bound>` | Given vector :math:`v` and :math:`bound`, validates that :math:`\|v\|_{\infty} \geq bound` | n/a         |
    +---------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------+-------------+
 
 .. [#dilithium_comp] The private key encoding and decoding functions are used
@@ -326,7 +326,7 @@ Key Generation
 
 Generating a fresh ML-DSA key pair as specified in [FIPS-204]_ Section 5.1
 Algorithm 1, is available in the constructor of :srcref:`Dilithium_PrivateKey
-<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:406|Dilithium_PrivateKey>`.
+<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:413|Dilithium_PrivateKey>`.
 This mostly delegates the actual key generation to the internal function
 :srcref:`expand_keypair
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_algos.cpp:668|expand_keypair>`
@@ -373,7 +373,7 @@ Signing
 
 Signature generation as specified in [FIPS-204]_ Algorithms 2 and 7 are
 implemented in :srcref:`Dilithium_Signature_Operation::sign
-<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:153|sign>` with the
+<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:154|sign>` with the
 preparation of the message representative ``mu`` being done in
 :srcref:`DilithiumMessageHash
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_symmetric_primitives.h:28|DilithiumMessageHash>`.
@@ -421,7 +421,7 @@ preparation of the message representative ``mu`` being done in
      expansion of ``A_hat``, as well as the NTT for ``s_1``,
      ``s_2``, and ``t_0`` are done :srcref:`prior to the actual signing
      operation
-     <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:131|Dilithium_Signature_Operation>`
+     <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:132|Dilithium_Signature_Operation>`
      to amortize the complexity of these operations across multiple consecutive
      signature generations. The same applies to the calculation of ``tr``.
    - Step 1: Botan (as of version 3.12.0) does not yet support the
@@ -440,7 +440,7 @@ Signature Verification
 
 Signature verification as specified in [FIPS-204]_ Algorithms 3 and 8 is
 implemented in :srcref:`Dilithium_Verification_Operation::is_valid_signature
-<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:269|is_valid_signature>`
+<src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:270|is_valid_signature>`
 with the preparation of the message representative ``mu`` being done in
 :srcref:`DilithiumMessageHash
 <src/lib/pubkey/dilithium/dilithium_common/dilithium_symmetric_primitives.h:28|DilithiumMessageHash>`.
@@ -476,7 +476,7 @@ with the preparation of the message representative ``mu`` being done in
      expansion of ``A_hat``, as well as the preparation of
      ``t_1'_hat = ntt(t_1 * 2^d)`` are done :srcref:`prior to the actual
      verification operation
-     <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:251|Dilithium_Verification_Operation>`
+     <src/lib/pubkey/dilithium/dilithium_common/dilithium.cpp:252|Dilithium_Verification_Operation>`
      to amortize the complexity of these operations across multiple consecutive
      signature verification.
    - The check in Step 3 is redundant, because it is not possible to encode a

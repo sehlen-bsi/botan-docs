@@ -226,7 +226,7 @@ Key Generation
 
 Botan provides the elliptic curve private key class ``EC_PrivateKey``, the
 respective public key class ``EC_PublicKey``, and the key generation algorithm
-in :srcref:`src/lib/pubkey/ecc_key/ecc_key.cpp:141|EC_PrivateKey`. To generate a
+in :srcref:`src/lib/pubkey/ecc_key/ecc_key.cpp:142|EC_PrivateKey`. To generate a
 private key the constructor ``EC_PrivateKey(RandomNumberGenerator& rng, const
 EC_Group& ec_group, bool with_modular_inverse)`` is called. The constructor
 operates as follows:
@@ -404,7 +404,7 @@ Signature Verification
 ^^^^^^^^^^^^^^^^^^^^^^
 
 The signature verification algorithm works as follows (see
-:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:230|verify`):
+:srcref:`[src/lib/pubkey/ecdsa]/ecdsa.cpp:232|verify`):
 
 .. admonition:: ``ECDSA_Verification_Operation::verify()``
 
