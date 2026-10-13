@@ -7729,3 +7729,27 @@ patches:
 - pr: 6007  # https://github.com/randombit/botan/pull/6007
   merge_commit: 7fa1542d3c2f456fe8dd7f4e26087a0e4918ec95
   classification: unspecified
+
+# Fixes and improvements for POWER systems
+#   Author:    @randombit
+- pr: 6028  # https://github.com/randombit/botan/pull/6028
+  merge_commit: 9fc28d5b1103ba3e36101c8d25c321cf97f7b6be
+  classification: unspecified
+
+# Fix some bugs and missing validations in the HTTP client
+#   Author:    @randombit
+- pr: 5980  # https://github.com/randombit/botan/pull/5980
+  merge_commit: bc4b00bb395271bad161cbbf0ecadb6b3f968654
+  classification: unspecified
+
+# Cleanup and correct SIMD byte shuffle logic
+#   Author:    @randombit
+- pr: 6027  # https://github.com/randombit/botan/pull/6027
+  merge_commit: 4083d034273d3b7be9a5f7a1b3ba46fc09c29157
+  classification: unspecified
+
+# Share constant computations for Whirlpool
+#   Author:    @randombit
+- pr: 5958  # https://github.com/randombit/botan/pull/5958
+  merge_commit: b4f7cc42e3b10dbbf881e65ac007419c4ef4ae6c
+  classification: unspecified
