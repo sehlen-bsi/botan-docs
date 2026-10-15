@@ -7773,3 +7773,47 @@ patches:
 - pr: 5971  # https://github.com/randombit/botan/pull/5971
   merge_commit: 454ba0e31af6bde6bea5dbb21c9e55e346398671
   classification: unspecified
+
+# Add inline asm BMI2/ADX codepath for small integer multiplications
+#   Author:    @randombit
+- pr: 6031  # https://github.com/randombit/botan/pull/6031
+  merge_commit: f89640eea69c1802da8bdd57d617c832b3c8ba29
+  classification: unspecified
+
+# Add modular exponentiation using AVX-512+IFMA
+#   Author:    @randombit
+- pr: 6026  # https://github.com/randombit/botan/pull/6026
+  merge_commit: 77b651c713d1041c537b3c29a31c8e8b9f32e15a
+  classification: unspecified
+
+# Modify ML-KEM AVX2 table generation to avoid GCC -fwrapv error
+#   Author:    @randombit
+- pr: 6033  # https://github.com/randombit/botan/pull/6033
+  merge_commit: afcbf325f3024b4da5843c1ea155e027b775c659
+  classification: unspecified
+
+# Allow disabling LASX/LSX on LoongArch (loongarch64)
+#   Author:    @MingcongBai
+#   Approvals: @reneme
+- pr: 5108  # https://github.com/randombit/botan/pull/5108
+  merge_commit: 6fbf80942fdcb3faba1bb398ee3b0c916967059e
+  classification: unspecified
+
+# add ML-DSA certificate tests with certificates from RFC 9881
+#   Author:    @falko-strenzke
+#   Approvals: @reneme, (@randombit)
+- pr: 5317  # https://github.com/randombit/botan/pull/5317
+  merge_commit: 38ef330fa2ae971a68d6dbcb06ac7ffc02d3b22c
+  classification: unspecified
+
+# Enable KEM certificate issuance via CLI
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5529  # https://github.com/randombit/botan/pull/5529
+  merge_commit: 5ef89e6ed24e101a1150e71d58deac850b464c13
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 14878a8f24b946dd9c1f9e809bf74c72f4032d6c  # https://github.com/randombit/botan/commit/14878a8f24b946dd9c1f9e809bf74c72f4032d6c
+  classification: unspecified
