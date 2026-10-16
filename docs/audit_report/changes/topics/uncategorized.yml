@@ -7817,3 +7817,27 @@ patches:
 #   Author: Jack Lloyd
 - commit: 14878a8f24b946dd9c1f9e809bf74c72f4032d6c  # https://github.com/randombit/botan/commit/14878a8f24b946dd9c1f9e809bf74c72f4032d6c
   classification: unspecified
+
+# Add HPKE from RFC 9180
+#   Author:    @randombit
+#   Approvals: (@falko-strenzke)
+- pr: 5989  # https://github.com/randombit/botan/pull/5989
+  merge_commit: 702c55bdace7571bd46be1f3bfe0c28aa3169905
+  classification: unspecified
+
+# add ML-DSA signature context
+#   Author:    @falko-strenzke
+#   Approvals: (@randombit)
+- pr: 5531  # https://github.com/randombit/botan/pull/5531
+  merge_commit: 40ecdf77ce747e1be995504b3fa325936330b120
+  classification: unspecified
+
+# Fix a typo
+#   Author: Jack Lloyd
+- commit: 70d4f5f3a87939e64b66726dc752d2f5d1720f87  # https://github.com/randombit/botan/commit/70d4f5f3a87939e64b66726dc752d2f5d1720f87
+  classification: unspecified
+
+# Update todo, release notes, and roadmap
+#   Author: Jack Lloyd
+- commit: d7fe68fd6ca6cb389e6aeb8124dc1288479d9b18  # https://github.com/randombit/botan/commit/d7fe68fd6ca6cb389e6aeb8124dc1288479d9b18
+  classification: unspecified
