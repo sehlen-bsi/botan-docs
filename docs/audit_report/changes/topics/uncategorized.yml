@@ -7841,3 +7841,28 @@ patches:
 #   Author: Jack Lloyd
 - commit: d7fe68fd6ca6cb389e6aeb8124dc1288479d9b18  # https://github.com/randombit/botan/commit/d7fe68fd6ca6cb389e6aeb8124dc1288479d9b18
   classification: unspecified
+
+# Refactor: Generalize `botan_ffi_obj` Handles
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6038  # https://github.com/randombit/botan/pull/6038
+  merge_commit: 133fd7852f318d2cd264927634c025a0520fa271
+  classification: unspecified
+
+# When decoding an RSA private key range check p and q
+#   Author:    @randombit
+- pr: 6041  # https://github.com/randombit/botan/pull/6041
+  merge_commit: 3cba22809de776378dcf88a50bad6ca2bbd990ce
+  classification: unspecified
+
+# Remove round_up function and rounding.h
+#   Author:    @randombit
+- pr: 6042  # https://github.com/randombit/botan/pull/6042
+  merge_commit: ab181c7b1679f065ca9ed180d95e983e06234a78
+  classification: unspecified
+
+# Fix various CPUID-related bugs
+#   Author:    @randombit
+- pr: 6036  # https://github.com/randombit/botan/pull/6036
+  merge_commit: 0d8a8e9d3440eb9a2b227c9d3aa084b4457e5bac
+  classification: unspecified
