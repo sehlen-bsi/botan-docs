@@ -7866,3 +7866,16 @@ patches:
 - pr: 6036  # https://github.com/randombit/botan/pull/6036
   merge_commit: 0d8a8e9d3440eb9a2b227c9d3aa084b4457e5bac
   classification: unspecified
+
+# Add a statement regarding possible security issues in Classic McEliece
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5993  # https://github.com/randombit/botan/pull/5993
+  merge_commit: e5466586b170817f5543661612c51ac73393e10e
+  classification: unspecified
+
+# Fix or silence various warnings from clang-tidy 23
+#   Author:    @randombit
+- pr: 6045  # https://github.com/randombit/botan/pull/6045
+  merge_commit: 980ee087eb91c4a155b40eafc81f3b2bf331eba5
+  classification: unspecified
