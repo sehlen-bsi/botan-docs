@@ -7879,3 +7879,20 @@ patches:
 - pr: 6045  # https://github.com/randombit/botan/pull/6045
   merge_commit: 980ee087eb91c4a155b40eafc81f3b2bf331eba5
   classification: unspecified
+
+# Add a fused mulx/adx Montgomery multiplication
+#   Author:    @randombit
+- pr: 6044  # https://github.com/randombit/botan/pull/6044
+  merge_commit: 4d3c5e6a6f58a53c6b86fedc361f9a9d2948e1e8
+  classification: unspecified
+
+# Fix a variety of bugs in the command line utility
+#   Author:    @randombit
+- pr: 6037  # https://github.com/randombit/botan/pull/6037
+  merge_commit: c8da4bff9b84534980a58698ce749c258624079f
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: d83d0d950ce8d0a47310a73604513cef11a983a6  # https://github.com/randombit/botan/commit/d83d0d950ce8d0a47310a73604513cef11a983a6
+  classification: unspecified
