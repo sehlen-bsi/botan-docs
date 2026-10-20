@@ -7896,3 +7896,31 @@ patches:
 #   Author: Jack Lloyd
 - commit: d83d0d950ce8d0a47310a73604513cef11a983a6  # https://github.com/randombit/botan/commit/d83d0d950ce8d0a47310a73604513cef11a983a6
   classification: unspecified
+
+# [DTLS1.3] Tests: Add TLS_Channel_IO Tests
+#   Author:    @atreiber94
+#   Approvals: @reneme
+- pr: 6043  # https://github.com/randombit/botan/pull/6043
+  merge_commit: 78ae60a81727449a16118aceeab606b981b8d9cd
+  classification: unspecified
+
+# Don't bother verifying the signatures on trust roots during validation
+#   Author:    @randombit
+#   Approvals: @FAlbertDev, @reneme
+- pr: 6008  # https://github.com/randombit/botan/pull/6008
+  merge_commit: 659eed83434c90472fca76ee7d9e68ab86aaa176
+  classification: unspecified
+
+# Resolve a recently introduced TLS 1.3 send side AEAD perf regression
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6046  # https://github.com/randombit/botan/pull/6046
+  merge_commit: 8d975a733047bcabf7a24bd14190d9d9f56a6fbf
+  classification: unspecified
+
+# Fix: absorb4 lost BOTAN_FN_ISA_SIMD4x64 attribute
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 6047  # https://github.com/randombit/botan/pull/6047
+  merge_commit: 69cf9088ca21312ec25227cdc964608059bf4d47
+  classification: unspecified
