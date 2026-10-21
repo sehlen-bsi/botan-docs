@@ -7924,3 +7924,23 @@ patches:
 - pr: 6047  # https://github.com/randombit/botan/pull/6047
   merge_commit: 69cf9088ca21312ec25227cdc964608059bf4d47
   classification: unspecified
+
+# FFI: allow sharing the RNG handle
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6048  # https://github.com/randombit/botan/pull/6048
+  merge_commit: 82979f16a53ca97a0c54a768c3009598a01562e4
+  classification: unspecified
+
+# Optimize primality testing, add variable-time variants for public parameters, and use the thread pool for primality testing
+#   Author:    @randombit
+- pr: 6040  # https://github.com/randombit/botan/pull/6040
+  merge_commit: 4b98a260961ff4c0a1a2ba515e9efa5a935ccb5b
+  classification: unspecified
+
+# doc: extend the fork safety guidance to snapshot and checkpoint restores
+#   Author:    @KurathSec
+#   Approvals: (@randombit)
+- pr: 6049  # https://github.com/randombit/botan/pull/6049
+  merge_commit: 5715786ab69a967baa1e4c3a212bc71e18a73920
+  classification: unspecified
