@@ -7944,3 +7944,9 @@ patches:
 - pr: 6049  # https://github.com/randombit/botan/pull/6049
   merge_commit: 5715786ab69a967baa1e4c3a212bc71e18a73920
   classification: unspecified
+
+# Optimize the mulx Montgomery squaring operation
+#   Author:    @randombit
+- pr: 6053  # https://github.com/randombit/botan/pull/6053
+  merge_commit: bceb14bf91b95cdae28b9b471f30a2f539ee9f22
+  classification: unspecified
