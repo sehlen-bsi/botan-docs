@@ -7950,3 +7950,10 @@ patches:
 - pr: 6053  # https://github.com/randombit/botan/pull/6053
   merge_commit: bceb14bf91b95cdae28b9b471f30a2f539ee9f22
   classification: unspecified
+
+# FFI: Add `botan_is_shared()` and `botan_use_count()`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6052  # https://github.com/randombit/botan/pull/6052
+  merge_commit: 98a9855584d194366477543e68c973475671ec47
+  classification: unspecified
