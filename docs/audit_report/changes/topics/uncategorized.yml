@@ -8003,3 +8003,16 @@ patches:
 - pr: 6034  # https://github.com/randombit/botan/pull/6034
   merge_commit: 0946c8a1f125d7220401d3567ac07778af9de99d
   classification: unspecified
+
+# In TLS enforce policy also during a client resumption
+#   Author:    @randombit
+- pr: 5837  # https://github.com/randombit/botan/pull/5837
+  merge_commit: f9c62b0aceb35b7b1d1dcbab33d76df1e9d97a44
+  classification: unspecified
+
+# [DTLS 1.3] `Record_Layer` polymorphic abstraction
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6030  # https://github.com/randombit/botan/pull/6030
+  merge_commit: 41fada717692daa30d38add781e4b8c0c33dc00a
+  classification: unspecified
