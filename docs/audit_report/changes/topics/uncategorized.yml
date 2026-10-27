@@ -8016,3 +8016,47 @@ patches:
 - pr: 6030  # https://github.com/randombit/botan/pull/6030
   merge_commit: 41fada717692daa30d38add781e4b8c0c33dc00a
   classification: unspecified
+
+# Improve CI startup time and resilience to slow mirrors
+#   Author:    @randombit
+- pr: 6065  # https://github.com/randombit/botan/pull/6065
+  merge_commit: b655d26890972ae9ce957f5e8fe072fb6f2bbecb
+  classification: unspecified
+
+# Avoid quadratic behavior in X509_DN::parse
+#   Author:    @randombit
+- pr: 6063  # https://github.com/randombit/botan/pull/6063
+  merge_commit: eb58f8b829fc31c5619177e380e047a9bc6362b4
+  classification: unspecified
+
+# Prevent two footguns in the Python custom RNG integration
+#   Author:    @randombit
+- pr: 6064  # https://github.com/randombit/botan/pull/6064
+  merge_commit: d6b280ef16b7f1f1608d794f822baf8510ebc82d
+  classification: unspecified
+
+# Restrict DSA keys to the size ranges from FIPS 186-4
+#   Author:    @randombit
+- pr: 6039  # https://github.com/randombit/botan/pull/6039
+  merge_commit: 724e4b9513edd0e07011cd4e1249786cf21e7e15
+  classification: unspecified
+
+# Remove @deprecated annotation from DLIES_Encryptor
+#   Author: Jack Lloyd
+- commit: 87a8fd3342569d1fe55ba588c7fa6ec8b5782e37  # https://github.com/randombit/botan/commit/87a8fd3342569d1fe55ba588c7fa6ec8b5782e37
+  classification: unspecified
+
+# Add deprecation warnings onto the DLIES classes
+#   Author: Jack Lloyd
+- commit: 76c0ac4ecace3c1cf98d2347bb9305245b936693  # https://github.com/randombit/botan/commit/76c0ac4ecace3c1cf98d2347bb9305245b936693
+  classification: unspecified
+
+# Add warnings to DLIES and ECIES docu regarding nonce substitution
+#   Author: Jack Lloyd
+- commit: 777ce4c9993c17daebf5794fe358105f94452ce8  # https://github.com/randombit/botan/commit/777ce4c9993c17daebf5794fe358105f94452ce8
+  classification: unspecified
+
+# Add a warning in side channel docu regarding legacy_ec_point [ci skip]
+#   Author: Jack Lloyd
+- commit: 6c00abc5ace4ccc1096b0995ca6ecb0edbd93883  # https://github.com/randombit/botan/commit/6c00abc5ace4ccc1096b0995ca6ecb0edbd93883
+  classification: unspecified
