@@ -8060,3 +8060,10 @@ patches:
 #   Author: Jack Lloyd
 - commit: 6c00abc5ace4ccc1096b0995ca6ecb0edbd93883  # https://github.com/randombit/botan/commit/6c00abc5ace4ccc1096b0995ca6ecb0edbd93883
   classification: unspecified
+
+# Fix various bugs and edge cases in stateful hash signatures (XMSS/HSS)
+#   Author:    @randombit
+#   Approvals: @FAlbertDev
+- pr: 6066  # https://github.com/randombit/botan/pull/6066
+  merge_commit: 9fab3c5e008d3f96d43b65875680fb282da4a298
+  classification: unspecified
