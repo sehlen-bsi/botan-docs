@@ -8067,3 +8067,22 @@ patches:
 - pr: 6066  # https://github.com/randombit/botan/pull/6066
   merge_commit: 9fab3c5e008d3f96d43b65875680fb282da4a298
   classification: unspecified
+
+# Avoid an information leakage during RSA key generation
+#   Author:    @randombit
+- pr: 6068  # https://github.com/randombit/botan/pull/6068
+  merge_commit: 1b0bab46a03b99ec2aa31255835879a846102696
+  classification: unspecified
+
+# Avoid a side channel in the Lucas primality test
+#   Author:    @randombit
+- pr: 6067  # https://github.com/randombit/botan/pull/6067
+  merge_commit: 1059051eac8dbdad8a9d11c4b43482be462a7b4d
+  classification: unspecified
+
+# Avoid a value dependent branch when setting BigInt words
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6069  # https://github.com/randombit/botan/pull/6069
+  merge_commit: 0e3d6c1fef33bc58120cb95743ae74e793480c49
+  classification: unspecified
