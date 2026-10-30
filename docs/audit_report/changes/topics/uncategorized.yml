@@ -8086,3 +8086,26 @@ patches:
 - pr: 6069  # https://github.com/randombit/botan/pull/6069
   merge_commit: 0e3d6c1fef33bc58120cb95743ae74e793480c49
   classification: unspecified
+
+# Improve CT annotations and fix various side channels
+#   Author:    @randombit
+- pr: 6071  # https://github.com/randombit/botan/pull/6071
+  merge_commit: 79c3f7458538c86502ab01ed0537f1ee48ebb09e
+  classification: unspecified
+
+# Fix various bugs in the TLS ASIO stream
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6060  # https://github.com/randombit/botan/pull/6060
+  merge_commit: 8eaac2642a8108858dfcfc2931260d8a3d8cd02b
+  classification: unspecified
+
+# Fix a UbSan error in the asio tests when compiled under GCC/libstdc++
+#   Author: Jack Lloyd
+- commit: 599f0ccbcb4a29698b86e06c8100c882281de0f9  # https://github.com/randombit/botan/commit/599f0ccbcb4a29698b86e06c8100c882281de0f9
+  classification: unspecified
+
+# Add CVE assignments for the security issues fixed in 3.13.0 [ci skip]
+#   Author: Jack Lloyd
+- commit: 08648eef2e6b846163363b5157e3686d2a82c1cb  # https://github.com/randombit/botan/commit/08648eef2e6b846163363b5157e3686d2a82c1cb
+  classification: unspecified
