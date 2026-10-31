@@ -8109,3 +8109,28 @@ patches:
 #   Author: Jack Lloyd
 - commit: 08648eef2e6b846163363b5157e3686d2a82c1cb  # https://github.com/randombit/botan/commit/08648eef2e6b846163363b5157e3686d2a82c1cb
   classification: unspecified
+
+# Do not count the TLS FFI functions as unavailable when the ffi_tls module is absent
+#   Author:    @moritzschmitt
+#   Approvals: (@randombit)
+- pr: 6076  # https://github.com/randombit/botan/pull/6076
+  merge_commit: a1e4a485dfd9415c82677e334031ce6da20e0b1d
+  classification: unspecified
+
+# Correct an invalid comment on Scalar448::bytes_are_reduced
+#   Author:    @randombit
+- pr: 6073  # https://github.com/randombit/botan/pull/6073
+  merge_commit: 3e81681be59b8333477600d95f8a54a298e41c40
+  classification: unspecified
+
+# Add TLS credentials and session manager handles to the FFI
+#   Author:    @moritzschmitt
+#   Approvals: @reneme, (@randombit)
+- pr: 5963  # https://github.com/randombit/botan/pull/5963
+  merge_commit: 62bddc1732dd698db04298e21428c87034ce6527
+  classification: unspecified
+
+# Serialize the ffi_ec_group test
+#   Author: Jack Lloyd
+- commit: 13361aad6879bec96b088b25adbdc43611d061f4  # https://github.com/randombit/botan/commit/13361aad6879bec96b088b25adbdc43611d061f4
+  classification: unspecified
