@@ -8134,3 +8134,29 @@ patches:
 #   Author: Jack Lloyd
 - commit: 13361aad6879bec96b088b25adbdc43611d061f4  # https://github.com/randombit/botan/commit/13361aad6879bec96b088b25adbdc43611d061f4
   classification: unspecified
+
+# Add CRL Issuer DN getters to FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 6077  # https://github.com/randombit/botan/pull/6077
+  merge_commit: ab97a089373754de26b6cc51532e776698a6221c
+  classification: unspecified
+
+# Consolidate the hardware AES usage into a single module
+#   Author:    @randombit
+- pr: 6081  # https://github.com/randombit/botan/pull/6081
+  merge_commit: 845caf1262a12b700f300baf2836f775e5095603
+  classification: unspecified
+
+# Add some utility functions for EC primitives to the FFI
+#   Author:    @arckoor
+#   Approvals: (@randombit)
+- pr: 6080  # https://github.com/randombit/botan/pull/6080
+  merge_commit: f8686d301fedde12ae2f6bf95d86b00540db6f61
+  classification: unspecified
+
+# Use the AES instructions for the key schedule on x86, ARMv8 and POWER8
+#   Author:    @randombit
+- pr: 6078  # https://github.com/randombit/botan/pull/6078
+  merge_commit: 8ec446424026103345944016f06e5c77379b50f9
+  classification: unspecified
