@@ -8160,3 +8160,34 @@ patches:
 - pr: 6078  # https://github.com/randombit/botan/pull/6078
   merge_commit: 8ec446424026103345944016f06e5c77379b50f9
   classification: unspecified
+
+# Improve key validation of the various PQ schemes
+#   Author:    @randombit
+- pr: 6083  # https://github.com/randombit/botan/pull/6083
+  merge_commit: d53260c74f2c3d361ba42f01f8e6e58a862fa392
+  classification: unspecified
+
+# Split up hwrng logic into arch specific modules
+#   Author:    @randombit
+- pr: 6084  # https://github.com/randombit/botan/pull/6084
+  merge_commit: b025109b092ffca2da4264a931e16cd7c946d2e6
+  classification: unspecified
+
+# processor_rng: Add support for ARMv8.5-A FEAT_RNG extension
+#   Author:    @mikatammi
+#   Approvals: (@randombit)
+- pr: 5228  # https://github.com/randombit/botan/pull/5228
+  merge_commit: 6107761857d6d9b1eaeb971d076f12898e599ed0
+  classification: unspecified
+
+# Fix TOTP verification to accept clock drift in both directions
+#   Author:    @dlazobnaKocka
+#   Approvals: (@randombit)
+- pr: 6070  # https://github.com/randombit/botan/pull/6070
+  merge_commit: 709e24f6d17ffeb1e490e82f9e15727bc582c5c0
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 9d7097dd69e39a4f67be32c849b98c65dae5e93a  # https://github.com/randombit/botan/commit/9d7097dd69e39a4f67be32c849b98c65dae5e93a
+  classification: unspecified
