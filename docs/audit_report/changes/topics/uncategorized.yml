@@ -8191,3 +8191,49 @@ patches:
 #   Author: Jack Lloyd
 - commit: 9d7097dd69e39a4f67be32c849b98c65dae5e93a  # https://github.com/randombit/botan/commit/9d7097dd69e39a4f67be32c849b98c65dae5e93a
   classification: unspecified
+
+# When parsing a TLS 1.3 Certificate list don't bother parsing keys we don't need
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6091  # https://github.com/randombit/botan/pull/6091
+  merge_commit: e32dcee6fa1457e35fa9865e7cbfc62625b541ee
+  classification: unspecified
+
+# Fix a variety of TLS bugs and edge cases
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6061  # https://github.com/randombit/botan/pull/6061
+  merge_commit: cddfb873a793059aec58f19574cb2f7a615997e8
+  classification: unspecified
+
+# Rework ChaCha_RNG
+#   Author:    @thillux
+#   Approvals: @reneme, (@randombit)
+- pr: 5121  # https://github.com/randombit/botan/pull/5121
+  merge_commit: 25d123716e729397163a1944cb12c74084678a74
+  classification: unspecified
+
+# Under MSan add explicit unpoison calls for the output of inline asm
+#   Author:    @randombit
+- pr: 6087  # https://github.com/randombit/botan/pull/6087
+  merge_commit: 4777503e50b078399bcf14876b6fc9198667a458
+  classification: unspecified
+
+# Fix ML-DSA private key encoding
+#   Author:    @falko-strenzke
+#   Approvals: @reneme, (@randombit)
+- pr: 5307  # https://github.com/randombit/botan/pull/5307
+  merge_commit: dd198c59e004fd085893a02c8520012510b3ebdc
+  classification: unspecified
+
+# CI: Test MinGW CMake Integration
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6085  # https://github.com/randombit/botan/pull/6085
+  merge_commit: 34351b7ae472b299cd360e6e08a3bd2009a35210
+  classification: unspecified
+
+# Move the ChaCha_RNG change notes into the "Behavior Changes" section [ci skip]
+#   Author: Jack Lloyd
+- commit: 30478876c1403c5ae476c1d06f47914f433e46b4  # https://github.com/randombit/botan/commit/30478876c1403c5ae476c1d06f47914f433e46b4
+  classification: unspecified
