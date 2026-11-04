@@ -8237,3 +8237,63 @@ patches:
 #   Author: Jack Lloyd
 - commit: 30478876c1403c5ae476c1d06f47914f433e46b4  # https://github.com/randombit/botan/commit/30478876c1403c5ae476c1d06f47914f433e46b4
   classification: unspecified
+
+# Fix ML-KEM private key encoding
+#   Author:    @falko-strenzke
+#   Approvals: @reneme, (@randombit)
+- pr: 5934  # https://github.com/randombit/botan/pull/5934
+  merge_commit: 8f79ad43f143fdebec009d3b6ce65b5630c02df6
+  classification: unspecified
+
+# Split up the valgrind jobs more finely
+#   Author:    @randombit
+- pr: 6095  # https://github.com/randombit/botan/pull/6095
+  merge_commit: 60876d602e5eaf3f6058b730e3b7e1ebe42a8e2b
+  classification: unspecified
+
+# Harden TLS 1.2 handshake message getters
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6094  # https://github.com/randombit/botan/pull/6094
+  merge_commit: 631ac8487b148ab657f1db8d89e7932925231b8e
+  classification: unspecified
+
+# Make the baseline SM4 implementation constant time
+#   Author:    @randombit
+- pr: 6090  # https://github.com/randombit/botan/pull/6090
+  merge_commit: 3eda115a3e2e2550391e7b9306ef8f0bbc8434d1
+  classification: unspecified
+
+# DTLS bug fixes and hardenings
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 5783  # https://github.com/randombit/botan/pull/5783
+  merge_commit: 0bb67f68ee6c12d927cc22de0136d5f971953dad
+  classification: unspecified
+
+# ChaCha_RNG: fix DRG.3.2 with FKE
+#   Author:    @thillux
+#   Approvals: (@randombit)
+- pr: 6093  # https://github.com/randombit/botan/pull/6093
+  merge_commit: d36703522d06436ff39e0c5a58f667e8810cd948
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 5fce06680ff3eb15dc60cbf56101dafc7f7e4f1f  # https://github.com/randombit/botan/commit/5fce06680ff3eb15dc60cbf56101dafc7f7e4f1f
+  classification: unspecified
+
+# Update release notes [ci skip]
+#   Author: Jack Lloyd
+- commit: 829fef316e375d0a1098943a14d5df8c86e76bed  # https://github.com/randombit/botan/commit/829fef316e375d0a1098943a14d5df8c86e76bed
+  classification: unspecified
+
+# Add Botan4 reminder to switch BER_Decoder to DER-only by default [ci skip]
+#   Author: Jack Lloyd
+- commit: 503aa82fed2d524a040c8ea38a5fe949d90bb409  # https://github.com/randombit/botan/commit/503aa82fed2d524a040c8ea38a5fe949d90bb409
+  classification: unspecified
+
+# Update TLS-Anvil expectations
+#   Author: Jack Lloyd
+- commit: b73d6a920e105cb3487a78ca195d509215776a0b  # https://github.com/randombit/botan/commit/b73d6a920e105cb3487a78ca195d509215776a0b
+  classification: unspecified
