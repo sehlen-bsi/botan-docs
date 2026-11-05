@@ -8297,3 +8297,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: b73d6a920e105cb3487a78ca195d509215776a0b  # https://github.com/randombit/botan/commit/b73d6a920e105cb3487a78ca195d509215776a0b
   classification: unspecified
+
+# [DTLS 1.3] Deprecate `TLS::Channel::timeout_check`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6096  # https://github.com/randombit/botan/pull/6096
+  merge_commit: c309b6562f408d17eb03c306adefca04ca261dfe
+  classification: unspecified
+
+# Update for 3.14.0
+#   Author: Jack Lloyd
+- commit: 9b4256e7d15a6d4b9221e94714ed177def57ac4b  # https://github.com/randombit/botan/commit/9b4256e7d15a6d4b9221e94714ed177def57ac4b
+  classification: unspecified
