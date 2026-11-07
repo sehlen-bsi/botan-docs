@@ -8321,3 +8321,15 @@ patches:
 #   Author: Jack Lloyd
 - commit: b927702ea239b3c9e0a8b789e80ea59447bbf8c7  # https://github.com/randombit/botan/commit/b927702ea239b3c9e0a8b789e80ea59447bbf8c7
   classification: unspecified
+
+# Bump the FFI version
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6105  # https://github.com/randombit/botan/pull/6105
+  merge_commit: 4956ec5f7911202b6597eea6aca69e49df5b5335
+  classification: unspecified
+
+# Update for 3.14.1
+#   Author: Jack Lloyd
+- commit: 01af88c039fcfaedc418b1af4d6d3a139674e591  # https://github.com/randombit/botan/commit/01af88c039fcfaedc418b1af4d6d3a139674e591
+  classification: unspecified
