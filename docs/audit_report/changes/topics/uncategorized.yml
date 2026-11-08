@@ -8333,3 +8333,31 @@ patches:
 #   Author: Jack Lloyd
 - commit: 01af88c039fcfaedc418b1af4d6d3a139674e591  # https://github.com/randombit/botan/commit/01af88c039fcfaedc418b1af4d6d3a139674e591
   classification: unspecified
+
+# [DTLS 1.3] Split up `Hello_Verify_Request` and the culled `Hello_Verify_Request_Shim`
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6104  # https://github.com/randombit/botan/pull/6104
+  merge_commit: ed2948428f5dfcd893e251d0ba44954b135756cf
+  classification: unspecified
+
+# [DTLS 1.3] DTLS 1.2 integration tests explicitly configure DTLS 1.2
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6103  # https://github.com/randombit/botan/pull/6103
+  merge_commit: b96a0c1b626f94d7aa13378fe250dfcfdded2ef9
+  classification: unspecified
+
+# Fix various dependency issues found with test_all_configs.py
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6108  # https://github.com/randombit/botan/pull/6108
+  merge_commit: 7b6187fb851af8ceb5346a0c635ef625ed6d14af
+  classification: unspecified
+
+# Make SipHash support optional for the sodium compat layer
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6102  # https://github.com/randombit/botan/pull/6102
+  merge_commit: afaa5849b4321093b7d96bf7a6b5bb4a6d390ed1
+  classification: unspecified
