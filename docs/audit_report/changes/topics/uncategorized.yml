@@ -8361,3 +8361,26 @@ patches:
 - pr: 6102  # https://github.com/randombit/botan/pull/6102
   merge_commit: afaa5849b4321093b7d96bf7a6b5bb4a6d390ed1
   classification: unspecified
+
+# Improve docu and examples regarding loading ECC keys from raw values
+#   Author:    @randombit
+- pr: 6113  # https://github.com/randombit/botan/pull/6113
+  merge_commit: c8c5256a4f2a2cba66e8013e27278284fd0b15be
+  classification: unspecified
+
+# Undeprecate mem_ops.h
+#   Author:    @randombit
+- pr: 6110  # https://github.com/randombit/botan/pull/6110
+  merge_commit: 4122f063b36095226d1ee8125419ccde9bf72f1d
+  classification: unspecified
+
+# Add an explicit test of the DTLS handshake flow in #4782
+#   Author:    @randombit
+- pr: 6111  # https://github.com/randombit/botan/pull/6111
+  merge_commit: 76328848094146748971b6c1240b957e200d1c7f
+  classification: unspecified
+
+# Add a Botan4 todo re RSA check_key [ci skip]
+#   Author: Jack Lloyd
+- commit: 4e469a835c5552aab89d20f95ab3a1a281465de5  # https://github.com/randombit/botan/commit/4e469a835c5552aab89d20f95ab3a1a281465de5
+  classification: unspecified
