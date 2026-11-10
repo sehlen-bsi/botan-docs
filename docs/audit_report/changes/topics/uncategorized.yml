@@ -8384,3 +8384,16 @@ patches:
 #   Author: Jack Lloyd
 - commit: 4e469a835c5552aab89d20f95ab3a1a281465de5  # https://github.com/randombit/botan/commit/4e469a835c5552aab89d20f95ab3a1a281465de5
   classification: unspecified
+
+# [DTLS 1.3] Introduce EpochNumber and RecordNumber
+#   Author:    @atreiber94
+#   Approvals: (@randombit)
+- pr: 6055  # https://github.com/randombit/botan/pull/6055
+  merge_commit: ab1b7a0833bdfbe20911cccd8a75ab107677abdc
+  classification: unspecified
+
+# Add POWER8 hash engine support
+#   Author:    @randombit
+- pr: 6112  # https://github.com/randombit/botan/pull/6112
+  merge_commit: 949ea006e8a948cf64c82942b205ae9a4af3b287
+  classification: unspecified
