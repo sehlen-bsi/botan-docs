@@ -8417,3 +8417,22 @@ patches:
 - pr: 6116  # https://github.com/randombit/botan/pull/6116
   merge_commit: 471235b00dddfb43f277e5fea157337319008a3e
   classification: unspecified
+
+# Detect if the hardware RNG is fast and if so prefer it for VM rollback
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6092  # https://github.com/randombit/botan/pull/6092
+  merge_commit: d138f9f62f4b44975ac570a060510e948230dcaa
+  classification: unspecified
+
+# Restrict DSA p/q bit lengths to mod 64 and mod 8 resp
+#   Author:    @randombit
+- pr: 6119  # https://github.com/randombit/botan/pull/6119
+  merge_commit: ec85b14a43e7af4c4fa688657a4b8b6712b8dd22
+  classification: unspecified
+
+# Correctly report parallelism in Serpent
+#   Author:    @randombit
+- pr: 6122  # https://github.com/randombit/botan/pull/6122
+  merge_commit: 1771e510a8ca07e2073c3848aa68f636d21d8011
+  classification: unspecified
