@@ -8436,3 +8436,9 @@ patches:
 - pr: 6122  # https://github.com/randombit/botan/pull/6122
   merge_commit: 1771e510a8ca07e2073c3848aa68f636d21d8011
   classification: unspecified
+
+# Compute the Montgomery constants without Barrett reductions
+#   Author:    @randombit
+- pr: 6120  # https://github.com/randombit/botan/pull/6120
+  merge_commit: f1d805c964cde77d64ac708d23590de4b8a205d2
+  classification: unspecified
