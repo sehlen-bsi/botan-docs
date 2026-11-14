@@ -8442,3 +8442,29 @@ patches:
 - pr: 6120  # https://github.com/randombit/botan/pull/6120
   merge_commit: f1d805c964cde77d64ac708d23590de4b8a205d2
   classification: unspecified
+
+# Prevent repeated (1*1)%p from growing without bound
+#   Author:    @randombit
+- pr: 6129  # https://github.com/randombit/botan/pull/6129
+  merge_commit: a57ad08427cb3b5e9f91642ed206c8d529f18c69
+  classification: unspecified
+
+# Work around a bug in MSVC 19.52
+#   Author:    @randombit
+- pr: 6130  # https://github.com/randombit/botan/pull/6130
+  merge_commit: f15b1e2f4d1dd163ac673a21196c32e71d483c36
+  classification: unspecified
+
+# Modernize some constant labels in TLS
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6115  # https://github.com/randombit/botan/pull/6115
+  merge_commit: d89b914d5c49765198db60ac513aa1341a6f1e1e
+  classification: unspecified
+
+# [DTLS 1.3] Reject updated Client Hello with unsolicited key share modification
+#   Author:    @reneme
+#   Approvals: (@randombit)
+- pr: 6127  # https://github.com/randombit/botan/pull/6127
+  merge_commit: 3aec7613aa3401483edf73a5111b926c1a4975ad
+  classification: unspecified
