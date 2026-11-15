@@ -8468,3 +8468,22 @@ patches:
 - pr: 6127  # https://github.com/randombit/botan/pull/6127
   merge_commit: 3aec7613aa3401483edf73a5111b926c1a4975ad
   classification: unspecified
+
+# Prefer Montgomery over Barrett multiplication in most cases
+#   Author:    @randombit
+- pr: 6128  # https://github.com/randombit/botan/pull/6128
+  merge_commit: 16b22f15892efa4ba8dbddfb2d0b2411142e31e3
+  classification: unspecified
+
+# Don't count the CCM tag against the L length limit when decrypting
+#   Author:    @dlazobnaKocka
+#   Approvals: (@randombit)
+- pr: 6125  # https://github.com/randombit/botan/pull/6125
+  merge_commit: 0edeac74d6be9882a3047fab39485a98f7ba63d4
+  classification: unspecified
+
+# Add EC_AffinePoint::get_affine_{x,y}
+#   Author:    @randombit
+- pr: 6126  # https://github.com/randombit/botan/pull/6126
+  merge_commit: 51dd7dc9e85d02c2a21235e2a6e2c702a93ce76e
+  classification: unspecified
