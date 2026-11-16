@@ -8487,3 +8487,16 @@ patches:
 - pr: 6126  # https://github.com/randombit/botan/pull/6126
   merge_commit: 51dd7dc9e85d02c2a21235e2a6e2c702a93ce76e
   classification: unspecified
+
+# Use the inline asm value barrier even if --disable-asm is used
+#   Author:    @randombit
+- pr: 6134  # https://github.com/randombit/botan/pull/6134
+  merge_commit: 21bcfba2ea1488e2b261794675222cffce1ed2e1
+  classification: unspecified
+
+# Convert TLS_Flavor into a "class enum"
+#   Author:    @randombit
+#   Approvals: @reneme
+- pr: 6132  # https://github.com/randombit/botan/pull/6132
+  merge_commit: f898caac21f8ab8fa7babdbec6607eba29437b51
+  classification: unspecified
