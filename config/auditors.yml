@@ -3,9 +3,7 @@
 # document are considered to be authorative in the CI.
 
 auditors:
-  - name: Fabian Albert
-    github: FAlbertDev
-  - name: René Meusel
-    github: reneme
-  - name: Amos Treiber
-    github: atreiber94
+  - name: Johannes Roth 
+    github: TJ-91 
+  - name: Falko Strenzke 
+    github: falko-strenzke 

@@ -4,7 +4,7 @@ Classic McEliece
 ================
 
 Botan implements the Classic McEliece Key Encapsulation Mechanism (KEM) as defined in the
-Round 4 NIST submission [CMCE-R4]_ and the ClassicMcEliece ISO Draft [CMCE-ISO]_. It
+Round 4 NIST submission [CMCE-R4]_ and the Classic McEliece ISO Draft [CMCE-ISO]_. It
 supports all parameter sets defined in both documents, listed
 in Table :ref:`Supported Classic McEliece parameter sets <pubkey/cmce/parameter_table>`.
 
@@ -34,7 +34,7 @@ BSI's [TR-02102-1]_ recommends using either mceliece460896, mceliece6688128 or
 mceliece8192128, as well as their respective faster variants (with the
 f-suffix), to meet its desired security levels. Additionally, it recommends
 using all modes of Classic McEliece in a hybrid form in a suitable combination
-with a classical key agreement mechanism such as RSA or ECDH.
+with a traditional key agreement mechanism such as RSA or ECDH.
 
 .. _pubkey/cmce/key_generation:
 
@@ -371,7 +371,7 @@ Key Generation
 
 Classic McEliece key generation follows Section 8.3 of [CMCE-ISO]_ and is
 implemented within the ``Classic_McEliece_KeyPair_Internal`` class (see
-:srcref:`[src/lib/pubkey/classic_mceliece]/cmce_keys_internal.cpp:149|generate`).
+:srcref:`[src/lib/pubkey/classic_mceliece]/cmce_keys_internal.cpp:152|generate`).
 It works as follows:
 
 .. admonition:: Classic McEliece Key Generation
@@ -419,7 +419,7 @@ It works as follows:
 Key Encapsulation
 -----------------
 
-The Classic McEliece encapsulation procedure (:srcref:`[src/lib/pubkey/classic_mceliece]/cmce_encaps.cpp:84|raw_kem_encrypt`)
+The Classic McEliece encapsulation procedure (:srcref:`[src/lib/pubkey/classic_mceliece]/cmce_encaps.cpp:87|raw_kem_encrypt`)
 of Botan follows Section 8.5 of [CMCE-ISO]_ and works as follows:
 
 .. admonition:: Classic McEliece Encapsulation
@@ -462,7 +462,7 @@ of Botan follows Section 8.5 of [CMCE-ISO]_ and works as follows:
 Key Decapsulation
 -----------------
 
-The Classic McEliece decapsulation procedure (:srcref:`[src/lib/pubkey/classic_mceliece]/cmce_decaps.cpp:125|raw_kem_decrypt`)
+The Classic McEliece decapsulation procedure (:srcref:`[src/lib/pubkey/classic_mceliece]/cmce_decaps.cpp:128|raw_kem_decrypt`)
 of Botan follows Section 8.6 of [CMCE-ISO]_ and works as follows:
 
 .. admonition:: Classic McEliece Decapsulation

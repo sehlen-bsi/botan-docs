@@ -23,7 +23,6 @@ def platform_dependent_modules():
         'aes_vperm',
         'aes_vaes',
         'argon2_avx2',
-        'argon2_ssse3',
         'certstor_sql',
         'certstor_sqlite3',
         'certstor_system_macos',
@@ -33,12 +32,9 @@ def platform_dependent_modules():
         'keccak_perm_bmi2',
         'kmac',
         'sha1_armv8',
-        'sha1_sse2',
         'sha1_x86',
         'sha2_32_armv8',
-        'sha2_32_bmi2',
         'sha2_32_x86',
-        'sha2_64_bmi2',
         'sha2_64_armv8',
     ])
 

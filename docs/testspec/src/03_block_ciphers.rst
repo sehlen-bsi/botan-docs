@@ -3,6 +3,9 @@ Block Ciphers
 
 Block ciphers are tested using (1) unit tests and known answer tests that (2) encrypt a message and (3) decrypt a message. All the tests are implemented in :srcref:`src/tests/test_block.cpp`. The test cases are described in the following.
 
+
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here.
+
 .. table::
    :class: longtable
    :widths: 20 80
@@ -180,6 +183,9 @@ processing happens blockwise and the result is concatenated.
 
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/block/aes.vec`.
+
+
+**Remark from review of 3.11.0:** No substantial change in the vector file mentioned above. Only a list of compiled modules has changed.
 
 .. table::
    :class: longtable

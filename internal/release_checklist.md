@@ -41,7 +41,7 @@ on the document repo's main branch.
 
   Generally, the document versions are in lockstep with the audited version of
   Botan. People that contributed to the described iteration are mentioned with
-  their initials. The datestamp in the changelog should be the day of the final
+  their initials. The date stamp in the changelog should be the day of the final
   content update and reasonably close to the final release date of the document.
 
 * **Double-check References in the Documents**

@@ -6,6 +6,9 @@ encryption schemes and public key encryption schemes. Some public
 key-based encryption algorithms use test classes implemented in
 :srcref:`src/tests/test_pubkey.cpp`.
 
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here. A change in `PK_API_Sign_Test` now makes the test end without an error if a `PK_Signer` or `PK_Verifier` could not be instantiated, whereas previously
+that led to test failure. This change does not affect the test cases described here directly.
+
 Hybrid Encryption Schemes
 -------------------------
 
@@ -31,6 +34,8 @@ with the following constraints:
 All the tests are implemented in :srcref:`src/tests/test_dlies.cpp`. The
 following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/dlies.vec`.
+
+**Remark from review of 3.11.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -163,6 +168,9 @@ time, the test cases where two or more of these modes are enabled do not
 encrypt/decrypt, but instead only check that the combination of these
 modes lead to an exception (negative test). In the following one
 positive and one negative test is shown.
+
+
+**Remark from review of 3.11.0:** :** No substantial change in the test code referenced here. Also no substantial change in the test vectors referenced here, only the semantic of how the curves are identified in the test vector specification has changed.
 
 .. table::
    :class: longtable
@@ -369,6 +377,9 @@ All the tests are implemented in :srcref:`src/tests/test_rsa.cpp`. The
 following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/rsaes.vec` and
 :srcref:`src/tests/data/pubkey/rsa_decrypt.vec`.
+
+
+**Remark from review of 3.11.0:** No substantial change in the test code addressed here. There are no changes to the test vectors referenced here.
 
 .. table::
    :class: longtable

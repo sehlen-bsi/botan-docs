@@ -298,8 +298,8 @@ Key Generation
 --------------
 
 HSS key generation follows Section 6.1. of [RFC8554]_ and is implemented
-within the ``HSS_LMS_PrivateKeyInternal`` constructor (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:121|HSS_LMS_PrivateKeyInternal`)
-and ``HSS_LMS_PublicKeyInternal::create`` (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:305|HSS_LMS_PublicKeyInternal::create`).
+within the ``HSS_LMS_PrivateKeyInternal`` constructor (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:123|HSS_LMS_PrivateKeyInternal`)
+and ``HSS_LMS_PublicKeyInternal::create`` (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:317|HSS_LMS_PublicKeyInternal::create`).
 
 Note that [RFC8554]_ and [SP800-208]_ require that all LMS instances' public/private key
 pairs must be created independently from each other. Since Botan applies the seed
@@ -357,7 +357,7 @@ Signature Creation
 ------------------
 
 An HSS signature is created using ``HSS_LMS_Signature_Operation::sign``,
-which follows Section 6.2. of [RFC8554]_ (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:228|HSS_LMS_PrivateKeyInternal::sign`).
+which follows Section 6.2. of [RFC8554]_ (see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:240|HSS_LMS_PrivateKeyInternal::sign`).
 It works as follows:
 
 .. admonition:: HSS Signature Creation
@@ -401,7 +401,7 @@ Signature Verification
 
 Botan's method ``HSS_LMS_Verification_Operation::is_valid_signature`` verifies a
 signature-message pair by implementing the method of Section 6.3. of [RFC8554]_
-(see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:350|HSS_LMS_PublicKeyInternal::verify_signature`).
+(see :srcref:`[src/lib/pubkey/hss_lms]/hss.cpp:362|HSS_LMS_PublicKeyInternal::verify_signature`).
 It does the following:
 
 .. admonition:: HSS Signature Verification
@@ -427,7 +427,7 @@ It does the following:
    3. Verify that ``lms-pk[i].verify_signature`` returns ``true`` for signature
       ``lms-sig[i]`` of message ``lms-pk[i+1]`` for ``i = 0, ..., Nspk-1``.
       Return ``false`` otherwise.
-   4. Return ``true`` iff ``lms-pk[Nspk-1].verify_signature`` returns ``true``
+   4. Return ``true`` iff ``lms-pk[Nspk].verify_signature`` returns ``true``
       for signature ``lms-sig[Nspk]`` of message ``m``.
 
    **Notes:**
