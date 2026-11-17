@@ -8,7 +8,7 @@ message in separate chunks. All the tests are implemented in
 :srcref:`src/tests/test_mac.cpp`. The test cases are described in the
 following.
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here.
+**Remark from review of 3.12.0:** No change in the test code addressed here.
 
 .. table::
    :class: longtable
@@ -159,7 +159,7 @@ The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/mac/cmac.vec`.
 
 
-**Remark from review of 3.11.0:** No relevant change in the test vectors referenced here. One test vector was added.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -224,7 +224,7 @@ HMAC is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/mac/hmac.vec`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -291,7 +291,7 @@ GMAC is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/mac/gmac.vec`.
 
-**Remark from review of 3.11.0:** No relevant change in the test vectors referenced here. A line specifying compilation modules was changed and several test vectors were added.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 The test vectors were generated with Bouncy Castle Crypto 1.54.
 
@@ -367,7 +367,7 @@ KMAC is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/mac/kmac.vec`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 The tests are taken from NIST's `KMAC_samples.pdf <https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/KMAC_samples.pdf>`_.
 

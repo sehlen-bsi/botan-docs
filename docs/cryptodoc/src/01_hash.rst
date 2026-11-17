@@ -93,8 +93,10 @@ Botan implements the two Keccak-based XOFs SHAKE128 and SHAKE256 in
 :srcref:`src/lib/hash/shake/shake.cpp` as defined in [FIPS-202]_. It
 utilizes the Keccak sponge construction methods also used in the SHA-3
 implementation using a padding that is specific to SHAKE. In contrast to SHA-3
-it allows arbitrary output lengths which are provided to the constructor
-of the class.
+it allows variable output lengths which are provided to the constructor
+of the class. The output length must be a non-zero multiple of eight
+bits; since Botan 3.12.0 a zero output length is rejected with an
+``Invalid_Argument`` exception.
 
 As of version 3.2.0, Botan additionally provides SHAKE using a first-class XOF
 API that resides in :srcref:`src/lib/xof/shake_xof/shake_xof.cpp`.

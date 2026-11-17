@@ -78,8 +78,8 @@ addresses, see Section 2.5 in [XMSS]_. ``ADRS`` is implemented in
 :srcref:`[src/lib/pubkey/xmss]/xmss_address.h` and offers the following setter methods.
 The respective getter methods were left out for readability:
 
--  ``set_key_mask_mode(Key_Mode=0 / Mask_Mode=1, Mask_LSB_Mode=1,
-   Mask_MSB_Mode=2)``
+-  ``set_key_mask_mode(Key_Mode=0 / Mask_Mode=1, Mask_MSB_Mode=1,
+   Mask_LSB_Mode=2)``
 -  ``set_chain_address(i)``
 -  ``set_hash_address(i)``
 -  ``set_ots_address(i)``
@@ -143,7 +143,7 @@ contain this countermeasure.
    **Notes:**
 
    - All referenced methods above are implemented in the constructors of
-     ``WOTS_Public_Key`` and ``WOTS_Private_Key`` in
+     ``XMSS_WOTS_PublicKey`` and ``XMSS_WOTS_PrivateKey`` in
      :srcref:`[src/lib/pubkey/xmss]/xmss_wots.cpp`.
 
 XMSS
@@ -392,7 +392,10 @@ The algorithm for signature verification follows methods
 
 **Remark:** XMSS does not specify any format for the storage of
 private and public keys. Currently, Botan serializes keys as plain byte
-arrays.
+arrays, wrapped in an ASN.1 OCTET STRING for the encoded key formats.
+Since Botan 3.12.0, decoding of encoded keys enforces a strict DER
+encoding of this OCTET STRING wrapper (``BER_Decoder::Limits::DER()``);
+non-canonical BER encodings are rejected.
 
 .. _pubkey_signature/xmss/stateful_key_index_registry:
 

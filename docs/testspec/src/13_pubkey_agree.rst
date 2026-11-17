@@ -12,7 +12,10 @@ decoding private and public keys works correctly. These tests are
 implemented in :srcref:`src/tests/test_pubkey.cpp`. These test cases are
 described here in the following.
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here.
+**Remark from review of 3.12.0:** No substantial change in the test code
+addressed here. (The changes in `test_pubkey.cpp` in this release concern the
+generic signature verification and decryption tests; see the chapters on
+public key encryption and signature schemes.)
 
 .. table::
    :class: longtable
@@ -311,7 +314,7 @@ Diffie-Hellman key agreement is tested with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/dh.vec`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -484,7 +487,7 @@ checks. These tests are executed with the following constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/dh_invalid.vec`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable
@@ -551,6 +554,13 @@ The Elliptic Curve Diffie-Hellman key agreement scheme is tested with a
 known answer test as follows. The test is implemented in
 :srcref:`src/tests/test_ecdh.cpp`.
 
+**Remark from review of 3.12.0:** A negative test was added to the ECDH test
+over all supported curve groups in `test_ecdh.cpp`: deriving a shared secret
+from an uncompressed peer public point that does not lie on the curve (the
+serialized generator with one coordinate byte modified) must be rejected with
+a ``Decoding_Error``. This is a regression test for the prohibition of
+loading points not on the curve.
+
 .. table::
    :class: longtable
    :widths: 20 80
@@ -596,7 +606,7 @@ constraints:
 The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/pubkey/ecdh.vec`.
 
-**Remark from review of 3.11.0:** No change in the test vectors referenced here.
+**Remark from review of 3.12.0:** No change in the test vectors referenced here.
 
 .. table::
    :class: longtable

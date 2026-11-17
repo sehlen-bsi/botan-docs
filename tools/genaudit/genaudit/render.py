@@ -58,7 +58,7 @@ class Renderer:
         if not os.path.isdir(outdir):
             os.makedirs(outdir)
 
-        def needs_update(target, src):
+        def needs_update(target, srcs):
             # if update is not explicitly requested -> render everything
             if not update:
                 return True
@@ -66,7 +66,7 @@ class Renderer:
             if not os.path.isfile(target):
                 return True
             t = os.path.getmtime(target)
-            return t < os.path.getmtime(src) or t < os.path.getmtime(self.audit.config_file)
+            return any(t < os.path.getmtime(src) for src in srcs + [self.audit.config_file])
 
         topic_files = []
         rendered = 0
@@ -75,7 +75,7 @@ class Renderer:
             start = time.time()
             topic_files.append(topic.reference)
             rst_file = os.path.join(outdir, topic.reference + '.rst')
-            if not needs_update(rst_file, topic.file):
+            if not needs_update(rst_file, [topic.file] + topic.extra_source_files):
                 continue
             rendered += 1
             with open(rst_file, 'w') as f:

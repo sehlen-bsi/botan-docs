@@ -4,7 +4,15 @@ Block Ciphers
 Block ciphers are tested using (1) unit tests and known answer tests that (2) encrypt a message and (3) decrypt a message. All the tests are implemented in :srcref:`src/tests/test_block.cpp`. The test cases are described in the following.
 
 
-**Remark from review of 3.11.0:** No substantial change in the test code addressed here.
+**Remark from review of 3.12.0:** The test code was changed to remove support
+for the ``Iterations`` test vector key. Each known answer test vector is now
+encrypted and decrypted exactly once; the single test vector making use of
+``Iterations`` was removed from `sm4.vec`. Furthermore, the ``#test cpuid``
+directives in several block cipher test vector files were extended to cover
+the constant-time SIMD implementations added in Botan 3.11.1 (e.g. AES-NI /
+ARMv8-AES based s-box lookups for ARIA, Camellia, SEED and SM4 and the
+AVX512/GFNI implementation of Twofish). The test case descriptions below were
+adapted accordingly.
 
 .. table::
    :class: longtable
@@ -60,9 +68,6 @@ Block ciphers are tested using (1) unit tests and known answer tests that (2) en
    |                       |    depending on the block cipher)                                        |
    |                       |                                                                          |
    |                       | -  In: The test message to be encrypted (varying length)                 |
-   |                       |                                                                          |
-   |                       | -  Iterations: The number of encrypt operations to conduct on the input  |
-   |                       |    value *In*                                                            |
    +-----------------------+--------------------------------------------------------------------------+
    | **Expected Output:**  | -  Out: Ciphertext (varying length depending on the block cipher)        |
    +-----------------------+--------------------------------------------------------------------------+
@@ -85,11 +90,11 @@ Block ciphers are tested using (1) unit tests and known answer tests that (2) en
    |                       |                                                                          |
    |                       | #. Set a random key on the cloned object                                 |
    |                       |                                                                          |
-   |                       | #. Encrypt *Iterations* times the input value *In* and compare the       |
-   |                       |    result with the expected value *Out*                                  |
+   |                       | #. Encrypt the input value *In* and compare the result with the expected |
+   |                       |    value *Out*                                                           |
    |                       |                                                                          |
-   |                       | #. Decrypt *Iterations* times the result from the previous step and      |
-   |                       |    compare with the input value *In*                                     |
+   |                       | #. Decrypt the result from the previous step and compare with the input  |
+   |                       |    value *In*                                                            |
    |                       |                                                                          |
    |                       | #. Perform steps 10-11 with input value In, but prepend a zero byte to   |
    |                       |    simulate a misaligned input buffer                                    |
@@ -115,9 +120,6 @@ Block ciphers are tested using (1) unit tests and known answer tests that (2) en
    |                       |    depending on the block cipher)                                        |
    |                       |                                                                          |
    |                       | -  Out: Ciphertext (varying length depending on the block cipher)        |
-   |                       |                                                                          |
-   |                       | -  Iterations: The number of decrypt operations to conduct on the input  |
-   |                       |    value Out                                                             |
    +-----------------------+--------------------------------------------------------------------------+
    | **Expected Output:**  | -  In: The original test message (plaintext, varying length)             |
    +-----------------------+--------------------------------------------------------------------------+
@@ -125,10 +127,10 @@ Block ciphers are tested using (1) unit tests and known answer tests that (2) en
    |                       |                                                                          |
    |                       | #. Set the key *Key* on the block cipher object                          |
    |                       |                                                                          |
-   |                       | #. Encrypt *Iterations* times the value *In*                             |
+   |                       | #. Encrypt the value *In*                                                |
    |                       |                                                                          |
-   |                       | #. Decrypt *Iterations* times the result from the previous step and      |
-   |                       |    compare with the input value *Out*                                    |
+   |                       | #. Decrypt the result from the previous step and compare with the input  |
+   |                       |    value *Out*                                                           |
    +-----------------------+--------------------------------------------------------------------------+
 
 AES
@@ -185,7 +187,7 @@ The following table shows an example test case with one test vector. All
 test vectors are listed in :srcref:`src/tests/data/block/aes.vec`.
 
 
-**Remark from review of 3.11.0:** No substantial change in the vector file mentioned above. Only a list of compiled modules has changed.
+**Remark from review of 3.12.0:** No change in the vector file mentioned above.
 
 .. table::
    :class: longtable

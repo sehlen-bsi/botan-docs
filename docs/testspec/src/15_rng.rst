@@ -11,12 +11,8 @@ validates the correctness of the HMAC-DRBG random number generator
 All unit tests for various RNGs are implemented in
 :srcref:`src/tests/test_rng_behavior.cpp`.
 
-**Remark from review of 3.11.0:** The above statement was incorrect in the base
-version as it claimed
-"All unit tests for various RNGs are implemented in
-:srcref:`src/tests/test_rngs.cpp`.".
-The file `src/tests/test_rngs.cpp` does not implement any unit tests, but only
-methods of specific RNGs.
+**Remark from review of 3.12.0:** No change in the test code referenced
+here.
 
 All Known-Answer tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`.
 
@@ -41,9 +37,8 @@ The following table shows an example test case with one test vector.
 Tests are implemented in :srcref:`src/tests/test_rng_kat.cpp`. All test vectors
 are listed in :srcref:`src/tests/data/rng/hmac_drbg.vec`.
 
-**Remark from review of 3.11.0:** No substantial change in the test code
+**Remark from review of 3.12.0:** No change in the test code or test vectors
 referenced here.
-No change in the test vectors referenced here.
 
 .. table::
    :class: longtable

@@ -52,13 +52,14 @@ class Classification(IntEnum):
         raise RuntimeError("Unknown classification: %d" % self.value)
 
 class Patch:
-    def __init__(self, commit_ref: str, classification: Classification, auditer: str = None, comment: str = None):
+    def __init__(self, commit_ref: str, classification: Classification, auditer: str = None, comment: str = None, categories: list[str] = None):
         if commit_ref and len(commit_ref) != 40:
             raise RuntimeError("Incomplete commit hash: %s" % commit_ref)
         self.ref = commit_ref
         self.classification = classification
         self.auditer = auditer
         self.comment = comment
+        self.categories = categories
 
     def render_patch(self, repo, yaml: bool = False, approvers: bool = False):
         if isinstance(self, PullRequest):
@@ -70,8 +71,8 @@ class Patch:
 
 @total_ordering
 class PullRequest(Patch):
-    def __init__(self, github_ref: int, merge_commit_ref: str = None, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None):
-        super().__init__(merge_commit_ref, classification, auditer, comment)
+    def __init__(self, github_ref: int, merge_commit_ref: str = None, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None, categories: list[str] = None):
+        super().__init__(merge_commit_ref, classification, auditer, comment, categories)
         self.github_ref = github_ref
     def __repr__(self):
         return "GH #%d (%s)" % (self.github_ref, self.ref)
@@ -126,8 +127,8 @@ class PullRequest(Patch):
 
 @total_ordering
 class Commit(Patch):
-    def __init__(self, commit_ref: str, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None):
-        super().__init__(commit_ref, classification, auditer, comment)
+    def __init__(self, commit_ref: str, classification: Classification = Classification.UNSPECIFIED, auditer: str = None, comment: str = None, categories: list[str] = None):
+        super().__init__(commit_ref, classification, auditer, comment, categories)
     def __repr__(self):
         return "%s" % self.ref
     def __eq__(self, other):

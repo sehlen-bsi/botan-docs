@@ -29,10 +29,11 @@ The key generation process works as follows:
 
    **Steps:**
 
-   1. The algorithm initially checks if the passed key length is at least
-      1024. If this is not the case, the function terminates with an error
-      message. Thus, only keys with a desired length of at least 1024 bits
-      can be generated.
+   1. The algorithm initially checks the passed key length: it must be
+      at least 1024 bits, at most 16384 bits and a multiple of 8 bits
+      (the upper bound and the multiple-of-8 requirement were added in
+      Botan 3.12.0). If this is not the case, the function terminates
+      with an error message.
    2. Subsequently the passed exponent is validated, as it must be odd and
       larger than 2.
    3. If this step is reached the 10th time the generation fails.
@@ -66,6 +67,7 @@ The key generation process works as follows:
       -  :math:`d < 2`
       -  :math:`p < 3`
       -  :math:`q < 3`
+      -  :math:`p = q`
       -  :math:`{p \ast q} \neq N`
       -  :math:`{d_{1} \neq d}\bmod {({p - 1})}`
       -  :math:`{d_{2} \neq d}\bmod {({q - 1})}`
@@ -79,6 +81,16 @@ The key generation process works as follows:
          -  :math:`{e \ast d}\bmod \mathit{lcm}{{({{p - 1},{q - 1}})} \neq 1}`
          -  The creation and verification of a test signature fails
             (``signature_consistency_check()``)
+
+      Note that since Botan 3.12.0 a subset of these conditions is
+      already enforced whenever an RSA key is constructed or decoded: a
+      public key is rejected with a ``Decoding_Error`` unless ``N`` is
+      positive and odd with :math:`384 \leq len(N) \leq 16384` bits and
+      ``e`` is odd with :math:`1 < e < N` and :math:`len(e) \leq 256`
+      bits. A private key is additionally rejected unless
+      :math:`d \geq 2`, :math:`p \geq 3`, :math:`q \geq 3`,
+      :math:`p \neq q` and :math:`p \ast q = N`. In particular, RSA
+      public keys shorter than 384 bits can no longer be loaded at all.
 
 **Remark:**
 The algorithm slightly deviates from the method outlined in [TR-02102-1]_
@@ -141,7 +153,10 @@ The RSA decryption operation is implemented as follows:
    0. Before the first decryption: The random number generator ``rng`` is
       used to initialize the blinding values :math:`m_e` and its inverse :math:`m_d`. Their length
       is set to ``(m_modulus_bits - 1)``.
-   1. Blind ciphertext: :math:`ct' = ct*{m_e}^e \bmod N`
+   1. Verify that :math:`0 < ct < N`; otherwise the operation is
+      rejected with a ``Decoding_Error`` ("RSA input is not in the valid
+      range", added in Botan 3.12.0). Blind ciphertext:
+      :math:`ct' = ct*{m_e}^e \bmod N`
    2. Use Chinese Remainder Theorem (CRT) to decrypt ``ct'`` and retrieve ``m'``
 
       1. | Calculate :math:`S_p` and :math:`S_q` using constant-time Montgomery
@@ -410,9 +425,10 @@ algorithm operates as follows:
 
    **Steps:**
 
-   1. Verify that :math:`m < N`.
-      If the message to sign exceeds the modulus of the RSA private key,
-      the algorithm terminates with error.
+   1. Verify that :math:`0 < m < N`.
+      If the message to sign is zero or exceeds the modulus of the RSA
+      private key, the algorithm terminates with a ``Decoding_Error``
+      (the rejection of zero input was added in Botan 3.12.0).
    2. Blind message m with random blinding nonce ``k``.
    3. Compute
       :math:`{x_{1} = m^{d_{1}}}\bmod p`
