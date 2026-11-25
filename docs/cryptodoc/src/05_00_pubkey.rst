@@ -24,3 +24,4 @@ encapsulation and decapsulation or the key exchange mechanism.
    05_09_ml_kem
    05_10_frodokem
    05_11_cmce
+   05_12_hqc

@@ -1,0 +1,226 @@
+.. _pubkey/hqc:
+
+Hamming Quasi-Cyclic (HQC)
+==========================
+
+HQC is a code-based key encapsulation mechanism. Its public key describes a
+noisy linear relation between two secret sparse binary vectors. The underlying
+encryption scheme uses a concatenated error-correcting code to recover a
+message from a noisy codeword. A salted Fujisaki–Okamoto transform turns this
+encryption scheme into a KEM with implicit rejection.
+
+This section describes the Botan development branch ``add-hqc-rust`` at
+revision ``97db152bb`` [HQC-Botan]_. The comparison uses the HQC team's
+specification v5.1 of 9 November 2026 [HQC-5.1]_. Botan exposes the three
+parameter sets under the algorithm name ``HQCr4``. The raw private key and the
+raw shared secret are each 32 bytes for all three sets.
+
+.. list-table:: HQC parameters and serialized sizes (Tables 8 and 9 of [HQC-5.1]_)
+   :header-rows: 1
+
+   * - Botan mode
+     - Ring length (bits)
+     - Message (bytes)
+     - Key weight
+     - Encryption weight
+     - Public key (bytes)
+     - Ciphertext (bytes)
+   * - HQCr4-1
+     - 17669
+     - 16
+     - 67
+     - 76
+     - 2241
+     - 4433
+   * - HQCr4-3
+     - 35851
+     - 24
+     - 101
+     - 114
+     - 4514
+     - 8978
+   * - HQCr4-5
+     - 57637
+     - 32
+     - 132
+     - 150
+     - 7237
+     - 14421
+
+Rust Integration
+----------------
+
+The opt-in module ``hqc`` builds on native GNU/Linux with
+``--enable-modules=hqc``. Botan compiles the bundled crate directly with
+``rustc`` as a static library and links it into Botan. A single build serves all
+three parameter sets. The Rust port tracks the HQC team's C reference revision
+``71090d4679837a0de1e6946284818184994d952a``.
+
+In ``hqc.cpp``, ``HQC_PublicKey`` and ``HQC_PrivateKey`` expose Botan's key
+and KEM interfaces. The adapter in ``hqc_ffi.cpp`` calls the stateless C ABI
+defined in ``rust/include/hqc_c_api.h``. Each operation receives a parameter-set
+identifier, byte buffers with explicit lengths, and callbacks. The caller owns
+the output buffers. Botan supplies the randomness, SHA3-256, SHA3-512,
+incremental SHAKE256, and allocation and release of secret buffers. Rust
+implements the KEM transform, public-key encryption, vector arithmetic and
+error-correcting codes. ABI errors return as integer status codes that the
+C++ adapter maps to Botan exceptions.
+
+The algorithms below describe the raw KEM, before any optional Botan KDF.
+Let :math:`b` be the message length in bytes from the table above. Vector
+products are cyclic polynomial products in
+:math:`R=\mathbb{F}_2[X]/(X^n-1)`, and addition is XOR.
+:math:`T` retains the initial codeword-length bits of a ring element.
+:math:`C` encodes a message first with the shortened Reed–Solomon code and
+then with the duplicated Reed–Muller code RM(1,7). Ring coefficients are
+packed least significant bit first in each byte. Consecutive draws from an
+XOF in the steps below consume successive bytes of the same stream.
+
+.. _pubkey/hqc/key_generation:
+
+Key Generation
+--------------
+
+.. admonition:: HQC Key Generation
+
+   **Input** — Parameter set and Botan random number generator.
+
+   **Output** — Encapsulation key :math:`ek` and decapsulation key :math:`dk`.
+
+   1. Draw a 32-byte master seed :math:`dk`. Start SHAKE256 on
+      :math:`dk \mathbin\| \mathrm{byte}(b)` and read the first 32 bytes as
+      :math:`p`, the PKE seed.
+   2. Split :math:`I(p)` into two consecutive 32-byte seeds :math:`d,a`,
+      where :math:`I(p)=\mathrm{SHA3\text{-}512}(p\mathbin\|\mathtt{0x02})`.
+   3. From SHAKE256 on :math:`d`, sample :math:`y` and then :math:`x`
+      with the uniform fixed-weight rejection sampler. Both use the key weight.
+   4. From SHAKE256 on :math:`a`, sample the uniform :math:`n`-bit vector
+      :math:`h`. Compute :math:`s=x+h y`.
+   5. Return :math:`ek=a\mathbin\|\mathrm{pack}(s)` and the master seed :math:`dk`.
+      Importing this seed into Botan repeats the public-key derivation.
+
+.. _pubkey/hqc/encapsulation:
+
+Encapsulation
+-------------
+
+.. admonition:: HQC Encapsulation
+
+   **Input** — Encapsulation key :math:`ek`, its parameter set and Botan RNG.
+
+   **Output** — Ciphertext :math:`c` and 32-byte shared secret :math:`K`.
+
+   1. Draw :math:`b+16` bytes in one RNG request. Split them into the
+      :math:`b`-byte message :math:`m` and the 16-byte salt.
+   2. Compute :math:`H(ek)` using SHA3-256 with suffix byte ``01``. Apply
+      :math:`G` (SHA3-512 with suffix byte ``00``) to
+      :math:`H(ek)\mathbin\|m\mathbin\|\mathrm{salt}`. Split the result into
+      the 32-byte :math:`K` and the 32-byte encryption seed :math:`\theta`.
+   3. Recover :math:`a,s` from :math:`ek` and regenerate :math:`h` from :math:`a`
+      as in key generation. From SHAKE256 on :math:`\theta`, draw :math:`r_2,e,r_1`,
+      in that order, using the fixed-work sampler with the encryption weight.
+   4. Compute :math:`u=r_1+h r_2` and :math:`v=C(m)+T(s r_2+e)`.
+   5. Return :math:`c=\mathrm{pack}(u)\mathbin\|\mathrm{pack}(v)\mathbin\|\mathrm{salt}`
+      and :math:`K`.
+
+.. _pubkey/hqc/decapsulation:
+
+Decapsulation
+-------------
+
+.. admonition:: HQC Decapsulation
+
+   **Input** — Decapsulation key :math:`dk`, its parameter set and ciphertext :math:`c`
+   of the prescribed length.
+
+   **Output** — A 32-byte shared secret.
+
+   1. Expand :math:`dk` as in key generation. Read the next :math:`b` bytes
+      after :math:`p` from the master-seed XOF as the rejection secret
+      :math:`\sigma`. Reconstruct :math:`ek` and the secret vector :math:`y`.
+   2. Parse :math:`c` into :math:`u,v,\mathrm{salt}`. Decode
+      :math:`v+T(u y)` with the duplicated Reed–Muller decoder followed by
+      the Reed–Solomon decoder to obtain the candidate message :math:`m'`.
+   3. Compute :math:`K'\mathbin\|\theta'=G(H(ek)\mathbin\|m'\mathbin\|\mathrm{salt})`.
+      Re-encrypt :math:`m'` with :math:`ek,\theta'` and append the received
+      salt to form :math:`c'`.
+   4. Compute the fallback :math:`\bar K=J(H(ek)\mathbin\|\sigma\mathbin\|c)`,
+      where :math:`J` is SHA3-256 with suffix byte ``03``.
+   5. Compare the serialized ciphertext components. Use the resulting mask
+      to select :math:`K'` on equality and :math:`\bar K` otherwise.
+
+Comparison with HQC v5.1
+------------------------
+
+The parameter weights, field polynomial (0x11B), primitive field element
+(0x03), seed format, hash domains and order of sampling agree with
+[HQC-5.1]_. The following differences concern the implementation of the
+specified operations or the inputs accepted by Botan.
+
+* **Randomness and seed expansion (Section 3.7).** The specification draws
+  the message and salt separately. Botan partitions one draw of the same
+  total length and passes the bytes to a deterministic Rust entry point.
+  For the same message and salt the resulting ciphertext and key agree.
+  Botan stores the seed and its derived public key. Its stateless decapsulation
+  call expands the seed afresh, including variable-time rejection sampling.
+  The standalone Rust API also offers a cached expanded key, an option
+  mentioned in v5.1. The C ABI used by Botan exposes the seed-based path.
+
+* **Fixed-weight samplers (Section 3.3).** In ``rust/src/vector/mod.rs``,
+  the key sampler reduces each 24-bit candidate using Barrett reduction and
+  scans all previously accepted indices. The specification skips out-of-range
+  candidates immediately and stops scanning at the first duplicate. The same
+  candidates are accepted in the same order. The encryption sampler resolves
+  collisions with masks, and both samplers construct the packed vector by
+  scanning destination words. The pseudocode sets the indexed bits directly.
+
+* **Polynomial multiplication (Section 3.4, Table 5).** The specification
+  describes parameter-specific combinations of Toom–Cook and Karatsuba.
+  ``rust/src/gf2x/mod.rs`` uses recursive two-way Karatsuba for all three
+  sets and schoolbook multiplication at 16 words or fewer. Reduction modulo
+  :math:`X^n-1` gives the same ring product.
+
+* **Reed–Solomon syndrome evaluation (Section 3.5.2, pp. 26 and 28).**
+  Page 26 defines :math:`S_i=r(\alpha^i)` for the received polynomial
+  :math:`r(X)=\sum_j r_j X^j`. On p. 28, ``RS.Decode.EvaluatePoly`` uses
+  the current power in step 4 and advances it in step 5. Botan's
+  ``compute_syndromes`` uses precomputed powers for the same evaluation:
+  the factor for :math:`r_j` in :math:`S_i` is :math:`(\alpha^i)^j`.
+
+* **Reed–Solomon error correction (Section 3.5.2).** The pseudocode evaluates the
+  locator at the systematic message positions and uses its odd part to
+  compute the correction there. In ``rust/src/code/reed_solomon.rs``, Rust
+  finds the locator roots with an
+  additive FFT and computes error magnitudes from products over error
+  locations. It corrects the shortened codeword before extracting the
+  message. Within the correction radius this recovers the uniquely determined
+  message. Outside that radius the decoder returns a best-effort candidate
+  whose acceptance is decided by KEM re-encryption.
+
+* **Reed–Muller encoding (Section 3.5.3).** The published encoder selects rows
+  of a byte matrix. ``rust/src/code/reed_muller.rs`` combines equivalent masks
+  in four 32-bit words. The decoder reverses bit indices within each byte
+  when accumulating the duplicated words. This preserves the specified byte
+  order and the smallest-index tie rule in the Hadamard peak search.
+
+* **Implicit rejection (Section 3.7).** The specification's final condition
+  includes a decoder failure symbol as well as ciphertext inequality. Its
+  concrete decoders in Section 3.5 always return a candidate. Accordingly,
+  ``rust/src/kem/mod.rs`` uses ciphertext equality as its sole selection
+  criterion and computes both keys. The mask describes the Rust source
+  operation. It does not establish constant-time execution of compiled code.
+
+* **Input validation and key containers.** The specification operates on
+  fixed-size keys and ciphertexts. Botan rejects incorrect lengths at its
+  API boundary and requires unused high bits in the last public-key byte to
+  be zero. For a correctly sized ciphertext, all received bytes, including
+  any unused high bits of :math:`u`, enter the comparison and the fallback
+  hash. For X.509 and PKCS #8, Botan uses per-mode OIDs under its private
+  arc and requires absent algorithm parameters. These wrappers are Botan
+  conventions outside the raw key formats of [HQC-5.1]_.
+
+The three sets of 100 known-answer tests from the team's release v5.1.0
+[HQC-KAT]_ reproduce the branch's ``hqc_kat.vec`` when converted with
+``src/scripts/dev_tools/gen_hqc_kat.py``. These vectors check the private key
+and shared secret in full and the public key and ciphertext by their
+16-byte SHAKE256 digests. This comparison covers valid encapsulations.

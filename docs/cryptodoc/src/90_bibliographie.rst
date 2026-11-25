@@ -109,6 +109,15 @@
    "Hacker's Delight",
    July 2002
 
+.. [HQC-5.1] HQC Team. Hamming Quasi-Cyclic (HQC), version 5.1, 9 November 2026.
+   https://pqc-hqc.org/doc/hqc_specifications_v5.1.pdf
+
+.. [HQC-KAT] HQC Team. Reference implementation and known-answer tests, release v5.1.0.
+   https://gitlab.com/pqc-hqc/hqc/-/tree/v5.1.0/kats/ref
+
+.. [HQC-Botan] Botan HQC implementation, branch ``add-hqc-rust``, revision ``97db152bb``.
+   https://github.com/falko-strenzke/botan/tree/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc
+
 .. [EFD]
    Daniel J. Bernstein, Tanja Lange:
    "Explicit-Formulas Database"
