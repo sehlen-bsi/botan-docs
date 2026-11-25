@@ -3,10 +3,10 @@
 Hamming Quasi-Cyclic (HQC)
 ==========================
 
-HQC is a code-based key encapsulation mechanism. Its public key describes a
+HQC is a code-based key encapsulation mechanism (KEM). Its public key describes a
 noisy linear relation between two secret sparse binary vectors. The underlying
-encryption scheme uses a concatenated error-correcting code to recover a
-message from a noisy codeword. A salted Fujisaki–Okamoto transform turns this
+public-key encryption (PKE) scheme uses a concatenated error-correcting code
+to recover a message from a noisy codeword. A salted Fujisaki–Okamoto transform turns this
 encryption scheme into a KEM with implicit rejection.
 
 This section describes the Botan development branch ``add-hqc-rust`` at
@@ -19,14 +19,16 @@ raw shared secret are each 32 bytes for all three sets.
    :header-rows: 1
 
    * - Botan mode
-     - Ring length (bits)
-     - Message (bytes)
+     - Ring length :math:`n` (bits)
+     - Codeword length :math:`L` (bits)
+     - Message length :math:`b` (bytes)
      - Key weight
      - Encryption weight
      - Public key (bytes)
      - Ciphertext (bytes)
    * - HQCr4-1
      - 17669
+     - 17664
      - 16
      - 67
      - 76
@@ -34,6 +36,7 @@ raw shared secret are each 32 bytes for all three sets.
      - 4433
    * - HQCr4-3
      - 35851
+     - 35840
      - 24
      - 101
      - 114
@@ -41,6 +44,7 @@ raw shared secret are each 32 bytes for all three sets.
      - 8978
    * - HQCr4-5
      - 57637
+     - 57600
      - 32
      - 132
      - 150
@@ -66,15 +70,32 @@ implements the KEM transform, public-key encryption, vector arithmetic and
 error-correcting codes. ABI errors return as integer status codes that the
 C++ adapter maps to Botan exceptions.
 
-The algorithms below describe the raw KEM, before any optional Botan KDF.
-Let :math:`b` be the message length in bytes from the table above. Vector
-products are cyclic polynomial products in
-:math:`R=\mathbb{F}_2[X]/(X^n-1)`, and addition is XOR.
-:math:`T` retains the initial codeword-length bits of a ring element.
-:math:`C` encodes a message first with the shortened Reed–Solomon code and
-then with the duplicated Reed–Muller code RM(1,7). Ring coefficients are
-packed least significant bit first in each byte. Consecutive draws from an
-XOF in the steps below consume successive bytes of the same stream.
+The algorithms below describe the raw KEM before any optional Botan key
+derivation function. In [HQC-5.1]_, :math:`k` is the dimension of the binary
+concatenated code, hence the length of its input message in bits. For HQC-1,
+HQC-3 and HQC-5, :math:`k` is 128, 192 and 256, respectively. The message
+length in bytes is :math:`b=k/8`. The key and encryption weights in the table
+count the nonzero coefficients of the respective binary vectors.
+
+Each ring element has :math:`n` binary coefficients, where :math:`n` is the
+ring length in the table. With :math:`X` denoting the polynomial variable,
+products are computed in :math:`R=\mathbb{F}_2[X]/(X^n-1)` and addition is
+coefficient-wise XOR. The encoder :math:`C` maps a :math:`k`-bit message to
+a codeword. This chapter denotes the codeword length in bits by :math:`L`.
+Table 2 of [HQC-5.1]_ writes this length as :math:`n_1 n'_2`: the shortened
+Reed–Solomon encoder produces :math:`n_1` symbols, and the duplicated
+Reed–Muller encoder represents each symbol with :math:`n'_2` bits.
+Write a ring element as a vector of :math:`n` bits in order of
+increasing degree, so bit :math:`i` is the coefficient of :math:`X^i`.
+The function :math:`T` takes the first :math:`L` bits of this vector.
+
+The operator :math:`\mathbin\|` concatenates byte strings.
+:math:`\mathrm{pack}` serializes a binary vector into the minimum number of
+bytes, setting unused high bits to zero. The coefficient at index
+:math:`8j+r` contributes :math:`2^r` to byte :math:`j` if it is one.
+Here :math:`j` is the zero-based byte index and :math:`0\le r<8` is the
+bit index within that byte. For example, the encoding of :math:`1+X^7+X^8`
+begins with the bytes ``81 01`` (hexadecimal).
 
 .. _pubkey/hqc/key_generation:
 
@@ -83,19 +104,26 @@ Key Generation
 
 .. admonition:: HQC Key Generation
 
-   **Input** — Parameter set and Botan random number generator.
+   **Input** — Parameter set and Botan random number generator (RNG).
 
    **Output** — Encapsulation key :math:`ek` and decapsulation key :math:`dk`.
 
-   1. Draw a 32-byte master seed :math:`dk`. Start SHAKE256 on
-      :math:`dk \mathbin\| \mathrm{byte}(b)` and read the first 32 bytes as
-      :math:`p`, the PKE seed.
-   2. Split :math:`I(p)` into two consecutive 32-byte seeds :math:`d,a`,
-      where :math:`I(p)=\mathrm{SHA3\text{-}512}(p\mathbin\|\mathtt{0x02})`.
-   3. From SHAKE256 on :math:`d`, sample :math:`y` and then :math:`x`
-      with the uniform fixed-weight rejection sampler. Both use the key weight.
-   4. From SHAKE256 on :math:`a`, sample the uniform :math:`n`-bit vector
-      :math:`h`. Compute :math:`s=x+h y`.
+   1. Draw a 32-byte master seed :math:`dk`. Append one byte encoding the
+      message length :math:`b`. This byte is ``0x10`` for HQC-1, ``0x18`` for
+      HQC-3, or ``0x20`` for HQC-5. Apply SHAKE256 to this 33-byte string
+      and take the first 32 output bytes as the PKE seed :math:`p`.
+   2. Compute :math:`I(p)=\mathrm{SHA3\text{-}512}(p\mathbin\|\mathtt{0x02})`.
+      Let :math:`d` be its first 32 bytes and :math:`a` its last 32 bytes.
+   3. Initialize a SHAKE256 state and absorb the 32-byte seed :math:`d`.
+      Use its output bytes as input to the uniform fixed-weight rejection
+      sampler (Section 3.3 of [HQC-5.1]_) to generate :math:`y`. Starting
+      with the next unread byte of the same state, apply the sampler again
+      to generate :math:`x`. Both vectors have the key weight of the selected
+      parameter set.
+   4. Apply SHAKE256 to the 32-byte seed :math:`a` and read
+      :math:`\lceil n/8\rceil` output bytes. Clear the unused high bits in
+      the last byte and interpret the result as the ring element :math:`h`.
+      Compute :math:`s=x+h y`.
    5. Return :math:`ek=a\mathbin\|\mathrm{pack}(s)` and the master seed :math:`dk`.
       Importing this seed into Botan repeats the public-key derivation.
 
@@ -112,14 +140,24 @@ Encapsulation
 
    1. Draw :math:`b+16` bytes in one RNG request. Split them into the
       :math:`b`-byte message :math:`m` and the 16-byte salt.
-   2. Compute :math:`H(ek)` using SHA3-256 with suffix byte ``01``. Apply
-      :math:`G` (SHA3-512 with suffix byte ``00``) to
+   2. Compute :math:`H(ek)` using SHA3-256 with suffix byte ``0x01``. Apply
+      :math:`G` (SHA3-512 with suffix byte ``0x00``) to
       :math:`H(ek)\mathbin\|m\mathbin\|\mathrm{salt}`. Split the result into
       the 32-byte :math:`K` and the 32-byte encryption seed :math:`\theta`.
-   3. Recover :math:`a,s` from :math:`ek` and regenerate :math:`h` from :math:`a`
-      as in key generation. From SHAKE256 on :math:`\theta`, draw :math:`r_2,e,r_1`,
-      in that order, using the fixed-work sampler with the encryption weight.
-   4. Compute :math:`u=r_1+h r_2` and :math:`v=C(m)+T(s r_2+e)`.
+   3. Recover :math:`a,s` from :math:`ek` and derive :math:`h` from :math:`a`
+      as in step 4 of key generation. Initialize a fresh SHAKE256 state and
+      absorb :math:`\theta`. Apply the fixed-weight encryption sampler
+      (Section 3.3 of [HQC-5.1]_) three times to the successive output bytes
+      of this state to generate :math:`r_2`, :math:`e`, and :math:`r_1`, in that
+      order. Each vector has the encryption weight of the selected parameter set.
+   4. Compute :math:`u=r_1+h r_2` and :math:`z=s r_2+e` in the ring. Both
+      results have :math:`n` bits. Encode the message :math:`m` to obtain the
+      codeword :math:`C(m)`. Let :math:`L` be its length in bits. XOR the
+      codeword with the first :math:`L` bits of :math:`z` to obtain the second
+      ciphertext component :math:`v=C(m)+T(z)`.
+      For HQC-1, :math:`z` has 17669 bits and the codeword has 17664 bits,
+      so the last five bits of :math:`z` are discarded. The first ciphertext
+      component :math:`u` retains all :math:`n` bits.
    5. Return :math:`c=\mathrm{pack}(u)\mathbin\|\mathrm{pack}(v)\mathbin\|\mathrm{salt}`
       and :math:`K`.
 
@@ -135,19 +173,119 @@ Decapsulation
 
    **Output** — A 32-byte shared secret.
 
-   1. Expand :math:`dk` as in key generation. Read the next :math:`b` bytes
-      after :math:`p` from the master-seed XOF as the rejection secret
-      :math:`\sigma`. Reconstruct :math:`ek` and the secret vector :math:`y`.
-   2. Parse :math:`c` into :math:`u,v,\mathrm{salt}`. Decode
+   1. Apply SHAKE256 to :math:`dk` followed by the message-length byte
+      specified in step 1 of key generation. Take the first 32 output bytes
+      as :math:`p` and the next :math:`b` bytes as the rejection secret
+      :math:`\sigma`. Use :math:`p` to reconstruct :math:`ek` and :math:`y`
+      as in steps 2 through 5 of key generation.
+   2. Parse the first :math:`\lceil n/8\rceil` bytes of :math:`c` as the ring
+      element :math:`u`, the next :math:`L/8` bytes as the binary vector
+      :math:`v`, and the final 16 bytes as the salt. Decode
       :math:`v+T(u y)` with the duplicated Reed–Muller decoder followed by
       the Reed–Solomon decoder to obtain the candidate message :math:`m'`.
    3. Compute :math:`K'\mathbin\|\theta'=G(H(ek)\mathbin\|m'\mathbin\|\mathrm{salt})`.
+      Take the first 32 bytes as the candidate shared secret :math:`K'` and
+      the last 32 bytes as the encryption seed :math:`\theta'`.
       Re-encrypt :math:`m'` with :math:`ek,\theta'` and append the received
       salt to form :math:`c'`.
    4. Compute the fallback :math:`\bar K=J(H(ek)\mathbin\|\sigma\mathbin\|c)`,
-      where :math:`J` is SHA3-256 with suffix byte ``03``.
+      where :math:`J` is SHA3-256 with suffix byte ``0x03``.
    5. Compare the serialized ciphertext components. Use the resulting mask
       to select :math:`K'` on equality and :math:`\bar K` otherwise.
+
+.. _pubkey/hqc/algorithms:
+
+Implementation Functions
+------------------------
+
+The three C++ entry points in ``hqc.cpp`` call the Rust implementation through
+the C ABI. The Rust file paths in the table are relative to
+``src/lib/pubkey/hqc/rust/src/`` in [HQC-Botan]_. Section numbers refer to
+[HQC-5.1]_.
+
+.. list-table:: HQC functions and corresponding specification algorithms
+   :header-rows: 1
+   :class: longtable
+   :widths: 41 24 35
+
+   * - Implementation function
+     - Source file
+     - Algorithm in HQC v5.1
+   * - ``HQC_PrivateKey`` (RNG constructor)
+     - `hqc.cpp <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/hqc.cpp#L208>`__
+     - HQC-KEM.Keygen, random seed (3.7)
+   * - ``raw_kem_encrypt``
+     - `hqc.cpp <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/hqc.cpp#L95>`__
+     - HQC-KEM.Encaps, message and salt (3.7)
+   * - ``raw_kem_decrypt``
+     - `hqc.cpp <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/hqc.cpp#L124>`__
+     - HQC-KEM.Decaps, Botan entry point (3.7)
+   * - ``crypto_kem_keypair_derand``
+     - `kem/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/kem/mod.rs#L87>`__
+     - HQC-KEM.Keygen, given the master seed (3.7)
+   * - ``crypto_kem_enc_derand``
+     - `kem/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/kem/mod.rs#L151>`__
+     - HQC-KEM.Encaps, given the message and salt (3.7)
+   * - ``crypto_kem_dec``
+     - `kem/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/kem/mod.rs#L254>`__
+     - HQC-KEM.Decaps (3.7)
+   * - ``expand_master_seed``
+     - `kem/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/kem/mod.rs#L33>`__
+     - HQC-KEM.Keygen, steps 3–5. HQC-KEM.Decaps, steps 2–4 and 6 (3.7)
+   * - ``decapsulate_expanded``
+     - `kem/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/kem/mod.rs#L272>`__
+     - HQC-KEM.Decaps, steps 7–16 (3.7)
+   * - ``hqc_pke_keygen``
+     - `pke/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/pke/mod.rs#L37>`__
+     - HQC-PKE.Keygen (3.6)
+   * - ``hqc_pke_encrypt``
+     - `pke/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/pke/mod.rs#L107>`__
+     - HQC-PKE.Encrypt (3.6)
+   * - ``hqc_pke_decrypt_expanded``
+     - `pke/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/pke/mod.rs#L181>`__
+     - HQC-PKE.Decrypt, given the secret vector (3.6)
+   * - ``hash_g``, ``hash_h``, ``hash_i``, ``hash_j``
+     - `symmetric/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/symmetric/mod.rs#L85>`__
+     - G, H, I, J (3.1, Table 3)
+   * - ``xof_init``, ``xof_init_dom_sep``
+     - `symmetric/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/symmetric/mod.rs#L60>`__
+     - XOF.Init and XOF.Absorb (3.1), with a parameter byte for KEM seed expansion (3.7)
+   * - ``CallbackXof::squeeze``
+     - `callbacks.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/callbacks.rs#L207>`__
+     - XOF.GetBytes (3.1)
+   * - ``vect_truncate``
+     - `vector/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/vector/mod.rs#L324>`__
+     - Truncate (3.2)
+   * - ``vect_set_random``
+     - `vector/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/vector/mod.rs#L241>`__
+     - SampleVect (3.3)
+   * - ``vect_sample_fixed_weight1``
+     - `vector/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/vector/mod.rs#L194>`__
+     - :math:`\mathrm{SampleFixedWeightVect}_{\$}` (3.3)
+   * - ``vect_sample_fixed_weight2``
+     - `vector/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/vector/mod.rs#L218>`__
+     - SampleFixedWeightVect (3.3)
+   * - ``vect_generate_random_support1``
+     - `vector/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/vector/mod.rs#L55>`__
+     - SampleSupport1 (3.3)
+   * - ``vect_generate_random_support2``
+     - `vector/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/vector/mod.rs#L95>`__
+     - SampleSupport2 (3.3)
+   * - ``vect_write_support_to_vector``
+     - `vector/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/vector/mod.rs#L141>`__
+     - ComputeVectorFromSupport (3.3)
+   * - ``vect_mul``
+     - `gf2x/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/gf2x/mod.rs#L176>`__
+     - Vector multiplication modulo :math:`X^n-1` (3.4)
+   * - ``code_encode``, ``code_decode``
+     - `code/mod.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/code/mod.rs#L17>`__
+     - C.Encode, C.Decode (3.5.1)
+   * - ``reed_solomon_encode``, ``reed_solomon_decode``
+     - `code/reed_solomon.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/code/reed_solomon.rs#L67>`__
+     - RS.Encode, RS.Decode (3.5.2)
+   * - ``reed_muller_encode``, ``reed_muller_decode``
+     - `code/reed_muller.rs <https://github.com/falko-strenzke/botan/blob/97db152bbda27b5116c47962046393e6efe7dc36/src/lib/pubkey/hqc/rust/src/code/reed_muller.rs#L226>`__
+     - dRM.Encode, dRM.Decode (3.5.3)
 
 Comparison with HQC v5.1
 ------------------------
@@ -181,8 +319,12 @@ specified operations or the inputs accepted by Botan.
   :math:`X^n-1` gives the same ring product.
 
 * **Reed–Solomon syndrome evaluation (Section 3.5.2, pp. 26 and 28).**
-  Page 26 defines :math:`S_i=r(\alpha^i)` for the received polynomial
-  :math:`r(X)=\sum_j r_j X^j`. On p. 28, ``RS.Decode.EvaluatePoly`` uses
+  Let :math:`r_j` be the received Reed–Solomon symbol at zero-based position
+  :math:`j`, and let :math:`\alpha` be the primitive element ``0x03`` of
+  :math:`\mathbb{F}_{2^8}`. Page 26 defines the :math:`i`-th syndrome
+  :math:`S_i=r(\alpha^i)` for the received polynomial
+  :math:`r(X)=\sum_j r_j X^j`, with :math:`i` starting at 1.
+  On p. 28, ``RS.Decode.EvaluatePoly`` uses
   the current power in step 4 and advances it in step 5. Botan's
   ``compute_syndromes`` uses precomputed powers for the same evaluation:
   the factor for :math:`r_j` in :math:`S_i` is :math:`(\alpha^i)^j`.
